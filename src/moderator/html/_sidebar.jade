@@ -12,22 +12,24 @@ section#sidebar
   nav#dash-nav
     ul.nav-list.primary-list
       li
-        span#post-question-btn.primary-btn New Assignment
+        a(href="create-assignment.html").primary-btn.new-assignment-btn New Assignment
+        //- span#post-question-btn
       li
-        span#write-article-btn.primary-btn Write Article
-    ul.nav-list
+        a(href="create-article.html").primary-btn.write-article-btn Write Article
+        //- span#write-article-btn.primary-btn Write Article
+    ul.nav-list.secondary-nav-list
       li
         a(href="index.html").menu-link All Posts
       li
         a(href="contributors.html").menu-link All Contributors
-    ul.nav-list
+    ul.nav-list.secondary-nav-list
       li
         a(href="assignments.html").menu-link Assignments
       li
         a(href="collections.html").menu-link Collections
       li
         a(href="messages.html").menu-link Messages
-    ul.nav-list
+    ul.nav-list.secondary-nav-list
       li
         a(href="settings.html").menu-link Settings
       li

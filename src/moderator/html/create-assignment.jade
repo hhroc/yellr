@@ -17,8 +17,23 @@ body#moderator(data-page="create-assignment")
         include _sidebar.jade
 
       div.flex-4#right.right-wrapper
-        h2.h1 Create Assignment
+        header.editor-header.header-with-controls
+          h2.h1 Create Assignment
+          nav.article-controls
+            span#preview-btn Preview
+            span#save-draft-btn Save Draft
+            span#post-btn Post
 
+
+        p Question Type
+        p Add language
+        p Preview
+        p Save Draft
+        p Post
+        p Deadline
+        p Geo-fence
+        p Question text
+        p Upload image
 
   include _footer.jade
 </html>

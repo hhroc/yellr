@@ -1,7 +1,7 @@
 'use strict';
-var mod = mod || {};
+// var mod = mod || {};
 
-mod.assignments = (function() {
+yellr.assignments = (function() {
 
   // 'global' vars
   var questions = [],
@@ -28,13 +28,13 @@ mod.assignments = (function() {
       //           collectionNode = document.querySelector('#assignment-collection-list');
 
       //       // add post to collection
-      //       mod.collections.add_post_to_collection(postNode, collectionNode);
+      //       yellr.collections.add_post_to_collection(postNode, collectionNode);
       //       break;
 
       //     case 'fa fa-comment':
       //       console.log('write a message');
       //       var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-      //       mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+      //       yellr.messages.create_message(uid, 'RE: Recent post on Yellr');
       //       break;
       //     case 'fa fa-flag':
       //       console.log('mark as ain appropriate');
@@ -53,12 +53,12 @@ mod.assignments = (function() {
   var view = function (assignment_id) {
 
     // load that assignment from localStorage
-    var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
+    var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
       if (val.assignment_id === assignment_id) return true;
     })[0];
 
     // render the Handlebars template
-    mod.utils.render_template({
+    yellr.utils.render_template({
       template: '#assignment-overview-template',
       target: '#view-assignment-section',
       context: {assignment: assignment}
@@ -72,7 +72,7 @@ mod.assignments = (function() {
   var setup_form = function () {
 
     // render the form
-    mod.utils.show_overlay({
+    yellr.utils.show_overlay({
       template: '#new-assignment-template'
     });
 
@@ -109,25 +109,25 @@ mod.assignments = (function() {
 
     // 1.
     $cancel_btn.on('click', function (e) {
-      mod.utils.clear_overlay();
+      yellr.utils.clear_overlay();
     });
 
 
     // 2.
     $form.find('#language-select').on('change', function (e) {
-      if (this.value !== '--') mod.assignments.create_question_form(this.value);
+      if (this.value !== '--') yellr.assignments.create_question_form(this.value);
     });
 
 
     // 3.
     $save_btn.on('click', function (e) {
-      mod.assignments.save_draft();
+      yellr.assignments.save_draft();
     });
 
     // 4.
     $preview_btn.on('click', function (event) {
       console.log('preview assignment');
-      mod.assignments.preview_assignment();
+      yellr.assignments.preview_assignment();
     });
 
 
@@ -141,7 +141,7 @@ mod.assignments = (function() {
     $preview_text.removeClass('active');
 
     // create a new question form based on the language selected
-    mod.utils.render_template({
+    yellr.utils.render_template({
       template: '#new-question-template',
       target: $questions_container,
       context: {
@@ -166,9 +166,9 @@ mod.assignments = (function() {
     //   console.log('upload image');
 
     //   $image_input.ajaxSubmit({
-    //     url: mod.URLS.upload,
+    //     url: yellr.URLS.upload,
     //     data: {
-    //       client_id: mod.TOKEN,
+    //       client_id: yellr.TOKEN,
     //       media_type: 'image'
     //     },
     //     success: function (response) {
@@ -200,7 +200,7 @@ mod.assignments = (function() {
         survey_answers.push($question_form.find('.question-answer-input').val());
 
         // update the HTML
-        mod.utils.render_template({
+        yellr.utils.render_template({
           template: '#new-survey-answer-template',
           target: '#survey-answers-list',
           context: {answer: $question_form.find('.question-answer-input').val() },
@@ -236,7 +236,7 @@ mod.assignments = (function() {
 
       $.ajax({
         type: 'POST',
-        url: mod.URLS.create_question,
+        url: yellr.URLS.create_question,
         data: $question_form.serialize()+'&answers='+JSON.stringify(survey_answers),
         dataType: 'json',
         success: function (response) {
@@ -244,7 +244,7 @@ mod.assignments = (function() {
             console.log('SUCCESS');
             // update our supported languages
             supported_languages.push(language_code)
-            mod.assignments.successful_question_post(response);
+            yellr.assignments.successful_question_post(response);
           } else {
             console.log('FAIL');
             console.log(response);
@@ -277,7 +277,7 @@ mod.assignments = (function() {
     $post_btn.html('Post Assignment');
     $post_btn.off('click');
     $post_btn.on('click', function (e) {
-      mod.assignments.post();
+      yellr.assignments.post();
     });
 
     $extra_fields.show();
@@ -294,7 +294,7 @@ mod.assignments = (function() {
     // give the user feedback on the languages the current assignment supports
 
     // get the languages the question supports compared to what yellr supports
-    var languages = mod.DATA.languages.filter(function (val, i, array) {
+    var languages = yellr.DATA.languages.filter(function (val, i, array) {
       for (var j = 0; j < supported_languages.length; j++) {
         if (val.code === supported_languages[j]) {
           return true;
@@ -303,7 +303,7 @@ mod.assignments = (function() {
     });
 
 
-    mod.utils.render_template({
+    yellr.utils.render_template({
       target: '#supported-languages',
       template: '#language-support-template',
       context: {languages: languages}
@@ -346,7 +346,7 @@ mod.assignments = (function() {
 
     $.ajax({
       type: 'POST',
-      url: mod.URLS.publish_assignment,
+      yellr: mod.URLS.publish_assignment,
       data: {
         'life_time': total,
         'questions': JSON.stringify(questions),
@@ -362,7 +362,7 @@ mod.assignments = (function() {
 
           // create a collection for the assignment
           $.ajax({
-            url: mod.URLS.create_collection,
+            url: yellr.URLS.create_collection,
             type: 'POST',
             dataType: 'json',
             data: {
@@ -374,15 +374,15 @@ mod.assignments = (function() {
               if (_response.success) {
                 // clear array
                 questions = [];
-                mod.utils.clear_overlay();
+                yellr.utils.clear_overlay();
               } else console.log('something went wrong creating a collection for this assignment');
             }
           }).done(function () {
 
             // update our assignments
-            mod.assignments.get_my_assignments({
+            yellr.assignments.get_my_assignments({
               callback: function () {
-                mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+                yellr.utils.redirect_to('view-assignment.html#'+response.assignment_id);
               }
             });
 

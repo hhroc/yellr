@@ -6,8 +6,43 @@
 @import "pieces/base";
 @import "pieces/typography";
 
+
+
+
+
+#header .wrapper {
+	@include flexbox();
+	align-items: baseline;
+}
+
+
+
+
+#user-bar-wrapper {
+	background: #444;
+	padding: 0.75rem 0;
+}
+#user-bar {
+	@include cf();
+	color: $white;
+	li {
+		display: inline-block;
+		float: left;
+		font-weight: bold;
+		font-size: 0.875rem;
+		text-transform: uppercase;
+		padding-right: 1rem;
+		&:last-child {padding: 0; }
+	}
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
 #h1 {
 	margin: 0;
+	padding-right: 0.75rem;
 }
 
 // wrapper - 80% width, 1024px max
@@ -34,6 +69,29 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#main {
+	padding: 2.5rem 0 5rem;
+	.wrapper {
+		@include mq(netbook) {
+			@include flexbox();
+		}
+	}
+}
+
+
 #latest-stories, #footer-links {
 	list-style: none;
 }
@@ -41,11 +99,20 @@
 
 
 #latest-stories {
+	li {
+		margin-bottom: 1.5rem;
+	}
 	h2 {
 		margin: 0 0 0.5rem;
 	}
 	p {
 		max-width: 35rem;
 		line-height: 1.4;
+	}
+	figure {
+		margin: 0;
+	}
+	figcaption {
+		font-style: italic;
 	}
 }

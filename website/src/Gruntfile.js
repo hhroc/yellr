@@ -78,6 +78,9 @@ module.exports = function(grunt) {
       },
       js: {
         files : [{expand: true, cwd: 'js', src: ['**'], dest: buildFolder+'js'}]
+      },
+      data: {
+        files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
       }
     },
 
@@ -108,6 +111,10 @@ module.exports = function(grunt) {
       js:{
         files: ['js/*.js', 'js/**/*.js'],
         tasks: ['copy:js']
+      },
+      data:{
+        files: ['data/*.*', 'data/**/*.*'],
+        tasks: ['copy:data']
       },
       fonts:
       {
@@ -154,6 +161,7 @@ module.exports = function(grunt) {
       'compass:build',
       'copy:img',
       'copy:js',
+      'copy:data',
       'copy:fonts',
       'jade:index',
     ]);

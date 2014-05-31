@@ -1,0 +1,62 @@
+include html/jade-helpers.jade
+!!! 5
+head
+	title Yellr
+	meta(name="description", content="Yellr - Citizen engagement and journalism app")
+	include html/head.jade
+
+body#index
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+		header#header
+			.wrapper
+				h1#h1 Yellr
+				p tagline
+				div
+					a(href="#") Sign Up
+					a(href="#") Log In
+		div#main
+			.wrapper
+				ul#user-bar
+					li Explore
+					li Assignments
+					li Profile
+					li Upload/Submit
+
+				ul#latest-stories
+					li 
+						h2 Title of story
+						p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
+					li 
+						h2 Title of story
+						p "We are on the verge of the sixth extinction," Pimm said from research at the Dry Tortugas. "Whether we avoid it or not will depend on our actions."
+					li 
+						h2 Title of story
+						p The work, published Thursday by the journal Science, was hailed as a landmark study by outside experts.
+					li 
+						h2 Title of story
+						p Pimm's study focused on the rate, not the number, of species disappearing from Earth. It calculated a "death rate" of how many species become extinct each year out of 1 million species.
+					li 
+						h2 Title of story
+						p In 1995, Pimm found that the pre-human rate of extinctions on Earth was about 1. But taking into account new research, Pimm and his colleagues refined that background rate to about 0.1. Now, that death rate is about 100 to 1,000, Pimm said.
+					li 
+						h2 Title of story
+						p Numerous factors are combining to make species disappear much faster than before, said Pimm and co-author Clinton Jenkins of the Institute of Ecological Research in Brazil. But the No. 1 issue is habitat loss.
+					
+		footer#footer
+			.wrapper
+				p Privacy policy
+				ul#footer-links
+					li
+						a(href="#") link
+					li
+						a(href="#") link
+					li
+						a(href="#") link
+					li
+						a(href="#") link
+					li
+						a(href="#") link
+
+	include html/foot.jade
+</html>

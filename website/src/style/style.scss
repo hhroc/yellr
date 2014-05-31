@@ -1,0 +1,51 @@
+// base styles
+@import "pieces/vars";
+@import "pieces/mixins";
+@import "pieces/classes";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/typography";
+
+#h1 {
+	margin: 0;
+}
+
+// wrapper - 80% width, 1024px max
+.wrapper {
+	position: relative;
+	width: 90%;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+
+#header, #footer {
+	background: $blue;
+	color: $white;
+	padding: 1rem 0;
+	a {
+		color: inherit;
+		text-decoration: none;
+		font-weight: bold;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}
+
+
+#latest-stories, #footer-links {
+	list-style: none;
+}
+
+
+
+#latest-stories {
+	h2 {
+		margin: 0 0 0.5rem;
+	}
+	p {
+		max-width: 35rem;
+		line-height: 1.4;
+	}
+}

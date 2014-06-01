@@ -1,0 +1,158 @@
+// base styles
+@import "pieces/mixins";
+@import "pieces/classes";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/typography";
+
+@import "theme/vars";
+@import "theme/header";
+@import "theme/user-bar";
+@import "theme/question-prompt";
+
+@import "libs/font-awesome/font-awesome";
+
+.list-style-none {
+	list-style: none;
+}
+#main-feed-wrapper {
+	position: relative;
+	ul {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -10;
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+		@include transition(opacity, 0.3s);
+	}
+	.current {
+		position: relative;
+		opacity: 1;
+		z-index: 40;
+		height: auto;
+	}
+}
+.media-icons {
+	display: inline-block;
+	position: initial !important;
+	opacity: 1 !important;
+	height: auto !important;
+	
+	@include cf();
+	li {
+		display: inline-block;
+		float: left;
+		margin-right: 1rem;
+		margin-bottom: 0 !important;
+	}
+}
+.current-contributions {
+	font-style: italic;
+}
+
+#latest-assignments, #latest-stories {
+	@extend .list-style-none;
+	margin-bottom: 5rem;
+	li {margin-bottom: 1.5rem; }
+	h2 {
+		margin: 0 0 0.5rem;
+		font-size: 1.75rem;
+		@include mq(netbook) {
+			font-size: 2.25rem;
+		}
+		a {
+			text-decoration: none; 
+			color: $black;
+			@include transition(color, 0.3s);
+			&:hover {color: $blue; }
+		}
+	}
+	p {
+		max-width: 35rem;
+		line-height: 1.4;
+	}
+	figure {margin: 0; }
+	figcaption {font-style: italic; }
+}
+.contribute {
+	background: $blue;
+	color: $white;
+	padding: 0.75rem;
+	display: inline-block;
+	margin-right: 0.75rem;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 8px;
+	@include transition(background, 0.3s);
+	&:hover {
+		cursor: pointer;
+		background: $dark-blue;
+	}
+}
+.deadline {
+	color: tomato;
+	display: inline-block;
+	margin-left: 1rem;
+}
+.details {
+	margin: 1rem 0 2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#report-section {
+	label {
+		display: block;
+		span {display: block; }
+	}
+}
+
+
+#header, #footer {
+	background: $blue;
+	color: $white;
+	padding: 1rem 0;
+	a {
+		color: inherit;
+		text-decoration: none;
+		font-weight: bold;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}
+
+
+
+#question-answer-form {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 1rem;
+}
+
+
+
+#main {
+	padding: 2.5rem 0 5rem;
+	.wrapper {
+		@include mq(netbook) {
+			@include flexbox();
+			.left {@include flex(2); }
+			.right {@include flex(1); }
+		}
+	}
+}
+

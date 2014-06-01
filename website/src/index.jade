@@ -8,76 +8,200 @@ head
 body#index
 	a(href="#main", class="assistive-text") Skip to main content
 	div.container
+
+
 		header#header
 			.wrapper
 				h1#h1 yellr
-				p tagline tagline tagline
+				p report for your city
+
 
 		nav#user-bar-wrapper
+			div#grey-bkgd
+				.wrapper
+					ul#user-bar
+						li#browse-li
+							a(href="#") Browse
+						li 
+							a(href="#") Report
+						li 
+							a(href="#") Profile
+						li#notification-li
+							a(href="#") &nbsp;
+			div#dark-blue-bkgd
+				.wrapper
+					ul#secondary-bar
+						li
+							a(href="#") Latest Reports
+						li
+							a(href="#") Assignments
+
+
+		div#notification-msg
 			.wrapper
-				ul#user-bar
-					li 
-						a(href="#") Browse
-					li 
-						a(href="#") Report
-					li 
-						a(href="#") Profile
-					//-li 
-						a(href="#") 1
+				form
+					span#msg-close X
+					p#question &nbsp;
+					div#response-wrapper
+						ul#question-answers
+						ul#extra-fields
+					span#more-details Add more details
+					input#submit-question-answer(type="submit", value="Submit")
+
 
 		div#main
 			.wrapper
-				ul#latest-stories
-					li
-						h2 Title of story
-						p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-					li
-						h2 Title of story
-						p "We are on the verge of the sixth extinction," Pimm said from research at the Dry Tortugas. "Whether we avoid it or not will depend on our actions."
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-					li
-						h2 Title of story
-						p The work, published Thursday by the journal Science, was hailed as a landmark study by outside experts.
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-					li
-						h2 Title of story
-						p Pimm's study focused on the rate, not the number, of species disappearing from Earth. It calculated a "death rate" of how many species become extinct each year out of 1 million species.
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-					li
-						h2 Title of story
-						p In 1995, Pimm found that the pre-human rate of extinctions on Earth was about 1. But taking into account new research, Pimm and his colleagues refined that background rate to about 0.1. Now, that death rate is about 100 to 1,000, Pimm said.
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-					li
-						h2 Title of story
-						p Numerous factors are combining to make species disappear much faster than before, said Pimm and co-author Clinton Jenkins of the Institute of Ecological Research in Brazil. But the No. 1 issue is habitat loss.
-						figure
-							img(src="http://lorempixel.com/400/200")
-							figcaption This is a caption about the image and story
-				section#report-section
-					form
-						input(type="media")
-						label
-							span Title
-							input(type="text")
-						label
-							span Report
-							textfield
+
+				//- LEFT SIDE
+				div.left
+					div#main-feed-wrapper
+
+						ul#latest-stories.list-style-none
+							li
+								h2
+									a(href="#") Title of story
+								p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+							li
+								h2
+									a(href="#") Title of story
+								p "We are on the verge of the sixth extinction," Pimm said from research at the Dry Tortugas. "Whether we avoid it or not will depend on our actions."
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+							li
+								h2
+									a(href="#") Title of story
+								p The work, published Thursday by the journal Science, was hailed as a landmark study by outside experts.
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+							li
+								h2
+									a(href="#") Title of story
+								p Pimm's study focused on the rate, not the number, of species disappearing from Earth. It calculated a "death rate" of how many species become extinct each year out of 1 million species.
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+							li
+								h2
+									a(href="#") Title of story
+								p In 1995, Pimm found that the pre-human rate of extinctions on Earth was about 1. But taking into account new research, Pimm and his colleagues refined that background rate to about 0.1. Now, that death rate is about 100 to 1,000, Pimm said.
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+							li
+								h2
+									a(href="#") Title of story
+								p Numerous factors are combining to make species disappear much faster than before, said Pimm and co-author Clinton Jenkins of the Institute of Ecological Research in Brazil. But the No. 1 issue is habitat loss.
+								figure
+									img(src="http://lorempixel.com/400/200")
+									figcaption This is a caption about the image and story
+						
+						ul#latest-assignments.list-style-none
+							li
+								h2 
+									a(href="#") Who makes the best cup-of-soup?
+								
+								img(src="http://lorempixel.com/400/200")
+								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+									span.deadline Deadline: 6 days
+								div.assignment-action
+									a.contribute(href="#") Contribute
+									span.current-contributions 89 contributions 
+								aside.details
+									ul.media-icons
+										li
+											i.fa.fa-video-camera
+										li
+											i.fa.fa-camera
+										li
+											i.fa.fa-volume-up
+										li
+											i.fa.fa-file-text-o
+							li
+								h2 
+									a(href="#") Who makes the best cup-of-soup?
+								
+								img(src="http://lorempixel.com/400/200")
+								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+									span.deadline Deadline: 6 days
+								div.assignment-action
+									a.contribute(href="#") Contribute
+									span.current-contributions 89 contributions 
+								aside.details
+									ul.media-icons
+										li
+											i.fa.fa-video-camera
+										li
+											i.fa.fa-camera
+										li
+											i.fa.fa-volume-up
+										li
+											i.fa.fa-file-text-o
+							li
+								h2 
+									a(href="#") Who makes the best cup-of-soup?
+								
+								img(src="http://lorempixel.com/400/200")
+								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+									span.deadline Deadline: 6 days
+								div.assignment-action
+									a.contribute(href="#") Contribute
+									span.current-contributions 89 contributions 
+								aside.details
+									ul.media-icons
+										li
+											i.fa.fa-video-camera
+										li
+											i.fa.fa-camera
+										li
+											i.fa.fa-volume-up
+										li
+											i.fa.fa-file-text-o
+							li
+								h2 
+									a(href="#") Who makes the best cup-of-soup?
+								
+								img(src="http://lorempixel.com/400/200")
+								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+									span.deadline Deadline: 6 days
+								div.assignment-action
+									a.contribute(href="#") Contribute
+									span.current-contributions 89 contributions 
+								aside.details
+									ul.media-icons
+										li
+											i.fa.fa-video-camera
+										li
+											i.fa.fa-camera
+										li
+											i.fa.fa-volume-up
+										li
+											i.fa.fa-file-text-o
+				//- RIGHT SIDE
+				div.right
+					section#report-section
+						form#question-answer-form(action="media_upload.json")
+							label
+								span Unique App ID (hidden)
+								input(type="text", name="unique_app_id")
+							label
+								span Media Type
+								input(type="text", name="media_type")
+							label
+								span File Upload
+								input(type="file", name="media_payload")
+							input(type="submit", value="Submit")
+
+
 
 		footer#footer
 			.wrapper
 				p Privacy policy
-				ul#footer-links
+				ul#footer-links.list-style-none
 					li
 						a(href="#") link
 					li

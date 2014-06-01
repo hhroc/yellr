@@ -28,13 +28,12 @@
             "answer_text": "Not every day, but sometimes",
             "answer_value": "Not every day",
             "answer_meta": {}
-        },
+        }
     ],
     "allowed_media": [
         "text",
         "video",
         "audio",
         "image"
-    ],
-
+    ]
 }

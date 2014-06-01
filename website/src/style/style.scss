@@ -1,56 +1,123 @@
 // base styles
-@import "pieces/vars";
 @import "pieces/mixins";
 @import "pieces/classes";
 @import "pieces/normalize";
 @import "pieces/base";
 @import "pieces/typography";
 
+@import "theme/vars";
+@import "theme/header";
+@import "theme/user-bar";
+@import "theme/question-prompt";
 
+@import "libs/font-awesome/font-awesome";
 
-
-
-#header .wrapper {
-	@include flexbox();
-	align-items: baseline;
+.list-style-none {
+	list-style: none;
 }
-
-
-
-
-#user-bar-wrapper {
-	background: #444;
-	padding: 0.75rem 0;
+#main-feed-wrapper {
+	position: relative;
+	ul {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -10;
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+		@include transition(opacity, 0.3s);
+	}
+	.current {
+		position: relative;
+		opacity: 1;
+		z-index: 40;
+		height: auto;
+	}
 }
-#user-bar {
+.media-icons {
+	display: inline-block;
+	position: initial !important;
+	opacity: 1 !important;
+	height: auto !important;
+	
 	@include cf();
-	color: $white;
 	li {
 		display: inline-block;
 		float: left;
-		font-weight: bold;
-		font-size: 0.875rem;
-		text-transform: uppercase;
-		padding-right: 1rem;
-		&:last-child {padding: 0; }
-	}
-	a {
-		text-decoration: none;
-		color: inherit;
+		margin-right: 1rem;
+		margin-bottom: 0 !important;
 	}
 }
-
-#h1 {
-	margin: 0;
-	padding-right: 0.75rem;
+.current-contributions {
+	font-style: italic;
 }
 
-// wrapper - 80% width, 1024px max
-.wrapper {
-	position: relative;
-	width: 90%;
-	max-width: 1024px;
-	margin: 0 auto;
+#latest-assignments, #latest-stories {
+	@extend .list-style-none;
+	margin-bottom: 5rem;
+	li {margin-bottom: 1.5rem; }
+	h2 {
+		margin: 0 0 0.5rem;
+		font-size: 1.75rem;
+		@include mq(netbook) {
+			font-size: 2.25rem;
+		}
+		a {
+			text-decoration: none; 
+			color: $black;
+			@include transition(color, 0.3s);
+			&:hover {color: $blue; }
+		}
+	}
+	p {
+		max-width: 35rem;
+		line-height: 1.4;
+	}
+	figure {margin: 0; }
+	figcaption {font-style: italic; }
+}
+.contribute {
+	background: $blue;
+	color: $white;
+	padding: 0.75rem;
+	display: inline-block;
+	margin-right: 0.75rem;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 8px;
+	@include transition(background, 0.3s);
+	&:hover {
+		cursor: pointer;
+		background: $dark-blue;
+	}
+}
+.deadline {
+	color: tomato;
+	display: inline-block;
+	margin-left: 1rem;
+}
+.details {
+	margin: 1rem 0 2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#report-section {
+	label {
+		display: block;
+		span {display: block; }
+	}
 }
 
 
@@ -70,15 +137,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
+#question-answer-form {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 1rem;
+}
 
 
 
@@ -87,32 +150,9 @@
 	.wrapper {
 		@include mq(netbook) {
 			@include flexbox();
+			.left {@include flex(2); }
+			.right {@include flex(1); }
 		}
 	}
 }
 
-
-#latest-stories, #footer-links {
-	list-style: none;
-}
-
-
-
-#latest-stories {
-	li {
-		margin-bottom: 1.5rem;
-	}
-	h2 {
-		margin: 0 0 0.5rem;
-	}
-	p {
-		max-width: 35rem;
-		line-height: 1.4;
-	}
-	figure {
-		margin: 0;
-	}
-	figcaption {
-		font-style: italic;
-	}
-}

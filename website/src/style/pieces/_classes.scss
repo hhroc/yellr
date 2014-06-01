@@ -1,3 +1,17 @@
+.container {
+	position: relative;
+}
+
+// wrapper - 80% width, 1024px max
+.wrapper {
+	position: relative;
+	width: 90%;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+
+
 .center { text-align: center; }
 .caps { text-transform: uppercase; }
 .strike { text-decoration: line-through; }

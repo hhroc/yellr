@@ -118,7 +118,7 @@ module.exports = function(grunt) {
       },
       fonts:
       {
-        files: ['fonts/*.*'],
+        files: ['style/fonts/*.*'],
         tasks: ['copy:fonts']
       }
     },

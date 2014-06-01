@@ -1,3 +1,3 @@
-yellr mobile app
--------------
+# yellr app
 
+Built with Phonegap (Cordova)

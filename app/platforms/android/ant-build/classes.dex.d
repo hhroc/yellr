@@ -6,5 +6,15 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/com/hhroc/yellr/R$xml.class \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/com/hhroc/yellr/R.class \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/com/hhroc/yellr/Yellr.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/camera/CameraLauncher.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/camera/ExifHelper.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/camera/FileHelper.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessor$WhereOptions.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessor.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactAccessorSdk5.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$1.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$2.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager$3.class \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/contacts/ContactManager.class \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/classes/org/apache/cordova/device/Device.class \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/ant-build/dexedLibs/classes-aab75c6dcc3a05de5e73066da0ffa362.jar \

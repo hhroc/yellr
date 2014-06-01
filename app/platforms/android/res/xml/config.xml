@@ -8,6 +8,12 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="Contacts">
+        <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
     <name>Yellr</name>
     <description>
         Report about your city, for your city.
@@ -17,10 +23,4 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <feature name="Contacts">
-        <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
-    </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
 </widget>

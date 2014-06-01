@@ -1,0 +1,39 @@
+{
+    "question_available": true,
+    "question_id": "0123456789ABCDEF",
+    "question_utc_date_time": "2014-05-13 11:43:78",
+    "question_texts": [
+        {
+            "question_language_id": 1,
+            "question_text": "Do you use public transportation to get to work each day?"
+        },
+        {
+            "question_language_id": 2,
+            "question_text": "¿Utiliza el transporte público para ir a trabajar todos los días?"
+        }
+    ],
+    "question_type": 0,
+    "answer_values": [
+        {
+            "answer_text": "Yes",
+            "answer_value": "Yes",
+            "answer_meta": {}
+        },
+        {
+            "answer_text": "No",
+            "answer_value": "No",
+            "answer_meta": {}
+        },
+        {
+            "answer_text": "Not every day, but sometimes",
+            "answer_value": "Not every day",
+            "answer_meta": {}
+        }
+    ],
+    "allowed_media": [
+        "text",
+        "video",
+        "audio",
+        "image"
+    ]
+}

@@ -5,6 +5,9 @@ citizen engagement/journalism app and website
 Google Drive link to competive analysis screenshots
 https://drive.google.com/folderview?id=0B4V_vB1xkuPFRktYR19QYWJ5TmM&usp=sharing
 
+Screenshots of current development stage
+https://imgur.com/a/En3xT
+
 ### Start-up
 1. install node.js
 2. run 'npm install' from the 'src' folder

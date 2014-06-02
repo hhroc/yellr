@@ -46,8 +46,8 @@
 - .wrapper
 
 - .module-wrapper
-- .m1 Question prompt
-- .m2 Questions pushed from WXXI will look like this
+- .m1
+- .m2
 - .module
 
 - .list-style-none
@@ -58,6 +58,11 @@
 - .details
 - .media-icons
 
+- .total-contributions
+- .accepted-media
+- .btn
+
+
 ## Icons
 Font-awesome is used. These classes are used by it
 - i.fa.fa-video-camera
@@ -66,6 +71,3 @@ Font-awesome is used. These classes are used by it
 - i.fa.fa-file-text-o
 
 
-.total-contributions
-.accepted-media
-.btn

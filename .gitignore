@@ -52,4 +52,7 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-design/
+
+src/node_modules/
+to-do.txt
+.sass-cache/

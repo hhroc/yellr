@@ -65,18 +65,18 @@
 #notification-msg {
 	background: rgba($dark-blue, 0.96);
 	color: $white;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  z-index: 50;
+  // position: fixed;
+  // left: 0;
+  // top: 0;
+  // width: 100%;
+  // z-index: 50;
   display: table;
 
   // off-screen styles
-  -webkit-transform: translateY(-600px);
-  -ms-transform: translateY(-600px);
-  -o-transform: translateY(-600px);
-  transform: translateY(-600px);
+  // -webkit-transform: translateY(-600px);
+  // -ms-transform: translateY(-600px);
+  // -o-transform: translateY(-600px);
+  // transform: translateY(-600px);
   -webkit-transition: 0.5s ease-out;
   -o-transition: 0.5s ease-out;
   transition: 0.5s ease-out;

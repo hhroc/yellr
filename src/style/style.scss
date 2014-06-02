@@ -12,28 +12,34 @@
 
 @import "libs/font-awesome/font-awesome";
 
+.module-wrapper {
+	width: 90%;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
 .list-style-none {
 	list-style: none;
 }
-#main-feed-wrapper {
-	position: relative;
-	ul {
-		position: absolute;
-		top: 0;
-		left: 0;
-		z-index: -10;
-		opacity: 0;
-		height: 0;
-		overflow: hidden;
-		@include transition(opacity, 0.3s);
-	}
-	.current {
-		position: relative;
-		opacity: 1;
-		z-index: 40;
-		height: auto;
-	}
-}
+// #main-feed-wrapper {
+// 	position: relative;
+// 	ul {
+// 		position: absolute;
+// 		top: 0;
+// 		left: 0;
+// 		z-index: -10;
+// 		opacity: 0;
+// 		height: 0;
+// 		overflow: hidden;
+// 		@include transition(opacity, 0.3s);
+// 	}
+// 	.current {
+// 		position: relative;
+// 		opacity: 1;
+// 		z-index: 40;
+// 		height: auto;
+// 	}
+// }
 .media-icons {
 	display: inline-block;
 	position: initial !important;

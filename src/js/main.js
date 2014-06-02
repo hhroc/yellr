@@ -54,7 +54,7 @@ yellr.main = {
 		yellr.width = x;
 		yellr.height = y;
 		// place offscreen
-		yellr.utils.placeOffscreen(yellr.questionNode);
+		// yellr.utils.placeOffscreen(yellr.questionNode);
 
 
 		/* poll for any new questions from WXXI */
@@ -74,7 +74,7 @@ yellr.main = {
 
 
 	  // do specific things based on page
-	  if (document.querySelector('#index')) yellr.setUp.homepage();
+	  // if (document.querySelector('#index')) yellr.setUp.homepage();
 	},
 
 	// ask question if one has been pushed

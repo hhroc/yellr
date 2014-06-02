@@ -22,9 +22,9 @@ body#index
 					ul#user-bar
 						li#browse-li
 							a(href="#") Browse
-						li 
+						li#report-li
 							a(href="#") Report
-						li 
+						li#profile-li
 							a(href="#") Profile
 						li#notification-li
 							a(href="#") &nbsp;
@@ -37,152 +37,69 @@ body#index
 							a(href="#") Assignments
 
 
-		div#notification-msg
-			.wrapper
-				form
-					span#msg-close X
-					p#question &nbsp;
-					div#response-wrapper
-						ul#question-answers
-						ul#extra-fields
-					span#more-details Add more details
-					input#submit-question-answer(type="submit", value="Submit")
-
-
 		div#main
-			.wrapper
 
-				//- LEFT SIDE
-				div.left
-					div#main-feed-wrapper
+			section.module-wrapper
+				h2.m1 Question prompt
+				p.m2 Questions pushed from WXXI will look like this
+				div.module
+					div#notification-msg
+						.wrapper
+							form
+								span#msg-close X
+								p#question &nbsp;
+								div#response-wrapper
+									ul#question-answers
+									ul#extra-fields
+								span#more-details Add more details
+								input#submit-question-answer(type="submit", value="Submit")
 
-						ul#latest-stories.list-style-none
-							li
-								h2
-									a(href="#") Title of story
-								p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-							li
-								h2
-									a(href="#") Title of story
-								p "We are on the verge of the sixth extinction," Pimm said from research at the Dry Tortugas. "Whether we avoid it or not will depend on our actions."
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-							li
-								h2
-									a(href="#") Title of story
-								p The work, published Thursday by the journal Science, was hailed as a landmark study by outside experts.
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-							li
-								h2
-									a(href="#") Title of story
-								p Pimm's study focused on the rate, not the number, of species disappearing from Earth. It calculated a "death rate" of how many species become extinct each year out of 1 million species.
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-							li
-								h2
-									a(href="#") Title of story
-								p In 1995, Pimm found that the pre-human rate of extinctions on Earth was about 1. But taking into account new research, Pimm and his colleagues refined that background rate to about 0.1. Now, that death rate is about 100 to 1,000, Pimm said.
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-							li
-								h2
-									a(href="#") Title of story
-								p Numerous factors are combining to make species disappear much faster than before, said Pimm and co-author Clinton Jenkins of the Institute of Ecological Research in Brazil. But the No. 1 issue is habitat loss.
-								figure
-									img(src="http://lorempixel.com/400/200")
-									figcaption This is a caption about the image and story
-						
-						ul#latest-assignments.list-style-none
-							li
-								h2 
-									a(href="#") Who makes the best cup-of-soup?
-								
+
+			section.module-wrapper
+				h2.m1 Assignment View
+				p.m2 For viewing a single assignment
+				div.module
+					ul#latest-stories.list-style-none
+						li
+							h2
+								a(href="#") Title of story
+							p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
+							figure
 								img(src="http://lorempixel.com/400/200")
-								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-									span.deadline Deadline: 6 days
-								div.assignment-action
-									a.contribute(href="#") Contribute
-									span.current-contributions 89 contributions 
-								aside.details
-									ul.media-icons
-										li
-											i.fa.fa-video-camera
-										li
-											i.fa.fa-camera
-										li
-											i.fa.fa-volume-up
-										li
-											i.fa.fa-file-text-o
-							li
-								h2 
-									a(href="#") Who makes the best cup-of-soup?
-								
-								img(src="http://lorempixel.com/400/200")
-								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-									span.deadline Deadline: 6 days
-								div.assignment-action
-									a.contribute(href="#") Contribute
-									span.current-contributions 89 contributions 
-								aside.details
-									ul.media-icons
-										li
-											i.fa.fa-video-camera
-										li
-											i.fa.fa-camera
-										li
-											i.fa.fa-volume-up
-										li
-											i.fa.fa-file-text-o
-							li
-								h2 
-									a(href="#") Who makes the best cup-of-soup?
-								
-								img(src="http://lorempixel.com/400/200")
-								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-									span.deadline Deadline: 6 days
-								div.assignment-action
-									a.contribute(href="#") Contribute
-									span.current-contributions 89 contributions 
-								aside.details
-									ul.media-icons
-										li
-											i.fa.fa-video-camera
-										li
-											i.fa.fa-camera
-										li
-											i.fa.fa-volume-up
-										li
-											i.fa.fa-file-text-o
-							li
-								h2 
-									a(href="#") Who makes the best cup-of-soup?
-								
-								img(src="http://lorempixel.com/400/200")
-								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-									span.deadline Deadline: 6 days
-								div.assignment-action
-									a.contribute(href="#") Contribute
-									span.current-contributions 89 contributions 
-								aside.details
-									ul.media-icons
-										li
-											i.fa.fa-video-camera
-										li
-											i.fa.fa-camera
-										li
-											i.fa.fa-volume-up
-										li
-											i.fa.fa-file-text-o
-				//- RIGHT SIDE
-				div.right
+								figcaption This is a caption about the image and story
+
+
+			section.module-wrapper
+				h2.m1 Assignment View
+				p.m2 For viewing a single assignment
+				div.module
+					ul#latest-assignments.list-style-none
+						li
+							h2 
+								a(href="#") Who makes the best cup-of-soup?
+							
+							img(src="http://lorempixel.com/400/200")
+							p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+								span.deadline Deadline: 6 days
+							div.assignment-action
+								a.contribute(href="#") Contribute
+								span.current-contributions 89 contributions 
+							aside.details
+								ul.media-icons
+									li
+										i.fa.fa-video-camera
+									li
+										i.fa.fa-camera
+									li
+										i.fa.fa-volume-up
+									li
+										i.fa.fa-file-text-o
+
+
+			section.module-wrapper
+				h2.m1 Assignment View
+				p.m2 For viewing a single assignment
+				div.module
 					section#report-section
 						form#question-answer-form(action="media_upload.json")
 							label
@@ -197,6 +114,46 @@ body#index
 							input(type="submit", value="Submit")
 
 
+			section.module-wrapper
+				h2.m1 Assignment View
+				p.m2 For viewing a single assignment
+				div.module
+					div#assignment-view
+						h2#assignment-question Are you on Team Viper or Team Mountain?
+						img(src="http://lorempixel.com/400/200")
+						span.total-contributions 12
+						ul.accepted-media
+							li
+								i.fa.fa-video-camera
+							li
+								i.fa.fa-camera
+							li
+								i.fa.fa-volume-up
+							li
+								i.fa.fa-file-text-o
+						p.deadline June 12, 2014
+						p#assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
+						span.btn Contribute
+						ul#contributions-list
+							//- text only
+							li 
+								p Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.
+							//- text + picture - 1 (image first)
+							li 
+								p “Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. 
+								img(src="http://lorempixel.com/400/200")
+							//- text + picture - 2 (text first)
+							li
+								p This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple velvet toque with border of astrakhan to match, the curls of which mingled with her own brown hair, an aigrette of white feathers perched on the side, reminded him, reverence apart and minus the whiskers, of an old lithograph which hung above his bed, Murat, Future King of Naples, at the Battle of Eylau.
+								img(src="http://lorempixel.com/400/200")
+
+		//- view contribution
+			comment title, comment question (the one we're answering), 
+			= if just text, full comment
+			= if text & image, show both
+			= show geolocation of submission
+			= show user, date when posted (cannot view a user's profile)
+			= report inappropriate content
 
 		footer#footer
 			.wrapper

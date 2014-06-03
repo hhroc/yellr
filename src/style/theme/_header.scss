@@ -3,7 +3,10 @@
 
 #header .wrapper {
 	@include flexbox();
-	align-items: baseline;
+	align-items: center;
+	@include mq(tablet) {
+		align-items: baseline;
+	}
 }
 
 #h1 {

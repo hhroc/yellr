@@ -4,110 +4,117 @@
 @import "pieces/normalize";
 @import "pieces/base";
 @import "pieces/typography";
+@import "pieces/modules";
 
 @import "theme/vars";
 @import "theme/header";
 @import "theme/user-bar";
 @import "theme/question-prompt";
+@import "theme/assignments";
 
 @import "libs/font-awesome/font-awesome";
 
-.module-wrapper {
+
+
+.contributor {
+	font-style: italic;
+	color: $blue;
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	&:after {content: " : "; }
+}
+.contributions-list {
+	margin: 0 -1rem;
+	max-width: 40rem;
+	li {
+		border-top: 1px solid lighten($grey, 60%);
+		padding: 1rem;
+		background: #eee;
+		// background: $dark-blue;
+		// color: $white;
+		&:last-child {border-bottom: 1px solid lighten($grey, 60%); }
+	}
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+	.more {
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		display: inline-block;
+		margin-left: 1rem;
+	}
+	@include mq(tablet) {
+		margin: 0;
+		li {
+			border-left: 1px solid lighten($grey, 60%);
+			border-right: 1px solid lighten($grey, 60%);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%wrapper {
 	width: 90%;
 	max-width: 1024px;
 	margin: 0 auto;
 }
 
-.list-style-none {
-	list-style: none;
-}
-// #main-feed-wrapper {
-// 	position: relative;
-// 	ul {
-// 		position: absolute;
-// 		top: 0;
-// 		left: 0;
-// 		z-index: -10;
-// 		opacity: 0;
-// 		height: 0;
-// 		overflow: hidden;
-// 		@include transition(opacity, 0.3s);
-// 	}
-// 	.current {
-// 		position: relative;
-// 		opacity: 1;
-// 		z-index: 40;
-// 		height: auto;
-// 	}
-// }
-.media-icons {
-	display: inline-block;
-	position: initial !important;
-	opacity: 1 !important;
-	height: auto !important;
-	
-	@include cf();
-	li {
-		display: inline-block;
-		float: left;
-		margin-right: 1rem;
-		margin-bottom: 0 !important;
+.no-margin-left {margin-left: 0 !important; }
+.no-margin-right {margin-right: 0 !important; }
+.list-style-none {list-style: none; }
+
+.flex-1 {@include flex(1); }
+.flex-2 {@include flex(2); }
+.flex-3 {@include flex(3); }
+.flex-4 {@include flex(4); }
+.flex-5 {@include flex(5); }
+.flex-6 {@include flex(6); }
+
+
+
+.t1 {
+	font-size: 1.75rem;
+	margin: 0 0 0.875rem;
+	@include mq(netbook) {
+		font-size: 2.25rem;
+	}
+	a {
+		text-decoration: none; 
+		color: $black;
+		@include transition(color, 0.3s);
+		&:hover {color: $blue; }
 	}
 }
-.current-contributions {
-	font-style: italic;
+.t2 {
+	font-size: 1.125rem;
+	margin: 0 0 0.875rem;
 }
 
-#latest-assignments, #latest-stories {
-	@extend .list-style-none;
-	margin-bottom: 5rem;
-	li {margin-bottom: 1.5rem; }
-	h2 {
-		margin: 0 0 0.5rem;
-		font-size: 1.75rem;
-		@include mq(netbook) {
-			font-size: 2.25rem;
-		}
-		a {
-			text-decoration: none; 
-			color: $black;
-			@include transition(color, 0.3s);
-			&:hover {color: $blue; }
-		}
-	}
+
+
+
+
+#latest-assignments {
 	p {
-		max-width: 35rem;
-		line-height: 1.4;
-	}
-	figure {margin: 0; }
-	figcaption {font-style: italic; }
-}
-.contribute {
-	background: $blue;
-	color: $white;
-	padding: 0.75rem;
-	display: inline-block;
-	margin-right: 0.75rem;
-	text-decoration: none;
-	font-weight: bold;
-	border-radius: 8px;
-	@include transition(background, 0.3s);
-	&:hover {
-		cursor: pointer;
-		background: $dark-blue;
+		display: none;
+		@include mq(tablet) {display: block; }
 	}
 }
-.deadline {
-	color: tomato;
-	display: inline-block;
-	margin-left: 1rem;
+#latest-assignments, #latest-stories {
+	li {margin-bottom: 1.5rem; }
 }
-.details {
-	margin: 1rem 0 2rem;
-}
-
-
-
 
 
 
@@ -136,9 +143,7 @@
 		text-decoration: none;
 		font-weight: bold;
 	}
-	p {
-		margin-bottom: 0;
-	}
+	p {margin-bottom: 0; }
 }
 
 
@@ -153,12 +158,5 @@
 
 #main {
 	padding: 2.5rem 0 5rem;
-	.wrapper {
-		@include mq(netbook) {
-			@include flexbox();
-			.left {@include flex(2); }
-			.right {@include flex(1); }
-		}
-	}
 }
 

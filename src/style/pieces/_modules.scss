@@ -1,0 +1,18 @@
+.module-info {
+	h2, p {margin: 0; }
+	p {color: #444; }
+	h2 {
+		font-size: 1.25rem;
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
+	}
+	width: 90%;
+	max-width: 1024px;
+	padding-bottom: 1.75rem;
+	border-bottom: 1px solid #888;
+	margin: 0 auto 2rem;
+}
+
+.module-wrapper {
+	margin-bottom: 10rem;
+}

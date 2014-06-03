@@ -46,8 +46,7 @@
 - .wrapper
 
 - .module-wrapper
-- .m1
-- .m2
+- .module-info
 - .module
 
 - .list-style-none

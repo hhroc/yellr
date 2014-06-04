@@ -174,6 +174,69 @@ body#index
 
 			div.module-wrapper
 				div.module-info
+					h2 Reporting
+					p Contributing to the site (assuming you already have an account)
+				div.module
+					div.wrapper
+						h2.t1 Submit a report
+						form.form
+							ul.list-style-none
+								li
+									label
+										p.t3 Title
+										input(type="text")
+								li
+									label
+										p.t3 Add media
+										input(type="file")
+								li
+									label
+										p.t3 Text field
+										textarea(rows="10", columns="10")
+								li.report-bar
+									a(href="#") Save draft
+									a(href="#") Preview
+									a(href="#") Submit
+
+
+
+
+
+
+			div.module-wrapper
+				div.module-info
+					h2 Account Creation
+					p Creating a new account for yellr
+				div.module
+					div.wrapper
+						h2.t1 Create Account
+						form.form
+							ul.list-style-none
+								li
+									label
+										p.t3 Name (first &amp; last)
+										input(type="text")
+								li
+									label
+										p.t3 Username
+										em This will the name used publicly
+										input(type="text")
+
+
+
+				//- <click to setup account>
+						- show terms and conditions (agree, cancel)
+						- after account creation, takes you back to the assignment you were viewing
+
+
+
+
+
+
+
+
+			div.module-wrapper
+				div.module-info
 					h2 Latest stories
 					p List of the latest reports to be submitted
 				div.module

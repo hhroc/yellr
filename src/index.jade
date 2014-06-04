@@ -178,25 +178,37 @@ body#index
 					p Contributing to the site (assuming you already have an account)
 				div.module
 					div.wrapper
-						h2.t1 Submit a report
-						form.form
-							ul.list-style-none
-								li
-									label
-										p.t3 Title
-										input(type="text")
-								li
-									label
-										p.t3 Add media
-										input(type="file")
-								li
-									label
-										p.t3 Text field
-										textarea(rows="10", columns="10")
-								li.report-bar
-									a(href="#") Save draft
-									a(href="#") Preview
-									a(href="#") Submit
+						section#submit-report
+							h2.t1 Submit a report
+							form.form
+								ul.list-style-none
+									li
+										label
+											p.t3 Title
+											input(type="text")
+									li
+										div.flex.flex-end
+											p.t3.flex-3 Add media
+											span.add-more-media.flex-1#add-more-media-btn Add more +										
+										div#media-input-wrapper
+											input(type="file")
+										p
+											em Media uploads can be rearranged in Preview mode. Add your files first.
+									li
+										label
+											p.t3.optional Text field
+											textarea(rows="10", columns="10")
+									li.location-li
+										p Location:
+										p#location 43.1567975, -77.6167498										
+										p.anonymous-announcement Your location is submitted to ensure that you are from the area.
+									li.privacy-li
+										p.anonymous-announcement All posts are anonymous.
+
+									li.report-bar
+										a(href="#")#save-draft Save draft
+										a(href="#")#preview-report Preview
+										a(href="#")#submit-report Submit
 
 
 
@@ -218,8 +230,8 @@ body#index
 										input(type="text")
 								li
 									label
-										p.t3 Username
-										em This will the name used publicly
+										p.t3 Username 
+											em This will the name used publicly
 										input(type="text")
 
 

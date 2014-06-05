@@ -30,6 +30,7 @@
 	background: #ddd;
 	margin: 0 -1rem 0 !important;
 	padding: 1.5rem 1rem;
+	.fa-location-arrow {margin-right: 0.5rem; }
 	p:first-child {margin-bottom: 0.5rem; }
 	@include mq(tablet) {margin: 0 !important; }
 }
@@ -97,10 +98,11 @@
 
 
 .report-bar {
-	$border: #666;
+	$border: #aaa;
 	@include flexbox();
 	background: lighten($dark-blue, 10%);
-	color: $white;
+	background: $yellow;
+	color: $black;
 	margin: 0 -1rem;
 	max-width: 20rem;
 	border-top: 1px solid $border;
@@ -116,7 +118,7 @@
 		text-align: center;
 		border-right: 1px solid $border;
 		&:last-child {border: none; }
-		&:hover {background: $dark-blue; }
+		&:hover {background: $dark-yellow; }
 	}
 	@include mq(tablet) {
 		margin: 0;
@@ -177,7 +179,7 @@
 		text-decoration: none; 
 		color: $black;
 		@include transition(color, 0.3s);
-		&:hover {color: $blue; }
+		&:hover {color: $yellow; }
 	}
 }
 .t2 {
@@ -221,8 +223,8 @@
 
 
 #header, #footer {
-	background: $blue;
-	color: $white;
+	background: $yellow;
+	color: $black;
 	padding: 1rem 0;
 	a {
 		color: inherit;

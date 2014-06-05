@@ -7,10 +7,10 @@
 	a:hover {color: lighten($white, 5%); }
 }
 #dark-blue-bkgd {
-	background: darken($blue, 4%);
-	color: darken($white, 25%);
+	background: darken($yellow, 4%);
+	color: darken($black, 25%);
 	li.current a, 
-	a:hover {color: lighten($white, 5%); }
+	a:hover {color: lighten($black, 5%); }
 }
 
 #user-bar-wrapper {

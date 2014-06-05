@@ -10,7 +10,7 @@ body#index
 	div.container
 
 
-		header#header
+		header#header.header-footer
 			.wrapper
 				h1#h1 yellr
 				p report for your community
@@ -109,18 +109,70 @@ body#index
 											i.fa.fa-volume-up(title="Audio")
 										li
 											i.fa.fa-file-text-o(title="Text")
+							li
+								h2.t1 
+									a(href="#") If you please, where is the lecture on Egyptology?
+								figure
+									a(href="#")
+										img(src="http://lorempixel.com/400/200")
+								p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
+									span.deadline 2 weeks
+								div.assignment-action
+									a.contribute-btn(href="#") View assignment
+									span.current-contributions 12 contributions 
+								div.accepted-media-wrapper
+									ul.accepted-media
+										li.no
+											i.fa.fa-video-camera(title="Video")
+										li
+											i.fa.fa-camera(title="Picture")
+										li.no
+											i.fa.fa-volume-up(title="Audio")
+										li
+											i.fa.fa-file-text-o(title="Text")
+							li
+								h2.t1 
+									a(href="#") If you please, where is the lecture on Egyptology?
+								figure
+									a(href="#")
+										img(src="http://lorempixel.com/400/200")
+								p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
+									span.deadline 2 weeks
+								div.assignment-action
+									a.contribute-btn(href="#") View assignment
+									span.current-contributions 12 contributions 
+								div.accepted-media-wrapper
+									ul.accepted-media
+										li.no
+											i.fa.fa-video-camera(title="Video")
+										li
+											i.fa.fa-camera(title="Picture")
+										li.no
+											i.fa.fa-volume-up(title="Audio")
+										li
+											i.fa.fa-file-text-o(title="Text")
+
+
 
 
 			div.module-wrapper
 				div.module-info
 					h2 Assignment View
 					p For viewing a single assignment
+					//- view contribution
+						comment title, comment question (the one we're answering), 
+						= if just text, full comment
+						= if text & image, show both
+						= show geolocation of submission
+						= show user, date when posted (cannot view a user's profile)
+						= report inappropriate content
+
 				div.module
 					div.wrapper
 						section#assignment-view
 							h2.t1#assignment-question Are you on Team Viper or Team Mountain?
 							figure
-								img(src="http://lorempixel.com/400/200")
+								img(src="http://lorempixel.com/800/400")
 							p.assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
 							div.assignment-actions
 								div.flex-3
@@ -175,18 +227,28 @@ body#index
 			div.module-wrapper
 				div.module-info
 					h2 Reporting
-					p Contributing to the site (assuming you already have an account)
+					p Contributing to yellr
 				div.module
 					div.wrapper
 						section#submit-report
 							h2.t1 Submit a report
 							form.form
 								ul.list-style-none
-									li
+									li.phone-action-li.report-bar
+										a(href="#")
+											i.fa.fa-microphone
+											span Audio
+										a(href="#")
+											i.fa.fa-camera
+											span Picture
+										a(href="#")
+											i.fa.fa-video-camera
+											span Video
+									li.title-li
 										label
 											p.t3 Title
 											input(type="text")
-									li
+									li.add-media-li
 										div.flex.flex-end
 											p.t3.flex-3 Add media
 											span.add-more-media.flex-1#add-more-media-btn Add more +										
@@ -194,18 +256,20 @@ body#index
 											input(type="file")
 										p
 											em Media uploads can be rearranged in Preview mode. Add your files first.
-									li
+									li.textfield-li
 										label
 											p.t3.optional Text field
 											textarea(rows="10", columns="10")
 									li.location-li
-										p Location:
+										p
+											i.fa.fa-location-arrow &nbsp;
+											span Location
 										p#location 43.1567975, -77.6167498										
 										p.anonymous-announcement Your location is submitted to ensure that you are from the area.
 									li.privacy-li
 										p.anonymous-announcement All posts are anonymous.
 
-									li.report-bar
+									li.report-li.report-bar
 										a(href="#")#save-draft Save draft
 										a(href="#")#preview-report Preview
 										a(href="#")#submit-report Submit
@@ -241,6 +305,23 @@ body#index
 						- after account creation, takes you back to the assignment you were viewing
 
 
+
+			div.module-wrapper
+				div.module-info
+					h2 Question prompt
+					p Questions pushed from WXXI will look like this
+				div.module
+					div#notification-msg
+						.wrapper
+							form
+								p#question &nbsp;
+								div#response-wrapper
+									ul#question-answers
+									ul#extra-fields
+								span#more-details Add more details
+								input#submit-question-answer(type="submit", value="Submit")
+								span#msg-close Cancel 
+									i.fa.fa-times
 
 
 
@@ -278,54 +359,10 @@ body#index
 
 
 
-			div.module-wrapper
-				div.module-info
-					h2 Submission Form
-					p For submiting a report..?
-				div.module
-					section#report-section
-						form#question-answer-form(action="media_upload.json")
-							label
-								span Unique App ID (hidden)
-								input(type="text", name="unique_app_id")
-							label
-								span Media Type
-								input(type="text", name="media_type")
-							label
-								span File Upload
-								input(type="file", name="media_payload")
-							input(type="submit", value="Submit")
 
 
 
-				//- view contribution
-					comment title, comment question (the one we're answering), 
-					= if just text, full comment
-					= if text & image, show both
-					= show geolocation of submission
-					= show user, date when posted (cannot view a user's profile)
-					= report inappropriate content
-
-			div.module-wrapper
-				div.module-info
-					h2 Question prompt
-					p Questions pushed from WXXI will look like this
-				div.module
-					div#notification-msg
-						.wrapper
-							form
-								span#msg-close X
-								p#question &nbsp;
-								div#response-wrapper
-									ul#question-answers
-									ul#extra-fields
-								span#more-details Add more details
-								input#submit-question-answer(type="submit", value="Submit")
-
-
-
-
-		footer#footer
+		footer#footer.header-footer
 			.wrapper
 				p Privacy policy
 				ul#footer-links.list-style-none

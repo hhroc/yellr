@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
   var buildFolder = '../build/';
+  var appFolder = '../app/www/';
 
   var jadedebug = {
     compileDebug: false,
@@ -79,6 +80,9 @@ module.exports = function(grunt) {
       js: {
         files : [{expand: true, cwd: 'js', src: ['**'], dest: buildFolder+'js'}]
       },
+      app_js: {
+        files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
+      },
       data: {
         files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
       }
@@ -111,6 +115,10 @@ module.exports = function(grunt) {
       js:{
         files: ['js/*.js', 'js/**/*.js'],
         tasks: ['copy:js']
+      },
+      app_js: {
+        files: ['js/app.js'],
+        tasks: ['copy:app_js']
       },
       data:{
         files: ['data/*.*', 'data/**/*.*'],

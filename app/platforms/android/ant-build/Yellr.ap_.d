@@ -36,6 +36,7 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/style \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/data/assignments.json \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/data/question.json \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/app.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs \
@@ -56,6 +57,7 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.camera \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.contacts \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.device \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.dialogs \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.camera/www \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/Camera.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraConstants.js \
@@ -75,6 +77,10 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.contacts/www/contacts.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.dialogs/www \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.dialogs/www/android \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.dialogs/www/notification.js \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.dialogs/www/android/notification.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/style/fonts \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/style/libs \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/style/style.css \

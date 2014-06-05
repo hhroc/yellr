@@ -3,138 +3,20 @@
 @import "pieces/classes";
 @import "pieces/normalize";
 @import "pieces/base";
-@import "pieces/typography";
 @import "pieces/modules";
 
+// libraries
+@import "libs/font-awesome/font-awesome";
+
+// yellr specific
 @import "theme/vars";
+@import "theme/classes";
+@import "theme/typography";
+@import "theme/forms";
 @import "theme/header";
 @import "theme/user-bar";
 @import "theme/question-prompt";
 @import "theme/assignments";
-
-@import "libs/font-awesome/font-awesome";
-
-
-
-.optional {
-	&:after {
-		content: "* Optional";
-		color: tomato;
-		font-style: italic;
-		font-size: 0.75rem;
-		padding-left: 0.5rem;
-	}
-}
-
-.location-li {
-	background: #ddd;
-	margin: 0 -1rem 0 !important;
-	padding: 1.5rem 1rem;
-	.fa-location-arrow {margin-right: 0.5rem; }
-	p:first-child {margin-bottom: 0.5rem; }
-	@include mq(tablet) {margin: 0 !important; }
-}
-#location {
-	color: $blue;
-	margin-bottom: 0.5rem;
-}
-
-.privacy-li {
-	margin-bottom: 0 !important;
-	color: $white;
-	background: #444;
-	margin: 0 -1rem;
-	padding: 1rem;
-	text-align: center;
-	@include mq(tablet) {margin: 0 !important; }
-}
-
-.anonymous-announcement {
-	font-style: italic;
-	font-size: 0.875rem;
-	margin-bottom: 0;
-}
-
-#submit-report {max-width: 20rem; }
-.add-more-media {
-	@include transition(background, 0.3s);
-	font-style: italic;
-	background: #ebebeb;
-	display: inline-block;
-	padding: 0.375rem 0.5rem;
-	font-size: 0.75rem;
-	text-align: center;
-	&:hover {
-		background: darken(#ebebeb, 10%); 
-		cursor: pointer;
-	}
-}
-
-
-// general form styles
-.form {
-	li {
-		margin-bottom: 1.5rem;
-		&:last-child {margin-bottom: 0; }
-		input {margin-bottom: 0;}
-	}
-	input[type="text"], textarea {
-		font-size: 1.25rem;
-		padding: 0.25rem;
-		width: 100%;
-		max-width: 20rem;
-	}
-	input[type="file"] {
-		margin-bottom: 0.5rem;
-	}
-	em {
-		display: inline-block;
-		font-size: 0.75rem;
-		margin-bottom: 0.25rem;
-		color: $dark-blue;
-	}
-}
-
-
-
-.report-bar {
-	$border: #aaa;
-	@include flexbox();
-	background: lighten($dark-blue, 10%);
-	background: $yellow;
-	color: $black;
-	margin: 0 -1rem;
-	max-width: 20rem;
-	border-top: 1px solid $border;
-	border-bottom: 1px solid $border;
-	a {
-		@include flex(1);
-		@include transition(background, 0.3s);
-		display: inline-block;
-		color: inherit;
-		text-decoration: none;
-		padding: 1.25rem 0.75rem;
-		font-size: 0.875rem;
-		text-align: center;
-		border-right: 1px solid $border;
-		&:last-child {border: none; }
-		&:hover {background: $dark-yellow; }
-	}
-	@include mq(tablet) {
-		margin: 0;
-		// padding: 0;
-	}
-
-	/* PRODUCTION STYLES */
-	// position: fixed;
-	// bottom: 0;
-	// width: 100%;
-}
-
-
-
-
-
 
 
 
@@ -146,54 +28,14 @@
 	margin: 0 auto;
 }
 
-.no-margin-left {margin-left: 0 !important; }
-.no-margin-right {margin-right: 0 !important; }
-.list-style-none {list-style: none; }
+#main {padding: 2.5rem 0 5rem; }
 
-.flex {@include flexbox(); }
-.flex-1 {@include flex(1); }
-.flex-2 {@include flex(2); }
-.flex-3 {@include flex(3); }
-.flex-4 {@include flex(4); }
-.flex-5 {@include flex(5); }
-.flex-6 {@include flex(6); }
-.flex-end {align-items: flex-end; }
-.flex-start {align-items: flex-start; }
-
-.horizontal-bar {
-	@include cf();
-	li {
-		display: inline-block;
-		float: left;
-	}
-}
-
-
-.t1 {
-	font-size: 1.75rem;
-	margin: 0 0 0.875rem;
-	@include mq(netbook) {
-		font-size: 2.25rem;
-	}
-	a {
-		text-decoration: none; 
-		color: $black;
-		@include transition(color, 0.3s);
-		&:hover {color: $yellow; }
-	}
-}
-.t2 {
-	font-size: 1.125rem;
-	margin: 0 0 0.875rem;
-}
-
-.t3 {
-	font-size: 0.875rem;
-	margin: 0 0 0.25rem;
-}
+// report submisssion
+#submit-report {max-width: 20rem; }
 
 
 
+// latest assignments
 #latest-assignments {
 	p {
 		display: none;
@@ -205,46 +47,8 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-#report-section {
-	label {
-		display: block;
-		span {display: block; }
-	}
+// footer
+#footer {
+	background: $black;
+	color: $white;
 }
-
-
-#header, #footer {
-	background: $yellow;
-	color: $black;
-	padding: 1rem 0;
-	a {
-		color: inherit;
-		text-decoration: none;
-		font-weight: bold;
-	}
-	p {margin-bottom: 0; }
-}
-
-
-
-#question-answer-form {
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	padding: 1rem;
-}
-
-
-
-#main {
-	padding: 2.5rem 0 5rem;
-}
-

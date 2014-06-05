@@ -1,0 +1,63 @@
+@import "vars";
+@import "../pieces/mixins";
+
+.no-margin-left {margin-left: 0 !important; }
+.no-margin-right {margin-right: 0 !important; }
+.list-style-none {list-style: none; }
+
+.flex {@include flexbox(); }
+.flex-1 {@include flex(1); }
+.flex-2 {@include flex(2); }
+.flex-3 {@include flex(3); }
+.flex-4 {@include flex(4); }
+.flex-5 {@include flex(5); }
+.flex-6 {@include flex(6); }
+.flex-end {align-items: flex-end; }
+.flex-start {align-items: flex-start; }
+
+.header-footer {
+	padding: 1rem 0;
+	a {
+		color: inherit;
+		text-decoration: none;
+		font-weight: bold;
+	}
+	p {margin-bottom: 0; }
+}
+
+.horizontal-bar {
+	@include cf();
+	li {
+		display: inline-block;
+		float: left;
+	}
+}
+
+.report-bar {
+	$border: #aaa;
+	@include flexbox();
+	background: lighten($dark-blue, 10%);
+	background: $yellow;
+	color: $black;
+	max-width: 20rem;
+	border-top: 1px solid $border;
+	border-bottom: 1px solid $border;
+	a {
+		@include flex(1);
+		@include transition(background, 0.3s);
+		display: inline-block;
+		color: inherit;
+		text-decoration: none;
+		padding: 1.25rem 0.75rem;
+		font-size: 0.875rem;
+		text-align: center;
+		border-right: 1px solid $border;
+		&:last-child {border: none; }
+		&:hover {background: $dark-yellow; }
+	}
+
+	/* PRODUCTION STYLES */
+	// position: fixed;
+	// bottom: 0;
+	// width: 100%;
+}

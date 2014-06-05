@@ -3,8 +3,8 @@
 
 
 #msg-close {
-	text-align: right;
-	display: block;
+	// text-align: right;
+	// display: block;
 	padding: 0.5rem 0;
 	margin-bottom: 1rem;
 	@include hover();
@@ -63,10 +63,10 @@
 
 
 #notification-msg {
-	background: rgba($dark-yellow, 0.96);
+	background: rgba($yellow, 0.96);
 	color: $black;
   display: table;
-
+	padding: 1rem;
   // off-screen styles
   // -webkit-transform: translateY(-600px);
   // -ms-transform: translateY(-600px);

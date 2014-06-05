@@ -2,6 +2,9 @@
 var yellr = yellr || {};
 
 
+/*
+	ALL THIS CODE IS TO BE REFACTORED. HTML AND CSS FIRST THO
+*/
 
 
 /* APP SETTINGS */
@@ -26,16 +29,58 @@ yellr.questionClose = undefined;
 
 
 
-
-
-
-
 // the things
 yellr.main = {
 
 	// set up the things
 	// ===================================
 	init: function() {
+
+
+		// add more input(type="media") fields to submit-report
+		$('#add-more-media-btn').on('click', function(e) {
+			e.preventDefault();
+			
+			// limit to 5
+			if ($('#media-input-wrapper input').length >= 5) {
+				alert('Only 5 media files can be uploaded at this time');
+				return
+			}
+			else {
+				var input = document.createElement('input');
+				input.setAttribute('type', 'file');
+				$('#media-input-wrapper').append(input);
+			}
+
+		});
+
+
+		// save draft
+		$('#save-draft').on('click', function(e) {
+			e.preventDefault();
+			alert('This requires an account? Maybe we can use localStorage... Added to drafts');
+		})
+
+		// // preview report
+		// $('#preview-report').on('click', function(e) {
+		// 	e.preventDefault();
+		// 	alert('Preview. this alert will be removed');
+		// })
+
+		// // submit report
+		// $('#submit-report').on('click', function(e) {
+		// 	e.preventDefault();
+		// 	alert('Submit report. This alert will be removed');
+		// })
+
+
+
+
+
+
+
+
+
 
 		/* get DOM references */
 		// ----------------------------
@@ -54,13 +99,13 @@ yellr.main = {
 		yellr.width = x;
 		yellr.height = y;
 		// place offscreen
-		yellr.utils.placeOffscreen(yellr.questionNode);
+		// yellr.utils.placeOffscreen(yellr.questionNode);
 
 
 		/* poll for any new questions from WXXI */
 		// ----------------------------
 		$.ajax({
-		  url: 'data/question.json',
+		  url: '/data/question.json',
 		  beforeSend: function( xhr ) {
 		    xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
 		  }
@@ -74,7 +119,7 @@ yellr.main = {
 
 
 	  // do specific things based on page
-	  if (document.querySelector('#index')) yellr.setUp.homepage();
+	  // if (document.querySelector('#index')) yellr.setUp.homepage();
 	},
 
 	// ask question if one has been pushed
@@ -173,55 +218,23 @@ yellr.main = {
 yellr.setUp = {
 
 	DOMreferences: function() {
-		$('#report-btn').on('click', function(e) {
-			console.log('show camera');
-			e.preventDefault();
-			if (!navigator.camera) {
-			    alert("Camera API not supported", "Error");
-			    return;
-			}
-			var options =   {   quality: 50,
-			                    destinationType: Camera.DestinationType.DATA_URL,
-			                    sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Album
-			                    encodingType: 0     // 0=JPG 1=PNG
-			                };
-
-			navigator.camera.getPicture(
-			    function(imageData) {
-			    	alert('picture taken');
-			        // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
-			    },
-			    function() {
-			        alert('Error taking picture', 'Error');
-			    },
-			    options);
-
-			return false;
-		});
 		// where we will put the latest question
 		yellr.questionNode = document.querySelector('#notification-msg');
 		
 		// the 'X' button for closing today's question
 		yellr.questionClose = document.querySelector('#msg-close');
-    $('#msg-close').on('click', function() {
-    	// alert('wut');
-    	// if ($('#notification-msg').class('show')) $('#notification-msg').toggleClass('show');
-			// yellr.questionNode.className = yellr.questionNode.className ? '' : 'show';
-    });
+		yellr.questionClose.onclick = function(e) {
+			e.preventDefault();
+			yellr.questionNode.className = yellr.questionNode.className ? '' : 'show';
+		}
 
 		// where we alert users of a new question
 		yellr.notificationNode = document.querySelector('#notification-li');
 		// show latest question
-    $('#notification-li a').on('click', function() {
-			// yellr.questionNode.className = yellr.questionNode.className ? '' : 'show';
-    	// if ($('#notification-msg').class('show')) $('#notification-msg').toggleClass('show');
-
-    });
-
-    // $('.help-btn').on('click', function() {
-    //     alert("Some help here...")
-    // });
-
+		yellr.notificationNode.firstChild.onclick = function(e) {
+			e.preventDefault();
+			yellr.questionNode.className = yellr.questionNode.className ? '' : 'show';
+		}	
 	},
 
 	homepage: function() {
@@ -273,3 +286,12 @@ yellr.utils = {
 		// src: https://stackoverflow.com/questions/1026069/capitalize-the-first-letter-of-string-in-javascript
 	}
 };
+
+
+
+
+
+
+window.onload = function() {
+	yellr.main.init();
+}

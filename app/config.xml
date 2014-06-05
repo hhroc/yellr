@@ -2,7 +2,7 @@
 <widget id="com.hhroc.yellr" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Yellr</name>
     <description>
-        Report about your city, for your city.
+        Report about your community, for your community.
     </description>
     <author email="lrosario101@gmail.com" href="http://www.luisrosar.io">
         Luis Rosario

@@ -80,11 +80,14 @@ module.exports = function(grunt) {
       js: {
         files : [{expand: true, cwd: 'js', src: ['**'], dest: buildFolder+'js'}]
       },
+      data: {
+        files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
+      },
       app_js: {
         files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
       },
-      data: {
-        files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
+      to_app: {
+        files : [{expand: true, cwd: '../build', src: ['data/**', 'js/**', 'style/**', 'img/**'], dest: appFolder}]
       }
     },
 
@@ -162,9 +165,9 @@ module.exports = function(grunt) {
 
   // Default task(s)
   // ===================================
-  grunt.registerTask('default', ['debug']);
+  grunt.registerTask('default', ['build']);
 
-  grunt.registerTask('debug', function() {
+  grunt.registerTask('build', function() {
     grunt.task.run([
       'compass:build',
       'copy:img',
@@ -175,11 +178,19 @@ module.exports = function(grunt) {
     ]);
   });
 
-  grunt.registerTask('deploy', function() {
+  grunt.registerTask('minify', function() {
     grunt.task.run([
       'min',
       'cssmin'
     ]);
   });
+
+  grunt.registerTask('deploy', function() {
+    grunt.task.run([
+      'minify',
+      'copy:to_app'
+    ]);
+  });
+
 
 };

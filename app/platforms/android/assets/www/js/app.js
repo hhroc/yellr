@@ -1,5 +1,11 @@
-// We use an "Immediate Function" to initialize the application to avoid leaving anything behind in the global scope
 (function () {
+  /*
+    We use an "Immediate Function" 
+    to initialize the application 
+    to avoid leaving anything behind 
+    in the global scope
+  */
+
 
   // LOCAL VARIABLES
   // ----------------------------
@@ -19,11 +25,24 @@
 
   // var slider = new PageSlider($('body'));
 
+
+  // add sample data
+  $.ajax({
+    url: 'data/assignments.json',
+    beforeSend: function( xhr ) {
+      xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+    }
+  })
+  .done(function(data) {
+    window.localStorage.setItem('assignments', data);
+    // var json = $.parseJSON(data);
+    // $('#latest-assignments').html(templates.assignmentLI(json.assignments));
+  });
+
   var adapter = new LocalStorageAdapter();
   adapter.initialize().done(function () {
     // alert('yo');
   });
-
 
 
   /* --------------------------------- Event Registration -------------------------------- */
@@ -56,19 +75,11 @@
       templates.page.index()
     );
 
-    // add sample data
-    $.ajax({
-      url: 'data/assignments.json',
-      beforeSend: function( xhr ) {
-        xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
-      }
-    })
-    .done(function( data ) {
-      // alert('assignments.json loaded');
-      var json = $.parseJSON(data);
-      // alert(json.assignments[0].title);
-      $('#latest-assignments').html(templates.assignmentLI(json.assignments));
-    });
+    var json = JSON.parse(window.localStorage.getItem('assignments'));
+    // $.parseJSON(data);
+    $('#latest-assignments').html(templates.assignmentLI(json.assignments));
+
+    alert('did everything work?..');
   }
 
 

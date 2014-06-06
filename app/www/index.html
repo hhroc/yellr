@@ -35,7 +35,14 @@
     </nav>
     <div id="main"></div>
   </div>
+
+
+
+
+
   <!-- TEMPLATES -->
+
+
 
   <!-- Homepage -->
   <script id="page-index-tpl" type="text/x-handlebars-template">
@@ -63,8 +70,51 @@
     {{/.}}
   </script>
 
+
+
+  <!-- Assignment Page -->
+  <script id="page-assignment-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <section id="assignment-view">
+        <h2 id="assignment-question" class="t1">{{title}}</h2>
+        <figure><img src="http://lorempixel.com/800/400"></figure>
+        <p class="assignment-details">{{description}}</p>
+        <div class="assignment-actions">
+          <div class="flex-3"><span class="deadline no-margin-left">{{deadline}}</span>
+            <div class="accepted-media-wrapper"><span><em>Accepted Media:</em></span>
+              <ul class="accepted-media">
+                <li><i class="fa fa-video-camera"></i></li>
+                <li><i class="fa fa-camera"></i></li>
+                <li><i class="fa fa-volume-up"></i></li>
+                <li><i class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex-2"><a href="#report-{{id}}" class="contribute-btn no-margin-right">Contribute</a></div>
+        </div>
+      </section>
+      <aside>
+        <h3 class="t2">Latest Contributions</h3>
+        <ul class="contributions-list list-style-none"> </ul>
+      </aside>
+    </div>
+  </script>
+
+  <script id="contributionLI-tpl" type="text/x-handlebars-template">
+    <li><a href="#"> <span class="contributor">DanDan109</span>
+        <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
+    <li> <a href="#"> <span class="contributor">Steve-O</span>
+        <figure><img src="http://lorempixel.com/400/200"></figure>
+        <p>“Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. </p></a></li>
+    <li><a href="#"><span class="contributor">Afroman</span>
+        <p>This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...</p>
+        <figure><img src="http://lorempixel.com/400/200"></figure></a></li>
+    <li><a href="#"><span class="contributor">Clint Eastwood</span>
+        <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
+  </script>
+
+
   <script src="cordova.js"></script>
-  <script src="js/libs/adapters/localstorage-adapter.js"></script>
   <script src="js/libs/jquery.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/fastclick.js"></script>

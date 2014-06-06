@@ -192,5 +192,9 @@ module.exports = function(grunt) {
     ]);
   });
 
+  grunt.registerTask('app', function() {
+    grunt.task.run(['copy:to_app']);
+  });
+
 
 };

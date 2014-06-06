@@ -1,44 +1,74 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" href="style/style.min.css">
+</head>
+<body id="index"><a href="#main" class="assistive-text">Skip to main content</a>
+  <div class="container">
+    <header id="header" class="header-footer">
+      <div class="wrapper">
+        <h1 id="h1">yellr</h1>
+        <p>report for your community</p>
+      </div>
+    </header>
+    <nav id="user-bar-wrapper">
+      <div id="grey-bkgd">
+        <div class="wrapper">
+          <ul id="user-bar">
+            <li id="browse-li"><a href="#">Browse</a></li>
+            <li id="report-li"><a href="#">Report</a></li>
+            <li id="profile-li"><a href="#">Profile</a></li>
+            <li id="notification-li"><a href="#">&nbsp;</a></li>
+          </ul>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+      </div>
+      <div id="dark-blue-bkgd">
+        <div class="wrapper">
+          <ul id="secondary-bar">
+            <li><a href="#">Assignments</a></li>
+            <li><a href="#">Latest Reports</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main"></div>
+  </div>
+  <!-- TEMPLATES -->
+
+  <!-- Homepage -->
+  <script id="page-index-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <ul id="latest-assignments" class="list-style-none"> </ul>
+    </div>
+  </script>
+
+  <script id="assignmentLI-tpl" type="text/x-handlebars-template">
+    {{#.}}
+    <li>
+      <h2 class="t1"> <a href="#assignment/{{id}}">{{title}}</a></h2>
+      <figure> <a href="#assignment/{{id}}"><img src="http://lorempixel.com/400/200"></a>
+      </figure>
+      <p> {{description}} <span class="deadline">{{deadline}}</span></p> <div class="assignment-action"><a href="#assignment/{{id}}" class="contribute-btn">View assignment</a><span class="current-contributions">{{contributions}} contributions </span></div>
+      <div class="accepted-media-wrapper">
+        <ul class="accepted-media">
+          <li><i title="Video" class="fa fa-video-camera"></i></li>
+          <li><i title="Picture" class="fa fa-camera"></i></li>
+          <li><i title="Audio" class="fa fa-volume-up"></i></li>
+          <li><i title="Text" class="fa fa-file-text-o"></i></li>
+        </ul>
+      </div>
+    </li>
+    {{/.}}
+  </script>
+
+  <script src="cordova.js"></script>
+  <script src="js/libs/adapters/localstorage-adapter.js"></script>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/handlebars.js"></script>
+  <script src="js/libs/fastclick.js"></script>
+  <script src="js/main.js"></script>
+	<script src="js/app.js"></script>
+</body>
 </html>

@@ -64,10 +64,10 @@
       }
     })
     .done(function( data ) {
-      alert('assignments.json loaded');
+      // alert('assignments.json loaded');
       var json = $.parseJSON(data);
-      // $('#latest-assignments').html(templates.assignmentLI(json));
-      $('#latest-assignments').html('<p>lololol</p>');
+      // alert(json.assignments[0].title);
+      $('#latest-assignments').html(templates.assignmentLI(json.assignments));
     });
   }
 

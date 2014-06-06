@@ -32,12 +32,14 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/cordova.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/cordova_plugins.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/data \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/img \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/index.html \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/style \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/data/assignments.json \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/data/question.json \
+/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/img/freedom.jpg \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/app.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/main.js \

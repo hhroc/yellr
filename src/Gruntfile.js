@@ -86,6 +86,9 @@ module.exports = function(grunt) {
       app_js: {
         files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
       },
+      app_data: {
+        files : [{expand: true, cwd: 'data', src: ['**'], dest: appFolder+'data'}]
+      },
       to_app: {
         files : [{expand: true, cwd: '../build', src: ['data/**', 'js/**', 'style/**', 'img/**'], dest: appFolder}]
       }
@@ -125,7 +128,7 @@ module.exports = function(grunt) {
       },
       data:{
         files: ['data/*.*', 'data/**/*.*'],
-        tasks: ['copy:data']
+        tasks: ['copy:data', 'copy:app_data']
       },
       fonts:
       {

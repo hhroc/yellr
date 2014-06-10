@@ -51,6 +51,11 @@
 		B723A0D51172478988696400 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 094D8624A7604FC58F1C0548 /* CDVNotification.m */; };
 		E682CD952F1D447AAEE77A39 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1B1FD5CABA9A4F1D94F00B3A /* CDVNotification.bundle */; };
 		8668EE9BC4ED4218B75003D3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D505BEE88452D94BC8A2B /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		EA60D51A77554524B6CE4691 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = C65DDBFAEB8A4416B3EDD053 /* CDVFile.m */; };
+		ED9B26E330544E93B42D0AAC /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B7DA6D159747D8B7941DAD /* CDVLocalFilesystem.m */; };
+		B4B2751310C44699AC722925 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B6F343858F45E6BA14FD2D /* CDVAssetLibraryFilesystem.m */; };
+		3201AA92398948B986E79010 /* CDVCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F22E375052F4E0B8344A6B9 /* CDVCapture.m */; };
+		5A2A5F53171742548A9985A1 /* CDVCapture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1947B11AC5AA4DB392FD8246 /* CDVCapture.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +142,15 @@
 		3036E101F1CD4BBE94A8AECA /* CDVNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVNotification.h"; path = "org.apache.cordova.dialogs/CDVNotification.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		1B1FD5CABA9A4F1D94F00B3A /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = "CDVNotification.bundle"; path = "CDVNotification.bundle"; sourceTree = "<group>"; };
 		581D505BEE88452D94BC8A2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		C65DDBFAEB8A4416B3EDD053 /* CDVFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVFile.m"; path = "org.apache.cordova.file/CDVFile.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		60B7DA6D159747D8B7941DAD /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVLocalFilesystem.m"; path = "org.apache.cordova.file/CDVLocalFilesystem.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		D4B6F343858F45E6BA14FD2D /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVAssetLibraryFilesystem.m"; path = "org.apache.cordova.file/CDVAssetLibraryFilesystem.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		DE19CC6372334925BAD2DBA6 /* CDVFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVFile.h"; path = "org.apache.cordova.file/CDVFile.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		3F0EBD749041417580D0AF61 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLocalFilesystem.h"; path = "org.apache.cordova.file/CDVLocalFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		90899F8ED788498291C8CD05 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVAssetLibraryFilesystem.h"; path = "org.apache.cordova.file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		8F22E375052F4E0B8344A6B9 /* CDVCapture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVCapture.m"; path = "org.apache.cordova.media-capture/CDVCapture.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		2DF374DBA088425E9343BB0D /* CDVCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVCapture.h"; path = "org.apache.cordova.media-capture/CDVCapture.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		1947B11AC5AA4DB392FD8246 /* CDVCapture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = "CDVCapture.bundle"; path = "CDVCapture.bundle"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +249,7 @@
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* Yellr-Info.plist */,
 				1B1FD5CABA9A4F1D94F00B3A /* CDVNotification.bundle */,
+				1947B11AC5AA4DB392FD8246 /* CDVCapture.bundle */,
 			);
 			name = Resources;
 			path = "Yellr/Resources";
@@ -283,6 +298,14 @@
 				F67056A6523C44B5B21415E8 /* CDVExif.h */,
 				094D8624A7604FC58F1C0548 /* CDVNotification.m */,
 				3036E101F1CD4BBE94A8AECA /* CDVNotification.h */,
+				C65DDBFAEB8A4416B3EDD053 /* CDVFile.m */,
+				60B7DA6D159747D8B7941DAD /* CDVLocalFilesystem.m */,
+				D4B6F343858F45E6BA14FD2D /* CDVAssetLibraryFilesystem.m */,
+				DE19CC6372334925BAD2DBA6 /* CDVFile.h */,
+				3F0EBD749041417580D0AF61 /* CDVLocalFilesystem.h */,
+				90899F8ED788498291C8CD05 /* CDVAssetLibraryFilesystem.h */,
+				8F22E375052F4E0B8344A6B9 /* CDVCapture.m */,
+				2DF374DBA088425E9343BB0D /* CDVCapture.h */,
 			);
 			name = Plugins;
 			path = "Yellr/Plugins";
@@ -447,6 +470,7 @@
 				7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */,
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
 				E682CD952F1D447AAEE77A39 /* CDVNotification.bundle in Resources */,
+				5A2A5F53171742548A9985A1 /* CDVCapture.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +510,10 @@
 				92576ECB8CF14EB48E1819DF /* CDVCamera.m in Sources */,
 				B653B492089A4893BD4582ED /* CDVJpegHeaderWriter.m in Sources */,
 				B723A0D51172478988696400 /* CDVNotification.m in Sources */,
+				EA60D51A77554524B6CE4691 /* CDVFile.m in Sources */,
+				ED9B26E330544E93B42D0AAC /* CDVLocalFilesystem.m in Sources */,
+				B4B2751310C44699AC722925 /* CDVAssetLibraryFilesystem.m in Sources */,
+				3201AA92398948B986E79010 /* CDVCapture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

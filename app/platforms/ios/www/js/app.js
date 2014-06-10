@@ -133,7 +133,53 @@
         );
 
         return false;
-      })
+      });
+
+      $('.fa-video-camera').on('click', function() {
+        event.preventDefault();
+ 
+        // start video capture
+        navigator.device.capture.captureVideo(function(mediaFiles) {
+          var i, path, len;
+          for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            path = mediaFiles[i].fullPath;
+            alert(path);
+            // do something interesting with the file
+          }
+        }, function(error) {
+          navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+        }, {limit:2});
+        
+        return false;
+      });
+
+
+
+      $('.fa-microphone').on('click', function() {
+        event.preventDefault();
+        // alert('hahaha');
+
+        // start audio capture
+        navigator.device.capture.captureAudio(function(mediaFiles) {
+          var i, path, len;
+          for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            path = mediaFiles[i].fullPath;
+            // do something interesting with the file
+          }
+        }, function(error) {
+          navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+        }, {limit:2});
+
+        return false;
+      });
+
+
+
+
+
+
+
+
 
 
       // get location

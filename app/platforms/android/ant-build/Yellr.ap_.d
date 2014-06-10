@@ -44,7 +44,6 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/main.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/main.min.js \
-/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/adapters \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/fastclick.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/handlebars.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/iscroll.js \
@@ -52,10 +51,6 @@
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/modernizr.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/pageslider.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/swipe.js \
-/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/adapters/jsonp-adapter.js \
-/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/adapters/localstorage-adapter.js \
-/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/adapters/memory-adapter.js \
-/Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/js/libs/adapters/websql-adapter.js \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.camera \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.contacts \
 /Users/sumo/Desktop/yellr-master/app/platforms/android/assets/www/plugins/org.apache.cordova.device \

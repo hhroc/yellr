@@ -90,7 +90,7 @@
               </ul>
             </div>
           </div>
-          <div class="flex-2"><a href="#report-{{id}}" class="contribute-btn no-margin-right">Contribute</a></div>
+          <div class="flex-2"><a href="#contribute/{{id}}" class="contribute-btn no-margin-right">Contribute</a></div>
         </div>
       </section>
       <aside>
@@ -113,6 +113,51 @@
         <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
   </script>
 
+
+
+  <!-- Submitting a Report -->
+  <script id="contribution-form-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <section id="submit-report">
+        <h2 class="t1">Submit a report</h2>
+        <form class="form">
+          <ul class="list-style-none">
+            <li class="phone-action-li report-bar">
+              <a href="#"><i class="fa fa-microphone"></i><span>Audio</span></a>
+              <a href="#"><i class="fa fa-camera"></i><span>Picture</span></a>
+              <a href="#"><i class="fa fa-video-camera"></i><span>Video</span></a>
+            </li>
+            <li class="title-li"> <label> <p class="t3">Title</p> <input type="text"> </label> </li>
+            <li class="add-media-li">
+              <div class="flex flex-end">
+                <p class="t3 flex-3">Add media</p>
+                <span id="add-more-media-btn" class="add-more-media flex-1">Add more +</span>
+              </div>
+              <div id="media-input-wrapper">
+                <input type="file">
+              </div>
+              <p><em>Media uploads can be rearranged in Preview mode. Add your files first.</em></p>
+            </li>
+            <li class="textfield-li">
+              <label>
+                <p class="t3 optional">Text field</p>
+                <textarea rows="10" columns="10"></textarea>
+              </label>
+            </li>
+            <li class="location-li">
+              <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
+              <p id="location">43.1567975, -77.6167498                    </p>
+              <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
+            </li>
+            <li class="privacy-li">
+              <p class="anonymous-announcement">All posts are anonymous.</p>
+            </li>
+            <li class="report-li report-bar"><a href="#" id="save-draft">Save draft</a><a href="#" id="preview-report">Preview</a><a href="#" id="submit-report">Submit</a></li>
+          </ul>
+        </form>
+      </section>
+    </div>
+  </script>
 
   <script src="cordova.js"></script>
   <script src="js/libs/jquery.js"></script>

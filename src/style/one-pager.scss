@@ -1,0 +1,69 @@
+// base styles
+@import "pieces/mixins";
+@import "pieces/classes";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/modules";
+
+// libraries
+@import "libs/font-awesome/font-awesome";
+
+// yellr specific
+@import "theme/vars";
+@import "theme/classes";
+@import "theme/typography";
+@import "theme/forms";
+// @import "theme/header";
+
+// #one-pager {
+// 	#header {
+// 		padding: 3rem;
+// 	}
+// }
+
+#header {
+	// background: $yellow;
+	color: $black;
+	text-align: center;
+	padding: 6rem 0;
+	position: relative;
+	margin-bottom: 2rem;
+	&:before, &:after {
+		content: "\00a0";
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		z-index: -5;
+	}
+	&:before {
+		background: url(/img/_MG_2554.JPG); 
+		background-size: cover;
+		background-position-x: 50%;
+		background-position-y: -10rem;
+	}
+	&:after {background: rgba($yellow, 0.9); }
+
+	@include mq(netbook) {
+		padding: 10rem 0;
+	}
+}
+#h1 {
+	font-size: 5rem;
+	margin: 0 auto 1rem;
+	@include mq(netbook) {
+		font-size: 7rem;
+	}
+}
+#header p {
+	margin: 0 auto;
+}
+
+iframe {
+	max-width: 100%;
+	height: 50%;
+	@include mq(netbook) {
+		height: 45rem // 720px
+	}
+}

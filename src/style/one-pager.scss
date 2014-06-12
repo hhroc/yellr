@@ -13,6 +13,109 @@
 
 
 
+#footer {
+	background: $black;
+	color: $white;
+	text-align: center;
+	p {
+		font-size: 1rem;
+		margin: 0 auto; 
+	}
+}
+
+#partners {
+	text-align: center;
+	padding-bottom: 6rem;
+	p {margin: 0 auto 2.5rem; }
+	a {
+		display: block;
+		vertical-align: middle;
+		&:last-child {margin-right: 0; }
+		margin-bottom: 1rem;
+		@include mq(netbook) {
+			display: inline-block;
+			margin-bottom: 0;
+			margin-right: 2.25rem;
+		}
+	}
+}
+.first, .second {margin-bottom: 1.5rem; }
+.second, .third{
+	img {max-width: 8rem; }
+}
+#wxxi-logo {
+	max-width: 10rem;
+}
+
+
+#get-involved {
+	text-align: center;
+	background: $yellow;
+	padding: 3rem 0 4rem;
+	margin: 6rem 0;
+	p {
+		margin: 0 auto 1rem;
+	}
+	a {
+		@include transition(background, 0.3s);
+		background: $white;
+		text-decoration: none;
+		color: $black;
+		display: inline-block;
+		padding: 0.5rem 1rem;
+		border-radius: 8px;
+		img {
+			vertical-align: middle;
+			margin-right: 0.5rem;
+		}
+		&:hover {
+			background: darken($white, 10%);
+		}
+	}	
+}
+
+
+
+#aggregation {
+	div {
+		@include mq(netbook){padding-left: 4rem; }
+	}
+}
+
+#engagement {
+	figure {
+		@include mq(netbook) {padding-left: 4rem; }
+	}
+}
+
+#details {
+	section {
+		margin-bottom: 5rem;
+		&:last-child {margin-bottom: 0; }
+	}
+}
+
+
+#divider1 {
+	min-height: 20rem;
+	background: url(../img/_MG_2468.JPG);
+	background-size: cover;
+	background-position-y: 50%;
+	margin: 6rem 0;
+	position: relative;
+	&:after {
+		content: "\00a0";
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		background: rgba($yellow, 0.8);
+		z-index: 5;
+	}
+}
+
+
 #main {
 	padding-top: 2rem;
 	@include mq(netbook) {
@@ -26,7 +129,15 @@
 }
 
 #about {
-	padding-bottom: 4rem;
+	iframe {
+		max-width: 100%;
+		margin: 0 auto;
+		display: block;
+		height: 50%;
+		@include mq(netbook) {
+			height: 33.75rem; // 540px
+		}
+	}
 }
 
 
@@ -36,7 +147,14 @@
 		@include flexbox(); 
 	}
 }
-
+.alt-layout {
+	div {
+		@include order(2);
+	}
+	figure {
+		@include order(1);
+	}
+}
 
 
 
@@ -69,13 +187,7 @@ p {
 	max-width: 30em;
 }
 
-iframe {
-	max-width: 100%;
-	// height: 50%;
-	// @include mq(netbook) {
-	// 	height: 45rem // 720px
-	// }
-}
+
 figcaption {
 	text-align: center;
 }

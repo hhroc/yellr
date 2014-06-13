@@ -108,7 +108,7 @@
       DOM.html(templates.page.contribute());
 
       // add event listeners
-      $('.phone-action-li .fa-camera').on('click', function(param) {
+      $('#capture-picture').on('click', function(param) {
         event.preventDefault();
         if (!navigator.camera) {
           alert("Camera API not supported", "Error");
@@ -135,7 +135,7 @@
         return false;
       });
 
-      $('.fa-video-camera').on('click', function() {
+      $('#capture-video').on('click', function() {
         event.preventDefault();
  
         // start video capture
@@ -155,7 +155,7 @@
 
 
 
-      $('.fa-microphone').on('click', function() {
+      $('#capture-audio').on('click', function() {
         event.preventDefault();
         // alert('hahaha');
 

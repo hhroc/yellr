@@ -1,0 +1,54 @@
+// base styles
+@import "pieces/mixins";
+@import "pieces/classes";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/modules";
+
+// libraries
+@import "libs/font-awesome/font-awesome";
+
+// yellr specific
+@import "theme/vars";
+@import "theme/classes";
+@import "theme/typography";
+@import "theme/forms";
+@import "theme/header";
+@import "theme/user-bar";
+@import "theme/question-prompt";
+@import "theme/assignments";
+
+
+
+
+
+%wrapper {
+	width: 90%;
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+#main {padding: 2.5rem 0 0; }//5rem; }
+
+// report submisssion
+#submit-report {max-width: 20rem; }
+
+
+
+// latest assignments
+#latest-assignments {
+	p {
+		display: none;
+		@include mq(tablet) {display: block; }
+	}
+}
+#latest-assignments, #latest-stories {
+	li {margin-bottom: 1.5rem; }
+}
+
+
+// footer
+#footer {
+	background: $black;
+	color: $white;
+}

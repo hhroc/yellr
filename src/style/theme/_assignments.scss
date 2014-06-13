@@ -1,0 +1,114 @@
+@import "vars";
+@import "../pieces/mixins";
+
+/* 
+- general styles 
+- list view styles 
+- single view 
+	-> contributors list
+*/
+
+// general styles
+.accepted-media-wrapper {
+	padding: 0.875rem 0;
+	span {
+		display: inline-block;
+		font-size: 0.875rem;
+		vertical-align: text-top;
+		margin-bottom: 0.5rem;
+	}
+}
+.accepted-media {
+	@include cf();
+	display: inline-block;
+	li {
+		display: inline-block;
+		float: left;
+		margin-right: 1rem;
+		margin-bottom: 0 !important;
+		&.no {color: lighten($black, 55%); }
+	}
+}
+
+.contribute-btn {
+	background: $yellow;
+	color: $black;
+	padding: 0.75rem;
+	display: inline-block;
+	margin-right: 0.75rem;
+	text-decoration: none;
+	font-weight: bold;
+	border-radius: 8px;
+	@include transition(background, 0.3s);
+	&:hover {
+		cursor: pointer;
+		background: $dark-yellow;
+	}
+}
+
+.deadline {
+	&:before {
+		content: "Deadline: ";
+		color: lighten($black, 10%);
+	}
+	color: tomato;
+	margin: 0 1rem;
+}
+
+
+
+// assignment list view
+.current-contributions {
+	font-style: italic; 
+	display: inline-block;
+}
+
+
+// single view
+.assignment-details {margin-bottom: 1.5rem; }
+
+.assignment-actions {
+	@include flexbox();
+	background: #ddd;
+	padding: 1rem 1rem 0;
+	border-radius: 10px;
+	max-width: 25rem;
+	margin-bottom: 3rem;
+	.flex-2 {text-align: right; }
+}
+
+// contrubotrs
+.contributor {
+	font-style: italic;
+	color: $blue;
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	&:after {content: " : "; }
+}
+.contributions-list {
+	margin: 0 -1rem;
+	max-width: 40rem;
+	li {
+		border-top: 1px solid lighten($grey, 60%);
+		padding: 1rem;
+		background: #eee;
+		&:last-child {border-bottom: 1px solid lighten($grey, 60%); }
+	}
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+	.more {
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		display: inline-block;
+		margin-left: 1rem;
+	}
+	@include mq(tablet) {
+		margin: 0;
+		li {
+			border-left: 1px solid lighten($grey, 60%);
+			border-right: 1px solid lighten($grey, 60%);
+		}
+	}
+}

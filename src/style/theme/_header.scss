@@ -1,0 +1,19 @@
+@import "vars";
+@import "../pieces/mixins";
+
+#header {
+	background: $yellow;
+	color: $black;	
+	.wrapper {
+		@include flexbox();
+		align-items: center;
+		@include mq(tablet) {align-items: baseline; }
+	}
+}
+
+
+#h1 {
+	margin: 0;
+	padding-right: 0.75rem;
+	font-size: 3rem;
+}

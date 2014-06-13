@@ -1,0 +1,24 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  font: 100% "Helvetica Neue", Verdana, Arial, sans-serif;
+  color: #333;
+}
+ul {
+  padding-left: 0;
+  margin: 0;
+}
+input {margin-bottom: 1em; }
+p {
+  margin-top: 0;
+  line-height: 1.4;
+  max-width: 35rem;
+}
+img {
+	max-width: 100%;
+	// height: 50%;
+}
+figure {
+	margin: 0 0 1rem;
+	img {display: block; }
+}
+figcaption {font-style: italic; }

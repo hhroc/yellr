@@ -1,44 +1,169 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" href="style/style.min.css">
+</head>
+<body id="index"><a href="#main" class="assistive-text">Skip to main content</a>
+  <div class="container">
+    <header id="header" class="header-footer">
+      <div class="wrapper">
+        <h1 id="h1">yellr</h1>
+        <p>report for your community</p>
+      </div>
+    </header>
+    <nav id="user-bar-wrapper">
+      <div id="grey-bkgd">
+        <div class="wrapper">
+          <ul id="user-bar">
+            <li id="browse-li"><a href="#">Browse</a></li>
+            <li id="report-li"><a href="#">Report</a></li>
+            <li id="profile-li"><a href="#">Profile</a></li>
+            <li id="notification-li"><a href="#">&nbsp;</a></li>
+          </ul>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+      </div>
+      <div id="dark-blue-bkgd">
+        <div class="wrapper">
+          <ul id="secondary-bar">
+            <li><a href="#">Assignments</a></li>
+            <li><a href="#">Latest Reports</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main"></div>
+  </div>
+
+
+
+
+
+  <!-- TEMPLATES -->
+
+
+
+  <!-- Homepage -->
+  <script id="page-index-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <ul id="latest-assignments" class="list-style-none"> </ul>
+    </div>
+  </script>
+
+  <script id="assignmentLI-tpl" type="text/x-handlebars-template">
+    {{#.}}
+    <li>
+      <h2 class="t1"> <a href="#assignment/{{id}}">{{title}}</a></h2>
+      <figure> <a href="#assignment/{{id}}"><img src="http://lorempixel.com/400/200"></a>
+      </figure>
+      <p> {{description}} <span class="deadline">{{deadline}}</span></p> <div class="assignment-action"><a href="#assignment/{{id}}" class="contribute-btn">View assignment</a><span class="current-contributions">{{contributions}} contributions </span></div>
+      <div class="accepted-media-wrapper">
+        <ul class="accepted-media">
+          <li><i title="Video" class="fa fa-video-camera"></i></li>
+          <li><i title="Picture" class="fa fa-camera"></i></li>
+          <li><i title="Audio" class="fa fa-volume-up"></i></li>
+          <li><i title="Text" class="fa fa-file-text-o"></i></li>
+        </ul>
+      </div>
+    </li>
+    {{/.}}
+  </script>
+
+
+
+  <!-- Assignment Page -->
+  <script id="page-assignment-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <section id="assignment-view">
+        <h2 id="assignment-question" class="t1">{{title}}</h2>
+        <figure><img src="http://lorempixel.com/800/400"></figure>
+        <p class="assignment-details">{{description}}</p>
+        <div class="assignment-actions">
+          <div class="flex-3"><span class="deadline no-margin-left">{{deadline}}</span>
+            <div class="accepted-media-wrapper"><span><em>Accepted Media:</em></span>
+              <ul class="accepted-media">
+                <li><i class="fa fa-video-camera"></i></li>
+                <li><i class="fa fa-camera"></i></li>
+                <li><i class="fa fa-volume-up"></i></li>
+                <li><i class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex-2"><a href="#contribute/{{id}}" class="contribute-btn no-margin-right">Contribute</a></div>
+        </div>
+      </section>
+      <aside>
+        <h3 class="t2">Latest Contributions</h3>
+        <ul class="contributions-list list-style-none"> </ul>
+      </aside>
+    </div>
+  </script>
+
+  <script id="contributionLI-tpl" type="text/x-handlebars-template">
+    <li><a href="#"> <span class="contributor">DanDan109</span>
+        <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
+    <li> <a href="#"> <span class="contributor">Steve-O</span>
+        <figure><img src="http://lorempixel.com/400/200"></figure>
+        <p>“Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. </p></a></li>
+    <li><a href="#"><span class="contributor">Afroman</span>
+        <p>This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...</p>
+        <figure><img src="http://lorempixel.com/400/200"></figure></a></li>
+    <li><a href="#"><span class="contributor">Clint Eastwood</span>
+        <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
+  </script>
+
+
+
+  <!-- Submitting a Report -->
+  <script id="contribution-form-tpl" type="text/x-handlebars-template">
+    <div class="wrapper">
+      <section id="submit-report">
+        <h2 class="t1">Submit a report</h2>
+        <form class="form">
+          <ul class="list-style-none">
+            <li class="phone-action-li report-bar">
+              <div id="capture-audio"><i class="fa fa-microphone"></i><span>Audio</span></div>
+              <div id="capture-picture"><i class="fa fa-camera"></i><span>Picture</span></div>
+              <div id="capture-video"><i class="fa fa-video-camera"></i><span>Video</span></div>
+            </li>
+            <li class="title-li"> <label> <p class="t3">Title</p> <input type="text"> </label> </li>
+            <li class="add-media-li">
+              <div class="flex flex-end">
+                <p class="t3 flex-3">Add media</p>
+                <span id="add-more-media-btn" class="add-more-media flex-1">Add more +</span>
+              </div>
+              <div id="media-input-wrapper">
+                <input type="file">
+              </div>
+              <p><em>Media uploads can be rearranged in Preview mode. Add your files first.</em></p>
+            </li>
+            <li class="textfield-li">
+              <label>
+                <p class="t3 optional">Text field</p>
+                <textarea rows="10" columns="10"></textarea>
+              </label>
+            </li>
+            <li class="location-li">
+              <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
+              <p id="location">43.1567975, -77.6167498                    </p>
+              <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
+            </li>
+            <li class="privacy-li">
+              <p class="anonymous-announcement">All posts are anonymous.</p>
+            </li>
+            <li class="report-li report-bar"><a href="#" id="save-draft">Save draft</a><a href="#" id="preview-report">Preview</a><a href="#" id="submit-report">Submit</a></li>
+          </ul>
+        </form>
+      </section>
+    </div>
+  </script>
+
+  <script src="cordova.js"></script>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/handlebars.js"></script>
+  <script src="js/libs/fastclick.js"></script>
+  <script src="js/main.js"></script>
+	<script src="js/app.js"></script>
+</body>
 </html>

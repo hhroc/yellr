@@ -1,1 +1,1 @@
- : /Users/sumo/Desktop/yellr-master/app/platforms/android/CordovaLib/ant-build/AndroidManifest.xml \
+ : /Users/sumo/Desktop/yellr-repo/app/platforms/android/CordovaLib/ant-build/AndroidManifest.xml \

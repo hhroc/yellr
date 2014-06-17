@@ -1,0 +1,192 @@
+include html/jade-helpers.jade
+!!! 5
+head
+	meta(charset="utf-8")
+	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+	meta(name="viewport", content="width=device-width, initial-scale=1")
+	
+	title Yellr - Moderator backend
+	meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+	
+	link(rel="shortcut icon", href="img/favicon.ico")
+	link(rel="apple-touch-icon", href="img/apple-touch-icon-57x57.png")
+	link(rel="apple-touch-icon", sizes="72x72", href="img/apple-touch-icon-72x72.png")
+	link(rel="apple-touch-icon", sizes="114x114", href="img/apple-touch-icon-114x114.png")
+
+	script(src="js/libs/modernizr.js")
+	link(rel="stylesheet", href="style/moderator.css")
+
+body#moderator
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+
+
+		header#header.header-footer
+			.wrapper
+				h1#h1 WXXI - yellr moderator-backend
+
+
+		div#main
+			div.flex
+				nav#tabs.flex-1
+					ul.tabs-list
+						li#current-tab
+							a(href="#", data-tab="1") Latest Submissions
+						li
+							a(href="#", data-tab="2") Approved Submissions
+						li
+							a(href="#", data-tab="3") Pending more info
+						li
+							a(href="#", data-tab="4") Denied
+				div#tab-content.flex-5
+					//- the grid of latest submissions
+					section#latest-submissions(data-tab="1")
+						//-h2.m1 Latest Submissions
+						ul.grid
+							li.row
+								ul.row-list
+									li.story-item
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Merchandise
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Police Abuse
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story War Crimes
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									//-li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Bus Arrivals
+										div.options
+											span Approve
+											span Edit
+											span Reject
+							li.row
+								ul.row-list
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story TV Station
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Concert Venue
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Missing Tire
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									//-li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Lost Dog
+										div.options
+											span Approve
+											span Edit
+											span Reject
+							li.row
+								ul.row-list
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story New Coffee Shop
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Repeat Offendor
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Cat Video
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									//-li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Another Cat Video
+										div.options
+											span Approve
+											span Edit
+											span Reject
+							li.row
+								ul.row-list
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Lost Dog
+										div.options
+											span
+												i.fa.fa-check Approve
+											span
+												i.fa.fa-edit Edit
+											span
+												i.fa.fa-times Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Broken Rail on Highway
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story No Representation
+										div.options
+											span Approve
+											span Edit
+											span Reject
+									//-li.story-item 
+										img(src="http://lorempixel.com/300/150")
+										p.from UID12301200139
+										p.story Bussinessman wants more
+										div.options
+											span Approve
+											span Edit
+											span Reject
+
+
+
+		//-footer#footer.header-footer
+			.wrapper
+				p footer
+	script(src="js/moderator.js")
+</html>

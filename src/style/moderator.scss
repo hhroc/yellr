@@ -1,0 +1,142 @@
+// base styles
+@import "pieces/mixins";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/classes";
+
+
+// yellr specific
+@import "theme/vars";
+@import "theme/classes";
+@import "theme/typography";
+@import "theme/forms";
+
+
+.m1 {
+	margin: 0 0 0.5rem;
+	text-transform: uppercase;
+	font-size: 0.875rem;
+}
+
+
+#header {
+	background: $yellow;
+	color: $black;
+}
+#h1 {
+	margin: 0;
+	font-size: 1rem;
+}
+
+
+// TABS
+// ----------------------------
+#tabs {
+	background: $black;
+	color: $white;
+}
+#current-tab {
+	background: $white;
+	color: $black;
+	font-weight: bold;
+	a:hover {
+		background: $white;
+		cursor: default;
+	}
+}
+.tabs-list {
+	list-style: none;
+	a {
+		display: block;
+		padding: 1rem;
+		text-decoration: none;
+		color: inherit;
+		@include transition(background, 0.3s);
+		&:hover {
+			background: lighten($black, 10%);
+		}
+	}
+	// li {
+	// }
+}
+
+
+
+// THE GRID
+// ----------------------------
+#tab-content {
+	padding: 1rem;
+}
+.from, .story {
+	font-size: 0.875rem;
+}
+.from {
+	&:before {
+		content: "From: ";
+		color: $blue;
+		font-weight: bold;
+	}
+	margin-bottom: 0.25rem;
+}
+.story {
+	&:before {
+		content: "Story: ";
+		color: $green;
+		font-weight: bold;
+	}
+	margin-bottom: 0;
+}
+
+.row {
+	list-style-type: none;
+	margin: 0.5rem 0;
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+.row-list {
+	@include flexbox();
+	li {
+		display: inline-block;
+		// width: 25%;
+		@include flex(1);
+	}
+}
+
+// Story item
+.story-item {
+	@include transition(background, 0.3s);
+	position: relative;
+	padding: 0.5rem 0.5rem 1.5rem;
+	border: 2px solid transparent;
+	&:hover {
+		background: darken($white, 3%);
+		border-color: $yellow;
+	}
+}
+.options {
+	position: absolute;
+	// top: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	font-size: 0.75rem;
+	padding: 0.25rem 0.5rem;
+	background: $yellow;
+	opacity: 0;
+	@include transition(opacity, 0.3s);
+	.story-item:hover & {opacity: 1; }
+	@include flexbox();
+	span {
+		@include flex(1);
+		margin-right: 1rem;
+		text-align: center;
+		padding: 0.5rem;
+		@include transition(background, 0.3s);
+		&:last-child {margin-right: 0; }
+		&:hover {
+			cursor: pointer;
+			background: $dark-yellow;
+		}
+	}
+}

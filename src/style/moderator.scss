@@ -4,12 +4,31 @@
 @import "pieces/base";
 @import "pieces/classes";
 
+// libraries
+@import "libs/font-awesome/font-awesome";
 
 // yellr specific
 @import "theme/vars";
 @import "theme/classes";
 @import "theme/typography";
 @import "theme/forms";
+
+
+
+.filter-div {
+	padding: 0.75rem 0;
+	input[type="text"] {
+		font-size: 1rem;
+		padding: 0.25rem;
+		min-width: 20rem;
+	}
+}
+
+
+
+
+
+
 
 
 .m1 {
@@ -22,18 +41,25 @@
 #header {
 	background: $yellow;
 	color: $black;
+	max-height: 3rem;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100;
 }
 #h1 {
 	margin: 0;
 	font-size: 1rem;
 }
 
+#main {
+	padding: 3rem 0 0;
+}
 
 // TABS
 // ----------------------------
 #tabs {
-	background: $black;
-	color: $white;
+	position: relative;
 }
 #current-tab {
 	background: $white;
@@ -45,7 +71,15 @@
 	}
 }
 .tabs-list {
+	background: $black;
+	color: $white;
+	position: fixed;
+	top: 3rem;
+	bottom: 0;
 	list-style: none;
+	font-size: 0.75rem;
+	font-weight: bold;
+	text-transform: uppercase;
 	a {
 		display: block;
 		padding: 1rem;
@@ -66,6 +100,21 @@
 // ----------------------------
 #tab-content {
 	padding: 1rem;
+	position: relative;
+}
+.content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -50;
+	display: none;
+	// opacity: 0;
+	// @include transition(opacity, 0.3s);
+}
+#current-content {
+	// opacity: 1;
+	z-index: 25;
+	display: block;
 }
 .from, .story {
 	font-size: 0.875rem;
@@ -98,7 +147,7 @@
 	@include flexbox();
 	li {
 		display: inline-block;
-		// width: 25%;
+		max-width: 33.4%;
 		@include flex(1);
 	}
 }
@@ -107,7 +156,7 @@
 .story-item {
 	@include transition(background, 0.3s);
 	position: relative;
-	padding: 0.5rem 0.5rem 1.5rem;
+	padding: 0.5rem 0.5rem 2.75rem;
 	border: 2px solid transparent;
 	&:hover {
 		background: darken($white, 3%);
@@ -138,5 +187,8 @@
 			cursor: pointer;
 			background: $dark-yellow;
 		}
+	}
+	i.fa:before {
+		padding-right: 0.5rem;
 	}
 }

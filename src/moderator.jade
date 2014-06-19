@@ -38,155 +38,44 @@ body#moderator
 							a(href="#", data-tab="3") Pending more info
 						li
 							a(href="#", data-tab="4") Denied
+				
 				div#tab-content.flex-5
-					//- the grid of latest submissions
-					section#latest-submissions(data-tab="1")
-						//-h2.m1 Latest Submissions
+					section#current-content.content.latest(data-tab="1")
+						div.filter-div
+							input#latest-filter(type="text", placeholder="Filter by keyword, tag, or user")
 						ul.grid
-							li.row
-								ul.row-list
-									li.story-item
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Merchandise
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Police Abuse
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story War Crimes
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									//-li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Bus Arrivals
-										div.options
-											span Approve
-											span Edit
-											span Reject
-							li.row
-								ul.row-list
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story TV Station
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Concert Venue
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Missing Tire
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									//-li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Lost Dog
-										div.options
-											span Approve
-											span Edit
-											span Reject
-							li.row
-								ul.row-list
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story New Coffee Shop
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Repeat Offendor
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Cat Video
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									//-li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Another Cat Video
-										div.options
-											span Approve
-											span Edit
-											span Reject
-							li.row
-								ul.row-list
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Lost Dog
-										div.options
-											span
-												i.fa.fa-check Approve
-											span
-												i.fa.fa-edit Edit
-											span
-												i.fa.fa-times Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Broken Rail on Highway
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story No Representation
-										div.options
-											span Approve
-											span Edit
-											span Reject
-									//-li.story-item 
-										img(src="http://lorempixel.com/300/150")
-										p.from UID12301200139
-										p.story Bussinessman wants more
-										div.options
-											span Approve
-											span Edit
-											span Reject
 
+					section.content.approved(data-tab="2")
+						div.filter-div
+							input#approved-filter(type="text", placeholder="Filter by keyword, tag, or user")
+						ul.grid
+
+					section.content.pending(data-tab="3")
+						div.filter-div
+							input#pending-filter(type="text", placeholder="Filter by keyword, tag, or user")
+						ul.grid
+
+					section.content.denied(data-tab="4")
+						div.filter-div
+							input#denied-filter(type="text", placeholder="Filter by keyword, tag, or user")
+						ul.grid
 
 
 		//-footer#footer.header-footer
 			.wrapper
 				p footer
+	script#story-tmpl(type="text/x-handlebars-template")
+		div.media-preview
+		p.from {{UID}}
+		p.story {{story_alias}}
+		div.options
+			span 
+				i.fa.fa-check Approve
+			span 
+				i.fa.fa-edit Edit
+			span
+				i.fa.fa-times Reject
+	script(src="js/libs/jquery.js")
+	script(src="js/libs/handlebars.js")
 	script(src="js/moderator.js")
 </html>

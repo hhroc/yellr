@@ -38,7 +38,9 @@ body#moderator
 							a(href="#", data-tab="3") Pending more info
 						li
 							a(href="#", data-tab="4") Denied
-				
+						li
+							a(href="#", data-tab="5") Contributors
+
 				div#tab-content.flex-5
 					section#current-content.content.latest(data-tab="1")
 						div.filter-div
@@ -60,22 +62,16 @@ body#moderator
 							input#denied-filter(type="text", placeholder="Filter by keyword, tag, or user")
 						ul.grid
 
+					section.content.denied(data-tab="5")
+						//-div.filter-div
+							input#denied-filter(type="text", placeholder="Filter by keyword, tag, or user")
+						ul.grid
+							li herro
+
 
 		//-footer#footer.header-footer
 			.wrapper
 				p footer
-	script#story-tmpl(type="text/x-handlebars-template")
-		div.media-preview
-		p.from {{UID}}
-		p.story {{story_alias}}
-		div.options
-			span 
-				i.fa.fa-check Approve
-			span 
-				i.fa.fa-edit Edit
-			span
-				i.fa.fa-times Reject
 	script(src="js/libs/jquery.js")
-	script(src="js/libs/handlebars.js")
 	script(src="js/moderator.js")
 </html>

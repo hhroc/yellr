@@ -1,13 +1,35 @@
 'use strict';
 var moderator = moderator || {};
 
+
+// functions to load demo stuff
+moderator.demo = {
+	loadData: function() {
+		$.ajax({
+		  url: 'data/submissions.json',
+		  beforeSend: function( xhr ) {
+		    xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+		  }
+		})
+	  .done(function( data ) {
+	  	var json = $.parseJSON(data);
+
+	  	moderator.main.createGrid(json.latest, document.querySelector('.content.latest .grid'));
+	  	moderator.main.createGrid(json.approved, document.querySelector('.content.approved .grid'));
+	  	moderator.main.createGrid(json.pending, document.querySelector('.content.pending .grid'));
+	  	moderator.main.createGrid(json.denied, document.querySelector('.content.denied .grid'));
+	  });
+	}
+}
+
+
+// the actual stuff
 moderator.main = {
 	init: function() {
-		// hook up tabs
+		// hook up navigation tabs
 		document.querySelector('#tabs').onclick = function(e) {
 			e.preventDefault();
 			if (e.target.nodeName == 'A') {
-				console.log(e.target.getAttribute('data-tab'));
 				// update current tab
 				document.querySelector('#current-tab').id = '';
 				e.target.id = 'current-tab';
@@ -25,19 +47,55 @@ moderator.main = {
 		};
 
 		// the good shit.
-		// document.querySelector('#latest-submissions').onclick = function(e) {
-		// 	e.preventDefault();
-		// 	console.log(e.target);
-		// }
+		document.querySelector('#current-content').onclick = moderator.main.reject;
+		document.querySelector('#current-content').onclick = moderator.main.moderate;
 	},
 
 	filter: function() {
-		// console.log(this);
-		console.dir(this);
-		console.dir(this.offsetParent);
-		console.log(this.value);
-		console.log(this.offsetParent.lastElementChild);
-		// console.log('hello from:'+this);
+		var text = this.value.toLowerCase();
+		var regex = new RegExp(text);
+
+		var grid = this.offsetParent.lastElementChild;
+		var stories = grid.querySelectorAll('.story-item');
+
+		for (var i = 0; i < stories.length; i++) {
+			var story = stories[i];
+			var story_text = story.querySelector('.story').innerHTML.toLowerCase();
+
+			// if the text does not match any search text, give it a class of "filtered-out"
+			// String.search(regex) returns -1 if it does not match
+			if (!story_text.search(regex)) {
+				// match
+				// ----------------------------
+				if (story.classList.contains('filtered-out')) {
+					story.className = 'story-item';
+				}
+			} else {
+				story.className += ' filtered-out';
+			}
+		};
+	},
+
+	moderate: function(e) {
+		e.preventDefault();
+		var story = e.target.offsetParent.offsetParent;
+		var option = e.target.innerText.toLowerCase();
+		if (option === 'approve') moderator.main.approve(story);
+		if (option === 'reject') moderator.main.reject(story);
+		if (option === 'edit') moderator.main.edit(story);
+	},
+
+	reject: function(story) {
+		story.style.display = "none";
+	},
+
+	approve: function(story) {
+		// console.log('approve');
+		story.style.display = "none";
+	},
+
+	edit: function(e) {
+		console.log('edit');
 	},
 
 	createGrid: function(data, target) {
@@ -94,6 +152,7 @@ moderator.main = {
 
 		var li = document.createElement('li');
 				li.className = 'story-item';
+				li.setAttribute("draggable", true);
 		
 		var media_preview = document.createElement('div');
 				media_preview.className = 'media-preview';
@@ -147,30 +206,6 @@ moderator.main = {
 
 }
 
-moderator.story_template = Handlebars.compile($('#story-tmpl').html());
-
-
-moderator.demo = {
-	loadData: function() {
-		$.ajax({
-		  url: 'data/submissions.json',
-		  beforeSend: function( xhr ) {
-		    xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
-		  }
-		})
-	  .done(function( data ) {
-	  	var json = $.parseJSON(data);
-
-	  	moderator.main.createGrid(json.latest, document.querySelector('.content.latest .grid'));
-	  	moderator.main.createGrid(json.approved, document.querySelector('.content.approved .grid'));
-	  	moderator.main.createGrid(json.pending, document.querySelector('.content.pending .grid'));
-	  	moderator.main.createGrid(json.denied, document.querySelector('.content.denied .grid'));
-	  });
-
-
-
-	}
-}
 
 window.onload = function() {
 	moderator.demo.loadData();

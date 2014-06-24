@@ -1,3 +1,27 @@
+.block {display: block; }
+.inline-block {display: inline-block; }
+
+.full-screen {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 1;
+	.container {
+		height: 100%;
+	}
+}
+.vertical-center-wrapper {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+.vertical-center {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
 .container {
 	position: relative;
 }

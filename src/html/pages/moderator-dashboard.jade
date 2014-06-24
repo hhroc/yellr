@@ -1,20 +1,15 @@
-include html/jade-helpers.jade
+include ../jade-helpers.jade
 !!! 5
 head
-	meta(charset="utf-8")
-	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-	meta(name="viewport", content="width=device-width, initial-scale=1")
+	include ../meta.jade
 	
 	title Yellr - Moderator backend
 	meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
 	
-	link(rel="shortcut icon", href="img/favicon.ico")
-	link(rel="apple-touch-icon", href="img/apple-touch-icon-57x57.png")
-	link(rel="apple-touch-icon", sizes="72x72", href="img/apple-touch-icon-72x72.png")
-	link(rel="apple-touch-icon", sizes="114x114", href="img/apple-touch-icon-114x114.png")
-
-	script(src="js/libs/modernizr.js")
+	include ../favicon.jade
+	include ../head-scripts.jade
 	link(rel="stylesheet", href="style/moderator.css")
+
 
 body#moderator
 	a(href="#main", class="assistive-text") Skip to main content

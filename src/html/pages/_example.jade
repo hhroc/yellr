@@ -1,0 +1,21 @@
+include ../jade-helpers.jade
+!!! 5
+head
+	include ../meta.jade
+	
+	title Example page | Yelr
+	meta(name="description", content="An example jade file that gets turned into HTML, cause after a long enough time no one likes writing HTML")
+	
+	include ../favicon.jade
+	include ../head-scripts.jade
+	link(rel="stylesheet", href="style/style.css")
+
+
+body#example
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+		p This is an example jade file that is converted to HTML
+
+	//-script(src="js/libs/jquery.js")
+	//-script(src="js/main.js")
+</html>

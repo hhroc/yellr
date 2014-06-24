@@ -15,6 +15,55 @@
 
 
 
+
+
+
+// Login page
+// ===================================
+#moderator-login {
+	background: $yellow;
+	h1, p {text-align: center; }
+	h1 {
+		font-size: 5em;
+		line-height: 1;
+		margin: 0;
+	}
+	p {margin-bottom: 2rem; }
+}
+.mod-login-wrapper {
+	max-width: 25em;
+	margin: 0 auto;
+}
+#mod-login {
+	background: darken($yellow, 5%);
+	padding: 1rem 2rem;
+	border: 1px solid $dark-yellow;
+	border-radius: 6px;
+	max-width: 24rem;
+	margin: 0 auto 5rem;
+	@include transition(background, 0.3s);
+	&:hover {background: lighten($yellow, 5%); }
+	span {color: #444; }
+	input[type="text"], input[type="password"] {
+		width: 100%;
+		border: none;
+		background: lighten($yellow, 25%);
+		border-radius: 6px;
+		margin-bottom: 0.75rem;
+	}
+	input[type="button"] {margin-top: 1.25rem; }
+}
+
+
+
+
+
+
+
+
+
+
+
 .filter-div {
 	padding: 0.75rem 0;
 	input[type="text"] {

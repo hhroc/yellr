@@ -100,6 +100,10 @@ module.exports = function(grunt) {
       index: {
         options: jadedebug,
         files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
+      },
+      pages: {
+        options: jadedebug,
+        files: [{expand: true, cwd: 'html/pages/', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
       }
     },
 
@@ -113,6 +117,10 @@ module.exports = function(grunt) {
       jade: {
         files: ['*.jade'],
         tasks: ['jade:index']
+      },
+      pages: {
+        files: ['html/pages/*.jade'],
+        tasks: ['jade:pages']
       },
       img: {
         files: ['img/*.*', 'img/**/*.*'],
@@ -178,6 +186,7 @@ module.exports = function(grunt) {
       'copy:data',
       'copy:fonts',
       'jade:index',
+      'jade:pages',
     ]);
   });
 

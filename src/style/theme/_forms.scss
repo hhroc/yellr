@@ -9,7 +9,10 @@
 		&:last-child {margin-bottom: 0; }
 		input {margin-bottom: 0;}
 	}
-	input[type="text"], textarea {
+	label span {
+		font-size: 0.875rem;
+	}
+	input[type="text"], input[type="password"], textarea {
 		font-size: 1.25rem;
 		padding: 0.25rem;
 		width: 100%;

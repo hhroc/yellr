@@ -13,7 +13,7 @@
 		font-size: 0.875rem;
 	}
 	input[type="text"], input[type="password"], textarea {
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 		padding: 0.25rem;
 		width: 100%;
 		max-width: 20rem;
@@ -26,6 +26,9 @@
 		font-size: 0.75rem;
 		margin-bottom: 0.25rem;
 		color: $dark-blue;
+	}
+	p {
+		margin-bottom: 0.25rem;
 	}
 }
 

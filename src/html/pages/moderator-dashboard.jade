@@ -15,15 +15,155 @@ body#moderator
 	a(href="#main", class="assistive-text") Skip to main content
 	div.container
 
+		div#main.flex
+			div.flex-1#left
+				//- profile section
+				header
+					//-h1.mod-h1 Yellr
+					section.profile-overview
+						figure.profile-picture-wrapper
+							img(src="img/freedom.jpg")
+						hgroup.profile-deets
+							h2.moderator-name Luis Rosario
+							h3.moderator-organization WXXI
+				//- choices
+				nav#dash-nav
+					ul.nav-list
+						li
+							a(href="#") All Submissions
+						li
+							a(href="#") All Contributors
+						li
+							a(href="#") Assignments
+						li
+							a(href="#") Responses
 
-		header#header.header-footer
-			.wrapper
-				h1#h1 WXXI - yellr moderator-backend
+					ul.nav-list
+						li
+							a(href="#") Following
+							//-ul.inner-nav-list
+								li
+									a(href="#") UID12301423
+								li
+									a(href="#") UID24032422
+								li
+									a(href="#") UID04340240
+								li
+									a(href="#", title="Show more") ...
+						li
+							a(href="#") Collections
+							//-ul.inner-nav-list
+								li
+									a(href="#") City School District
+								li
+									a(href="#") Traffic Congestion
+								li
+									a(href="#") Rochester Rhinos
+								li
+									a(href="#", title="Show more") ...
+						li
+							a(href="#") Tags
+							//-ul.inner-nav-list
+								li
+									a(href="#") #school
+								li
+									a(href="#") #traffic
+								li
+									a(href="#") #soccer
+								li
+									a(href="#", title="Show more") ...
+					ul.nav-list
+						li
+							a(href="#") Settings
+						li
+							a(href="#") Logout
 
 
-		div#main
-			div.flex
-				nav#tabs.flex-1
+			div.flex-4#right
+				div.right-wrapper
+					div.filter-wrapper
+						div.form.filter-form
+							span.filter-toggle Filter
+							ul.list-style-none.filter-list
+								li
+									p Submission Type
+									label
+										input(type="radio", name="sub-type", value="anon")
+										span Anonymous
+									label
+										input(type="radio", name="sub-type", value="validated")
+										span Validated
+									label
+										input(type="radio", name="sub-type", value="all", checked)
+										span All
+								li
+									p Content Type
+									label
+										input(type="checkbox", value="video", checked)
+										span Video
+									label
+										input(type="checkbox", value="photo", checked)
+										span Photo
+									label
+										input(type="checkbox", value="audio", checked)
+										span Audio
+									label
+										input(type="checkbox", value="text", checked)
+										span Text
+									//-label
+										input(type="checkbox", value="all", checked)
+										span All
+								li
+									p Keyword Search
+									input(type="text", placeholder="Search by tag, keyword, or title")
+								li
+									p User Search
+									input(type="text", placeholder="Enter a UUID or username")
+
+
+					div.grid
+						div.grid-sizer
+						div.gutter-sizer
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+						div.gi
+							img(src="http://lorempixel.com/400/200")
+
+
+
+
+				//-nav#tabs.flex-1
 					ul.tabs-list
 						li#current-tab
 							a(href="#", data-tab="1") Latest Submissions
@@ -36,7 +176,7 @@ body#moderator
 						li
 							a(href="#", data-tab="5") Contributors
 
-				div#tab-content.flex-5
+				//-div#tab-content.flex-5
 					section#current-content.content.latest(data-tab="1")
 						div.filter-div
 							input#latest-filter(type="text", placeholder="Filter by keyword, tag, or user")
@@ -68,5 +208,6 @@ body#moderator
 			.wrapper
 				p footer
 	script(src="js/libs/jquery.js")
+	script(src="js/libs/packery.js")
 	script(src="js/moderator.js")
 </html>

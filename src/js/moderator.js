@@ -14,10 +14,10 @@ moderator.demo = {
 	  .done(function( data ) {
 	  	var json = $.parseJSON(data);
 
-	  	moderator.main.createGrid(json.latest, document.querySelector('.content.latest .grid'));
-	  	moderator.main.createGrid(json.approved, document.querySelector('.content.approved .grid'));
-	  	moderator.main.createGrid(json.pending, document.querySelector('.content.pending .grid'));
-	  	moderator.main.createGrid(json.denied, document.querySelector('.content.denied .grid'));
+			// moderator.main.createGrid(json.latest, document.querySelector('.content.latest .grid'));
+			// moderator.main.createGrid(json.approved, document.querySelector('.content.approved .grid'));
+			// moderator.main.createGrid(json.pending, document.querySelector('.content.pending .grid'));
+			// moderator.main.createGrid(json.denied, document.querySelector('.content.denied .grid'));
 	  });
 	}
 }
@@ -27,28 +27,40 @@ moderator.demo = {
 moderator.main = {
 	init: function() {
 		// hook up navigation tabs
-		document.querySelector('#tabs').onclick = function(e) {
-			e.preventDefault();
-			if (e.target.nodeName == 'A') {
-				// update current tab
-				document.querySelector('#current-tab').id = '';
-				e.target.id = 'current-tab';
+		// document.querySelector('#tabs').onclick = function(e) {
+		// 	e.preventDefault();
+		// 	if (e.target.nodeName == 'A') {
+		// 		// update current tab
+		// 		document.querySelector('#current-tab').id = '';
+		// 		e.target.id = 'current-tab';
 
-				// update tab content
-				document.querySelector('#current-content').id = '';
-				document.querySelector('.content[data-tab="'+e.target.getAttribute('data-tab')+'"]').id = 'current-content';
-			}
-		};
+		// 		// update tab content
+		// 		document.querySelector('#current-content').id = '';
+		// 		document.querySelector('.content[data-tab="'+e.target.getAttribute('data-tab')+'"]').id = 'current-content';
+		// 	}
+		// };
 
-		// set up content filtering
-		var inputs = document.querySelectorAll('.filter-div input');
-		for (var i = 0; i < inputs.length; i++) {
-			inputs[i].onkeyup = moderator.main.filter;
-		};
+		// // set up content filtering
+		// var inputs = document.querySelectorAll('.filter-div input');
+		// for (var i = 0; i < inputs.length; i++) {
+		// 	inputs[i].onkeyup = moderator.main.filter;
+		// };
 
-		// the good shit.
-		document.querySelector('#current-content').onclick = moderator.main.reject;
-		document.querySelector('#current-content').onclick = moderator.main.moderate;
+		// // the good shit.
+		// document.querySelector('#current-content').onclick = moderator.main.reject;
+		// document.querySelector('#current-content').onclick = moderator.main.moderate;
+	
+		// set up the grid magic with packery
+		var container = document.querySelector('.grid');
+		var size = document.querySelector('.grid-sizer');
+		var gutter = document.querySelector('.gutter-sizer');
+		var pckry = new Packery( container, {
+			// options
+			columnWidth: size,
+			itemSelector: '.gi',
+			gutter: gutter,
+			isResizeBound: true,
+		});
 	},
 
 	filter: function() {

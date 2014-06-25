@@ -195,11 +195,13 @@ moderator.main = {
 
 moderator.submissions_grid = undefined;
 
+
 moderator.filter = {
 	
 	settings: {
 		source_type: 'all',
-		media_types: ['video', 'photo', 'audio', 'text']
+		media_types: ['video', 'photo', 'audio', 'text'],
+		text: ''
 	},
 
 	init: function(options) {
@@ -212,48 +214,6 @@ moderator.filter = {
 				filterForm.querySelector('#filter-submission-type').onclick = this.submission_type;
 				filterForm.querySelector('#filter-content-type').onclick = this.content_type;
 				filterForm.querySelector('#filter-search').onkeyup = this.search;	
-	},
-
-	grid: function(config) {
-		// config should have:
-		// - grid: array of things
-		// - settings: obj
-		for (var i = 0; i < config.array.length; i++) {
-			var item = config.array[i];
-			var meta = item.querySelector('.meta-div');
-
-			// clear filtered-out classname
-			var classes = item.className;
-			item.className = classes.split('filtered-out')[0];
-
-			// FILTER SOURCE TYPE
-			// ----------------------------
-			// if value is not 'All', filter it
-			if (config.settings.source_type !== 'all') {
-				if (meta.getAttribute('data-source') !== config.settings.source_type) {
-					item.className += ' filtered-out';
-				}
-			}
-
-			// FILTER MEDIA TYPE
-			// ----------------------------
-			var media_type = meta.getAttribute('data-type');
-			// console.log(media_type, config.settings.media_types);
-			var match = false;
-			for (var j = 0; j < config.settings.media_types.length; j++) {
-				var type = config.settings.media_types[j];
-				if (media_type == type) {
-					// console.log(media_type, type, 'no match');
-					// item.className += ' filtered-out'
-					match = true;
-					break;
-				}
-			}
-			if (!match) {
-				item.className += ' filtered-out';
-			}
-
-		}
 	},
 
 	submission_type: function(e) {
@@ -293,29 +253,66 @@ moderator.filter = {
 		}
 	},
 	search: function(e) {
-		// console.log(e.target);
-		var text = e.target.value.toLowerCase();
-		var regex = new RegExp(text);
+		// update settings
+		moderator.filter.settings.text = e.target.value.toLowerCase();
+		// make call
+		moderator.filter.grid({
+			array: moderator.submissions_grid,
+			settings: moderator.filter.settings
+		});
+	},
 
-		var grid = e.target.offsetParent.lastElementChild;
+	grid: function(config) {
+		// config should have:
+		// - grid: array of things
+		// - settings: obj
+		for (var i = 0; i < config.array.length; i++) {
+			var item = config.array[i];
+			var meta = item.querySelector('.meta-div');
 
-		for (var i = 0; i < moderator.submissions_grid.length; i++) {
-			var story = moderator.submissions_grid[i];
-			var story_text = story.querySelector('.story').innerHTML.toLowerCase();
+			// clear filtered-out classname
+			var classes = item.className;
+			item.className = classes.split('filtered-out')[0];
 
-			// if the text does not match any search text, give it a class of "filtered-out"
-			// String.search(regex) returns -1 if it does not match
-			if (!story_text.search(regex)) {
-				// match
-				// ----------------------------
-				if (story.classList.contains('filtered-out')) {
-					story.className = 'story-item';
+			// FILTER SOURCE TYPE
+			// ----------------------------
+			// if value is not 'All', filter it
+			if (config.settings.source_type !== 'all') {
+				if (meta.getAttribute('data-source') !== config.settings.source_type) {
+					item.className += ' filtered-out';
 				}
-			} else {
-				story.className += ' filtered-out';
 			}
-		};
+
+			// FILTER MEDIA TYPE
+			// ----------------------------
+			var media_type = meta.getAttribute('data-type');
+			// console.log(media_type, config.settings.media_types);
+			var match = false;
+			for (var j = 0; j < config.settings.media_types.length; j++) {
+				var type = config.settings.media_types[j];
+				if (media_type == type) {
+					match = true;
+					break;
+				}
+			}
+			if (!match) {
+				item.className += ' filtered-out';
+			}
+
+			// FILTER BY TEXT
+			// ----------------------------
+			var regex = new RegExp(moderator.filter.settings.text);
+
+			var story_text = item.querySelector('.story').innerHTML.toLowerCase();
+
+			// this if statement seems backwards,
+			// but that's how it works, so idk
+			if (story_text.search(regex))
+				item.className += ' filtered-out';
+
+		} // end for...loop
 	}
+
 }
 
 

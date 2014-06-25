@@ -303,11 +303,11 @@ moderator.filter = {
 			// ----------------------------
 			var regex = new RegExp(moderator.filter.settings.text);
 
-			var story_text = item.querySelector('.story').innerHTML.toLowerCase();
+			var description = item.querySelector('.description').innerHTML.toLowerCase();
 
 			// this if statement seems backwards,
 			// but that's how it works, so idk
-			if (story_text.search(regex))
+			if (description.search(regex))
 				item.className += ' filtered-out';
 
 		} // end for...loop

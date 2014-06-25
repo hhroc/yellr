@@ -26,17 +26,8 @@
 	position: relative;
 	background: $black;
 }
-#nav-wrapper {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-// 	width: 15%;
-	max-width: 12.25rem; // 196px
-	min-width: 11.5rem; // 184px
-}
 #right {
 	padding: 2rem;
-	// width: 85%
 }
 
 
@@ -89,6 +80,9 @@
 		@include transition(background, 0.2s);
 		&:hover {background: lighten($black, 10%); }
 	}
+	.fa {
+		margin-right: 0.35rem;
+	}
 	li {list-style: none; }
 }
 .nav-list {
@@ -111,12 +105,7 @@
 
 
 
-.grid-sizer, .gi {
-	width: 32%;
-}
-.gutter-sizer {
-	width: 1.5%;
-}
+
 .filter-wrapper {
 	margin-bottom: 2rem;	
 }
@@ -149,10 +138,88 @@
 
 
 
+.grid-sizer, .gi {
+	width: 32%;
+}
+.gutter-sizer {
+	width: 1.5%;
+}
+.gi {
+	@include transition(background, 0.3s);
+	&:hover {
+		background: lighten($yellow, 15%);
+	}
+}
+// Story item
+.story-item {
+	position: relative;
+	padding: 0.75rem;
+	border: 1px solid #eee;	
+}
 
+.source {
+	&:before {
+		content: "Source: ";
+	}
+	font-size: 0.75rem;
+	text-align: right;
+	color: #bbb;
+	margin-bottom: 0.35rem;
+	@include transition(color, 0.3s);
+	&:hover {
+		color: #777;
+	}
+}
 
+.media-preview {
+	margin-bottom:0.5rem;
+	img {display: block; }
+	&:hover {cursor: pointer; }
+}
 
+.description {
+	font-size: 0.875rem;
+}
 
+.tags-list {
+	list-style: none;
+	font-size: 0.875rem;
+	margin-bottom:0.75rem;
+	li {
+		@include transition(color, 0.3s);
+		color: #aaa;
+		display: inline-block;
+		vertical-align: top;
+		margin-right: 0.25rem;
+		&:hover {color: #555; }
+		&:before {content: "#"; }
+	}
+}
+
+.options-wrapper {
+	background: #eee;
+	border: 1px solid #ddd;
+	@include cf();
+}
+.options-list {
+	font-size: 0.875rem;
+	list-style: none;
+	float: right;
+	@include flexbox();
+	li {
+		@include flex(1);
+		@include transition(background, 0.3s);
+		text-align: center;
+		color: #aaa;
+		padding: 0.5rem 0.75rem;
+		border-left: 1px solid #ddd;
+		&:hover {
+			background: #bbb;
+			color: #fff;
+			cursor: pointer;
+		}
+	}
+}
 
 
 
@@ -195,128 +262,3 @@
 	}
 	input[type="button"] {margin-top: 1.25rem; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// .media-preview:hover {
-// 	cursor: pointer;
-// }
-
-
-
-
-
-// .m1 {
-// 	margin: 0 0 0.5rem;
-// 	text-transform: uppercase;
-// 	font-size: 0.875rem;
-// }
-
-
-
-
-// // THE GRID
-// // ----------------------------
-// #tab-content {
-// 	padding: 1rem;
-// 	position: relative;
-// }
-// .content {
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	z-index: -50;
-// 	display: none;
-// 	// opacity: 0;
-// 	// @include transition(opacity, 0.3s);
-// }
-// #current-content {
-// 	// opacity: 1;
-// 	z-index: 25;
-// 	display: block;
-// }
-.from, .story {
-	font-size: 0.875rem;
-}
-.from {
-	&:before {
-		content: "From: ";
-		color: $blue;
-		font-weight: bold;
-	}
-	margin-bottom: 0.25rem;
-}
-.story {
-	&:before {
-		content: "Story: ";
-		color: $green;
-		font-weight: bold;
-	}
-	margin-bottom: 0;
-}
-
-// .row {
-// 	list-style-type: none;
-// 	margin: 0.5rem 0;
-// 	&:last-child {
-// 		margin-bottom: 0;
-// 	}
-// }
-// .row-list {
-// 	@include flexbox();
-// 	li {
-// 		display: inline-block;
-// 		max-width: 33.4%;
-// 		@include flex(1);
-// 	}
-// }
-
-// // Story item
-// .story-item {
-// 	@include transition(background, 0.3s);
-// 	position: relative;
-// 	padding: 0.5rem 0.5rem 2.75rem;
-// 	border: 2px solid transparent;
-// 	&:hover {
-// 		background: darken($white, 3%);
-// 		border-color: $yellow;
-// 	}
-// }
-// .options {
-// 	position: absolute;
-// 	// top: 0;
-// 	bottom: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	font-size: 0.75rem;
-// 	padding: 0.25rem 0.5rem;
-// 	background: $yellow;
-// 	opacity: 0;
-// 	@include transition(opacity, 0.3s);
-// 	.story-item:hover & {opacity: 1; }
-// 	@include flexbox();
-// 	span {
-// 		@include flex(1);
-// 		margin-right: 1rem;
-// 		text-align: center;
-// 		padding: 0.5rem;
-// 		@include transition(background, 0.3s);
-// 		&:last-child {margin-right: 0; }
-// 		&:hover {
-// 			cursor: pointer;
-// 			background: $dark-yellow;
-// 		}
-// 	}
-// 	i.fa:before {
-// 		padding-right: 0.5rem;
-// 	}
-// }

@@ -15,6 +15,7 @@ body#moderator
 	a(href="#main", class="assistive-text") Skip to main content
 	div.container
 
+		//-div#main
 		div#main.flex
 			div.flex-1#left
 				//- profile section
@@ -41,7 +42,7 @@ body#moderator
 					ul.nav-list
 						li
 							a(href="#") Following
-							//-ul.inner-nav-list
+							ul.inner-nav-list
 								li
 									a(href="#") UID12301423
 								li
@@ -52,7 +53,7 @@ body#moderator
 									a(href="#", title="Show more") ...
 						li
 							a(href="#") Collections
-							//-ul.inner-nav-list
+							ul.inner-nav-list
 								li
 									a(href="#") City School District
 								li
@@ -63,7 +64,7 @@ body#moderator
 									a(href="#", title="Show more") ...
 						li
 							a(href="#") Tags
-							//-ul.inner-nav-list
+							ul.inner-nav-list
 								li
 									a(href="#") #school
 								li
@@ -85,10 +86,10 @@ body#moderator
 						div.form.filter-form
 							span.filter-toggle Filter
 							ul.list-style-none.filter-list
-								li
+								li#filter-submission-type
 									p Submission Type
 									label
-										input(type="radio", name="sub-type", value="anon")
+										input(type="radio", name="sub-type", value="anonymous")
 										span Anonymous
 									label
 										input(type="radio", name="sub-type", value="validated")
@@ -96,7 +97,7 @@ body#moderator
 									label
 										input(type="radio", name="sub-type", value="all", checked)
 										span All
-								li
+								li#filter-content-type
 									p Content Type
 									label
 										input(type="checkbox", value="video", checked)
@@ -113,10 +114,10 @@ body#moderator
 									//-label
 										input(type="checkbox", value="all", checked)
 										span All
-								li
-									p Keyword Search
-									input(type="text", placeholder="Search by tag, keyword, or title")
-								li
+								li#filter-search
+									p Search
+									input(type="text", placeholder="Search by tag, keyword, or UID")
+								//-li
 									p User Search
 									input(type="text", placeholder="Enter a UUID or username")
 
@@ -124,57 +125,90 @@ body#moderator
 					div.grid
 						div.grid-sizer
 						div.gutter-sizer
-						div.gi
+						div.gi.story-item
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
 							img(src="http://lorempixel.com/400/200")
 							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
-						div.gi
+							div.meta-div(data-source="anonymous", data-type="photo", data-uid="24032422")
+						div.gi.story-item
+							p.from 24032422
+							p.story Corner is given
 							img(src="http://lorempixel.com/400/200")
 							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
-						div.gi
+							div.meta-div(data-source="anonymous", data-type="video", data-uid="24032422")
+						div.gi.story-item
+							p.from 24032422
+							p.story Space Ho's go coast to coast
+							img(src="http://lorempixel.com/400/200/people")
+							div.meta-div(data-source="validated", data-type="video", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Please read from sheets
+							div.meta-div(data-source="anonymous", data-type="text", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
-							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story I am sofa king
+							div.meta-div(data-source="anonymous", data-type="photo", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
 							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl jdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
-						div.gi
-							img(src="http://lorempixel.com/400/200")
+							p.from 24032422
+							p.story We Todd Ed
+							div.meta-div(data-source="anonymous", data-type="photo", data-uid="24032422")
+						div.gi.story-item
+							img(src="http://lorempixel.com/400/200/cats")
 							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
-						div.gi
-							img(src="http://lorempixel.com/400/200")
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="validated", data-type="audio", data-uid="24032422")
+						div.gi.story-item
+							img(src="http://lorempixel.com/400/200/people")
 							p nsdflsnd lkd lkgjsdlfk jsgdlk jsl kdflgjsd lkgsdl j
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="validated", data-type="text", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="validated", data-type="text", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="validated", data-type="video", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="anonymous", data-type="photo", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="anonymous", data-type="video", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="anonymous", data-type="audio", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
-						div.gi
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="anonymous", data-type="text", data-uid="24032422")
+						div.gi.story-item
 							img(src="http://lorempixel.com/400/200")
+							p.from 24032422
+							p.story Rhinos win, Rhinos win!
+							div.meta-div(data-source="validated", data-type="photo", data-uid="24032422")
 
 
 
 
-				//-nav#tabs.flex-1
-					ul.tabs-list
-						li#current-tab
-							a(href="#", data-tab="1") Latest Submissions
-						li
-							a(href="#", data-tab="2") Approved Submissions
-						li
-							a(href="#", data-tab="3") Pending more info
-						li
-							a(href="#", data-tab="4") Denied
-						li
-							a(href="#", data-tab="5") Contributors
 
 				//-div#tab-content.flex-5
 					section#current-content.content.latest(data-tab="1")

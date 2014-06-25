@@ -16,11 +16,27 @@
 
 
 
-
+.meta-div {
+	display: none; // just to be safe
+}
 
 #left {
 	max-width: 12.25rem; // 196px
 	min-width: 11.5rem; // 184px
+	position: relative;
+	background: $black;
+}
+#nav-wrapper {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+// 	width: 15%;
+	max-width: 12.25rem; // 196px
+	min-width: 11.5rem; // 184px
+}
+#right {
+	padding: 2rem;
+	// width: 85%
 }
 
 
@@ -71,7 +87,7 @@
 		padding: 0.35rem 0.25rem 0.35rem 1rem;
 		line-height: 1;
 		@include transition(background, 0.2s);
-		&:hover {background: tomato; }
+		&:hover {background: lighten($black, 10%); }
 	}
 	li {list-style: none; }
 }
@@ -94,29 +110,19 @@
 
 
 
-#right {
-	padding: 1rem;
-}
-.grid-sizer {
-	width: 24%;
-	// width: 32.6%;
+
+.grid-sizer, .gi {
+	width: 32%;
 }
 .gutter-sizer {
-	width: 1%;
-	// width: 4%;
+	width: 1.5%;
 }
-.gi {
-	width: 24%;
-// 	width: 32.6%;
+.filter-wrapper {
+	margin-bottom: 2rem;	
 }
 .filter-form {
-	margin-bottom: 2rem;
-	label {
-		margin-right: 1rem;
-	}
-	input[type="text"] {
-		font-size: 1rem;
-	}
+	label {margin-right: 1rem; }
+	input[type="text"] {font-size: 1rem; }
 	input[type="checkbox"], input[type="radio"] {
 		margin-right: 0.5rem;
 	}
@@ -126,19 +132,19 @@
 	display: inline-block;
 	text-transform: uppercase;
 	padding: 0.75rem 1rem 0.5rem;
-	&:hover {
-		cursor: pointer;
-	}
+	&:hover {cursor: pointer; }
 }
 .filter-list {
-	padding: 1.25rem 0.75rem 1.25rem;	
-	li {
-		display: inline-block;
-		width: 40%;
-	}
+	padding: 1.25rem 0.75rem 1.25rem;
+	@include flexbox();
+	li {@include flex(1); }
 }
 .filter-toggle, .filter-list {
 	background: #ddd;
+}
+.filtered-out {
+	opacity: 0.3;
+	// display: none;
 }
 
 
@@ -200,18 +206,7 @@
 
 
 
-// .filter-div {
-// 	padding: 0.75rem 0;
-// 	input[type="text"] {
-// 		font-size: 1rem;
-// 		padding: 0.25rem;
-// 		min-width: 20rem;
-// 	}
-// }
 
-// .filtered-out {
-// 	opacity: 0.3;
-// }
 // .media-preview:hover {
 // 	cursor: pointer;
 // }
@@ -226,62 +221,6 @@
 // 	font-size: 0.875rem;
 // }
 
-
-// #header {
-// 	background: $yellow;
-// 	color: $black;
-// 	max-height: 3rem;
-// 	position: fixed;
-// 	top: 0;
-// 	width: 100%;
-// 	z-index: 100;
-// }
-// #h1 {
-// 	margin: 0;
-// 	font-size: 1rem;
-// }
-
-// #main {
-// 	padding: 3rem 0 0;
-// }
-
-// // TABS
-// // ----------------------------
-// #tabs {
-// 	position: relative;
-// }
-// #current-tab {
-// 	background: $white;
-// 	color: $black;
-// 	font-weight: bold;
-// 	a:hover {
-// 		background: $white;
-// 		cursor: default;
-// 	}
-// }
-// .tabs-list {
-// 	background: $black;
-// 	color: $white;
-// 	position: fixed;
-// 	top: 3rem;
-// 	bottom: 0;
-// 	list-style: none;
-// 	font-size: 0.75rem;
-// 	font-weight: bold;
-// 	text-transform: uppercase;
-// 	a {
-// 		display: block;
-// 		padding: 1rem;
-// 		text-decoration: none;
-// 		color: inherit;
-// 		@include transition(background, 0.3s);
-// 		&:hover {
-// 			background: lighten($black, 10%);
-// 		}
-// 	}
-// 	// li {
-// 	// }
-// }
 
 
 
@@ -305,25 +244,25 @@
 // 	z-index: 25;
 // 	display: block;
 // }
-// .from, .story {
-// 	font-size: 0.875rem;
-// }
-// .from {
-// 	&:before {
-// 		content: "From: ";
-// 		color: $blue;
-// 		font-weight: bold;
-// 	}
-// 	margin-bottom: 0.25rem;
-// }
-// .story {
-// 	&:before {
-// 		content: "Story: ";
-// 		color: $green;
-// 		font-weight: bold;
-// 	}
-// 	margin-bottom: 0;
-// }
+.from, .story {
+	font-size: 0.875rem;
+}
+.from {
+	&:before {
+		content: "From: ";
+		color: $blue;
+		font-weight: bold;
+	}
+	margin-bottom: 0.25rem;
+}
+.story {
+	&:before {
+		content: "Story: ";
+		color: $green;
+		font-weight: bold;
+	}
+	margin-bottom: 0;
+}
 
 // .row {
 // 	list-style-type: none;

@@ -26,9 +26,6 @@
 	position: relative;
 	background: $black;
 }
-#right {
-	padding: 2rem;
-}
 
 
 .mod-h1 {
@@ -105,6 +102,23 @@
 
 
 
+#right {
+	position: relative;
+	// section.right-wrapper {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	width: 100%;
+	// 	opacity: 0;
+	// 	@include transition(opacity, 0.3s);
+	// 	&.current-content {
+	// 		opacity: 1;
+	// 	}
+	// }
+}
+.right-wrapper {
+	padding: 2rem;
+}
 
 .filter-wrapper {
 	margin-bottom: 2rem;	
@@ -137,7 +151,6 @@
 }
 
 
-
 .grid-sizer, .gi {
 	width: 32%;
 }
@@ -158,16 +171,17 @@
 }
 
 .source {
-	&:before {
-		content: "Source: ";
-	}
+	&:before {content: "Source: "; }
 	font-size: 0.75rem;
 	text-align: right;
 	color: #bbb;
-	margin-bottom: 0.35rem;
+	margin-bottom: 0;
 	@include transition(color, 0.3s);
-	&:hover {
-		color: #777;
+	&:hover {color: #777; }
+	a {
+		text-decoration: none;
+		color: inherit;
+		&:hover {text-decoration: underline; }
 	}
 }
 
@@ -208,10 +222,8 @@
 	@include flexbox();
 	li {
 		@include flex(1);
-		@include transition(background, 0.3s);
 		text-align: center;
 		color: #aaa;
-		padding: 0.5rem 0.75rem;
 		border-left: 1px solid #ddd;
 		&:hover {
 			background: #bbb;
@@ -219,6 +231,21 @@
 			cursor: pointer;
 		}
 	}
+	i {
+		padding: 0.5rem 0.75rem;
+		@include transition(background, 0.3s);
+		&.fa-folder:hover {
+			background: $blue;
+		}
+		&.fa-comment:hover {
+			background: $green;
+		}
+		&.fa-flag:hover {
+			background: $red;
+		}
+	}
+
+
 }
 
 

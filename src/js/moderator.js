@@ -6,25 +6,27 @@ var moderator = moderator || {};
 moderator.demo = {
 	loadData: function() {
 		$.ajax({
-		  url: 'data/submissions.json',
+		  url: 'data/moderator-sample.json',
 		  beforeSend: function( xhr ) {
 		    xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
 		  }
 		})
 	  .done(function( data ) {
-	  	var json = $.parseJSON(data);
+	  	var json = JSON.parse(data);
 
-			// moderator.main.createGrid(json.latest, document.querySelector('.content.latest .grid'));
-			// moderator.main.createGrid(json.approved, document.querySelector('.content.approved .grid'));
-			// moderator.main.createGrid(json.pending, document.querySelector('.content.pending .grid'));
-			// moderator.main.createGrid(json.denied, document.querySelector('.content.denied .grid'));
+			moderator.main.createGrid(json.latest_submissions, document.querySelector('.grid.submissions-grid'));
+	 
 	  });
+	},
+
+	uid: function() {
+		return Math.random().toString().split('.')[1].slice(0,8);
 	}
 }
 
 
 
-
+moderator.packery = undefined;
 
 // the actual stuff
 moderator.main = {
@@ -50,7 +52,8 @@ moderator.main = {
 	
 		// set up the grid magic with packery
 		var container = document.querySelector('.grid');
-		var pckry = new Packery( container, {
+		// var pckry = new Packery( container, {
+		moderator.packery = new Packery( container, {
 			itemSelector: '.gi',
 			columnWidth: container.querySelector('.grid-sizer'),
 			gutter: container.querySelector('.gutter-sizer'),
@@ -85,110 +88,164 @@ moderator.main = {
 	},
 
 	createGrid: function(data, target) {
-		var frag = document.createDocumentFragment();
 
 		// creates this:
-		// ----------------------------
-    // <li class="row">
-    //   <ul class="row-list">
-    // 		[insides is created elsewhere]
-    // 	 </ul>
-    // </li>
+		/* ===================================
+		<div class="gi">
+		  <div class="story-item">
+		    <div class="media-preview"><img src="http://lorempixel.com/400/200"></div>
+		    <p class="description">Rhinos win, Rhinos win!</p>
+		    <ul class="tags-list">
+		      <li>muse</li>
+		      <li>race</li>
+		      <li>win</li>
+		    </ul>
+		    <p class="source"><a href="#">24032422</a></p>
+		    <div data-source="anonymous" data-type="photo" data-uid="24032422" class="meta-div"></div>
+		  </div>
+		  <div class="options-wrapper">
+		    <ul class="options-list">
+		      <li><i title="Add a tag" class="fa fa-tag"></i></li>
+		      <li><i title="Add to collection" class="fa fa-folder"></i></li>
+		      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+		      <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+		    </ul>
+		  </div>
+		</div>
+		*/
 
-		var totalRows = Math.ceil(data.length / 3);
-		var index = 0;
+		var frag = document.createDocumentFragment();
+		var items = [];
 
-		for (var i = 0; i < totalRows; i++) {
-			var row = document.createElement('li');
-					row.className = 'row';
-			var rowList = document.createElement('ul');
-					rowList.className = 'row-list';
+		for (var i = 0; i < data.length; i++) {
+			// the data
+			// ----------------------------
+			var entry = data[i];
+			var source = entry.source;
+			var content = entry.content;
+			// meta tag (filled as we go along)
+			var meta = document.createElement('div');
 
-			// each row has 3 items
-			for (var j = 0; j < 3; j++) {
-				if (data[index]) {
-					rowList.appendChild(moderator.main.createStoryItem(data[index]));				
-				}
-				index++;
+
+			// the build
+			// ----------------------------
+			var gi = document.createElement('div');
+					gi.className = 'gi';
+					gi.setAttribute('draggable', 'true');
+
+			var story = document.createElement('div');
+					story.className = 'story-item';
+
+			// media preview div
+			var media_preview = document.createElement('div');
+					media_preview.className = 'media-preview';
+			var media;
+					media = document.createElement('img');
+					media.src = content.url;
+
+			if (content.type === 'photo') {
+				meta.setAttribute('data-type', 'photo');
+			}
+			if (content.type === 'video') {
+				meta.setAttribute('data-type', 'video');
+			}
+			if (content.type === 'audio') {
+				meta.setAttribute('data-type', 'audio');
+			}
+			if (content.type === 'text') {
+				meta.setAttribute('data-type', 'text');
+			}
+			media_preview.appendChild(media);
+			story.appendChild(media_preview);
+
+			// description
+			var description = document.createElement('p');
+					description.className = 'description';
+					description.innerHTML = content.description;
+			story.appendChild(description);
+
+			// tags
+			var tags = document.createElement('ul');
+					tags.className = 'tags-list';
+			for (var j = 0; j < content.tags.length; j++) {
+				var tag = document.createElement('li');
+				tag.innerHTML = content.tags[j];
+				tags.appendChild(tag);
 			};
+			story.appendChild(tags);
 
-			row.appendChild(rowList);
-			frag.appendChild(row);
-		};
+			// source
+			var source = document.createElement('p');
+					source.className = 'source';
+			var source_link = document.createElement('a');
+					source_link.href = '#';
+					if (source.type === 'anonymous') {
+						var hash = moderator.demo.uid();
+						console.log(hash);
+						source_link.innerHTML = hash;
+						meta.setAttribute('data-source', 'anonymous');
+						meta.setAttribute('data-uid', hash);
+					}
+					else {
+						source_link.innerHTML = source.username;
+						meta.setAttribute('data-source', 'validated');
+						meta.setAttribute('data-uid', source.username);
+					}
+			source.appendChild(source_link);
+			story.appendChild(source);
+
+			// append meta tag
+			story.appendChild(meta);
+
+
+			var options = document.createElement('div');
+					options.className = 'options-wrapper';
+			var options_list = document.createElement('ul');
+					options_list.className = 'options-list';
+			for (var k = 0; k < 3; k++) {
+				var option = document.createElement('li');
+				var icon = document.createElement('i');
+				icon.className = 'fa';
+				if (k == 0) {
+					icon.setAttribute('title', 'Add a tag');
+					icon.className += ' fa-tag';
+				}
+				if (k == 1) {
+					icon.setAttribute('title', 'Add to collection');
+					icon.className += ' fa-folder';
+				}
+				if (k == 2) {
+					icon.setAttribute('title', 'Leave feedback');
+					icon.className += ' fa-comment';
+				}
+				if (k == 3) {
+					icon.setAttribute('title', 'Mark as inappropriate');
+					icon.className += ' fa-flag';
+				}
+				option.appendChild(icon);
+				options_list.appendChild(option);
+			}
+			options.appendChild(options_list);
+
+
+			// NOW PUT IT ALL TOGETHER
+			gi.appendChild(story);
+			gi.appendChild(options);
+			frag.appendChild(gi);
+			items.push(gi)
+		}
 
 		// we're done
 		target.appendChild(frag);
-	},
+		moderator.packery.appended(items);
 
-	createStoryItem: function(data) {
-
-		// spits this out at the end (example)
-		// ----------------------------
-		// <li class="story-item">
-		//   <div class="media-preview"><img src="http://lorempixel.com/300/150"></div>
-		//   <p class="from">12301200139</p>
-		//   <p class="story">Merchandise</p>
-		//   <div class="options">
-		// 		<span> <i class="fa fa-check">Approve</i></span>
-		// 		<span> <i class="fa fa-edit">Edit</i></span>
-		// 		<span> <i class="fa fa-times">Reject</i></span>
-		// 	</div>
-		// </li>
-
-
-		var li = document.createElement('li');
-				li.className = 'story-item';
-				li.setAttribute("draggable", true);
-		
-		var media_preview = document.createElement('div');
-				media_preview.className = 'media-preview';
-		var from = document.createElement('p');
-				from.className = 'from';
-		var story = document.createElement('p');
-				story.className = 'story';
-
-		var options = document.createElement('div');
-				options.className = 'options';
-		var approve = document.createElement('span');
-		var approveIcon = document.createElement('i');
-				approveIcon.className = 'fa fa-check';
-				approveIcon.innerHTML = 'Approve';
-				approve.appendChild(approveIcon);
-		var edit = document.createElement('span');
-		var editIcon = document.createElement('i');
-				editIcon.className = 'fa fa-edit';
-				editIcon.innerHTML = 'Edit';
-				edit.appendChild(editIcon);
-		var reject = document.createElement('span');
-		var rejectIcon = document.createElement('i');
-				rejectIcon.className = 'fa fa-times';
-				rejectIcon.innerHTML = 'Reject';
-				reject.appendChild(rejectIcon);
-		options.appendChild(approve);
-		options.appendChild(edit);
-		options.appendChild(reject);
-
-		// add data
-		var media;
-		if (data.content.type == 'image') {
-			media = document.createElement('img');
-			media.src = data.content.url;
-		}
-		// if type = video
-		// if type = text
-		// if type = audio
-		media_preview.appendChild(media);
-		from.innerHTML = data.UID;
-		story.innerHTML = data.story_alias;
-
-		// put it all together
-		li.appendChild(media_preview);
-		li.appendChild(from);
-		li.appendChild(story);
-		li.appendChild(options);
-
-		return li;
+		// some weirdness is going.
+		// this is a hack solution
+		setTimeout(function() {
+			moderator.packery.layout();
+		}, 1000);
 	}
+
 
 }
 
@@ -311,6 +368,18 @@ moderator.filter = {
 				item.className += ' filtered-out';
 
 		} // end for...loop
+		// we now know which elements to filter out
+
+		// prep the grid
+		moderator.packery.reloadItems();
+
+		var filtered = document.querySelectorAll('.filtered-out');
+		for (var j = 0; j < filtered.length; j++) {
+			moderator.packery.remove(filtered[j].parentNode);
+		};
+		// console.log(config.array[0]);
+		// console.log(moderator.packery);
+		moderator.packery.layout();
 	}
 
 }

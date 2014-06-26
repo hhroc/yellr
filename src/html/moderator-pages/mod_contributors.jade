@@ -1,0 +1,30 @@
+include ../jade-helpers.jade
+!!! 5
+head
+	include ../_head/meta.jade
+	
+	title Yellr - Moderator backend
+	meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+	
+	include ../_head/favicon.jade
+	include ../_head/head-scripts.jade
+	link(rel="stylesheet", href="style/moderator.css")
+
+
+body#moderator
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+
+		//-div#main
+		div#main.flex
+			div.flex-1#left
+				include mod_sidebar.jade
+
+			div.flex-4#right
+				section#all-contributors.right-wrapper
+					h2.t1 All Contributors
+					
+	script(src="js/libs/jquery.js")
+	script(src="js/libs/packery.js")
+	script(src="js/moderator.js")
+</html>

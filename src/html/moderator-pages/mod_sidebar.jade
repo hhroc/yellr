@@ -1,0 +1,67 @@
+//- profile section
+header
+	//-h1.mod-h1 Yellr
+	section.profile-overview
+		figure.profile-picture-wrapper
+			img(src="img/freedom.jpg")
+		hgroup.profile-deets
+			h2.moderator-name Luis Rosario
+			h3.moderator-organization WXXI
+//- choices
+nav#dash-nav
+	ul.nav-list
+		li
+			a(href="mod_submissions.html").menu-link All Submissions
+		li
+			a(href="mod_contributors.html").menu-link All Contributors
+		li
+			a(href="mod_assignments.html").menu-link Assignments
+		li
+			a(href="mod_responses.html").menu-link Responses
+
+	ul.nav-list
+		li
+			a(href="mod_following.html").menu-link
+				i.fa.fa-user
+				| Following
+			ul.inner-nav-list
+				li
+					a(href="#") UID12301423
+				li
+					a(href="#") UID24032422
+				li
+					a(href="#") UID04340240
+				li
+					a(href="#", title="Show more") ...
+		li
+			a(href="mod_collections.html").menu-link
+				i.fa.fa-folder 
+				| Collections
+			ul.inner-nav-list
+				li
+					a(href="#") City School District
+				li
+					a(href="#") Traffic Congestion
+				li
+					a(href="#") Rochester Rhinos
+				li
+					a(href="#", title="Show more") ...
+		li
+			a(href="mod_tags.html").menu-link
+				i.fa.fa-tag
+				| Tags
+			ul.inner-nav-list
+				li
+					a(href="#") #school
+				li
+					a(href="#") #traffic
+				li
+					a(href="#") #soccer
+				li
+					a(href="#", title="Show more") ...
+	ul.nav-list
+		li
+			a(href="mod_settings.html").menu-link Settings
+		li
+			a(href="#logout").menu-link Logout
+

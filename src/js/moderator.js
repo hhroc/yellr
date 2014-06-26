@@ -14,7 +14,9 @@ moderator.demo = {
 	  .done(function( data ) {
 	  	var json = JSON.parse(data);
 
-			moderator.main.createGrid(json.latest_submissions, document.querySelector('.grid.submissions-grid'));
+	  	if (document.querySelector('#all-submissions')) {
+				moderator.main.createGrid(json.latest_submissions, document.querySelector('.grid.submissions-grid'));  		
+	  	}
 	 
 	  });
 	},
@@ -28,9 +30,49 @@ moderator.demo = {
 
 moderator.packery = undefined;
 
+moderator.drag = function(e, element) {
+	// console.log(e);
+	console.log(e.dataTransfer);
+	// e.dataTransfer.setData("Text", ev.target.id);
+}
+moderator.allowDrop = function(e, element) {
+	e.preventDefault();
+	console.log(e);
+	console.log(this);
+	// this.style.background = 'tomato';
+}
+moderator.drop = function(e, element) {
+	ev.preventDefault();
+	var data = ev.dataTransfer.getData("Text");
+	ev.target.appendChild(document.getElementById(data));
+}
+
+
+
+
 // the actual stuff
 moderator.main = {
 	init: function() {
+
+		// drag and drop an item onto the collections nav link
+		var drop_target = document.querySelector('#collections-li');
+		drop_target.ondragover = function(e) {
+			// moderator.allowDrop(e);
+			e.preventDefault();
+			// console.log(e);
+			// console.log(this);
+			this.style.background = 'tomato';
+		}
+		drop_target.ondragleave = function(e) {
+			e.preventDefault();
+			this.style.background = 'transparent';
+		}
+		drop_target.ondrop = function(e) {
+			e.preventDefault();
+			this.style.background = 'blue';
+			console.log('story id: ', e.dataTransfer.getData('story_id'));
+		}
+
 		// hook up navigation tabs
 		// document.querySelector('#tabs').onclick = function(e) {
 		// 	e.preventDefault();
@@ -63,28 +105,6 @@ moderator.main = {
 		// set up content filtering
 		moderator.filter.init( {grid:container});
 
-	},
-
-	moderate: function(e) {
-		e.preventDefault();
-		var story = e.target.offsetParent.offsetParent;
-		var option = e.target.innerText.toLowerCase();
-		if (option === 'approve') moderator.main.approve(story);
-		if (option === 'reject') moderator.main.reject(story);
-		if (option === 'edit') moderator.main.edit(story);
-	},
-
-	reject: function(story) {
-		story.style.display = "none";
-	},
-
-	approve: function(story) {
-		// console.log('approve');
-		story.style.display = "none";
-	},
-
-	edit: function(e) {
-		console.log('edit');
 	},
 
 	createGrid: function(data, target) {
@@ -132,6 +152,16 @@ moderator.main = {
 			var gi = document.createElement('div');
 					gi.className = 'gi';
 					gi.setAttribute('draggable', 'true');
+					gi.ondragstart = function(e) {
+						this.style.opacity = '0.35';
+						// moderator.drag(e, this);
+						// this.document.querySelector('.meta').getAttribute('data-uid')
+						// e.dataTransfer.setData('story_id', this.document.querySelector('.meta').getAttribute('data-uid'));
+						e.dataTransfer.setData('story_id', 'PRESSURE, pushing down on me');
+					}
+					gi.ondragend = function(e) {
+						this.style.opacity = '1';
+					}
 
 			var story = document.createElement('div');
 					story.className = 'story-item';
@@ -202,7 +232,7 @@ moderator.main = {
 					options.className = 'options-wrapper';
 			var options_list = document.createElement('ul');
 					options_list.className = 'options-list';
-			for (var k = 0; k < 3; k++) {
+			for (var k = 0; k < 4; k++) {
 				var option = document.createElement('li');
 				var icon = document.createElement('i');
 				icon.className = 'fa';
@@ -243,7 +273,7 @@ moderator.main = {
 		// this is a hack solution
 		setTimeout(function() {
 			moderator.packery.layout();
-		}, 1000);
+		}, 1500);
 	}
 
 

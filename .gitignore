@@ -53,6 +53,6 @@ coverage.xml
 docs/_build/
 
 
-src/node_modules/
+src/client/node_modules/
 to-do.txt
 .sass-cache/

@@ -56,3 +56,4 @@ docs/_build/
 node_modules
 to-do.txt
 .sass-cache/
+*.orig

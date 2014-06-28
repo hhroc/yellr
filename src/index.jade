@@ -1,20 +1,15 @@
 include html/jade-helpers.jade
 !!! 5
 head
-	meta(charset="utf-8")
-	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-	meta(name="viewport", content="width=device-width, initial-scale=1")
+	include html/_head/meta.jade
 	
 	title Yellr
 	meta(name="description", content="Yellr - Citizen engagement and journalism app")
-	
-	link(rel="shortcut icon", href="img/favicon.ico")
-	link(rel="apple-touch-icon", href="img/apple-touch-icon-57x57.png")
-	link(rel="apple-touch-icon", sizes="72x72", href="img/apple-touch-icon-72x72.png")
-	link(rel="apple-touch-icon", sizes="114x114", href="img/apple-touch-icon-114x114.png")
 
-	script(src="js/libs/modernizr.js")
+	include html/_head/favicon.jade
+	include html/_head/head-scripts.jade
 	link(rel="stylesheet", href="style/style.css")
+
 
 body#index
 	a(href="#main", class="assistive-text") Skip to main content
@@ -27,7 +22,7 @@ body#index
 				p report for your community
 
 
-		nav#user-bar-wrapper
+		//-nav#user-bar-wrapper
 			div#grey-bkgd
 				.wrapper
 					ul#user-bar
@@ -49,6 +44,42 @@ body#index
 
 
 		div#main
+
+
+			div.module-wrapper
+				div.module-info
+					h2 App header
+					p The application header
+				div.module
+					div.header-bar-wrapper
+						div#header-bar
+							div#home-btn.flex-2
+								h1 yellr
+							div.more-controls.flex-1
+								div#notification-btn
+									i.fa.fa-envelope-o
+								div#more-btn
+									i.fa.fa-bars
+
+			div.module-wrapper
+				div.module-info
+					h2 Quick Report bar
+					p This bar will always be present to allow users the ability to quickly create a report
+				div.module
+					div.report-bar-wrapper
+						div#report-bar
+							div#capture-audio
+								i.fa.fa-microphone
+							div#capture-picture
+								i.fa.fa-camera
+							div#capture-video
+								i.fa.fa-video-camera
+							div#capture-text
+								i.fa.fa-pencil-square-o
+						p#anonymous-disclaimer All posts are anonymous.
+
+
+
 
 			div.module-wrapper
 				div.module-info

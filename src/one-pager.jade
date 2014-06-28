@@ -1,15 +1,15 @@
 include html/jade-helpers.jade
 !!! 5
 head
-	meta(charset="utf-8")
-	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-	meta(name="viewport", content="width=device-width, initial-scale=1")
+	include html/_head/meta.jade
 	
 	title Yellr
 	meta(name="description", content="Yellr - Citizen engagement and journalism app")	
-	link(rel="shortcut icon", href="img/favicon.ico")
-	script(src="js/libs/modernizr.js")
+
+	include html/_head/favicon.jade
+	include html/_head/head-scripts.jade
 	link(rel="stylesheet", href="style/one-pager.css")
+
 
 body#one-pager
 	a(href="#main", class="assistive-text") Skip to main content

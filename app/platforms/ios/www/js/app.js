@@ -107,72 +107,6 @@
 
       DOM.html(templates.page.contribute());
 
-      // add event listeners
-      $('#capture-picture').on('click', function(param) {
-        event.preventDefault();
-        if (!navigator.camera) {
-          alert("Camera API not supported", "Error");
-          return;
-        }
-        var options =   { 
-          quality: 50,
-          destinationType: Camera.DestinationType.DATA_URL,
-          sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Album
-          encodingType: 0     // 0=JPG 1=PNG
-        };
-
-        navigator.camera.getPicture(
-          function(imageData) {
-            // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
-            alert('picture taken. trust me, bro');
-          },
-          function() {
-            alert('Error taking picture', 'Error');
-          },
-          options
-        );
-
-        return false;
-      });
-
-      $('#capture-video').on('click', function() {
-        event.preventDefault();
- 
-        // start video capture
-        navigator.device.capture.captureVideo(function(mediaFiles) {
-          var i, path, len;
-          for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            path = mediaFiles[i].fullPath;
-            alert(path);
-            // do something interesting with the file
-          }
-        }, function(error) {
-          navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
-        }, {limit:2});
-        
-        return false;
-      });
-
-
-
-      $('#capture-audio').on('click', function() {
-        event.preventDefault();
-        // alert('hahaha');
-
-        // start audio capture
-        navigator.device.capture.captureAudio(function(mediaFiles) {
-          var i, path, len;
-          for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            path = mediaFiles[i].fullPath;
-            // do something interesting with the file
-          }
-        }, function(error) {
-          navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
-        }, {limit:2});
-
-        return false;
-      });
-
 
 
 
@@ -232,6 +166,78 @@
         );
       };
     }
+
+    // hookup Audio/Video/Photo/Text input
+    // ===================================
+    // PICTURE
+    $('#capture-picture').on('click', function(param) {
+      event.preventDefault();
+      if (!navigator.camera) {
+        alert("Camera API not supported", "Error");
+        return;
+      }
+      var options =   { 
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: 1,      // 0:Photo Library, 1=Camera, 2=Saved Album
+        encodingType: 0     // 0=JPG 1=PNG
+      };
+
+      navigator.camera.getPicture(
+        function(imageData) {
+          // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
+          alert('picture taken. trust me, bro');
+        },
+        function() {
+          alert('Error taking picture', 'Error');
+        },
+        options
+      );
+
+      return false;
+    });
+
+
+    // VIDEO
+    $('#capture-video').on('click', function() {
+      event.preventDefault();
+
+      // start video capture
+      navigator.device.capture.captureVideo(function(mediaFiles) {
+        var i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          path = mediaFiles[i].fullPath;
+          alert(path);
+          // do something interesting with the file
+        }
+      }, function(error) {
+        navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+      }, {limit:2});
+      
+      return false;
+    });
+
+
+    // AUDIO
+    $('#capture-audio').on('click', function() {
+      event.preventDefault();
+      // alert('hahaha');
+
+      // start audio capture
+      navigator.device.capture.captureAudio(function(mediaFiles) {
+        var i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          path = mediaFiles[i].fullPath;
+          // do something interesting with the file
+        }
+      }, function(error) {
+        navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+      }, {limit:2});
+
+      return false;
+    });
+
+
 
 
     // load up the home page by default

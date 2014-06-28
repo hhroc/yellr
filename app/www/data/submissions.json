@@ -1,0 +1,301 @@
+{
+	"_library": {
+
+
+		"source": {
+			"type": "anonymous",
+			"UID": 1234023498
+		},
+		"source": {
+			"type": "validated",
+			"UID": 1234023498,
+			"username": "de la soul"
+		},
+
+
+		"content": {
+			"type": "photo",
+			"url": "http://lorempixel.com/400/200/people",
+			"description": "some text",
+			"tags": ["one", "two", "three"]
+		},
+		"content": {
+			"type": "audio",
+			"url": "http://lorempixel.com/400/200/people",
+			"description": "some text",
+			"tags": ["one", "two", "three"]
+		},
+		"content": {
+			"type": "video",
+			"url": "http://lorempixel.com/400/200/people",
+			"description": "some text",
+			"tags": ["one", "two", "three"]
+		},
+		"content": {
+			"type": "text",
+			"url": "http://lorempixel.com/400/200/people",
+			"description": "some text",
+			"tags": ["one", "two", "three"]
+		}
+
+	},
+	"latest": [
+		{
+			"source": {
+				"type": "anonymous",
+				"UID": 1234023498
+			},
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/people",
+				"description": "some text",
+				"tags": ["one", "two", "three"]
+			}
+		},
+
+		
+		{
+			"UID": 1235048244,
+			"story_ID": "",
+			"story_alias": "Fashion Show",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/fashion"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 1235048244,
+			"story_ID": "",
+			"story_alias": "Fashion Show",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/fashion"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 1235048244,
+			"story_ID": "",
+			"story_alias": "Fashion Show",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/fashion"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 1235048244,
+			"story_ID": "",
+			"story_alias": "Fashion Show",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/fashion"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 9087421238,
+			"story_ID": "",
+			"story_alias": "Lack of Housing in Rochester Is a Problem",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/people"
+			}
+		}
+	],
+
+	"approved": [
+		{
+			"UID": 2340984124,
+			"story_ID": "",
+			"story_alias": "Opening of new nightclub",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/nightlife"
+			}
+		},
+		{
+			"UID": 3324094242,
+			"story_ID": "",
+			"story_alias": "Rochester Population on the rise in inner city",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/people"
+			}
+		},
+		{
+			"UID": 7879702398,
+			"story_ID": "",
+			"story_alias": "World Cup craze spreading in the city",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/people"
+			}
+		}
+	],
+
+	"pending": [
+		{
+			"UID": 4434250923,
+			"story_ID": "",
+			"story_alias": "New business opening",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/business"
+			}
+		},
+		{
+			"UID": 4394820394,
+			"story_ID": "",
+			"story_alias": "Rhinos start training camp",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/sports"
+			}
+		},
+		{
+			"UID": 69458095343,
+			"story_ID": "",
+			"story_alias": "Nature Trails",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/nature"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 12364902834,
+			"story_ID": "",
+			"story_alias": "LOLZ CATS",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 13333301237,
+			"story_ID": "",
+			"story_alias": "Cat Population Exploding",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		}
+	],
+
+	"denied": [
+		{
+			"UID": 23409823413,
+			"story_ID": "",
+			"story_alias": "CATSSS!!",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 23402938402,
+			"story_ID": "",
+			"story_alias": "OMG look @ my cat",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		},
+		{
+			"UID": 32428504583,
+			"story_ID": "",
+			"story_alias": "herp derp",
+			"content": {
+				"type": "photo",
+				"url": "http://lorempixel.com/400/200/cats"
+			}
+		}
+	]
+}

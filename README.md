@@ -15,6 +15,7 @@ Because the entire front-end and app is built with the same mark-up, styles, and
 
 Check out the src/ folder for more details on how to contribute.
 
+run `make client` for to install all client dependencies
 
 
 

@@ -55,18 +55,45 @@
   var urls = {
     assignment: /^#assignment\/(\d{1,})/,
     contribution: /^#contribution\/(\d{1,})/,
-    contribute: /^#contribute\/(\d{1,})/
+    contribute: /^#contribute\/(\d{1,})/,
+    photo_submission: /^#photo-submission\/(\d{1,})/
   };
+
+
+  function route() {
+    var hash = window.location.hash;
+
+    if (!hash) {
+      // index();
+      views.index();
+      return;
+    }
+    // var match = hash.match(urls.assignment);
+
+    if (hash.match(urls.assignment)) views.assignment(hash.split('/')[1]);
+
+    if (hash.match(urls.contribute)) views.contribute(hash.split('/')[1]);
+
+    if (hash.match(urls.photo_submission)) {
+      // alert('review photo submission');
+      view.submit_photo();
+    }
+
+    if (hash.match(urls.contribution)) {
+      alert('view contribution');
+    }
+  }
 
 
 
 
 
   // Views
-  // ----------------------------
+  // ===================================
   var views = {
 
     // homepage
+    // ----------------------------
     index: function() {
       // render base html
       $('#main').html(templates.page.index());
@@ -79,6 +106,7 @@
 
 
     // assignment view
+    // ----------------------------
     assignment: function(id) {
       var json = JSON.parse(window.localStorage.getItem('assignments'));
           json = json.assignments; // dont't forget to do this
@@ -99,6 +127,13 @@
     },
 
 
+    // content submission
+    // ----------------------------
+    submit_photo: function() {
+      // alert('you should see a form here');
+      $('#main').html('<p>review photo</p>');
+    },
+
 
     // contribution view
     contribute: function(id) {
@@ -106,15 +141,6 @@
       // alert('report for Assignment #'+id);
 
       DOM.html(templates.page.contribute());
-
-
-
-
-
-
-
-
-
 
       // get location
       navigator.geolocation.getCurrentPosition(
@@ -133,9 +159,6 @@
           alert('Error getting location');
         }
       ); // end geolocation
-
-
-
       //
 
     }
@@ -185,17 +208,105 @@
 
       navigator.camera.getPicture(
         function(imageData) {
-          // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
+
           alert('picture taken. trust me, bro');
+          document.querySelector('#submit-report').className = 'focus';
+          document.querySelector('#media-preview img').src = 'data:image/jpeg;base64,'+imageData;
+
+          // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
+
+          // show form with image preview
+          // - text input boxes (description)
+          // - tags option
+          // alert(window.location.hash);
+          // window.location.hash = '#photo-submission';
+          // alert(window.location.hash);
+
+
+
+          // localStorage
+          // window.localStorage.setItem('assignments', data);
+          // var i, len;
+          // for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          //   uploadFile(mediaFiles[i]);
+          // }
+          // example 1
+          // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
+
+
         },
-        function() {
-          alert('Error taking picture', 'Error');
+        function(error) {
+          var msg = 'An error occurred during capture: ' + error.code;
+          alert(msg, 'Error');
         },
         options
       );
 
       return false;
     });
+
+
+    // // Called when capture operation is finished
+    // //
+    // function captureSuccess(mediaFiles) {
+    //     var i, len;
+    //     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+    //         uploadFile(mediaFiles[i]);
+    //     }
+    // }
+
+    // // Called if something bad happens.
+    // //
+    // function captureError(error) {
+    //     navigator.notification.alert(msg, null, 'Uh oh!');
+    // }
+
+    // // A button will call this function
+    // //
+    // function captureImage() {
+    //     // Launch device camera application,
+    //     // allowing user to capture up to 2 images
+    //     navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 2});
+    // }
+
+    // // Upload files to server
+    // function uploadFile(mediaFile) {
+    //     var ft = new FileTransfer(),
+    //         path = mediaFile.fullPath,
+    //         name = mediaFile.name;
+
+    //     ft.upload(path,
+    //         "http://my.domain.com/upload.php",
+    //         function(result) {
+    //             console.log('Upload success: ' + result.responseCode);
+    //             console.log(result.bytesSent + ' bytes sent');
+    //         },
+    //         function(error) {
+    //             console.log('Error uploading file ' + path + ': ' + error.code);
+    //         },
+    //         { fileName: name });
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     // VIDEO
@@ -254,24 +365,6 @@
   // LOCAL FUNCTIONS
   // ----------------------------
 
-  function route() {
-    var hash = window.location.hash;
-
-    if (!hash) {
-      // index();
-      views.index();
-      return;
-    }
-    // var match = hash.match(urls.assignment);
-
-    if (hash.match(urls.assignment)) views.assignment(hash.split('/')[1]);
-
-    if (hash.match(urls.contribute)) views.contribute(hash.split('/')[1]);
-
-    if (hash.match(urls.contribution)) {
-      alert('view contribution');
-    }
-  }
 
   var formatPosition = function(string) {
     // only 6 decimal places plz

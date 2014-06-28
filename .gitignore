@@ -57,3 +57,6 @@ node_modules
 to-do.txt
 .sass-cache/
 *.orig
+
+app/*
+!app/www

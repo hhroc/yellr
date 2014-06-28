@@ -1,3 +1,19 @@
+#media-preview {
+  width: 50%;
+}
+
+#submit-report {
+  display: none;
+  padding: 1rem;
+  background: #fff;
+}
+#submit-report.focus {
+  display: block;
+  position: fixed;
+  top: 2rem;
+  left: 0;
+  z-index: 35;
+}
 .container {
   position: relative;
 }

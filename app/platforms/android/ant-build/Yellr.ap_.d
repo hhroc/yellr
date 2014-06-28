@@ -63,8 +63,6 @@
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/img/screenshots/screenshot-5.png \
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/app.js \
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/libs \
-/Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/main.js \
-/Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/main.min.js \
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/libs/fastclick.js \
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/libs/handlebars.js \
 /Users/sumo/Desktop/yellr-repo/app/platforms/android/assets/www/js/libs/iscroll.js \

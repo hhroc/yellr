@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="index"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -11,7 +11,7 @@
     <header class="header-bar-wrapper">
       <div id="header-bar">
         <div id="home-btn" class="flex-2">
-          <h1>yellr sdfsadf</h1>
+          <h1>yellr</h1>
         </div>
         <div class="more-controls flex-1">
           <div id="notification-btn"><i class="fa fa-envelope-o"></i></div>
@@ -29,6 +29,28 @@
       <p id="anonymous-disclaimer">All posts are anonymous.</p>
     </div>
     <div id="main"></div>
+    <section id="submit-report">
+      <h2 class="t1">Submit content</h2>
+      <form class="form">
+        <div id="media-preview">
+          <img src="">
+        </div>
+        <label>
+          <span>Description</span>
+          <input type="text" name="description">
+        </label>
+        <label>
+          <span>Tags</span>
+          <input type="text" name="tags">
+        </label>
+        <input type="submit" value="Submit">
+        <div class="location-li">
+          <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
+          <p id="location">43.1567975, -77.6167498</p>
+          <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
+        </div>
+      </form>
+    </section>
   </div>
 
 

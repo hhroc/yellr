@@ -36,30 +36,40 @@ yellr.main = {
 	// ===================================
 	init: function() {
 
-
-		// add more input(type="media") fields to submit-report
-		$('#add-more-media-btn').on('click', function(e) {
+		$('#show-location').on('click', function(e) {
 			e.preventDefault();
-			
-			// limit to 5
-			if ($('#media-input-wrapper input').length >= 5) {
-				alert('Only 5 media files can be uploaded at this time');
-				return
-			}
-			else {
-				var input = document.createElement('input');
-				input.setAttribute('type', 'file');
-				$('#media-input-wrapper').append(input);
-			}
-
+			// var $this = $(this);
+			// console.log($this);
+			// var more = $this.find('.more-info');
+			// console.log(more);
+			// more.toggleClass('show');
+			// $(this).find('.more-info').toggleClass('show');
+			$('#location-info').toggleClass('show');
 		});
 
+		// // add more input(type="media") fields to submit-report
+		// $('#add-more-media-btn').on('click', function(e) {
+		// 	e.preventDefault();
+			
+		// 	// limit to 5
+		// 	if ($('#media-input-wrapper input').length >= 5) {
+		// 		alert('Only 5 media files can be uploaded at this time');
+		// 		return
+		// 	}
+		// 	else {
+		// 		var input = document.createElement('input');
+		// 		input.setAttribute('type', 'file');
+		// 		$('#media-input-wrapper').append(input);
+		// 	}
 
-		// save draft
-		$('#save-draft').on('click', function(e) {
-			e.preventDefault();
-			alert('This requires an account? Maybe we can use localStorage... Added to drafts');
-		})
+		// });
+
+
+		// // save draft
+		// $('#save-draft').on('click', function(e) {
+		// 	e.preventDefault();
+		// 	alert('This requires an account? Maybe we can use localStorage... Added to drafts');
+		// })
 
 		// // preview report
 		// $('#preview-report').on('click', function(e) {

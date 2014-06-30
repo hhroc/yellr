@@ -1,6 +1,6 @@
 init:
 	# install grunt, gems, then build
-	cd ./src/client; npm install; grunt; cd ../..;
+	cd ./src; npm install; grunt;
 	# cd ./src/client; npm install; bundle install; grunt; cd ../..;
 
 	# build the app

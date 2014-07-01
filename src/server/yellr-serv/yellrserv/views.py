@@ -1,15 +1,32 @@
 import os
-from time import strftime
 import json
+from time import strftime
 import uuid
 
-from wsgiref.simple_server import make_server
-
-from pyramid.config import Configurator
-from pyramid.view import view_config
 from pyramid.response import Response
+from pyramid.view import view_config
 
-from dbapi import registermedia
+from sqlalchemy.exc import DBAPIError
+
+from mediahelper import registermedia
+
+from .models import (
+    DBSession,
+    #MyModel,
+    UserTypes,
+    Users,
+    Assignments,
+    Questions,
+    QuestionAssignments,
+    Languages,
+    Posts,
+    MediaTypes,
+    Mediaobjects,
+    PostMediaObjects,
+    ClientLogs,
+    Collections,
+    CollectionPosts,
+    )
 
 system_status = {
     'alive': True,
@@ -19,11 +36,6 @@ system_status = {
 system_config = {
     'upload_dir': './uploads',
 }
-
-
-#
-# THIS IS ONLY FOR DEBUG, REMOVE LATER ONE
-#
 
 @view_config(route_name='index.html')
 def index(request):
@@ -46,10 +58,7 @@ def index(request):
 @view_config(route_name='status.json')
 def status(request):
     resp = json.dumps(system_status)
-    return Response(resp)
-
-#@view_config(route_name='')
-#def 
+    return Response(resp,content_type="application/json")
 
 @view_config(route_name='uploadmedia.json')
 def uploadmedia(request):
@@ -64,10 +73,12 @@ def uploadmedia(request):
 
     """
 
+    print "Servicing request."
+
     result = {'success': False}
-    
-    try:
-    #if True:
+
+    #try:
+    if True:
 
         # get the file name
         filename = request.POST['mediafile'].filename
@@ -96,7 +107,7 @@ def uploadmedia(request):
         # generate a unique file name to store the file to
         fname = '{0}.{1}'.format(uuid.uuid4(),mediaext)
         filepath = os.path.join(system_config['upload_dir'], fname)
-   
+
         # write file to temp location, and then to disk
         tempfilepath = filepath + '~'
         outputfile = open(tempfilepath, 'wb')
@@ -117,39 +128,36 @@ def uploadmedia(request):
 
         result['mediaid'] = mediaid
         result['success'] = True
-       
-    except:
-        pass
+
+    #except:
+    #    pass
 
     resp = json.dumps(result)
-    return Response(resp)
-
-def makeapp():
-
-    config = Configurator()
-
-    # status API call
-    config.add_route('status.json', '/status.json')
-    config.add_view(status, route_name='status.json')
-
-    # upload file 
-    config.add_route('uploadmedia.json', '/uploadmedia.json')
-    config.add_view(uploadmedia, route_name='uploadmedia.json')
-
-    # index
-    config.add_route('index.html', '/')
-    config.add_view(index, route_name='index.html')
-
-    app = config.make_wsgi_app()
-
-    return app
-
-if __name__ == '__main__':
-
-    app = makeapp()
-
-    server = make_server('0.0.0.0', 8080, app)
-    server.serve_forever()
+    return Response(resp,content_type="application/json")
 
 
-    
+#@view_config(route_name='home', renderer='templates/mytemplate.pt')
+#def my_view(request):
+#    try:
+#        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+#    except DBAPIError:
+#        return Response(conn_err_msg, content_type='text/plain', status_int=500)
+#    return {'one': one, 'project': 'yellr-serv'}
+
+
+conn_err_msg = """\
+Pyramid is having a problem using your SQL database.  The problem
+might be caused by one of the following things:
+
+1.  You may need to run the "initialize_yellr-serv_db" script
+    to initialize your database tables.  Check your virtual
+    environment's "bin" directory for this script and try to run it.
+
+2.  Your database server may not be running.  Check that the
+    database server referred to by the "sqlalchemy.url" setting in
+    your "development.ini" file is running.
+
+After you fix the problem, please restart the Pyramid application to
+try it again.
+"""
+

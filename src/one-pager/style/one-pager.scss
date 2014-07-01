@@ -1,15 +1,15 @@
 // base styles
-@import "pieces/mixins";
-@import "pieces/normalize";
-@import "pieces/base";
-@import "pieces/classes";
+@import "../../common/style/pieces/mixins";
+@import "../../common/style/pieces/normalize";
+@import "../../common/style/pieces/base";
+@import "../../common/style/pieces/classes";
 
 
 // yellr specific
-@import "theme/vars";
-@import "theme/classes";
-@import "theme/typography";
-@import "theme/forms";
+@import "../../common/style/theme/vars";
+@import "../../common/style/theme/classes";
+@import "../../common/style/theme/typography";
+@import "../../common/style/theme/forms";
 
 
 

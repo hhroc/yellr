@@ -1,22 +1,22 @@
 // base styles
-@import "../../common/style/pieces/mixins";
-@import "../../common/style/pieces/classes";
-@import "../../common/style/pieces/normalize";
-@import "../../common/style/pieces/base";
-@import "../../common/style/pieces/modules";
+@import "pieces/mixins";
+@import "pieces/classes";
+@import "pieces/normalize";
+@import "pieces/base";
+@import "pieces/modules";
 
 // libraries
-@import "../../common/style/libs/font-awesome/font-awesome";
+@import "libs/font-awesome/font-awesome";
 
 // yellr specific
-@import "../../common/style/theme/vars";
-@import "../../common/style/theme/classes";
-@import "../../common/style/theme/typography";
-@import "../../common/style/theme/forms";
-@import "../../common/style/theme/header";
-@import "../../common/style/theme/user-bar";
-@import "../../common/style/theme/question-prompt";
-@import "../../common/style/theme/assignments";
+@import "theme/vars";
+@import "theme/classes";
+@import "theme/typography";
+@import "theme/forms";
+@import "theme/header";
+@import "theme/user-bar";
+@import "theme/question-prompt";
+@import "theme/assignments";
 
 
 

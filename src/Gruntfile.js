@@ -1,8 +1,18 @@
 module.exports = function(grunt) {
 
-  var buildFolder = '../../build/';
-  var appFolder = '../www/';
+  // Folder vars
+  // ===================================
+  var buildFolder = '../build/';
+  var app_build = 'www/';
+  var app_folder = 'app/';
+  var moderator_folder = 'moderator/';
+  var onepager_folder = 'one-pager/';
+  var storefront_folder = 'storefront/';
 
+
+
+  // jade settings
+  // ----------------------------
   var jadedebug = {
     compileDebug: false,
     pretty: true,
@@ -40,27 +50,65 @@ module.exports = function(grunt) {
   }
 
 
-  // Project configuration.
+  // Project configuration. (the good stuff)
+  // ===================================
+  // ===================================
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     // compile SASS files
+    // ===================================
     compass: {
-      build: {
+      // build app styles to build folder
+      app: {
         options: {
-          sassDir: 'style',
-          cssDir: buildFolder+'style',
+          sassDir: app_folder+'style',
+          cssDir: buildFolder+app_folder+'style',
           outputStyle: 'expanded',
           noLineComments: true,
           force: true,
           relativeAssets: true,
         }
       },
-      deploy: {
+      // send app styles to its 'www' dir
+      www: {
         options: {
-          sassDir: 'style',
-          cssDir: buildFolder+'style',
+          sassDir: app_folder+'style',
+          cssDir: app_folder+'www/style',
           outputStyle: 'compressed',
+          noLineComments: true,
+          force: true,
+          relativeAssets: true,
+        }
+      },
+      // build moderator styles
+      moderator: {
+        options: {
+          sassDir: moderator_folder+'style',
+          cssDir: buildFolder+moderator_folder+'style',
+          outputStyle: 'expanded',
+          noLineComments: true,
+          force: true,
+          relativeAssets: true,
+        }
+      },
+      // one-pager
+      onepager: {
+        options: {
+          sassDir: onepager_folder+'style',
+          cssDir: buildFolder+onepager_folder+'style',
+          outputStyle: 'compressed',
+          noLineComments: true,
+          force: true,
+          relativeAssets: true,
+        }
+      },
+      // storefront
+      storefront: {
+        options: {
+          sassDir: storefront_folder+'style',
+          cssDir: buildFolder+storefront_folder+'style',
+          outputStyle: 'expanded',
           noLineComments: true,
           force: true,
           relativeAssets: true,
@@ -83,15 +131,15 @@ module.exports = function(grunt) {
       data: {
         files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
       },
-      app_js: {
-        files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
-      },
-      app_data: {
-        files : [{expand: true, cwd: 'data', src: ['**'], dest: appFolder+'data'}]
-      },
-      to_app: {
-        files : [{expand: true, cwd: '../build', src: ['data/**', 'js/**', 'style/**', 'img/**'], dest: appFolder}]
-      }
+      // app_js: {
+      //   files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
+      // },
+      // app_data: {
+      //   files : [{expand: true, cwd: 'data', src: ['**'], dest: appFolder+'data'}]
+      // },
+      // to_app: {
+      //   files : [{expand: true, cwd: '../build', src: ['data/**', 'js/**', 'style/**', 'img/**'], dest: appFolder}]
+      // }
     },
 
 
@@ -101,13 +149,21 @@ module.exports = function(grunt) {
         options: jadedebug,
         files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
       },
-      pages: {
+      app: {
         options: jadedebug,
-        files: [{expand: true, cwd: 'html/pages/', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
+        files: [{expand: true, cwd: './app/html/', src: ['*.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }]
       },
       moderator: {
         options: jadedebug,
-        files: [{expand: true, cwd: 'html/moderator-pages/', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
+        files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }]
+      },
+      onepager: {
+        options: jadedebug,
+        files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }]
+      },
+      storefront: {
+        options: jadedebug,
+        files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }]
       }
     },
 
@@ -184,13 +240,18 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', function() {
     grunt.task.run([
+      // build html
+      'jade:index',
+      'jade:app',
+      'jade:moderator',
+      'jade:onepager',
+      'jade:storefront',
+
       'compass:build',
       'copy:img',
       'copy:js',
       'copy:data',
       'copy:fonts',
-      'jade:index',
-      'jade:moderator',
     ]);
   });
 

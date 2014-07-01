@@ -1,0 +1,1 @@
+This folder contains sample data for developmet purposes only

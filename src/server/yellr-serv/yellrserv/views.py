@@ -8,7 +8,7 @@ from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
-from mediahelper import registermedia
+from .mediahelper import registermedia
 
 from .models import (
     DBSession,

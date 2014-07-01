@@ -1,19 +1,33 @@
-#media-preview {
-  width: 50%;
+.block {
+  display: block;
 }
 
-#submit-report {
-  display: none;
-  padding: 1rem;
-  background: #fff;
+.inline-block {
+  display: inline-block;
 }
-#submit-report.focus {
-  display: block;
+
+.full-screen {
   position: fixed;
-  top: 2rem;
-  left: 0;
-  z-index: 35;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
 }
+.full-screen .container {
+  height: 100%;
+}
+
+.vertical-center-wrapper {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.vertical-center {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 .container {
   position: relative;
 }
@@ -2433,8 +2447,11 @@ figcaption {
 .form li input {
   margin-bottom: 0;
 }
-.form input[type="text"], .form textarea {
-  font-size: 1.25rem;
+.form label span {
+  font-size: 0.875rem;
+}
+.form input[type="text"], .form input[type="password"], .form textarea {
+  font-size: 1.125rem;
   padding: 0.25rem;
   width: 100%;
   max-width: 20rem;
@@ -2447,6 +2464,9 @@ figcaption {
   font-size: 0.75rem;
   margin-bottom: 0.25rem;
   color: #2c3e50;
+}
+.form p {
+  margin-bottom: 0.25rem;
 }
 
 .optional:after {
@@ -2768,7 +2788,7 @@ figcaption {
 - general styles 
 - list view styles 
 - single view 
-	-> contributors list
+  -> contributors list
 */
 .accepted-media-wrapper {
   padding: 0.875rem 0;
@@ -2893,6 +2913,167 @@ figcaption {
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
   }
+}
+
+.module-wrapper:nth-child(2), .module-wrapper:nth-child(3) {
+  display: none;
+}
+
+.submit-report-header {
+  background: #ffcf13;
+  z-index: 75 !important;
+  max-height: 3.25rem;
+  border-bottom: 1px solid #eaba00;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+.submit-report-header a, .submit-report-header span {
+  padding: 1rem;
+}
+.submit-report-header a {
+  max-width: 3.25rem;
+  text-align: center;
+}
+
+.header-back {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  color: #c69e00;
+  border-right: 1px solid #eaba00;
+}
+
+.header-current {
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  font-weight: bold;
+}
+
+.header-next {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  color: #2f2f2f;
+  border-left: 1px solid #f9c600;
+}
+
+.no-border {
+  border: none;
+}
+
+.submit-preview {
+  padding: 1rem 0;
+}
+.submit-preview textarea {
+  margin-bottom: 0.75rem;
+}
+
+.media-submission-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 0.875rem;
+}
+
+.media-preview {
+  -webkit-box-flex: 3;
+  -moz-box-flex: 3;
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+}
+
+.media-options {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 3rem;
+  text-align: center;
+}
+.media-options .fa-plus {
+  color: #aaa;
+}
+
+.submit-report-footer {
+  z-index: 75 !important;
+  background: #ebebeb;
+  border-top: 1px solid #cccccc;
+}
+.submit-report-footer div {
+  text-align: center;
+  border-right: 1px solid #cccccc;
+  -webkit-transition: background 0.3s ease-out;
+  -moz-transition: background 0.3s ease-out;
+  -o-transition: background 0.3s ease-out;
+  transition: background 0.3s ease-out;
+}
+.submit-report-footer div:last-child {
+  border: none;
+}
+.submit-report-footer div:hover {
+  background: #fff;
+}
+.submit-report-footer i {
+  padding: 0.875rem;
+  color: #999;
+}
+
+.extra-info {
+  position: relative;
+}
+
+.info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-height: 0;
+  -webkit-transition: max-height 0.3s ease-out;
+  -moz-transition: max-height 0.3s ease-out;
+  -o-transition: max-height 0.3s ease-out;
+  transition: max-height 0.3s ease-out;
+}
+.info.show {
+  max-height: 30rem;
+}
+
+.tags-list {
+  list-style: none;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+.tags-list li {
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+  color: #aaa;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 0.25rem;
+}
+.tags-list li:hover {
+  color: #555;
+}
+.tags-list li:before {
+  content: "#";
+}
+
+.pos-rel {
+  position: relative;
 }
 
 .container {

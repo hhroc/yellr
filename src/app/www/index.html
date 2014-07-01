@@ -30,24 +30,28 @@
     </div>
     <div id="main"></div>
     <section id="submit-report">
-      <h2 class="t1">Submit content</h2>
-      <form class="form">
-        <div id="media-preview">
-          <img src="">
+      <form class="form wrapper submit-preview">
+        <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
+        <div class="media-submission-wrapper">
+          <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+          <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+          </div>
         </div>
-        <label>
-          <span>Description</span>
-          <input type="text" name="description">
-        </label>
-        <label>
-          <span>Tags</span>
-          <input type="text" name="tags">
-        </label>
-        <input type="submit" value="Submit">
-        <div class="location-li">
-          <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
-          <p id="location">43.1567975, -77.6167498</p>
-          <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
+        <div class="extra-info">
+          <div id="location-info" class="info">
+            <p id="location">43.1567975, -77.6167498</p>
+            <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
+          </div>
+          <div id="tags-info" class="info">
+            <ul class="tags-list">
+              <li>fifa</li>
+              <li>world cup</li>
+              <li>rochester</li>
+            </ul>
+          </div>
+          <div id="user-info" class="info">
+            <p id="uuid">UID43142342</p>
+          </div>
         </div>
       </form>
     </section>

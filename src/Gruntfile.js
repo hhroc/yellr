@@ -3,6 +3,8 @@ module.exports = function(grunt) {
   // Folder vars
   // ===================================
   var buildFolder = '../build/';
+  var applicationFolder = '../application/';
+  var common_folder = 'common/';
   var app_build = 'www/';
   var app_folder = 'app/';
   var moderator_folder = 'moderator/';
@@ -74,7 +76,7 @@ module.exports = function(grunt) {
       www: {
         options: {
           sassDir: app_folder+'style',
-          cssDir: app_folder+'www/style',
+          cssDir: app_folder+app_build+'style',
           outputStyle: 'compressed',
           noLineComments: true,
           force: true,
@@ -117,50 +119,111 @@ module.exports = function(grunt) {
     },
 
 
-    // copy files (font, img, js)
+    // Copy files (font, img, js)
+    // ===================================
     copy: {
+      // copy fonts
       fonts: {
-        files: [{expand: true, cwd: 'style/fonts', src:['**'], dest: buildFolder+'style/fonts'}]
+        files: [
+          // app
+          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+app_folder+'style/fonts'},
+          // www
+          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: app_folder+app_build+'style/fonts'},
+          // moderator
+          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+moderator_folder+'style/fonts'},
+          // one-pager
+          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+onepager_folder+'style/fonts'},
+          // storefront
+          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+storefront_folder+'style/fonts'},
+        ]
       },
-      img: {
-        files : [{expand: true, cwd: 'img', src: ['**'], dest: buildFolder+'img'}]
+      // copy common images (logos and such)
+      images: {
+        files : [
+          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+app_folder+'img'},
+          {expand: true, cwd: 'common/img', src: ['**'], dest: app_folder+app_build+'img'},
+          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+moderator_folder+'img'},
+          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+onepager_folder+'img'},
+          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+storefront_folder+'img'},
+        ]
       },
+      // copy app images
+      app_images: {files: [{expand: true, cwd: app_folder+'/img', src: ['**'], dest: buildFolder+app_folder+'img'}] },
+      // copy them to the www folder
+      images_to_www: {files: [{expand: true, cwd: app_folder+'/img', src: ['**'], dest: app_folder+app_build+'img'}] },
+      // copy moderator images
+      moderator_images: {files: [{expand: true, cwd: moderator_folder+'/img', src: ['**'], dest: buildFolder+moderator_folder+'img'}] },
+      // copy onepager images
+      onepager_images: {files: [{expand: true, cwd: onepager_folder+'/img', src: ['**'], dest: buildFolder+onepager_folder+'img'}] },
+      // copy storefront images
+      storefront_images: {files: [{expand: true, cwd: storefront_folder+'/img', src: ['**'], dest: buildFolder+storefront_folder+'img'}] },
+      // copy JS files
       js: {
-        files : [{expand: true, cwd: 'js', src: ['**'], dest: buildFolder+'js'}]
+        files : [
+          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+app_folder+'js'},
+          {expand: true, cwd: 'common/js', src: ['**'], dest: app_folder+app_build+'js'},
+          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+moderator_folder+'js'},
+          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+onepager_folder+'js'},
+          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+storefront_folder+'js'},
+        ]
       },
+      // copy app js files
+      app_js: {files: [{expand: true, cwd: app_folder+'/js', src: ['**'], dest: buildFolder+app_folder+'js'}] },
+      // copy js to www
+      js_to_www: {files: [{expand: true, cwd: app_folder+'/js', src: ['**'], dest: app_folder+app_build+'js'}] },
+      // copy moderator js
+      moderator_js: {files: [{expand: true, cwd: moderator_folder+'/js', src: ['**'], dest: buildFolder+moderator_folder+'js'}] },
+      // copy onepager js
+      onepager_js: {files: [{expand: true, cwd: onepager_folder+'/js', src: ['**'], dest: buildFolder+onepager_folder+'js'}] },
+      // copy storefront js
+      storefront_js: {files: [{expand: true, cwd: storefront_folder+'/js', src: ['**'], dest: buildFolder+storefront_folder+'js'}] },
+      // copy sample data
       data: {
-        files : [{expand: true, cwd: 'data', src: ['**'], dest: buildFolder+'data'}]
+        files : [
+          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+app_folder+'data'},
+          {expand: true, cwd: 'common/data', src: ['*.json'], dest: app_folder+app_build+'data'},
+          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+moderator_folder+'data'},
+          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+onepager_folder+'data'},
+          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+storefront_folder+'data'},
+        ]
       },
-      // app_js: {
-      //   files : [{expand: true, cwd: 'js', src: ['app.js'], dest: appFolder+'js'}]
-      // },
-      // app_data: {
-      //   files : [{expand: true, cwd: 'data', src: ['**'], dest: appFolder+'data'}]
-      // },
-      // to_app: {
-      //   files : [{expand: true, cwd: '../build', src: ['data/**', 'js/**', 'style/**', 'img/**'], dest: appFolder}]
-      // }
+      // copy specfic datasets
+      app_data: {files: [{expand: true, cwd: app_folder+'/data', src: ['**'], dest: buildFolder+app_folder+'data'}] },
+      data_to_www: {files: [{expand: true, cwd: app_folder+'/data', src: ['**'], dest: app_folder+app_build+'data'}] },
+      moderator_data: {files: [{expand: true, cwd: moderator_folder+'/data', src: ['**'], dest: buildFolder+moderator_folder+'data'}] },
+      onepager_data: {files: [{expand: true, cwd: onepager_folder+'/data', src: ['**'], dest: buildFolder+onepager_folder+'data'}] },
+      storefront_data: {files: [{expand: true, cwd: storefront_folder+'/data', src: ['**'], dest: buildFolder+storefront_folder+'data'}] },
+      // copy things to the actual application folder running cordova
+      config_xml: {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: applicationFolder}] },
+      index_html:{files: [{expand: true, cwd: app_folder, src: ['index.html'], dest: app_folder+app_build}] },
+      www: {files: [{expand: true, cwd: app_folder+'www', src: ['**'], dest: applicationFolder+'www'}] },
     },
 
 
     // compile jade files
+    // ===================================
     jade: {
+      // index page, show 4 links
       index: {
         options: jadedebug,
         files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
       },
+      // build app markup
       app: {
         options: jadedebug,
         files: [{expand: true, cwd: './app/html/', src: ['*.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }]
       },
+      // build moderator pages
       moderator: {
         options: jadedebug,
         files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }]
       },
+      // build the one-pager
       onepager: {
         options: jadedebug,
         files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }]
       },
+      // build the storefront
       storefront: {
         options: jadedebug,
         files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }]
@@ -170,6 +233,18 @@ module.exports = function(grunt) {
 
     // watch file changes
     watch: {
+      // app: {
+      //   files: [app_folder+'**'],
+      //   tasks: ['compass:www', 'copy:images_to_www', 'copy:js_to_www', 'copy:data_to_www']
+      // },
+      // www: {
+      //   files: [app_folder+app_build+''],
+      //   tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
+      // },
+      // moderator: {},
+      // onepager: {},
+      // storefront: {},
+      // common: {},
       sass: {
         files: ['style/*.scss','style/**/*.scss'],
         tasks: ['compass:build']
@@ -246,12 +321,47 @@ module.exports = function(grunt) {
       'jade:moderator',
       'jade:onepager',
       'jade:storefront',
-
-      'compass:build',
-      'copy:img',
-      'copy:js',
-      'copy:data',
+      // compile sass
+      'compass:app',
+      'compass:www',
+      'compass:moderator',
+      'compass:onepager',
+      'compass:storefront',
+      // copy fonts
       'copy:fonts',
+      // copy images
+      'copy:images',
+      'copy:app_images',
+      'copy:images_to_www',
+      'copy:moderator_images',
+      'copy:onepager_images',
+      'copy:storefront_images',
+      // js
+      'copy:js',
+      'copy:app_js',
+      'copy:js_to_www',
+      'copy:moderator_js',
+      'copy:onepager_js',
+      'copy:storefront_js',
+      // data
+      'copy:data',
+      'copy:app_data',
+      'copy:data_to_www',
+      'copy:moderator_data',
+      'copy:onepager_data',
+      'copy:storefront_data',
+    ]);
+  });
+
+  grunt.registerTask('build_app', function() {
+    grunt.task.run([
+      'copy:index_html',
+      'compass:www',
+      'copy:images_to_www',
+      'copy:js_to_www',
+      'copy:data_to_www',
+      'copy:www',
+      'copy:config_xml'
     ]);
   });
 

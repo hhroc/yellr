@@ -1,11 +1,8 @@
 init:
-	# install gems, grunt, then build
-	cd ./src; bundle install; npm install; grunt;
-	# cd ./src/client; npm install; bundle install; grunt; cd ../..;
-
-	# build the app
+	# install gems, grunt
+	cd ./src; bundle install; npm install;
+	# build the corova app
 	cordova create application com.hhroc.yellr "Yellr";
-	cp -r src/app/ application/;
 	rm -rf application/www/css;
 	# add all cordova plugins. check the docs for a detailed list
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git;
@@ -22,6 +19,8 @@ init:
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git;
+	# grunt tings - build project, build www not that application exists
+	cd ./src; grunt; grunt build_app;
 
 
 ios:

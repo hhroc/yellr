@@ -230,29 +230,37 @@ module.exports = function(grunt) {
       }
     },
 
+    // tasks: ['compass:www', 'copy:images_to_www', 'copy:js_to_www', 'copy:data_to_www']
 
     // watch file changes
     watch: {
-      // app: {
-      //   files: [app_folder+'**'],
-      //   tasks: ['compass:www', 'copy:images_to_www', 'copy:js_to_www', 'copy:data_to_www']
-      // },
-      // www: {
-      //   files: [app_folder+app_build+''],
-      //   tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
-      // },
-      // moderator: {},
-      // onepager: {},
-      // storefront: {},
-      // common: {},
-      sass: {
-        files: ['style/*.scss','style/**/*.scss'],
-        tasks: ['compass:build']
-      },
-      jade: {
-        files: ['*.jade'],
+      index: {
+        files: ['index.jade'],
         tasks: ['jade:index']
       },
+      // watch app things
+      app_data: {files: [app_folder+'data/**'], tasks: ['copy:app_data'] },
+      app_jade: {files: [app_folder+'html/**'], tasks: ['jade:app'] },
+      app_images: {files: [app_folder+'img/**'], tasks: ['copy:app_images'] },
+      app_js: {files: [app_folder+'js/**'], tasks: ['copy:app_js'] },
+      app_style: {files: [app_folder+'style/**'], tasks: ['compass:app'] },
+      app_html: {files: [app_folder+'index.html'], tasks: ['copy:index_html'] },
+      app_config: {files: [app_folder+'config.xml'], tasks: ['copy:config_xml'] },
+      www: {
+        files: [app_folder+app_build+'**'],
+        tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
+      },
+      // moderator: {},
+      onepager: {
+        files: [onepager_folder+'**'],
+        tasks: ['onepager']
+      },
+      // storefront: {},
+      // common: {},
+      // sass: {
+      //   files: ['style/*.scss','style/**/*.scss'],
+      //   tasks: ['compass:build']
+      // },
       moderator_pages: {
         files: ['html/**/*.jade'],
         tasks: ['jade:moderator']
@@ -365,23 +373,21 @@ module.exports = function(grunt) {
     ]);
   });
 
+  grunt.registerTask('onepager', function() {
+    grunt.task.run([
+      'jade:onepager',
+      'compass:onepager',
+      'copy:onepager_images',
+      'copy:onepager_js',
+      'copy:onepager_data',
+    ]);
+  });
+
   grunt.registerTask('minify', function() {
     grunt.task.run([
       'min',
       'cssmin'
     ]);
   });
-
-  grunt.registerTask('deploy', function() {
-    grunt.task.run([
-      'minify',
-      'copy:to_app'
-    ]);
-  });
-
-  grunt.registerTask('app', function() {
-    grunt.task.run(['copy:to_app']);
-  });
-
 
 };

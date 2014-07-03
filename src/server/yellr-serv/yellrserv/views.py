@@ -43,13 +43,23 @@ def index(request):
 
     <html>
     <body>
+    <h3>Media Upload Test</h3><br>
     <form action="/uploadmedia.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
         <input id="mediafile" name="mediafile" type="file" value="test.txt" />
         <input id="clientid" name="clientid" type="text" value="{0}" />
-        <input id="mediatype" name="mediatype" type="mediatype" value="text">
+        <input id="mediatype" name="mediatype" type="text" value="text">
         <input type="submit" value="submit" />
     </form>
     </body>
+
+    <br>
+
+    <h3>Upload Test</h3><br>
+    <form action="/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <input id="sometext" name="sometext" type="text" value="This is a test!">
+        <input type="submit" value="submit" />
+    </form>
+
     </html>
     """.format(uuid.uuid4())
 
@@ -58,6 +68,25 @@ def index(request):
 @view_config(route_name='status.json')
 def status(request):
     resp = json.dumps(system_status)
+    return Response(resp,content_type="application/json")
+
+@view_config(route_name='uploadtest.json')
+def uploadtest(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        sometext = request.POST['sometext']
+
+        result['sometext'] = sometext
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    resp = json.dumps(result)
     return Response(resp,content_type="application/json")
 
 @view_config(route_name='uploadmedia.json')
@@ -77,8 +106,8 @@ def uploadmedia(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         # get the file name
         filename = request.POST['mediafile'].filename
@@ -129,8 +158,8 @@ def uploadmedia(request):
         result['mediaid'] = mediaid
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     resp = json.dumps(result)
     return Response(resp,content_type="application/json")

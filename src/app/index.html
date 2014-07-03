@@ -28,31 +28,41 @@
       </div>
       <p id="anonymous-disclaimer">All posts are anonymous.</p>
     </div>
+    <!-- WHYYYY -->
+    <div id="test">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <!-- win -->
+      <p id="response-code"></p>
+      <p id="response"></p>
+      <p id="bytesSent"></p>
+      <!-- fail -->
+      <p id="error-source"></p>
+      <p id="error-target"></p>
+      <button onclick="captureImage();">Capture Image</button>
+      <p>&nbsp;</p>
+      <!-- <form id="testform" action="http://yellrdev.wxxi.org/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data"> -->
+      <form id="testform" action="http://yellrdev.wxxi.org/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <input id="sometext" name="sometext" type="text" value="This is a test!">
+        <input type="submit" value="submit" />
+      </form>
+      <form action="http://yellrdev.wxxi.org/uploadmedia.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <input id="mediafile" name="mediafile" type="file" value="" />
+        <input id="clientid" name="clientid" type="text" value="123456789" style="display:none;" />
+        <input id="mediatype" name="mediatype" type="mediatype" value="text" style="display:none;">
+        <input type="submit" value="submit" />
+      </form>
+    </div>
+    <!-- YYYYYYYYYYYYYYY -->
+
     <div id="main"></div>
     <section id="submit-report">
-      <form class="form wrapper submit-preview">
-        <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
-        <div class="media-submission-wrapper">
-          <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
-          <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
-          </div>
-        </div>
-        <div class="extra-info">
-          <div id="location-info" class="info">
-            <p id="location">43.1567975, -77.6167498</p>
-            <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
-          </div>
-          <div id="tags-info" class="info">
-            <ul class="tags-list">
-              <li>fifa</li>
-              <li>world cup</li>
-              <li>rochester</li>
-            </ul>
-          </div>
-          <div id="user-info" class="info">
-            <p id="uuid">UID43142342</p>
-          </div>
-        </div>
+      <form action="http://yellrdev.wxxi.org/mediaupload.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <input id="mediafile" name="mediafile" type="file" value="" />
+        <input id="clientid" name="clientid" type="text" value="123456789" style="display:none;" />
+        <input id="mediatype" name="mediatype" type="mediatype" value="text" style="display:none;">
+        <input type="submit" value="submit" />
       </form>
     </section>
   </div>
@@ -185,6 +195,91 @@
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/fastclick.js"></script>
   <!-- // <script src="js/main.js"></script> -->
-	<script src="js/app.js"></script>
+	<!-- // <script src="js/app.js"></script> -->
+  <script type="text/javascript">
+
+    // Wait for device API libraries to load
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+
+    // device APIs are available
+    function onDeviceReady() {
+      alert('do the things');
+      // alert('WHYYYY');
+      // alert($);
+
+      var form = $('#testform');
+      // alert(form);
+      form.submit(function() {
+        alert('about to post');
+        $.ajax({
+          type: 'POST',
+          url: 'http://yellrdev.wxxi.org/uploadtest.json',
+          data: {
+            sometext: 'GOD I HOPE I GET IT, I HOPE I GET IT. HOW MANY KIDS DOES HE NEED? HOW MANY BOYS? HOW MANY GIRLS?'
+          }, // your data (if any) should go here
+          dataType: 'application/json', // or whatever you expect back
+          success: function(data) {
+            alert('In callback');
+            alert(data);
+          },
+          error: function(error) {
+            alert(error);
+          }
+        });
+      });
+    }
+
+
+    // Called when capture operation is finished
+    function captureSuccess(mediaFiles) {
+        alert('capture success');
+        var i, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            uploadFile(mediaFiles[i]);
+        }       
+    }
+
+    // Called if something bad happens.
+    function captureError(error) {
+      var msg = 'An error occurred during capture: ' + error.code;
+      navigator.notification.alert(msg, null, 'Uh oh!');
+    }
+
+    // A button will call this function
+    function captureImage() {
+      // Launch device camera application, 
+      // allowing user to capture up to 2 images
+      navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
+    }
+
+    // Upload files to server
+    function uploadFile(mediaFile) {
+      alert('trying to upload...');
+      var ft = new FileTransfer(),
+          path = mediaFile.fullPath,
+          name = mediaFile.name;
+      alert(name);
+
+      ft.upload(path,
+        "http://yellrdev.wxxi.org/uploadmedia.json",
+        function(result) {
+          console.log('Upload success: ' + result.responseCode);
+          console.log(result.bytesSent + ' bytes sent');
+          document.querySelector('#response-code').innerHTML = "Code | " + result.responseCode;
+          document.querySelector('#response').innerHTML = "Response | " + result.response;
+          document.querySelector('#bytesSent').innerHTML = "Sent | " + result.bytesSent;
+        },
+        function(error) {
+          console.log('Error uploading file ' + path + ': ' + error.code);
+          document.querySelector('#error-source').innerHTML = 'Error uploading file ' + path + ': ' + error.code;
+        },
+        { fileName: name }
+      );
+    }
+
+
+
+  </script>
 </body>
 </html>

@@ -211,8 +211,10 @@
 
           alert('picture taken. trust me, bro');
           document.querySelector('#submit-report').className = 'focus';
-          document.querySelector('#media-preview img').src = 'data:image/jpeg;base64,'+imageData;
-
+          // document.querySelector('#media-preview img').src = 'data:image/jpeg;base64,'+imageData;
+          // document.querySelector('#mediafile').value = 'data:image/jpeg;base64,'+imageData;
+          // document.querySelector('#mediafile').value = 'data:image/jpeg;base64,'+imageData;
+          
           // $('.employee-image', this.el).attr('src', "data:image/jpeg;base64," + imageData);
 
           // show form with image preview

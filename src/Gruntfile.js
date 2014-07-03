@@ -373,6 +373,14 @@ module.exports = function(grunt) {
     ]);
   });
 
+  grunt.registerTask('copy_app', function() {
+    grunt.task.run([
+      'copy:index_html',
+      'copy:www',
+      'copy:config_xml',
+    ]);
+  });
+
   grunt.registerTask('onepager', function() {
     grunt.task.run([
       'jade:onepager',

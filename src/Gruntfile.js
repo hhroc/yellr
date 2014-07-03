@@ -61,6 +61,17 @@ module.exports = function(grunt) {
     // compile SASS files
     // ===================================
     compass: {
+      // common css
+      common: {
+        options: {
+          sassDir: common_folder+'style',
+          cssDir: buildFolder,
+          outputStyle: 'compressed',
+          noLineComments: true,
+          force: true,
+          relativeAssets: true,
+        }
+      },
       // build app styles to build folder
       app: {
         options: {
@@ -251,41 +262,20 @@ module.exports = function(grunt) {
         tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
       },
       // moderator: {},
-      onepager: {
-        files: [onepager_folder+'**'],
-        tasks: ['onepager']
-      },
-      // storefront: {},
-      // common: {},
-      // sass: {
-      //   files: ['style/*.scss','style/**/*.scss'],
-      //   tasks: ['compass:build']
+      // onepager: {
+      //   files: [onepager_folder+'**'],
+      //   tasks: ['onepager']
       // },
-      moderator_pages: {
-        files: ['html/**/*.jade'],
-        tasks: ['jade:moderator']
-      },
-      img: {
-        files: ['img/*.*', 'img/**/*.*'],
-        tasks: ['copy:img']
-      },
-      js:{
-        files: ['js/*.js', 'js/**/*.js'],
-        tasks: ['copy:js']
-      },
-      app_js: {
-        files: ['js/app.js'],
-        tasks: ['copy:app_js']
-      },
-      data:{
-        files: ['data/*.*', 'data/**/*.*'],
-        tasks: ['copy:data', 'copy:app_data']
-      },
-      fonts:
-      {
-        files: ['style/fonts/*.*'],
-        tasks: ['copy:fonts']
-      }
+      // storefront: {},
+      // watch common assets
+      common_data: {files: [common_folder+'data/**'], tasks: ['copy:data'] },
+      common_jade: {files: [common_folder+'html/**'], tasks: ['build_html'] },
+      common_images: {files: [common_folder+'img/**'], tasks: ['copy:images'] },
+      common_js: {files: [common_folder+'js/**'], tasks: ['copy:js'] },
+      common_fonts: {files: [common_folder+'style/fonts/**'], tasks: ['compass:common', 'build_css'] },
+      common_style: {files: [common_folder+'style/common.scss'], tasks: ['compass:common'] },
+      common_style_libs: {files: [common_folder+'style/libs/**', common_folder+'style/pieces/**', common_folder+'style/theme/**'], tasks: ['compass:common', 'build_css'] },
+
     },
 
     // yui compression
@@ -323,20 +313,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', function() {
     grunt.task.run([
-      // build html
-      'jade:index',
-      'jade:app',
-      'jade:moderator',
-      'jade:onepager',
-      'jade:storefront',
-      // compile sass
-      'compass:app',
-      'compass:www',
-      'compass:moderator',
-      'compass:onepager',
-      'compass:storefront',
-      // copy fonts
-      'copy:fonts',
+      'build_html',       // build html
+      'build_css',        // compile sass (copy fonts)
       // copy images
       'copy:images',
       'copy:app_images',
@@ -390,6 +368,30 @@ module.exports = function(grunt) {
       'copy:onepager_data',
     ]);
   });
+
+  grunt.registerTask('build_html', function() {
+    grunt.task.run([
+      'jade:index',
+      'jade:app',
+      'jade:moderator',
+      'jade:onepager',
+      'jade:storefront',
+    ]);
+  });
+
+  grunt.registerTask('build_css', function() {
+    grunt.task.run([
+      'compass:app',
+      'compass:www',
+      'compass:moderator',
+      'compass:onepager',
+      'compass:storefront',
+      'copy:fonts',
+    ]);
+  });
+
+
+
 
   grunt.registerTask('minify', function() {
     grunt.task.run([

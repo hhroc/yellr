@@ -5,9 +5,6 @@
 @import "pieces/base";
 @import "pieces/modules";
 
-// libraries
-@import "libs/font-awesome/font-awesome";
-
 // yellr specific
 @import "theme/vars";
 @import "theme/classes";
@@ -19,6 +16,61 @@
 @import "theme/assignments";
 
 
+#yellr-index-wrapper {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	margin-bottom: 4rem;
+}
+
+#yellr-index {
+	background: $yellow;
+	h1 {
+		text-align: center;
+		font-size: 5rem;
+		max-width: 32rem;
+		margin: 0 auto 2rem;
+	}
+}
+#yellr-project-list {
+	max-width: 28rem;
+	margin: 0 auto;
+	border-left: 1px solid $dark-yellow;
+	border-right: 1px solid $dark-yellow;
+
+	h2 {
+		font-weight: bold;
+		font-size: 1.5rem;
+		margin: 0 0.75rem 0.25rem 0;
+		display: inline-block;
+	}
+	.flex-3 {
+		padding: 0.875rem 1rem 0.5rem;
+	}
+	.flex-1 {
+		align-self: stretch;
+	}
+	li {
+		@include flexbox();
+		border-top: 1px solid $dark-yellow;
+		&:last-child {border-bottom: 1px solid $dark-yellow; }
+	}
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+.project-link {
+	border-left: 1px solid $dark-yellow;
+	text-align: center;
+	padding: 2rem 1rem;
+	max-width: 6rem;
+	@include transition(background, 0.3s);
+	&:hover {background: $dark-yellow; }
+	span {vertical-align: sub; }
+
+}
 
 // ===================================
 // quick and dirty testing

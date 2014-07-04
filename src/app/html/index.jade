@@ -1,45 +1,85 @@
 include ../../common/html/jade-helpers.jade
 !!! 5
 head
-	include ../../common/html/_head/meta.jade
-	
+	meta(charset="utf-8")
+	meta(name="format-detection", content="telephone=no")
+	meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi")
+	meta(name="msapplication-tap-highlight", content="no")	
 	title Yellr
 	meta(name="description", content="Yellr - Citizen engagement and journalism app")
-
-	include ../../common/html/_head/favicon.jade
-	include ../../common/html/_head/head-scripts.jade
 	link(rel="stylesheet", href="style/style.css")
 
 
 body#index
-	a(href="#main", class="assistive-text") Skip to main content
 	div.container
+		div.apache
+			div#deviceready.blink
+				p.event.listening Connecting to device
+				p.event.received Device is ready
 
 
-		//-nav#user-bar-wrapper
-			div#grey-bkgd
-				.wrapper
-					ul#user-bar
-						li#browse-li
-							a(href="#") Browse
-						li#report-li
-							a(href="#") Report
-						li#profile-li
-							a(href="#") Profile
-						li#notification-li
-							a(href="#") &nbsp;
-			div#dark-blue-bkgd
-				.wrapper
-					ul#secondary-bar
-						li
-							a(href="#") Assignments
-						li
-							a(href="#") Latest Reports
+		header.header-wrapper
+
+			header#app-header.app-bar.header
+				h1#app-h1
+					a(href="#") yellr
+				nav
+					ul.header-nav-list
+						li#notifications-btn
+							a(href="#notifications")
+								i.fa.fa-bell
+						li#messages-btn
+							a(href="#messages")
+								i.fa.fa-envelope-o
+						li#more-btn
+							span.toggle
+								i.fa.fa-ellipsis-v
+							ul.more-options-list(data-hidden="true")
+								li
+									a(href="#profile")
+										h2 Username
+										span View Profile
+								li
+									a(href="#language-setting") 
+										p Language
+										span English
+								li
+									a(href="#feedback") Send App Feedback
+								li
+									a(href="#privacy-policy") Privacy Policy
+
+
+			header#page-header.app-bar.header
+				nav#back-btn
+					a(href="#")
+						i.fa.fa-arrow-left
+				h1#page-h1 Page
+				span#refresh-btn
+					i.fa.fa-refresh
+		//- end header
+
+
+		footer.footer-wrapper
+			footer#report-bar.app-bar
+				div
+					div#capture-audio
+						i.fa.fa-microphone
+					div#capture-picture
+						i.fa.fa-camera
+					div#capture-video
+						i.fa.fa-video-camera
+					div#capture-text
+						i.fa.fa-pencil-square-o
+				p#anonymous-disclaimer All posts are anonymous.
+
+
+
+
 
 
 		div#main
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Submission form
 					p Form the user will see after they have captured some content with the device. 
@@ -92,7 +132,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 App header
 					p The application header
@@ -107,7 +147,7 @@ body#index
 								div#more-btn
 									i.fa.fa-bars
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Quick Report bar
 					p This bar will always be present to allow users the ability to quickly create a report
@@ -127,7 +167,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Latest assignments
 					p A list of the latest assignments on yellr
@@ -243,7 +283,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Assignment View
 					p For viewing a single assignment
@@ -312,7 +352,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Reporting
 					p Contributing to yellr
@@ -367,7 +407,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Account Creation
 					p Creating a new account for yellr
@@ -394,7 +434,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Question prompt
 					p Questions pushed from WXXI will look like this
@@ -416,7 +456,7 @@ body#index
 
 
 
-			div.module-wrapper
+			//-div.module-wrapper
 				div.module-info
 					h2 Latest stories
 					p List of the latest reports to be submitted
@@ -450,25 +490,13 @@ body#index
 
 
 
-		footer#footer.header-footer
-			.wrapper
-				p Privacy policy
-				ul#footer-links.list-style-none
-					li
-						a(href="#") link
-					li
-						a(href="#") link
-					li
-						a(href="#") link
-					li
-						a(href="#") link
-					li
-						a(href="#") link
 
 	script(src="cordova.js")
 	script(src="js/libs/jquery.js")
 	script(src="js/libs/handlebars.js")
 	script(src="js/libs/fastclick.js")
-	script(src="js/main.js")
+	script(src="js/yellr.js")
+	script(src="js/init.js")
+	//-<script type="text/javascript"> app.initialize(); </script>
 
 </html>

@@ -3,31 +3,26 @@ include ../../common/html/jade-helpers.jade
 head
 	meta(charset="utf-8")
 	meta(name="format-detection", content="telephone=no")
-	meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi")
+	meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height")
 	meta(name="msapplication-tap-highlight", content="no")	
 	title Yellr
 	meta(name="description", content="Yellr - Citizen engagement and journalism app")
 	link(rel="stylesheet", href="style/style.css")
-
+	script(src="js/libs/modernizr.js")
 
 body#index
 	div.container
-		div.apache
-			div#deviceready.blink
-				p.event.listening Connecting to device
-				p.event.received Device is ready
-
 
 		header.header-wrapper
 
 			header#app-header.app-bar.header
 				h1#app-h1
-					a(href="#") yellr
-				nav
+					a(href="#") Yellr
+				nav#app-nav
 					ul.header-nav-list
 						li#notifications-btn
 							a(href="#notifications")
-								i.fa.fa-bell
+								i.fa.fa-bell-o
 						li#messages-btn
 							a(href="#messages")
 								i.fa.fa-envelope-o
@@ -72,6 +67,11 @@ body#index
 						i.fa.fa-pencil-square-o
 				p#anonymous-disclaimer All posts are anonymous.
 
+
+		div.apache
+			div#deviceready.blink
+				p.event.listening Connecting to device
+				p.event.received Device is ready
 
 
 

@@ -1,285 +1,65 @@
 <!DOCTYPE html>
-<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>Yellr</title>
+  <meta name="description" content="Yellr - Citizen engagement and journalism app">
   <link rel="stylesheet" href="style/style.css">
+  <script src="js/libs/modernizr.js"></script>
 </head>
-<body id="index"><a href="#main" class="assistive-text">Skip to main content</a>
+<body id="index">
   <div class="container">
-
-    <header class="header-bar-wrapper">
-      <div id="header-bar">
-        <div id="home-btn" class="flex-2">
-          <h1>yellr</h1>
-        </div>
-        <div class="more-controls flex-1">
-          <div id="notification-btn"><i class="fa fa-envelope-o"></i></div>
-          <div id="more-btn"><i class="fa fa-bars"></i></div>
-        </div>
-      </div>
-    </header>
-    <div class="report-bar-wrapper">
-      <div id="report-bar">
-        <div id="capture-audio"><i class="fa fa-microphone"></i></div>
-        <div id="capture-picture"><i class="fa fa-camera"></i></div>
-        <div id="capture-video"><i class="fa fa-video-camera"></i></div>
-        <div id="capture-text"><i class="fa fa-pencil-square-o"></i></div>
-      </div>
-      <p id="anonymous-disclaimer">All posts are anonymous.</p>
-    </div>
-    <!-- WHYYYY -->
-    <div id="test">
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <!-- win -->
-      <p id="response-code"></p>
-      <p id="response"></p>
-      <p id="bytesSent"></p>
-      <!-- fail -->
-      <p id="error-source"></p>
-      <p id="error-target"></p>
-      <button onclick="captureImage();">Capture Image</button>
-      <p>&nbsp;</p>
-      <!-- <form id="testform" action="http://yellrdev.wxxi.org/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data"> -->
-      <form id="testform" action="http://yellrdev.wxxi.org/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="sometext" name="sometext" type="text" value="This is a test!">
-        <input type="submit" value="submit" />
-      </form>
-      <form action="http://yellrdev.wxxi.org/uploadmedia.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="mediafile" name="mediafile" type="file" value="" />
-        <input id="clientid" name="clientid" type="text" value="123456789" style="display:none;" />
-        <input id="mediatype" name="mediatype" type="mediatype" value="text" style="display:none;">
-        <input type="submit" value="submit" />
-      </form>
-    </div>
-    <!-- YYYYYYYYYYYYYYY -->
-
-    <div id="main"></div>
-    <section id="submit-report">
-      <form action="http://yellrdev.wxxi.org/mediaupload.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="mediafile" name="mediafile" type="file" value="" />
-        <input id="clientid" name="clientid" type="text" value="123456789" style="display:none;" />
-        <input id="mediatype" name="mediatype" type="mediatype" value="text" style="display:none;">
-        <input type="submit" value="submit" />
-      </form>
-    </section>
-  </div>
-
-
-
-
-
-  <!-- TEMPLATES -->
-
-
-
-  <!-- Homepage -->
-  <script id="page-index-tpl" type="text/x-handlebars-template">
-    <div class="wrapper">
-      <ul id="latest-assignments" class="list-style-none"> </ul>
-    </div>
-  </script>
-
-  <script id="assignmentLI-tpl" type="text/x-handlebars-template">
-    {{#.}}
-    <li>
-      <h2 class="t1"> <a href="#assignment/{{id}}">{{title}}</a></h2>
-      <figure> <a href="#assignment/{{id}}"><img src="http://lorempixel.com/400/200"></a>
-      </figure>
-      <p> {{description}} <span class="deadline">{{deadline}}</span></p> <div class="assignment-action"><a href="#assignment/{{id}}" class="contribute-btn">View assignment</a><span class="current-contributions">{{contributions}} contributions </span></div>
-      <div class="accepted-media-wrapper">
-        <ul class="accepted-media">
-          <li><i title="Video" class="fa fa-video-camera"></i></li>
-          <li><i title="Picture" class="fa fa-camera"></i></li>
-          <li><i title="Audio" class="fa fa-volume-up"></i></li>
-          <li><i title="Text" class="fa fa-file-text-o"></i></li>
-        </ul>
-      </div>
-    </li>
-    {{/.}}
-  </script>
-
-
-
-  <!-- Assignment Page -->
-  <script id="page-assignment-tpl" type="text/x-handlebars-template">
-    <div class="wrapper">
-      <section id="assignment-view">
-        <h2 id="assignment-question" class="t1">{{title}}</h2>
-        <figure><img src="http://lorempixel.com/800/400"></figure>
-        <p class="assignment-details">{{description}}</p>
-        <div class="assignment-actions">
-          <div class="flex-3"><span class="deadline no-margin-left">{{deadline}}</span>
-            <div class="accepted-media-wrapper"><span><em>Accepted Media:</em></span>
-              <ul class="accepted-media">
-                <li><i class="fa fa-video-camera"></i></li>
-                <li><i class="fa fa-camera"></i></li>
-                <li><i class="fa fa-volume-up"></i></li>
-                <li><i class="fa fa-file-text-o"></i></li>
+    <header class="header-wrapper">
+      <header id="app-header" class="app-bar header">
+        <h1 id="app-h1"><a href="#">Yellr</a></h1>
+        <nav id="app-nav">
+          <ul class="header-nav-list">
+            <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
+            <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
+            <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
+              <ul data-hidden="true" class="more-options-list">
+                <li><a href="#profile">
+                    <h2>Username</h2><span>View Profile</span></a></li>
+                <li><a href="#language-setting"> 
+                    <p>Language</p><span>English</span></a></li>
+                <li><a href="#feedback">Send App Feedback</a></li>
+                <li><a href="#privacy-policy">Privacy Policy</a></li>
               </ul>
-            </div>
-          </div>
-          <div class="flex-2"><a href="#contribute/{{id}}" class="contribute-btn no-margin-right">Contribute</a></div>
-        </div>
-      </section>
-      <aside>
-        <h3 class="t2">Latest Contributions</h3>
-        <ul class="contributions-list list-style-none"> </ul>
-      </aside>
-    </div>
-  </script>
-
-  <script id="contributionLI-tpl" type="text/x-handlebars-template">
-    <li><a href="#"> <span class="contributor">DanDan109</span>
-        <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
-    <li> <a href="#"> <span class="contributor">Steve-O</span>
-        <figure><img src="http://lorempixel.com/400/200"></figure>
-        <p>“Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. </p></a></li>
-    <li><a href="#"><span class="contributor">Afroman</span>
-        <p>This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...</p>
-        <figure><img src="http://lorempixel.com/400/200"></figure></a></li>
-    <li><a href="#"><span class="contributor">Clint Eastwood</span>
-        <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
-  </script>
-
-
-
-  <!-- Submitting a Report -->
-  <script id="contribution-form-tpl" type="text/x-handlebars-template">
-    <div class="wrapper">
-      <section id="submit-report">
-        <h2 class="t1">Submit a report</h2>
-        <form class="form">
-          <ul class="list-style-none">
-            <li class="phone-action-li report-bar">
-              <div id="capture-audio"><i class="fa fa-microphone"></i><span>Audio</span></div>
-              <div id="capture-picture"><i class="fa fa-camera"></i><span>Picture</span></div>
-              <div id="capture-video"><i class="fa fa-video-camera"></i><span>Video</span></div>
             </li>
-            <li class="title-li"> <label> <p class="t3">Title</p> <input type="text"> </label> </li>
-            <li class="add-media-li">
-              <div class="flex flex-end">
-                <p class="t3 flex-3">Add media</p>
-                <span id="add-more-media-btn" class="add-more-media flex-1">Add more +</span>
-              </div>
-              <div id="media-input-wrapper">
-                <input type="file">
-              </div>
-              <p><em>Media uploads can be rearranged in Preview mode. Add your files first.</em></p>
-            </li>
-            <li class="textfield-li">
-              <label>
-                <p class="t3 optional">Text field</p>
-                <textarea rows="10" columns="10"></textarea>
-              </label>
-            </li>
-            <li class="location-li">
-              <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
-              <p id="location">43.1567975, -77.6167498                    </p>
-              <p class="anonymous-announcement">Your location is submitted to ensure that you are from the area.</p>
-            </li>
-            <li class="privacy-li">
-              <p class="anonymous-announcement">All posts are anonymous.</p>
-            </li>
-            <li class="report-li report-bar"><a href="#" id="save-draft">Save draft</a><a href="#" id="preview-report">Preview</a><a href="#" id="submit-report">Submit</a></li>
           </ul>
-        </form>
-      </section>
+        </nav>
+      </header>
+      <header id="page-header" class="app-bar header">
+        <nav id="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
+        <h1 id="page-h1">Page</h1><span id="refresh-btn"><i class="fa fa-refresh"></i></span>
+      </header>
+    </header>
+    <footer class="footer-wrapper">
+      <footer id="report-bar" class="app-bar">
+        <div>
+          <div id="capture-audio"><i class="fa fa-microphone"></i></div>
+          <div id="capture-picture"><i class="fa fa-camera"></i></div>
+          <div id="capture-video"><i class="fa fa-video-camera"></i></div>
+          <div id="capture-text"><i class="fa fa-pencil-square-o"></i></div>
+        </div>
+        <p id="anonymous-disclaimer">All posts are anonymous.</p>
+      </footer>
+    </footer>
+    <div class="apache">
+      <div id="deviceready" class="blink">
+        <p class="event listening">Connecting to device</p>
+        <p class="event received">Device is ready</p>
+      </div>
     </div>
-  </script>
-
+    <div id="main">
+    </div>
+  </div>
   <script src="cordova.js"></script>
   <script src="js/libs/jquery.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/fastclick.js"></script>
-  <!-- // <script src="js/main.js"></script> -->
-	<!-- // <script src="js/app.js"></script> -->
-  <script type="text/javascript">
-
-    // Wait for device API libraries to load
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-
-    // device APIs are available
-    function onDeviceReady() {
-      alert('do the things');
-      // alert('WHYYYY');
-      // alert($);
-
-      var form = $('#testform');
-      // alert(form);
-      form.submit(function() {
-        alert('about to post');
-        $.ajax({
-          type: 'POST',
-          url: 'http://yellrdev.wxxi.org/uploadtest.json',
-          data: {
-            sometext: 'GOD I HOPE I GET IT, I HOPE I GET IT. HOW MANY KIDS DOES HE NEED? HOW MANY BOYS? HOW MANY GIRLS?'
-          }, // your data (if any) should go here
-          dataType: 'application/json', // or whatever you expect back
-          success: function(data) {
-            alert('In callback');
-            alert(data);
-          },
-          error: function(error) {
-            alert(error);
-          }
-        });
-      });
-    }
-
-
-    // Called when capture operation is finished
-    function captureSuccess(mediaFiles) {
-        alert('capture success');
-        var i, len;
-        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            uploadFile(mediaFiles[i]);
-        }       
-    }
-
-    // Called if something bad happens.
-    function captureError(error) {
-      var msg = 'An error occurred during capture: ' + error.code;
-      navigator.notification.alert(msg, null, 'Uh oh!');
-    }
-
-    // A button will call this function
-    function captureImage() {
-      // Launch device camera application, 
-      // allowing user to capture up to 2 images
-      navigator.device.capture.captureImage(captureSuccess, captureError, {limit: 1});
-    }
-
-    // Upload files to server
-    function uploadFile(mediaFile) {
-      alert('trying to upload...');
-      var ft = new FileTransfer(),
-          path = mediaFile.fullPath,
-          name = mediaFile.name;
-      alert(name);
-
-      ft.upload(path,
-        "http://yellrdev.wxxi.org/uploadmedia.json",
-        function(result) {
-          console.log('Upload success: ' + result.responseCode);
-          console.log(result.bytesSent + ' bytes sent');
-          document.querySelector('#response-code').innerHTML = "Code | " + result.responseCode;
-          document.querySelector('#response').innerHTML = "Response | " + result.response;
-          document.querySelector('#bytesSent').innerHTML = "Sent | " + result.bytesSent;
-        },
-        function(error) {
-          console.log('Error uploading file ' + path + ': ' + error.code);
-          document.querySelector('#error-source').innerHTML = 'Error uploading file ' + path + ': ' + error.code;
-        },
-        { fileName: name }
-      );
-    }
-
-
-
-  </script>
-</body>
-</html>
+  <script src="js/yellr.js"></script>
+  <script src="js/init.js"></script>
+</body></html>

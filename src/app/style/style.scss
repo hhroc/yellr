@@ -18,12 +18,74 @@
 @import "../../common/style/theme/typography";
 
 
-.header-wrapper {
-	background: tomato;
-	header {
-		margin-bottom: 2rem;
+// .header-wrapper {
+// 	background: tomato;
+// 	header {
+// 		margin-bottom: 2rem;
+// 	}
+// }
+.header {
+	h1, h2 {
+		margin: 0;
+		font-size: 1rem;
+	}
+	border-bottom: 2px solid $dark-yellow;
+}
+
+#app-header {
+	@include flexbox();
+}
+#app-h1 {
+	width: 20%;
+	@include flex(2);
+	padding: 0.75rem;
+}
+#app-nav {
+	width: 75%;
+	@include flex(3);
+	text-align: right;
+	@include cf();
+}
+
+.header-nav-list {
+	@include cf();
+	max-width: 7.8rem;
+	float: right;
+	@include flexbox();
+	li {
+		padding: 0.75rem;
+		border-left: 1px solid $dark-yellow;
+		text-align: center;
+		display: inline-block;
+		float: left;
+		max-width: 2.6rem;
+		@include flex(1);
+		@include transition(background, 0.3s);
+		&:hover {
+			background: $dark-yellow;
+		}
 	}
 }
+#more-btn {
+	position: relative;
+	i {
+		padding: 0 0.5rem;
+	}
+}
+
+.more-options-list {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: none;
+	li {
+		display: block;
+	}
+	&.hidden {
+		background: tomato;
+	}
+}
+
 
 
 .app-bar {
@@ -35,25 +97,13 @@
 	ul {
 		list-style: none;
 	}
-	li {
-		display: inline-block;
-	}
+	// li {
+	// 	display: inline-block;
+	// }
 
 }
 
 
-#more-btn {
-	position: relative;	
-}
-
-.more-options-list {
-	position: absolute;
-	top: 0;
-	right: 0;
-	li {
-		display: block;
-	}
-}
 
 .header {
 	background: $yellow;

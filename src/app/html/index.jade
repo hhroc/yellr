@@ -65,7 +65,64 @@ body#index
 		//- end header
 
 
+		div#main
+
+			div.module-wrapper
+				div.module-info
+					h2 Submission form
+					p Form the user will see after they have captured some content with the device. 
+						| They will be able to add a description, tags, more photos, and opt in to submitting with a username
+				div.module
+					header.submit-report-header.header-bar-wrapper
+						a(href="#").header-back
+							i.fa.fa-arrow-left
+						span.header-current Submit
+						a(href="#submit").header-next
+							i.fa.fa-arrow-right
+
+					form.form.wrapper.submit-preview
+						//-input(type="text", placeholder="Add description").add-description
+						textarea(rows="2", columns="10", placeholder="Add description", autofocus).no-border
+						
+						div.media-submission-wrapper
+							div.media-preview
+								i.fa.fa-close
+								img(src="http://lorempixel.com/400/200")
+							div.media-options
+								span.add-more-media.flex-1#add-more-media-btn
+									i.fa.fa-plus
+								//-div#media-input-wrapper
+										input(type="file")
+						div.extra-info
+							div#location-info.info
+								p#location 43.1567975, -77.6167498										
+								p.anonymous-announcement Your location is submitted to ensure that you are from the area.
+							div#tags-info.info
+								ul.tags-list
+									li fifa
+									li world cup
+									li rochester
+							div#user-info.info
+								p#uuid UID43142342
+
+					footer.submit-report-footer.report-bar-wrapper.flex
+						div.flex-1.pos-rel#show-location
+							i.fa.fa-map-marker(title="Location")
+						div.flex-1#add-tags
+							i.fa.fa-tags(title="Tags")
+						div.flex-1#toggle-anon
+							i.fa.fa-user(title="Anonymous")
+
+						//-div.report-li.report-bar
+							a(href="#")#save-draft Save draft
+							a(href="#")#preview-report Preview
+
+
+
+
+
 		footer.footer-wrapper
+
 			footer#report-bar.app-bar.footer
 				div.flex
 					div#capture-audio.btn
@@ -76,12 +133,28 @@ body#index
 						i.fa.fa-video-camera
 					div#capture-text.btn
 						i.fa.fa-pencil-square-o
-				p#anonymous-disclaimer All posts are anonymous.
+				p.anonymous-disclaimer All posts are anonymous.
+
+			footer#submit-footer.footer.app-bar
+				div.flex
+					div#location-btn.btn
+						i.fa.fa-map-marker
+					div#tags-btn.btn
+						i.fa.fa-tags
+					div#anon-btn.btn
+						i.fa.fa-user
+				p.anonymous-disclaimer Posting anonymously
+
+			footer.footer.app-bar
+				div.flex
+					div.btn
+						i.fa.fa-plus
+					div.btn
+						i.fa.fa-trash-o
 
 
 
-
-		div#main
+		//-div#main
 
 			//-div.module-wrapper
 				div.module-info

@@ -29,19 +29,21 @@ body#index
 						li#more-btn
 							span.toggle
 								i.fa.fa-ellipsis-v
-							ul.more-options-list(data-hidden="true")
-								li
+							ul.more-options-list.hidden(data-hidden="true")
+								li#profile-btn
 									a(href="#profile")
-										h2 Username
+										p.nav-title.username Username
 										span View Profile
-								li
+								li#language-btn
 									a(href="#language-setting") 
-										p Language
+										p.nav-title Language
 										span English
-								li
-									a(href="#feedback") Send App Feedback
-								li
-									a(href="#privacy-policy") Privacy Policy
+								li#feedback-btn
+									a(href="#feedback") 
+										p.nav-title  Send App Feedback
+								li#privacy-policy-btn
+									a(href="#privacy-policy") 
+										p.nav-title  Privacy Policy
 
 
 			header#page-header.app-bar.header
@@ -64,24 +66,17 @@ body#index
 
 
 		footer.footer-wrapper
-			footer#report-bar.app-bar
-				div
-					div#capture-audio
+			footer#report-bar.app-bar.footer
+				div.flex
+					div#capture-audio.btn
 						i.fa.fa-microphone
-					div#capture-picture
+					div#capture-picture.btn
 						i.fa.fa-camera
-					div#capture-video
+					div#capture-video.btn
 						i.fa.fa-video-camera
-					div#capture-text
+					div#capture-text.btn
 						i.fa.fa-pencil-square-o
 				p#anonymous-disclaimer All posts are anonymous.
-
-
-		div.apache
-			div#deviceready.blink
-				p.event.listening Connecting to device
-				p.event.received Device is ready
-
 
 
 

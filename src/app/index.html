@@ -19,13 +19,15 @@
             <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
             <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
             <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
-              <ul data-hidden="true" class="more-options-list">
-                <li><a href="#profile">
-                    <h2>Username</h2><span>View Profile</span></a></li>
-                <li><a href="#language-setting"> 
-                    <p>Language</p><span>English</span></a></li>
-                <li><a href="#feedback">Send App Feedback</a></li>
-                <li><a href="#privacy-policy">Privacy Policy</a></li>
+              <ul data-hidden="true" class="more-options-list hidden">
+                <li id="profile-btn"><a href="#profile">
+                    <p class="nav-title username">Username</p><span>View Profile</span></a></li>
+                <li id="language-btn"><a href="#language-setting"> 
+                    <p class="nav-title">Language</p><span>English</span></a></li>
+                <li id="feedback-btn"><a href="#feedback"> 
+                    <p class="nav-title"> Send App Feedback</p></a></li>
+                <li id="privacy-policy-btn"><a href="#privacy-policy"> 
+                    <p class="nav-title"> Privacy Policy</p></a></li>
               </ul>
             </li>
           </ul>
@@ -41,22 +43,16 @@
       </header>
     </header>
     <footer class="footer-wrapper">
-      <footer id="report-bar" class="app-bar">
-        <div>
-          <div id="capture-audio"><i class="fa fa-microphone"></i></div>
-          <div id="capture-picture"><i class="fa fa-camera"></i></div>
-          <div id="capture-video"><i class="fa fa-video-camera"></i></div>
-          <div id="capture-text"><i class="fa fa-pencil-square-o"></i></div>
+      <footer id="report-bar" class="app-bar footer">
+        <div class="flex">
+          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
+          <div id="capture-picture" class="btn"><i class="fa fa-camera"></i></div>
+          <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
+          <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
         </div>
         <p id="anonymous-disclaimer">All posts are anonymous.</p>
       </footer>
     </footer>
-    <div class="apache">
-      <div id="deviceready" class="blink">
-        <p class="event listening">Connecting to device</p>
-        <p class="event received">Device is ready</p>
-      </div>
-    </div>
     <div id="main">
     </div>
   </div>

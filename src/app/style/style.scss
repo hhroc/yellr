@@ -18,100 +18,8 @@
 @import "../../common/style/theme/typography";
 
 
-// .header-wrapper {
-// 	background: tomato;
-// 	header {
-// 		margin-bottom: 2rem;
-// 	}
-// }
+@import "header";
 
-$icon-padding: 0.75rem;
-.header {
-	border-bottom: 2px solid $dark-yellow;
-	background: $yellow;
-	@include flexbox();
-	h1, h2 {
-		margin: 0;
-		font-size: 1rem;
-	}
-	h1, nav {
-		display: inline-block;
-	}
-}
-
-#app-h1 {
-	width: 60%;
-	@include flex(4);
-	padding: $icon-padding;
-}
-
-#app-nav {
-	width: 38%;
-	@include flex(3);
-	// text-align: right;
-	// @include cf();
-}
-
-.header-nav-list {
-	@include flexbox();
-	li {
-		padding: $icon-padding;
-		border-left: 1px solid $dark-yellow;
-		text-align: center;
-		@include flex(1);
-		@include transition(background, 0.3s);
-		&:hover {background: $dark-yellow; }
-	}
-	&.fallback {
-		// max-width: 7.8rem;
-		// li {
-		// 	display: inline-block;
-		// 	float: left;
-		// 	max-width: 2.6rem;
-		// }
-	}
-}
-#more-btn {
-	position: relative;
-	i {
-		padding: 0 0.5rem;
-	}
-}
-
-.more-options-list {
-	position: absolute;
-	top: 0;
-	right: 0;
-	display: none;
-	li {
-		display: block;
-	}
-	&.hidden {
-		background: tomato;
-	}
-}
-
-%btn {
-	@include flex(1);
-	max-width: 2.625rem;
-	padding: $icon-padding;	
-	@include transition(background, 0.3s);
-}
-#submit-btn, #refresh-btn {
-	@extend %btn;
-	border-left: 1px solid darken($yellow, 4%);
-}
-#submit-btn {
-}
-.back-btn {
-	@extend %btn;
-	color: darken($yellow, 15%);
-	border-right: 1px solid $dark-yellow;
-}
-#page-h1 {
-	@include flex(3);
-	padding: $icon-padding;
-}
 
 
 .app-bar {
@@ -142,23 +50,30 @@ $icon-padding: 0.75rem;
 // 	width: 100%;
 // 	z-index: 50;
 // }
-// #report-bar {
-// 	@include flexbox();
-// 	background: $yellow;
-// 	color: $black;
-// 	border-bottom: 1px solid #aaa;
-// 	div {
-// 		@include transition(background, 0.3s);
-// 		width: 25%; // in case the phone doesn't support flex
-// 		@include flex(1);
-// 		padding: 0.75rem;
-// 		text-align: center;
-// 		border-right: 1px solid $dark-yellow;
-// 		&:last-child {border: none; }
-// 		&:hover {background: $dark-yellow; }
-// 	}
-// 	i {font-size: 1.25rem; }
-// }
+#report-bar {
+	background: $yellow;
+	color: $black;
+	// border-bottom: 1px solid #aaa;
+	.btn {
+		@extend %btn;
+		max-width: none;	
+		text-align: center;
+		border-right: 1px solid $dark-yellow;
+		&:last-child {border-right: none;}
+		&:hover {background: $dark-yellow;}
+	}
+	// div {
+	// 	@include transition(background, 0.3s);
+	// 	width: 25%; // in case the phone doesn't support flex
+	// 	@include flex(1);
+	// 	padding: 0.75rem;
+	// 	text-align: center;
+	// 	border-right: 1px solid $dark-yellow;
+	// 	&:last-child {border: none; }
+	// 	&:hover {background: $dark-yellow; }
+	// }
+	i {font-size: 1.25rem; }
+}
 #anonymous-disclaimer {
 	text-align: center;
 	font-style: italic;

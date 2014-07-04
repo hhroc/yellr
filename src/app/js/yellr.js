@@ -25,20 +25,9 @@ yellr.setup = {
 		console.log('setup DOM');
 
 
-		if (!Modernizr.flexbox) yellr.fallback.flexbox();
-
-
-		// hide More options list
-		var doc = document;
+		// set up Menu toggle for more options
 		var toggle = document.querySelector('#more-btn .toggle');
 		toggle.onclick = yellr.toggle.more_options;
-		yellr.toggle.more_options();
-
-		// var moreList = doc.querySelector('.more-options-list');
-		// if (moreList.getAttribute('data-hidden')) {
-		// 	moreList.className += ' hidden';
-		// }
-
 
 	},
 	app: function() {
@@ -48,25 +37,19 @@ yellr.setup = {
 
 
 
-
 yellr.toggle = {
+
 	more_options: function(e) {
+		// toggle class="hidden", set attribute
 		var moreList = document.querySelector('.more-options-list');
-		if (moreList.getAttribute('data-hidden')) {
-			var c = moreList.className.split(' hidden')[0];
-			moreList.className = c;
+
+		if (moreList.getAttribute('data-hidden') === 'true') {
+			moreList.className = moreList.className.split(' hidden')[0];
+			moreList.setAttribute('data-hidden', 'false');
 		} else {
 			moreList.className += ' hidden';
-			moreList.setAttribute('data-hidden', true);
+			moreList.setAttribute('data-hidden', 'true');
 		}
 
-	}
-}
-
-yellr.fallback = {
-	flexbox: function() {
-		// fall back for flexbox
-		alert('do fallback for flexbox');
-		document.querySelector('.header-nav-list').className += ' fallback';
 	}
 }

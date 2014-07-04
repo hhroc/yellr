@@ -24,46 +24,51 @@
 // 		margin-bottom: 2rem;
 // 	}
 // }
+
+$icon-padding: 0.75rem;
 .header {
+	border-bottom: 2px solid $dark-yellow;
+	background: $yellow;
+	@include flexbox();
 	h1, h2 {
 		margin: 0;
 		font-size: 1rem;
 	}
-	border-bottom: 2px solid $dark-yellow;
+	h1, nav {
+		display: inline-block;
+	}
 }
 
-#app-header {
-	@include flexbox();
-}
 #app-h1 {
-	width: 20%;
-	@include flex(2);
-	padding: 0.75rem;
+	width: 60%;
+	@include flex(4);
+	padding: $icon-padding;
 }
+
 #app-nav {
-	width: 75%;
+	width: 38%;
 	@include flex(3);
-	text-align: right;
-	@include cf();
+	// text-align: right;
+	// @include cf();
 }
 
 .header-nav-list {
-	@include cf();
-	max-width: 7.8rem;
-	float: right;
 	@include flexbox();
 	li {
-		padding: 0.75rem;
+		padding: $icon-padding;
 		border-left: 1px solid $dark-yellow;
 		text-align: center;
-		display: inline-block;
-		float: left;
-		max-width: 2.6rem;
 		@include flex(1);
 		@include transition(background, 0.3s);
-		&:hover {
-			background: $dark-yellow;
-		}
+		&:hover {background: $dark-yellow; }
+	}
+	&.fallback {
+		// max-width: 7.8rem;
+		// li {
+		// 	display: inline-block;
+		// 	float: left;
+		// 	max-width: 2.6rem;
+		// }
 	}
 }
 #more-btn {
@@ -86,6 +91,27 @@
 	}
 }
 
+%btn {
+	@include flex(1);
+	max-width: 2.625rem;
+	padding: $icon-padding;	
+	@include transition(background, 0.3s);
+}
+#submit-btn, #refresh-btn {
+	@extend %btn;
+	border-left: 1px solid darken($yellow, 4%);
+}
+#submit-btn {
+}
+.back-btn {
+	@extend %btn;
+	color: darken($yellow, 15%);
+	border-right: 1px solid $dark-yellow;
+}
+#page-h1 {
+	@include flex(3);
+	padding: $icon-padding;
+}
 
 
 .app-bar {
@@ -105,25 +131,44 @@
 
 
 
-.header {
-	background: $yellow;
-	h1, nav {
-		display: inline-block;
-	}
+
+
+
+// // REPORT BAR
+// // ----------------------------
+// .report-bar-wrapper {
+// 	position: fixed;
+// 	bottom: 0;
+// 	width: 100%;
+// 	z-index: 50;
+// }
+// #report-bar {
+// 	@include flexbox();
+// 	background: $yellow;
+// 	color: $black;
+// 	border-bottom: 1px solid #aaa;
+// 	div {
+// 		@include transition(background, 0.3s);
+// 		width: 25%; // in case the phone doesn't support flex
+// 		@include flex(1);
+// 		padding: 0.75rem;
+// 		text-align: center;
+// 		border-right: 1px solid $dark-yellow;
+// 		&:last-child {border: none; }
+// 		&:hover {background: $dark-yellow; }
+// 	}
+// 	i {font-size: 1.25rem; }
+// }
+#anonymous-disclaimer {
+	text-align: center;
+	font-style: italic;
+	font-size: 0.75rem;
+	padding: 0.25rem 0;
+	margin-bottom: 0;
+	background: $black;
+	color: $white;
+	max-width: none;
 }
-
-
-#app-header {
-}
-#page-header {
-
-}
-
-
-
-
-
-
 
 
 

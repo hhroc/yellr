@@ -24,15 +24,8 @@ yellr.setup = {
 		*/
 		console.log('setup DOM');
 
-		// alert(Modernizr);
-		// check if CSS Flexbox is supported
-		Modernizr.load({
-			test: Modernizr.flexbox,
-			nope: ['test.js', 'js/test.js', 'js/libs/flexie.js'],
-			complete: function() {
-				yellr.fallback.flexbox();
-			}
-		});
+
+		if (!Modernizr.flexbox) yellr.fallback.flexbox();
 
 
 		// hide More options list
@@ -74,5 +67,6 @@ yellr.fallback = {
 	flexbox: function() {
 		// fall back for flexbox
 		alert('do fallback for flexbox');
+		document.querySelector('.header-nav-list').className += ' fallback';
 	}
 }

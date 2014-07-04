@@ -21,6 +21,7 @@ def main(global_config, **settings):
     config.add_route('status.json','status.json')
     config.add_route('uploadmedia.json','uploadmedia.json')
     config.add_route('uploadtest.json','uploadtest.json')
+    config.add_route('publishpost.json','publishpost.json')
     #config.add_route('','')
 
     config.scan()

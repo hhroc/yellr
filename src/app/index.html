@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="style/style.css">
   <script src="js/libs/modernizr.js"></script>
 </head>
-<body id="index">
+<body id="app" data-state="index">
   <div class="container">
-    <header class="header-wrapper">
-      <header id="app-header" class="app-bar header">
+    <header id="header" data-current="index" class="header-wrapper">
+      <header id="app-header" data-page="index" class="app-bar header">
         <h1 id="app-h1"><a href="#">Yellr</a></h1>
         <nav id="app-nav">
           <ul class="header-nav-list">
@@ -33,33 +33,69 @@
           </ul>
         </nav>
       </header>
-      <header id="page-header" class="app-bar header">
+      <header id="page-header" data-page="page" class="app-bar header">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
         <h1 id="page-h1">Page</h1><span id="refresh-btn"><i class="fa fa-refresh"></i></span>
       </header>
-      <header id="submit-header" class="app-bar header">
+      <header id="submit-header" data-page="submit" class="app-bar header">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
         <h1 id="page-h1">Submit Report</h1><span id="submit-btn"><i class="fa fa-check"></i></span>
       </header>
     </header>
-    <footer class="footer-wrapper">
-      <footer id="report-bar" class="app-bar footer">
+    <div id="main">
+      <form class="form wrapper submit-preview">
+        <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
+        <div class="media-submission-wrapper">
+          <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+          <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+          </div>
+        </div>
+      </form>
+    </div>
+    <footer id="footer" class="footer-wrapper">
+      <footer id="report-bar" data-page="index" class="app-bar footer">
         <div class="flex">
           <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-picture" class="btn"><i class="fa fa-camera"></i></div>
           <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
           <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
         </div>
-        <p id="anonymous-disclaimer">All posts are anonymous.</p>
+        <p class="anonymous-disclaimer">All posts are anonymous.</p>
+      </footer>
+      <footer id="submit-footer" data-page="submit" class="footer app-bar">
+        <div class="flex">
+          <div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div>
+          <div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div>
+          <div id="anon-btn" data-info="identity" class="btn"><i class="fa fa-user"></i></div>
+        </div>
+        <div data-current="none" class="more-info hidden">
+          <div data-info="location" class="location-information extra-info">
+            <p id="location">43.1567975, -77.6167498</p>
+            <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p>
+          </div>
+          <ul data-info="tags" class="tags-list extra-info">
+            <li>FIFA</li>
+            <li>world cup</li>
+            <li>rochester</li>
+            <li id="add-tag-btn"><i class="fa fa-plus"></i></li>
+          </ul>
+          <p id="uuid" data-info="identity" class="extra-info">121924012392</p>
+        </div>
+        <p class="anonymous-disclaimer">Posting anonymously</p>
+      </footer>
+      <footer data-page="messages" class="footer app-bar">
+        <div class="flex">
+          <div class="btn"><i class="fa fa-plus"></i></div>
+          <div class="btn"><i class="fa fa-trash-o"></i></div>
+        </div>
       </footer>
     </footer>
-    <div id="main">
-    </div>
   </div>
   <script src="cordova.js"></script>
   <script src="js/libs/jquery.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/fastclick.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/yellr.js"></script>
   <script src="js/init.js"></script>
 </body></html>

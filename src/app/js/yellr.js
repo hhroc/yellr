@@ -4,9 +4,10 @@ var yellr = yellr || {};
 
 /*
 	the Yellr js objects is made up of:
-	yeller = {
+	yellr = {
 		setup: {
 			// which handles basic setup for the DOM and app
+			// checks yellr.config obj
 		},
 		toggle: {
 			// to handle toggling things
@@ -14,7 +15,40 @@ var yellr = yellr || {};
 	}
 */
 
+yellr.app = {
+	// This object holds all the DOM references
+	self: undefined,
+	header: undefined,
+	footer: undefined,
+	setup: function(refs) {
+		// pass in an object with DOM refs for quick setup
+		// you can set each one manually
+		this.self = refs.self;
+		// watch data-attr changes
+		var watcher = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+				console.log(mutation);
+				console.log(mutation.type);
+				if (mutation.attributeName == 'data-state') {
+					alert('change data-state attr');
+				}
+			})
+		});
+		// settings
+		var settings = {
+			attributes: true,
+			childList: true,
+			characterData: false
+		};
+		// set it
+		watcher.observe(this.self, settings);
 
+		this.header = refs.header;
+		this.footer = refs.footer;
+		console.log('finish yellr.app.setup');
+		console.log(this);
+	}
+}
 
 yellr.setup = {
 	DOM: function() {
@@ -32,6 +66,26 @@ yellr.setup = {
 
 		// set up toggle for content submission
 		document.querySelector('#submit-footer .flex').onclick = yellr.toggle.report_details;
+
+
+		// set up app DOM references
+		yellr.app.setup({
+			self: document.querySelector('#app'),
+			header: document.querySelector('#header'),
+			footer: document.querySelector('#footer')
+		});
+
+
+		var state = document.querySelector('#app').getAttribute('data-state');
+		if (state === 'index') {
+			console.log('state: ' + state);
+
+			console.log('test change on attr');
+			yellr.app.self.setAttribute('data-state','test');
+			// var header = 
+			// header = index;
+			// footer = report_bar;
+		}
 
 	},
 	app: function() {

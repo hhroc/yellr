@@ -10,12 +10,12 @@ head
 	link(rel="stylesheet", href="style/style.css")
 	script(src="js/libs/modernizr.js")
 
-body#index
+body#app(data-state="index")
 	div.container
 
-		header.header-wrapper
+		header#header.header-wrapper(data-current="index")
 
-			header#app-header.app-bar.header
+			header#app-header.app-bar.header(data-page="index")
 				h1#app-h1
 					a(href="#") Yellr
 				nav#app-nav
@@ -46,7 +46,7 @@ body#index
 										p.nav-title  Privacy Policy
 
 
-			header#page-header.app-bar.header
+			header#page-header.app-bar.header(data-page="page")
 				nav.back-btn
 					a(href="#")
 						i.fa.fa-arrow-left
@@ -55,7 +55,7 @@ body#index
 					i.fa.fa-refresh
 
 
-			header#submit-header.app-bar.header
+			header#submit-header.app-bar.header(data-page="submit")
 				nav.back-btn
 					a(href="#")
 						i.fa.fa-arrow-left
@@ -84,9 +84,22 @@ body#index
 
 
 
-		footer.footer-wrapper
+		footer#footer.footer-wrapper
 
-			footer#submit-footer.footer.app-bar
+			footer#report-bar.app-bar.footer(data-page="index")
+				div.flex
+					div#capture-audio.btn
+						i.fa.fa-microphone
+					div#capture-picture.btn
+						i.fa.fa-camera
+					div#capture-video.btn
+						i.fa.fa-video-camera
+					div#capture-text.btn
+						i.fa.fa-pencil-square-o
+				p.anonymous-disclaimer All posts are anonymous.
+
+
+			footer#submit-footer.footer.app-bar(data-page="submit")
 				div.flex
 					div#location-btn.btn(data-info="location")
 						i.fa.fa-map-marker
@@ -105,22 +118,10 @@ body#index
 						li#add-tag-btn
 							i.fa.fa-plus
 					p#uuid.extra-info(data-info="identity") 121924012392
-
 				p.anonymous-disclaimer Posting anonymously
 
-			footer#report-bar.app-bar.footer
-				div.flex
-					div#capture-audio.btn
-						i.fa.fa-microphone
-					div#capture-picture.btn
-						i.fa.fa-camera
-					div#capture-video.btn
-						i.fa.fa-video-camera
-					div#capture-text.btn
-						i.fa.fa-pencil-square-o
-				p.anonymous-disclaimer All posts are anonymous.
 
-			footer.footer.app-bar
+			footer.footer.app-bar(data-page="messages")
 				div.flex
 					div.btn
 						i.fa.fa-plus
@@ -547,6 +548,7 @@ body#index
 	script(src="js/libs/jquery.js")
 	script(src="js/libs/handlebars.js")
 	script(src="js/libs/fastclick.js")
+	script(src="js/config.js")
 	script(src="js/yellr.js")
 	script(src="js/init.js")
 	//-<script type="text/javascript"> app.initialize(); </script>

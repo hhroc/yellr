@@ -1,6 +1,18 @@
 # Learning From Failure
 
 
+### Mutation Events
+
+The app is using HTML5 data attributes tohelp piece everything together on the JS side.
+
+During development I had a thought.. "Can I call an event similar to onhashchange? So that when I change the data-state attribute it triggers a certain set of events?" Yes. And, no.
+
+At least on the phone I was developing an app for. It works in modern browsers but not older browers. Thankfully I didn't spend too long on it/ I like it as a feature, but for now I guess we can make do without its convenience.
+
+
+
+
+
 ### Flexbox
 
 Flexbox is awesome but as with all things awesome in CSS land not all browsers support it.

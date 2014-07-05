@@ -1,13 +1,30 @@
 @import "../../common/style/theme/vars";
 @import "vars";
 
+.header-wrapper {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+}
+
 .header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
 	border-bottom: 2px solid $dark-yellow;
 	background: $yellow;
 	@include flexbox();
+	opacity: 1;
+	z-index: 95;
 	h1, h2 {
 		margin: 0;
 		font-size: 1rem;
+	}
+	&.hidden {
+		z-index: -1;
+		opacity: 0;
 	}
 }
 

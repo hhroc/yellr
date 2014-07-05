@@ -21,7 +21,9 @@
 
 @import "header";
 
-
+.container {
+	padding: 3rem 0 4rem;
+}
 
 .app-bar {
 	// position: fixed
@@ -34,8 +36,18 @@
 
 
 
-
-
+.footer-wrapper {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
 
 // // REPORT BAR
 // // ----------------------------

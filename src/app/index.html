@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="style/style.css">
   <script src="js/libs/modernizr.js"></script>
 </head>
-<body id="app" data-state="index">
+<body id="app" data-state="#">
   <div class="container">
     <header id="header" data-current="index" class="header-wrapper">
-      <header id="app-header" data-page="index" class="app-bar header">
+      <header id="app-header" class="app-bar header hidden">
         <h1 id="app-h1"><a href="#">Yellr</a></h1>
         <nav id="app-nav">
           <ul class="header-nav-list">
@@ -33,16 +33,22 @@
           </ul>
         </nav>
       </header>
-      <header id="page-header" data-page="page" class="app-bar header">
+      <header id="page-header" class="app-bar header hidden">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
         <h1 id="page-h1">Page</h1><span id="refresh-btn"><i class="fa fa-refresh"></i></span>
       </header>
-      <header id="submit-header" data-page="submit" class="app-bar header">
+      <header id="submit-header" class="app-bar header hidden">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
         <h1 id="page-h1">Submit Report</h1><span id="submit-btn"><i class="fa fa-check"></i></span>
       </header>
     </header>
     <div id="main">
+      <div id="debug">
+        <p id="cordova-language"></p>
+        <p id="cordova-device"></p>
+        <p id="cordova-connection"></p>
+        <p id="cordova-position"></p>
+      </div>
       <form class="form wrapper submit-preview">
         <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
         <div class="media-submission-wrapper">
@@ -53,7 +59,7 @@
       </form>
     </div>
     <footer id="footer" class="footer-wrapper">
-      <footer id="report-bar" data-page="index" class="app-bar footer">
+      <footer id="report-bar" data-page="index" class="app-bar footer hidden">
         <div class="flex">
           <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-picture" class="btn"><i class="fa fa-camera"></i></div>
@@ -62,7 +68,7 @@
         </div>
         <p class="anonymous-disclaimer">All posts are anonymous.</p>
       </footer>
-      <footer id="submit-footer" data-page="submit" class="footer app-bar">
+      <footer id="submit-footer" data-page="submit" class="footer app-bar hidden">
         <div class="flex">
           <div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div>
           <div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div>
@@ -83,7 +89,7 @@
         </div>
         <p class="anonymous-disclaimer">Posting anonymously</p>
       </footer>
-      <footer data-page="messages" class="footer app-bar">
+      <footer id="messages-footer" data-page="messages" class="footer app-bar hidden">
         <div class="flex">
           <div class="btn"><i class="fa fa-plus"></i></div>
           <div class="btn"><i class="fa fa-trash-o"></i></div>

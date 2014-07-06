@@ -20,6 +20,14 @@ init:
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git;
 	
+	# copy app icons and splash screens
+	# android
+	cp ./src/app/icons/android/ ./application/platforms/android/res/
+	cp ./src/app/splash-screens/android/ ./application/platforms/android/res/
+	# ios
+	cp ./src/app/icons/ios/ ./application/platforms/ios/Yellr/Resources/icons
+	cp ./src/app/splash-screens/ios/ ./application/platforms/ios/Yellr/Resources/splash
+
 	# grunt tings - build project, build www not that application exists
 	# we build with grunt after running cordova because Cordova must
 	# create the directory first

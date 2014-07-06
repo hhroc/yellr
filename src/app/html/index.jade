@@ -10,12 +10,12 @@ head
 	link(rel="stylesheet", href="style/style.css")
 	script(src="js/libs/modernizr.js")
 
-body#app(data-state="index")
+body#app(data-state="#")
 	div.container
 
 		header#header.header-wrapper(data-current="index")
 
-			header#app-header.app-bar.header(data-page="index")
+			header#app-header.app-bar.header.hidden
 				h1#app-h1
 					a(href="#") Yellr
 				nav#app-nav
@@ -46,7 +46,7 @@ body#app(data-state="index")
 										p.nav-title  Privacy Policy
 
 
-			header#page-header.app-bar.header(data-page="page")
+			header#page-header.app-bar.header.hidden
 				nav.back-btn
 					a(href="#")
 						i.fa.fa-arrow-left
@@ -55,7 +55,7 @@ body#app(data-state="index")
 					i.fa.fa-refresh
 
 
-			header#submit-header.app-bar.header(data-page="submit")
+			header#submit-header.app-bar.header.hidden
 				nav.back-btn
 					a(href="#")
 						i.fa.fa-arrow-left
@@ -66,6 +66,12 @@ body#app(data-state="index")
 
 
 		div#main
+
+			div#debug
+				p#cordova-language
+				p#cordova-device
+				p#cordova-connection
+				p#cordova-position
 
 			form.form.wrapper.submit-preview
 				//-input(type="text", placeholder="Add description").add-description
@@ -86,7 +92,7 @@ body#app(data-state="index")
 
 		footer#footer.footer-wrapper
 
-			footer#report-bar.app-bar.footer(data-page="index")
+			footer#report-bar.app-bar.footer(data-page="index").hidden
 				div.flex
 					div#capture-audio.btn
 						i.fa.fa-microphone
@@ -99,7 +105,7 @@ body#app(data-state="index")
 				p.anonymous-disclaimer All posts are anonymous.
 
 
-			footer#submit-footer.footer.app-bar(data-page="submit")
+			footer#submit-footer.footer.app-bar(data-page="submit").hidden
 				div.flex
 					div#location-btn.btn(data-info="location")
 						i.fa.fa-map-marker
@@ -121,7 +127,7 @@ body#app(data-state="index")
 				p.anonymous-disclaimer Posting anonymously
 
 
-			footer.footer.app-bar(data-page="messages")
+			footer#messages-footer.footer.app-bar(data-page="messages").hidden
 				div.flex
 					div.btn
 						i.fa.fa-plus

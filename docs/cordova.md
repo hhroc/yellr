@@ -32,5 +32,12 @@ https://cordova.apache.org/docs/en/3.0.0/cordova_globalization_globalization.md.
 Splashscreen
 https://cordova.apache.org/docs/en/3.0.0/cordova_splashscreen_splashscreen.md.html#Splashscreen
 
+To update the splash screens place the icons and spashscreen pngs in their respective folders.
+Android:
+application/platforms/android/res/
+iOS:
+application/platform/ios/Yellr/Resources/icons/**
+application/platform/ios/Yellr/Resources/splash
+
 Debug Console
 (no html to go along with it)

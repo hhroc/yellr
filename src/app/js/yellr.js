@@ -120,14 +120,18 @@ yellr.setup = {
 
 
 	app: function() {
-
-		console.log('setup app');
-		var debug = document.querySelector('#debug');
+		/*
+			set up the phone
+			All the Cordova APIs should be set so we start using the phone's features
+		*/
+		
 
 		// Language
 		navigator.globalization.getPreferredLanguage(
 			function(language) {
-				console.log('hello from:');
+				
+				// yellr.config.language.set(language.value); <-- use this later
+
 				document.querySelector('#cordova-language').innerHTML = '' +
 					'Language |' + language.value;
 			},
@@ -137,6 +141,7 @@ yellr.setup = {
 					'Error getting language';
 			}
 		);
+
 
 		
 		// Device API feedback
@@ -161,6 +166,7 @@ yellr.setup = {
     document.querySelector('#cordova-connection').innerHTML = 'Connection type: ' + states[networkState];
 	
 
+
     // Location API
     navigator.geolocation.getCurrentPosition(function(position) {
 			// success geting location
@@ -179,6 +185,7 @@ yellr.setup = {
 	    	'Error Code 	|' + error.code + '<br/>' +
 	      'Message 			|' + error.message;
     });
+
 
 
     // add extra Cordova events
@@ -213,6 +220,151 @@ yellr.setup = {
 	    	'Battery Level Critical: ' + info.level + '<br/>' +
     		'Plugged In: ' + e.isPlugged;
     }, false);
+
+
+
+    // setup notifications
+    // ===================================
+		/* alert, confirm and prompt aren't working */
+    document.querySelector('#cordova-alert').onclick = function() {
+    	alert('test? 2');
+    	navigator.notification.alert(
+		    'You are the winner!',  // message
+		    null,         // callback
+		    'Game Over',            // title
+		    'Done'                  // buttonName
+			);
+    }
+
+  	document.querySelector('#cordova-confirm').onclick = function() {
+			navigator.notification.confirm(
+        'You are the winner!', // message
+         null,            // callback to invoke with index of button pressed
+        'Game Over',           // title
+        'Restart,Exit'         // buttonLabels
+	    );
+  	}
+
+  	document.querySelector('#cordova-prompt').onclick = function() {
+			navigator.notification.prompt(
+        'Please enter your name',  // message
+        onPrompt,                  // callback to invoke
+        'Registration',            // title
+        ['Ok','Exit'],             // buttonLabels
+        'Jane Doe'                 // defaultText
+	    );
+  	}
+
+  	document.querySelector('#cordova-beep').onclick = function() {
+			navigator.notification.beep(1);
+  	}
+
+  	document.querySelector('#cordova-vibrate').onclick = function() {
+			navigator.notification.vibrate(500);
+  	}
+
+
+
+  	// Media capture (audio, video, photo)
+  	// ===================================
+  	
+  	// audio
+  	document.querySelector('#capture-audio').onclick = function() {
+  		navigator.device.capture.captureAudio(
+  			function(audioFiles) {
+  				alert('captured: ' + audioFiles.length + ' files');
+  				var html = '';
+  				for (var i = 0; i < audioFiles.length; i++) {
+  					var path = audioFiles[i].fullPath;
+  					var name = audioFiles[i].name;
+  					html += name + ' | ' + path + '<br/>';
+  				};
+  				document.querySelector('#cordova-audio').innerHTML = html;
+  			},
+  			function(error) {
+  				if (error.CAPTURE_NO_MEDIA_FILES) {
+  					alert('nothing captured');
+  				}
+  				alert('closed without capturing audio');
+  			}
+  		);
+  	}
+
+  	// image
+  	document.querySelector('#capture-image').onclick = function() {
+  		navigator.device.capture.captureImage(
+  			function(imageFiles) {
+  				alert('captured ' + imageFiles.length + ' images');
+
+  				var html = '';
+  				for (var i = 0; i < imageFiles.length; i++) {
+  					var name = imageFiles[i].name;
+  					var path = imageFiles[i].fullPath;
+  					html += name + ' | ' + path + '<br/>';
+  				};
+  				document.querySelector('#cordova-image').innerHTML = html;
+  			},
+  			function(erorr) {
+  				alert('error taking picture');
+  			}
+  		);
+  	}
+  	
+  	// video
+  	document.querySelector('#capture-video').onclick = function() {
+  		navigator.device.capture.captureVideo(
+  			function(videoFiles) {
+  				alert('Captured ' + videoFiles.length + ' videos');
+  				var html = '';
+
+  				for (var i = 0; i < videoFiles.length; i++) {
+  					var name = videoFiles[i].name;
+  					var path = videoFiles[i].fullPath;
+  					html += name + ' | ' + path + '<br/>';
+  				};
+  				document.querySelector('#cordova-video').innerHTML = html;
+  			},
+  			function(error) {
+  				alert('error taking video');
+  			}
+  		);
+  	}
+
+
+  	// lowly ol' text
+  	document.querySelector('#capture-text').onclick = function() {
+  		alert('capture text');
+  		// yellr.app.route()
+  		// app.route.to('#submit-text');
+  	}
+
+
+
+
+// Upload files to server
+// function uploadFile(mediaFile) {
+//   var ft = new FileTransfer(),
+//       path = mediaFile.fullPath,
+//       name = mediaFile.name;
+
+//   ft.upload(path,
+//     "http://my.domain.com/upload.php",
+//     function(result) {
+//       console.log('Upload success: ' + result.responseCode);
+//       console.log(result.bytesSent + ' bytes sent');
+//     },
+//     function(error) {
+//       console.log('Error uploading file ' + path + ': ' + error.code);
+//     },
+//     { fileName: name }
+//    );
+// }
+
+
+
+
+
+
 
 
 		// hide splash screen

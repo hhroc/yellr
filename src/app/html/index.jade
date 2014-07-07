@@ -67,10 +67,25 @@ body#app(data-state="#")
 
 		div#main
 
+			div#capture-debug
+				p#cordova-audio
+				p#cordova-image
+				p#cordova-video
+
 			div#debug
 				p#cordova-language
 				p#cordova-device
 				p#cordova-connection
+				p
+					input(type="button", value="Test alert")#cordova-alert
+				p
+					input(type="button", value="Test confirm")#cordova-confirm
+				p
+					input(type="button", value="Test prompt")#cordova-prompt
+				p
+					input(type="button", value="Test beep")#cordova-beep
+				p
+					input(type="button", value="Test vibrate")#cordova-vibrate
 				p#cordova-position
 
 			form.form.wrapper.submit-preview
@@ -96,7 +111,7 @@ body#app(data-state="#")
 				div.flex
 					div#capture-audio.btn
 						i.fa.fa-microphone
-					div#capture-picture.btn
+					div#capture-image.btn
 						i.fa.fa-camera
 					div#capture-video.btn
 						i.fa.fa-video-camera

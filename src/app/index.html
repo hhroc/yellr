@@ -43,10 +43,31 @@
       </header>
     </header>
     <div id="main">
+      <div id="capture-debug">
+        <p id="cordova-audio"></p>
+        <p id="cordova-image"></p>
+        <p id="cordova-video"></p>
+      </div>
       <div id="debug">
         <p id="cordova-language"></p>
         <p id="cordova-device"></p>
         <p id="cordova-connection"></p>
+        <p id="cordova-capture-properties"></p>
+        <p>
+          <input type="button" value="Test alert" id="cordova-alert">
+        </p>
+        <p>
+          <input type="button" value="Test confirm" id="cordova-confirm">
+        </p>
+        <p>
+          <input type="button" value="Test prompt" id="cordova-prompt">
+        </p>
+        <p>
+          <input type="button" value="Test beep" id="cordova-beep">
+        </p>
+        <p>
+          <input type="button" value="Test vibrate" id="cordova-vibrate">
+        </p>
         <p id="cordova-position"></p>
       </div>
       <form class="form wrapper submit-preview">
@@ -62,7 +83,7 @@
       <footer id="report-bar" data-page="index" class="app-bar footer hidden">
         <div class="flex">
           <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
-          <div id="capture-picture" class="btn"><i class="fa fa-camera"></i></div>
+          <div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
           <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
           <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
         </div>

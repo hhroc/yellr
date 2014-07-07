@@ -11,4 +11,5 @@ Quick fix:
 Other fix:
 - Manually add this: 
 	android:installLocation="preferExternal" 
-	To the AndroidManifest.xml
+	To the AndroidManifest.xml in application/platforms/android
+	as an attribute of the 'manifest' tag

@@ -32,7 +32,7 @@ body#app(data-state="#")
 							ul.more-options-list.hidden(data-hidden="true")
 								li#profile-btn
 									a(href="#profile")
-										p.nav-title.username Username
+										p.nav-title.username#username Username
 										span View Profile
 								li#language-btn
 									a(href="#language-setting") 
@@ -66,6 +66,122 @@ body#app(data-state="#")
 
 
 		div#main
+			nav.app-bar.secondary-nav#homepage-subnav
+				div.current
+					a(href="#assignments") Assignments
+				div 
+					a(href="#news-feed") News Feed
+			div.content.container
+				ul#latest-assignments.list-style-none
+					li
+						h2.t1 
+							a(href="#") Who makes the best cup-of-soup?
+						figure
+							a(href="#")
+								img(src="http://lorempixel.com/400/200")
+						p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
+							span.deadline 6 days
+						div.assignment-action
+							a.contribute-btn(href="#") View assignment
+							span.current-contributions 24 contributions 
+						div.accepted-media-wrapper
+							ul.accepted-media
+								li
+									i.fa.fa-video-camera(title="Video")
+								li
+									i.fa.fa-camera(title="Picture")
+								li
+									i.fa.fa-volume-up(title="Audio")
+								li
+									i.fa.fa-file-text-o(title="Text")
+					li
+						h2.t1 
+							a(href="#") What is it you wish, madame?
+						figure
+							a(href="#")
+								img(src="http://lorempixel.com/400/200")
+						p She was rushing forward when M. Pageot held her back with a calm gesture. “It is useless, madame! The hall is full, overcrowded.... Moreover, you will not miss much, for it will be over in five minutes....”
+							span.deadline 10 days
+						div.assignment-action
+							a.contribute-btn(href="#") View assignment
+							span.current-contributions 32 contributions 
+						div.accepted-media-wrapper
+							ul.accepted-media
+								li.no
+									i.fa.fa-video-camera(title="Video")
+								li.no
+									i.fa.fa-camera(title="Picture")
+								li.no
+									i.fa.fa-volume-up(title="Audio")
+								li
+									i.fa.fa-file-text-o(title="Text")
+					li
+						h2.t1 
+							a(href="#") If you please, where is the lecture on Egyptology?
+						figure
+							a(href="#")
+								img(src="http://lorempixel.com/400/200")
+						p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
+							span.deadline 2 weeks
+						div.assignment-action
+							a.contribute-btn(href="#") View assignment
+							span.current-contributions 12 contributions 
+						div.accepted-media-wrapper
+							ul.accepted-media
+								li.no
+									i.fa.fa-video-camera(title="Video")
+								li
+									i.fa.fa-camera(title="Picture")
+								li.no
+									i.fa.fa-volume-up(title="Audio")
+								li
+									i.fa.fa-file-text-o(title="Text")
+					li
+						h2.t1 
+							a(href="#") If you please, where is the lecture on Egyptology?
+						figure
+							a(href="#")
+								img(src="http://lorempixel.com/400/200")
+						p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
+							span.deadline 2 weeks
+						div.assignment-action
+							a.contribute-btn(href="#") View assignment
+							span.current-contributions 12 contributions 
+						div.accepted-media-wrapper
+							ul.accepted-media
+								li.no
+									i.fa.fa-video-camera(title="Video")
+								li
+									i.fa.fa-camera(title="Picture")
+								li.no
+									i.fa.fa-volume-up(title="Audio")
+								li
+									i.fa.fa-file-text-o(title="Text")
+					li
+						h2.t1 
+							a(href="#") If you please, where is the lecture on Egyptology?
+						figure
+							a(href="#")
+								img(src="http://lorempixel.com/400/200")
+						p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
+							span.deadline 2 weeks
+						div.assignment-action
+							a.contribute-btn(href="#") View assignment
+							span.current-contributions 12 contributions 
+						div.accepted-media-wrapper
+							ul.accepted-media
+								li.no
+									i.fa.fa-video-camera(title="Video")
+								li
+									i.fa.fa-camera(title="Picture")
+								li.no
+									i.fa.fa-volume-up(title="Audio")
+								li
+									i.fa.fa-file-text-o(title="Text")
+
+
+
+
 
 			div#capture-debug
 				p#cordova-audio
@@ -77,16 +193,14 @@ body#app(data-state="#")
 				p#cordova-device
 				p#cordova-connection
 				p
-					input(type="button", value="Test alert")#cordova-alert
-				p
-					input(type="button", value="Test confirm")#cordova-confirm
-				p
+					input(type="button", value="Test alert")#cordova-alert 
+					input(type="button", value="Test confirm")#cordova-confirm 
 					input(type="button", value="Test prompt")#cordova-prompt
 				p
-					input(type="button", value="Test beep")#cordova-beep
-				p
+					input(type="button", value="Test beep")#cordova-beep 
 					input(type="button", value="Test vibrate")#cordova-vibrate
 				p#cordova-position
+
 
 			form.form.wrapper.submit-preview
 				//-input(type="text", placeholder="Add description").add-description
@@ -206,39 +320,6 @@ body#app(data-state="#")
 
 
 
-			//-div.module-wrapper
-				div.module-info
-					h2 App header
-					p The application header
-				div.module
-					div.header-bar-wrapper
-						div#header-bar
-							div#home-btn.flex-2
-								h1 yellr
-							div.more-controls.flex-1
-								div#notification-btn
-									i.fa.fa-envelope-o
-								div#more-btn
-									i.fa.fa-bars
-
-			//-div.module-wrapper
-				div.module-info
-					h2 Quick Report bar
-					p This bar will always be present to allow users the ability to quickly create a report
-				div.module
-					div.report-bar-wrapper
-						div#report-bar
-							div#capture-audio
-								i.fa.fa-microphone
-							div#capture-picture
-								i.fa.fa-camera
-							div#capture-video
-								i.fa.fa-video-camera
-							div#capture-text
-								i.fa.fa-pencil-square-o
-						p#anonymous-disclaimer All posts are anonymous.
-
-
 
 
 			//-div.module-wrapper
@@ -247,114 +328,7 @@ body#app(data-state="#")
 					p A list of the latest assignments on yellr
 				div.module
 					.wrapper
-						ul#latest-assignments.list-style-none
-							li
-								h2.t1 
-									a(href="#") Who makes the best cup-of-soup?
-								figure
-									a(href="#")
-										img(src="http://lorempixel.com/400/200")
-								p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-									span.deadline 6 days
-								div.assignment-action
-									a.contribute-btn(href="#") View assignment
-									span.current-contributions 24 contributions 
-								div.accepted-media-wrapper
-									ul.accepted-media
-										li
-											i.fa.fa-video-camera(title="Video")
-										li
-											i.fa.fa-camera(title="Picture")
-										li
-											i.fa.fa-volume-up(title="Audio")
-										li
-											i.fa.fa-file-text-o(title="Text")
-							li
-								h2.t1 
-									a(href="#") What is it you wish, madame?
-								figure
-									a(href="#")
-										img(src="http://lorempixel.com/400/200")
-								p She was rushing forward when M. Pageot held her back with a calm gesture. “It is useless, madame! The hall is full, overcrowded.... Moreover, you will not miss much, for it will be over in five minutes....”
-									span.deadline 10 days
-								div.assignment-action
-									a.contribute-btn(href="#") View assignment
-									span.current-contributions 32 contributions 
-								div.accepted-media-wrapper
-									ul.accepted-media
-										li.no
-											i.fa.fa-video-camera(title="Video")
-										li.no
-											i.fa.fa-camera(title="Picture")
-										li.no
-											i.fa.fa-volume-up(title="Audio")
-										li
-											i.fa.fa-file-text-o(title="Text")
-							li
-								h2.t1 
-									a(href="#") If you please, where is the lecture on Egyptology?
-								figure
-									a(href="#")
-										img(src="http://lorempixel.com/400/200")
-								p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
-									span.deadline 2 weeks
-								div.assignment-action
-									a.contribute-btn(href="#") View assignment
-									span.current-contributions 12 contributions 
-								div.accepted-media-wrapper
-									ul.accepted-media
-										li.no
-											i.fa.fa-video-camera(title="Video")
-										li
-											i.fa.fa-camera(title="Picture")
-										li.no
-											i.fa.fa-volume-up(title="Audio")
-										li
-											i.fa.fa-file-text-o(title="Text")
-							li
-								h2.t1 
-									a(href="#") If you please, where is the lecture on Egyptology?
-								figure
-									a(href="#")
-										img(src="http://lorempixel.com/400/200")
-								p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
-									span.deadline 2 weeks
-								div.assignment-action
-									a.contribute-btn(href="#") View assignment
-									span.current-contributions 12 contributions 
-								div.accepted-media-wrapper
-									ul.accepted-media
-										li.no
-											i.fa.fa-video-camera(title="Video")
-										li
-											i.fa.fa-camera(title="Picture")
-										li.no
-											i.fa.fa-volume-up(title="Audio")
-										li
-											i.fa.fa-file-text-o(title="Text")
-							li
-								h2.t1 
-									a(href="#") If you please, where is the lecture on Egyptology?
-								figure
-									a(href="#")
-										img(src="http://lorempixel.com/400/200")
-								p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
-									span.deadline 2 weeks
-								div.assignment-action
-									a.contribute-btn(href="#") View assignment
-									span.current-contributions 12 contributions 
-								div.accepted-media-wrapper
-									ul.accepted-media
-										li.no
-											i.fa.fa-video-camera(title="Video")
-										li
-											i.fa.fa-camera(title="Picture")
-										li.no
-											i.fa.fa-volume-up(title="Audio")
-										li
-											i.fa.fa-file-text-o(title="Text")
-
-
+						
 
 
 			//-div.module-wrapper
@@ -566,12 +540,19 @@ body#app(data-state="#")
 
 
 	script(src="cordova.js")
-	script(src="js/libs/jquery.js")
+	script(src="js/libs/zepto.js")
 	script(src="js/libs/handlebars.js")
-	script(src="js/libs/fastclick.js")
+	//-script(src="js/libs/fastclick.js")
+	//- load our JS files
+	//- ----------------------------
 	script(src="js/config.js")
+	script(src="js/setup.js")
+	//- helpers
+	script(src="js/utils.js")
+	script(src="js/parse.js")
+	//- the goods
 	script(src="js/yellr.js")
+	script(src="js/demo.js")
 	script(src="js/init.js")
-	//-<script type="text/javascript"> app.initialize(); </script>
 
 </html>

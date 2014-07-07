@@ -16,7 +16,7 @@ yellr.config = {
 
 			// * - from HTC Inspire (Android)
 		}
-	}
+	},
 	app: {
 		
 	}

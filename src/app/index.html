@@ -21,7 +21,7 @@
             <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
               <ul data-hidden="true" class="more-options-list hidden">
                 <li id="profile-btn"><a href="#profile">
-                    <p class="nav-title username">Username</p><span>View Profile</span></a></li>
+                    <p id="username" class="nav-title username">Username</p><span>View Profile</span></a></li>
                 <li id="language-btn"><a href="#language-setting"> 
                     <p class="nav-title">Language</p><span>English</span></a></li>
                 <li id="feedback-btn"><a href="#feedback"> 
@@ -43,6 +43,84 @@
       </header>
     </header>
     <div id="main">
+      <nav id="homepage-subnav" class="app-bar secondary-nav">
+        <div class="current"><a href="#assignments">Assignments</a></div>
+        <div> <a href="#news-feed">News Feed</a></div>
+      </nav>
+      <div class="content container">
+        <ul id="latest-assignments" class="list-style-none">
+          <li>
+            <h2 class="t1"> <a href="#">Who makes the best cup-of-soup?</a></h2>
+            <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
+            <p>It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.<span class="deadline">6 days</span></p>
+            <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">24 contributions </span></div>
+            <div class="accepted-media-wrapper">
+              <ul class="accepted-media">
+                <li><i title="Video" class="fa fa-video-camera"></i></li>
+                <li><i title="Picture" class="fa fa-camera"></i></li>
+                <li><i title="Audio" class="fa fa-volume-up"></i></li>
+                <li><i title="Text" class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <h2 class="t1"> <a href="#">What is it you wish, madame?</a></h2>
+            <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
+            <p>She was rushing forward when M. Pageot held her back with a calm gesture. “It is useless, madame! The hall is full, overcrowded.... Moreover, you will not miss much, for it will be over in five minutes....”<span class="deadline">10 days</span></p>
+            <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">32 contributions </span></div>
+            <div class="accepted-media-wrapper">
+              <ul class="accepted-media">
+                <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
+                <li class="no"><i title="Picture" class="fa fa-camera"></i></li>
+                <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
+                <li><i title="Text" class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
+            <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
+            <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
+            <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
+            <div class="accepted-media-wrapper">
+              <ul class="accepted-media">
+                <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
+                <li><i title="Picture" class="fa fa-camera"></i></li>
+                <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
+                <li><i title="Text" class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
+            <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
+            <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
+            <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
+            <div class="accepted-media-wrapper">
+              <ul class="accepted-media">
+                <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
+                <li><i title="Picture" class="fa fa-camera"></i></li>
+                <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
+                <li><i title="Text" class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
+            <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
+            <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
+            <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
+            <div class="accepted-media-wrapper">
+              <ul class="accepted-media">
+                <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
+                <li><i title="Picture" class="fa fa-camera"></i></li>
+                <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
+                <li><i title="Text" class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
       <div id="capture-debug">
         <p id="cordova-audio"></p>
         <p id="cordova-image"></p>
@@ -52,20 +130,13 @@
         <p id="cordova-language"></p>
         <p id="cordova-device"></p>
         <p id="cordova-connection"></p>
-        <p id="cordova-capture-properties"></p>
         <p>
           <input type="button" value="Test alert" id="cordova-alert">
-        </p>
-        <p>
           <input type="button" value="Test confirm" id="cordova-confirm">
-        </p>
-        <p>
           <input type="button" value="Test prompt" id="cordova-prompt">
         </p>
         <p>
           <input type="button" value="Test beep" id="cordova-beep">
-        </p>
-        <p>
           <input type="button" value="Test vibrate" id="cordova-vibrate">
         </p>
         <p id="cordova-position"></p>
@@ -123,6 +194,10 @@
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/fastclick.js"></script>
   <script src="js/config.js"></script>
+  <script src="js/setup.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/parse.js"></script>
   <script src="js/yellr.js"></script>
+  <script src="js/demo.js"></script>
   <script src="js/init.js"></script>
 </body></html>

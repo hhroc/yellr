@@ -1,0 +1,104 @@
+{
+	"username": "zapo",
+	"uuid": "fdsf23239e9dsd23e",
+	"language": "English",
+	"followers" : 135,
+	"following": 200,
+	"notifications": [
+		{
+			"type": 0,
+			"from": "User123012"
+		},
+		{
+			"type": 0,
+			"from": "User123012"
+		},
+		{
+			"type": 0,
+			"from": "User123012"
+		},
+		{
+			"type": 0,
+			"from": "User123012"
+		},
+		{
+			"type": 0,
+			"from": "User123012"
+		}
+	],
+	"messages": [
+		{
+			"from": "WXXI",
+			"dateSent": "7/07/2014",
+			"subject": "Hello from WXXI",
+			"message": "Hey man we really like your work. We've noticed you've been publishing a lot of stuff around music in the city of Rochester. We were wondering if you'd be interested in being our official correspondant. We offer special training so please let us know if you are interested. Best wishes - WXXI",
+			"status": 0
+		},
+		{
+			"from": "WDKX",
+			"dateSent": "7/04/2014",
+			"subject": "Hello from WDKX",
+			"message": "Hello from DKX! We really like the work you're doing around the music scene in Rochester. Keep up the good work!",
+			"status": 0
+		},
+		{
+			"from": "Yellr",
+			"dateSent": "7/01/2014",
+			"subject": "Welcome to Yellr!",
+			"message": "You are now a part of a local community working to bring the latest news. Have a look around and get a feel for everything",
+			"status": 1
+		}
+	],
+	"posts" : [
+		{
+			"id": 321324,
+			"dateSubmitted": "230  123-1 312 1",
+			"type": "photo",
+			"preview": "url://"
+		},
+		{
+			"id": 321324,
+			"dateSubmitted": "230  123-1 312 1",
+			"type": "photo",
+			"preview": "url://"
+		},
+		{
+			"id": 321324,
+			"dateSubmitted": "230  123-1 312 1",
+			"type": "photo",
+			"preview": "url://"
+		},
+		{
+			"id": 321324,
+			"dateSubmitted": "230  123-1 312 1",
+			"type": "photo",
+			"preview": "url://"
+		},
+		{
+			"id": 321324,
+			"dateSubmitted": "230  123-1 312 1",
+			"type": "photo",
+			"preview": "url://"
+		}
+	],
+	"badges": [
+		{
+			"name": "First Report",
+			"description": "Congratulations! You've contributed to your neighborhood by making your first post with Yellr!",
+			"icon": "url thing",
+			"dateReceivec": "12/123/13"
+		},
+		{
+			"name": "Daily Reporter",
+			"description": "That's a whole week straight of quality posts, you're doing great. Keep it up!",
+			"icon": "url thing",
+			"dateReceivec": "12/1/13"
+		},
+		{
+			"name": "To Print",
+			"description": "Congratulations! Your contribution has been approved by one of our moderators!",
+			"icon": "url thing",
+			"dateReceivec": "12/123/13"
+		}
+	]
+}

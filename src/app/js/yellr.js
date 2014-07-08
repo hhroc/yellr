@@ -92,6 +92,15 @@ yellr.app = {
 
 yellr.toggle = {
 
+	homepage: function(e) {
+		// clear class of other nav-option
+		$('#homepage-subnav .current').removeClass('current');
+
+		// set class current to the correct div
+		var target = (e.target.localName === 'a') ? e.target.parentNode : e.target;
+		$(target).addClass('current');
+	},
+
 	more_options: function(e) {
 		// toggle class="hidden", set attribute
 		var moreList = document.querySelector('.more-options-list');

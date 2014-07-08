@@ -22,11 +22,25 @@ yellr.setup = {
 
 		// setup buttons
 		// ====================================
+
 		// in app header --> show more options
-		document.querySelector('#more-btn .toggle').onclick = yellr.toggle.more_options;
+    $('#more-btn .toggle').on('tap', function() {
+      yellr.toggle.more_options();
+    });
+
+    // switch between assignments and news feed
+    $('#homepage-subnav').on('tap', function(e) {
+      yellr.toggle.homepage(e);
+    });
 
 		// when submitting report --> show/add more details
-		document.querySelector('#submit-footer .flex').onclick = yellr.toggle.report_details;
+    $('#submit-footer .flex').on('tap', function() {
+      yellr.toggle.report_details();
+    });
+		// document.querySelector('#submit-footer .flex').onclick = yellr.toggle.report_details;
+
+
+
 
 
 		// set up app DOM references
@@ -151,7 +165,7 @@ yellr.setup = {
     // setup notifications
     // ===================================
 		/* alert, confirm and prompt aren't working */
-    document.querySelector('#cordova-alert').onclick = function() {
+    $('#cordova-alert').on('tap', function() {
     	alert('test? 2');
     	navigator.notification.alert(
 		    'You are the winner!',  // message
@@ -159,18 +173,18 @@ yellr.setup = {
 		    'Game Over',            // title
 		    'Done'                  // buttonName
 			);
-    }
+    });
 
-  	document.querySelector('#cordova-confirm').onclick = function() {
+  	$('#cordova-confirm').on('tap', function() {
 			navigator.notification.confirm(
         'You are the winner!', // message
          null,            // callback to invoke with index of button pressed
         'Game Over',           // title
         'Restart,Exit'         // buttonLabels
 	    );
-  	}
+    });
 
-  	document.querySelector('#cordova-prompt').onclick = function() {
+  	$('#cordova-prompt').on('tap', function() {
 			navigator.notification.prompt(
         'Please enter your name',  // message
         onPrompt,                  // callback to invoke
@@ -178,15 +192,15 @@ yellr.setup = {
         ['Ok','Exit'],             // buttonLabels
         'Jane Doe'                 // defaultText
 	    );
-  	}
+  	});
 
-  	document.querySelector('#cordova-beep').onclick = function() {
+  	$('#cordova-beep').on('tap', function() {
 			navigator.notification.beep(1);
-  	}
+  	});
 
-  	document.querySelector('#cordova-vibrate').onclick = function() {
+  	$('#cordova-vibrate').on('tap', function() {
 			navigator.notification.vibrate(250);
-  	}
+  	});
 
 
 
@@ -194,7 +208,7 @@ yellr.setup = {
   	// ===================================
   	
   	// audio
-  	document.querySelector('#capture-audio').onclick = function() {
+  	$('#capture-audio').on('tap', function() {
   		navigator.device.capture.captureAudio(
   			function(audioFiles) {
   				alert('captured: ' + audioFiles.length + ' files');
@@ -213,10 +227,10 @@ yellr.setup = {
   				alert('closed without capturing audio');
   			}
   		);
-  	}
+  	});
 
   	// image
-  	document.querySelector('#capture-image').onclick = function() {
+  	$('#capture-image').on('tap', function() {
   		navigator.device.capture.captureImage(
   			function(imageFiles) {
   				alert('captured ' + imageFiles.length + ' images');
@@ -233,10 +247,10 @@ yellr.setup = {
   				alert('error taking picture');
   			}
   		);
-  	}
+  	});
   	
   	// video
-  	document.querySelector('#capture-video').onclick = function() {
+  	$('#capture-video').on('tap', function() {
   		navigator.device.capture.captureVideo(
   			function(videoFiles) {
   				alert('Captured ' + videoFiles.length + ' videos');
@@ -253,15 +267,15 @@ yellr.setup = {
   				alert('error taking video');
   			}
   		);
-  	}
+  	});
 
 
   	// lowly ol' text
-  	document.querySelector('#capture-text').onclick = function() {
-  		alert('capture text');
+  	$('#capture-text').on('tap', function() {
+  		alert('capture text - zepto');
   		// yellr.app.route()
   		// app.route.to('#submit-text');
-  	}
+  	});
 
 
 

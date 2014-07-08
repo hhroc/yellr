@@ -41,48 +41,6 @@
 	position: relative;
 }
 
-.secondary-nav {
-	// position: fixed;
-	z-index: 75;
-	width: 100%;
-	background: $light-gray;
-	border-bottom: 1px solid darken($light-gray, 10%);
-	@include flexbox();
-	div {
-		padding: 0.875rem 0;
-		width: 49%;
-		@include flex(1);
-		text-align: center;
-		border-right: 1px solid darken($light-gray, 10%);
-		&:last-child {border-right: none;}
-		position: relative;
-		&:after {
-			content: " ";
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			height: 0;
-			background: $light-yellow;
-			@include transition(height, 0.3s);
-		}
-		&.current {
-			&:after {
-				height: 6px;
-			}
-		}
-	}
-	a {
-		font-size: 0.875rem;
-		text-transform: uppercase;
-		font-weight: bold;
-		display: block;
-		color: lighten($black, 15%);
-		// .current & { color: $black; }
-	}
-}
-
-
 
 
 

@@ -75,12 +75,13 @@ class Users(Base):
     uniqueid = Column(Text)
     firstname = Column(Text)
     lastname = Column(Text)
+    organization = Column(Text)
     email = Column(Text)
     passsalt = Column(Text)
     passhash = Column(Text)
 
     @classmethod
-    def create_new_user(cls,session,usertypeid,clientid,verified=False,firstname='',lastname='',email='',passsalt='',passhash=''):
+    def create_new_user(cls,session,usertypeid,clientid,verified=False,firstname='',lastname='',email='',organization='',passsalt='',passhash=''):
         user = None
         with transaction.manager:
             user = cls(
@@ -89,6 +90,7 @@ class Users(Base):
                 uniqueid = clientid,
                 firstname = firstname,
                 lastname = lastname,
+                organization = organization,
                 email = email,
                 passsalt = passsalt,
                 passhash = passhash,
@@ -96,12 +98,12 @@ class Users(Base):
             session.add(user)
             transaction.commit()
             # Debug/Log
-            eventdetails = {
-                'eventtype': 'user_creation',
-                'clientid': clientid,
-                'datetime': str(strftime("%Y-%m-%d %H:%M:%S")),
-            }
-            ClientLogs.log(session,clientid,json.dumps(eventdetails))
+            #eventdetails = {
+            #    'eventtype': 'user_creation',
+            #    'clientid': clientid,
+            #    'datetime': str(strftime("%Y-%m-%d %H:%M:%S")),
+            #}
+            #ClientLogs.log(session,clientid,json.dumps(eventdetails))
         return user
 
     @classmethod
@@ -109,10 +111,12 @@ class Users(Base):
         user = None
         with transaction.manager:
             user = session.query(Users).filter(Users.uniqueid == uniqueid).first()
+            created = False
             if user == None:
                 usertype = UserTypes.from_value(session,value='user')
                 user = cls.create_new_user(session,usertype.usertypeid,uniqueid)
-        return user
+                created = True
+        return (user, created)
 
 class Assignments(Base):
 
@@ -233,7 +237,7 @@ class Posts(Base):
             language = Languages.get_from_code(session,languagecode)
             if assignmentid == None or assignmentid == '' or assignmentid == 0:
                 assignmentid = None
-            user = Users.get_from_uniqueid(session,clientid)
+            user,created = Users.get_from_uniqueid(session,clientid)
             post = cls(
                 userid = user.userid,
                 assignmentid = assignmentid,
@@ -255,7 +259,47 @@ class Posts(Base):
                 )
                 session.add(postmediaobject)
             transaction.commit()
-        return post
+        return (post, created)
+
+class PostViews(Base):
+
+    """
+    This holds the event of a moderator or subscriber viewing a users post.  This
+    is a nice way to give feedback to the user that someone is actually looking at
+    their content.
+    """
+
+    __tablename__ = 'postviews'
+    postviewid = Column(Integer, primary_key=True)
+    viewinguserid = Column(Integer, ForeignKey('users.userid')
+    postid = Column(Integer, ForeignKey('posts.postid')
+    viewdatetime = Column(DateTime)
+    acknowledged = Column(Boolean)
+
+    @classmethod
+    def create_new_postview(cls,session,viewinguserid,postid):
+        with transaction.manager:
+            postview = cls(
+                viewinguserid = viewinguserid,
+                postid = postid,
+                viewdatetime = datetime.datetime.now()
+                acknowledged = False,
+            )
+        return postview
+
+    @classmethod
+    def get_unacknowledged_from_uniqueid(cls,session,uniqueid):
+        with transaction.manager:
+            user = Users.get_from_uniqueid(uniqueid)
+            postviews = session.query(
+                PostViews
+            ).join(
+                PostViews, Posts.postid,
+            ).filter(
+                Posts.userid = user.userid,
+                PostViews.acknowledged = False,
+            )
+        return postviews
 
 class MediaTypes(Base):
 
@@ -299,7 +343,7 @@ class MediaObjects(Base):
     @classmethod
     def create_new_mediaobject(cls,session,clientid,mediatypevalue,filename,caption,text):
         with transaction.manager:
-            user = Users.get_from_uniqueid(session,clientid)
+            user,created = Users.get_from_uniqueid(session,clientid)
             mediatype = MediaTypes.from_value(session,mediatypevalue)
             mediaobject = cls(
                 userid = user.userid,
@@ -325,6 +369,14 @@ class PostMediaObjects(Base):
     postid = Column(Integer, ForeignKey('posts.postid'))
     mediaobjectid = Column(Integer)
 
+    @classmethod
+    def create_new_postmediaobject(cls,session,postid,mediaobjectid):
+        with transaction.manager:
+            postmediaobject = cls(
+                postid = postid,
+                mediaobjectid = mediaobjectid,
+            )
+
 class ClientLogs(Base):
 
     """
@@ -341,7 +393,7 @@ class ClientLogs(Base):
     @classmethod
     def log(cls,session,clientid,eventdetails):
         with transaction.manager:
-            user = Users.get_from_uniqueid(session,clientid)
+            user,created = Users.get_from_uniqueid(session,clientid)
             clientlog = ClientLogs(
                 userid = user.userid,
                 eventdatetime = datetime.datetime.now(),
@@ -364,6 +416,18 @@ class Collections(Base):
     collectionname = Column(Text)
     collectiondescription = Column(Text)
 
+    @classmethod
+    def create_new_collection(cls,session,userid,collectionname,collectiondescription,collectiontag=''):
+        with transaction.manager:
+            collection = cls(
+                userid = userid,
+                collectiondatetime = datetime.datetime.now(),
+                collectioname = collectionname,
+                collectiondescription = collectiondescription,
+                collectiontag = collectiontag,
+            )
+        return collection
+
 class CollectionPosts(Base):
 
     """
@@ -374,4 +438,64 @@ class CollectionPosts(Base):
     collectionpostid = Column(Integer, primary_key=True)
     collectionid = Column(Integer, ForeignKey('collections.collectionid'))
     postid = Column(Integer, ForeignKey('posts.postid'))
+
+    @classmethod
+    def create_new_collectionpost(cls,session,collectionid,postid):
+        with transaction.manager:
+            collectionpost = cls(
+                collectionid = collectionid,
+                postid = postid,
+            )
+        return collectionpost
+
+class Messages(Base):
+
+    """
+    Messages holds the messages to users from moderators and/or subscribers, as
+    well as the users response messages.
+    """
+
+    __tablename__ = 'messages'
+    messageid = Column(Integer, primary_key=True)
+    userid = Column(Integer, ForeignKey('users.userid')
+    messagedatetime = Column(DateTime)
+    parentmessageid = Column(Integer, ForeignKey('messages.messageid')
+    messagesubject = Column(Text)
+    messagetext = Column(Text)
+    messagewasread = Column(Text)    
+
+    @classmethod
+    def create_message(cls,session,userid,messagesubject,messagetext):
+        with transaction.manager:
+            message = cls(
+                userid = userid,
+                messagedatetime = datetime.datetime.now(),
+                parentmessageid = None,
+                messagesubject = messagesubject,
+                messagetext = messagetext,
+                messagewasread = False,
+            )
+
+    @classmethod
+    def create_response_message(cls,session,clientid,parentmessageid,messagetext):
+        with transaction.manager:
+            user,created = Users.get_from_uniqueid(session,clientid)
+            message = cls(
+                userid = user.userid,
+                messagedatetime = datetime.datetime.now(),
+                parentmessageid = parentmessageid,
+                messagesubject = messagesubject,
+                messagetext = messagetext,
+                messagewasread = False,
+            )
+        return message
+
+    @classmethod
+    def mark_as_read(cls,session,messageid):
+        with transaction.manager:
+            session.update().\
+                where(Messages.messageid = messageid).\
+                values(messagewasread = True)
+            transaction.commit()
+        return True
 

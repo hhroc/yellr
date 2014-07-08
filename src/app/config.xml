@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.hhroc.yellr" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Yellr</name>
+    <description>
+        Report about your community, for your community.
+    </description>
+    <author email="hhroc@gmail.com" href="http://hhroc.github.io">
+        Hacks and Hackers Rochester
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="SplashScreen" value="screen" />
+		<preference name="SplashScreenDelay" value="10000" />
+</widget>

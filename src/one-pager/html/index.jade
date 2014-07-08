@@ -1,0 +1,109 @@
+include ../../common/html/jade-helpers.jade
+!!! 5
+head
+	include ../../common/html/_head/meta.jade
+	
+	title Yellr
+	meta(name="description", content="Yellr - Citizen engagement and journalism app")	
+
+	include ../../common/html/_head/favicon.jade
+	include ../../common/html/_head/head-scripts.jade
+	link(rel="stylesheet", href="style/one-pager.css")
+
+
+body#one-pager
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+
+
+		header#header.header-footer
+			.wrapper
+				h1#h1 yellr
+				p report for your community
+
+
+		div#main
+
+			//- about the project
+			section#about
+				div.wrapper
+					h2.op1 About Yellr
+					p#about-p WXXI Public Radio received a grant of $28,000 from this year’s INNovation Fund, a new grant opportunity funded by the John S. and James L. Knight Foundation and administered by the Investigative News Network. WXXI was one of only eight news outlets to receive a grant in the Fund’s first round of giving.
+					//-<iframe width="720" height="540" src="//www.youtube.com/embed/7vyANa71gvU?rel=0" frameborder="0" allowfullscreen></iframe>
+
+
+			div#divider1
+
+
+			//- details
+			div#details
+				div.wrapper
+
+					//- mobile app
+					section#mobile-app.flex-netbook.alt-layout
+						div.flex-1
+							h3.op2 Mobile Application
+							p WXXI will use the grant to develop YellR, a new Citizen Journalism mobile app designed to widen audience engagement, especially among younger, technologically-driven and under-represented community members. The mobile app will have a dual language function of English and Spanish to enable broad participation among community members in sharing and posting news and other community related information and events.
+						figure.flex-2
+							img(src="img/screenshots/screenshot-1.png")
+							figcaption Both Android and iOS versions are currently in development
+
+					//- citizen engagement
+					section#engagement
+						h3.op2 Citizen Engagement
+						div.flex-netbook
+							div.flex-2
+								p A group of educational and media partners will work together to promote the technology and encourage participation and exchange. To build awareness, a media campaign will be introduced online and via social media and broadcasting, encouraging people to “Report for Your City”.
+							figure.flex-3
+								img(src="img/IMG_2589.JPG")
+				
+					//- new aggregation
+					section#aggregation.flex-netbook.alt-layout
+						div.flex-2
+							h3.op2 News Aggregation
+							p WXXI is committed to finding new ways to reach wider audiences including the younger, technologically-driven generation as well as the under-represented population of the local community in upstate New York. The app offers new and enhanced ways for these communities to engage in local and, possibly in the future, national society. It is designed to be an “open source platform” that can be shared with other public television and radio stations in upstate New York and other regions in the future.
+						figure.flex-1
+							img(src="img/news.jpg")
+
+
+			section#get-involved
+				div.wrapper
+					h2.op2 Get Involved
+					p The project is being built with Cordova/PhoneGap which means everything is <strong>HTML/CSS/JS</strong> under the hood. 
+					a(href="https://github.com/hhroc/yellr", target="_blank")
+						img(src="img/github-logo.png", width="30", height="30")
+						span Visit the repo
+
+
+			section#partners
+				.wrapper
+					h2 Partners
+					p The Knight Foundation, in partnership with the Investigative News Network, launched the INNovation Fund in January 2014 to explore new innovations and revenue sources, while developing audience engagement techniques and stronger business models. This $1 million fund is part of a $5 million Knight Local Media Initiative focused on helping nonprofit news organizations establish long-term sustainability.
+					div#partners-wrapper
+						div.first
+							a(href="http://www.knightfoundation.org/", target="_blank")
+								img(src="img/partners/knight-logo-300.jpg", alt="Knight Foundation", width="300")
+							a(href="http://www.wxxi.org/", target="_blank")
+								img(src="img/partners/Wxxi_logo.png", alt="WXXI")#wxxi-logo
+
+						div.second
+							a(href="http://hhroc.github.io/", target="_blank")
+								img(src="img/partners/hacks_hackers-logo.jpeg", alt="Hacks and Hackers")
+							a(href="http://www.wdkx.com/", target="_blank")
+								img(src="img/partners/wdkx-logo.gif", alt="WDKX")
+							a(href="http://investigativenewsnetwork.org/", target="_blank")
+								img(src="img/partners/inn-logo.png", alt="Investigative News Network")
+
+						div.third
+							a(href="http://www.rit.edu/", target="_blank")
+								img(src="img/partners/rit-logo.jpg", alt="Rochester Institute of Technology")
+							a(href="https://www2.naz.edu/", target="_blank")
+								img(src="img/partners/nazareth-logo.png", alt="Nazareth College")
+
+
+		footer#footer.header-footer
+			p yellr &copy; 2014
+
+	//-script(src="js/main.js")
+
+</html>

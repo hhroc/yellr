@@ -58,4 +58,7 @@ to-do.txt
 .sass-cache/
 *.orig
 
-app
+src/app/www
+
+application
+*.lock

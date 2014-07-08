@@ -1,0 +1,34 @@
+include ../../common/html/jade-helpers.jade
+!!! 5
+head
+	include ../../common/html/_head/meta.jade
+	
+	title Yellr - Login
+	meta(name="description", content="Login | Yellr")
+	
+	include ../../common/html/_head/favicon.jade
+	include ../../common/html/_head/head-scripts.jade
+	link(rel="stylesheet", href="style/moderator.css")
+
+
+body#moderator-login.full-screen
+	a(href="#main", class="assistive-text") Skip to main content
+	div.container
+		div.vertical-center-wrapper
+			div.vertical-center
+				div.mod-login-wrapper
+					h1 Yellr
+					p Communicate with your community
+					form#mod-login.form(action="#")
+						label
+							span.block Email
+							input(type="text")
+						label
+							span.block Password
+							input(type="password")
+						label.block
+							input(type="button", value="Login").inline-block
+
+	//-script(src="js/libs/jquery.js")
+	//-script(src="js/moderator.js")
+</html>

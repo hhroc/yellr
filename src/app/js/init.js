@@ -9,9 +9,8 @@ var yellr = yellr || {};
 */
 
 window.onload = function() {
-	console.log('hello from: yellr 2.0');
 	yellr.setup.DOM();
-	yellr.demo.init(); // uses local dummy json
+	// yellr.demo.init(); // uses local dummy json
 	// yellr.load.data(); // for production
 }
 

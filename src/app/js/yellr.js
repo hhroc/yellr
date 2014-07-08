@@ -92,13 +92,40 @@ yellr.app = {
 
 yellr.toggle = {
 
-	homepage: function(e) {
+	homepage: function(options) {
+
+		// update nav
+		// ----------------------------
 		// clear class of other nav-option
 		$('#homepage-subnav .current').removeClass('current');
 
-		// set class current to the correct div
-		var target = (e.target.localName === 'a') ? e.target.parentNode : e.target;
-		$(target).addClass('current');
+		// find the new nav div
+		var navTarget;
+		if (options.target) navTarget = (options.target.localName === 'a') ? options.target.parentNode : options.target;
+		else {
+			if (options.pageID === '#news-feed') navTarget = '#news-feed-tab';
+			if (options.pageID === '#assignments') navTarget = '#assignments-tab';
+		}
+
+		// update class
+		var $target = $(navTarget);
+		$target.addClass('current');
+
+
+		// update content // page transition
+		// ----------------------------
+		// get data-attrs
+		var page = $target.attr('data-page');
+		var currentPage = $('.pt-page-current').attr('id');
+
+		// prevent transitioning to same page
+		if (page !== '#'+currentPage) {
+			// move to left from right
+			if (currentPage === 'assignments') yellr.pageManager.nextPage(page, 1);
+			// move to right from left
+			if (currentPage === 'news-feed') yellr.pageManager.nextPage(page, 2);
+		}
+
 	},
 
 	more_options: function(e) {

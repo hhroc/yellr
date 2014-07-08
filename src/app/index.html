@@ -13,7 +13,7 @@
   <div class="container">
     <header id="header" data-current="index" class="header-wrapper">
       <header id="app-header" class="app-bar header hidden">
-        <h1 id="app-h1"><a href="#">Yellr</a></h1>
+        <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
         <nav id="app-nav">
           <ul class="header-nav-list">
             <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
@@ -42,13 +42,14 @@
         <h1 id="page-h1">Submit Report</h1><span id="submit-btn"><i class="fa fa-check"></i></span>
       </header>
       <nav id="homepage-subnav" class="app-bar secondary-nav">
-        <div class="current"><a href="#assignments">Assignments</a></div>
-        <div> <a href="#news-feed">News Feed</a></div>
+        <div data-page="#assignments" id="assignments-tab" class="current"><a href="#assignments">Assignments</a></div>
+        <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
       </nav>
     </header>
     <div id="main">
-      <section id="index" class="content">
-        <div class="container">
+      <div id="pt-main" class="pt-perspective">
+        <div id="assignments" class="container pt-page pt-page-1">
+          <h2>assignments</h2>
           <ul id="latest-assignments" class="list-style-none">
             <li>
               <h2 class="t1"> <a href="#">Who makes the best cup-of-soup?</a></h2>
@@ -92,43 +93,97 @@
                 </ul>
               </div>
             </li>
+          </ul>
+        </div>
+        <div id="news-feed" class="container pt-page pt-page-2">
+          <h2>news-feed</h2>
+          <ul id="latest-stories" class="list-style-none">
             <li>
-              <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
-              <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
-              <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
-              <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
-              <div class="accepted-media-wrapper">
-                <ul class="accepted-media">
-                  <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
-                  <li><i title="Picture" class="fa fa-camera"></i></li>
-                  <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
-                  <li><i title="Text" class="fa fa-file-text-o"></i></li>
-                </ul>
-              </div>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
             </li>
             <li>
-              <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
-              <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
-              <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
-              <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
-              <div class="accepted-media-wrapper">
-                <ul class="accepted-media">
-                  <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
-                  <li><i title="Picture" class="fa fa-camera"></i></li>
-                  <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
-                  <li><i title="Text" class="fa fa-file-text-o"></i></li>
-                </ul>
-              </div>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
+            </li>
+            <li>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
             </li>
           </ul>
         </div>
-      </section>
-      <div id="capture-debug">
+        <div id="profile" class="container pt-page pt-page-3">
+          <h2>profile</h2>
+        </div>
+        <div id="notifications" class="container pt-page pt-page-4">
+          <h2>notifications</h2>
+        </div>
+        <div id="messages" class="container pt-page pt-page-5">
+          <h2>messages</h2>
+        </div>
+        <div id="submit-form" class="container pt-page pt-page-6">
+          <h2>submit-form</h2>
+          <form class="form wrapper submit-preview">
+            <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
+            <div class="media-submission-wrapper">
+              <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+              <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="view-assignment" class="container pt-page pt-page-7">
+          <section id="assignment-view">
+            <h2 id="assignment-question" class="t1">Are you on Team Viper or Team Mountain?</h2>
+            <figure><img src="http://lorempixel.com/800/400"></figure>
+            <p class="assignment-details">The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.</p>
+            <div class="assignment-actions">
+              <div class="flex-3"><span class="deadline no-margin-left">June 12, 2014</span>
+                <div class="accepted-media-wrapper"><span><em>Accepted Media:</em></span>
+                  <ul class="accepted-media">
+                    <li><i class="fa fa-video-camera"></i></li>
+                    <li><i class="fa fa-camera"></i></li>
+                    <li><i class="fa fa-volume-up"></i></li>
+                    <li><i class="fa fa-file-text-o"></i></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="flex-2"><a href="#" class="contribute-btn no-margin-right">Contribute</a></div>
+            </div>
+          </section>
+          <aside>
+            <h3 class="t2">Latest Contributions</h3>
+            <ul class="contributions-list list-style-none">
+              <li><a href="#"> <span class="contributor">DanDan109</span>
+                  <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
+              <li> <a href="#"> <span class="contributor">Steve-O</span>
+                  <figure><img src="http://lorempixel.com/400/200"></figure>
+                  <p>“Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. </p></a></li>
+              <li><a href="#"><span class="contributor">Afroman</span>
+                  <p>This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...</p>
+                  <figure><img src="http://lorempixel.com/400/200"></figure></a></li>
+              <li><a href="#"><span class="contributor">Clint Eastwood</span>
+                  <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
+            </ul>
+          </aside>
+        </div>
+        <div id="view-story" class="container pt-page pt-page-8">
+          <h2>view story</h2>
+        </div>
+      </div>
+      <div id="debug">
         <p id="cordova-audio"></p>
         <p id="cordova-image"></p>
         <p id="cordova-video"></p>
-      </div>
-      <div id="debug">
         <p id="cordova-language"></p>
         <p id="cordova-device"></p>
         <p id="cordova-connection"></p>
@@ -143,14 +198,6 @@
         </p>
         <p id="cordova-position"></p>
       </div>
-      <form class="form wrapper submit-preview">
-        <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
-        <div class="media-submission-wrapper">
-          <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
-          <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
-          </div>
-        </div>
-      </form>
     </div>
     <footer id="footer" class="footer-wrapper">
       <footer id="report-bar" data-page="index" class="app-bar footer hidden">
@@ -170,6 +217,7 @@
         </div>
         <div data-current="none" class="more-info hidden">
           <div data-info="location" class="location-information extra-info">
+            <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
             <p id="location">43.1567975, -77.6167498</p>
             <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p>
           </div>
@@ -197,6 +245,7 @@
   <script src="js/config.js"></script>
   <script src="js/setup.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/pagetransition.js"></script>
   <script src="js/parse.js"></script>
   <script src="js/yellr.js"></script>
   <script src="js/demo.js"></script>

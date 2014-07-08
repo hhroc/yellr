@@ -8,7 +8,6 @@ var yellr = yellr || {};
     - sets up our Cordova app plugins
 */ 
 
-yellr.profile = {};
 
 yellr.setup = {
 
@@ -17,14 +16,70 @@ yellr.setup = {
 			set up the DOM
 			mostly cosmetic things, caching DOM queries, setting up buttons
 		*/
-		console.log('setup DOM');
+
+
+
+    // Page transitions
+    // ===================================
+    var page_mgr = PageTransitions;
+    yellr.pageManager = page_mgr;
+    yellr.pageManager.init();
+
+    $('#assignments').on('swipeLeft', function() {
+      // console.log('show news feed');
+      yellr.toggle.homepage({
+        pageID: '#news-feed'
+      });
+    });
+
+    $('#news-feed').on('swipeRight', function() {
+      yellr.toggle.homepage({
+        pageID: '#assignments'
+      });
+    });
+
+
+
+    // Menu buttons + Transitions
+    // ===================================
+
+    // home
+    $('#app-h1').on('tap', function(e) {
+      // fade bottom, come in from top
+      yellr.pageManager.nextPage('#assignments', 12);
+    });
+
+    // notifications
+    $('#notifications-btn').on('tap', function(e) {
+      // slide in from top
+      yellr.pageManager.nextPage('#notifications', 4);
+    });
+
+    // messages
+    $('#messages-btn').on('tap', function(e) {
+      // slide in from top
+      yellr.pageManager.nextPage('#messages', 4);
+    });
+
+    // profile
+    $('#profile-btn').on('tap', function(e) {
+      // scale down from top
+      yellr.pageManager.nextPage('#profile', 20);
+    });
+
+    // lowly ol' text
+    $('#capture-text').on('tap', function() {
+      yellr.pageManager.nextPage('#submit-form', 19);
+    });
+
+
 
 
 		// setup buttons
 		// ====================================
 
 		// in app header --> show more options
-    $('#more-btn .toggle').on('tap', function() {
+    $('#more-btn').on('tap', function() {
       yellr.toggle.more_options();
     });
 
@@ -37,9 +92,6 @@ yellr.setup = {
     $('#submit-footer .flex').on('tap', function() {
       yellr.toggle.report_details();
     });
-		// document.querySelector('#submit-footer .flex').onclick = yellr.toggle.report_details;
-
-
 
 
 
@@ -53,6 +105,9 @@ yellr.setup = {
 
 		// set the routing/view system of the app
 		yellr.app.route('#');
+    // yellr.toggle.homepage({
+    //   pageID: '#assignments'
+    // });
 
 	},
 
@@ -270,13 +325,10 @@ yellr.setup = {
   	});
 
 
-  	// lowly ol' text
-  	$('#capture-text').on('tap', function() {
-  		alert('capture text - zepto');
-  		// yellr.app.route()
-  		// app.route.to('#submit-text');
-  	});
-
+  	// // lowly ol' text
+  	// $('#capture-text').on('tap', function() {
+   //    yellr.pageManager.nextPage('#submit-form', 19);
+  	// });
 
 
 

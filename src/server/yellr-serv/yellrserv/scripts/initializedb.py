@@ -14,6 +14,9 @@ from pyramid.scripts.common import parse_vars
 from ..models import (
     DBSession,
     #MyModel,
+    UserTypes,
+    MediaTypes,
+    Languages,
     Base,
     )
 
@@ -35,6 +38,67 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
-    #with transaction.manager:
-    #    model = MyModel(name='one', value=1)
-    #    DBSession.add(model)
+    with transaction.manager:
+        #
+        # User Types
+        #
+        usertype_admin = UserTypes(
+            usertypedescription = 'A system administrator.  This user type has the highest level of permissions.',
+            usertypevalue = 'admin',
+        )
+        DBSession.add(usertype_admin)
+        usertype_mod = UserTypes(
+            usertypedescription = 'A system moderator.  This user type moderators content produced by users.',
+            usertypevalue = 'moderator',
+        )
+        DBSession.add(usertype_mod)
+        usertype_sub = UserTypes(
+            usertypedescription = 'A system subscriber.  This user type uses content produced by moderators and users.',
+            usertypevalue = 'subscriber',
+        )
+        DBSession.add(usertype_sub)
+        usertype_user = UserTypes(
+            usertypedescription = 'A basic user.  Accesses the system via mobile app or webpage.',
+            usertypevalue = 'user',
+        )
+        DBSession.add(usertype_user)
+
+        #
+        # Media Types
+        #
+        mediatype_image = MediaTypes(
+            mediatypedescription = 'An Image.',
+            mediatypevalue = 'image',
+        )
+        DBSession.add(mediatype_image)
+        mediatype_image = MediaTypes(
+            mediatypedescription = 'An Audio Clip.',
+            mediatypevalue = 'audio',
+        )
+        DBSession.add(mediatype_image)
+        mediatype_image = MediaTypes(
+            mediatypedescription = 'A Video.',
+            mediatypevalue = 'video',
+        )
+        DBSession.add(mediatype_image)
+        mediatype_image = MediaTypes(
+            mediatypedescription = 'Text.',
+            mediatypevalue = 'text',
+        )
+        DBSession.add(mediatype_image)
+
+        # Languages
+        language_english = Languages(
+            languagecode = 'en',
+            languagename = 'English',
+        )
+        DBSession.add(language_english)
+        language_spanish = Languages(
+            languagecode = 'sp',
+            languagename = 'Spanish',
+        )
+        DBSession.add(language_spanish)
+
+        # commit new objects to the database
+        transaction.commit()
+

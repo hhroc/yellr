@@ -1,3 +1,11 @@
+import os
+import json
+import uuid
+import datetime
+from time import strftime
+
+import transaction
+
 from sqlalchemy import (
     Column,
     Index,
@@ -20,7 +28,7 @@ from sqlalchemy.orm import (
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
-DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
+DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension(),expire_on_commit=False))
 Base = declarative_base()
 
 #class MyModel(Base):
@@ -44,6 +52,13 @@ class UserTypes(Base):
     usertypedescription = Column(Text)
     usertypevalue = Column(Integer)
 
+    @classmethod
+    def from_value(cls,session,value):
+        usertype = None
+        with transaction.manager:
+            usertype = session.query(UserTypes).filter(UserTypes.usertypevalue == value).first()
+        return usertype
+
 class Users(Base):
 
     """
@@ -64,6 +79,41 @@ class Users(Base):
     passsalt = Column(Text)
     passhash = Column(Text)
 
+    @classmethod
+    def create_new_user(cls,session,usertypeid,clientid,verified=False,firstname='',lastname='',email='',passsalt='',passhash=''):
+        user = None
+        with transaction.manager:
+            user = cls(
+                usertypeid = usertypeid,
+                verified = verified,
+                uniqueid = clientid,
+                firstname = firstname,
+                lastname = lastname,
+                email = email,
+                passsalt = passsalt,
+                passhash = passhash,
+            )
+            session.add(user)
+            transaction.commit()
+            # Debug/Log
+            eventdetails = {
+                'eventtype': 'user_creation',
+                'clientid': clientid,
+                'datetime': str(strftime("%Y-%m-%d %H:%M:%S")),
+            }
+            ClientLogs.log(session,clientid,json.dumps(eventdetails))
+        return user
+
+    @classmethod
+    def get_from_uniqueid(cls,session,uniqueid):
+        user = None
+        with transaction.manager:
+            user = session.query(Users).filter(Users.uniqueid == uniqueid).first()
+            if user == None:
+                usertype = UserTypes.from_value(session,value='user')
+                user = cls.create_new_user(session,usertype.usertypeid,uniqueid)
+        return user
+
 class Assignments(Base):
 
     """
@@ -78,6 +128,29 @@ class Assignments(Base):
     publishdate = Column(DateTime)
     expiredatetime = Column(DateTime)
     fencegeojson = Column(Text)
+
+    @classmethod
+    def get_by_assignmentid(cls,session,assignmentid):
+        assignment = questionassignments = session.query(
+            QuestionAssignments
+        ).filter(
+            QuestionAssignments.assignemntid == assignemntid
+        ).first()
+        return assignment
+
+    @classmethod
+    def get_with_question(cls,session,assignmentid,languageid):
+        assignment = Assignments.get_by_assignmentid(session,assignmentid)
+        question = session.query(
+            Questions
+        ).join(
+            Questions,QuestionAssignments.questionid
+        ).filter(
+            QuestionAssignments.assignemntid == assignemntid,
+            Questions.languageid == languageid
+        ).filter().first()
+        return (assignment,question)
+            
 
 class Questions(Base):
 
@@ -129,6 +202,11 @@ class Languages(Base):
     languagecode = Column(Text)
     languagename = Column(Text)
 
+    @classmethod
+    def get_from_code(cls,session,languagecode):
+        language = session.query(Languages).filter(Languages.languagecode == languagecode).first()
+        return language
+
 class Posts(Base):
 
     """
@@ -148,6 +226,37 @@ class Posts(Base):
     lat = Column(Float)
     lng = Column(Float)
 
+    @classmethod
+    def create_from_http(cls,session,clientid,assignmentid,languagecode,location,mediaobjects):
+        # create post
+        with transaction.manager:
+            language = Languages.get_from_code(session,languagecode)
+            if assignmentid == None or assignmentid == '' or assignmentid == 0:
+                assignmentid = None
+            user = Users.get_from_uniqueid(session,clientid)
+            post = cls(
+                userid = user.userid,
+                assignmentid = assignmentid,
+                postdatetime = datetime.datetime.now(),
+                languageid = language.languageid,
+                reported = False,
+                lat = location['lat'],
+                lng = location['lng'],
+            )
+            session.add(post)
+            transaction.commit()
+        # assign media objects to the post
+        with transaction.manager:
+            for mediaobjectuniqueid in mediaobjects:
+                mediaobject = MediaObjects.get_from_uniqueid(session,mediaobjectuniqueid)
+                postmediaobject = PostMediaObjects(
+                    postid = post.postid,
+                    mediaobjectid = mediaobject.mediaobjectid,
+                )
+                session.add(postmediaobject)
+            transaction.commit()
+        return post
+
 class MediaTypes(Base):
 
     """
@@ -156,10 +265,17 @@ class MediaTypes(Base):
 
     __tablename__ = 'mediatypes'
     mediatypeid = Column(Integer, primary_key=True)
-    mediatype = Column(Text)
+    mediatypevalue = Column(Text)
     mediatypedescription = Column(Text)
 
-class Mediaobjects(Base):
+    @classmethod
+    def from_value(cls,session,value):
+        mediatype = 0
+        with transaction.manager:
+            mediatype = session.query(MediaTypes).filter(MediaTypes.mediatypevalue == value).first()
+        return mediatype
+
+class MediaObjects(Base):
 
     """
     Media objects are attached to a post.  A post can have any number of media objects.
@@ -167,10 +283,35 @@ class Mediaobjects(Base):
 
     __tablename__ = 'mediaobjects'
     mediaobjectid = Column(Integer, primary_key=True)
+    userid = Column(Integer, ForeignKey('users.userid'))
     mediatypeid = Column(Integer, ForeignKey('mediatypes.mediatypeid'))
+    mediaobjectuniqueid = Column(Text)
     mediafilename = Column(Text)
     mediacaption = Column(Text)
     mediatext = Column(Text)
+
+    @classmethod
+    def get_from_uniqueid(cls,session,uniqueid):
+        with transaction.manager:
+            mediaobject = session.query(MediaObjects).filter(MediaObjects.mediaobjectuniqueid == uniqueid).first()
+        return mediaobject
+
+    @classmethod
+    def create_new_mediaobject(cls,session,clientid,mediatypevalue,filename,caption,text):
+        with transaction.manager:
+            user = Users.get_from_uniqueid(session,clientid)
+            mediatype = MediaTypes.from_value(session,mediatypevalue)
+            mediaobject = cls(
+                userid = user.userid,
+                mediatypeid = mediatype.mediatypeid,
+                mediaobjectuniqueid = str(uuid.uuid4()),
+                mediafilename = filename,
+                mediacaption = caption,
+                mediatext = text,
+            )
+            session.add(mediaobject)
+            transaction.commit()
+        return mediaobject
 
 class PostMediaObjects(Base):
 
@@ -195,9 +336,19 @@ class ClientLogs(Base):
     clientlogid = Column(Integer, primary_key=True)
     userid = Column(Integer, ForeignKey('users.userid'))
     eventdatetime = Column(DateTime)
-    eventtypeclienttype = Column(Text)
-    eventtype = Column(Text)
     eventdetails = Column(Text)
+
+    @classmethod
+    def log(cls,session,clientid,eventdetails):
+        with transaction.manager:
+            user = Users.get_from_uniqueid(session,clientid)
+            clientlog = ClientLogs(
+                userid = user.userid,
+                eventdatetime = datetime.datetime.now(),
+                eventdetails = eventdetails,
+            )
+            session.add(clientlog)
+        return clientlog
 
 class Collections(Base):
 

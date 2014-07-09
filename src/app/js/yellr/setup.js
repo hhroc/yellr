@@ -15,9 +15,24 @@ yellr.setup = {
 		/*
 			set up the DOM
 			mostly cosmetic things, caching DOM queries, setting up buttons
+      ======================================================================
 		*/
 
 
+    /*
+      the HTML uses <a> tags for app navigation
+      they automatically change the hash
+      when that happens we show the page
+    */ 
+    // can also call yellr.route('#page-id');
+    // listen for <a> clicks
+    window.onhashchange = yellr.route;
+
+    // form test
+    // $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
+    //   console.log(response);
+    //   alert(response);
+    // })
 
     // Page transitions
     // ===================================
@@ -25,18 +40,13 @@ yellr.setup = {
     yellr.pageManager = page_mgr;
     yellr.pageManager.init();
 
+    // swipe left on assignments to view news-feed
     $('#assignments').on('swipeLeft', function() {
-      // console.log('show news feed');
-      yellr.toggle.homepage({
-        pageID: '#news-feed'
-      });
-    });
+      yellr.route('#news-feed'); });
 
+    // swipe right on news-feed to show assignments
     $('#news-feed').on('swipeRight', function() {
-      yellr.toggle.homepage({
-        pageID: '#assignments'
-      });
-    });
+      yellr.route('#assignments'); });
 
 
 
@@ -69,7 +79,7 @@ yellr.setup = {
 
     // lowly ol' text
     $('#capture-text').on('tap', function() {
-      yellr.pageManager.nextPage('#submit-form', 19);
+      yellr.route('#submit-form');
     });
 
 
@@ -102,12 +112,6 @@ yellr.setup = {
 			header: document.querySelector('#header'),
 			footer: document.querySelector('#footer')
 		});
-
-		// set the routing/view system of the app
-		yellr.app.route('#');
-    // yellr.toggle.homepage({
-    //   pageID: '#assignments'
-    // });
 
 	},
 

@@ -7,22 +7,15 @@ yellr.demo = {
 
 
 		// load sample profile
-		yellr.utils.load('data/profile.json', function(response) {
-			// parse user profile
-			yellr.parse.profile(
-				JSON.parse(response.responseText)
-			);
+		$.getJSON('data/profile.json', function(data){
+		  yellr.parse.profile(data);
 		});
 
 
 		// load sample assignments
-		yellr.utils.load('data/assignments.json', function(response) {
-			// parse assignments
-			yellr.parse.assignments(
-				JSON.parse(response.responseText)
-			);
+		$.getJSON('data/assignments.json', function(data){
+		  yellr.parse.assignments(data);
 		});
-
 
 	}
 }

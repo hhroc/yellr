@@ -1,31 +1,10 @@
 'use strict';
 var yellr = yellr || {};
 
-
 /*
-	the Yellr js objects is made up of:
-	yellr = {
-		app: {
-			// DOM references for app
-			// handles our views
-		},
-		setup: {
-			// which handles basic setup for the DOM and app
-			// checks yellr.config obj
-		},
-		toggle: {
-			// to handle toggling things
-		}
-	}
+	Our app
 */
 
-
-
-
-
-/*
-	Holds mostly DOM references
-*/ 
 yellr.app = {
 
 	state: '#',
@@ -88,6 +67,9 @@ yellr.app = {
 
 
 
+/*
+	Toggle things
+*/ 
 
 
 yellr.toggle = {

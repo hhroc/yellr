@@ -11,7 +11,7 @@ yellr.parse = {
 
 		var username = document.querySelector('#username');
 		username.innerHTML = json.username;
-		yellr.profile.username = json.username;
+		// yellr.profile.username = json.username;
 
 	},
 

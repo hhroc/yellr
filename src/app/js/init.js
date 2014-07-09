@@ -9,7 +9,10 @@ var yellr = yellr || {};
 */
 
 window.onload = function() {
+	// setup
 	yellr.setup.DOM();
+	yellr.route('#');
+	// load data
 	// yellr.demo.init(); // uses local dummy json
 	// yellr.load.data(); // for production
 }

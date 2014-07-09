@@ -1,6 +1,10 @@
 'use strict';
 var yellr = yellr || {};
 
+/*
+	Default settings
+*/
+
 yellr.config = {
 	language: {
 		code: 'en-US',

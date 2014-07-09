@@ -43,23 +43,23 @@ def main(argv=sys.argv):
         # User Types
         #
         usertype_admin = UserTypes(
-            usertypedescription = 'A system administrator.  This user type has the highest level of permissions.',
-            usertypevalue = 'admin',
+            description = 'A system administrator.  This user type has the highest level of permissions.',
+            name = 'admin',
         )
         DBSession.add(usertype_admin)
         usertype_mod = UserTypes(
-            usertypedescription = 'A system moderator.  This user type moderators content produced by users.',
-            usertypevalue = 'moderator',
+            description = 'A system moderator.  This user type moderators content produced by users.',
+            name = 'moderator',
         )
         DBSession.add(usertype_mod)
         usertype_sub = UserTypes(
-            usertypedescription = 'A system subscriber.  This user type uses content produced by moderators and users.',
-            usertypevalue = 'subscriber',
+            description = 'A system subscriber.  This user type uses content produced by moderators and users.',
+            name = 'subscriber',
         )
         DBSession.add(usertype_sub)
         usertype_user = UserTypes(
-            usertypedescription = 'A basic user.  Accesses the system via mobile app or webpage.',
-            usertypevalue = 'user',
+            description = 'A basic user.  Accesses the system via mobile app or webpage.',
+            name = 'user',
         )
         DBSession.add(usertype_user)
 
@@ -67,35 +67,35 @@ def main(argv=sys.argv):
         # Media Types
         #
         mediatype_image = MediaTypes(
-            mediatypedescription = 'An Image.',
-            mediatypevalue = 'image',
+            description = 'An Image.',
+            name = 'image',
         )
         DBSession.add(mediatype_image)
         mediatype_image = MediaTypes(
-            mediatypedescription = 'An Audio Clip.',
-            mediatypevalue = 'audio',
+            description = 'An Audio Clip.',
+            name = 'audio',
         )
         DBSession.add(mediatype_image)
         mediatype_image = MediaTypes(
-            mediatypedescription = 'A Video.',
-            mediatypevalue = 'video',
+            description = 'A Video.',
+            name = 'video',
         )
         DBSession.add(mediatype_image)
         mediatype_image = MediaTypes(
-            mediatypedescription = 'Text.',
-            mediatypevalue = 'text',
+            description = 'Text.',
+            name = 'text',
         )
         DBSession.add(mediatype_image)
 
         # Languages
         language_english = Languages(
-            languagecode = 'en',
-            languagename = 'English',
+            language_code = 'en',
+            name = 'English',
         )
         DBSession.add(language_english)
         language_spanish = Languages(
-            languagecode = 'sp',
-            languagename = 'Spanish',
+            language_code = 'sp',
+            name = 'Spanish',
         )
         DBSession.add(language_spanish)
 

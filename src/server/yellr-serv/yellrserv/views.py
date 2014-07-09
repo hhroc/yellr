@@ -127,7 +127,7 @@ def publishpost(request):
         location = json.loads(urllib.unquote(request.POST['location']).decode('utf8'))
         mediaobjects = json.loads(urllib.unquote(request.POST['mediaobjects']).decode('utf8'))
 
-        post = Posts.create_from_http(
+        post,created = Posts.create_from_http(
             DBSession,
             clientid,
             assignmentid,
@@ -137,7 +137,8 @@ def publishpost(request):
         )
 
         result['success'] = True
-        result['postid'] = post.postid
+        result['postid'] = post.post_id
+        result['newuser'] = created
 
     #except:
     #   pass
@@ -169,93 +170,92 @@ def uploadmedia(request):
     if True:
 
         # get required fields
-        clientid = request.POST['clientid']
-        mediatype = request.POST['mediatype']
+        client_id = request.POST['clientid']
+        media_type = request.POST['mediatype']
 
-        mediafilename = ''
+        media_file_name = ''
         try:
 
-            mediafilename = request.POST['mediafile'].filename
-            inputfile = request.POST['mediafile'].file
+            media_file_name = request.POST['mediafile'].filename
+            input_file = request.POST['mediafile'].file
 
             # decode media type
             if mediatype == 'image':
-                mediaext  = 'jpg'
-            elif mediatype == 'video':
-                mediaext = 'mpg'
-            elif mediatype == 'audio':
-                mediaext = 'mp3'
-            elif mediatype == 'text':
-                mediaext = 'txt'
+                media_extention  = 'jpg'
+            elif media_type == 'video':
+                media_extention = 'mpg'
+            elif media_type == 'audio':
+                media_extention = 'mp3'
+            elif media_type == 'text':
+                media_extention = 'txt'
             else:
                 raise Exception('invalid media type')
         
             # generate a unique file name to store the file to
-            fname = '{0}.{1}'.format(uuid.uuid4(),mediaext)
-            filepath = os.path.join(system_config['upload_dir'], fname)
+            temp_file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
+            file_path = os.path.join(system_config['upload_dir'], temp_file_name)
 
             # write file to temp location, and then to disk
-            tempfilepath = filepath + '~'
-            outputfile = open(tempfilepath, 'wb')
+            temp_file_path = file_path + '~'
+            output_file = open(temp_file_path, 'wb')
  
             # Finally write the data to disk
-            inputfile.seek(0)
+            input_file.seek(0)
             while True:
-                data = inputfile.read(2<<16)
+                data = input_file.read(2<<16)
                 if not data:
                     break
-                outputfile.write(data)
+                output_file.write(data)
 
             # rename once we are valid
-            os.rename(tempfilepath, filepath)
+            os.rename(temp_file_path, file_path)
 
         except:
-            mediafilename = ''
+            media_file_name = ''
             pass
 
-        mediacaption = ''
+        media_caption = ''
         try:
-            mediacaption = requst.POST['caption']
+            media_caption = requst.POST['caption']
         except:
             pass
 
-        mediatext = ''
+        media_text = ''
         try:
-            mediatext = request.POST['mediatext']
+            media_text = request.POST['mediatext']
         except:
             pass
 
 
         # register file with database, and get file id back
-        mediaobject = None
         with transaction.manager:
-            mediaobject = MediaObjects.create_new_mediaobject(
+            media_object = MediaObjects.create_new_media_object(
                 DBSession,
-                clientid,
-                mediatype,
-                mediafilename,
-                mediacaption,
-                mediatext,
+                client_id,
+                media_type,
+                media_file_name,
+                media_caption,
+                media_text,
             )
 
-        result['mediaid'] = mediaobject.mediaobjectuniqueid
+        result['mediaid'] = media_object.unique_id
         result['success'] = True
         
         # Debug/Logging
         datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
-        eventdetails = {
+        event_details = {
             'eventype': 'http_request',
             'url':'uploadmedia.json',
             'datetime': datetime,
-            'clientid': clientid,
-            'mediatype': mediatype,
-            'filename': mediafilename,
-            'mediacaption': mediacaption,
-            'mediatext': mediatext,
+            'clientid': client_id,
+            'mediatype': media_type,
+            'filename': media_file_name,
+            'mediacaption': media_caption,
+            'mediatext': media_text,
             'success': result['success'],
             'mediaid': result['mediaid'],
         }
-        clientlog = ClientLogs.log(DBSession,clientid,json.dumps(eventdetails))
+        clientlog = ClientLogs.log(DBSession,client_id,json.dumps(event_details))
 
     #except:
     #    pass

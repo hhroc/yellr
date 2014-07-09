@@ -19,6 +19,11 @@
 // @import "../../common/style/theme/forms";
 
 
+html, body { height: 100%; }
+// body {
+// 	background: $black;
+// }
+
 #debug {
 	display: none;
 }
@@ -40,6 +45,9 @@
 	ul {list-style: none; }
 }
 
+.with-secondary-nav {
+	margin-top: 3rem;
+}
 
 #main {
 	position: absolute;
@@ -84,7 +92,6 @@
 // ===================================
 @import "animations";
 
-html, body { height: 100%; }
 
 .pt-perspective {
 	position: relative;

@@ -1,0 +1,55 @@
+header#header.header-wrapper(data-current="index")
+
+	header#app-header.app-bar.header
+		h1#app-h1(data-page="index")
+			a(href="#") Yellr
+		nav#app-nav
+			ul.header-nav-list
+				li#notifications-btn
+					a(href="#notifications")
+						i.fa.fa-bell-o
+				li#messages-btn
+					a(href="#messages")
+						i.fa.fa-envelope-o
+				li#more-btn
+					span.toggle
+						i.fa.fa-ellipsis-v
+					ul.more-options-list.hidden(data-hidden="true")
+						li#profile-btn
+							a(href="#profile")
+								p.nav-title.username#username Username
+								span View Profile
+						li#language-btn
+							a(href="#language-setting") 
+								p.nav-title Language
+								span English
+						li#feedback-btn
+							a(href="#feedback") 
+								p.nav-title  Send App Feedback
+						li#privacy-policy-btn
+							a(href="#privacy-policy") 
+								p.nav-title  Privacy Policy
+
+
+	header#page-header.app-bar.header.hidden
+		nav.back-btn
+			a(href="#")
+				i.fa.fa-arrow-left
+		h1#page-h1 Page
+		span#refresh-btn
+			i.fa.fa-refresh
+
+
+	header#submit-header.app-bar.header.hidden
+		nav.back-btn
+			a(href="#")
+				i.fa.fa-arrow-left
+		h1#page-h1 Submit Report
+		span#submit-btn
+			i.fa.fa-check
+
+	nav.app-bar.secondary-nav#homepage-subnav
+		div(data-page="#assignments")#assignments-tab
+			a(href="#assignments") Assignments
+		div(data-page="#news-feed")#news-feed-tab
+			a(href="#news-feed") News Feed

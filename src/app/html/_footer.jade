@@ -1,0 +1,46 @@
+footer#footer.footer-wrapper
+
+	footer#report-bar.app-bar.footer(data-page="index")
+		div.flex
+			div#capture-audio.btn
+				i.fa.fa-microphone
+			div#capture-image.btn
+				i.fa.fa-camera
+			div#capture-video.btn
+				i.fa.fa-video-camera
+			div#capture-text.btn
+				i.fa.fa-pencil-square-o
+		p.anonymous-disclaimer All posts are anonymous.
+
+
+	footer#submit-footer.footer.app-bar(data-page="submit").hidden
+		div.flex
+			div#location-btn.btn(data-info="location")
+				i.fa.fa-map-marker
+			div#tags-btn.btn(data-info="tags")
+				i.fa.fa-tags
+			div#anon-btn.btn(data-info="identity")
+				i.fa.fa-user
+		div.more-info(data-current="none").hidden
+			div.location-information.extra-info(data-info="location")
+				p
+					i.fa.fa-location-arrow &nbsp;
+					span Location
+				p#location 43.1567975, -77.6167498
+				p.location-disclaimer We use this information to help verify the accuracy of your submission, as well as if you are from the area.
+			ul.tags-list.extra-info(data-info="tags")
+				li FIFA
+				li world cup
+				li rochester
+				li#add-tag-btn
+					i.fa.fa-plus
+			p#uuid.extra-info(data-info="identity") 121924012392
+		p.anonymous-disclaimer Posting anonymously
+
+
+	footer#messages-footer.footer.app-bar(data-page="messages").hidden
+		div.flex
+			div.btn
+				i.fa.fa-plus
+			div.btn
+				i.fa.fa-trash-o

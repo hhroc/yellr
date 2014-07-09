@@ -13,381 +13,59 @@ head
 body#app(data-state="#")
 	div.container
 
-		header#header.header-wrapper(data-current="index")
+		//- app headers
+		include _header.jade
 
-			header#app-header.app-bar.header.hidden
-				h1#app-h1(data-page="index")
-					a(href="#") Yellr
-				nav#app-nav
-					ul.header-nav-list
-						li#notifications-btn
-							a(href="#notifications")
-								i.fa.fa-bell-o
-						li#messages-btn
-							a(href="#messages")
-								i.fa.fa-envelope-o
-						li#more-btn
-							span.toggle
-								i.fa.fa-ellipsis-v
-							ul.more-options-list.hidden(data-hidden="true")
-								li#profile-btn
-									a(href="#profile")
-										p.nav-title.username#username Username
-										span View Profile
-								li#language-btn
-									a(href="#language-setting") 
-										p.nav-title Language
-										span English
-								li#feedback-btn
-									a(href="#feedback") 
-										p.nav-title  Send App Feedback
-								li#privacy-policy-btn
-									a(href="#privacy-policy") 
-										p.nav-title  Privacy Policy
-
-
-			header#page-header.app-bar.header.hidden
-				nav.back-btn
-					a(href="#")
-						i.fa.fa-arrow-left
-				h1#page-h1 Page
-				span#refresh-btn
-					i.fa.fa-refresh
-
-
-			header#submit-header.app-bar.header.hidden
-				nav.back-btn
-					a(href="#")
-						i.fa.fa-arrow-left
-				h1#page-h1 Submit Report
-				span#submit-btn
-					i.fa.fa-check
-
-			nav.app-bar.secondary-nav#homepage-subnav
-				div(data-page="#assignments")#assignments-tab.current
-					a(href="#assignments") Assignments
-				div(data-page="#news-feed")#news-feed-tab
-					a(href="#news-feed") News Feed
-
-		//- end header
-
-
+		//- main content area
 		div#main
 			div#pt-main.pt-perspective
-				div.container.pt-page.pt-page-1#assignments
-					h2 assignments
-					ul#latest-assignments.list-style-none
-						li
-							h2.t1 
-								a(href="#") Who makes the best cup-of-soup?
-							figure
-								a(href="#")
-									img(src="http://lorempixel.com/400/200")
-							p It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.
-								span.deadline 6 days
-							div.assignment-action
-								a.contribute-btn(href="#") View assignment
-								span.current-contributions 24 contributions 
-							div.accepted-media-wrapper
-								ul.accepted-media
-									li
-										i.fa.fa-video-camera(title="Video")
-									li
-										i.fa.fa-camera(title="Picture")
-									li
-										i.fa.fa-volume-up(title="Audio")
-									li
-										i.fa.fa-file-text-o(title="Text")
-						li
-							h2.t1 
-								a(href="#") What is it you wish, madame?
-							figure
-								a(href="#")
-									img(src="http://lorempixel.com/400/200")
-							p She was rushing forward when M. Pageot held her back with a calm gesture. “It is useless, madame! The hall is full, overcrowded.... Moreover, you will not miss much, for it will be over in five minutes....”
-								span.deadline 10 days
-							div.assignment-action
-								a.contribute-btn(href="#") View assignment
-								span.current-contributions 32 contributions 
-							div.accepted-media-wrapper
-								ul.accepted-media
-									li.no
-										i.fa.fa-video-camera(title="Video")
-									li.no
-										i.fa.fa-camera(title="Picture")
-									li.no
-										i.fa.fa-volume-up(title="Audio")
-									li
-										i.fa.fa-file-text-o(title="Text")
-						li
-							h2.t1 
-								a(href="#") If you please, where is the lecture on Egyptology?
-							figure
-								a(href="#")
-									img(src="http://lorempixel.com/400/200")
-							p “Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”
-								span.deadline 2 weeks
-							div.assignment-action
-								a.contribute-btn(href="#") View assignment
-								span.current-contributions 12 contributions 
-							div.accepted-media-wrapper
-								ul.accepted-media
-									li.no
-										i.fa.fa-video-camera(title="Video")
-									li
-										i.fa.fa-camera(title="Picture")
-									li.no
-										i.fa.fa-volume-up(title="Audio")
-									li
-										i.fa.fa-file-text-o(title="Text")
+				div.with-secondary-nav.pt-page.pt-page-1#assignments
+					include assignments.jade
 
+				div.with-secondary-nav.pt-page.pt-page-2#news-feed
+					include news-feed.jade
 
-				div.container.pt-page.pt-page-2#news-feed
-					h2 news-feed
-					ul#latest-stories.list-style-none
-						li
-							h2.t1
-								a(href="#") Title of story
-							p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
-							figure
-								img(src="http://lorempixel.com/400/200")
-								figcaption This is a caption about the image and story
-						li
-							h2.t1
-								a(href="#") Title of story
-							p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
-							figure
-								img(src="http://lorempixel.com/400/200")
-								figcaption This is a caption about the image and story
-						li
-							h2.t1
-								a(href="#") Title of story
-							p Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.
-							figure
-								img(src="http://lorempixel.com/400/200")
-								figcaption This is a caption about the image and story
+				div.pt-page.pt-page-3#profile
+					include profile.jade
 
+				div.pt-page.pt-page-4#notifications
+					include notifications.jade
+					
+				div.with-secondary-nav.pt-page.pt-page-5#messages
+					include messages.jade
 
-				div.container.pt-page.pt-page-3#profile
-					h2 profile
-				div.container.pt-page.pt-page-4#notifications
-					h2 notifications
-				div.container.pt-page.pt-page-5#messages
-					h2 messages
-				div.container.pt-page.pt-page-6#submit-form
-					h2 submit-form
-					form.form.wrapper.submit-preview
-						//-input(type="text", placeholder="Add description").add-description
-						textarea(rows="2", columns="10", placeholder="Add description", autofocus).no-border
-						
-						div.media-submission-wrapper
-							div.media-preview
-								i.fa.fa-close
-								img(src="http://lorempixel.com/400/200")
-							div.media-options
-								span.add-more-media.flex-1#add-more-media-btn
-									i.fa.fa-plus
-								//-div#media-input-wrapper
-										input(type="file")
+				div.pt-page.pt-page-6#submit-form
+					include submit-form.jade
 
+				div.pt-page.pt-page-7#view-assignment
+					include assignment.jade
 
-				div.container.pt-page.pt-page-7#view-assignment
-					section#assignment-view
-						h2.t1#assignment-question Are you on Team Viper or Team Mountain?
-						figure
-							img(src="http://lorempixel.com/800/400")
-						p.assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
-						div.assignment-actions
-							div.flex-3
-								span.deadline.no-margin-left June 12, 2014
-								div.accepted-media-wrapper
-									span
-										em Accepted Media:
-									ul.accepted-media
-										li
-											i.fa.fa-video-camera
-										li
-											i.fa.fa-camera
-										li
-											i.fa.fa-volume-up
-										li
-											i.fa.fa-file-text-o
-							div.flex-2
-								a(href="#").contribute-btn.no-margin-right Contribute
-					aside
-						h3.t2 Latest Contributions
-						ul.contributions-list.list-style-none
-							//- text only
-							li
-								a(href="#") 
-									span.contributor DanDan109
-									p Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.
-							//- text + picture - 1 (image first)
-							li 
-								a(href="#") 
-									span.contributor Steve-O
-									figure
-										img(src="http://lorempixel.com/400/200")
-									p “Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. 
-							//- text + picture - 2 (text first)
-							li
-								a(href="#")
-									span.contributor Afroman
-									p This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...
-									figure
-										img(src="http://lorempixel.com/400/200")
-							//- longg text
-							li
-								a(href="#")
-									span.contributor Clint Eastwood
-									p “See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...
-											span.more View full report
-
-
-				div.container.pt-page.pt-page-8#view-story
-					h2 view story
+				div.pt-page.pt-page-8#view-story
+					include news-story.jade
 
 
 
-			div#debug
-				p#cordova-audio
-				p#cordova-image
-				p#cordova-video
-				p#cordova-language
-				p#cordova-device
-				p#cordova-connection
-				p
-					input(type="button", value="Test alert")#cordova-alert 
-					input(type="button", value="Test confirm")#cordova-confirm 
-					input(type="button", value="Test prompt")#cordova-prompt
-				p
-					input(type="button", value="Test beep")#cordova-beep 
-					input(type="button", value="Test vibrate")#cordova-vibrate
-				p#cordova-position
+			include _debug.jade
+		//- end main
 
-
-
-
-
-		footer#footer.footer-wrapper
-
-			footer#report-bar.app-bar.footer(data-page="index").hidden
-				div.flex
-					div#capture-audio.btn
-						i.fa.fa-microphone
-					div#capture-image.btn
-						i.fa.fa-camera
-					div#capture-video.btn
-						i.fa.fa-video-camera
-					div#capture-text.btn
-						i.fa.fa-pencil-square-o
-				p.anonymous-disclaimer All posts are anonymous.
-
-
-			footer#submit-footer.footer.app-bar(data-page="submit").hidden
-				div.flex
-					div#location-btn.btn(data-info="location")
-						i.fa.fa-map-marker
-					div#tags-btn.btn(data-info="tags")
-						i.fa.fa-tags
-					div#anon-btn.btn(data-info="identity")
-						i.fa.fa-user
-				div.more-info(data-current="none").hidden
-					div.location-information.extra-info(data-info="location")
-						p
-							i.fa.fa-location-arrow &nbsp;
-							span Location
-						p#location 43.1567975, -77.6167498
-						p.location-disclaimer We use this information to help verify the accuracy of your submission, as well as if you are from the area.
-					ul.tags-list.extra-info(data-info="tags")
-						li FIFA
-						li world cup
-						li rochester
-						li#add-tag-btn
-							i.fa.fa-plus
-					p#uuid.extra-info(data-info="identity") 121924012392
-				p.anonymous-disclaimer Posting anonymously
-
-
-			footer#messages-footer.footer.app-bar(data-page="messages").hidden
-				div.flex
-					div.btn
-						i.fa.fa-plus
-					div.btn
-						i.fa.fa-trash-o
-
-
-
-		//-div#main
-
-
-
-			//-div.module-wrapper
-				div.module-info
-					h2 Account Creation
-					p Creating a new account for yellr
-				div.module
-					div.wrapper
-						h2.t1 Create Account
-						form.form
-							ul.list-style-none
-								li
-									label
-										p.t3 Name (first &amp; last)
-										input(type="text")
-								li
-									label
-										p.t3 Username 
-											em This will the name used publicly
-										input(type="text")
-
-
-
-				//- <click to setup account>
-						- show terms and conditions (agree, cancel)
-						- after account creation, takes you back to the assignment you were viewing
-
-
-
-			//-div.module-wrapper
-				div.module-info
-					h2 Question prompt
-					p Questions pushed from WXXI will look like this
-				div.module
-					div#notification-msg
-						.wrapper
-							form
-								p#question &nbsp;
-								div#response-wrapper
-									ul#question-answers
-									ul#extra-fields
-								span#more-details Add more details
-								input#submit-question-answer(type="submit", value="Submit")
-								span#msg-close Cancel 
-									i.fa.fa-times
-
-
-
-
-
-
-
+		//- app footer
+		include _footer.jade
 
 
 	script(src="cordova.js")
 	script(src="js/libs/zepto.js")
 	script(src="js/libs/handlebars.js")
-	//-script(src="js/libs/fastclick.js")
+	script(src="js/libs/pagetransition.js")
 	//- load our JS files
 	//- ----------------------------
-	script(src="js/config.js")
-	script(src="js/setup.js")
+	script(src="js/yellr/yellr.js")
+	script(src="js/yellr/config.js")
+	script(src="js/yellr/setup.js")
+	script(src="js/yellr/views.js")
 	//- helpers
-	script(src="js/utils.js")
-	script(src="js/pagetransition.js")
-	script(src="js/parse.js")
-	//- the goods
-	script(src="js/yellr.js")
+	script(src="js/yellr/utils.js")
+	script(src="js/yellr/parse.js")
+	//- start it up
 	script(src="js/demo.js")
 	script(src="js/init.js")
 

@@ -104,18 +104,18 @@ class Users(Base):
             )
             session.add(user)
             transaction.commit()
-            # Debug/Log
-            #eventdetails = {
-            #    'eventtype': 'user_creation',
-            #    'clientid': clientid,
-            #    'datetime': str(strftime("%Y-%m-%d %H:%M:%S")),
-            #}
-            #ClientLogs.log(session,clientid,json.dumps(eventdetails))
+        with transaction.manager:
+            message = Messages.create_message(
+                session = session,
+                from_user_id = None,
+                to_user_id = user.user_id,
+                subject = 'Welcome to Yellr!',
+                text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
+            )
         return user
 
     @classmethod
-    def get_from_uniqueid(cls, session, unique_id):
-        user = None
+    def get_from_unique_id(cls, session, unique_id):
         with transaction.manager:
             user = session.query(
                 Users
@@ -129,6 +129,16 @@ class Users(Base):
                         user_type.user_type_id,unique_id)
                 created = True
         return (user, created)
+
+    @classmethod
+    def get_from_user_id(cls, session, user_id):
+        with transaction.manager:
+            user = session.query(
+                Users
+            ).filter(
+                Users.user_id == user_id
+            ).first()
+        return user
 
 class Assignments(Base):
 
@@ -256,7 +266,7 @@ class Posts(Base):
                    or assignment_id == '' \
                    or assignment_id == 0:
                 assignment_id = None
-            user,created = Users.get_from_uniqueid(session,client_id)
+            user,created = Users.get_from_unique_id(session,client_id)
             post = cls(
                 user_id = user.user_id,
                 assignment_id = assignment_id,
@@ -271,7 +281,7 @@ class Posts(Base):
         # assign media objects to the post
         with transaction.manager:
             for media_object_unique_id in media_objects:
-                media_object = MediaObjects.get_from_uniqueid(
+                media_object = MediaObjects.get_from_unique_id(
                     session,media_object_unique_id
                 )
                 post_media_object = PostMediaObjects(
@@ -359,7 +369,7 @@ class MediaObjects(Base):
     media_text = Column(Text)
 
     @classmethod
-    def get_from_uniqueid(cls, session, unique_id):
+    def get_from_unique_id(cls, session, unique_id):
         with transaction.manager:
             mediaobject = session.query(
                 MediaObjects,
@@ -372,7 +382,7 @@ class MediaObjects(Base):
     def create_new_media_object(cls, session, client_id, media_type_value, 
             file_name, caption, text):
         with transaction.manager:
-            user,created = Users.get_from_uniqueid(session,client_id)
+            user,created = Users.get_from_unique_id(session,client_id)
             mediatype = MediaTypes.from_value(session,media_type_value)
             mediaobject = cls(
                 user_id = user.user_id,
@@ -423,7 +433,7 @@ class EventLogs(Base):
     @classmethod
     def log(cls, session, client_id, event_type, details):
         with transaction.manager:
-            user,created = Users.get_from_uniqueid(session,client_id)
+            user,created = Users.get_from_unique_id(session,client_id)
             eventlog = EventLogs(
                 user_id = user.user_id,
                 event_type = event_type,
@@ -498,7 +508,8 @@ class Messages(Base):
 
     __tablename__ = 'messages'
     message_id = Column(Integer, primary_key=True)
-    userid = Column(Integer, ForeignKey('users.user_id'))
+    from_user_id = Column(Integer, ForeignKey('users.user_id'))
+    to_user_id = Column(Integer, ForeignKey('users.user_id'))
     message_datetime = Column(DateTime)
     parent_message_id = Column(Integer, ForeignKey('messages.message_id'))
     subject = Column(Text)
@@ -506,30 +517,47 @@ class Messages(Base):
     was_read = Column(Text)
 
     @classmethod
-    def create_message(cls, session, user_id, subject, text):
+    def get_user_id_from_message_id(cls, session, message_id):
+        with transaction.manager:
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.message_id == message_id,
+            ).first()
+        return message.from_user_id
+
+    @classmethod
+    def create_message(cls, session, from_user_id, to_user_id, subject, text):
         with transaction.manager:
             message = cls(
-                user_id = user_id,
+                from_user_id = from_user_id,
+                to_user_id = to_user_id,
                 message_datetime = datetime.datetime.now(),
                 parent_message_id = None,
                 subject = subject,
                 text = text,
                 was_read = False,
             )
+            session.add(message)
+            transaction.commit()
 
     @classmethod
     def create_response_message(cls, session, clientid, 
             parent_message_id, text, subject):
         with transaction.manager:
-            user,created = Users.get_from_uniqueid(session,client_id)
+            user, created = Users.get_from_unique_id(session, client_id)
+            to_user_id = Messages.get_user_id_from_message_id(parent_message_id)
             message = cls(
-                userid = user.user_id,
+                from_user_id = user.user_id,
+                to_user_id = to_user_id,
                 message_datetime = datetime.datetime.now(),
                 parent_message_id = parent_message_id,
                 subject = subject,
                 text = text,
                 was_read = False,
             )
+            session.add(message)
+            transaction.commit()
         return message
 
     @classmethod
@@ -542,4 +570,15 @@ class Messages(Base):
             )
             transaction.commit()
         return True
+
+    @classmethod
+    def get_messages_from_client_id(cls, session, client_id):
+        with transaction.manager:
+            user,created = Users.get_from_unique_id(session,client_id)
+            messages = session.query(
+                Messages,
+            ).filter(
+                Messages.to_user_id == user.user_id
+            ).all()
+        return messages
 

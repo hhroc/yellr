@@ -27,6 +27,7 @@ from .models import (
     EventLogs,
     Collections,
     CollectionPosts,
+    Messages,
     )
 
 system_status = {
@@ -78,11 +79,27 @@ def index(request):
 
 @view_config(route_name='status.json')
 def status(request):
+
+    """
+    
+    This is used as a method to deturmine of the server is alive.
+
+    """
+
     resp = json.dumps(system_status)
     return Response(resp,content_type="application/json")
 
 @view_config(route_name='clientlogs.json')
 def client_log(request):
+
+    """
+
+    This is for debug use only.  Returns all of the event logs in the system.
+
+    """
+
+    # get all of the client logs in the system
+    # note: this could be a LOT of logs.
     logs = EventLogs.get_all(DBSession)
 
     retlogs = []
@@ -95,7 +112,7 @@ def client_log(request):
             'details': json.loads(log.details),
         })
     resp = json.dumps(retlogs)
-    return Response(resp,content_type="application/json")
+    return Response(resp,content_type='application/json')
 
 @view_config(route_name='uploadtest.json')
 def upload_test(request):
@@ -114,7 +131,58 @@ def upload_test(request):
     #    pass
 
     resp = json.dumps(result)
-    return Response(resp,content_type="application/json")
+    return Response(resp,content_type='application/json')
+
+@view_config(route_name='getmessages.json')
+def get_messages(request):
+
+    """
+
+    HTTP GET with with the following fields:
+
+    clientid, type: text (unique client id)
+
+    This returns all of the messages that haven't been read by the client id.
+
+    """
+
+    result = { 'success': False }
+
+    #try:
+    if True:
+
+        client_id = request.GET['clientid']
+
+        messages = Messages.get_messages_from_client_id(
+            DBSession,
+            client_id,
+        )
+       
+        retmessages =[] 
+        for message in messages:
+            
+            from_user = Users.get_from_user_id(DBSession,message.from_user_id)
+            from_organization = None
+            if from_user != None:
+                from_organization = user.organization
+            retmessages.append({
+                'from_user_id': message.from_user_id,
+                'from_organization': from_organization,
+                'to_user_id': message.to_user_id,
+                'message_datetime': str(message.message_datetime),
+                'parent_message_id': message.parent_message_id,
+                'subject': message.subject,
+                'text': message.text,
+            })
+
+        result['success'] = True
+        result['messages'] = retmessages
+
+    #except:
+    #    pass
+
+    resp = json.dumps(result)
+    return Response(resp, content_type='application/json')
 
 @view_config(route_name='publishpost.json')
 def publish_post(request):
@@ -184,7 +252,7 @@ def publish_post(request):
     #   pass
 
     resp = json.dumps(result)
-    return Response(resp,content_type="application/json") 
+    return Response(resp,content_type='application/json') 
 
 @view_config(route_name='uploadmedia.json')
 def upload_media(request):
@@ -268,15 +336,14 @@ def upload_media(request):
 
 
         # register file with database, and get file id back
-        with transaction.manager:
-            media_object, created = MediaObjects.create_new_media_object(
-                DBSession,
-                client_id,
-                media_type,
-                media_file_name,
-                media_caption,
-                media_text,
-            )
+        media_object, created = MediaObjects.create_new_media_object(
+            DBSession,
+            client_id,
+            media_type,
+            media_file_name,
+            media_caption,
+            media_text,
+        )
 
         result['mediaid'] = media_object.unique_id
         result['success'] = True
@@ -313,7 +380,7 @@ def upload_media(request):
 
 
     resp = json.dumps(result)
-    return Response(resp,content_type="application/json")
+    return Response(resp,content_type='application/json')
 
 
 #@view_config(route_name='home', renderer='templates/mytemplate.pt')

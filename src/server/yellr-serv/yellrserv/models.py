@@ -384,7 +384,7 @@ class MediaObjects(Base):
             )
             session.add(mediaobject)
             transaction.commit()
-        return mediaobject
+        return mediaobject, created
 
 class PostMediaObjects(Base):
 
@@ -406,7 +406,7 @@ class PostMediaObjects(Base):
                 media_object_id = media_objectid,
             )
 
-class ClientLogs(Base):
+class EventLogs(Base):
 
     """
     This is used as a debugging tool to keep track of how the application is
@@ -414,22 +414,32 @@ class ClientLogs(Base):
     """
 
     __tablename__ = 'clientlogs'
-    client_log_id = Column(Integer, primary_key=True)
+    event_log_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
+    event_type = Column(Text)
     event_datetime = Column(DateTime)
     details = Column(Text)
 
     @classmethod
-    def log(cls, session, client_id, details):
+    def log(cls, session, client_id, event_type, details):
         with transaction.manager:
             user,created = Users.get_from_uniqueid(session,client_id)
-            clientlog = ClientLogs(
+            eventlog = EventLogs(
                 user_id = user.user_id,
+                event_type = event_type,
                 event_datetime = datetime.datetime.now(),
                 details = details,
             )
-            session.add(clientlog)
-        return clientlog
+            session.add(eventlog)
+        return eventlog
+
+    @classmethod
+    def get_all(cls, session):
+        with transaction.manager:
+            eventlogs = session.query(
+                EventLogs
+            ).all()
+        return eventlogs
 
 class Collections(Base):
 

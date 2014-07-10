@@ -12,8 +12,6 @@ from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
-from .mediahelper import registermedia
-
 from .models import (
     DBSession,
     UserTypes,
@@ -26,7 +24,7 @@ from .models import (
     MediaTypes,
     MediaObjects,
     PostMediaObjects,
-    ClientLogs,
+    EventLogs,
     Collections,
     CollectionPosts,
     )
@@ -83,8 +81,24 @@ def status(request):
     resp = json.dumps(system_status)
     return Response(resp,content_type="application/json")
 
+@view_config(route_name='clientlogs.json')
+def client_log(request):
+    logs = EventLogs.get_all(DBSession)
+
+    retlogs = []
+    for log in logs:
+        retlogs.append({
+            'event_log_id': log.event_log_id,
+            'user_id': log.user_id,
+            'event_type': log.event_type,
+            'event_datetime': str(log.event_datetime),
+            'details': json.loads(log.details),
+        })
+    resp = json.dumps(retlogs)
+    return Response(resp,content_type="application/json")
+
 @view_config(route_name='uploadtest.json')
-def uploadtest(request):
+def upload_test(request):
 
     result = {'success': False}
 
@@ -103,7 +117,7 @@ def uploadtest(request):
     return Response(resp,content_type="application/json")
 
 @view_config(route_name='publishpost.json')
-def publishpost(request):
+def publish_post(request):
 
     """
     HTTP POST with the following fields:
@@ -121,24 +135,50 @@ def publishpost(request):
     #try:
     if True:
 
-        clientid = request.POST['clientid']
-        assignmentid = request.POST['assignmentid']
-        languagecode = request.POST['languagecode']
+        client_id = request.POST['clientid']
+        assignment_id = request.POST['assignmentid']
+        language_code = request.POST['languagecode']
         location = json.loads(urllib.unquote(request.POST['location']).decode('utf8'))
-        mediaobjects = json.loads(urllib.unquote(request.POST['mediaobjects']).decode('utf8'))
+        media_objects = json.loads(urllib.unquote(request.POST['mediaobjects']).decode('utf8'))
 
         post,created = Posts.create_from_http(
             DBSession,
-            clientid,
-            assignmentid,
-            languagecode,
+            client_id,
+            assignment_id,
+            language_code,
             location, # dict
-            mediaobjects, # array
+            media_objects, # array
         )
 
         result['success'] = True
-        result['postid'] = post.post_id
-        result['newuser'] = created
+        result['post_id'] = post.post_id
+        result['new_user'] = created
+
+        # Debug/Logging
+        datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+        event_type = 'http_request'
+        event_details = {
+            'url':'publishpost.json',
+            'datetime': datetime,
+            'client_id': client_id,
+            'assignmentid': assignment_id,
+            'language_code': language_code,
+            'location': location,
+            'media_objects': media_objects,
+            'success': result['success'],
+            'pos_id': result['post_id'],
+            'new_user': result['new_user'],
+        }
+        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+
+        if created:
+            datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+            event_type = 'new_user_created'
+            event_details = {
+                'client_id': client_id,
+                'method': 'publishpost.json',
+            }
+            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #   pass
@@ -147,7 +187,7 @@ def publishpost(request):
     return Response(resp,content_type="application/json") 
 
 @view_config(route_name='uploadmedia.json')
-def uploadmedia(request):
+def upload_media(request):
 
     """
     HTTP POST with the following fields:
@@ -229,7 +269,7 @@ def uploadmedia(request):
 
         # register file with database, and get file id back
         with transaction.manager:
-            media_object = MediaObjects.create_new_media_object(
+            media_object, created = MediaObjects.create_new_media_object(
                 DBSession,
                 client_id,
                 media_type,
@@ -240,22 +280,33 @@ def uploadmedia(request):
 
         result['mediaid'] = media_object.unique_id
         result['success'] = True
+        result['new_user'] = created
         
         # Debug/Logging
         datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+        event_type = 'http_request'
         event_details = {
-            'eventype': 'http_request',
             'url':'uploadmedia.json',
-            'datetime': datetime,
-            'clientid': client_id,
-            'mediatype': media_type,
-            'filename': media_file_name,
-            'mediacaption': media_caption,
-            'mediatext': media_text,
+            'date_time': datetime,
+            'client_id': client_id,
+            'media_type': media_type,
+            'file_name': media_file_name,
+            'media_caption': media_caption,
+            'media_text': media_text,
             'success': result['success'],
-            'mediaid': result['mediaid'],
+            'media_id': result['mediaid'],
+            'new_user': result['new_user'],
         }
-        clientlog = ClientLogs.log(DBSession,client_id,json.dumps(event_details))
+        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+
+        if created:
+            datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+            event_type = 'new_user_created'
+            event_details = {
+                'client_id': client_id,
+                'method': 'uploadmedia.json',
+            }
+            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #    pass

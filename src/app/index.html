@@ -12,7 +12,7 @@
 <body id="app" data-state="#">
   <div class="container">
     <header id="header" data-current="index" class="header-wrapper">
-      <header id="app-header" class="app-bar header hidden">
+      <header id="app-header" class="app-bar header">
         <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
         <nav id="app-nav">
           <ul class="header-nav-list">
@@ -42,60 +42,38 @@
         <h1 id="page-h1">Submit Report</h1><span id="submit-btn"><i class="fa fa-check"></i></span>
       </header>
       <nav id="homepage-subnav" class="app-bar secondary-nav">
-        <div data-page="#assignments" id="assignments-tab" class="current"><a href="#assignments">Assignments</a></div>
+        <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
         <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
       </nav>
     </header>
     <div id="main">
       <div id="pt-main" class="pt-perspective">
-        <div id="assignments" class="container pt-page pt-page-1">
-          <h2>assignments</h2>
-          <ul id="latest-assignments" class="list-style-none">
-            <li>
-              <h2 class="t1"> <a href="#">Who makes the best cup-of-soup?</a></h2>
-              <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
-              <p>It seems like it’s becoming obvious that to continue the activities I have planned for the rest of my year as a musician.<span class="deadline">6 days</span></p>
-              <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">24 contributions </span></div>
-              <div class="accepted-media-wrapper">
-                <ul class="accepted-media">
-                  <li><i title="Video" class="fa fa-video-camera"></i></li>
-                  <li><i title="Picture" class="fa fa-camera"></i></li>
-                  <li><i title="Audio" class="fa fa-volume-up"></i></li>
-                  <li><i title="Text" class="fa fa-file-text-o"></i></li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <h2 class="t1"> <a href="#">What is it you wish, madame?</a></h2>
-              <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
-              <p>She was rushing forward when M. Pageot held her back with a calm gesture. “It is useless, madame! The hall is full, overcrowded.... Moreover, you will not miss much, for it will be over in five minutes....”<span class="deadline">10 days</span></p>
-              <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">32 contributions </span></div>
-              <div class="accepted-media-wrapper">
-                <ul class="accepted-media">
-                  <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
-                  <li class="no"><i title="Picture" class="fa fa-camera"></i></li>
-                  <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
-                  <li><i title="Text" class="fa fa-file-text-o"></i></li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <h2 class="t1"> <a href="#">If you please, where is the lecture on Egyptology?</a></h2>
-              <figure><a href="#"><img src="http://lorempixel.com/400/200"></a></figure>
-              <p>“Thank you,” acknowledged Mme. Chambannes, regretfully, adding, after a pause, “Did you happen to see a tall, fair lady in a blue costume ... with a strapped jacket?”<span class="deadline">2 weeks</span></p>
-              <div class="assignment-action"><a href="#" class="contribute-btn">View assignment</a><span class="current-contributions">12 contributions </span></div>
-              <div class="accepted-media-wrapper">
-                <ul class="accepted-media">
-                  <li class="no"><i title="Video" class="fa fa-video-camera"></i></li>
-                  <li><i title="Picture" class="fa fa-camera"></i></li>
-                  <li class="no"><i title="Audio" class="fa fa-volume-up"></i></li>
-                  <li><i title="Text" class="fa fa-file-text-o"></i></li>
-                </ul>
-              </div>
-            </li>
+        <div id="assignments" class="with-secondary-nav pt-page pt-page-1">
+          <ul id="latest-assignments" class="assignments-list list-style-none">
+            <li><a href="#assignments/00001">
+                <h2 class="assignment-title">Who makes the best cup-of-soup?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">24 contributions </p>
+                </div>
+                <p class="assignment-deadline">6 days</p></a></li>
+            <li><a href="#assignments/00002"> 
+                <h2 class="assignment-title">What is it you wish, madame?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">32 contributions </p>
+                </div>
+                <p class="assignment-deadline">10 days</p></a></li>
+            <li><a href="#assignments/00003"> 
+                <h2 class="assignment-title">If you please, where is the lecture on Egyptology?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">12 contributions </p>
+                </div>
+                <p class="assignment-deadline">2 weeks</p></a></li>
           </ul>
         </div>
-        <div id="news-feed" class="container pt-page pt-page-2">
+        <div id="news-feed" class="with-secondary-nav pt-page pt-page-2">
           <ul id="latest-stories" class="list-style-none">
             <li>
               <h2 class="t1"><a href="#">Title of story</a></h2>
@@ -120,19 +98,132 @@
             </li>
           </ul>
         </div>
-        <div id="profile" class="container pt-page pt-page-3">
+        <div id="profile" class="pt-page pt-page-3">
           <h2>profile</h2>
+          <section data-title="Profile">
+            <div class="profile-overview">
+              <figure class="profile-picture"><img src="http://lorempixel.com/200/200"></figure>
+              <div class="profile-meta">
+                <h2>Username</h2>
+                <p>Generate new UUID</p>
+                <div class="profile-stats">
+                  <dl class="profile-stats-list">
+                    <dt>Posts</dt>
+                    <dd id="posts-total">32</dd>
+                    <dt>Followers</dt>
+                    <dd id="followers-total">58</dd>
+                    <dt>Following</dt>
+                    <dd id="following-total">240</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <nav class="profile-nav-bar">
+              <div><a href="#">Posts</a></div>
+              <div><a href="#">Badges</a></div>
+              <div><a href="#">Followers</a></div>
+            </nav>
+            <div class="pt-perspective">
+              <div class="profile-content">
+                <ul class="profile-posts-list">
+                  <li>title of text post</li>
+                  <li>title of image post</li>
+                  <li>video post</li>
+                  <li>audio post</li>
+                </ul>
+              </div>
+              <div class="profile-badges">
+                <div class="grid">
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="profile-followers">
+                <ul class="followers-list">
+                  <li>
+                    <figure class="follower-thumbnail"><img src="http://lorempixel.com/200/200"></figure>
+                    <h3 class="follower-username">follower_sn</h3>
+                    <div class="follow-back"><i class="fa fa-check"></i></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
         </div>
-        <div id="notifications" class="container pt-page pt-page-4">
-          <h2>notifications</h2>
+        <div id="notifications" class="pt-page pt-page-4">
+          <h2>Recent</h2>
+          <ul class="notifications-list">
+            <li>Viewed by <strong>WDKX</strong></li>
+            <li>Viewed by <strong>WXXI</strong></li>
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+          </ul>
+          <h2>Older</h2>
+          <ul class="notifications-list">
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+            <li>Viewed by <strong>WDKX</strong></li>
+            <li>Viewed by <strong>WXXI</strong></li>
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+          </ul>
         </div>
-        <div id="messages" class="container pt-page pt-page-5">
-          <h2>profile</h2>
+        <div id="messages" class="with-secondary-nav pt-page pt-page-5">
+          <ul class="messages-list">
+            <li>
+              <h2>WXXI</h2>
+              <article>
+                <h3>Hello from WXXI!</h3>
+                <p>We like the work you're doing and were wondering if you're be intereseted in joining us.</p>
+                <div class="meta">
+                  <p>5:23 pm</p>
+                </div>
+              </article>
+            </li>
+            <li>
+              <h2>WDKX</h2>
+              <article>
+                <h3>We like your work</h3>
+                <p>Hello from WDKX. We dig the work you've been submitting and we're wondering if you'd wanna cover Wall Therapy for us this year. We offer payment as well after a first-run project</p>
+                <div class="meta">
+                  <p>12:23 pm</p>
+                </div>
+              </article>
+            </li>
+            <li>
+              <h2>enjoi_the_silence</h2>
+              <article>
+                <h3>Dope picture bro</h3>
+                <p> </p>
+                <div class="meta">
+                  <p>12:23 pm, 12/24/12</p>
+                </div>
+              </article>
+            </li>
+          </ul>
         </div>
-        <div id="submit-form" class="container pt-page pt-page-6">
+        <div id="submit-form" class="pt-page pt-page-6">
           <h2>submit-form</h2><form id="test_form" action="http://yellr.mycodespace.net/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data"> <input id="sometext" name="sometext" type="text" value="This is a test!"> <input type="submit" value="submit" /> </form>
+          <form method="" class="form wrapper submit-preview">
+            <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
+            <div class="media-submission-wrapper">
+              <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+              <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+              </div>
+            </div>
+          </form>
         </div>
-        <div id="view-assignment" class="container pt-page pt-page-7">
+        <div id="view-assignment" class="pt-page pt-page-7">
           <section id="assignment-view">
             <h2 id="assignment-question" class="t1">Are you on Team Viper or Team Mountain?</h2>
             <figure><img src="http://lorempixel.com/800/400"></figure>
@@ -167,7 +258,7 @@
             </ul>
           </aside>
         </div>
-        <div id="view-story" class="container pt-page pt-page-8">
+        <div id="view-story" class="pt-page pt-page-8">
           <h2>view story</h2>
         </div>
       </div>
@@ -191,7 +282,7 @@
       </div>
     </div>
     <footer id="footer" class="footer-wrapper">
-      <footer id="report-bar" data-page="index" class="app-bar footer hidden">
+      <footer id="report-bar" data-page="index" class="app-bar footer">
         <div class="flex">
           <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
@@ -233,12 +324,13 @@
   <script src="cordova.js"></script>
   <script src="js/libs/zepto.js"></script>
   <script src="js/libs/handlebars.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/setup.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/pagetransition.js"></script>
-  <script src="js/parse.js"></script>
-  <script src="js/yellr.js"></script>
+  <script src="js/libs/pagetransition.js"></script>
+  <script src="js/yellr/yellr.js"></script>
+  <script src="js/yellr/config.js"></script>
+  <script src="js/yellr/setup.js"></script>
+  <script src="js/yellr/views.js"></script>
+  <script src="js/yellr/utils.js"></script>
+  <script src="js/yellr/parse.js"></script>
   <script src="js/demo.js"></script>
   <script src="js/init.js"></script>
 </body></html>

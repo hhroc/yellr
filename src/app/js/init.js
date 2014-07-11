@@ -13,7 +13,7 @@ window.onload = function() {
 	yellr.setup.DOM();
 	yellr.route('#');
 	// load data
-	// yellr.demo.init(); // uses local dummy json
+	yellr.demo.init(); // uses local dummy json
 	// yellr.load.data(); // for production
 }
 

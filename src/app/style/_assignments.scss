@@ -1,0 +1,57 @@
+@import "../../common/style/theme/vars";
+@import "vars";
+
+
+// aissgnments list
+// ===================================
+.assignments-list {
+	li {
+		padding: 1.75rem 0.5rem;
+		border-bottom: 1px solid #ccc;
+		background: #fff;
+		@include transition(background, 0.3s);
+		&:hover {
+			background: $light-yellow;
+		}
+	}
+	a {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.assignment-title {
+	font-size: 1.75rem;
+	margin: 0 0 1rem;;
+}
+
+.assignment-action {
+	font-size: 0.875rem;
+	margin-bottom: 0.5rem;
+	@include flexbox();
+	p {
+		text-align: center;
+		width: 50%;
+		@include flex(1);
+		margin-bottom: 0;
+	}
+}
+.view-assignment-details {
+	background: $yellow;
+	text-align: center;
+	padding: 0.5rem 0.25rem;
+	border-radius: 6px;
+}
+.assignment-deadline {
+	font-size: 0.75rem;
+	margin-bottom: 0;
+	&:before {
+		content: "Deadline: ";
+		color: tomato;
+	}
+}
+
+
+// single assignment
+// ===================================

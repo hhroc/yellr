@@ -33,22 +33,27 @@ yellr.route = function(hash) {
 		if (hash === '#') {
 			// main app header
 			$('#homepage-subnav').show();
-			// $('#main').removeClass('with-secondary-nav');
-			// $('#main').addClass('with-secondary-nav');
 
 			// done for inital setup
 			// must set the height of #pt-main
 			// set it to the height of #assignments
 			var h = $('#assignments').height();
-			$('#pt-main').css('height', h);
+			var footer = $('#report-bar').height();
+			$('#pt-main').css('height', h+footer);
+			$('#main').addClass('with-secondary-nav');
+
 			// $('#assignments-tab').addClass('current');
 			yellr.toggle.homepage({
 	      pageID: '#assignments'
 	    });
+      // yellr.pageManager.nextPage('#assignments', 12);
+
 		}
 
 		if (hash === '#assignments') {
 	    // yellr.pageManager.nextPage('#assignments', 12);
+			$('#main').addClass('with-secondary-nav');
+	    
 	    yellr.toggle.homepage({
 	      pageID: '#assignments'
 	    });
@@ -57,6 +62,8 @@ yellr.route = function(hash) {
 			
 		}
 		if (hash === '#news-feed') {
+			$('#main').addClass('with-secondary-nav');
+
 	    yellr.toggle.homepage({
 	      pageID: '#news-feed'
 	    });
@@ -66,21 +73,26 @@ yellr.route = function(hash) {
 		}
 		if (hash === '#notifications') {
 			$('#homepage-subnav').hide();
+			$('#main').removeClass('with-secondary-nav');
 		}
 		if (hash === '#messages') {
 			$('#homepage-subnav').hide();
-			
+			$('#main').removeClass('with-secondary-nav');
+
 		}
 		if (hash === '#view-messages') {
 			$('#homepage-subnav').hide();
-			
+			$('#main').removeClass('with-secondary-nav');
+
 		}
 		if (hash === '#profile') {
 			$('#homepage-subnav').hide();
-			
+			$('#main').removeClass('with-secondary-nav');
+
 		}
 		if (hash === '#submit-form') {
 			$('#homepage-subnav').hide();
+			$('#main').removeClass('with-secondary-nav');
       yellr.pageManager.nextPage('#submit-form', 19);
 		}
 

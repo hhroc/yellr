@@ -31,6 +31,15 @@ html, body { height: 100%; }
 @import "vars";
 @import "header";
 @import "footer";
+@import "assignments";
+@import "notifications";
+@import "messages";
+
+
+// @import "../../common/style/theme/assignments";
+
+
+
 
 .container {
 	padding: 3rem 0 5rem;
@@ -45,9 +54,6 @@ html, body { height: 100%; }
 	ul {list-style: none; }
 }
 
-.with-secondary-nav {
-	margin-top: 3rem;
-}
 
 #main {
 	position: absolute;
@@ -55,6 +61,10 @@ html, body { height: 100%; }
 	bottom: 0;
 	width: 100%;
 	padding: 3rem 0 0;
+	@include transition(padding-top, 0.3s);
+	&.with-secondary-nav {
+		padding-top: 6rem;
+	}
 }
 
 
@@ -128,9 +138,6 @@ html, body { height: 100%; }
 	visibility: visible;
 }
 
-.no-js body {
-	overflow: auto;
-}
 
 .pt-page-ontop {
 	z-index: 999;
@@ -139,27 +146,27 @@ html, body { height: 100%; }
 /* Text Styles, Colors, Backgrounds */
 
 .pt-page-1 {
-	background: #0ac2d2;
+	// background: #0ac2d2;
 }
 
 .pt-page-2 {
-	background: #7bb7fa;
+	// background: #7bb7fa;
 }
 
 .pt-page-3 {
-	background: #60d7a9;
+	// background: #60d7a9;
 }
 
 .pt-page-4 {
-	background: #fdc162;
+	// background: #fdc162;
 }
 
 .pt-page-5 {
-	background: #fd6a62;
+	// background: #fd6a62;
 }
 
 .pt-page-6 {
-	background: #f68dbb;
+	// background: #f68dbb;
 }
 
 
@@ -198,7 +205,6 @@ html, body { height: 100%; }
 // @import "../../common/style/theme/header";
 // @import "../../common/style/theme/user-bar";
 // @import "../../common/style/theme/question-prompt";
-// @import "../../common/style/theme/assignments";
 
 
 

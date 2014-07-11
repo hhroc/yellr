@@ -1,29 +1,26 @@
 //- div.container.pt-page.pt-page-7#view-assignment
-section#assignment-view
-	h2.t1#assignment-question Are you on Team Viper or Team Mountain?
-	figure
+section.assignment-view
+	h2.assignment-title Are you on Team Viper or Team Mountain?
+	figure.assignment-details-image
 		img(src="http://lorempixel.com/800/400")
 	p.assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
-	div.assignment-actions
-		div.flex-3
-			span.deadline.no-margin-left June 12, 2014
-			div.accepted-media-wrapper
-				span
-					em Accepted Media:
-				ul.accepted-media
-					li
-						i.fa.fa-video-camera
-					li
-						i.fa.fa-camera
-					li
-						i.fa.fa-volume-up
-					li
-						i.fa.fa-file-text-o
-		div.flex-2
-			a(href="#").contribute-btn.no-margin-right Contribute
-aside
-	h3.t2 Latest Contributions
-	ul.contributions-list.list-style-none
+	a(href="#").contribute-to-assignment Contribute
+	div.accepted-media-wrapper
+		em Accepted Media:
+		ul.accepted-media
+			li
+				i.fa.fa-video-camera
+			li
+				i.fa.fa-camera
+			li
+				i.fa.fa-volume-up
+			li
+				i.fa.fa-file-text-o
+	p.assignment-deadline June 12, 2014
+
+aside.assignment-contributions
+	h3 Latest Contributions
+	ul.assignment-contributions-list
 		//- text only
 		li
 			a(href="#") 

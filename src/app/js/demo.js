@@ -16,14 +16,17 @@ yellr.demo = {
 
 		// load sample assignments
 		$.getJSON('data/assignments.json', function(data){
-		  yellr.parse.assignments(data);
+			// save it locally - use immediately
+			localStorage.setItem('assignments', JSON.stringify(data));
+		  yellr.parse.assignments(JSON.parse(localStorage.getItem('assignments')));
 		});
 
 
 
 		// load sample profile
 		$.getJSON('data/profile.json', function(data){
-		  yellr.parse.profile(data);
+			localStorage.setItem('profile', JSON.stringify(data));
+		  yellr.parse.profile(JSON.parse(localStorage.getItem('profile')));
 		});
 
 

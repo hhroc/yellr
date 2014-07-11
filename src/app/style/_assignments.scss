@@ -43,6 +43,11 @@
 	padding: 0.5rem 0.25rem;
 	border-radius: 6px;
 }
+.assignment-contributions {
+	&:after {
+		content: " contributions";
+	}
+}
 .assignment-deadline {
 	font-size: 0.75rem;
 	margin-bottom: 0;

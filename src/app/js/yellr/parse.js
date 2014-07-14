@@ -245,8 +245,8 @@ yellr.parse = {
 		if (_target) target = _target; // override target destination
 		target.prepend(frag);
 
-		// recalculate height
-		$('#pt-main').height(target.height() + $('#report-bar').height());
+		// // recalculate height
+		// $('#pt-main').height(target.height() + $('#report-bar').height());
 
 	}
 }

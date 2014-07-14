@@ -3,156 +3,142 @@ var yellr = yellr || {};
 
 /*
 	Our app views
-*/
 
-yellr.route = function(view) {
-	/* view could be:
+		view could be:
 		- an event
 		- a string
 
-		called on hashchange, and yellr.route('#page-id')
-	 */
+	called on hashchange, and yellr.route('#page-id')
+*/
 
-	// do nothing if we're already on the page being called
-	if (view === window.location.hash) return;
+yellr.route = function(view) {
 
 
-	// if string change window hash
-	// which will call this function again..
-	if (typeof view == 'string') {
+	// the only vars we care about
+	// ===================================
+	var current_state; // <body id="app" data-state="#">, the data-attr
+	var app = document.querySelector('#app'); // cached ref
+	var hash, id;
+	// hash tells us which page to show, ID is for showing a specific entry of that page
+	// ex. #assignments, #assignments/12312
+	var src; // this is a URL, or a passed in string
+	// ex. '#assignments', '#assignments/2312'
+
+	// to help make things look pretty
+	var hasSubnav = false; // hide/show secondary nav
+	// var hasFooter = false; // add to padding-bottom #main if true
+
+
+
+	// the logic
+	// ===================================
+	// the beginning
+	if (typeof view === 'string') {
+		src = view;
 		window.location.hash = view;
 	} else {
-		// get window hash now that it has been set
-		var url = window.location.hash;
-
-		// get the hash
-		var hash = url.split('/')[0];
-		if (hash === '') hash = '#';
-
-		// check if there is an ID being passed, or other parameters
-		// ex: #assignments/123123
-		var id = url.split('/')[1];
-		
-		// feedback
-		console.log(hash, id);
-
-
-
-	// do things based on the hash
-	// ===================================
-		// index
-		// ----------------------------
-		if (hash === '#') {
-			// main app header
-			$('#homepage-subnav').show();
-
-			// done for inital setup
-			// must set the height of #pt-main
-			// set it to the height of #assignments
-			var h = $('#assignments').height();
-			var footer = $('#report-bar').height();
-			$('#pt-main').css('height', h+footer);
-			$('#main').addClass('with-secondary-nav');
-
-			// $('#assignments-tab').addClass('current');
-			yellr.toggle.homepage({
-	      pageID: '#assignments'
-	    });
-      // yellr.pageManager.nextPage('#assignments', 12);
-
-		}
-
-
-		// assignments
-		// ----------------------------
-    /* each assignment is a link, which automagically changes the hash, which calls the function below */
-		if (hash === '#assignments') {
-
-			// show all assignments
-			if (id === undefined) {
-				$('#main').addClass('with-secondary-nav');
-		    
-		    yellr.toggle.homepage({
-		      pageID: '#assignments'
-		    });
-			}
-
-			// show single assignment
-			if (id) {
-				// find the right one first
-				var assignments = JSON.parse(localStorage.getItem('assignments'));
-
-				for (var i = 0; i < assignments.length; i++) {
-					// careful, the 'id' var came fromt a string split
-					if (assignments[i].id === parseInt(id)) {
-						// we have a match
-						yellr.parse.assignment(assignments[i], 'view');
-						yellr.route('#view-assignment');
-						break;
-					}
-				};
-			}
-		}
-
-		/* view an assignment */
-		if (hash === '#view-assignment') {
-      yellr.pageManager.nextPage('#view-assignment', 12);
-		}
-
-
-
-
-
-
+		src = window.location.hash;
 	}
-	// ----------------------------
-	// end else
+
+
+	// get current app state
+	current_state = app.getAttribute('data-state');
+
+	// get the hash
+	hash = src.split('/')[0];
+	if (hash === '' || hash === '#') hash = '#assignments'; // default view: assignments
+	
+	// check for an ID
+	id = src.split('/')[1];
+
+
+
+	// do things for first run
+	if (current_state === '#') {
+		console.log('first run');
+		hasSubnav = true;
+		$(hash).addClass('current');
+		document.querySelector('#app').setAttribute('data-state', hash);
+	}
+	else if (current_state !== hash) {
+		// check to make sure we're not repeating ourselves
+		// ie. are we already on the page? if so, do nothing
+
+		app.setAttribute('data-state', hash);
+
+
+		switch (hash) {
+			case '#assignments':
+				hasSubnav = true;
+				// show all assignments
+				if (id === undefined) {
+					console.log('show assignments');
+
+					// $('#assignments').show();
+					// $('#main').addClass('with-secondary-nav');
+			    
+			    // yellr.toggle.homepage({
+			    //   pageID: '#assignments'
+			    // });
+				}
+				// show single assignment
+				if (id) {
+					console.log('show assignment: '+id);
+					// find the right one first
+					var assignments = JSON.parse(localStorage.getItem('assignments'));
+
+					for (var i = 0; i < assignments.length; i++) {
+						// careful, the 'id' var came fromt a string split
+						if (assignments[i].id === parseInt(id)) {
+							// we have a match
+							yellr.parse.assignment(assignments[i], 'view');
+							yellr.route('#view-assignment');
+							break;
+						}
+					};
+				}
+				// yellr.pageManager.nextPage(hash, 12);
+				break;
+			case '#news-feed':
+				hasSubnav = true;
+				console.log('show news-feed');
+				break;
+			case '#profile':
+				// hasSubnav = false;
+				console.log('show profile');
+				break;
+			case '#notifications':
+				console.log('show notifications');
+				break;
+			case '#messages':
+				console.log('show messages');
+				break;
+			case '#submit-form':
+				console.log('show submit-form');
+				break;
+			case '#view-assignment':
+				console.log('show view-assignment');
+				break;
+			case '#view-story':
+				console.log('show view-story');
+				break;
+			default:
+				console.log('homepage - ie assignments');
+		} // end switch statement
+
+		// clear last class
+		$('.pt-perspective .current').removeClass('current');
+		// set new one
+		$(hash).addClass('current')
+	}// end if...else
+
+
+
+	// details bro
+	if (hasSubnav) $('#homepage-subnav').show();
+	else $('#homepage-subnav').hide();
 
 
 
 
-
-
-
-
-/*
-
-
-		if (hash === '#news-feed') {
-			$('#main').addClass('with-secondary-nav');
-
-	    yellr.toggle.homepage({
-	      pageID: '#news-feed'
-	    });
-		}
-		if (hash === '#news-story') {
-			
-		}
-		if (hash === '#notifications') {
-			$('#homepage-subnav').hide();
-			$('#main').removeClass('with-secondary-nav');
-		}
-		if (hash === '#messages') {
-			$('#homepage-subnav').hide();
-			$('#main').removeClass('with-secondary-nav');
-
-		}
-		if (hash === '#view-messages') {
-			$('#homepage-subnav').hide();
-			$('#main').removeClass('with-secondary-nav');
-
-		}
-		if (hash === '#profile') {
-			$('#homepage-subnav').hide();
-			$('#main').removeClass('with-secondary-nav');
-
-		}
-		if (hash === '#submit-form') {
-			$('#homepage-subnav').hide();
-			$('#main').removeClass('with-secondary-nav');
-      yellr.pageManager.nextPage('#submit-form', 19);
-		}
-
-*/
-	// }
 };

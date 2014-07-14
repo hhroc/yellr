@@ -42,7 +42,7 @@ html, body { height: 100%; }
 
 
 .container {
-	padding: 3rem 0 5rem;
+	// padding: 3rem 0 5rem;
 }
 
 .app-bar {
@@ -61,6 +61,7 @@ html, body { height: 100%; }
 	bottom: 0;
 	width: 100%;
 	padding: 3rem 0 0;
+	height: 0;
 	@include transition(padding-top, 0.3s);
 	&.with-secondary-nav {
 		padding-top: 6rem;
@@ -103,47 +104,61 @@ html, body { height: 100%; }
 @import "animations";
 
 
-.pt-perspective {
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-	// height: 100%;
-	-webkit-perspective: 1200px;
-	-moz-perspective: 1200px;
-	perspective: 1200px;
-	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-	// @include transition(height, 0.3s);
-}
+// .pt-perspective {
+// 	position: relative;
+// 	overflow: hidden;
+// 	width: 100%;
+// 	// height: 100%;
+// 	-webkit-perspective: 1200px;
+// 	-moz-perspective: 1200px;
+// 	perspective: 1200px;
+// 	-webkit-transform-style: preserve-3d;
+// 	-moz-transform-style: preserve-3d;
+// 	transform-style: preserve-3d;
+// 	// @include transition(height, 0.3s);
+// }
 
-.pt-page {
-	width: 100%;
-	// height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	visibility: hidden;
-	// overflow: hidden;
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	backface-visibility: hidden;
-	-webkit-transform: translate3d(0, 0, 0);
-	-moz-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-}
+// .pt-page {
+// 	width: 100%;
+// 	// height: 100%;
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// 	visibility: hidden;
+// 	// overflow: hidden;
+// 	-webkit-backface-visibility: hidden;
+// 	-moz-backface-visibility: hidden;
+// 	backface-visibility: hidden;
+// 	-webkit-transform: translate3d(0, 0, 0);
+// 	-moz-transform: translate3d(0, 0, 0);
+// 	transform: translate3d(0, 0, 0);
+// }
 
-.pt-page-current,
-.no-js .pt-page {
-	visibility: visible;
-}
+// .pt-page-current,
+// .no-js .pt-page {
+// 	visibility: visible;
+// }
 
 
-.pt-page-ontop {
-	z-index: 999;
-}
+// .pt-page-ontop {
+// 	z-index: 999;
+// }
 
 /* Text Styles, Colors, Backgrounds */
+
+.pt-perspective {
+	position: relative;
+}
+.pt-page {
+	display: none;
+	padding-bottom: 4rem;
+	&.with-secondary-nav {
+		margin-top: 3.5rem;
+	}
+	&.current {
+		display: block;
+	}
+}
 
 .pt-page-1 {
 	// background: #0ac2d2;

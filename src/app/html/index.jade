@@ -19,10 +19,10 @@ body#app(data-state="#")
 		//- main content area
 		div#main
 			div#pt-main.pt-perspective
-				div.with-secondary-nav.pt-page.pt-page-1#assignments
+				div.pt-page.with-secondary-nav.pt-page-1#assignments
 					include assignments.jade
 
-				div.with-secondary-nav.pt-page.pt-page-2#news-feed
+				div.pt-page.with-secondary-nav.pt-page-2#news-feed
 					include news-feed.jade
 
 				div.pt-page.pt-page-3#profile
@@ -31,7 +31,7 @@ body#app(data-state="#")
 				div.pt-page.pt-page-4#notifications
 					include notifications.jade
 					
-				div.with-secondary-nav.pt-page.pt-page-5#messages
+				div.pt-page.with-secondary-nav.pt-page-5#messages
 					include messages.jade
 
 				div.pt-page.pt-page-6#submit-form
@@ -54,7 +54,7 @@ body#app(data-state="#")
 
 	script(src="cordova.js")
 	script(src="js/libs/zepto.js")
-	script(src="js/libs/handlebars.js")
+	//-script(src="js/libs/handlebars.js")
 	script(src="js/libs/pagetransition.js")
 	//- load our JS files
 	//- ----------------------------
@@ -63,7 +63,7 @@ body#app(data-state="#")
 	script(src="js/yellr/setup.js")
 	script(src="js/yellr/views.js")
 	//- helpers
-	script(src="js/yellr/utils.js")
+	//-script(src="js/yellr/utils.js")
 	script(src="js/yellr/parse.js")
 	//- start it up
 	script(src="js/demo.js")

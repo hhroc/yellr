@@ -48,32 +48,32 @@
     </header>
     <div id="main">
       <div id="pt-main" class="pt-perspective">
-        <div id="assignments" class="with-secondary-nav pt-page pt-page-1">
+        <div id="assignments" class="pt-page with-secondary-nav pt-page-1">
           <ul id="latest-assignments" class="assignments-list list-style-none">
             <li><a href="#assignments/00001">
                 <h2 class="assignment-title">Who makes the best cup-of-soup?</h2>
                 <div class="assignment-action">
                   <p class="view-assignment-details">View assignment</p>
-                  <p class="assignment-contributions">24 contributions </p>
+                  <p class="assignment-contributions">24</p>
                 </div>
                 <p class="assignment-deadline">6 days</p></a></li>
             <li><a href="#assignments/00002"> 
                 <h2 class="assignment-title">What is it you wish, madame?</h2>
                 <div class="assignment-action">
                   <p class="view-assignment-details">View assignment</p>
-                  <p class="assignment-contributions">32 contributions </p>
+                  <p class="assignment-contributions">32</p>
                 </div>
                 <p class="assignment-deadline">10 days</p></a></li>
             <li><a href="#assignments/00003"> 
                 <h2 class="assignment-title">If you please, where is the lecture on Egyptology?</h2>
                 <div class="assignment-action">
                   <p class="view-assignment-details">View assignment</p>
-                  <p class="assignment-contributions">12 contributions </p>
+                  <p class="assignment-contributions">12</p>
                 </div>
                 <p class="assignment-deadline">2 weeks</p></a></li>
           </ul>
         </div>
-        <div id="news-feed" class="with-secondary-nav pt-page pt-page-2">
+        <div id="news-feed" class="pt-page with-secondary-nav pt-page-2">
           <ul id="latest-stories" class="list-style-none">
             <li>
               <h2 class="t1"><a href="#">Title of story</a></h2>
@@ -178,44 +178,28 @@
             <li>Your post has been submitted!</li>
           </ul>
         </div>
-        <div id="messages" class="with-secondary-nav pt-page pt-page-5">
+        <div id="messages" class="pt-page with-secondary-nav pt-page-5">
           <ul class="messages-list">
-            <li>
-              <h2>WXXI</h2>
-              <article>
-                <h3>Hello from WXXI!</h3>
-                <p>We like the work you're doing and were wondering if you're be intereseted in joining us.</p>
-                <div class="meta">
-                  <p>5:23 pm</p>
-                </div>
-              </article>
+            <li class="message-li">
+              <h2 class="message-overview">WXXI<span class="message-subject">Hello from WXXI!</span></h2>
+              <p class="message-preview">We like the work you're doing and were</p>
+              <p class="message-meta">5:23 pm</p>
             </li>
-            <li>
-              <h2>WDKX</h2>
-              <article>
-                <h3>We like your work</h3>
-                <p>Hello from WDKX. We dig the work you've been submitting and we're wondering if you'd wanna cover Wall Therapy for us this year. We offer payment as well after a first-run project</p>
-                <div class="meta">
-                  <p>12:23 pm</p>
-                </div>
-              </article>
+            <li class="message-li unread">
+              <h2 class="message-overview">WDKX<span class="message-subject">We like your work</span></h2>
+              <p class="message-preview">Hello from WDKX. We dig the work you've</p>
+              <p class="message-meta">12:23 pm</p>
             </li>
-            <li>
-              <h2>enjoi_the_silence</h2>
-              <article>
-                <h3>Dope picture bro</h3>
-                <p> </p>
-                <div class="meta">
-                  <p>12:23 pm, 12/24/12</p>
-                </div>
-              </article>
+            <li class="message-li unread">
+              <h2 class="message-overview">enjoi_the_silence<span class="message-subject"></span></h2>
+              <p class="message-preview">Dope picture bro</p>
+              <p class="message-meta">12:23 pm</p>
             </li>
           </ul>
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
           <h2>submit-form</h2><form id="test_form" action="http://yellr.mycodespace.net/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data"> <input id="sometext" name="sometext" type="text" value="This is a test!"> <input type="submit" value="submit" /> </form>
           <form method="" class="form wrapper submit-preview">
-            <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
             <div class="media-submission-wrapper">
               <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
               <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
@@ -224,27 +208,23 @@
           </form>
         </div>
         <div id="view-assignment" class="pt-page pt-page-7">
-          <section id="assignment-view">
-            <h2 id="assignment-question" class="t1">Are you on Team Viper or Team Mountain?</h2>
-            <figure><img src="http://lorempixel.com/800/400"></figure>
-            <p class="assignment-details">The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.</p>
-            <div class="assignment-actions">
-              <div class="flex-3"><span class="deadline no-margin-left">June 12, 2014</span>
-                <div class="accepted-media-wrapper"><span><em>Accepted Media:</em></span>
-                  <ul class="accepted-media">
-                    <li><i class="fa fa-video-camera"></i></li>
-                    <li><i class="fa fa-camera"></i></li>
-                    <li><i class="fa fa-volume-up"></i></li>
-                    <li><i class="fa fa-file-text-o"></i></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="flex-2"><a href="#" class="contribute-btn no-margin-right">Contribute</a></div>
+          <section class="assignment-view">
+            <h2 class="assignment-title">Are you on Team Viper or Team Mountain?</h2>
+            <figure class="assignment-details-image"><img src="http://lorempixel.com/800/400"></figure>
+            <p class="assignment-details">The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.</p><a href="#" class="contribute-to-assignment">Contribute</a>
+            <div class="accepted-media-wrapper"><em>Accepted Media:</em>
+              <ul class="accepted-media">
+                <li><i class="fa fa-video-camera"></i></li>
+                <li><i class="fa fa-camera"></i></li>
+                <li><i class="fa fa-volume-up"></i></li>
+                <li><i class="fa fa-file-text-o"></i></li>
+              </ul>
             </div>
+            <p class="assignment-deadline">June 12, 2014</p>
           </section>
-          <aside>
-            <h3 class="t2">Latest Contributions</h3>
-            <ul class="contributions-list list-style-none">
+          <aside class="assignment-contributions">
+            <h3>Latest Contributions</h3>
+            <ul class="assignment-contributions-list">
               <li><a href="#"> <span class="contributor">DanDan109</span>
                   <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
               <li> <a href="#"> <span class="contributor">Steve-O</span>
@@ -323,13 +303,11 @@
   </div>
   <script src="cordova.js"></script>
   <script src="js/libs/zepto.js"></script>
-  <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/pagetransition.js"></script>
   <script src="js/yellr/yellr.js"></script>
   <script src="js/yellr/config.js"></script>
   <script src="js/yellr/setup.js"></script>
   <script src="js/yellr/views.js"></script>
-  <script src="js/yellr/utils.js"></script>
   <script src="js/yellr/parse.js"></script>
   <script src="js/demo.js"></script>
   <script src="js/init.js"></script>

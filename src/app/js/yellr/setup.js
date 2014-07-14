@@ -28,59 +28,51 @@ yellr.setup = {
     // listen for <a> clicks
     window.onhashchange = yellr.route;
 
-    // form test
-    // $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
-    //   console.log(response);
-    //   alert(response);
-    // })
 
     // Page transitions
     // ===================================
-    var page_mgr = PageTransitions;
-    yellr.pageManager = page_mgr;
-    yellr.pageManager.init();
-
-    // swipe left on assignments to view news-feed
-    $('#assignments').on('swipeLeft', function() {
-      yellr.route('#news-feed'); });
-
-    // swipe right on news-feed to show assignments
-    $('#news-feed').on('swipeRight', function() {
-      yellr.route('#assignments'); });
+    // var page_mgr = PageTransitions;
+    // yellr.pageManager = page_mgr;
+    // yellr.pageManager.init();
 
 
 
-    // Menu buttons + Transitions
+    $('#test_form').submit(function() {
+      alert('posting form...');
+      // form test
+      $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
+        console.log(response);
+        alert(response);
+      })
+    });
+    
+
+
+    // Menu buttons
     // ===================================
 
     // home
-    $('#app-h1').on('tap', function(e) {
-      // fade bottom, come in from top
-      yellr.pageManager.nextPage('#assignments', 12);
-    });
+    // $('#app-h1').on('tap', function(e) {yellr.route('#'); });
+    // // notifications
+    // $('#notifications-btn').on('tap', function(e) {yellr.route('#notifications'); });
+    // // messages
+    // $('#messages-btn').on('tap', function(e) {yellr.route('#messages'); });
+    // // profile
+    // $('#profile-btn').on('tap', function(e) {yellr.route('#profile'); });
+    // // lowly ol' text
+    $('#capture-text').on('tap', function() {yellr.route('#submit-form'); });
 
-    // notifications
-    $('#notifications-btn').on('tap', function(e) {
-      // slide in from top
-      yellr.pageManager.nextPage('#notifications', 4);
-    });
 
-    // messages
-    $('#messages-btn').on('tap', function(e) {
-      // slide in from top
-      yellr.pageManager.nextPage('#messages', 4);
-    });
 
-    // profile
-    $('#profile-btn').on('tap', function(e) {
-      // scale down from top
-      yellr.pageManager.nextPage('#profile', 20);
-    });
+    // Swiping to navigate
+    // ===================================
+    
+    // swipe left on assignments to view news-feed
+    $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
+    // swipe right on news-feed to show assignments
+    $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
 
-    // lowly ol' text
-    $('#capture-text').on('tap', function() {
-      yellr.route('#submit-form');
-    });
+
 
 
 
@@ -89,19 +81,11 @@ yellr.setup = {
 		// ====================================
 
 		// in app header --> show more options
-    $('#more-btn').on('tap', function() {
-      yellr.toggle.more_options();
-    });
-
+    $('#more-btn').on('tap', function() {yellr.toggle.more_options(); });
     // switch between assignments and news feed
-    $('#homepage-subnav').on('tap', function(e) {
-      yellr.toggle.homepage(e);
-    });
-
+    $('#homepage-subnav').on('tap', function(e) {yellr.toggle.homepage(e); });
 		// when submitting report --> show/add more details
-    $('#submit-footer .flex').on('tap', function() {
-      yellr.toggle.report_details();
-    });
+    $('#submit-footer .flex').on('tap', function() {yellr.toggle.report_details(); });
 
 
 

@@ -1,22 +1,20 @@
 ul.messages-list
-	li
-		h2 WXXI
-		article
-			h3 Hello from WXXI!
-			p We like the work you're doing and were wondering if you're be intereseted in joining us.
-			div.meta
-				p 5:23 pm
-	li
-		h2 WDKX
-		article
-			h3 We like your work
-			p Hello from WDKX. We dig the work you've been submitting and we're wondering if you'd wanna cover Wall Therapy for us this year. We offer payment as well after a first-run project
-			div.meta
-				p 12:23 pm
-	li
-		h2 enjoi_the_silence
-		article
-			h3 Dope picture bro
-			p 
-			div.meta
-				p 12:23 pm, 12/24/12
+	li.message-li
+		h2.message-overview WXXI
+			span.message-subject Hello from WXXI!
+		p.message-preview We like the work you're doing and were
+		//- wondering if you're be intereseted in joining us.
+		p.message-meta 5:23 pm
+
+	li.message-li.unread
+		h2.message-overview WDKX
+			span.message-subject We like your work
+		p.message-preview Hello from WDKX. We dig the work you've
+		//- been submitting and we're wondering if you'd wanna cover Wall Therapy for us this year. We offer payment as well after a first-run project
+		p.message-meta 12:23 pm
+
+	li.message-li.unread
+		h2.message-overview enjoi_the_silence
+			span.message-subject
+		p.message-preview Dope picture bro
+		p.message-meta 12:23 pm

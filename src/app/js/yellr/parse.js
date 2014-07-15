@@ -162,6 +162,7 @@ yellr.parse = {
 
 			// assignment contributions
 			// ----------------------------
+			// this should probably go somewhere else...
 			/*
 			<aside class="assignment-contributions">
 			  <h3>Latest Contributions</h3>

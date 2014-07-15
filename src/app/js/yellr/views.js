@@ -52,38 +52,39 @@ yellr.route = function(view) {
 	id = src.split('/')[1];
 
 
+	// console.log(hash, current_state, id);
 
 	// do things for first run
 	if (current_state === '#') {
 		console.log('first run');
 		hasSubnav = true;
 		$(hash).addClass('current');
+		$('#assignments-tab').addClass('current');
 		document.querySelector('#app').setAttribute('data-state', hash);
 	}
-	else if (current_state !== hash) {
+	else if (current_state !== hash || id) {
 		// check to make sure we're not repeating ourselves
 		// ie. are we already on the page? if so, do nothing
 
 		app.setAttribute('data-state', hash);
 
+		// console.log(hash, current_state, id);
 
 		switch (hash) {
-			case '#assignments':
-				hasSubnav = true;
-				// show all assignments
-				if (id === undefined) {
-					console.log('show assignments');
 
-					// $('#assignments').show();
-					// $('#main').addClass('with-secondary-nav');
-			    
-			    // yellr.toggle.homepage({
-			    //   pageID: '#assignments'
-			    // });
+			// Assignments
+			// ===================================
+			case '#assignments':
+				// show all assignments
+				// ----------------------------
+				if (id === undefined) {
+					hasSubnav = true;
+					// console.log('show assignments');
 				}
 				// show single assignment
+				// ----------------------------
 				if (id) {
-					console.log('show assignment: '+id);
+					// console.log('show assignment: '+id);
 					// find the right one first
 					var assignments = JSON.parse(localStorage.getItem('assignments'));
 
@@ -92,13 +93,21 @@ yellr.route = function(view) {
 						if (assignments[i].id === parseInt(id)) {
 							// we have a match
 							yellr.parse.assignment(assignments[i], 'view');
-							yellr.route('#view-assignment');
+							// yellr.route('#view-assignment');
 							break;
 						}
-					};
+					}
+
+					// change the hash to view-assignments
+					hash = '#view-assignment'; // make sure we show/hide the right DOMs
+					// change app state
+					app.setAttribute('data-state', hash);
 				}
-				// yellr.pageManager.nextPage(hash, 12);
 				break;
+
+
+			// News Feed
+			// ===================================
 			case '#news-feed':
 				hasSubnav = true;
 				console.log('show news-feed');
@@ -116,15 +125,14 @@ yellr.route = function(view) {
 			case '#submit-form':
 				console.log('show submit-form');
 				break;
-			case '#view-assignment':
-				console.log('show view-assignment');
-				break;
 			case '#view-story':
 				console.log('show view-story');
 				break;
 			default:
 				console.log('homepage - ie assignments');
 		} // end switch statement
+
+
 
 		// clear last class
 		$('.pt-perspective .current').removeClass('current');

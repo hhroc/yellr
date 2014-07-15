@@ -16,17 +16,34 @@ yellr.route = function(view) {
 
 	// the only vars we care about
 	// ===================================
-	var current_state; // <body id="app" data-state="#">, the data-attr
-	var app = document.querySelector('#app'); // cached ref
-	var hash, id;
-	// hash tells us which page to show, ID is for showing a specific entry of that page
-	// ex. #assignments, #assignments/12312
-	var src; // this is a URL, or a passed in string
-	// ex. '#assignments', '#assignments/2312'
+	var app = document.querySelector('#app'), // cached app ref
+			current_state; // <body id="app" data-state="#">, the data-attr
+	var hash, // hash tells us which page to show, 	ex. #assignments
+			id;		// ID is for showing a specific entry of that page 	ex. #assignments/12312
+	var src; 	// this is a URL, or a passed in string
 
-	// to help make things look pretty
+
+
+
+
+	// Handlebar template shiiiiii
+	// ===================================
+	// should all be query selectors. ex: '#main-header'
+	var header = '#main-header'; // header default: #main-header
+	/* #main-header - #page-header - #submit-header */
+
 	var hasSubnav = false; // hide/show secondary nav
-	// var hasFooter = false; // add to padding-bottom #main if true
+	var subNav = undefined;
+	/* assignments/news-feed - inbox/sent/drafts */
+
+	var hasFooter = false;
+	var footer = '#report-bar'; // footer default: #report-bar
+	/* report bar - submit bar */
+
+	var context = {}; // passed into our Handlebar templates
+	// the properties of this JS object depend on the hash
+
+
 
 
 
@@ -52,39 +69,40 @@ yellr.route = function(view) {
 	id = src.split('/')[1];
 
 
-	// console.log(hash, current_state, id);
-
 	// do things for first run
 	if (current_state === '#') {
-		// console.log('first run');
 		hasSubnav = true;
 		$(hash).addClass('current');
 		$('#assignments-tab').addClass('current');
 		document.querySelector('#app').setAttribute('data-state', hash);
 	}
+
+	// check to make sure we're not repeating ourselves
+	// ie. are we already on the page? if so, do nothing
 	else if (current_state !== hash || id) {
-		// check to make sure we're not repeating ourselves
-		// ie. are we already on the page? if so, do nothing
 
 		app.setAttribute('data-state', hash);
 
-		// console.log(hash, current_state, id);
-
+		// do things based on hash
 		switch (hash) {
 
 			// Assignments
 			// ===================================
 			case '#assignments':
+				
 				// show all assignments
 				// ----------------------------
 				if (id === undefined) {
 					hasSubnav = true;
 					// console.log('show assignments');
 				}
+				
+
 				// show single assignment
 				// ----------------------------
 				if (id) {
-					// console.log('show assignment: '+id);
+					header = '#page-header';
+
 					// find the right one first
 					var assignments = JSON.parse(localStorage.getItem('assignments'));
 
@@ -111,21 +129,31 @@ yellr.route = function(view) {
 			case '#news-feed':
 				hasSubnav = true;
 				console.log('show news-feed');
+				// show all reports
+				// ----------------------------
+				// show single report
+				// ----------------------------
 				break;
 			case '#profile':
 				// hasSubnav = false;
+				header = '#page-header';
 				console.log('show profile');
 				break;
 			case '#notifications':
+				header = '#page-header';
 				console.log('show notifications');
 				break;
 			case '#messages':
+				header = '#page-header';
 				console.log('show messages');
 				break;
 			case '#submit-form':
+				header = '#submit-header';
 				console.log('show submit-form');
 				break;
 			case '#view-story':
+				// this'll probably follow the schema of 
+				header = '#page-header';
 				console.log('show view-story');
 				break;
 			default:
@@ -133,13 +161,26 @@ yellr.route = function(view) {
 		} // end switch statement
 
 
-
 		// clear last class
 		$('.pt-perspective .current').removeClass('current');
 		// set new one
 		$(hash).addClass('current')
+
 	}// end if...else
 
+
+
+
+	// Making it look pretty (executes everytime)
+	// ===================================
+	
+	// template stuff
+	// ----------------------------
+	console.log(header);
+	console.log(footer);
+	var header_template = Handlebars.compile($(header).html());
+	var footer_template = Handlebars.compile($(footer).html());
+	$('#app-header').html(header_template(context));
 
 
 	// details bro

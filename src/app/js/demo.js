@@ -23,11 +23,11 @@ yellr.demo = {
 
 
 
-		// load sample profile
-		$.getJSON('data/profile.json', function(data){
-			localStorage.setItem('profile', JSON.stringify(data));
-		  yellr.parse.profile(JSON.parse(localStorage.getItem('profile')));
-		});
+		// // load sample profile
+		// $.getJSON('data/profile.json', function(data){
+		// 	localStorage.setItem('profile', JSON.stringify(data));
+		//   yellr.parse.profile(JSON.parse(localStorage.getItem('profile')));
+		// });
 
 
 	}

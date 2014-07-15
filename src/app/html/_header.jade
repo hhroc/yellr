@@ -1,9 +1,9 @@
 header#header.header-wrapper(data-current="index")
 
 	header#app-header.app-bar.header
-		h1#app-h1(data-page="index")
+		//-h1#app-h1(data-page="index")
 			a(href="#") Yellr
-		nav#app-nav
+		//-nav#app-nav
 			ul.header-nav-list
 				li#notifications-btn
 					a(href="#notifications")
@@ -31,7 +31,50 @@ header#header.header-wrapper(data-current="index")
 								p.nav-title  Privacy Policy
 
 
-	header#page-header.app-bar.header.hidden
+	script#main-header(type="text/x-handlebars-template")
+		<h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
+		<nav id="app-nav">
+		<ul class="header-nav-list">
+		<li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
+		<li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
+		<li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
+		<ul data-hidden="true" class="more-options-list hidden">
+		<li id="profile-btn">
+		<a href="#profile">
+		<p id="username" class="nav-title username">Username</p><span>View Profile</span>
+		</a>
+		</li>
+		<li id="language-btn">
+		<a href="#language-setting"> 
+		<p class="nav-title">Language</p><span>English</span>
+		</a>
+		</li>
+		<li id="feedback-btn">
+		<a href="#feedback"> 
+		<p class="nav-title"> Send App Feedback</p>
+		</a>
+		</li>
+		<li id="privacy-policy-btn">
+		<a href="#privacy-policy"> 
+		<p class="nav-title"> Privacy Policy</p>
+		</a>
+		</li>
+		</ul>
+		</li>
+		</ul>
+		</nav>
+
+	script#page-header(type="text/x-handlebars-template")
+		<nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
+		<h1 id="page-h1">Page</h1>
+		<span id="refresh-btn"><i class="fa fa-refresh"></i></span>
+
+	script#submit-header(type="text/x-handlebars-template")
+		<nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
+		<h1 id="page-h1">Submit Report</h1>
+		<span id="submit-btn"><i class="fa fa-check"></i></span>
+
+	//-header#page-header.app-bar.header.hidden
 		nav.back-btn
 			a(href="#")
 				i.fa.fa-arrow-left
@@ -40,7 +83,7 @@ header#header.header-wrapper(data-current="index")
 			i.fa.fa-refresh
 
 
-	header#submit-header.app-bar.header.hidden
+	//-header#submit-header.app-bar.header.hidden
 		nav.back-btn
 			a(href="#")
 				i.fa.fa-arrow-left

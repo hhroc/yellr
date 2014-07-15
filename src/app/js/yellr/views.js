@@ -56,7 +56,7 @@ yellr.route = function(view) {
 
 	// do things for first run
 	if (current_state === '#') {
-		console.log('first run');
+		// console.log('first run');
 		hasSubnav = true;
 		$(hash).addClass('current');
 		$('#assignments-tab').addClass('current');

@@ -198,11 +198,26 @@
           </ul>
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
-          <h2>submit-form</h2><form id="test_form" action="http://yellr.mycodespace.net/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data"> <input id="sometext" name="sometext" type="text" value="This is a test!"> <input type="submit" value="submit" /> </form>
-          <form method="" class="form wrapper submit-preview">
-            <div class="media-submission-wrapper">
-              <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
-              <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+          <form id="submit-form" data-type="text" method="post" action="http://yellr.mycodespace.net/uploadtest.json" accept-charset="utf-8" enctype="multipart/form-data" class="form wrapper submit-preview">
+            <div class="submit-text">
+              <input type="text" placeholder="Title (optional)">
+              <textarea rows="2" columns="10" placeholder="Add description"></textarea>
+            </div>
+            <div class="submit-photo">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+                <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="submit-video">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div>
+              </div>
+            </div>
+            <div class="submit-audio">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div>
               </div>
             </div>
           </form>
@@ -264,9 +279,9 @@
     <footer id="footer" class="footer-wrapper">
       <footer id="report-bar" data-page="index" class="app-bar footer">
         <div class="flex">
-          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
           <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
+          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
         </div>
         <p class="anonymous-disclaimer">All posts are anonymous.</p>

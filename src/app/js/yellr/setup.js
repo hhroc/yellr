@@ -291,6 +291,11 @@ yellr.setup = {
   			}
   		);
   	});
+    // long tap to select from camera roll
+    $('#capture-image').on('longtap', function() {
+      alert('long tap');
+    });
+
   	
   	// video
   	$('#capture-video').on('tap', function() {

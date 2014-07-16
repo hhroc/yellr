@@ -102,6 +102,7 @@ yellr.route = function(view) {
 				// ----------------------------
 				if (id) {
 					header = '#page-header';
+					context.page = 'Assignment';
 
 					// find the right one first
 					var assignments = JSON.parse(localStorage.getItem('assignments'));
@@ -137,14 +138,17 @@ yellr.route = function(view) {
 			case '#profile':
 				// hasSubnav = false;
 				header = '#page-header';
+				context.page = 'Profile';
 				console.log('show profile');
 				break;
 			case '#notifications':
 				header = '#page-header';
+				context.page = 'Notifications';
 				console.log('show notifications');
 				break;
 			case '#messages':
 				header = '#page-header';
+				context.page = 'Messages';
 				console.log('show messages');
 				break;
 			case '#submit-form':
@@ -154,6 +158,7 @@ yellr.route = function(view) {
 			case '#view-story':
 				// this'll probably follow the schema of 
 				header = '#page-header';
+				context.page = 'View Story';
 				console.log('show view-story');
 				break;
 			default:

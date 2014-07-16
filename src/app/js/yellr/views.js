@@ -40,8 +40,9 @@ yellr.route = function(view) {
 	var footer = '#report-bar'; // footer default: #report-bar
 	/* report bar - submit bar */
 
-	var context = {}; // passed into our Handlebar templates
-	// the properties of this JS object depend on the hash
+	var header_ctx = {}; // passed into our Handlebar templates
+	var footer_ctx = {};
+	// the properties of these JS object depend on the hash
 
 
 
@@ -102,7 +103,7 @@ yellr.route = function(view) {
 				// ----------------------------
 				if (id) {
 					header = '#page-header';
-					context.page = 'Assignment';
+					header_ctx.page = 'Assignment';
 
 					// find the right one first
 					var assignments = JSON.parse(localStorage.getItem('assignments'));
@@ -138,27 +139,29 @@ yellr.route = function(view) {
 			case '#profile':
 				// hasSubnav = false;
 				header = '#page-header';
-				context.page = 'Profile';
+				header_ctx.page = 'Profile';
 				console.log('show profile');
 				break;
 			case '#notifications':
 				header = '#page-header';
-				context.page = 'Notifications';
+				header_ctx.page = 'Notifications';
 				console.log('show notifications');
 				break;
 			case '#messages':
 				header = '#page-header';
-				context.page = 'Messages';
+				header_ctx.page = 'Messages';
+				footer = '#messages-footer';
 				console.log('show messages');
 				break;
 			case '#submit-form':
 				header = '#submit-header';
+				footer = '#submit-footer';
 				console.log('show submit-form');
 				break;
 			case '#view-story':
 				// this'll probably follow the schema of 
 				header = '#page-header';
-				context.page = 'View Story';
+				header_ctx.page = 'View Story';
 				console.log('show view-story');
 				break;
 			default:
@@ -181,11 +184,10 @@ yellr.route = function(view) {
 	
 	// template stuff
 	// ----------------------------
-	console.log(header);
-	console.log(footer);
 	var header_template = Handlebars.compile($(header).html());
 	var footer_template = Handlebars.compile($(footer).html());
-	$('#app-header').html(header_template(context));
+	$('#app-header').html(header_template(header_ctx));
+	$('#app-footer').html(footer_template(footer_ctx));
 
 
 	// details bro

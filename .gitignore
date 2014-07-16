@@ -62,3 +62,4 @@ src/app/www
 
 application
 *.lock
+logs

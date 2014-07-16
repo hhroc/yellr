@@ -12,58 +12,291 @@
 <body id="app" data-state="#">
   <div class="container">
     <header id="header" data-current="index" class="header-wrapper">
-      <header id="app-header" class="app-bar header hidden">
-        <h1 id="app-h1"><a href="#">Yellr</a></h1>
+      <header id="app-header" class="app-bar header"></header>
+      <script id="main-header" type="text/x-handlebars-template">
+        <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
         <nav id="app-nav">
-          <ul class="header-nav-list">
-            <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
-            <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
-            <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
-              <ul data-hidden="true" class="more-options-list hidden">
-                <li id="profile-btn"><a href="#profile">
-                    <p class="nav-title username">Username</p><span>View Profile</span></a></li>
-                <li id="language-btn"><a href="#language-setting"> 
-                    <p class="nav-title">Language</p><span>English</span></a></li>
-                <li id="feedback-btn"><a href="#feedback"> 
-                    <p class="nav-title"> Send App Feedback</p></a></li>
-                <li id="privacy-policy-btn"><a href="#privacy-policy"> 
-                    <p class="nav-title"> Privacy Policy</p></a></li>
-              </ul>
-            </li>
-          </ul>
+        <ul class="header-nav-list">
+        <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
+        <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
+        <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
+        <ul data-hidden="true" class="more-options-list hidden">
+        <li id="profile-btn">
+        <a href="#profile">
+        <p id="username" class="nav-title username">Username</p><span>View Profile</span>
+        </a>
+        </li>
+        <li id="language-btn">
+        <a href="#language-setting"> 
+        <p class="nav-title">Language</p><span>English</span>
+        </a>
+        </li>
+        <li id="feedback-btn">
+        <a href="#feedback"> 
+        <p class="nav-title"> Send App Feedback</p>
+        </a>
+        </li>
+        <li id="privacy-policy-btn">
+        <a href="#privacy-policy"> 
+        <p class="nav-title"> Privacy Policy</p>
+        </a>
+        </li>
+        </ul>
+        </li>
+        </ul>
         </nav>
-      </header>
-      <header id="page-header" class="app-bar header hidden">
+      </script>
+      <script id="page-header" type="text/x-handlebars-template">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">Page</h1><span id="refresh-btn"><i class="fa fa-refresh"></i></span>
-      </header>
-      <header id="submit-header" class="app-bar header hidden">
+        <h1 id="page-h1">{{ page }}</h1>
+        <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
+      </script>
+      <script id="submit-header" type="text/x-handlebars-template">
         <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">Submit Report</h1><span id="submit-btn"><i class="fa fa-check"></i></span>
-      </header>
+        <h1 id="page-h1">Submit Report</h1>
+        <span id="submit-btn"><i class="fa fa-check"></i></span>
+      </script>
+      <nav id="homepage-subnav" class="app-bar secondary-nav">
+        <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
+        <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
+      </nav>
     </header>
     <div id="main">
+      <div id="pt-main" class="pt-perspective">
+        <div id="assignments" class="pt-page with-secondary-nav pt-page-1">
+          <ul id="latest-assignments" class="assignments-list list-style-none">
+            <li><a href="#assignments/00001">
+                <h2 class="assignment-title">Who makes the best cup-of-soup?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">24</p>
+                </div>
+                <p class="assignment-deadline">6 days</p></a></li>
+            <li><a href="#assignments/00002"> 
+                <h2 class="assignment-title">What is it you wish, madame?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">32</p>
+                </div>
+                <p class="assignment-deadline">10 days</p></a></li>
+            <li><a href="#assignments/00003"> 
+                <h2 class="assignment-title">If you please, where is the lecture on Egyptology?</h2>
+                <div class="assignment-action">
+                  <p class="view-assignment-details">View assignment</p>
+                  <p class="assignment-contributions">12</p>
+                </div>
+                <p class="assignment-deadline">2 weeks</p></a></li>
+          </ul>
+        </div>
+        <div id="news-feed" class="pt-page with-secondary-nav pt-page-2">
+          <ul id="latest-stories" class="list-style-none">
+            <li>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
+            </li>
+            <li>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
+            </li>
+            <li>
+              <h2 class="t1"><a href="#">Title of story</a></h2>
+              <p>Species of plants and animals are becoming extinct at least 1,000 times faster than they did before humans arrived on the scene, and the world is on the brink of a sixth great extinction, a new study says.</p>
+              <figure><img src="http://lorempixel.com/400/200">
+                <figcaption>This is a caption about the image and story</figcaption>
+              </figure>
+            </li>
+          </ul>
+        </div>
+        <div id="profile" class="pt-page pt-page-3">
+          <h2>profile</h2>
+          <section data-title="Profile">
+            <div class="profile-overview">
+              <figure class="profile-picture"><img src="http://lorempixel.com/200/200"></figure>
+              <div class="profile-meta">
+                <h2>Username</h2>
+                <p>Generate new UUID</p>
+                <div class="profile-stats">
+                  <dl class="profile-stats-list">
+                    <dt>Posts</dt>
+                    <dd id="posts-total">32</dd>
+                    <dt>Followers</dt>
+                    <dd id="followers-total">58</dd>
+                    <dt>Following</dt>
+                    <dd id="following-total">240</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <nav class="profile-nav-bar">
+              <div><a href="#">Posts</a></div>
+              <div><a href="#">Badges</a></div>
+              <div><a href="#">Followers</a></div>
+            </nav>
+            <div class="pt-perspective">
+              <div class="profile-content">
+                <ul class="profile-posts-list">
+                  <li>title of text post</li>
+                  <li>title of image post</li>
+                  <li>video post</li>
+                  <li>audio post</li>
+                </ul>
+              </div>
+              <div class="profile-badges">
+                <div class="grid">
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                  <div class="gi"><img src="http://lorempixel.com/150/150">
+                    <h3>Badge name</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="profile-followers">
+                <ul class="followers-list">
+                  <li>
+                    <figure class="follower-thumbnail"><img src="http://lorempixel.com/200/200"></figure>
+                    <h3 class="follower-username">follower_sn</h3>
+                    <div class="follow-back"><i class="fa fa-check"></i></div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div id="notifications" class="pt-page pt-page-4">
+          <h2>Recent</h2>
+          <ul class="notifications-list">
+            <li>Viewed by <strong>WDKX</strong></li>
+            <li>Viewed by <strong>WXXI</strong></li>
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+          </ul>
+          <h2>Older</h2>
+          <ul class="notifications-list">
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+            <li>Viewed by <strong>WDKX</strong></li>
+            <li>Viewed by <strong>WXXI</strong></li>
+            <li>Your post has been approved!</li>
+            <li>Your post has been submitted!</li>
+          </ul>
+        </div>
+        <div id="messages" class="pt-page with-secondary-nav pt-page-5">
+          <ul class="messages-list">
+            <li class="message-li">
+              <h2 class="message-overview">WXXI<span class="message-subject">Hello from WXXI!</span></h2>
+              <p class="message-preview">We like the work you're doing and were</p>
+              <p class="message-meta">5:23 pm</p>
+            </li>
+            <li class="message-li unread">
+              <h2 class="message-overview">WDKX<span class="message-subject">We like your work</span></h2>
+              <p class="message-preview">Hello from WDKX. We dig the work you've</p>
+              <p class="message-meta">12:23 pm</p>
+            </li>
+            <li class="message-li unread">
+              <h2 class="message-overview">enjoi_the_silence<span class="message-subject"></span></h2>
+              <p class="message-preview">Dope picture bro</p>
+              <p class="message-meta">12:23 pm</p>
+            </li>
+          </ul>
+        </div>
+        <div id="submit-form" class="pt-page pt-page-6">
+          <form id="submit-form" data-type="submit-text" method="post" action="http://yellr.mycodespace.net/uploadtest.json" accept-charset="utf-8" enctype="multipart/form-data" class="form wrapper submit-preview">
+            <div class="submit-text">
+              <input type="text" placeholder="Title (optional)">
+              <textarea rows="2" columns="10" placeholder="Add description"></textarea>
+            </div>
+            <div class="submit-photo">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
+                <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="submit-video">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div>
+              </div>
+            </div>
+            <div class="submit-audio">
+              <div class="media-submission-wrapper">
+                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="view-assignment" class="pt-page pt-page-7">
+          <section class="assignment-view">
+            <h2 class="assignment-title">Are you on Team Viper or Team Mountain?</h2>
+            <figure class="assignment-details-image"><img src="http://lorempixel.com/800/400"></figure>
+            <p class="assignment-details">The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.</p><a href="#" class="contribute-to-assignment">Contribute</a>
+            <div class="accepted-media-wrapper"><em>Accepted Media:</em>
+              <ul class="accepted-media">
+                <li><i class="fa fa-video-camera"></i></li>
+                <li><i class="fa fa-camera"></i></li>
+                <li><i class="fa fa-volume-up"></i></li>
+                <li><i class="fa fa-file-text-o"></i></li>
+              </ul>
+            </div>
+            <p class="assignment-deadline">June 12, 2014</p>
+          </section>
+          <aside class="assignment-contributions">
+            <h3>Latest Contributions</h3>
+            <ul class="assignment-contributions-list">
+              <li><a href="#"> <span class="contributor">DanDan109</span>
+                  <p>Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.</p></a></li>
+              <li> <a href="#"> <span class="contributor">Steve-O</span>
+                  <figure><img src="http://lorempixel.com/400/200"></figure>
+                  <p>“Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. </p></a></li>
+              <li><a href="#"><span class="contributor">Afroman</span>
+                  <p>This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...</p>
+                  <figure><img src="http://lorempixel.com/400/200"></figure></a></li>
+              <li><a href="#"><span class="contributor">Clint Eastwood</span>
+                  <p>“See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...<span class="more">View full report</span></p></a></li>
+            </ul>
+          </aside>
+        </div>
+        <div id="view-story" class="pt-page pt-page-8">
+          <h2>view story</h2>
+        </div>
+      </div>
       <div id="debug">
+        <p id="cordova-audio"></p>
+        <p id="cordova-image"></p>
+        <p id="cordova-video"></p>
         <p id="cordova-language"></p>
         <p id="cordova-device"></p>
         <p id="cordova-connection"></p>
+        <p>
+          <input type="button" value="Test alert" id="cordova-alert">
+          <input type="button" value="Test confirm" id="cordova-confirm">
+          <input type="button" value="Test prompt" id="cordova-prompt">
+        </p>
+        <p>
+          <input type="button" value="Test beep" id="cordova-beep">
+          <input type="button" value="Test vibrate" id="cordova-vibrate">
+        </p>
         <p id="cordova-position"></p>
       </div>
-      <form class="form wrapper submit-preview">
-        <textarea rows="2" columns="10" placeholder="Add description" autofocus class="no-border"></textarea>
-        <div class="media-submission-wrapper">
-          <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
-          <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
-          </div>
-        </div>
-      </form>
     </div>
     <footer id="footer" class="footer-wrapper">
-      <footer id="report-bar" data-page="index" class="app-bar footer hidden">
+      <footer id="report-bar" data-page="index" class="app-bar footer">
         <div class="flex">
-          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
-          <div id="capture-picture" class="btn"><i class="fa fa-camera"></i></div>
+          <div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
           <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
+          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
           <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
         </div>
         <p class="anonymous-disclaimer">All posts are anonymous.</p>
@@ -76,6 +309,7 @@
         </div>
         <div data-current="none" class="more-info hidden">
           <div data-info="location" class="location-information extra-info">
+            <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
             <p id="location">43.1567975, -77.6167498</p>
             <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p>
           </div>
@@ -98,10 +332,13 @@
     </footer>
   </div>
   <script src="cordova.js"></script>
-  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/zepto.js"></script>
   <script src="js/libs/handlebars.js"></script>
-  <script src="js/libs/fastclick.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/yellr.js"></script>
+  <script src="js/yellr/yellr.js"></script>
+  <script src="js/yellr/config.js"></script>
+  <script src="js/yellr/setup.js"></script>
+  <script src="js/yellr/views.js"></script>
+  <script src="js/yellr/parse.js"></script>
+  <script src="js/demo.js"></script>
   <script src="js/init.js"></script>
 </body></html>

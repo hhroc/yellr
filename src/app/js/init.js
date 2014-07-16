@@ -4,13 +4,17 @@ var yellr = yellr || {};
 /*
 	We call our setup functions as soon as we're ready
 	They are fired in the following sequence:
-		- onload()
-		- deviceready()
+		1. onload()
+		2. deviceready()
 */
 
 window.onload = function() {
-	console.log('hello from: yellr 2.0');
+	// setup
 	yellr.setup.DOM();
+	yellr.route('#');
+	// load data
+	yellr.demo.init(); // uses local dummy json
+	// yellr.load.data(); // for production
 }
 
 document.addEventListener('deviceready', function() {

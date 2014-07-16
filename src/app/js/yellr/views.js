@@ -14,6 +14,15 @@ var yellr = yellr || {};
 yellr.route = function(view) {
 
 
+	/*
+		first we get the app's current state
+		then setup some handlebar vars
+		do stuff based on page hash
+		render it
+		add event listeners if neccesary
+	*/
+
+
 	// the only vars we care about
 	// ===================================
 	var app = document.querySelector('#app'), // cached app ref
@@ -189,12 +198,18 @@ yellr.route = function(view) {
 	$('#app-header').html(header_template(header_ctx));
 	$('#app-footer').html(footer_template(footer_ctx));
 
-
 	// details bro
 	if (hasSubnav) $('#homepage-subnav').show();
 	else $('#homepage-subnav').hide();
 
 
+
+
+	// Events
+	// ===================================
+	if (header === '#main-header') yellr.setup.more_options_toggle();
+	if (footer === '#report-bar') yellr.setup.report_bar();
+	// else if (footer === '#submit-footer') {};
 
 
 };

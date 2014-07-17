@@ -15,13 +15,15 @@ yellr.route = function(view) {
 
 
 	/*
-		first we get the app's current state
-		then setup some handlebar vars
-		do stuff based on page hash
-		render it
-		add event listeners if neccesary
+		1.	first we get the app's current state
+		2.	then setup some handlebar vars
+		3.	do stuff based on page hash
+		4.	render it
+		5.	add event listeners if neccesary
 	*/
 
+
+	/* 1 */
 
 	// the only vars we care about
 	// ===================================
@@ -34,6 +36,7 @@ yellr.route = function(view) {
 
 
 
+	/* 2 */
 
 	// Handlebar template shiiiiii
 	// ===================================
@@ -56,6 +59,7 @@ yellr.route = function(view) {
 
 
 
+	/* 3 */
 
 	// the logic
 	// ===================================
@@ -174,7 +178,8 @@ yellr.route = function(view) {
 				console.log('show view-story');
 				break;
 			default:
-				console.log('homepage - ie assignments');
+				header = '#main-header';
+				footer = '#report-bar';
 		} // end switch statement
 
 
@@ -187,6 +192,7 @@ yellr.route = function(view) {
 
 
 
+	/* 4 */
 
 	// Making it look pretty (executes everytime)
 	// ===================================
@@ -204,6 +210,7 @@ yellr.route = function(view) {
 
 
 
+	/* 5 */
 
 	// Events
 	// ===================================

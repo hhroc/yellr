@@ -103,17 +103,13 @@ yellr.events = {
   },
 
   submit_form: function(e) {
-    console.log('hello from: yellr.events.submit_form()', e);
 
-
-    // $('#test_form').submit(function() {
-    //   alert('posting form...');
-    //   // form test
-    //   $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
-    //     console.log(response);
-    //     alert(response);
-    //   })
-    // });
+    var $form = $('#form-wrapper form');
+    console.log($form.attr('action'), $form.serialize());
+    // $.post($form.attr('action'), $form.serialize(), function(response){
+    //   console.log(response);
+    //   alert(response);
+    // })
 
   }
 }

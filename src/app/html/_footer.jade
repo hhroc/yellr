@@ -4,33 +4,16 @@ footer#footer.footer-wrapper
 
 	script#report-bar(type="text/x-handlebars-template")
 		<div class="report-bar flex">
-		<div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
-		<div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
-		<div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
-		<div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
+		<div id="capture-image" class="btn"><a href="#submit-form"><i class="fa fa-camera"></i></a></div>
+		<div id="capture-video" class="btn"><a href="#submit-form"><i class="fa fa-video-camera"></i></a></div>
+		<div id="capture-audio" class="btn"><a href="#submit-form"><i class="fa fa-microphone"></i></a></div>
+		<div id="capture-text" class="btn"><a href="#submit-form"><i class="fa fa-pencil-square-o"></i></a></div>
 		</div>
 		<p class="anonymous-disclaimer">All posts are anonymous.</p>
 	
 	script#submit-footer(type="text/x-handlebars-template")
-		<div class="flex">
-		<div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div>
-		<div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div>
-		<div id="anon-btn" data-info="identity" class="btn"><i class="fa fa-user"></i></div>
-		</div>
-		<div data-current="none" class="more-info hidden">
-		<div data-info="location" class="location-information extra-info">
-		<p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
-		<p id="location">43.1567975, -77.6167498</p>
-		<p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p>
-		</div>
-		<ul data-info="tags" class="tags-list extra-info">
-		<li>FIFA</li>
-		<li>world cup</li>
-		<li>rochester</li>
-		<li id="add-tag-btn"><i class="fa fa-plus"></i></li>
-		</ul>
-		<p id="uuid" data-info="identity" class="extra-info">121924012392</p>
-		</div>
+		<div class="flex"> <div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div> <div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div> <div id="anon-btn" data-info="identity" class="btn"><i class="fa fa-user"></i></div> </div>
+		<div data-current="none" class="more-info hidden"> <div data-info="location" class="location-information extra-info"> <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p> <p id="location">43.1567975, -77.6167498</p> <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p> </div> <ul data-info="tags" class="tags-list extra-info"> <li>FIFA</li> <li>world cup</li> <li>rochester</li> <li id="add-tag-btn"><i class="fa fa-plus"></i></li> </ul> <p id="uuid" data-info="identity" class="extra-info">121924012392</p> </div>
 		<p class="anonymous-disclaimer">Posting anonymously</p>
 
 	script#messages-footer(type="text/x-handlebars-template")
@@ -42,15 +25,18 @@ footer#footer.footer-wrapper
 	//-footer#report-bar.app-bar.footer
 		div.report-bar.flex
 			div#capture-image.btn
-				i.fa.fa-camera
+				a(href="#submit-form")
+					i.fa.fa-camera
 			div#capture-video.btn
-				i.fa.fa-video-camera
+				a(href="#submit-form")
+					i.fa.fa-video-camera
 			div#capture-audio.btn
-				i.fa.fa-microphone
+				a(href="#submit-form")
+					i.fa.fa-microphone
 			div#capture-text.btn
-				i.fa.fa-pencil-square-o
+				a(href="#submit-form")
+					i.fa.fa-pencil-square-o
 		p.anonymous-disclaimer All posts are anonymous.
-
 
 	//-footer#submit-footer.footer.app-bar(data-page="submit").hidden
 		div.flex

@@ -96,31 +96,51 @@ yellr.setup = {
 			);
 		});
 
-		// image
-		$('#capture-image').on('tap', function() {
-			navigator.device.capture.captureImage(
-				function(imageFiles) {
-					alert('captured ' + imageFiles.length + ' images');
 
-					var html = '';
-					for (var i = 0; i < imageFiles.length; i++) {
-						var name = imageFiles[i].name;
-						var path = imageFiles[i].fullPath;
-						html += name + ' | ' + path + '<br/>';
-					};
-					document.querySelector('#cordova-image').innerHTML = html;
-				},
-				function(erorr) {
-					alert('error taking picture');
-				}
-			);
+
+		// image
+		// ----------------------------
+		// var cameraOptions = { 
+		// 	quality : 75,
+		// 	destinationType : Camera.DestinationType.DATA_URL,
+		// 	sourceType : Camera.PictureSourceType.CAMERA,
+		// 	allowEdit : true,
+		// 	encodingType: Camera.EncodingType.JPEG,
+		// 	targetWidth: 100,
+		// 	targetHeight: 100,
+		// 	saveToPhotoAlbum: false
+		// };
+
+		$('#capture-image').on('singleTap', function() {
+			// alert('singleTap');
+			// alert('show dialog window? choose between taking picture or from gallery');
+      navigator.camera.getPicture(
+      	function(imgData) {
+
+      		yellr.route('#submit-form');
+      		document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+      	},
+      	function(error) {
+      		alert('Photo Capture fail: ' + error);
+      	},
+        { 
+          quality: 50,
+          destinationType: Camera.DestinationType.DATA_URL 
+        }
+      );
+		});
+		// double tap to select from camera roll
+		$('#capture-image').on('doubleTap', function() {
+			alert('double tap. always double tap');
 		});
 		// long tap to select from camera roll
-		$('#capture-image').on('longtap', function() {
+		$('#capture-image').on('longTap', function() {
 			alert('long tap');
 		});
 
 		
+
+
 		// video
 		$('#capture-video').on('tap', function() {
 			navigator.device.capture.captureVideo(

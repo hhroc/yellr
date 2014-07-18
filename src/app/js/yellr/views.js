@@ -66,7 +66,8 @@ yellr.route = function(view) {
 	// the beginning
 	if (typeof view === 'string') {
 		src = view;
-		window.location.hash = view;
+		// window.location.hash = view;
+		// return;
 	} else {
 		src = window.location.hash;
 	}
@@ -83,19 +84,19 @@ yellr.route = function(view) {
 	id = src.split('/')[1];
 
 
+	// alert('START: ' + current_state +' - ' + hash + ' - ' + id);
+
 	// do things for first run
 	if (current_state === '#') {
 		hasSubnav = true;
 		$(hash).addClass('current');
 		$('#assignments-tab').addClass('current');
-		document.querySelector('#app').setAttribute('data-state', hash);
 	}
 
 	// check to make sure we're not repeating ourselves
 	// ie. are we already on the page? if so, do nothing
 	else if (current_state !== hash || id) {
 
-		app.setAttribute('data-state', hash);
 
 		// do things based on hash
 		switch (hash) {
@@ -190,6 +191,12 @@ yellr.route = function(view) {
 
 	}// end if...else
 
+	app.setAttribute('data-state', hash);
+
+
+	// ... wtf JS
+	// setTimeout(function() {}, 0);
+	// alert('END: ' + app.getAttribute('data-state') +' - ' + hash + ' - ' + id);
 
 
 	/* 4 */
@@ -201,6 +208,7 @@ yellr.route = function(view) {
 	// ----------------------------
 	var header_template = Handlebars.compile($(header).html());
 	var footer_template = Handlebars.compile($(footer).html());
+
 	$('#app-header').html(header_template(header_ctx));
 	$('#app-footer').html(footer_template(footer_ctx));
 
@@ -218,5 +226,10 @@ yellr.route = function(view) {
 	if (footer === '#report-bar') yellr.setup.report_bar();
 	// else if (footer === '#submit-footer') {};
 
+
+	if (typeof view === 'string') {
+		window.location.hash = view;
+		return;
+	}
 
 };

@@ -7,25 +7,19 @@
 @import "../../common/style/pieces/classes";
 @import "../../common/style/pieces/normalize";
 @import "../../common/style/pieces/base";
-@import "../../common/style/pieces/modules";
 
 // libraries
 @import "../../common/style/libs/font-awesome/font-awesome";
 
 // yellr specific
 @import "../../common/style/theme/vars";
-@import "../../common/style/theme/classes";
 @import "../../common/style/theme/typography";
-// @import "../../common/style/theme/forms";
 
 
 html, body { height: 100%; }
-// body {
-// 	background: $black;
-// }
 
 #debug {
-	display: none;
+	// display: none;
 }
 
 @import "vars";
@@ -36,14 +30,6 @@ html, body { height: 100%; }
 @import "messages";
 
 
-// @import "../../common/style/theme/assignments";
-
-
-
-
-.container {
-	// padding: 3rem 0 5rem;
-}
 
 .app-bar {
 	// position: fixed

@@ -210,8 +210,6 @@ yellr.route = function(view) {
 
     // clear last class
     $('.pt-perspective .current').removeClass('current');
-    // set new one
-    // $(hash).addClass('current')
 
   }// end if...else
 

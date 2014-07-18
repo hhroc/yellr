@@ -19,11 +19,15 @@ yellr.route = function(view) {
     2.  then setup some handlebar vars
     3.  do stuff based on page hash
     4.  render it
-    5.  add event listeners if neccesary
   */
 
 
-  //
+  /* 0 */
+  // local shortcuts
+  var render_template = yellr.utils.render_template;
+
+
+
 
   /* 1 */
 
@@ -40,23 +44,40 @@ yellr.route = function(view) {
 
   /* 2 */
 
-  // Handlebar template shiiiiii
+  // Handlebar templates
   // ===================================
-  // should all be query selectors. ex: '#main-header'
-  var header = '#main-header'; // header default: #main-header
-  /* #main-header - #page-header - #submit-header */
+  /* defaults */
+
+  // header
+  // templates: #main-header - #page-header - #submit-header
+  // ----------------------------
+  var header = {
+    template: '#main-header',
+    target: '#app-header',
+    events: yellr.setup.more_options_toggle
+  };
+
+
+  // subnav
+  // ----------------------------
+  // templates: assignments/news-feed - inbox/sent/drafts
+  var subnav = {
+    template: '#report-bar',
+    target: '#query-string',
+  };
+
+
+  // footer
+  // ----------------------------
+  // templates:  #report bar - #submit bar
+  var footer = {
+    template: '#report-bar',
+    target: '#app-footer',
+    events: yellr.setup.report_bar
+  };
+
 
   var hasSubnav = false; // hide/show secondary nav
-  var subNav = undefined;
-  /* assignments/news-feed - inbox/sent/drafts */
-
-  var hasFooter = false;
-  var footer = '#report-bar'; // footer default: #report-bar
-  /* report bar - submit bar */
-
-  var header_ctx = {}; // passed into our Handlebar templates
-  var footer_ctx = {};
-  // the properties of these JS object depend on the hash
 
 
 
@@ -86,12 +107,12 @@ yellr.route = function(view) {
   id = src.split('/')[1];
 
 
-  // alert('START: ' + current_state +' - ' + hash + ' - ' + id);
+
 
   // do things for first run
   if (current_state === '#') {
     hasSubnav = true;
-    $(hash).addClass('current');
+    // $(hash).addClass('current');
     $('#assignments-tab').addClass('current');
   }
 
@@ -111,15 +132,15 @@ yellr.route = function(view) {
         // ----------------------------
         if (id === undefined) {
           hasSubnav = true;
-          // console.log('show assignments');
         }
 
 
         // show single assignment
         // ----------------------------
         if (id) {
-          header = '#page-header';
-          header_ctx.page = 'Assignment';
+          header.template = '#page-header';
+          header.context = {page: 'Assignment'};
+          header.events = undefined;
 
           // find the right one first
           var assignments = JSON.parse(localStorage.getItem('assignments'));
@@ -129,7 +150,6 @@ yellr.route = function(view) {
             if (assignments[i].id === parseInt(id)) {
               // we have a match
               yellr.parse.assignment(assignments[i], 'view');
-              // yellr.route('#view-assignment');
               break;
             }
           }
@@ -137,7 +157,7 @@ yellr.route = function(view) {
           // change the hash to view-assignments
           hash = '#view-assignment'; // make sure we show/hide the right DOMs
           // change app state
-          app.setAttribute('data-state', hash);
+          // app.setAttribute('data-state', hash);
         }
         break;
 
@@ -154,45 +174,54 @@ yellr.route = function(view) {
         break;
       case '#profile':
         // hasSubnav = false;
-        header = '#page-header';
-        header_ctx.page = 'Profile';
+        header.template = '#page-header';
+        header.context = {page: 'Profile'};
+        header.events = undefined;
         console.log('show profile');
         break;
       case '#notifications':
-        header = '#page-header';
-        header_ctx.page = 'Notifications';
+        header.template = '#page-header';
+        header.context = {page: 'Notifications'};
+        header.events = undefined;
         console.log('show notifications');
         break;
       case '#messages':
-        header = '#page-header';
-        header_ctx.page = 'Messages';
-        footer = '#messages-footer';
+        header.template = '#page-header';
+        header.context = {page: 'Messages'};
+        header.events = undefined;
+        footer.template = '#messages-footer';
+        footer.events = undefined;
         console.log('show messages');
         break;
       case '#submit-form':
-        header = '#submit-header';
-        footer = '#submit-footer';
+        header.template = '#submit-header';
+        header.events = undefined;
+        footer.template = '#submit-footer';
+        footer.events = undefined;
         console.log('show submit-form');
         break;
       case '#view-story':
         // this'll probably follow the schema of
-        header = '#page-header';
-        header_ctx.page = 'View Story';
+        header.template = '#page-header';
+        header.context = {page: 'View Story'};
+        header.events = undefined;
         console.log('show view-story');
         break;
       default:
-        header = '#main-header';
-        footer = '#report-bar';
+        header.template = '#main-header';
+        footer.template = '#report-bar';
+        footer.events = undefined;
     } // end switch statement
 
 
     // clear last class
     $('.pt-perspective .current').removeClass('current');
     // set new one
-    $(hash).addClass('current')
+    // $(hash).addClass('current')
 
   }// end if...else
 
+  $(hash).addClass('current');
   app.setAttribute('data-state', hash);
 
 
@@ -208,25 +237,12 @@ yellr.route = function(view) {
 
   // template stuff
   // ----------------------------
-  var header_template = Handlebars.compile($(header).html());
-  var footer_template = Handlebars.compile($(footer).html());
-
-  $('#app-header').html(header_template(header_ctx));
-  $('#app-footer').html(footer_template(footer_ctx));
+  render_template(header);
+  render_template(footer);
 
   // details bro
   if (hasSubnav) $('#homepage-subnav').show();
   else $('#homepage-subnav').hide();
-
-
-
-  /* 5 */
-
-  // Events
-  // ===================================
-  if (header === '#main-header') yellr.setup.more_options_toggle();
-  if (footer === '#report-bar') yellr.setup.report_bar();
-  // else if (footer === '#submit-footer') {};
 
 
   if (typeof view === 'string') {

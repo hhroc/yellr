@@ -16,21 +16,25 @@
 	width: 100%;
 	opacity: 1;
 	z-index: 95;
+	background: #eee;
+	color: #666;
+	i {font-size: 1.25rem; }
+	.btn {
+		@extend %btn;
+		max-width: none;	
+		text-align: center;
+		border-right: 1px solid #ccc;
+		&:last-child {border-right: none; }
+		&:hover {background: #fff; }
+	}
 	&.hidden {
 		z-index: -1;
 		opacity: 0;
 	}
 }
 
-// // REPORT BAR
-// // ----------------------------
-// .report-bar-wrapper {
-// 	position: fixed;
-// 	bottom: 0;
-// 	width: 100%;
-// 	z-index: 50;
-// }
-#report-bar {
+
+.report-bar {
 	background: $yellow;
 	color: $black;
 	.btn {
@@ -38,17 +42,6 @@
 		&:last-child {border-right: none;}
 		&:hover {background: $dark-yellow;}
 	}
-
-	// div {
-	// 	@include transition(background, 0.3s);
-	// 	width: 25%; // in case the phone doesn't support flex
-	// 	@include flex(1);
-	// 	padding: 0.75rem;
-	// 	text-align: center;
-	// 	border-right: 1px solid $dark-yellow;
-	// 	&:last-child {border: none; }
-	// 	&:hover {background: $dark-yellow; }
-	// }
 }
 .anonymous-disclaimer {
 	text-align: center;
@@ -61,25 +54,7 @@
 	max-width: none;
 }
 
-// #submit-footer {
-// 	background: #eee;
-// }
 
-.footer {
-	background: #eee;
-	color: #666;
-	i {font-size: 1.25rem; }
-	.btn {
-		@extend %btn;
-		max-width: none;	
-		text-align: center;
-		border-right: 1px solid #ccc;
-		&:last-child {border-right: none; }
-		&:hover {
-			background: #fff;
-		}
-	}
-}
 
 
 

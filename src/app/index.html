@@ -11,51 +11,13 @@
 </head>
 <body id="app" data-state="#">
   <div class="container">
-    <header id="header" data-current="index" class="header-wrapper">
+    <header id="header" class="header-wrapper">
       <header id="app-header" class="app-bar header"></header>
-      <script id="main-header" type="text/x-handlebars-template">
-        <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
-        <nav id="app-nav">
-        <ul class="header-nav-list">
-        <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
-        <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
-        <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
-        <ul data-hidden="true" class="more-options-list hidden">
-        <li id="profile-btn">
-        <a href="#profile">
-        <p id="username" class="nav-title username">Username</p><span>View Profile</span>
-        </a>
-        </li>
-        <li id="language-btn">
-        <a href="#language-setting"> 
-        <p class="nav-title">Language</p><span>English</span>
-        </a>
-        </li>
-        <li id="feedback-btn">
-        <a href="#feedback"> 
-        <p class="nav-title"> Send App Feedback</p>
-        </a>
-        </li>
-        <li id="privacy-policy-btn">
-        <a href="#privacy-policy"> 
-        <p class="nav-title"> Privacy Policy</p>
-        </a>
-        </li>
-        </ul>
-        </li>
-        </ul>
-        </nav>
-      </script>
-      <script id="page-header" type="text/x-handlebars-template">
-        <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">{{ page }}</h1>
-        <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
-      </script>
-      <script id="submit-header" type="text/x-handlebars-template">
-        <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">Submit Report</h1>
-        <span id="submit-btn"><i class="fa fa-check"></i></span>
-      </script>
+      <div class="templates">
+        <script id="main-header" type="text/x-handlebars-template"><h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1> <nav id="app-nav"> <ul class="header-nav-list"> <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li> <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li> <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span> <ul data-hidden="true" class="more-options-list hidden"> <li id="profile-btn"> <a href="#profile"> <p id="username" class="nav-title username">Username</p><span>View Profile</span> </a> </li> <li id="language-btn"> <a href="#language-setting"> <p class="nav-title">Language</p><span>English</span> </a> </li> <li id="feedback-btn"> <a href="#feedback"> <p class="nav-title"> Send App Feedback</p> </a> </li> <li id="privacy-policy-btn"> <a href="#privacy-policy"> <p class="nav-title"> Privacy Policy</p> </a> </li> </ul> </li> </ul> </nav></script>
+        <script id="page-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span></script>
+        <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1> <span id="submit-btn"><i class="fa fa-check"></i></span></script>
+      </div>
       <nav id="homepage-subnav" class="app-bar secondary-nav">
         <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
         <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
@@ -213,29 +175,14 @@
           </ul>
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
-          <form id="submit-form" data-type="submit-text" method="post" action="http://yellr.mycodespace.net/uploadtest.json" accept-charset="utf-8" enctype="multipart/form-data" class="form wrapper submit-preview">
-            <div class="submit-text">
-              <input type="text" placeholder="Title (optional)">
-              <textarea rows="2" columns="10" placeholder="Add description"></textarea>
-            </div>
-            <div class="submit-photo">
-              <div class="media-submission-wrapper">
-                <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200"></div>
-                <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span>
-                </div>
-              </div>
-            </div>
-            <div class="submit-video">
-              <div class="media-submission-wrapper">
-                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div>
-              </div>
-            </div>
-            <div class="submit-audio">
-              <div class="media-submission-wrapper">
-                <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div>
-              </div>
-            </div>
-          </form>
+          <div id="form-wrapper" class="form wrapper submit-preview">
+          </div>
+          <div class="templates">
+            <script id="text-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-text"> <input type="text" placeholder="Title (optional)"/> <textarea rows="2" columns="10" placeholder="Add description"></textarea> </div> </form></script>
+            <script id="photo-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-photo"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200" id="img-preview"/></div> <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span> </div> </div> </div> </form></script>
+            <script id="video-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-video"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div> </div> </div> </form></script>
+            <script id="audio-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-audio"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div> </div> </div> </form></script>
+          </div>
         </div>
         <div id="view-assignment" class="pt-page pt-page-7">
           <section class="assignment-view">
@@ -272,73 +219,26 @@
           <h2>view story</h2>
         </div>
       </div>
-      <div id="debug">
-        <p id="cordova-audio"></p>
-        <p id="cordova-image"></p>
-        <p id="cordova-video"></p>
-        <p id="cordova-language"></p>
-        <p id="cordova-device"></p>
-        <p id="cordova-connection"></p>
-        <p>
-          <input type="button" value="Test alert" id="cordova-alert">
-          <input type="button" value="Test confirm" id="cordova-confirm">
-          <input type="button" value="Test prompt" id="cordova-prompt">
-        </p>
-        <p>
-          <input type="button" value="Test beep" id="cordova-beep">
-          <input type="button" value="Test vibrate" id="cordova-vibrate">
-        </p>
-        <p id="cordova-position"></p>
-      </div>
     </div>
     <footer id="footer" class="footer-wrapper">
-      <footer id="report-bar" data-page="index" class="app-bar footer">
-        <div class="flex">
-          <div id="capture-image" class="btn"><i class="fa fa-camera"></i></div>
-          <div id="capture-video" class="btn"><i class="fa fa-video-camera"></i></div>
-          <div id="capture-audio" class="btn"><i class="fa fa-microphone"></i></div>
-          <div id="capture-text" class="btn"><i class="fa fa-pencil-square-o"></i></div>
-        </div>
-        <p class="anonymous-disclaimer">All posts are anonymous.</p>
-      </footer>
-      <footer id="submit-footer" data-page="submit" class="footer app-bar hidden">
-        <div class="flex">
-          <div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div>
-          <div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div>
-          <div id="anon-btn" data-info="identity" class="btn"><i class="fa fa-user"></i></div>
-        </div>
-        <div data-current="none" class="more-info hidden">
-          <div data-info="location" class="location-information extra-info">
-            <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p>
-            <p id="location">43.1567975, -77.6167498</p>
-            <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p>
-          </div>
-          <ul data-info="tags" class="tags-list extra-info">
-            <li>FIFA</li>
-            <li>world cup</li>
-            <li>rochester</li>
-            <li id="add-tag-btn"><i class="fa fa-plus"></i></li>
-          </ul>
-          <p id="uuid" data-info="identity" class="extra-info">121924012392</p>
-        </div>
-        <p class="anonymous-disclaimer">Posting anonymously</p>
-      </footer>
-      <footer id="messages-footer" data-page="messages" class="footer app-bar hidden">
-        <div class="flex">
-          <div class="btn"><i class="fa fa-plus"></i></div>
-          <div class="btn"><i class="fa fa-trash-o"></i></div>
-        </div>
-      </footer>
+      <footer id="app-footer" class="app-bar footer"></footer>
+      <div class="templates">
+        <script id="report-bar" type="text/x-handlebars-template"><div class="report-bar flex"><a id="capture-image" href="#submit-form" class="btn"><i class="fa fa-camera"></i></a><a id="capture-video" href="#submit-form" class="btn"><i class="fa fa-video-camera"></i></a><a id="capture-audio" href="#submit-form" class="btn"><i class="fa fa-microphone"></i></a><a id="capture-text" href="#submit-form" class="btn"><i class="fa fa-pencil-square-o"></i></a></div> <p class="anonymous-disclaimer">All posts are anonymous.</p></script>
+        <script id="submit-footer" type="text/x-handlebars-template"><div class="flex"> <div id="location-btn" data-info="location" class="btn"><i class="fa fa-map-marker"></i></div> <div id="tags-btn" data-info="tags" class="btn"><i class="fa fa-tags"></i></div> <div id="anon-btn" data-info="identity" class="btn"><i class="fa fa-user"></i></div> </div> <div data-current="none" class="more-info hidden"> <div data-info="location" class="location-information extra-info"> <p><i class="fa fa-location-arrow">&nbsp;</i><span>Location</span></p> <p id="location">43.1567975, -77.6167498</p> <p class="location-disclaimer">We use this information to help verify the accuracy of your submission, as well as if you are from the area.</p> </div> <ul data-info="tags" class="tags-list extra-info"> <li>FIFA</li> <li>world cup</li> <li>rochester</li> <li id="add-tag-btn"><i class="fa fa-plus"></i></li> </ul> <p id="uuid" data-info="identity" class="extra-info">121924012392</p> </div> <p class="anonymous-disclaimer">Posting anonymously</p></script>
+        <script id="messages-footer" type="text/x-handlebars-template"><div class="flex"> <div class="btn"><i class="fa fa-plus"></i></div> <div class="btn"><i class="fa fa-trash-o"></i></div> </div></script>
+      </div>
     </footer>
   </div>
   <script src="cordova.js"></script>
+  <script src="js/libs/fastclick.js"></script>
   <script src="js/libs/zepto.js"></script>
   <script src="js/libs/handlebars.js"></script>
-  <script src="js/yellr/yellr.js"></script>
+  <script src="js/yellr/parse.js"></script>
+  <script src="js/yellr/utils.js"></script>
+  <script src="js/yellr/events.js"></script>
   <script src="js/yellr/config.js"></script>
   <script src="js/yellr/setup.js"></script>
   <script src="js/yellr/views.js"></script>
-  <script src="js/yellr/parse.js"></script>
   <script src="js/demo.js"></script>
   <script src="js/init.js"></script>
 </body></html>

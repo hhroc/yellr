@@ -9,70 +9,75 @@
 // Main header
 // ===================================
 .header-wrapper {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	border-bottom: 2px solid $dark-yellow;
-	background: $yellow;
-	@include flexbox();
-	opacity: 1;
-	z-index: 95;
-	i {font-size: 1.125rem;}
-	h1, h2 {
-		margin: 0;
-		font-size: 1rem;
-	}
-	&.hidden {
-		z-index: -1;
-		opacity: 0;
-	}
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid $dark-yellow;
+  background: $yellow;
+  @include flexbox();
+  opacity: 1;
+  z-index: 95;
+  i {font-size: 1.125rem;}
+  h1, h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+  &.hidden {
+    z-index: -1;
+    opacity: 0;
+  }
 }
 
 #app-h1 {
-	width: 60%;
-	@include flex(4);
-	padding: $icon-padding;
+  width: 60%;
+  @include flex(4);
+  padding: $icon-padding;
 }
 
 #app-nav {
-	width: 38%;
-	@include flex(3);
+  width: 38%;
+  @include flex(3);
 }
 
 .header-nav-list {
-	@include flexbox();
-	li {
-		padding: $icon-padding;
-		border-right: 1px solid $dark-yellow;
-		&:first-child{border-left: 1px solid $dark-yellow;}
-		text-align: center;
-		width: 33%;
-		@include flex(1);
-		@include transition(background, 0.3s);
-		&:hover {background: $dark-yellow; }
-	}
+  @include flexbox();
+  li {
+    padding: $icon-padding;
+    border-right: 1px solid $dark-yellow;
+    &:first-child{border-left: 1px solid $dark-yellow;}
+    text-align: center;
+    width: 33%;
+    @include flex(1);
+    @include transition(background, 0.3s);
+    &:hover {background: $dark-yellow; }
+  }
 }
 
 #more-btn {
-	position: relative;
-	i {padding: 0 0.5rem; }
+  position: relative;
+  // padding: 0;
+  .toggle {
+    display: block;
+    // padding: $icon-padding;
+  }
+  i {padding: 0 0.5rem; }
 }
 
 .more-options-list {
-	position: absolute;
-	top: 3rem;
-	right: 0;
-	z-index: 50;
-	background: #ddd;
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  z-index: 50;
+  background: #ddd;
   -webkit-transform: translateY(0);
   -ms-transform: translateY(0);
   -o-transform: translateY(0);
@@ -80,62 +85,62 @@
   -webkit-transition: 0.5s ease-out;
   -o-transition: 0.5s ease-out;
   transition: 0.5s ease-out;
-	&.hidden {
-		z-index: -1;
-	  // off-screen styles
-	  -webkit-transform: translateY(-400px);
-	  -ms-transform: translateY(-400px);
-	  -o-transform: translateY(-400px);
-	  transform: translateY(-400px);
-	}
-	li {
-		text-align: left;
-		padding: 0.875rem 1rem;
-		min-width: 100%;
-		border-bottom: 1px solid #aaa;
-		@extend %btn;
-		&:hover {background: #fff; }
-	}
-	a {
-		display: block;
-		min-width: 10rem;
-	}
-	span {font-size: 0.75rem; }
+  &.hidden {
+    z-index: -1;
+    // off-screen styles
+    -webkit-transform: translateY(-400px);
+    -ms-transform: translateY(-400px);
+    -o-transform: translateY(-400px);
+    transform: translateY(-400px);
+  }
+  li {
+    text-align: left;
+    padding: 0.875rem 1rem;
+    min-width: 100%;
+    border-bottom: 1px solid #aaa;
+    @extend %btn;
+    &:hover {background: #fff; }
+  }
+  a {
+    display: block;
+    min-width: 10rem;
+  }
+  span {font-size: 0.75rem; }
 }
 .nav-title {
-	font-weight: bold;
-	margin-bottom: 0;
-	color: $grey;
-	font-size: 0.875rem;
-	&.username {font-size: 1.125rem; }
+  font-weight: bold;
+  margin-bottom: 0;
+  color: $grey;
+  font-size: 0.875rem;
+  &.username {font-size: 1.125rem; }
 }
 
 
 .back-btn {
-	max-width: 2.625rem;
-	@extend %btn;
-	color: darken($yellow, 15%);
-	text-align: center;
-	border-right: 1px solid $dark-yellow;
-	&:hover {background: $dark-yellow; }
+  max-width: 2.625rem;
+  @extend %btn;
+  color: darken($yellow, 15%);
+  text-align: center;
+  border-right: 1px solid $dark-yellow;
+  &:hover {background: $dark-yellow; }
 }
 
 
 #submit-btn, #refresh-btn {
-	@extend %btn;
-	width: 25%;
-	max-width: 2.625rem;
-	text-align: center;
-	border-left: 1px solid darken($yellow, 4%);
-	&:hover {background: $dark-yellow; }
+  @extend %btn;
+  width: 25%;
+  max-width: 2.625rem;
+  text-align: center;
+  border-left: 1px solid darken($yellow, 4%);
+  &:hover {background: $dark-yellow; }
 }
 
 
 
 #page-h1 {
-	width: 50%;
-	@include flex(3);
-	padding: $icon-padding;
+  width: 50%;
+  @include flex(3);
+  padding: $icon-padding;
 }
 
 
@@ -148,44 +153,44 @@
 
 
 .secondary-nav {
-	position: absolute;
-	top: 3rem;
-	z-index: 75;
-	width: 100%;
-	background: $light-gray;
-	border-bottom: 1px solid darken($light-gray, 10%);
-	@include flexbox();
-	div {
-		padding: 0.875rem 0;
-		width: 49%;
-		@include flex(1);
-		text-align: center;
-		border-right: 1px solid darken($light-gray, 10%);
-		&:last-child {border-right: none;}
-		position: relative;
-		&:after {
-			content: " ";
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			height: 0;
-			background: $light-yellow;
-			@include transition(height, 0.3s);
-		}
-		&.current {
-			&:after {
-				height: 6px;
-			}
-		}
-	}
-	a {
-		font-size: 0.875rem;
-		text-transform: uppercase;
-		font-weight: bold;
-		display: block;
-		color: lighten($black, 15%);
-	}
+  position: absolute;
+  top: 3rem;
+  z-index: 75;
+  width: 100%;
+  background: $light-gray;
+  border-bottom: 1px solid darken($light-gray, 10%);
+  @include flexbox();
+  div {
+    width: 49%;
+    @include flex(1);
+    text-align: center;
+    border-right: 1px solid darken($light-gray, 10%);
+    &:last-child {border-right: none;}
+    position: relative;
+    &:after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: $light-yellow;
+      @include transition(height, 0.3s);
+    }
+    &.current {
+      &:after {
+        height: 6px;
+      }
+    }
+  }
+  a {
+    padding: 0.875rem 0;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block;
+    color: lighten($black, 15%);
+  }
 }
 
 

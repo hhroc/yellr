@@ -13,49 +13,11 @@
   <div class="container">
     <header id="header" class="header-wrapper">
       <header id="app-header" class="app-bar header"></header>
-      <script id="main-header" type="text/x-handlebars-template">
-        <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1>
-        <nav id="app-nav">
-        <ul class="header-nav-list">
-        <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li>
-        <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li>
-        <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span>
-        <ul data-hidden="true" class="more-options-list hidden">
-        <li id="profile-btn">
-        <a href="#profile">
-        <p id="username" class="nav-title username">Username</p><span>View Profile</span>
-        </a>
-        </li>
-        <li id="language-btn">
-        <a href="#language-setting"> 
-        <p class="nav-title">Language</p><span>English</span>
-        </a>
-        </li>
-        <li id="feedback-btn">
-        <a href="#feedback"> 
-        <p class="nav-title"> Send App Feedback</p>
-        </a>
-        </li>
-        <li id="privacy-policy-btn">
-        <a href="#privacy-policy"> 
-        <p class="nav-title"> Privacy Policy</p>
-        </a>
-        </li>
-        </ul>
-        </li>
-        </ul>
-        </nav>
-      </script>
-      <script id="page-header" type="text/x-handlebars-template">
-        <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">{{ page }}</h1>
-        <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
-      </script>
-      <script id="submit-header" type="text/x-handlebars-template">
-        <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav>
-        <h1 id="page-h1">Submit Report</h1>
-        <span id="submit-btn"><i class="fa fa-check"></i></span>
-      </script>
+      <div class="templates">
+        <script id="main-header" type="text/x-handlebars-template"><h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1> <nav id="app-nav"> <ul class="header-nav-list"> <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li> <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li> <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span> <ul data-hidden="true" class="more-options-list hidden"> <li id="profile-btn"> <a href="#profile"> <p id="username" class="nav-title username">Username</p><span>View Profile</span> </a> </li> <li id="language-btn"> <a href="#language-setting"> <p class="nav-title">Language</p><span>English</span> </a> </li> <li id="feedback-btn"> <a href="#feedback"> <p class="nav-title"> Send App Feedback</p> </a> </li> <li id="privacy-policy-btn"> <a href="#privacy-policy"> <p class="nav-title"> Privacy Policy</p> </a> </li> </ul> </li> </ul> </nav></script>
+        <script id="page-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span></script>
+        <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1> <span id="submit-btn"><i class="fa fa-check"></i></span></script>
+      </div>
       <nav id="homepage-subnav" class="app-bar secondary-nav">
         <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
         <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
@@ -283,11 +245,12 @@
     </footer>
   </div>
   <script src="cordova.js"></script>
+  <script src="js/libs/fastclick.js"></script>
   <script src="js/libs/zepto.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/yellr/parse.js"></script>
   <script src="js/yellr/utils.js"></script>
-  <script src="js/yellr/yellr.js"></script>
+  <script src="js/yellr/events.js"></script>
   <script src="js/yellr/config.js"></script>
   <script src="js/yellr/setup.js"></script>
   <script src="js/yellr/views.js"></script>

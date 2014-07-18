@@ -12,62 +12,41 @@ var yellr = yellr || {};
 yellr.setup = {
 
   DOM: function() {
-    /*
-      set up the DOM
-      mostly cosmetic things, caching DOM queries, setting up buttons
-      ======================================================================
-    */
-
 
     /*
       the HTML uses <a> tags for app navigation
       they automatically change the hash
       when that happens we show the page
+      - can also call yellr.route('#page-id');
     */
-    // can also call yellr.route('#page-id');
-    // listen for <a> clicks
     window.onhashchange = yellr.route;
 
 
-
-    // $('#test_form').submit(function() {
-    //   alert('posting form...');
-    //   // form test
-    //   $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
-    //     console.log(response);
-    //     alert(response);
-    //   })
-    // });
-
-
-
-    // Swiping to navigate
-    // ===================================
 
     // swipe left on assignments to view news-feed
     $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
     // swipe right on news-feed to show assignments
     $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
 
+    // this should be called from views.js when setting up homepag
+    this.homepage_subnav();
 
+  },
 
-
-
-
-    // setup buttons
-    // ====================================
-
+  homepage_subnav: function() {
     // switch between assignments and news feed
-    $('#homepage-subnav').on('tap', function(e) {yellr.toggle.homepage(e); });
-    // when submitting report --> show/add more details
-    $('#submit-footer .flex').on('tap', function() {yellr.toggle.report_details(); });
+    $('#homepage-subnav').on('tap', yellr.events.homepage);
 
+  },
 
+  submit_form: function() {
+    $('#submit-btn').on('tap', yellr.events.submit_form);
+    // $('#submit-footer .flex').on('tap', function() {yellr.events.report_details(); });
   },
 
   more_options_toggle: function() {
     // in app header --> show more options
-    $('#more-btn').on('tap', function() {yellr.toggle.more_options(); });
+    $('#more-btn').on('tap', function() {yellr.events.more_options(); });
   },
 
   report_bar: function() {
@@ -81,9 +60,8 @@ yellr.setup = {
     // 1. setup form template
     var form = {
       target: '#form-wrapper',
-      context: {action_url: '#'}
+      context: {action_url: 'http://yellrdev.wxxi.org/media_upload.json'}
     };
-    // context and template added based on type of media
 
 
 
@@ -103,7 +81,6 @@ yellr.setup = {
     $('#capture-image').on('singleTap', function() {
       // render template
       form.template = '#photo-form';
-      form.context.action_url = '#';
       render_template(form);
 
       navigator.camera.getPicture(
@@ -140,7 +117,6 @@ yellr.setup = {
     $('#capture-audio').on('tap', function() {
       // render template
       form.template = '#audio-form';
-      form.context.action_url = '#';
       render_template(form);
 
       navigator.device.capture.captureAudio(
@@ -172,7 +148,6 @@ yellr.setup = {
     $('#capture-video').on('tap', function() {
       // render template
       form.template = '#video-form';
-      form.context.action_url = '#';
       render_template(form);
 
       navigator.device.capture.captureVideo(
@@ -197,7 +172,6 @@ yellr.setup = {
     $('#capture-text').on('tap', function() {
       // render template
       form.template = '#text-form';
-      form.context.action_url = '#';
       render_template(form);
     });
 

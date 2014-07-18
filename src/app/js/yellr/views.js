@@ -189,7 +189,7 @@ yellr.route = function(view) {
         break;
       case '#submit-form':
         header.template = '#submit-header';
-        header.events = undefined;
+        header.events = yellr.setup.submit_form;
         footer.template = '#submit-footer';
         footer.events = undefined;
         console.log('show submit-form');

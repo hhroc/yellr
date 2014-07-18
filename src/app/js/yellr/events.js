@@ -1,12 +1,17 @@
 'use strict';
 var yellr = yellr || {};
 
-/*
-  Toggle things
-*/
+/**
+ * events.js
+ * ===================================
+ * the eventListeners for yellr
+ *
+ * most of these are added via setup.js
+ * they are for elements that have been rendered from templates (yellr.utils.render_template)
+ * the DOM elemnts they reference only exist after they've been created
+ */
 
-
-yellr.toggle = {
+yellr.events = {
 
   homepage: function(options) {
 
@@ -56,6 +61,7 @@ yellr.toggle = {
       moreList.setAttribute('data-hidden', 'true');
     }
   },
+
   report_details: function(e) {
     // the element holding the extra info
     var container = document.querySelector('#submit-footer .more-info');
@@ -93,6 +99,21 @@ yellr.toggle = {
       container.className += ' hidden';
       container.setAttribute('data-current', 'none');
     }
+
+  },
+
+  submit_form: function(e) {
+    console.log('hello from: yellr.events.submit_form()', e);
+
+
+    // $('#test_form').submit(function() {
+    //   alert('posting form...');
+    //   // form test
+    //   $.post('http://yellr.mycodespace.net/uploadtest.json', $('#test_form').serialize(), function(response){
+    //     console.log(response);
+    //     alert(response);
+    //   })
+    // });
 
   }
 }

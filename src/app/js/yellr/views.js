@@ -87,13 +87,8 @@ yellr.route = function(view) {
   // the logic
   // ===================================
   // the beginning
-  if (typeof view === 'string') {
-    src = view;
-    // window.location.hash = view;
-    // return;
-  } else {
-    src = window.location.hash;
-  }
+  if (typeof view === 'string') src = view;
+  else src = window.location.hash;
 
 
   // get current app state
@@ -112,7 +107,6 @@ yellr.route = function(view) {
   // do things for first run
   if (current_state === '#') {
     hasSubnav = true;
-    // $(hash).addClass('current');
     $('#assignments-tab').addClass('current');
   }
 
@@ -224,10 +218,6 @@ yellr.route = function(view) {
   $(hash).addClass('current');
   app.setAttribute('data-state', hash);
 
-
-  // ... wtf JS
-  // setTimeout(function() {}, 0);
-  // alert('END: ' + app.getAttribute('data-state') +' - ' + hash + ' - ' + id);
 
 
   /* 4 */

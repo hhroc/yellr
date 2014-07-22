@@ -12,8 +12,16 @@ window.onload = function() {
   // setup
   yellr.setup.DOM();
   yellr.route('#');
-  // load data
-  yellr.demo.init(); // uses local dummy json
+
+  // load assignments
+  $.getJSON('data/assignments.json', function(data) {
+    yellr.utils.render_list({
+      data: data,
+      target: '#latest-assignments',
+      prepend: true
+    });
+  });
+  // yellr.demo.init(); // uses local dummy json
   // yellr.load.data(); // for production
 }
 

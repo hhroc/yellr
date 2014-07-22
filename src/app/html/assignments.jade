@@ -1,24 +1,14 @@
 //- div.container.pt-page.pt-page-1#assignments
 ul#latest-assignments.assignments-list.list-style-none
-	li
-		a(href="#assignments/00001")
-			h2.assignment-title Who makes the best cup-of-soup?
-			div.assignment-action
-				p.view-assignment-details View assignment
-				p.assignment-contributions 24
-			p.assignment-deadline 6 days
+  //- li
+    h2.assignment-title
+      a(href="#assignments/00001") Who makes the best cup-of-soup?
+    div.assignment-action
+      p.view-assignment-details
+        a(href="#assignments/00001") View assignment
+      p.assignment-contributions 24
+    p.assignment-deadline 6 days
 
-	li
-		a(href="#assignments/00002") 
-			h2.assignment-title What is it you wish, madame?
-			div.assignment-action
-				p.view-assignment-details View assignment
-				p.assignment-contributions 32
-			p.assignment-deadline 10 days
-	li
-		a(href="#assignments/00003") 
-			h2.assignment-title If you please, where is the lecture on Egyptology?
-			div.assignment-action
-				p.view-assignment-details View assignment
-				p.assignment-contributions 12
-			p.assignment-deadline 2 weeks
+div.templates
+  script#assignments-li(type="text/x-handlerbars-template")
+    <li> <h2 class="assignment-title"> <a href="#assignments/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#assignments/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li>

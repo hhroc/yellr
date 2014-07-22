@@ -140,6 +140,18 @@ class Users(Base):
             ).first()
         return user
 
+    @classmethod
+    def get_from_post_id(cls, session, post_id):
+        with transaction.manager:
+            user = session.query(
+               Users,
+            ).join(
+                Users,Posts.user_id,
+            ).filter(
+                Posts.id == post_id,
+            ).first()
+        return user
+
 class Assignments(Base):
 
     """
@@ -581,4 +593,35 @@ class Messages(Base):
                 Messages.to_user_id == user.user_id
             ).all()
         return messages
+
+class DebugSubmissions(Base):
+
+    """ This class is for debug purposes, and will hold debug information
+        sent from the client.
+    """
+
+    __tablename__ = 'debug_submissions'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    debug_text = Column(Text)
+    sumbission_datetime = Column(DateTime)
+ 
+    @classmethod
+    def create_new_submission(cls, session, client_id, debug_text):
+        with transaction.manager:
+            user = Users.get_from_unique_id(session, client_id)
+            submission = cls(
+                id = user.id,
+                debug_text = debug_text,
+                submission_datetime = datetime.datetime.now(),
+            )
+        return submission
+
+    @classmethod
+    def get_all_submissions(cls, session):
+        with transaction.manager:
+            submissions = session.query(
+                DebugSubmissions,
+            ).all()
+        return submissions
 

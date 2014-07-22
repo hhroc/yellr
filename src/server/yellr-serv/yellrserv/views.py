@@ -39,6 +39,11 @@ system_config = {
     'upload_dir': './uploads',
 }
 
+def make_response(resp_dict):
+    resp = Response(json.dumps(resp_dict), content_type='application/json', charset='utf8')
+    resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
+    return resp
+
 @view_config(route_name='index.html')
 def index(request):
     resp = """
@@ -77,25 +82,25 @@ def index(request):
 
     return Response(resp)
 
+@view_config(route_name='json_test')
+def jsonp_test(request):
+    return make_response({'greeting':'hello world!'})
+
 @view_config(route_name='status.json')
 def status(request):
 
     """
-    
     This is used as a method to deturmine of the server is alive.
-
     """
 
     resp = json.dumps(system_status)
     return Response(resp,content_type="application/json")
 
-@view_config(route_name='clientlogs.json')
+@view_config(route_name='client_logs.json')
 def client_log(request):
 
     """
-
     This is for debug use only.  Returns all of the event logs in the system.
-
     """
 
     # get all of the client logs in the system
@@ -114,7 +119,7 @@ def client_log(request):
     resp = json.dumps(retlogs)
     return Response(resp,content_type='application/json')
 
-@view_config(route_name='uploadtest.json')
+@view_config(route_name='upload_test.json')
 def upload_test(request):
 
     result = {'success': False}
@@ -133,17 +138,15 @@ def upload_test(request):
     resp = json.dumps(result)
     return Response(resp,content_type='application/json')
 
-@view_config(route_name='getmessages.json')
+@view_config(route_name='get_messages.json')
 def get_messages(request):
 
     """
-
     HTTP GET with with the following fields:
 
     clientid, type: text (unique client id)
 
     This returns all of the messages that haven't been read by the client id.
-
     """
 
     result = { 'success': False }
@@ -184,7 +187,7 @@ def get_messages(request):
     resp = json.dumps(result)
     return Response(resp, content_type='application/json')
 
-@view_config(route_name='publishpost.json')
+@view_config(route_name='publish_post.json')
 def publish_post(request):
 
     """
@@ -254,7 +257,7 @@ def publish_post(request):
     resp = json.dumps(result)
     return Response(resp,content_type='application/json') 
 
-@view_config(route_name='uploadmedia.json')
+@view_config(route_name='upload_media.json')
 def upload_media(request):
 
     """
@@ -381,6 +384,7 @@ def upload_media(request):
 
     resp = json.dumps(result)
     return Response(resp,content_type='application/json')
+
 
 
 #@view_config(route_name='home', renderer='templates/mytemplate.pt')

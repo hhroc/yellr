@@ -309,11 +309,14 @@ class Posts(Base):
         with transaction.manager:
             posts = session.query(
                 Posts,
+                PostMediaObjects,
+                MediaObjects
             ).join(
-                Posts, PostMediaObjects.post_id, #MediaObjects.media_object_id,
-            #).filter(
-            #    PostMediaObjects.post_id == Posts.post_id,
-            #    #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+                PostMediaObjects,
+                MediaObjects, 
+            ).filter(
+                #PostMediaObjects.post_id == Posts.post_id,
+                #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
             ).all()
         return posts
 

@@ -304,6 +304,19 @@ class Posts(Base):
             transaction.commit()
         return (post, created)
 
+    @classmethod
+    def get_all_posts(cls, session):
+        with transaction.manager:
+            posts = session.query(
+                Posts,
+            ).join(
+                Posts, PostMediaObjects.post_id, #MediaObjects.media_object_id,
+            #).filter(
+            #    PostMediaObjects.post_id == Posts.post_id,
+            #    #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+            ).all()
+        return posts
+
 class PostViews(Base):
 
     """
@@ -418,7 +431,7 @@ class PostMediaObjects(Base):
     __tablename__ = 'postmediaobjects'
     post_media_object_id = Column(Integer, primary_key=True)
     post_id = Column(Integer, ForeignKey('posts.post_id'))
-    media_object_id = Column(Integer)
+    media_object_id = Column(Integer, ForeignKey('mediaobjects.media_object_id'))
 
     @classmethod
     def create_new_postmediaobject(cls, session, post_id, media_object_id):
@@ -602,7 +615,7 @@ class DebugSubmissions(Base):
 
     __tablename__ = 'debug_submissions'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.user_id'))
     debug_text = Column(Text)
     sumbission_datetime = Column(DateTime)
  

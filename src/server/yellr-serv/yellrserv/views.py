@@ -190,6 +190,37 @@ def get_messages(request):
 
     return make_response(result)
 
+@view_config(route_name='get_posts.json')
+def get_posts(request):
+
+    """
+    Return all of the posts on the server
+    """
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        posts = Posts.get_all_posts(DBSession)
+
+        print posts
+
+        ret_posts = []
+        for post in posts:
+            ret_posts.append({
+                'label':'hi',
+            })
+
+        result['posts'] = ret_posts
+        result['succes'] = True
+
+    #except:
+    #    pass
+
+    resp = json.dumps(result)
+    return Response(resp, content_type='application/json')
+
 @view_config(route_name='publish_post.json')
 def publish_post(request):
 
@@ -232,7 +263,7 @@ def publish_post(request):
         event_type = 'http_request'
         event_details = {
             'url':'publishpost.json',
-            'event_datetime': datetime.datetime.now(),
+            'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'assignment_id': assignment_id,
             'language_code': language_code,
@@ -361,7 +392,7 @@ def upload_media(request):
         event_type = 'http_request'
         event_details = {
             'url':'uploadmedia.json',
-            'event_datetime': datetime.datetime.now(),
+            'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
             'file_name': media_file_name,
@@ -374,7 +405,7 @@ def upload_media(request):
         clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
-            datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+            #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
             event_type = 'new_user_created'
             event_details = {
                 'client_id': client_id,

@@ -25,33 +25,17 @@ yellr.setup = {
     // initialize moment.js
     moment().format();
 
-    var string = '2014-06-16T04:20:50-05:00';
-    var string2 = '2014-06-16T04:20:50';
-    var m_1 = moment(string);
-    var m_2 = moment(string2);
-    console.log(m_1.format('dddd, MMMM Do YYYY, h:mm:ss a'));
-    console.log(m_2.format('dddd, MMMM Do YYYY, h:mm:ss a'));
+    // set default language => english
+    moment.lang();
+    moment.lang(yellr.config.language.code);
+    // console.log(moment.lang());
 
 
-    console.log(
-      moment().from(m_1),
-      m_1.fromNow(),
-      moment.lang()
-    );
 
-    // set lnaguage
-    // moment.lang()
-
-    // console.log(
-    //   moment.from(m_1),
-    //   moment.from(m_2)
-    // );
-
-
-    // swipe left on assignments to view news-feed
-    $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
-    // swipe right on news-feed to show assignments
-    $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
+    // // swipe left on assignments to view news-feed
+    // $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
+    // // swipe right on news-feed to show assignments
+    // $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
 
     // this should be called from views.js when setting up homepag
     this.homepage_subnav();

@@ -1,48 +1,105 @@
 //- div.container.pt-page.pt-page-7#view-assignment
 section.assignment-view
-	h2.assignment-title Are you on Team Viper or Team Mountain?
-	figure.assignment-details-image
-		img(src="http://lorempixel.com/800/400")
-	p.assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
-	a(href="#").contribute-to-assignment Contribute
-	div.accepted-media-wrapper
-		em Accepted Media:
-		ul.accepted-media
-			li
-				i.fa.fa-video-camera
-			li
-				i.fa.fa-camera
-			li
-				i.fa.fa-volume-up
-			li
-				i.fa.fa-file-text-o
-	p.assignment-deadline June 12, 2014
+
+  //- h2.assignment-title Are you on Team Viper or Team Mountain?
+  //- figure.assignment-details-image
+  //-   img(src="http://lorempixel.com/800/400")
+  //- p.assignment-details The carriage stopped at the gate of the Collège de France; Mme. Chambannes alighted briskly. She did not take the trouble to close the door and, swinging her muff, hurried through the somber courtyard, where three pigeons wandered in the security that silence and solitude ensured them.
+  //- a(href="#").contribute-to-assignment Contribute
+  //- div.accepted-media-wrapper
+  //-   em Accepted Media:
+  //-   ul.accepted-media
+  //-     li
+  //-       i.fa.fa-video-camera
+  //-     li
+  //-       i.fa.fa-camera
+  //-     li
+  //-       i.fa.fa-volume-up
+  //-     li
+  //-       i.fa.fa-file-text-o
+  //- p.assignment-deadline June 12, 2014
+
+  div.templates
+    script#assignment-view(type="text/x-handlebars-template")
+      <h2 class="assignment-title">{{ title }}</h2>
+      {{#if image }}
+      <figure class="assignment-details-image"><img src="{{image}}"/></figure>
+      {{/if}}
+      <p class="assignment-details">{{ description }}</p>
+      <a href="#" class="contribute-to-assignment">Contribute</a>
+      <div class="accepted-media-wrapper">
+      <em>Accepted Media:</em>
+      <ul class="accepted-media">
+      <li><i class="fa fa-video-camera"></i></li>
+      <li><i class="fa fa-camera"></i></li>
+      <li><i class="fa fa-volume-up"></i></li>
+      <li><i class="fa fa-file-text-o"></i></li>
+      </ul>
+      </div>
+      <p class="assignment-deadline">{{ deadline }}</p>
+
 
 aside.assignment-contributions
-	h3 Latest Contributions
-	ul.assignment-contributions-list
-		//- text only
-		li
-			a(href="#") 
-				span.contributor DanDan109
-				p Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.
-		//- text + picture - 1 (image first)
-		li 
-			a(href="#") 
-				span.contributor Steve-O
-				figure
-					img(src="http://lorempixel.com/400/200")
-				p “Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour. 
-		//- text + picture - 2 (text first)
-		li
-			a(href="#")
-				span.contributor Afroman
-				p This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...
-				figure
-					img(src="http://lorempixel.com/400/200")
-		//- longg text
-		li
-			a(href="#")
-				span.contributor Clint Eastwood
-				p “See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...
-						span.more View full report
+  h3 Latest Contributions
+  ul.assignment-contributions-list
+    //- text only
+    //- li
+      a(href="#")
+        span.contributor DanDan109
+        p Through the panes of the glass door M. Pageot, first usher of the Collège, watched her approach, his thick mustache slightly lifted in a smile of sympathy.
+    //- text + picture - 1 (image first)
+    //- li
+      a(href="#")
+        span.contributor Steve-O
+        figure
+          img(src="http://lorempixel.com/400/200")
+        p “Another one!” he thought, remembering all the fashionable ladies whom he had seen come in during the last hour.
+    //- text + picture - 2 (text first)
+    //- li
+      a(href="#")
+        span.contributor Afroman
+        p This one, moreover, was very dainty. Her small, fine, although bold, face, her astrakhan jacket and purple ve...
+        figure
+          img(src="http://lorempixel.com/400/200")
+    //- longg text
+    //- li
+      a(href="#")
+        span.contributor Clint Eastwood
+        p “See her? See her?... Why, surely I saw her; but, madame, there are so many of them! Upon my word, I do not remember having seen so many people at an ope...
+            span.more View full report
+
+
+  div.templates
+    script#contributions-li-text(type="text/x-handlebars-template")
+      <li>
+      <a href="#">
+      <span class="contributor">{{username}}</span>
+      <p>{{ text }}</p>
+      </a>
+      </li>
+
+    script#contributions-li-text-long(type="text/x-handlebars-template")
+      <li>
+      <a href="#">
+      <span class="contributor">{{username}}</span>
+      <p>{{ text }}</p>
+      </a>
+      </li>
+
+    script#contributions-li-text-picture(type="text/x-handlebars-template")
+      <li>
+      <a href="#">
+      <span class="contributor">{{username}}</span>
+      <p>{{ text }}</p>
+      <figure><img src="{{ image }}"/></figure>
+      </a>
+      </li>
+
+    script#contributions-li-picture-text(type="text/x-handlebars-template")
+      <li>
+      <a href="#">
+      <span class="contributor">{{username}}</span>
+      <figure><img src="{{ image }}"/></figure>
+      <p>{{ text }}</p>
+      </a>
+      </li>

@@ -6,7 +6,7 @@ var yellr = yellr || {};
  * ===================================
  *
  * - render_template
- * - load (ajax)
+ * - render_list
  * - clearNode
  */
 
@@ -76,28 +76,23 @@ yellr.utils = {
     if (options.events) options.events();
   },
 
+  render_assignment: function(settings) {
+    // all we get is JSON
+    // there are 2 hard-coded targets
+    var data = settings.data;
 
-  load: function(url, callback) {
-    console.log('loading... ' + url);
-
-    var request = null;
-    if (window.XMLHttpRequest) request = new XMLHttpRequest();
-    else if (window.ActiveXObject) request = new ActiveXObject('Microsoft.XMLHTTP');
-
-    if (request !== null) {
-      request.onreadystatechange = function() {
-        // make sure request is Loaded
-        if (request.readyState == 4) {
-          // status code == OK (200)
-          if (request.status == 200) {
-            console.log('done loading.. ' + url, request);
-            callback(request);
-          }
-        }
+    // render actual assignment
+    this.render_template({
+      template: '#assignment-view',
+      target: '#view-assignment .assignment-view',
+      context: {
+        title: data.title,
+        image: data.image,
+        description: data.description,
+        deadline: moment(data.deadline).fromNow(true)
       }
-      request.open('GET', url, true);  // true means non-blocking/asynchronous I/O
-      request.send('');
-    } else console.log('error loading: ' + url);
+    })
+
   },
 
   clearNode: function(DOMnode) {

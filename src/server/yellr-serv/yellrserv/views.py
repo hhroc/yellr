@@ -204,12 +204,19 @@ def get_posts(request):
 
         posts = Posts.get_all_posts(DBSession)
 
+        print "posts:"
         print posts
+        print ""
 
         ret_posts = []
         for post in posts:
+            media_objects = MediaObjects.get_from_post_id(DBSession, post.posts_post_id)
             ret_posts.append({
-                'label':'hi',
+                'post_id': post.posts_post_id,
+                'lat': post.posts_lat, 
+                'lng': post.posts_lng,
+                'user_id': post.users_user_id,
+                'media_objects': media_objects
             })
 
         result['posts'] = ret_posts

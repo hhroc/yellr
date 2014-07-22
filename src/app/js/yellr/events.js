@@ -106,6 +106,27 @@ yellr.events = {
 
     var $form = $('#form-wrapper form');
     console.log($form.attr('action'), $form.serialize());
+    alert($form);
+    alert($form.attr('action'), $form.serialize());
+
+    $.ajax({
+      url:$form.attr('action'),
+      jsonp: 'callback',
+      dataType: 'jsonp',
+      timeout: 25000,
+      success: serverRegHit,
+      error: serverRegFail
+    });
+
+    // $.ajax({
+    //   url:"http://keb.bz/gcm/?deviceid=12345",
+    //   jsonp: 'callback',
+    //   dataType: 'jsonp',
+    //   timeout: 25000,
+    //   success: serverRegHit,
+    //   error: serverRegFail
+    // });
+
     // $.post($form.attr('action'), $form.serialize(), function(response){
     //   console.log(response);
     //   alert(response);

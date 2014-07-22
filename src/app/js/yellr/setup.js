@@ -22,11 +22,20 @@ yellr.setup = {
     window.onhashchange = yellr.route;
 
 
+    // initialize moment.js
+    moment().format();
 
-    // swipe left on assignments to view news-feed
-    $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
-    // swipe right on news-feed to show assignments
-    $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
+    // set default language => english
+    moment.lang();
+    moment.lang(yellr.config.language.code);
+    // console.log(moment.lang());
+
+
+
+    // // swipe left on assignments to view news-feed
+    // $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
+    // // swipe right on news-feed to show assignments
+    // $('#news-feed').on('swipeRight', function() {yellr.route('#assignments'); });
 
     // this should be called from views.js when setting up homepag
     this.homepage_subnav();

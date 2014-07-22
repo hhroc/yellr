@@ -51,7 +51,7 @@ header#header.header-wrapper
       a(href="#")
         i.fa.fa-arrow-left
     h1#page-h1 Submit Report
-    span#submit-btn
+    a#submit-btn(href="#")
       i.fa.fa-check
 
 
@@ -62,8 +62,7 @@ header#header.header-wrapper
     script#page-header(type="text/x-handlebars-template")
       <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
     script#submit-header(type="text/x-handlebars-template")
-      <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1> <span id="submit-btn"><i class="fa fa-check"></i></span>
-
+      <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1><a id="submit-btn" href="#"><i class="fa fa-check"></i></a>
 
 
   nav.app-bar.secondary-nav#homepage-subnav

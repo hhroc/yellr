@@ -143,6 +143,9 @@ yellr.route = function(view) {
             // careful, the 'id' var came fromt a string split
             if (assignments[i].id === parseInt(id)) {
               // we have a match
+              // yellr.utils.render_assignment({
+              //   data: assignments[i]
+              // })
               yellr.parse.assignment(assignments[i], 'view');
               break;
             }

@@ -184,8 +184,10 @@ def get_messages(request):
     #except:
     #    pass
 
-    resp = json.dumps(result)
-    return Response(resp, content_type='application/json')
+    #resp = json.dumps(result)
+    #return Response(resp, content_type='application/json')
+
+    return make_response(result)
 
 @view_config(route_name='publish_post.json')
 def publish_post(request):
@@ -254,8 +256,10 @@ def publish_post(request):
     #except:
     #   pass
 
-    resp = json.dumps(result)
-    return Response(resp,content_type='application/json') 
+    #resp = json.dumps(result)
+    #return Response(resp,content_type='application/json') 
+
+    return make_response(result)
 
 @view_config(route_name='upload_media.json')
 def upload_media(request):
@@ -382,9 +386,10 @@ def upload_media(request):
     #    pass
 
 
-    resp = json.dumps(result)
-    return Response(resp,content_type='application/json')
+    #resp = json.dumps(result)
+    #return Response(resp,content_type='application/json')
 
+    return make_response(result)
 
 
 #@view_config(route_name='home', renderer='templates/mytemplate.pt')

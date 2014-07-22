@@ -26,6 +26,7 @@ def main(global_config, **settings):
     config.add_route('status.json','status.json')
     config.add_route('client_logs.json','client_logs.json')  
     config.add_route('get_messages.json','get_messages.json')
+    config.add_route('get_posts.json', 'get_posts.json')
     config.add_route('upload_media.json','upload_media.json')
     config.add_route('upload_test.json','upload_test.json')
     config.add_route('publish_post.json','publish_post.json')

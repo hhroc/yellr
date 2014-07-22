@@ -2,6 +2,7 @@ import os
 import json
 from time import strftime
 import uuid
+import datetime
 
 import urllib
 
@@ -127,7 +128,7 @@ def upload_test(request):
     #try:
     if True:
 
-        sometext = request.POST['sometext']
+        sometext = request.POST['some_text']
 
         result['sometext'] = sometext
         result['success'] = True
@@ -154,7 +155,7 @@ def get_messages(request):
     #try:
     if True:
 
-        client_id = request.GET['clientid']
+        client_id = request.GET['client_id']
 
         messages = Messages.get_messages_from_client_id(
             DBSession,
@@ -208,11 +209,11 @@ def publish_post(request):
     #try:
     if True:
 
-        client_id = request.POST['clientid']
-        assignment_id = request.POST['assignmentid']
-        language_code = request.POST['languagecode']
+        client_id = request.POST['client_id']
+        assignment_id = request.POST['assignment_id']
+        language_code = request.POST['language_code']
         location = json.loads(urllib.unquote(request.POST['location']).decode('utf8'))
-        media_objects = json.loads(urllib.unquote(request.POST['mediaobjects']).decode('utf8'))
+        media_objects = json.loads(urllib.unquote(request.POST['media_objects']).decode('utf8'))
 
         post,created = Posts.create_from_http(
             DBSession,
@@ -228,28 +229,27 @@ def publish_post(request):
         result['new_user'] = created
 
         # Debug/Logging
-        datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
         event_type = 'http_request'
         event_details = {
             'url':'publishpost.json',
-            'datetime': datetime,
+            'event_datetime': datetime.datetime.now(),
             'client_id': client_id,
-            'assignmentid': assignment_id,
+            'assignment_id': assignment_id,
             'language_code': language_code,
             'location': location,
             'media_objects': media_objects,
             'success': result['success'],
-            'pos_id': result['post_id'],
+            'post_id': result['post_id'],
             'new_user': result['new_user'],
         }
         clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
-            datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+            #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
             event_type = 'new_user_created'
             event_details = {
                 'client_id': client_id,
-                'method': 'publishpost.json',
+                'method': 'publish_post.json',
             }
             clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
@@ -285,14 +285,14 @@ def upload_media(request):
     if True:
 
         # get required fields
-        client_id = request.POST['clientid']
-        media_type = request.POST['mediatype']
+        client_id = request.POST['client_id']
+        media_type = request.POST['media_type']
 
         media_file_name = ''
         try:
 
-            media_file_name = request.POST['mediafile'].filename
-            input_file = request.POST['mediafile'].file
+            media_file_name = request.POST['media_file'].filename
+            input_file = request.POST['media_file'].file
 
             # decode media type
             if mediatype == 'image':
@@ -337,7 +337,7 @@ def upload_media(request):
 
         media_text = ''
         try:
-            media_text = request.POST['mediatext']
+            media_text = request.POST['media_text']
         except:
             pass
 
@@ -352,23 +352,23 @@ def upload_media(request):
             media_text,
         )
 
-        result['mediaid'] = media_object.unique_id
+        result['media_id'] = media_object.unique_id
         result['success'] = True
         result['new_user'] = created
         
         # Debug/Logging
-        datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
+        #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
         event_type = 'http_request'
         event_details = {
             'url':'uploadmedia.json',
-            'date_time': datetime,
+            'event_datetime': datetime.datetime.now(),
             'client_id': client_id,
             'media_type': media_type,
             'file_name': media_file_name,
             'media_caption': media_caption,
             'media_text': media_text,
             'success': result['success'],
-            'media_id': result['mediaid'],
+            'media_id': result['media_id'],
             'new_user': result['new_user'],
         }
         clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
@@ -378,7 +378,7 @@ def upload_media(request):
             event_type = 'new_user_created'
             event_details = {
                 'client_id': client_id,
-                'method': 'uploadmedia.json',
+                'method': 'upload_media.json',
             }
             clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 

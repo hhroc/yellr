@@ -47,45 +47,12 @@ def make_response(resp_dict):
 
 @view_config(route_name='index.html')
 def index(request):
+
     resp = """
-
-    <html>
-    <body>
-    <h3>Media Upload Test</h3><br>
-    <form action="/uploadmedia.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="mediafile" name="mediafile" type="file" value="test.txt" />
-        <input id="clientid" name="clientid" type="text" value="{0}" />
-        <input id="mediatype" name="mediatype" type="text" value="text">
-        <input type="submit" value="submit" />
-    </form>
-    </body>
-
-    <br>
-
-    <h3>Upload Test</h3><br>
-    <form action="/publishpost.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="clientid" name="clientid" type="text" value="{0}">
-        <input id="assignmentid" name="assignmentid" type="text" value="{0}">
-        <input id="languagecode" name="languagecode" type="text" value="en">
-        <input id="location" name="location" type="text" value="{1}">
-        <input id="mediaobjects" name="mediaobjects" type="text" value="{2}">
-        <input type="submit" value="submit" />
-    </form>
-
-    <h3>Upload Test</h3><br>
-    <form action="/uploadtest.json" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-        <input id="sometext" name="sometext" type="text" value="This is a test!">
-        <input type="submit" value="submit" />
-    </form>
-
-    </html>
-    """.format(uuid.uuid4(),"{%22lat%22: 44, %22lng%22: -77}","[%220c13911e-da0a-439e-879d-06289646b704%22]")
-
+           Welcome to Yellr!<br><br>Head over to the github repo
+           <a href="https://github.com/hhroc/yellr">here</a>.
+           """
     return Response(resp)
-
-@view_config(route_name='json_test')
-def jsonp_test(request):
-    return make_response({'greeting':'hello world!'})
 
 @view_config(route_name='status.json')
 def status(request):
@@ -120,76 +87,41 @@ def client_log(request):
     resp = json.dumps(retlogs)
     return Response(resp,content_type='application/json')
 
-@view_config(route_name='upload_test.json')
-def upload_test(request):
+@view_config(route_name='get_users.json')
+def get_users(request):
+
+    """ This is for debug use only.
+    """
 
     result = {'success': False}
 
-    #try:
+#    try:
     if True:
 
-        sometext = request.POST['some_text']
+        users = Users.get_all(DBSession)
+        ret_users = []
+        for user_id,verified,client_id,first_name,last_name, \
+                organization,email,user_type_name,user_type_description in users:
+            ret_users.append({
+                'user_id': user_id,
+                'verified': verified,
+                'client_id': client_id,
+                'first_name': first_name,
+                'last_name': last_name,
+                'organization': organization,
+                'email': email,
+                'user_type': user_type_name,
+                'user_type_description': user_type_description,
+            })
 
-        result['sometext'] = sometext
+        result['users'] = ret_users
         result['success'] = True
 
-    #except:
-    #    pass
+#    except:
+#        pass
 
     resp = json.dumps(result)
     return Response(resp,content_type='application/json')
-
-@view_config(route_name='get_messages.json')
-def get_messages(request):
-
-    """
-    HTTP GET with with the following fields:
-
-    clientid, type: text (unique client id)
-
-    This returns all of the messages that haven't been read by the client id.
-    """
-
-    result = { 'success': False }
-
-    #try:
-    if True:
-
-        client_id = request.GET['client_id']
-
-        messages = Messages.get_messages_from_client_id(
-            DBSession,
-            client_id,
-        )
-       
-        retmessages =[] 
-        for message in messages:
-            
-            from_user = Users.get_from_user_id(DBSession,message.from_user_id)
-            from_organization = None
-            if from_user != None:
-                from_organization = user.organization
-            retmessages.append({
-                'from_user_id': message.from_user_id,
-                'from_organization': from_organization,
-                'to_user_id': message.to_user_id,
-                'message_datetime': str(message.message_datetime),
-                'parent_message_id': message.parent_message_id,
-                'subject': message.subject,
-                'text': message.text,
-            })
-
-        result['success'] = True
-        result['messages'] = retmessages
-
-    #except:
-    #    pass
-
-    #resp = json.dumps(result)
-    #return Response(resp, content_type='application/json')
-
-    return make_response(result)
-
 
 
 @view_config(route_name='get_posts.json')
@@ -213,9 +145,9 @@ def get_posts(request):
         user_id = None
         try:
             client_id = request.GET['client_id']
-            user, created = Users.get_from_unique_id(
+            user, created = Users.get_from_client_id(
                 session = DBSession,
-                unique_id = client_id,
+                client_id = client_id,
                 create_if_not_exist = False
             )
             user_id = user.user_id
@@ -229,7 +161,7 @@ def get_posts(request):
             
 
         ret_posts = []
-        for post_id,post_datetime,reported,lat,lng,verified,user_unique_id, \
+        for post_id,post_datetime,reported,lat,lng,verified,user_client_id, \
                 first_name,last_name,organization,language_code,language_name in posts:
             media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
             ret_media_objects = []
@@ -248,7 +180,7 @@ def get_posts(request):
                 'lat': lat, 
                 'lng': lng,
                 'verified': verified,
-                'user_id': user_unique_id,
+                'user_id': user_client_id,
                 'first_name': first_name,
                 'last_name': last_name,
                 'organization': organization,
@@ -265,6 +197,36 @@ def get_posts(request):
 
     resp = json.dumps(result)
     return Response(resp, content_type='application/json')
+
+@view_config(route_name='get_messages.json')
+def get_messages(request):
+
+    result = {'success': False}
+
+#    try:
+
+    if True:
+
+        client_id = None
+        try:
+            client_id = request.GET['client_id']
+        except:
+            pass
+
+        if client_id != None:
+            messages = Messages.get_messages_from_client_id(DBSession, client_id)
+            ret_messages = []
+            for message in messages:
+                ret_messages.append({
+                })
+
+            result['messages'] = ret_messages
+            result['success'] = True
+
+#    except:
+#        pass
+
+    return make_response(result)
 
 @view_config(route_name='publish_post.json')
 def publish_post(request):
@@ -428,7 +390,7 @@ def upload_media(request):
             media_text,
         )
 
-        result['media_id'] = media_object.unique_id
+        result['media_id'] = media_object.client_id
         result['success'] = True
         result['new_user'] = created
         

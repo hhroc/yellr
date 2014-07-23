@@ -112,6 +112,8 @@ class Users(Base):
                 subject = 'Welcome to Yellr!',
                 text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
             )
+            serssion.add(message)
+            transaction.commit()
         return user
 
     @classmethod

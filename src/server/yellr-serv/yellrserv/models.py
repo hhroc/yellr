@@ -112,6 +112,8 @@ class Users(Base):
                 subject = 'Welcome to Yellr!',
                 text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
             )
+            serssion.add(message)
+            transaction.commit()
         return user
 
     @classmethod
@@ -680,7 +682,18 @@ class Messages(Base):
         with transaction.manager:
             user,created = Users.get_from_client_id(session,client_id)
             messages = session.query(
-                Messages,
+                Users.from_user_id,
+                Users.to_user_id,
+                Users.organization,
+                #Users.first_name,
+                #Users.last_name,
+                Messages.message_datetime,
+                Messages.parent_message_id,
+                Messages.subject,
+                Messages.text,
+                Messages.was_read,
+            ).join(
+                Messages.from_user_id == Users.user_id,
             ).filter(
                 Messages.to_user_id == user.user_id
             ).all()

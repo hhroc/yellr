@@ -11,6 +11,49 @@ var yellr = yellr || {};
 
 yellr.setup = {
 
+
+  user: function() {
+    /**
+     * this function gets called twice
+     * 1. window.onload
+     * 2. deviceReady
+     *
+     * The first time it runs it simply makes sure some localStorage exists
+     * It also defines yellr.localStorage as an easy reference to the localStorage data
+     * We do this after window.onload so we can debug in a desktop browser in devevlopment
+     *
+     * The second time it runs we set a new client_id
+     * We do this after deviceReady so that we can use the device's actual UUID to start a hash
+     */
+    console.log('hello from: yellr.setup.user');
+    alert('NEW');
+    localStorage.removeItem('yellr');
+
+
+    // create new localStorage if none exists
+    // if (!localStorage.getItem('yellr')) {
+    //   localStorage.setItem('yellr', JSON.stringify({
+    //     client_id: '12345678'
+    //   }));
+    // }
+
+    // yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+
+
+    // // if the Cordova APIs are setup, use the device UID
+    // if (navigator.device !== undefined) {
+    //   yellr.localStorage.client_id = navigator.device.uuid;
+    //   yellr.utils.save();
+    //   alert(yellr.localStorage.client_id);
+    // }
+
+    // console.dir(yellr.localStorage);
+
+    // clear data
+    // localStorage.removeItem('yellr');
+  },
+
+
   DOM: function() {
 
     /*

@@ -13,6 +13,18 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  save: function() {
+    /**
+     * Saves our yellr.localStorage
+     * Updates our yellr.localStorage ref
+     * THIS IS ONLY FOR LOCAL STORAGE
+     */
+
+    localStorage.setItem('yellr', yellr.localStorage);
+    yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+    console.log('localStorage saved.');
+  },
+
   render_template: function(settings) {
     /**
      * Dependencies: Handlebar.js, zepto.js (or jQuery.js)

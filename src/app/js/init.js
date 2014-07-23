@@ -10,6 +10,7 @@ var yellr = yellr || {};
 
 window.onload = function() {
   // setup
+  yellr.setup.user();
   yellr.setup.DOM();
   yellr.route('#');
 

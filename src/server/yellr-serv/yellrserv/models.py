@@ -76,7 +76,7 @@ class Users(Base):
     user_id = Column(Integer, primary_key=True)
     user_type_id = Column(Integer, ForeignKey('usertypes.user_type_id'))
     verified = Column(Boolean)
-    unique_id = Column(Text)
+    client_id = Column(Text)
     first_name = Column(Text)
     last_name = Column(Text)
     organization = Column(Text)
@@ -94,7 +94,7 @@ class Users(Base):
             user = cls(
                 user_type_id = user_type_id,
                 verified = verified,
-                unique_id = client_id,
+                client_id = client_id,
                 first_name = first_name,
                 last_name = last_name,
                 organization = organization,
@@ -115,18 +115,18 @@ class Users(Base):
         return user
 
     @classmethod
-    def get_from_unique_id(cls, session, unique_id):
+    def get_from_client_id(cls, session, client_id, create_if_not_exist=True):
         with transaction.manager:
             user = session.query(
                 Users
             ).filter(
-                Users.unique_id == unique_id
+                Users.client_id == client_id
             ).first()
             created = False
-            if user == None:
+            if user == None and create_if_not_exist == True:
                 user_type = UserTypes.get_from_value(session,name='user')
                 user = cls.create_new_user(session,
-                        user_type.user_type_id,unique_id)
+                        user_type.user_type_id,client_id)
                 created = True
         return (user, created)
 
@@ -137,7 +137,7 @@ class Users(Base):
                 Users
             ).filter(
                 Users.user_id == user_id
-            ).first()
+            ).all()
         return user
 
     @classmethod
@@ -151,6 +151,26 @@ class Users(Base):
                 Posts.id == post_id,
             ).first()
         return user
+
+    @classmethod
+    def get_all(cls, session):
+        with transaction.manager:
+            users = session.query(
+                Users.user_id,
+                Users.verified,
+                Users.client_id,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Users.email,
+                UserTypes.name,
+                UserTypes.description,
+            ).join(
+                UserTypes,
+            ).filter(
+                Users.user_type_id == UserTypes.user_type_id,
+            ).all()
+        return users
 
 class Assignments(Base):
 
@@ -278,7 +298,7 @@ class Posts(Base):
                    or assignment_id == '' \
                    or assignment_id == 0:
                 assignment_id = None
-            user,created = Users.get_from_unique_id(session,client_id)
+            user,created = Users.get_from_client_id(session,client_id)
             post = cls(
                 user_id = user.user_id,
                 assignment_id = assignment_id,
@@ -292,9 +312,9 @@ class Posts(Base):
             transaction.commit()
         # assign media objects to the post
         with transaction.manager:
-            for media_object_unique_id in media_objects:
-                media_object = MediaObjects.get_from_unique_id(
-                    session,media_object_unique_id
+            for media_object_client_id in media_objects:
+                media_object = MediaObjects.get_from_client_id(
+                    session,media_object_client_id
                 )
                 post_media_object = PostMediaObjects(
                     post_id = post.post_id,
@@ -305,18 +325,55 @@ class Posts(Base):
         return (post, created)
 
     @classmethod
-    def get_all_posts(cls, session):
+    def get_all_from_user_id(cls, session, user_id, reported=False):
         with transaction.manager:
             posts = session.query(
-                Posts,
-                PostMediaObjects,
-                MediaObjects
+                Posts.post_id,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                Users.verified,
+                Users.client_id,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Languages.language_code,
+                Languages.name, 
             ).join(
-                PostMediaObjects,
-                MediaObjects, 
+                Users,
+                Languages,
             ).filter(
-                #PostMediaObjects.post_id == Posts.post_id,
-                #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+                Posts.user_id == Users.user_id,
+                Posts.language_id == Languages.language_id,
+                Posts.reported == reported,
+                Posts.user_id == user_id,
+            ).all()
+        return posts
+
+    @classmethod
+    def get_all_posts(cls, session, reported=False):
+        with transaction.manager:
+            posts = session.query(
+                Posts.post_id,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                Users.verified,
+                Users.client_id,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Languages.language_code,
+                Languages.name,
+            ).join(
+                Users,
+                Languages,
+            ).filter(
+                Posts.user_id == Users.user_id,
+                Posts.language_id == Languages.language_id,
+                Posts.reported == reported,
             ).all()
         return posts
 
@@ -347,9 +404,9 @@ class PostViews(Base):
         return postview
 
     @classmethod
-    def get_unacknowledged_from_uniqueid(cls, session, unique_id):
+    def get_unacknowledged_from_uniqueid(cls, session, client_id):
         with transaction.manager:
-            user = Users.get_from_unique_id(unique_id)
+            user = Users.get_from_client_id(client_id)
             postviews = session.query(
                 PostViews
             ).join(
@@ -391,31 +448,50 @@ class MediaObjects(Base):
     media_object_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     media_type_id = Column(Integer, ForeignKey('mediatypes.media_type_id'))
-    unique_id = Column(Text)
+    client_id = Column(Text)
     file_name = Column(Text)
     caption = Column(Text)
     media_text = Column(Text)
 
     @classmethod
-    def get_from_unique_id(cls, session, unique_id):
+    def get_from_client_id(cls, session, client_id):
         with transaction.manager:
-            mediaobject = session.query(
+            media_object = session.query(
                 MediaObjects,
             ).filter(
-                MediaObjects.unique_id == unique_id,
+                MediaObjects.client_id == client_id,
             ).first()
-        return mediaobject
+        return media_object
+
+    @classmethod
+    def get_from_post_id(cls, session, post_id):
+        with transaction.manager:
+            media_objects = session.query(
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
+            ).join(
+                PostMediaObjects,
+                MediaTypes,
+            ).filter(
+                PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+                PostMediaObjects.post_id == post_id,
+                MediaTypes.media_type_id == MediaObjects.media_type_id,
+            ).all()
+        return media_objects
 
     @classmethod
     def create_new_media_object(cls, session, client_id, media_type_value, 
             file_name, caption, text):
         with transaction.manager:
-            user,created = Users.get_from_unique_id(session,client_id)
+            user,created = Users.get_from_client_id(session,client_id)
             mediatype = MediaTypes.from_value(session,media_type_value)
             mediaobject = cls(
                 user_id = user.user_id,
                 media_type_id = mediatype.media_type_id,
-                unique_id = str(uuid.uuid4()),
+                client_id = str(uuid.uuid4()),
                 file_name = file_name,
                 caption = caption,
                 media_text = text,
@@ -461,7 +537,7 @@ class EventLogs(Base):
     @classmethod
     def log(cls, session, client_id, event_type, details):
         with transaction.manager:
-            user,created = Users.get_from_unique_id(session,client_id)
+            user,created = Users.get_from_client_id(session,client_id)
             eventlog = EventLogs(
                 user_id = user.user_id,
                 event_type = event_type,
@@ -573,7 +649,7 @@ class Messages(Base):
     def create_response_message(cls, session, clientid, 
             parent_message_id, text, subject):
         with transaction.manager:
-            user, created = Users.get_from_unique_id(session, client_id)
+            user, created = Users.get_from_client_id(session, client_id)
             to_user_id = Messages.get_user_id_from_message_id(parent_message_id)
             message = cls(
                 from_user_id = user.user_id,
@@ -602,7 +678,7 @@ class Messages(Base):
     @classmethod
     def get_messages_from_client_id(cls, session, client_id):
         with transaction.manager:
-            user,created = Users.get_from_unique_id(session,client_id)
+            user,created = Users.get_from_client_id(session,client_id)
             messages = session.query(
                 Messages,
             ).filter(
@@ -625,7 +701,7 @@ class DebugSubmissions(Base):
     @classmethod
     def create_new_submission(cls, session, client_id, debug_text):
         with transaction.manager:
-            user = Users.get_from_unique_id(session, client_id)
+            user = Users.get_from_client_id(session, client_id)
             submission = cls(
                 id = user.id,
                 debug_text = debug_text,

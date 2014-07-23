@@ -14,43 +14,26 @@ yellr.setup = {
 
   user: function() {
     /**
-     * this function gets called twice
-     * 1. window.onload
-     * 2. deviceReady
-     *
-     * The first time it runs it simply makes sure some localStorage exists
-     * It also defines yellr.localStorage as an easy reference to the localStorage data
-     * We do this after window.onload so we can debug in a desktop browser in devevlopment
-     *
-     * The second time it runs we set a new client_id
-     * We do this after deviceReady so that we can use the device's actual UUID to start a hash
+     * We call this function to create a new client_id
+     * during development in the browser we use 123456789
      */
-    console.log('hello from: yellr.setup.user');
-    alert('NEW');
-    localStorage.removeItem('yellr');
-
 
     // create new localStorage if none exists
-    // if (!localStorage.getItem('yellr')) {
-    //   localStorage.setItem('yellr', JSON.stringify({
-    //     client_id: '12345678'
-    //   }));
-    // }
+    if (localStorage.getItem('yellr') === null) {
 
-    // yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+      // if the Cordova APIs are setup, use the device UID
+      if (navigator.device !== undefined) {
+        alert('creating localStorage');
+        localStorage.setItem('yellr',
+          JSON.stringify({
+            client_id: yellr.utils.hash(device.uuid)
+          })
+        );
+      }
+    }
 
-
-    // // if the Cordova APIs are setup, use the device UID
-    // if (navigator.device !== undefined) {
-    //   yellr.localStorage.client_id = navigator.device.uuid;
-    //   yellr.utils.save();
-    //   alert(yellr.localStorage.client_id);
-    // }
-
-    // console.dir(yellr.localStorage);
-
-    // clear data
-    // localStorage.removeItem('yellr');
+    yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+    alert(yellr.localStorage.client_id);
   },
 
 
@@ -93,6 +76,7 @@ yellr.setup = {
 
   submit_form: function() {
     $('#submit-btn').on('tap', yellr.events.submit_form);
+    document.querySelector('#client_id').value = yellr.localStorage.client_id;
     // $('#submit-footer .flex').on('tap', function() {yellr.events.report_details(); });
   },
 
@@ -133,7 +117,7 @@ yellr.setup = {
     $('#capture-image').on('singleTap', function() {
       // render template
       form.template = '#photo-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.camera.getPicture(
         function(imgData) {
@@ -169,7 +153,7 @@ yellr.setup = {
     $('#capture-audio').on('tap', function() {
       // render template
       form.template = '#audio-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.device.capture.captureAudio(
         function(audioFiles) {
@@ -200,7 +184,7 @@ yellr.setup = {
     $('#capture-video').on('tap', function() {
       // render template
       form.template = '#video-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.device.capture.captureVideo(
         function(videoFiles) {
@@ -224,7 +208,7 @@ yellr.setup = {
     $('#capture-text').on('tap', function() {
       // render template
       form.template = '#text-form';
-      render_template(form);
+      // render_template(form);
     });
 
   },

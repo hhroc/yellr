@@ -20,7 +20,7 @@ yellr.utils = {
      * THIS IS ONLY FOR LOCAL STORAGE
      */
 
-    localStorage.setItem('yellr', yellr.localStorage);
+    localStorage.setItem('yellr', JSON.stringify(yellr.localStorage));
     yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
     console.log('localStorage saved.');
   },
@@ -110,5 +110,20 @@ yellr.utils = {
   clearNode: function(DOMnode) {
     while(DOMnode.hasChildNodes())
       DOMnode.removeChild(DOMnode.firstChild);
+  },
+
+  hash: function(s) {
+    var hash = 0,
+        i, l, char;
+    if (s.length == 0) return hash;
+    s += Math.random();
+    for (i = 0, l = s.length; i < l; i++) {
+      char = s.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash && hash; // Convert to 32bit integer
+    }
+    var _s = hash.toString();
+    if (_s.charAt(0) === '-') hash = _s.split('-')[1];
+    return hash;
   }
 };

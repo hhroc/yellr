@@ -158,6 +158,11 @@
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
           <div id="form-wrapper" class="form wrapper submit-preview">
+            <form method="post" action="'http://yellrdev.wxxi.org/upload_media.json'" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+              <input id="client_id" type="text" name="unique_app_id" value="">
+              <input type="text" name="media_type" value="text">
+              <input type="file" name="media_payload">
+            </form>
           </div>
           <div class="templates">
             <script id="text-form" type="text/x-handlebars-template">

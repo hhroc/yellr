@@ -9,10 +9,20 @@ var yellr = yellr || {};
 */
 
 window.onload = function() {
+  /* DEBUG MODE */
+  // localStorage.removeItem('yellr');
+
   // setup
-  yellr.setup.user();
   yellr.setup.DOM();
   yellr.route('#');
+
+  if (yellr.localStorage === undefined) {
+    console.log('setting dev local storage');
+    yellr.localStorage = {
+      client_id: '123456789'
+    }
+  }
+
 
   // load assignments
   $.getJSON('data/assignments.json', function(data) {
@@ -22,10 +32,9 @@ window.onload = function() {
       prepend: true
     });
   });
-  // yellr.demo.init(); // uses local dummy json
-  // yellr.load.data(); // for production
 }
 
 document.addEventListener('deviceready', function() {
+  yellr.setup.user();
   yellr.setup.app();
 }, false);

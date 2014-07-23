@@ -1,15 +1,12 @@
 //-div.container.pt-page.pt-page-6#submit-form
 div#form-wrapper.form.wrapper.submit-preview
 
-  //- the actual HTML gets rendered from templates
-  //- uncomment certain forms to debug them
-  //- be sure to comment out Line XX from view.js
 
-  //- form.submit-form(method="post", action="'http://yellr.mycodespace.net/upload_media.json'", accept-charset="utf-8", enctype="multipart/form-data")
+  form.submit-form(method="post", action="'http://yellrdev.wxxi.org/upload_media.json'", accept-charset="utf-8", enctype="multipart/form-data")
 
-  //-   input(type="text", name="unique_app_id", value="1234021429")
-  //-   input(type="text", name="media_type", value="text")
-  //-   input(type="file", name="media_payload")
+    input#client_id(type="text", name="unique_app_id", value="")
+    input(type="text", name="media_type", value="text")
+    input(type="file", name="media_payload")
 
   //- text-form
   //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")

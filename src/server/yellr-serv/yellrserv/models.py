@@ -115,7 +115,7 @@ class Users(Base):
         return user
 
     @classmethod
-    def get_from_unique_id(cls, session, unique_id):
+    def get_from_unique_id(cls, session, unique_id, create_if_not_exist=True):
         with transaction.manager:
             user = session.query(
                 Users
@@ -123,7 +123,7 @@ class Users(Base):
                 Users.unique_id == unique_id
             ).first()
             created = False
-            if user == None:
+            if user == None and create_if_not_exist == True:
                 user_type = UserTypes.get_from_value(session,name='user')
                 user = cls.create_new_user(session,
                         user_type.user_type_id,unique_id)
@@ -137,7 +137,7 @@ class Users(Base):
                 Users
             ).filter(
                 Users.user_id == user_id
-            ).first()
+            ).all()
         return user
 
     @classmethod
@@ -305,18 +305,55 @@ class Posts(Base):
         return (post, created)
 
     @classmethod
-    def get_all_posts(cls, session):
+    def get_all_from_user_id(cls, session, user_id, reported=False):
         with transaction.manager:
             posts = session.query(
-                Posts,
-                PostMediaObjects,
-                MediaObjects
+                Posts.post_id,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                Users.verified,
+                Users.unique_id,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Languages.language_code,
+                Languages.name, 
             ).join(
-                PostMediaObjects,
-                MediaObjects, 
+                Users,
+                Languages,
             ).filter(
-                #PostMediaObjects.post_id == Posts.post_id,
-                #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+                Posts.user_id == Users.user_id,
+                Posts.language_id == Languages.language_id,
+                Posts.reported == reported,
+                Posts.user_id == user_id,
+            ).all()
+        return posts
+
+    @classmethod
+    def get_all_posts(cls, session, reported=False):
+        with transaction.manager:
+            posts = session.query(
+                Posts.post_id,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                Users.verified,
+                Users.unique_id,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Languages.language_code,
+                Languages.name,
+            ).join(
+                Users,
+                Languages,
+            ).filter(
+                Posts.user_id == Users.user_id,
+                Posts.language_id == Languages.language_id,
+                Posts.reported == reported,
             ).all()
         return posts
 
@@ -399,12 +436,31 @@ class MediaObjects(Base):
     @classmethod
     def get_from_unique_id(cls, session, unique_id):
         with transaction.manager:
-            mediaobject = session.query(
+            media_object = session.query(
                 MediaObjects,
             ).filter(
                 MediaObjects.unique_id == unique_id,
             ).first()
-        return mediaobject
+        return media_object
+
+    @classmethod
+    def get_from_post_id(cls, session, post_id):
+        with transaction.manager:
+            media_objects = session.query(
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
+            ).join(
+                PostMediaObjects,
+                MediaTypes,
+            ).filter(
+                PostMediaObjects.media_object_id == MediaObjects.media_object_id,
+                PostMediaObjects.post_id == post_id,
+                MediaTypes.media_type_id == MediaObjects.media_type_id,
+            ).all()
+        return media_objects
 
     @classmethod
     def create_new_media_object(cls, session, client_id, media_type_value, 

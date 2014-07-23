@@ -190,6 +190,8 @@ def get_messages(request):
 
     return make_response(result)
 
+
+
 @view_config(route_name='get_posts.json')
 def get_posts(request):
 
@@ -202,25 +204,61 @@ def get_posts(request):
     #try:
     if True:
 
-        posts = Posts.get_all_posts(DBSession)
+        reported = False
+        try:
+            reported = bool(request.GET['reported'])
+        except:
+            pass
 
-        print "posts:"
-        print posts
-        print ""
+        user_id = None
+        try:
+            client_id = request.GET['client_id']
+            user, created = Users.get_from_unique_id(
+                session = DBSession,
+                unique_id = client_id,
+                create_if_not_exist = False
+            )
+            user_id = user.user_id
+        except:
+            pass
+
+        if user_id != None:
+            posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
+        else:    
+            posts = Posts.get_all_posts(DBSession, reported)
+            
 
         ret_posts = []
-        for post in posts:
-            media_objects = MediaObjects.get_from_post_id(DBSession, post.posts_post_id)
+        for post_id,post_datetime,reported,lat,lng,verified,user_unique_id, \
+                first_name,last_name,organization,language_code,language_name in posts:
+            media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
+            ret_media_objects = []
+            for file_name,caption,media_text,name,description in media_objects:
+                ret_media_objects.append({
+                    'file_name': file_name,
+                    'caption': caption,
+                    'media_text': media_text,
+                    'name': name,
+                    'description': description,
+                })
             ret_posts.append({
-                'post_id': post.posts_post_id,
-                'lat': post.posts_lat, 
-                'lng': post.posts_lng,
-                'user_id': post.users_user_id,
-                'media_objects': media_objects
+                'post_id': post_id,
+                'post_datetime': str(post_datetime),
+                'reported': reported,
+                'lat': lat, 
+                'lng': lng,
+                'verified': verified,
+                'user_id': user_unique_id,
+                'first_name': first_name,
+                'last_name': last_name,
+                'organization': organization,
+                'language_code': language_code,
+                'language_name': language_name,
+                'media_objects': ret_media_objects,
             })
 
         result['posts'] = ret_posts
-        result['succes'] = True
+        result['success'] = True
 
     #except:
     #    pass

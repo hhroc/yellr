@@ -216,12 +216,14 @@ def get_messages(request):
         if client_id != None:
             messages = Messages.get_messages_from_client_id(DBSession, client_id)
             ret_messages = []
-            for from_organization,from_user_id,to_user_id,message_datetime, \
-                    parent_message_id,subject,text,was_read in messages:
+            for from_user_id,to_user_id,message_datetime,parent_message_id,subject,text, \
+                    was_read,from_organization,from_first_name,from_last_name in messages:
                 ret_messages.append({
                     'from_user_id': from_user_id,
                     'to_user_id': to_user_id,
                     'from_organization': from_organization,
+                    'from_first_name': from_first_name,
+                    'from_last_name': from_last_name,
                     'message_datetime': message_datetime,
                     'parent_message_id': arent_message_id,
                     'subject': subject,
@@ -243,11 +245,11 @@ def publish_post(request):
     """
     HTTP POST with the following fields:
 
-    clientid, type: text (unique client id)
-    assignmentid, type: text ( '' for no assignment)
-    languagecode, type: text (two letter language code)
+    client_id, type: text (unique client id)
+    assignment_id, type: text ( '' for no assignment)
+    language_code, type: text (two letter language code)
     location, type: text (json dict of lat and lng)
-    mediaobjects, type: text (json array of media id's)
+    media_objects, type: text (json array of media id's)
 
     """
 

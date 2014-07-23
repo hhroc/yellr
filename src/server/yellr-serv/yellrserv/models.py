@@ -54,7 +54,7 @@ class UserTypes(Base):
     description = Column(Text)
 
     @classmethod
-    def get_from_value(cls, session, name):
+    def get_from_name(cls, session, name):
         with transaction.manager:
             user_type = session.query(
                 UserTypes
@@ -105,6 +105,7 @@ class Users(Base):
             session.add(user)
             transaction.commit()
         with transaction.manager:
+            system_user = Users.get_from_user_type_name(session,'system')
             message = Messages.create_message(
                 session = session,
                 from_user_id = None,
@@ -112,8 +113,21 @@ class Users(Base):
                 subject = 'Welcome to Yellr!',
                 text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
             )
-            serssion.add(message)
+            session.add(message)
             transaction.commit()
+        return user
+
+    @classmethod
+    def get_from_user_type_name(cls, session, user_type_name):
+        with transaction.manager:
+            user = session.query(
+                Users,
+            ).join(
+                UserTypes,
+            ).filter(
+                Users.user_type_id == UserTypes.user_type_id,
+                UserTypes.name == user_type_name,
+            ).first()
         return user
 
     @classmethod
@@ -126,7 +140,7 @@ class Users(Base):
             ).first()
             created = False
             if user == None and create_if_not_exist == True:
-                user_type = UserTypes.get_from_value(session,name='user')
+                user_type = UserTypes.get_from_name(session,name='user')
                 user = cls.create_new_user(session,
                         user_type.user_type_id,client_id)
                 created = True
@@ -680,11 +694,12 @@ class Messages(Base):
     @classmethod
     def get_messages_from_client_id(cls, session, client_id):
         with transaction.manager:
-            user,created = Users.get_from_client_id(session,client_id)
+            user,created = Users.get_from_client_id(
+                session,
+                client_id,
+                create_if_not_exist=False,
+            )
             messages = session.query(
-                Users.organization,
-                #Users.first_name,
-                #Users.last_name,
                 Messages.from_user_id,
                 Messages.to_user_id,
                 Messages.message_datetime,
@@ -692,10 +707,13 @@ class Messages(Base):
                 Messages.subject,
                 Messages.text,
                 Messages.was_read,
+                Users.organization,
+                Users.first_name,
+                Users.last_name,
             ).join(
-                Messages.from_user_id == Users.user_id,
+                Users,Users.user_id == Messages.from_user_id
             ).filter(
-                Messages.to_user_id == user.user_id
+                Messages.to_user_id == user.user_id,
             ).all()
         return messages
 

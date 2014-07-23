@@ -216,7 +216,7 @@ def get_messages(request):
         if client_id != None:
             messages = Messages.get_messages_from_client_id(DBSession, client_id)
             ret_messages = []
-            for from_user_id,to_user_id,from_organization,message_datetime, \
+            for from_organization,from_user_id,to_user_id,message_datetime, \
                     parent_message_id,subject,text,was_read in messages:
                 ret_messages.append({
                     'from_user_id': from_user_id,

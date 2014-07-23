@@ -261,6 +261,9 @@ module.exports = function(grunt) {
         files: [app_folder+app_build+'**'],
         tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
       },
+      moderator_js: {files: [moderator_folder+'js/**'], tasks: ['copy:moderator_js'] },
+      moderator_style: {files: [moderator_folder+'style/**'], tasks: ['compass:moderator'] },
+      moderator_html: {files: [moderator_folder+'html/**'], tasks: ['jade:moderator'] },
       // moderator: {},
       // onepager: {
       //   files: [onepager_folder+'**'],

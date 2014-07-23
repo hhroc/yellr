@@ -16,7 +16,7 @@
       <div class="templates">
         <script id="main-header" type="text/x-handlebars-template"><h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1> <nav id="app-nav"> <ul class="header-nav-list"> <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li> <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li> <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span> <ul data-hidden="true" class="more-options-list hidden"> <li id="profile-btn"> <a href="#profile"> <p id="username" class="nav-title username">Username</p><span>View Profile</span> </a> </li> <li id="language-btn"> <a href="#language-setting"> <p class="nav-title">Language</p><span>English</span> </a> </li> <li id="feedback-btn"> <a href="#feedback"> <p class="nav-title"> Send App Feedback</p> </a> </li> <li id="privacy-policy-btn"> <a href="#privacy-policy"> <p class="nav-title"> Privacy Policy</p> </a> </li> </ul> </li> </ul> </nav></script>
         <script id="page-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span></script>
-        <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1> <span id="submit-btn"><i class="fa fa-check"></i></span></script>
+        <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1><a id="submit-btn" href="#"><i class="fa fa-check"></i></a></script>
       </div>
       <nav id="homepage-subnav" class="app-bar secondary-nav">
         <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
@@ -160,10 +160,29 @@
           <div id="form-wrapper" class="form wrapper submit-preview">
           </div>
           <div class="templates">
-            <script id="text-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-text"> <input type="text" placeholder="Title (optional)"/> <textarea rows="2" columns="10" placeholder="Add description"></textarea> </div> </form></script>
-            <script id="photo-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-photo"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200" id="img-preview"/></div> <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span> </div> </div> </div> </form></script>
-            <script id="video-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-video"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div> </div> </div> </form></script>
-            <script id="audio-form" type="text/x-handlebars-template"><form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-audio"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div> </div> </div> </form></script>
+            <script id="text-form" type="text/x-handlebars-template">
+              <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-text">
+              <input type="hidden" name="client_id" value="12345678">
+              <input type="hidden" name="media_type" value="text">
+              <input type="text" name="caption" placeholder="Title (optional)"/>
+              <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+              </div> </form>
+            </script>
+            <script id="photo-form" type="text/x-handlebars-template">
+              <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-photo">
+              <input type="text" name="clientid" value="12345678">
+              <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200" id="img-preview"/></div> <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span> </div> </div> </div> </form>
+            </script>
+            <script id="video-form" type="text/x-handlebars-template">
+              <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-video">
+              <input type="text" name="clientid" value="12345678">
+              <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div> </div> </div> </form>
+            </script>
+            <script id="audio-form" type="text/x-handlebars-template">
+              <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-audio">
+              <input type="text" name="clientid" value="12345678">
+              <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div> </div> </div> </form>
+            </script>
           </div>
         </div>
         <div id="view-assignment" class="pt-page pt-page-7">

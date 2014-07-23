@@ -106,31 +106,46 @@ yellr.events = {
 
     var $form = $('#form-wrapper form');
     console.log($form.attr('action'), $form.serialize());
-    alert($form);
-    alert($form.attr('action'), $form.serialize());
 
-    $.ajax({
-      url:$form.attr('action'),
-      jsonp: 'callback',
-      dataType: 'jsonp',
-      timeout: 25000,
-      success: serverRegHit,
-      error: serverRegFail
+    /* mycodespace URLs */
+    // var media_url = 'http://yellr.mycodespace.net/upload_media.json';
+    // var post_url = 'http://yellr.mycodespace.net/publish_post.json';
+
+    /* yellrdev.wxxi.org URLs */
+    var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
+    var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
+
+    alert('post some media');
+    alert(media_url);
+    alert($form.serialize());
+
+    $.post(media_url, $form.serialize(), function(response){
+      // we posted media to the server
+      // we get a response back
+      // the response has a media_object_id
+      console.log(response);
+      alert(response);
+      // if (navigator.geolocation) {alert(response)}
+
+      // post the
+      $.post(post_url, {
+        client_id: '12345678',
+        assignment_id: null,
+        language_code: 'en',
+        location: JSON.stringify({
+          lat: 44,
+          lng: -77
+        }),
+        media_objects: JSON.stringify([
+          response.media_id
+        ])
+      }, function(e) {
+        console.log(e);
+        alert(e);
+      });
     });
 
-    // $.ajax({
-    //   url:"http://keb.bz/gcm/?deviceid=12345",
-    //   jsonp: 'callback',
-    //   dataType: 'jsonp',
-    //   timeout: 25000,
-    //   success: serverRegHit,
-    //   error: serverRegFail
-    // });
 
-    // $.post($form.attr('action'), $form.serialize(), function(response){
-    //   console.log(response);
-    //   alert(response);
-    // })
 
   }
 }

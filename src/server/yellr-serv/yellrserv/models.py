@@ -682,11 +682,11 @@ class Messages(Base):
         with transaction.manager:
             user,created = Users.get_from_client_id(session,client_id)
             messages = session.query(
-                Users.from_user_id,
-                Users.to_user_id,
                 Users.organization,
                 #Users.first_name,
                 #Users.last_name,
+                Messages.from_user_id,
+                Messages.to_user_id,
                 Messages.message_datetime,
                 Messages.parent_message_id,
                 Messages.subject,

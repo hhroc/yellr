@@ -190,6 +190,14 @@ def get_posts(request):
         result['posts'] = ret_posts
         result['success'] = True
 
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_posts.json',
+        'post_count': len(ret_posts),
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details)) 
+
     #except:
     #    pass
 
@@ -231,6 +239,14 @@ def get_messages(request):
 
             result['messages'] = ret_messages
             result['success'] = True
+
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_messages.json',
+        'message_count': len(ret_messages),
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
 #    except:
 #        pass
@@ -278,7 +294,7 @@ def publish_post(request):
         # Debug/Logging
         event_type = 'http_request'
         event_details = {
-            'url':'publishpost.json',
+            'url':'publish_post.json',
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'assignment_id': assignment_id,
@@ -289,7 +305,7 @@ def publish_post(request):
             'post_id': result['post_id'],
             'new_user': result['new_user'],
         }
-        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+        client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
             #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -298,7 +314,7 @@ def publish_post(request):
                 'client_id': client_id,
                 'method': 'publish_post.json',
             }
-            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+            client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #   pass
@@ -417,7 +433,7 @@ def upload_media(request):
         #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
         event_type = 'http_request'
         event_details = {
-            'url':'uploadmedia.json',
+            'url':'upload_media.json',
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
@@ -429,7 +445,7 @@ def upload_media(request):
             'new_user': result['new_user'],
             'error_text': error_text,
         }
-        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+        client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
             #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -438,7 +454,7 @@ def upload_media(request):
                 'client_id': client_id,
                 'method': 'upload_media.json',
             }
-            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+            client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #    pass

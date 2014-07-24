@@ -108,7 +108,7 @@ class Users(Base):
             system_user = Users.get_from_user_type_name(session,'system')
             message = Messages.create_message(
                 session = session,
-                from_user_id = None,
+                from_user_id = system_user.id,
                 to_user_id = user.user_id,
                 subject = 'Welcome to Yellr!',
                 text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",

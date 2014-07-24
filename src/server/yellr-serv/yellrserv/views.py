@@ -31,13 +31,11 @@ from .models import (
     Messages,
     )
 
+from config import system_config
+
 system_status = {
     'alive': True,
     'launchtime': str(strftime("%Y-%m-%d %H:%M:%S")),
-}
-
-system_config = {
-    'upload_dir': './uploads',
 }
 
 def make_response(resp_dict):
@@ -316,20 +314,21 @@ def upload_media(request):
     """
     HTTP POST with the following fields:
 
-    mediafile, type: file
-    clientid, type: text
-    mediatype, type: text
+    media_file, type: file
+    client_id, type: text
+    media_type, type: text
         where valid mediatypes are: 'text', 'audio', 'video', 'image'
 
     optional fields:
     
-    mediatext, type: text
-    mediacaption, type: text
+    media_text, type: text
+    media_caption, type: text
 
     """
 
     result = {'success': False}
 
+    error_text = ''
     #try:
     if True:
 
@@ -340,11 +339,15 @@ def upload_media(request):
         media_file_name = ''
         try:
 
-            media_file_name = request.POST['media_file'].filename
-            input_file = request.POST['media_file'].file
+            try:
+                media_file_name = request.POST['media_file'].filename
+                input_file = request.POST['media_file'].file
+            except:
+                #raise Exception("Missing or invalid media_file field")
+                raise Exception('')
 
             # decode media type
-            if mediatype == 'image':
+            if media_type == 'image':
                 media_extention  = 'jpg'
             elif media_type == 'video':
                 media_extention = 'mpg'
@@ -353,11 +356,12 @@ def upload_media(request):
             elif media_type == 'text':
                 media_extention = 'txt'
             else:
+                error_text = 'invalid media type'
                 raise Exception('invalid media type')
         
             # generate a unique file name to store the file to
-            temp_file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
-            file_path = os.path.join(system_config['upload_dir'], temp_file_name)
+            file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
+            file_path = os.path.join(system_config['upload_dir'], file_name)
 
             # write file to temp location, and then to disk
             temp_file_path = file_path + '~'
@@ -374,8 +378,11 @@ def upload_media(request):
             # rename once we are valid
             os.rename(temp_file_path, file_path)
 
-        except:
+            result['file_name'] = file_name
+
+        except Exception, e:
             media_file_name = ''
+            error_text = str(e) 
             pass
 
         media_caption = ''
@@ -390,7 +397,6 @@ def upload_media(request):
         except:
             pass
 
-
         # register file with database, and get file id back
         media_object, created = MediaObjects.create_new_media_object(
             DBSession,
@@ -404,6 +410,8 @@ def upload_media(request):
         result['media_id'] = media_object.client_id
         result['success'] = True
         result['new_user'] = created
+        result['error_text'] = error_text
+        result['media_text'] = media_text
         
         # Debug/Logging
         #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -419,6 +427,7 @@ def upload_media(request):
             'success': result['success'],
             'media_id': result['media_id'],
             'new_user': result['new_user'],
+            'error_text': error_text,
         }
         clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 

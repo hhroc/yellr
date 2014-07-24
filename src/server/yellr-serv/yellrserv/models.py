@@ -104,17 +104,14 @@ class Users(Base):
             )
             session.add(user)
             transaction.commit()
-        with transaction.manager:
-            system_user = Users.get_from_user_type_name(session,'system')
-            message = Messages.create_message(
-                session = session,
-                from_user_id = system_user.id,
-                to_user_id = user.user_id,
-                subject = 'Welcome to Yellr!',
-                text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
-            )
-            session.add(message)
-            transaction.commit()
+        system_user = Users.get_from_user_type_name(session,'system')
+        message = Messages.create_message(
+            session = session,
+            from_user_id = system_user.user_id,
+            to_user_id = user.user_id,
+            subject = 'Welcome to Yellr!',
+            text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
+        )
         return user
 
     @classmethod
@@ -631,7 +628,8 @@ class Messages(Base):
     from_user_id = Column(Integer, ForeignKey('users.user_id'))
     to_user_id = Column(Integer, ForeignKey('users.user_id'))
     message_datetime = Column(DateTime)
-    parent_message_id = Column(Integer, ForeignKey('messages.message_id'))
+    parent_message_id = Column(Integer, \
+        ForeignKey('messages.message_id'), nullable=True)
     subject = Column(Text)
     text = Column(Text)
     was_read = Column(Text)
@@ -653,13 +651,14 @@ class Messages(Base):
                 from_user_id = from_user_id,
                 to_user_id = to_user_id,
                 message_datetime = datetime.datetime.now(),
-                parent_message_id = None,
+                parent_message_id = 0, # TODO: why can't this be None?
                 subject = subject,
                 text = text,
                 was_read = False,
             )
             session.add(message)
             transaction.commit()
+        return message
 
     @classmethod
     def create_response_message(cls, session, clientid, 
@@ -681,13 +680,17 @@ class Messages(Base):
         return message
 
     @classmethod
-    def mark_as_read(cls, session, message_id):
+    def mark_all_as_read(cls, session, user_id):
         with transaction.manager:
-            session.update().where(
-                Messages.message_id == message_id
-            ).values(
-                was_read = True
-            )
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.to_user_id == user_id,
+            ).first() #.update(
+            #    {'was_read': True},
+            #).first()
+            message.was_read = True
+            session.add(message)
             transaction.commit()
         return True
 
@@ -699,22 +702,33 @@ class Messages(Base):
                 client_id,
                 create_if_not_exist=False,
             )
-            messages = session.query(
-                Messages.from_user_id,
-                Messages.to_user_id,
-                Messages.message_datetime,
-                Messages.parent_message_id,
-                Messages.subject,
-                Messages.text,
-                Messages.was_read,
-                Users.organization,
-                Users.first_name,
-                Users.last_name,
-            ).join(
-                Users,Users.user_id == Messages.from_user_id
-            ).filter(
-                Messages.to_user_id == user.user_id,
-            ).all()
+            messages = []
+            if user != None:
+                messages = session.query(
+                    Messages.from_user_id,
+                    Messages.to_user_id,
+                    Messages.message_datetime,
+                    Messages.parent_message_id,
+                    Messages.subject,
+                    Messages.text,
+                    Messages.was_read,
+                    Users.organization,
+                    Users.first_name,
+                    Users.last_name,
+                ).join(
+                    Users,Users.user_id == Messages.from_user_id,
+                ).filter(
+                    Messages.to_user_id == user.user_id,
+                    Messages.was_read == False,
+                ).all()
+        #print "Messages:"
+        #print messages
+        #print
+        for m in messages:
+            #print "Message:"
+            #print m
+            #print 
+            Messages.mark_all_as_read(session,m[1])
         return messages
 
 class DebugSubmissions(Base):

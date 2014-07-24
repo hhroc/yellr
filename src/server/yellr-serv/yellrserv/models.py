@@ -326,7 +326,7 @@ class Posts(Base):
         # assign media objects to the post
         with transaction.manager:
             for media_object_client_id in media_objects:
-                media_object = MediaObjects.get_from_client_id(
+                media_object = MediaObjects.get_from_unique_id(
                     session,media_object_client_id
                 )
                 post_media_object = PostMediaObjects(

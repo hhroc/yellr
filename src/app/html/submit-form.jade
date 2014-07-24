@@ -2,15 +2,20 @@
 div#form-wrapper.form.wrapper.submit-preview
 
 
-  form.submit-form(method="post", action="'http://yellrdev.wxxi.org/upload_media.json'", accept-charset="utf-8", enctype="multipart/form-data")
+  form.submit-form(method="post", action="http://yellrdev.wxxi.org/upload_media.json", accept-charset="utf-8", enctype="multipart/form-data")
 
-    input#client_id(type="text", name="unique_app_id", value="")
-    input(type="text", name="media_type", value="text")
-    input(type="file", name="media_payload")
+    input#client_id(type="text", name="client_id", value="")
+    //- input(type="file", name="media_payload")
+    input(type="hidden", name="media_type", value="text")
+    input(type="text", name="caption", placeholder="Title (optional)")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
 
   //- text-form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form.submit-form(method="post", action="http://yellrdev.wxxi.org/upload_media.json", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="text")
     div.submit-text
+      input.client_id(type="text", name="unique_app_id", value="")
+
       //- title
       input(type="text", placeholder="Title (optional)")
       //- body text (description)
@@ -18,7 +23,8 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- photo form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form.submit-form(method="post", action="http://yellrdev.wxxi.org/upload_media.json", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="photo")
     div.submit-photo
       //- description
       //- image
@@ -35,7 +41,8 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- video form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form.submit-form(method="post", action="http://yellrdev.wxxi.org/upload_media.json", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="video")
     div.submit-video
       //- description
       //- thumbnail preview
@@ -47,7 +54,8 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- audio
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form.submit-form(method="post", action="http://yellrdev.wxxi.org/upload_media.json", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="audio")
     div.submit-audio
       //- audio timeline preview?..
       //- description / title

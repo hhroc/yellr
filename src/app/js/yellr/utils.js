@@ -44,6 +44,10 @@ yellr.utils = {
     }
 
     // get Handlebar template
+    if (!settings.template || settings.template ==='') {
+      $(settings.target).html(''); // if template is empty, clear HTML of target
+      return;
+    };
     var template = Handlebars.compile($(settings.template).html());
 
     // render it (check it we have a context)

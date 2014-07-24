@@ -461,18 +461,18 @@ class MediaObjects(Base):
     media_object_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     media_type_id = Column(Integer, ForeignKey('mediatypes.media_type_id'))
-    client_id = Column(Text)
+    unique_id = Column(Text)
     file_name = Column(Text)
     caption = Column(Text)
     media_text = Column(Text)
 
     @classmethod
-    def get_from_client_id(cls, session, client_id):
+    def get_from_unique_id(cls, session, unique_id):
         with transaction.manager:
             media_object = session.query(
                 MediaObjects,
             ).filter(
-                MediaObjects.client_id == client_id,
+                MediaObjects.unique_id == unique_id,
             ).first()
         return media_object
 
@@ -504,7 +504,7 @@ class MediaObjects(Base):
             mediaobject = cls(
                 user_id = user.user_id,
                 media_type_id = mediatype.media_type_id,
-                client_id = str(uuid.uuid4()),
+                unique_id = str(uuid.uuid4()),
                 file_name = file_name,
                 caption = caption,
                 media_text = text,

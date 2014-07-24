@@ -407,7 +407,7 @@ def upload_media(request):
             media_text,
         )
 
-        #result['media_id'] = media_object.client_id
+        result['media_id'] = media_object.unique_id
         result['success'] = True
         result['new_user'] = created
         result['error_text'] = error_text
@@ -425,7 +425,7 @@ def upload_media(request):
             'media_caption': media_caption,
             'media_text': media_text,
             'success': result['success'],
-            #'media_id': result['media_id'],
+            'media_id': result['media_id'],
             'new_user': result['new_user'],
             'error_text': error_text,
         }

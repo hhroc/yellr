@@ -105,31 +105,32 @@ yellr.events = {
   submit_form: function(e) {
 
 
-    var $form = $('#form-wrapper form');
-    console.log($form.attr('action'), $form.serialize());
+    // get active forms
+    // var forms = document.querySelectorAll('.submit-form.target');
+    // console.log(forms);
 
-    /* mycodespace URLs */
-    // var media_url = 'http://yellr.mycodespace.net/upload_media.json';
-    // var post_url = 'http://yellr.mycodespace.net/publish_post.json';
+
+
+    var $form = $('#form-wrapper form');
+
 
     /* yellrdev.wxxi.org URLs */
     var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
     var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
 
-    alert('post some media');
-    alert(media_url);
-    alert($form.serialize());
+    console.log($form.serialize());
 
+    console.log('posting...');
     $.post(media_url, $form.serialize(), function(response){
       // we posted media to the server
       // we get a response back
       // the response has a media_object_id
-      // console.log(response);
-      // alert(response);
+      console.dir(response);
+      alert(response);
 
       // post the
       $.post(post_url, {
-        client_id: '12345678',
+        client_id: yellr.localStorage.client_id,
         assignment_id: null,
         language_code: 'en',
         location: JSON.stringify({
@@ -140,8 +141,8 @@ yellr.events = {
           response.media_id
         ])
       }, function(e) {
-        console.log(e);
-        // alert(e);
+        console.dir(e);
+        alert(e);
       });
     });
 
@@ -167,11 +168,11 @@ yellr.events = {
     //   // we get a response back
     //   // the response has a media_object_id
     //   // console.log(response);
-    //   // alert(response);
+    //   alert(response);
 
     //   // post the
     //   $.post(post_url, {
-    //     client_id: '12345678',
+    //     client_id: yellr.localStorage.client_id,
     //     assignment_id: null,
     //     language_code: 'en',
     //     location: JSON.stringify({

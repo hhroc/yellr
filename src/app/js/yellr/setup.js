@@ -58,6 +58,17 @@ yellr.setup = {
 
 
 
+    // on the submission forms we can add multiple files
+    // this listener handles clicks
+    $('#add-extra-media').on('tap', function(e) {
+      console.log(
+        'target: ', e.target,
+        'parent: ', e.target.parentNode
+
+        );
+    })
+
+
     // // swipe left on assignments to view news-feed
     // $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
     // // swipe right on news-feed to show assignments
@@ -74,11 +85,29 @@ yellr.setup = {
 
   },
 
+
+
+
   submit_form: function() {
+
+
+
     $('#submit-btn').on('tap', yellr.events.submit_form);
-    document.querySelector('#client_id').value = yellr.localStorage.client_id;
-    // $('#submit-footer .flex').on('tap', function() {yellr.events.report_details(); });
+
+    // add client_id values
+    var forms = document.querySelectorAll('.submit-form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].onchange = function(e) {
+        // add class 'target' (do it only once)
+        if (this.className.split('target').length === 1) this.className += ' target';
+      }
+      forms[i].querySelector('.client_id').value = yellr.localStorage.client_id;
+    }
+
   },
+
+
+
 
   more_options_toggle: function() {
     // in app header --> show more options

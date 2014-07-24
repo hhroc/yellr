@@ -14,7 +14,38 @@
 // yellr specific
 @import "../../common/style/theme/vars";
 @import "../../common/style/theme/typography";
+@import "vars";
 
+.add-extra-media {
+  p {
+    color: #666;
+    font-style: italic;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .flex {
+    border: 1px solid #dfdfdf;
+  }
+  .flex-1 {
+    background: $light-gray;
+    color: #aaa;
+    width: 33%;
+    text-align: center;
+    padding: 0.75rem 0;
+    border-right: 1px solid #dfdfdf;
+    &:last-child{border-right: none; }
+  }
+  .fa {
+    vertical-align: middle;
+  }
+  .fa-plus {
+    font-size: 0.75rem;
+    padding-right: 0.25rem;
+  }
+  .fa-camera,.fa-video-camera, .fa-microphone {
+    font-size: 1.25rem;
+  }
+}
 
 html, body { height: 100%; }
 

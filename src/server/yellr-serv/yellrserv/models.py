@@ -658,6 +658,7 @@ class Messages(Base):
             )
             session.add(message)
             transaction.commit()
+        return message
 
     @classmethod
     def create_response_message(cls, session, clientid, 
@@ -679,13 +680,17 @@ class Messages(Base):
         return message
 
     @classmethod
-    def mark_as_read(cls, session, message_id):
+    def mark_all_as_read(cls, session, user_id):
         with transaction.manager:
-            session.update().where(
-                Messages.message_id == message_id
-            ).values(
-                was_read = True
-            )
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.to_user_id == user_id,
+            ).first() #.update(
+            #    {'was_read': True},
+            #).first()
+            message.was_read = True
+            session.add(message)
             transaction.commit()
         return True
 
@@ -697,22 +702,33 @@ class Messages(Base):
                 client_id,
                 create_if_not_exist=False,
             )
-            messages = session.query(
-                Messages.from_user_id,
-                Messages.to_user_id,
-                Messages.message_datetime,
-                Messages.parent_message_id,
-                Messages.subject,
-                Messages.text,
-                Messages.was_read,
-                Users.organization,
-                Users.first_name,
-                Users.last_name,
-            ).join(
-                Users,Users.user_id == Messages.from_user_id
-            ).filter(
-                Messages.to_user_id == user.user_id,
-            ).all()
+            messages = []
+            if user != None:
+                messages = session.query(
+                    Messages.from_user_id,
+                    Messages.to_user_id,
+                    Messages.message_datetime,
+                    Messages.parent_message_id,
+                    Messages.subject,
+                    Messages.text,
+                    Messages.was_read,
+                    Users.organization,
+                    Users.first_name,
+                    Users.last_name,
+                ).join(
+                    Users,Users.user_id == Messages.from_user_id,
+                ).filter(
+                    Messages.to_user_id == user.user_id,
+                    Messages.was_read == False,
+                ).all()
+        #print "Messages:"
+        #print messages
+        #print
+        for m in messages:
+            #print "Message:"
+            #print m
+            #print 
+            Messages.mark_all_as_read(session,m[1])
         return messages
 
 class DebugSubmissions(Base):

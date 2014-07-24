@@ -1,5 +1,7 @@
 import os
 import sys
+import uuid
+
 import transaction
 
 from sqlalchemy import engine_from_config
@@ -17,6 +19,7 @@ from ..models import (
     UserTypes,
     MediaTypes,
     Languages,
+    Users,
     Base,
     )
 
@@ -42,6 +45,11 @@ def main(argv=sys.argv):
         #
         # User Types
         #
+        usertype_system = UserTypes(
+            description = 'The system user.',
+            name = 'system',
+        )
+        DBSession.add(usertype_system)
         usertype_admin = UserTypes(
             description = 'A system administrator.  This user type has the highest level of permissions.',
             name = 'admin',
@@ -99,6 +107,24 @@ def main(argv=sys.argv):
         )
         DBSession.add(language_spanish)
 
-        # commit new objects to the database
+        transaction.commit()
+
+    with transaction.manager:
+
+        # Users
+        usertype = UserTypes.get_from_name(DBSession,'system')
+        user_system = Users(
+            user_type_id = usertype.user_type_id,
+            verified = True,
+            client_id = str(uuid.uuid4()),
+            first_name = 'SYSTEM USER',
+            last_name = 'SYSTEM USER',
+            organization = 'Yellr',
+            email = '',
+            pass_salt = 'salt',
+            pass_hash = 'hash', # NOTE: will never be the result of a md5 hash 
+        )
+        DBSession.add(user_system)
+
         transaction.commit()
 

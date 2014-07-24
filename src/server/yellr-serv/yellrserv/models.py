@@ -104,17 +104,14 @@ class Users(Base):
             )
             session.add(user)
             transaction.commit()
-        with transaction.manager:
-            system_user = Users.get_from_user_type_name(session,'system')
-            message = Messages.create_message(
-                session = session,
-                from_user_id = system_user.id,
-                to_user_id = user.user_id,
-                subject = 'Welcome to Yellr!',
-                text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
-            )
-            session.add(message)
-            transaction.commit()
+        system_user = Users.get_from_user_type_name(session,'system')
+        message = Messages.create_message(
+            session = session,
+            from_user_id = system_user.user_id,
+            to_user_id = user.user_id,
+            subject = 'Welcome to Yellr!',
+            text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
+        )
         return user
 
     @classmethod
@@ -631,7 +628,8 @@ class Messages(Base):
     from_user_id = Column(Integer, ForeignKey('users.user_id'))
     to_user_id = Column(Integer, ForeignKey('users.user_id'))
     message_datetime = Column(DateTime)
-    parent_message_id = Column(Integer, ForeignKey('messages.message_id'))
+    parent_message_id = Column(Integer, \
+        ForeignKey('messages.message_id'), nullable=True)
     subject = Column(Text)
     text = Column(Text)
     was_read = Column(Text)
@@ -653,7 +651,7 @@ class Messages(Base):
                 from_user_id = from_user_id,
                 to_user_id = to_user_id,
                 message_datetime = datetime.datetime.now(),
-                parent_message_id = None,
+                parent_message_id = 0, # TODO: why can't this be None?
                 subject = subject,
                 text = text,
                 was_read = False,

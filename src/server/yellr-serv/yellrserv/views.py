@@ -336,7 +336,7 @@ def upload_media(request):
         client_id = request.POST['client_id']
         media_type = request.POST['media_type']
 
-        media_file_name = ''
+        file_name = ''
         try:
 
             try:
@@ -381,7 +381,7 @@ def upload_media(request):
             result['file_name'] = file_name
 
         except Exception, e:
-            media_file_name = ''
+            file_name = ''
             error_text = str(e) 
             pass
 
@@ -402,12 +402,12 @@ def upload_media(request):
             DBSession,
             client_id,
             media_type,
-            media_file_name,
+            file_name,
             media_caption,
             media_text,
         )
 
-        result['media_id'] = media_object.client_id
+        #result['media_id'] = media_object.client_id
         result['success'] = True
         result['new_user'] = created
         result['error_text'] = error_text
@@ -421,11 +421,11 @@ def upload_media(request):
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
-            'file_name': media_file_name,
+            'file_name': file_name,
             'media_caption': media_caption,
             'media_text': media_text,
             'success': result['success'],
-            'media_id': result['media_id'],
+            #'media_id': result['media_id'],
             'new_user': result['new_user'],
             'error_text': error_text,
         }

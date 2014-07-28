@@ -102,35 +102,118 @@ yellr.events = {
 
   },
 
+  notify: function(e) {
+    // cache the DOM Nofitications button
+    var notifications_btn = document.querySelector('#notifications-btn');
+
+    // add class to show new Notication has been received
+    $(notifications_btn).addClass('new');
+    // NOTE:
+    // because we clear and recompile the HTML with Handlebar templates
+    // we automatically clear the 'new' class from the button
+    // this is convenient
+    // but, if a user goes to 'Messages' and then goes back, the class will be gone
+    // even though the user did not view the new Notification
+    // this is because the Handlebar template does not change
+    // console.log('remove class when new notification is viewed');
+    console.log('make new <li> in notifications list');
+    yellr.utils.render_template({
+      template: '#post-submitted-li',
+      target: '#recent-notifications',
+      context: e,
+      append: true
+    })
+    console.log(e);
+  },
+
   submit_form: function(e) {
 
-    var $form = $('#form-wrapper form');
-    console.log($form.attr('action'), $form.serialize());
-    alert($form);
-    alert($form.attr('action'), $form.serialize());
 
-    $.ajax({
-      url:$form.attr('action'),
-      jsonp: 'callback',
-      dataType: 'jsonp',
-      timeout: 25000,
-      success: serverRegHit,
-      error: serverRegFail
+    // get active forms
+    // var forms = document.querySelectorAll('.submit-form.target');
+    // console.log(forms);
+
+
+
+    var $form = $('#form-wrapper form');
+
+
+    /* yellrdev.wxxi.org URLs */
+    var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
+    var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
+
+    console.log($form.serialize());
+
+    console.log('posting...');
+    $.post(media_url, $form.serialize(), function(response){
+      // we posted media to the server
+      // we get a response back
+      // the response has a media_object_id
+      console.dir(response);
+      // alert(response);
+
+      // post the
+      $.post(post_url, {
+        client_id: yellr.localStorage.client_id,
+        assignment_id: null,
+        language_code: 'en',
+        location: JSON.stringify({
+          lat: 44,
+          lng: -77
+        }),
+        media_objects: JSON.stringify([
+          response.media_id
+        ])
+      }, function(e) {
+        console.dir(e);
+        // alert(e);
+        yellr.events.notify(e);
+      });
     });
 
-    // $.ajax({
-    //   url:"http://keb.bz/gcm/?deviceid=12345",
-    //   jsonp: 'callback',
-    //   dataType: 'jsonp',
-    //   timeout: 25000,
-    //   success: serverRegHit,
-    //   error: serverRegFail
+
+
+    // var $form = $('#form-wrapper form');
+    // console.log($form.attr('action'), $form.serialize());
+
+    // /* mycodespace URLs */
+    // // var media_url = 'http://yellr.mycodespace.net/upload_media.json';
+    // // var post_url = 'http://yellr.mycodespace.net/publish_post.json';
+
+    // /* yellrdev.wxxi.org URLs */
+    // var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
+    // var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
+
+    // alert('post some media');
+    // alert(media_url);
+    // alert($form.serialize());
+
+    // $.post(media_url, $form.serialize(), function(response){
+    //   // we posted media to the server
+    //   // we get a response back
+    //   // the response has a media_object_id
+    //   // console.log(response);
+    //   alert(response);
+
+    //   // post the
+    //   $.post(post_url, {
+    //     client_id: yellr.localStorage.client_id,
+    //     assignment_id: null,
+    //     language_code: 'en',
+    //     location: JSON.stringify({
+    //       lat: 44,
+    //       lng: -77
+    //     }),
+    //     media_objects: JSON.stringify([
+    //       response.media_id
+    //     ])
+    //   }, function(e) {
+    //     console.log(e);
+    //     // alert(e);
+    //   });
     // });
 
-    // $.post($form.attr('action'), $form.serialize(), function(response){
-    //   console.log(response);
-    //   alert(response);
-    // })
+
 
   }
 }

@@ -194,6 +194,7 @@ yellr.route = function(view) {
         header.template = '#submit-header';
         header.events = yellr.setup.submit_form;
         footer.template = '#submit-footer';
+        footer.template = ''; // clear it
         footer.events = undefined;
         console.log('show submit-form');
         break;

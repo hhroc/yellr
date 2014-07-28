@@ -13,6 +13,18 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  save: function() {
+    /**
+     * Saves our yellr.localStorage
+     * Updates our yellr.localStorage ref
+     * THIS IS ONLY FOR LOCAL STORAGE
+     */
+
+    localStorage.setItem('yellr', JSON.stringify(yellr.localStorage));
+    yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+    console.log('localStorage saved.');
+  },
+
   render_template: function(settings) {
     /**
      * Dependencies: Handlebar.js, zepto.js (or jQuery.js)
@@ -32,13 +44,20 @@ yellr.utils = {
     }
 
     // get Handlebar template
+    if (!settings.template || settings.template ==='') {
+      $(settings.target).html(''); // if template is empty, clear HTML of target
+      return;
+    };
     var template = Handlebars.compile($(settings.template).html());
 
     // render it (check it we have a context)
     var html = template( settings.context ? settings.context : {} );
 
     // replace html, or return HTML frag
-    if (settings.target) $(settings.target).html(html);
+    if (settings.target) {
+      // if (settings.append) $(settings.target).append(html);
+      $(settings.target).html(html);
+    }
     else return html;
 
     // add events
@@ -98,5 +117,20 @@ yellr.utils = {
   clearNode: function(DOMnode) {
     while(DOMnode.hasChildNodes())
       DOMnode.removeChild(DOMnode.firstChild);
+  },
+
+  hash: function(s) {
+    var hash = 0,
+        i, l, char;
+    if (s.length == 0) return hash;
+    s += Math.random();
+    for (i = 0, l = s.length; i < l; i++) {
+      char = s.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash && hash; // Convert to 32bit integer
+    }
+    var _s = hash.toString();
+    if (_s.charAt(0) === '-') hash = _s.split('-')[1];
+    return hash;
   }
 };

@@ -1,40 +1,60 @@
 //-div.container.pt-page.pt-page-6#submit-form
 div#form-wrapper.form.wrapper.submit-preview
 
-  //- the actual HTML gets rendered from templates
-  //- uncomment certain forms to debug them
-  //- be sure to comment out Line XX from view.js
+
+  //- form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="image")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+    input(type="file", name="media_payload")
+    div.media-submission-wrapper
+      div.media-preview
+        i.fa.fa-close
+        img(src="http://lorempixel.com/400/200")#img-preview
+      div.media-options
+        span.add-more-media.flex-1#add-more-media-btn
+          i.fa.fa-plus
 
 
+  form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    //- text
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="text")
+    input(type="text", name="media_caption", placeholder="Title (optional)")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
 
-  //- text-form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
-    div.submit-text
-      //- title
-      input(type="text", placeholder="Title (optional)")
-      //- body text (description)
-      textarea(rows="2", columns="10", placeholder="Add description")
+  div.add-extra-media#add-extra-media
+    p Add extra media:
+    div.flex
+      div.add-photo.flex-1
+        i.fa.fa-plus
+        i.fa.fa-camera
+      div.add-video.flex-1
+        i.fa.fa-plus
+        i.fa.fa-video-camera
+      div.add-autio.flex-1
+        i.fa.fa-plus
+        i.fa.fa-microphone
 
-
-  //- photo form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
-    div.submit-photo
-      //- description
-      //- image
-      textarea(rows="2", columns="10", placeholder="Add description")
-      div.media-submission-wrapper
-        div.media-preview
-          i.fa.fa-close
-          img(src="http://lorempixel.com/400/200")#img-preview
-        div.media-options
-          span.add-more-media.flex-1#add-more-media-btn
-            i.fa.fa-plus
-          //-div#media-input-wrapper
-              input(type="file")
-
+  //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="image")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+    input(type="file", name="media_payload")
+    div.media-submission-wrapper
+      div.media-preview
+        i.fa.fa-close
+        img(src="http://lorempixel.com/400/200")#img-preview
+      div.media-options
+        span.add-more-media.flex-1#add-more-media-btn
+          i.fa.fa-plus
+        //-div#media-input-wrapper
+            input(type="file")
 
   //- video form
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="video")
     div.submit-video
       //- description
       //- thumbnail preview
@@ -46,7 +66,8 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- audio
-  //-form.submit-form(method="post", action="{{ action_url }}", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input(type="hidden", name="media_type", value="audio")
     div.submit-audio
       //- audio timeline preview?..
       //- description / title
@@ -58,12 +79,23 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
 
-div.templates
+//- div.templates
   script#text-form(type="text/x-handlebars-template")
-    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-text"> <input type="text" placeholder="Title (optional)"/> <textarea rows="2" columns="10" placeholder="Add description"></textarea> </div> </form>
+    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-text">
+    <input type="hidden" name="client_id" value="12345678">
+    <input type="hidden" name="media_type" value="text">
+    <input type="text" name="caption" placeholder="Title (optional)"/>
+    <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+    </div> </form>
   script#photo-form(type="text/x-handlebars-template")
-    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-photo"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200" id="img-preview"/></div> <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span> </div> </div> </div> </form>
+    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-photo">
+    <input type="text" name="clientid" value="12345678">
+    <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><img src="http://lorempixel.com/400/200" id="img-preview"/></div> <div class="media-options"><span id="add-more-media-btn" class="add-more-media flex-1"><i class="fa fa-plus"></i></span> </div> </div> </div> </form>
   script#video-form(type="text/x-handlebars-template")
-    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-video"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div> </div> </div> </form>
+    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-video">
+    <input type="text" name="clientid" value="12345678">
+    <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div> </div> </div> </form>
   script#audio-form(type="text/x-handlebars-template")
-    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-audio"> <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div> </div> </div> </form>
+    <form method="post" action="{{ action_url }}" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form"> <div class="submit-audio">
+    <input type="text" name="clientid" value="12345678">
+    <textarea rows="2" columns="10" placeholder="Add description"></textarea> <div class="media-submission-wrapper"> <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div> </div> </div> </form>

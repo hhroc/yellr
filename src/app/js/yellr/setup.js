@@ -11,6 +11,32 @@ var yellr = yellr || {};
 
 yellr.setup = {
 
+
+  user: function() {
+    /**
+     * We call this function to create a new client_id
+     * during development in the browser we use 123456789
+     */
+
+    // create new localStorage if none exists
+    if (localStorage.getItem('yellr') === null) {
+
+      // if the Cordova APIs are setup, use the device UID
+      if (navigator.device !== undefined) {
+        alert('creating localStorage');
+        localStorage.setItem('yellr',
+          JSON.stringify({
+            client_id: yellr.utils.hash(device.uuid)
+          })
+        );
+      }
+    }
+
+    yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
+    alert(yellr.localStorage.client_id);
+  },
+
+
   DOM: function() {
 
     /*
@@ -32,6 +58,17 @@ yellr.setup = {
 
 
 
+    // on the submission forms we can add multiple files
+    // this listener handles clicks
+    $('#add-extra-media').on('tap', function(e) {
+      console.log(
+        'target: ', e.target,
+        'parent: ', e.target.parentNode
+
+        );
+    })
+
+
     // // swipe left on assignments to view news-feed
     // $('#assignments').on('swipeLeft', function() {yellr.route('#news-feed'); });
     // // swipe right on news-feed to show assignments
@@ -48,10 +85,29 @@ yellr.setup = {
 
   },
 
+
+
+
   submit_form: function() {
+
+
+
     $('#submit-btn').on('tap', yellr.events.submit_form);
-    // $('#submit-footer .flex').on('tap', function() {yellr.events.report_details(); });
+
+    // add client_id values
+    var forms = document.querySelectorAll('.submit-form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].onchange = function(e) {
+        // add class 'target' (do it only once)
+        if (this.className.split('target').length === 1) this.className += ' target';
+      }
+      forms[i].querySelector('.client_id').value = yellr.localStorage.client_id;
+    }
+
   },
+
+
+
 
   more_options_toggle: function() {
     // in app header --> show more options
@@ -90,7 +146,7 @@ yellr.setup = {
     $('#capture-image').on('singleTap', function() {
       // render template
       form.template = '#photo-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.camera.getPicture(
         function(imgData) {
@@ -126,7 +182,7 @@ yellr.setup = {
     $('#capture-audio').on('tap', function() {
       // render template
       form.template = '#audio-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.device.capture.captureAudio(
         function(audioFiles) {
@@ -157,7 +213,7 @@ yellr.setup = {
     $('#capture-video').on('tap', function() {
       // render template
       form.template = '#video-form';
-      render_template(form);
+      // render_template(form);
 
       navigator.device.capture.captureVideo(
         function(videoFiles) {
@@ -181,7 +237,7 @@ yellr.setup = {
     $('#capture-text').on('tap', function() {
       // render template
       form.template = '#text-form';
-      render_template(form);
+      // render_template(form);
     });
 
   },

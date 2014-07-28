@@ -2,7 +2,6 @@
 
 Citizen Journalism Mobile App, Website, and Eco-System
 
-
 ### Getting started
 
 ##### Make sure npm is installed/up to date
@@ -79,7 +78,13 @@ Check out the docs/ folder for more details on project setup.
 
 
 
+## Web Server ##
 
+To run the website you will need pyramid installed.
+
+    # cd ~/src/server/yellr-serv
+    # pserv development.ini
+    
 
 
 

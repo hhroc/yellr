@@ -9,34 +9,14 @@ header#header.header-wrapper
 
   //- main-header
     h1#app-h1(data-page="index")
-      a(href="#") Yellr
+      a(href="#assignments") Yellr
     nav#app-nav
-      ul.header-nav-list
-        li#notifications-btn
-          a(href="#notifications")
-            i.fa.fa-bell-o
-        li#messages-btn
-          a(href="#messages")
-            i.fa.fa-envelope-o
-        li#more-btn
-          span.toggle
-            i.fa.fa-ellipsis-v
-          ul.more-options-list.hidden(data-hidden="true")
-            li#profile-btn
-              a(href="#profile")
-                p.nav-title.username#username Username
-                span View Profile
-            li#language-btn
-              a(href="#language-setting")
-                p.nav-title Language
-                span English
-            li#feedback-btn
-              a(href="#feedback")
-                p.nav-title  Send App Feedback
-            li#privacy-policy-btn
-              a(href="#privacy-policy")
-                p.nav-title  Privacy Policy
-
+      a(href="#notifications")#notifications-btn.btn
+        i.fa.fa-bell-o
+      a(href="#messages")#messages-btn.btn
+        i.fa.fa-envelope-o
+      a(href="#profile")#profile-btn.btn
+        i.fa.fa-user
 
   //- page-header
     nav.back-btn
@@ -58,7 +38,7 @@ header#header.header-wrapper
 
   div.templates
     script#main-header(type="text/x-handlebars-template")
-      <h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1> <nav id="app-nav"> <ul class="header-nav-list"> <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li> <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li> <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span> <ul data-hidden="true" class="more-options-list hidden"> <li id="profile-btn"> <a href="#profile"> <p id="username" class="nav-title username">Username</p><span>View Profile</span> </a> </li> <li id="language-btn"> <a href="#language-setting"> <p class="nav-title">Language</p><span>English</span> </a> </li> <li id="feedback-btn"> <a href="#feedback"> <p class="nav-title"> Send App Feedback</p> </a> </li> <li id="privacy-policy-btn"> <a href="#privacy-policy"> <p class="nav-title"> Privacy Policy</p> </a> </li> </ul> </li> </ul> </nav>
+      <h1 id="app-h1" data-page="index"><a href="#assignments">Yellr</a></h1> <nav id="app-nav"><a href="#notifications" id="notifications-btn" class="btn"><i class="fa fa-bell-o"></i></a><a href="#messages" id="messages-btn" class="btn"><i class="fa fa-envelope-o"></i></a><a href="#profile" id="profile-btn" class="btn"><i class="fa fa-user"></i></a></nav>
     script#page-header(type="text/x-handlebars-template")
       <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
     script#submit-header(type="text/x-handlebars-template")

@@ -1,21 +1,17 @@
 //- div.container.pt-page.pt-page-4#notifications
-//-h2 notifications
-h2 Recent
-ul.notifications-list
-	li Viewed by 
-		strong WDKX
-	li Viewed by 
-		strong WXXI
-	li Your post has been approved!
-	li Your post has been submitted!
+h2.wrapper Recent
+ul#recent-notifications.notifications-list
+  //- li
+    strong WDKX
+    | viewed your post
+  //- li Your post has been submitted! <br/>
+    small Post ID: 1
 
-h2 Older
-ul.notifications-list
-	li Your post has been approved!
-	li Your post has been submitted!
-	li Viewed by 
-		strong WDKX
-	li Viewed by 
-		strong WXXI
-	li Your post has been approved!
-	li Your post has been submitted!
+h2.wrapper Older
+ul#older-notifications.notifications-list
+
+div.templates
+  script#post-submitted-li(type="text/x-handlebars-template")
+    <li>Your post has been submitted! <br/><small>Post ID: {{ post_id }}</small></li>
+  script#post-viewed-li(type="text/x-handlebars-template")
+    <li><strong>{{ organization }}</strong> viewed your post</li>

@@ -102,6 +102,30 @@ yellr.events = {
 
   },
 
+  notify: function(e) {
+    // cache the DOM Nofitications button
+    var notifications_btn = document.querySelector('#notifications-btn');
+
+    // add class to show new Notication has been received
+    $(notifications_btn).addClass('new');
+    // NOTE:
+    // because we clear and recompile the HTML with Handlebar templates
+    // we automatically clear the 'new' class from the button
+    // this is convenient
+    // but, if a user goes to 'Messages' and then goes back, the class will be gone
+    // even though the user did not view the new Notification
+    // this is because the Handlebar template does not change
+    // console.log('remove class when new notification is viewed');
+    console.log('make new <li> in notifications list');
+    yellr.utils.render_template({
+      template: '#post-submitted-li',
+      target: '#recent-notifications',
+      context: e,
+      append: true
+    })
+    console.log(e);
+  },
+
   submit_form: function(e) {
 
 
@@ -126,7 +150,7 @@ yellr.events = {
       // we get a response back
       // the response has a media_object_id
       console.dir(response);
-      alert(response);
+      // alert(response);
 
       // post the
       $.post(post_url, {
@@ -142,7 +166,8 @@ yellr.events = {
         ])
       }, function(e) {
         console.dir(e);
-        alert(e);
+        // alert(e);
+        yellr.events.notify(e);
       });
     });
 

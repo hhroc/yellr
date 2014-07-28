@@ -2,9 +2,10 @@
 @import "vars";
 
 .notifications-list {
-	list-style-type: none;
-	li {
-		padding: 0.875rem;
-		border-bottom: 1px solid #ccc;		
-	}
+  list-style-type: none;
+  li {
+    padding: 0.875rem;
+    border-bottom: 1px solid #ccc;
+  }
+  small {color: #aaa;}
 }

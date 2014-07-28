@@ -6,6 +6,30 @@
 // secondary nav styles
 
 
+
+@keyframes blink {
+  0% {background: $yellow; }
+  50% {background: $light-yellow; }
+  100% {background: $yellow; }
+}
+@-webkit-keyframes blink {
+  0% {background: $yellow; }
+  50% {background: $light-yellow; }
+  100% {background: $yellow; }
+}
+
+
+#notifications-btn {
+  &.new {
+    background: $light-yellow;
+    animation: blink 3s infinite;
+    -webkit-animation: blink 3s infinite;
+  }
+}
+
+
+
+
 // Main header
 // ===================================
 .header-wrapper {
@@ -46,11 +70,8 @@
 #app-nav {
   width: 38%;
   @include flex(3);
-}
-
-.header-nav-list {
   @include flexbox();
-  li {
+  .btn {
     padding: $icon-padding;
     border-right: 1px solid $dark-yellow;
     &:first-child{border-left: 1px solid $dark-yellow;}
@@ -62,51 +83,7 @@
   }
 }
 
-#more-btn {
-  position: relative;
-  // padding: 0;
-  .toggle {
-    display: block;
-    // padding: $icon-padding;
-  }
-  i {padding: 0 0.5rem; }
-}
 
-.more-options-list {
-  position: absolute;
-  top: 3rem;
-  right: 0;
-  z-index: 50;
-  background: #ddd;
-  -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-transition: 0.5s ease-out;
-  -o-transition: 0.5s ease-out;
-  transition: 0.5s ease-out;
-  &.hidden {
-    z-index: -1;
-    // off-screen styles
-    -webkit-transform: translateY(-400px);
-    -ms-transform: translateY(-400px);
-    -o-transform: translateY(-400px);
-    transform: translateY(-400px);
-  }
-  li {
-    text-align: left;
-    padding: 0.875rem 1rem;
-    min-width: 100%;
-    border-bottom: 1px solid #aaa;
-    @extend %btn;
-    &:hover {background: #fff; }
-  }
-  a {
-    display: block;
-    min-width: 10rem;
-  }
-  span {font-size: 0.75rem; }
-}
 .nav-title {
   font-weight: bold;
   margin-bottom: 0;

@@ -54,7 +54,10 @@ yellr.utils = {
     var html = template( settings.context ? settings.context : {} );
 
     // replace html, or return HTML frag
-    if (settings.target) $(settings.target).html(html);
+    if (settings.target) {
+      // if (settings.append) $(settings.target).append(html);
+      $(settings.target).html(html);
+    }
     else return html;
 
     // add events

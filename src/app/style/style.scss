@@ -65,9 +65,7 @@ html, body { height: 100%; }
     max-width: 20rem;
   }
 }
-#debug {
-  // display: none;
-}
+
 
 @import "vars";
 @import "header";
@@ -75,6 +73,7 @@ html, body { height: 100%; }
 @import "assignments";
 @import "notifications";
 @import "messages";
+@import "profile";
 
 
 

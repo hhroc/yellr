@@ -1,53 +1,71 @@
 //- div.container.pt-page.pt-page-3#profile
-h2 profile
-section(data-title="Profile")
-	div.profile-overview
-		figure.profile-picture
-			img(src="http://lorempixel.com/200/200")
-		div.profile-meta
-			h2 Username
-			p Generate new UUID
-			div.profile-stats
-				dl.profile-stats-list
-					dt Posts
-					dd#posts-total 32
-					dt Followers
-					dd#followers-total 58
-					dt Following
-					dd#following-total 240
-	nav.profile-nav-bar
-		div
-			a(href="#") Posts
-		div
-			a(href="#") Badges
-		div
-			a(href="#") Followers
-	div.pt-perspective
-		div.profile-content
-			ul.profile-posts-list
-				li title of text post
-				li title of image post
-				li video post
-				li audio post
-		div.profile-badges
-			div.grid
-				div.gi
-					img(src="http://lorempixel.com/150/150")
-					h3 Badge name
-				div.gi
-					img(src="http://lorempixel.com/150/150")
-					h3 Badge name
-				div.gi
-					img(src="http://lorempixel.com/150/150")
-					h3 Badge name
-				div.gi
-					img(src="http://lorempixel.com/150/150")
-					h3 Badge name
-		div.profile-followers
-			ul.followers-list
-				li
-					figure.follower-thumbnail
-						img(src="http://lorempixel.com/200/200")
-					h3.follower-username follower_sn
-					div.follow-back
-						i.fa.fa-check
+section
+
+  div.profile-overview
+    figure.profile-picture
+      i.fa.fa-user#anon-icon
+      img(src="http://lorempixel.com/200/200")#profile-picture
+    div.profile-meta
+      h2#username Username
+      div.profile-stats
+        dl.profile-stats-list
+          dt Posts
+          dd#posts-total 32
+          dt Followers
+          dd#followers-total 58
+          dt Following
+          dd#following-total 240
+
+  p.wrapper#generate-new-uuid Generate new UUID
+
+
+
+  nav.profile-nav-bar
+    span.btn Posts
+    span.btn Badges
+    span.btn Followers
+    span.btn Settings
+
+  div.pt-perspective.profile-content
+    //- div#user-posts.profile-content
+      ul.profile-posts-list
+        li title of text post
+        li title of image post
+        li video post
+        li audio post
+
+    div#user-badges.profile-badges
+      div.grid.badges-grid
+        div.gi
+          img(src="http://lorempixel.com/150/150").badge-icon
+          h3.badge-name Badge name
+        div.gi
+          img(src="http://lorempixel.com/150/150").badge-icon
+          h3.badge-name Badge name
+        div.gi
+          img(src="http://lorempixel.com/150/150").badge-icon
+          h3.badge-name Badge name
+        div.gi
+          img(src="http://lorempixel.com/150/150").badge-icon
+          h3.badge-name Badge name
+
+    div#user-followers.profile-followers
+      ul.followers-list
+        li
+          figure.follower-thumbnail
+            img(src="http://lorempixel.com/200/200")
+          h3.follower-username follower_sn
+          div.follow-back
+            i.fa.fa-check
+    div#user-settings.profile-settings
+      ul
+        li#language-btn
+          a(href="#language-setting")
+            p.nav-title Language
+            span English
+        li#feedback-btn
+          a(href="#feedback")
+            p.nav-title  Send App Feedback
+        li#privacy-policy-btn
+          a(href="#privacy-policy")
+            p.nav-title  Privacy Policy

@@ -14,7 +14,7 @@
     <header id="header" class="header-wrapper">
       <header id="app-header" class="app-bar header"></header>
       <div class="templates">
-        <script id="main-header" type="text/x-handlebars-template"><h1 id="app-h1" data-page="index"><a href="#">Yellr</a></h1> <nav id="app-nav"> <ul class="header-nav-list"> <li id="notifications-btn"><a href="#notifications"><i class="fa fa-bell-o"></i></a></li> <li id="messages-btn"><a href="#messages"><i class="fa fa-envelope-o"></i></a></li> <li id="more-btn"><span class="toggle"><i class="fa fa-ellipsis-v"></i></span> <ul data-hidden="true" class="more-options-list hidden"> <li id="profile-btn"> <a href="#profile"> <p id="username" class="nav-title username">Username</p><span>View Profile</span> </a> </li> <li id="language-btn"> <a href="#language-setting"> <p class="nav-title">Language</p><span>English</span> </a> </li> <li id="feedback-btn"> <a href="#feedback"> <p class="nav-title"> Send App Feedback</p> </a> </li> <li id="privacy-policy-btn"> <a href="#privacy-policy"> <p class="nav-title"> Privacy Policy</p> </a> </li> </ul> </li> </ul> </nav></script>
+        <script id="main-header" type="text/x-handlebars-template"><h1 id="app-h1" data-page="index"><a href="#assignments">Yellr</a></h1> <nav id="app-nav"><a href="#notifications" id="notifications-btn" class="btn"><i class="fa fa-bell-o"></i></a><a href="#messages" id="messages-btn" class="btn"><i class="fa fa-envelope-o"></i></a><a href="#profile" id="profile-btn" class="btn"><i class="fa fa-user"></i></a></nav></script>
         <script id="page-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span></script>
         <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1><a id="submit-btn" href="#"><i class="fa fa-check"></i></a></script>
       </div>
@@ -58,13 +58,11 @@
           </ul>
         </div>
         <div id="profile" class="pt-page pt-page-3">
-          <h2>profile</h2>
-          <section data-title="Profile">
+          <section>
             <div class="profile-overview">
-              <figure class="profile-picture"><img src="http://lorempixel.com/200/200"></figure>
+              <figure class="profile-picture"><i id="anon-icon" class="fa fa-user"></i><img src="http://lorempixel.com/200/200" id="profile-picture"></figure>
               <div class="profile-meta">
-                <h2>Username</h2>
-                <p>Generate new UUID</p>
+                <h2 id="username">Username</h2>
                 <div class="profile-stats">
                   <dl class="profile-stats-list">
                     <dt>Posts</dt>
@@ -77,37 +75,26 @@
                 </div>
               </div>
             </div>
-            <nav class="profile-nav-bar">
-              <div><a href="#">Posts</a></div>
-              <div><a href="#">Badges</a></div>
-              <div><a href="#">Followers</a></div>
-            </nav>
-            <div class="pt-perspective">
-              <div class="profile-content">
-                <ul class="profile-posts-list">
-                  <li>title of text post</li>
-                  <li>title of image post</li>
-                  <li>video post</li>
-                  <li>audio post</li>
-                </ul>
-              </div>
-              <div class="profile-badges">
-                <div class="grid">
-                  <div class="gi"><img src="http://lorempixel.com/150/150">
-                    <h3>Badge name</h3>
+            <p id="generate-new-uuid" class="wrapper">Generate new UUID</p>
+            <nav class="profile-nav-bar"><span class="btn">Posts</span><span class="btn">Badges</span><span class="btn">Followers</span><span class="btn">Settings</span></nav>
+            <div class="pt-perspective profile-content">
+              <div id="user-badges" class="profile-badges">
+                <div class="grid badges-grid">
+                  <div class="gi"><img src="http://lorempixel.com/150/150" class="badge-icon">
+                    <h3 class="badge-name">Badge name</h3>
                   </div>
-                  <div class="gi"><img src="http://lorempixel.com/150/150">
-                    <h3>Badge name</h3>
+                  <div class="gi"><img src="http://lorempixel.com/150/150" class="badge-icon">
+                    <h3 class="badge-name">Badge name</h3>
                   </div>
-                  <div class="gi"><img src="http://lorempixel.com/150/150">
-                    <h3>Badge name</h3>
+                  <div class="gi"><img src="http://lorempixel.com/150/150" class="badge-icon">
+                    <h3 class="badge-name">Badge name</h3>
                   </div>
-                  <div class="gi"><img src="http://lorempixel.com/150/150">
-                    <h3>Badge name</h3>
+                  <div class="gi"><img src="http://lorempixel.com/150/150" class="badge-icon">
+                    <h3 class="badge-name">Badge name</h3>
                   </div>
                 </div>
               </div>
-              <div class="profile-followers">
+              <div id="user-followers" class="profile-followers">
                 <ul class="followers-list">
                   <li>
                     <figure class="follower-thumbnail"><img src="http://lorempixel.com/200/200"></figure>
@@ -116,26 +103,29 @@
                   </li>
                 </ul>
               </div>
+              <div id="user-settings" class="profile-settings">
+                <ul>
+                  <li id="language-btn"><a href="#language-setting">
+                      <p class="nav-title">Language</p><span>English</span></a></li>
+                  <li id="feedback-btn"><a href="#feedback">
+                      <p class="nav-title"> Send App Feedback</p></a></li>
+                  <li id="privacy-policy-btn"><a href="#privacy-policy">
+                      <p class="nav-title"> Privacy Policy</p></a></li>
+                </ul>
+              </div>
             </div>
           </section>
         </div>
         <div id="notifications" class="pt-page pt-page-4">
-          <h2>Recent</h2>
-          <ul class="notifications-list">
-            <li>Viewed by <strong>WDKX</strong></li>
-            <li>Viewed by <strong>WXXI</strong></li>
-            <li>Your post has been approved!</li>
-            <li>Your post has been submitted!</li>
+          <h2 class="wrapper">Recent</h2>
+          <ul id="recent-notifications" class="notifications-list">
           </ul>
-          <h2>Older</h2>
-          <ul class="notifications-list">
-            <li>Your post has been approved!</li>
-            <li>Your post has been submitted!</li>
-            <li>Viewed by <strong>WDKX</strong></li>
-            <li>Viewed by <strong>WXXI</strong></li>
-            <li>Your post has been approved!</li>
-            <li>Your post has been submitted!</li>
-          </ul>
+          <h2 class="wrapper">Older</h2>
+          <ul id="older-notifications" class="notifications-list"></ul>
+          <div class="templates">
+            <script id="post-submitted-li" type="text/x-handlebars-template"><li>Your post has been submitted! <br/><small>Post ID: {{ post_id }}</small></li></script>
+            <script id="post-viewed-li" type="text/x-handlebars-template"><li><strong>{{ organization }}</strong> viewed your post</li></script>
+          </div>
         </div>
         <div id="messages" class="pt-page with-secondary-nav pt-page-5">
           <ul class="messages-list">
@@ -164,7 +154,7 @@
               <input type="text" name="media_caption" placeholder="Title (optional)">
               <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
             </form>
-            <div class="add-extra-media">
+            <div id="add-extra-media" class="add-extra-media">
               <p>Add extra media:</p>
               <div class="flex">
                 <div class="add-photo flex-1"><i class="fa fa-plus"></i><i class="fa fa-camera"></i></div>

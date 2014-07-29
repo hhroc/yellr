@@ -72,6 +72,7 @@
   @include flex(3);
   @include flexbox();
   .btn {
+    display: block;
     padding: $icon-padding;
     border-right: 1px solid $dark-yellow;
     &:first-child{border-left: 1px solid $dark-yellow;}

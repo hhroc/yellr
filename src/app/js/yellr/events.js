@@ -126,6 +126,14 @@ yellr.events = {
     console.log(e);
   },
 
+  clearForm: function() {
+    // for all the forms, clear the data
+    var forms = document.querySelectorAll('#form-wrapper form.target');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].reset();
+    };
+  },
+
   submit_form: function(e) {
 
 
@@ -168,6 +176,7 @@ yellr.events = {
         console.dir(e);
         // alert(e);
         yellr.events.notify(e);
+        yellr.events.clearForm();
       });
     });
 

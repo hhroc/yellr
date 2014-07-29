@@ -2,12 +2,12 @@
 div#form-wrapper.form.wrapper.submit-preview
 
 
-  //- form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+  form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
 
     input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="image")
     textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
-    input(type="file", name="media_payload")
+    input(type="file", name="file")
     div.media-submission-wrapper
       div.media-preview
         i.fa.fa-close
@@ -17,7 +17,7 @@ div#form-wrapper.form.wrapper.submit-preview
           i.fa.fa-plus
 
 
-  form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+  //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
     //- text
     input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="text")

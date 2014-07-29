@@ -26,7 +26,7 @@ yellr.setup = {
         alert('creating localStorage');
         localStorage.setItem('yellr',
           JSON.stringify({
-            client_id: yellr.utils.hash(device.uuid)
+            client_id: yellr.utils.guid()
           })
         );
       }

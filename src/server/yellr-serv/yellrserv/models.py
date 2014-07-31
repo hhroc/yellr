@@ -20,6 +20,8 @@ from sqlalchemy import (
 
 from sqlalchemy import ForeignKey
 
+from sqlalchemy import update
+
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.orm import (
@@ -115,6 +117,16 @@ class Users(Base):
         return user
 
     @classmethod
+    def get_organization_from_user_id(cls, session, user_id):
+        with transaction.manager:
+            user = session.query(
+                Users,
+            ).filter(
+                Users.user_id == user_id,
+            ).first()
+        return user.organization
+
+    @classmethod
     def get_from_user_type_name(cls, session, user_type_name):
         with transaction.manager:
             user = session.query(
@@ -201,17 +213,17 @@ class Assignments(Base):
     fence_geojson = Column(Text)
 
     @classmethod
-    def get_by_assignmentid(cls, session, assignment_id):
+    def get_by_assignment_id(cls, session, assignment_id):
         assignment = session.query(
             QuestionAssignments
         ).filter(
-            QuestionAssignments.assignemnt_id == assignemnt_id
+            QuestionAssignments.assignment_id == assignment_id
         ).first()
         return assignment
 
     @classmethod
     def get_with_question(cls, session, assignment_id, language_id):
-        assignment = Assignments.get_by_assignmentid(session,assignment_id)
+        assignment = Assignments.get_by_assignment_id(session,assignment_id)
         question = session.query(
             Questions
         ).join(
@@ -221,6 +233,40 @@ class Assignments(Base):
             Questions.language_id == language_id
         ).filter().first()
         return (assignment,question)
+
+    @classmethod
+    def get_all_open_with_questions(cls, session, language_code):
+        with transaction.manager:
+            language = Languages.get_from_code(session,language_code)
+            assignments = session.query(
+                Assignments.publish_datetime,
+                Assignments.expire_datetime,
+                Assignments.fence_geojson,
+                Users.organization,
+                Questions.question_text,
+                Questions.question_type,
+                Questions.answer0,
+                Questions.answer1,
+                Questions.answer2,
+                Questions.answer3,
+                Questions.answer4,
+                Questions.answer5,
+                Questions.answer6,
+                Questions.answer7,
+                Questions.answer8,
+                Questions.answer9,
+            ).join(
+                Users
+            ).join(
+                QuestionAssignments,
+            ).join(
+                Questions,
+            ).filter(
+                Questions.language_id == language.language_id,
+                Assignments.expire_datetime > Assignments.publish_datetime,
+            ).all()
+        return assignments
+
             
 
 class Questions(Base):
@@ -256,9 +302,9 @@ class QuestionAssignments(Base):
     question).
     """
 
-    __tablename__ = 'questionassignmenets'
+    __tablename__ = 'question_assignmenets'
     question_assignment_id = Column(Integer, primary_key=True)
-    assignemnt_id = Column(Integer, ForeignKey('assignments.assignment_id'))
+    assignment_id = Column(Integer, ForeignKey('assignments.assignment_id'))
     question_id = Column(Integer, ForeignKey('questions.question_id'))
 
 class Languages(Base):
@@ -295,6 +341,7 @@ class Posts(Base):
     post_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     assignment_id = Column(Integer, ForeignKey('assignments.assignment_id'))
+    title = Column(Text)
     post_datetime = Column(DateTime)
     language_id = Column(Integer, ForeignKey('languages.language_id'))
     reported = Column(Boolean)
@@ -302,7 +349,7 @@ class Posts(Base):
     lng = Column(Float)
 
     @classmethod
-    def create_from_http(cls, session, client_id, assignment_id,
+    def create_from_http(cls, session, client_id, assignment_id, title,
             language_code, location={'lat':0,'lng':0}, media_objects=[]):
         # create post
         with transaction.manager:
@@ -315,6 +362,7 @@ class Posts(Base):
             post = cls(
                 user_id = user.user_id,
                 assignment_id = assignment_id,
+                title = title,
                 post_datetime = datetime.datetime.now(),
                 language_id = language.language_id,
                 reported = False,
@@ -342,6 +390,7 @@ class Posts(Base):
         with transaction.manager:
             posts = session.query(
                 Posts.post_id,
+                Posts.title,
                 Posts.post_datetime,
                 Posts.reported,
                 Posts.lat,
@@ -390,45 +439,45 @@ class Posts(Base):
             ).all()
         return posts
 
-class PostViews(Base):
-
-    """
-    This holds the event of a moderator or subscriber viewing a users post.  This
-    is a nice way to give feedback to the user that someone is actually looking at
-    their content.
-    """
-
-    __tablename__ = 'postviews'
-    post_view_id = Column(Integer, primary_key=True)
-    viewing_user_id = Column(Integer, ForeignKey('users.user_id'))
-    post_id = Column(Integer, ForeignKey('posts.post_id'))
-    view_datetime = Column(DateTime)
-    acknowledged = Column(Boolean)
-
-    @classmethod
-    def create_new_postview(cls, session, viewing_user_id, post_id):
-        with transaction.manager:
-            postview = cls(
-                viewing_user_id = viewing_user_id,
-                post_id = post_id,
-                view_datetime = datetime.datetime.now(),
-                acknowledged = False,
-            )
-        return postview
-
-    @classmethod
-    def get_unacknowledged_from_uniqueid(cls, session, client_id):
-        with transaction.manager:
-            user = Users.get_from_client_id(client_id)
-            postviews = session.query(
-                PostViews
-            ).join(
-                PostViews, Posts.post_id,
-            ).filter(
-                Posts.user_id == user.user_id,
-                PostViews.acknowledged == False,
-            )
-        return postviews
+#class PostViews(Base):
+#
+#    """
+#    This holds the event of a moderator or subscriber viewing a users post.  This
+#    is a nice way to give feedback to the user that someone is actually looking at
+#    their content.
+#    """
+#
+#    __tablename__ = 'postviews'
+#    post_view_id = Column(Integer, primary_key=True)
+#    viewing_user_id = Column(Integer, ForeignKey('users.user_id'))
+#    post_id = Column(Integer, ForeignKey('posts.post_id'))
+#    view_datetime = Column(DateTime)
+#    acknowledged = Column(Boolean)
+#
+#    @classmethod
+#    def create_new_postview(cls, session, viewing_user_id, post_id):
+#        with transaction.manager:
+#            postview = cls(
+#                viewing_user_id = viewing_user_id,
+#                post_id = post_id,
+#                view_datetime = datetime.datetime.now(),
+#                acknowledged = False,
+#            )
+#        return postview
+#
+#    @classmethod
+#    def get_unacknowledged_from_uniqueid(cls, session, client_id):
+#        with transaction.manager:
+#            user = Users.get_from_client_id(client_id)
+#            postviews = session.query(
+#                PostViews
+#            ).join(
+#                PostViews, Posts.post_id,
+#            ).filter(
+#                Posts.user_id == user.user_id,
+#                PostViews.acknowledged == False,
+#            )
+#        return postviews
 
 class MediaTypes(Base):
 
@@ -602,7 +651,7 @@ class CollectionPosts(Base):
     Table to link posts to a collection.
     """
 
-    __tablename__ = 'collectionposts'
+    __tablename__ = 'collection_posts'
     collection_post_id = Column(Integer, primary_key=True)
     collection_id = Column(Integer, ForeignKey('collections.collection_id'))
     post_id = Column(Integer, ForeignKey('posts.post_id'))
@@ -615,6 +664,69 @@ class CollectionPosts(Base):
                 post_id = post_id,
             )
         return collection_post
+
+class Notifications(Base):
+
+    """ This table holds notifications for a user.
+
+        valid types:
+            post_successful
+                payload = {
+                    'post_id': 0,
+                    'title': '',
+                }
+
+            post_viewed
+                payload = {
+                    'organization': '',
+                }
+
+            new_message
+                payload = {
+                    'organization': '',
+                }
+
+            message_sent
+                payload = {
+                    'message_subject': ''
+                }
+            
+    """
+
+    __tablename__ = 'notifications'
+    notification_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    notification_datetime = Column(DateTime)
+    notification_type = Column(Text)
+    payload = Column(Text)
+
+    @classmethod
+    def get_notifications_from_client_id(cls, session, client_id):
+        with transaction.manager:
+            user,created = Users.get_from_client_id(session, client_id)
+            notifications = session.query(
+                Notifications.notification_id,
+                Notifications.notification_datetime,
+                Notifications.notification_type,
+                Notifications.payload,
+            ).filter(
+                Notifications.user_id == user.user_id,
+            ).all() #.limit(25).all()
+            # update table 
+        return notifications, created
+
+    @classmethod
+    def create_notification(cls, session, user_id, notification_type, payload):
+        with transaction.manager:
+            notification = cls(
+                user_id = user_id,
+                notification_datetime = datetime.datetime.now(),
+                notification_type = notification_type,
+                payload = payload,
+            )
+            session.add(notification)
+            transaction.commit()
+        return notification 
 
 class Messages(Base):
 
@@ -658,6 +770,13 @@ class Messages(Base):
             )
             session.add(message)
             transaction.commit()
+        Notifications.create_notification(
+            session,
+            to_user_id,
+            'new_message',
+            json.dumps({'organization': \
+                Users.get_organization_from_user_id(session, from_user_id)}),
+        )
         return message
 
     @classmethod
@@ -679,19 +798,20 @@ class Messages(Base):
             transaction.commit()
         return message
 
+    # TODO: make this not gross ...
     @classmethod
     def mark_all_as_read(cls, session, user_id):
         with transaction.manager:
-            message = session.query(
-                Messages,
-            ).filter(
-                Messages.to_user_id == user_id,
-            ).first() #.update(
-            #    {'was_read': True},
-            #).first()
-            message.was_read = True
-            session.add(message)
-            transaction.commit()
+            message = 0
+            while message != None:
+                message = session.query(
+                    Messages,
+                ).filter(
+                    Messages.to_user_id == user_id,
+                ).first() 
+                message.was_read = True
+                session.add(message)
+                transaction.commit()
         return True
 
     @classmethod

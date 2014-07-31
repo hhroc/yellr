@@ -8,14 +8,14 @@
 
 
 @keyframes blink {
-  0% {background: $yellow; }
-  50% {background: $light-yellow; }
-  100% {background: $yellow; }
+  0% {background: $light-yellow; }
+  50% {background: mix(#fff, $light-yellow, 35%); }
+  100% {background: $light-yellow; }
 }
 @-webkit-keyframes blink {
-  0% {background: $yellow; }
-  50% {background: $light-yellow; }
-  100% {background: $yellow; }
+  0% {background: $light-yellow; }
+  50% {background: mix(#fff, $light-yellow, 35%); }
+  100% {background: $light-yellow; }
 }
 
 

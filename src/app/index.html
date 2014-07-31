@@ -148,11 +148,11 @@
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
           <div id="form-wrapper" class="form wrapper submit-preview">
-            <form id="text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-              <input type="hidden" name="client_id" value="" class="client_id">
-              <input type="hidden" name="media_type" value="text">
-              <input type="text" name="media_caption" placeholder="Title (optional)">
-              <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+            <form id="imageUploadForm" name="imageupload" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
+              <input type="hidden" name="client_id" value="123456789" class="client_id">
+              <input type="hidden" name="media_type" value="image">
+              <input type="file" name="media_file" size="30">
+              <input type="submit" name="upload" value="Upload">
             </form>
             <div id="add-extra-media" class="add-extra-media">
               <p>Add extra media:</p>
@@ -245,7 +245,11 @@
   </div>
   <script src="cordova.js"></script>
   <script src="js/libs/fastclick.js"></script>
-  <script src="js/libs/zepto.js"></script>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/jquery.tap.min.js"></script>
+  <script src="js/libs/jquery.ui.widget.js"></script>
+  <script src="js/libs/jquery.fileupload.js"></script>
+  <script src="js/libs/jquery.iframe-transport.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/moment.js"></script>
   <script src="js/yellr/config.js"></script>

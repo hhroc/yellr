@@ -4,6 +4,7 @@ from time import strftime
 import uuid
 import datetime
 
+
 import urllib
 
 import transaction
@@ -29,6 +30,7 @@ from .models import (
     Collections,
     CollectionPosts,
     Messages,
+    Notifications,
     )
 
 from config import system_config
@@ -154,12 +156,13 @@ def get_posts(request):
 
         if user_id != None:
             posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
+
         else:    
             posts = Posts.get_all_posts(DBSession, reported)
             
 
         ret_posts = []
-        for post_id,post_datetime,reported,lat,lng,verified,user_client_id, \
+        for post_id,title,post_datetime,reported,lat,lng,verified,user_client_id, \
                 first_name,last_name,organization,language_code,language_name in posts:
             media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
             ret_media_objects = []
@@ -173,6 +176,7 @@ def get_posts(request):
                 })
             ret_posts.append({
                 'post_id': post_id,
+                'title': title,
                 'post_datetime': str(post_datetime),
                 'reported': reported,
                 'lat': lat, 
@@ -190,11 +194,106 @@ def get_posts(request):
         result['posts'] = ret_posts
         result['success'] = True
 
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_posts.json',
+        'post_count': len(ret_posts),
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details)) 
+
     #except:
     #    pass
 
     resp = json.dumps(result)
     return Response(resp, content_type='application/json')
+
+@view_config(route_name='get_assignments.json')
+def get_assignments(request):
+
+    result = {'success': False}
+
+#    try:
+    if True:
+    
+        language_code = 'en'
+        try:
+            langage_code = request.GET['language_code']
+        except:
+            pass
+
+        #assignment = Assignments.get_with_question(DBSession,1,1)
+
+        assignments = Assignments.get_all_open_with_questions(DBSession,language_code)
+
+        ret_assignments = []
+        for organization, publish_datetime, expire_datetime, fence, \
+                question_text, question_type, answer0, answer1, answer2, \
+                answer3, answer4, answer5, answer6, answer7, answer8, \
+                answer9 in assignments:
+            ret_assignments.append({
+                'organization': organization,
+                'publish_datetime': publish_datetime,
+                'expire_datetime': expire_datetime,
+                'fence': fence,
+                'question_text': question_text,
+                'question_type': question_type,
+                'answer0': answer0,
+                'answer1': answer1,
+                'answer2': answer2,
+                'answer3': answer3, 
+                'answer4': answer4,
+                'answer5': answer5,
+                'answer6': answer6, 
+                'answer7': answer7, 
+                'answer8': answer8,
+                'answer9': answer9,
+            })
+
+        result['assignments'] = ret_assignments
+        result['success'] = True
+    
+#    except:
+#        pass
+
+    return make_response(result)
+
+@view_config(route_name='get_notifications.json')
+def get_notifications(request):
+
+    result = {'success': False}
+
+    try:
+
+        client_id = None
+        try:
+            client_id = request.GET['client_id']
+        except:
+            pass
+
+        if client_id != None:
+            notifications,created = Notifications.get_notifications_from_client_id(
+                DBSession,
+                client_id
+            )
+            ret_notifications = []
+            for notification_id, notification_datetime, \
+                    notification_type, payload in notifications:
+                ret_notifications.append({
+                    'notification_id': notification_id,
+                    'notification_datetime': str(notification_datetime),
+                    'notification_type': notification_type,
+                    'payload': json.loads(payload),
+                })
+
+        result['notifications'] = ret_notifications
+        result['success'] = True
+
+    except Exception, e:
+        result['error_text'] = str(e)
+        pass
+
+    return make_response(result)
 
 @view_config(route_name='get_messages.json')
 def get_messages(request):
@@ -232,6 +331,14 @@ def get_messages(request):
             result['messages'] = ret_messages
             result['success'] = True
 
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_messages.json',
+        'message_count': len(ret_messages),
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+
 #    except:
 #        pass
 
@@ -258,6 +365,7 @@ def publish_post(request):
 
         client_id = request.POST['client_id']
         assignment_id = request.POST['assignment_id']
+        title = request.POST['title']
         language_code = request.POST['language_code']
         location = json.loads(urllib.unquote(request.POST['location']).decode('utf8'))
         media_objects = json.loads(urllib.unquote(request.POST['media_objects']).decode('utf8'))
@@ -278,7 +386,7 @@ def publish_post(request):
         # Debug/Logging
         event_type = 'http_request'
         event_details = {
-            'url':'publishpost.json',
+            'url':'publish_post.json',
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'assignment_id': assignment_id,
@@ -289,7 +397,7 @@ def publish_post(request):
             'post_id': result['post_id'],
             'new_user': result['new_user'],
         }
-        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+        client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
             #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -298,7 +406,7 @@ def publish_post(request):
                 'client_id': client_id,
                 'method': 'publish_post.json',
             }
-            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+            client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #   pass
@@ -417,7 +525,7 @@ def upload_media(request):
         #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
         event_type = 'http_request'
         event_details = {
-            'url':'uploadmedia.json',
+            'url':'upload_media.json',
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
@@ -429,7 +537,7 @@ def upload_media(request):
             'new_user': result['new_user'],
             'error_text': error_text,
         }
-        clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+        client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
         if created:
             #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -438,7 +546,7 @@ def upload_media(request):
                 'client_id': client_id,
                 'method': 'upload_media.json',
             }
-            clientlog = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+            client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     #except:
     #    pass

@@ -808,7 +808,10 @@ class Messages(Base):
                     Messages,
                 ).filter(
                     Messages.to_user_id == user_id,
+                    Messages.was_read == False,
                 ).first() 
+                if message == None:
+                    break
                 message.was_read = True
                 session.add(message)
                 transaction.commit()

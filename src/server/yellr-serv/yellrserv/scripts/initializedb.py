@@ -128,34 +128,33 @@ def main(argv=sys.argv):
 
         transaction.commit()
 
-    with transaction.manager:
-        language = Languages.get_from_code(DBSession,'en')
-        question = Questions(
-            language_id = language.language_id,
-            qustion_text = 'How do you feel about broccoli?',
-            question_type = 'free_text',
-            answer0 = '',
-            answer1 = '',
-            answer2 = '',
-            answer3 = '',
-            answer4 = '',
-            answer5 = '',
-            answer6 = '',
-            answer7 = '',
-            answer8 = '',
-            answer9 = '',
-        )
-        session.add(question)
-
-        user_system        
-        assignment = Assignments(
-            user_id = 
-        )
-        session.add(assignment)
-        
-        session.add(questionassignment)
-        transaction.commit()
-
-    with transaction.manager:
+#    with transaction.manager:
+#        language = Languages.get_from_code(DBSession,'en')
+#        question = Questions(
+#            language_id = language.language_id,
+#            qustion_text = 'How do you feel about broccoli?',
+#            question_type = 'free_text',
+#            answer0 = '',
+#            answer1 = '',
+#            answer2 = '',
+#            answer3 = '',
+#            answer4 = '',
+#            answer5 = '',
+#            answer6 = '',
+#            answer7 = '',
+#            answer8 = '',
+#            answer9 = '',
+#        )
+#        session.add(question)
+#
+#        assignment = Assignments(
+#            user_id = 1,
+#        )
+#        session.add(assignment)
+#        
+#        session.add(questionassignment)
+#        transaction.commit()
+#
+#    with transaction.manager:
         
 

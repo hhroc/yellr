@@ -286,8 +286,8 @@ def get_notifications(request):
                     'payload': json.loads(payload),
                 })
 
-        result['notifications'] = ret_notifications
-        result['success'] = True
+            result['notifications'] = ret_notifications
+            result['success'] = True
 
     except Exception, e:
         result['error_text'] = str(e)

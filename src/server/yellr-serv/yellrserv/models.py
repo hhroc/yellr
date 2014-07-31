@@ -210,7 +210,7 @@ class Assignments(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'))
     publish_datetime = Column(DateTime)
     expire_datetime = Column(DateTime)
-    fence_geojson = Column(Text)
+    geo_fence = Column(Text)
 
     @classmethod
     def get_by_assignment_id(cls, session, assignment_id):
@@ -241,7 +241,7 @@ class Assignments(Base):
             assignments = session.query(
                 Assignments.publish_datetime,
                 Assignments.expire_datetime,
-                Assignments.fence_geojson,
+                Assignments.geo_fence,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type,

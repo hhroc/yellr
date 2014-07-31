@@ -1,6 +1,8 @@
 import os
 import sys
 import uuid
+import datetime
+import json
 
 import transaction
 
@@ -15,12 +17,14 @@ from pyramid.scripts.common import parse_vars
 
 from ..models import (
     DBSession,
-    #MyModel,
+    Base,
     UserTypes,
     MediaTypes,
     Languages,
     Users,
-    Base,
+    Assignments,
+    Questions,
+    QuestionAssignments,
     )
 
 
@@ -128,33 +132,40 @@ def main(argv=sys.argv):
 
         transaction.commit()
 
-#    with transaction.manager:
-#        language = Languages.get_from_code(DBSession,'en')
-#        question = Questions(
-#            language_id = language.language_id,
-#            qustion_text = 'How do you feel about broccoli?',
-#            question_type = 'free_text',
-#            answer0 = '',
-#            answer1 = '',
-#            answer2 = '',
-#            answer3 = '',
-#            answer4 = '',
-#            answer5 = '',
-#            answer6 = '',
-#            answer7 = '',
-#            answer8 = '',
-#            answer9 = '',
-#        )
-#        session.add(question)
-#
-#        assignment = Assignments(
-#            user_id = 1,
-#        )
-#        session.add(assignment)
-#        
-#        session.add(questionassignment)
-#        transaction.commit()
-#
-#    with transaction.manager:
+    with transaction.manager:
+        language = Languages.get_from_code(DBSession,'en')
+        question = Questions(
+            language_id = language.language_id,
+            question_text = 'How do you feel about broccoli?',
+            question_type = 'free_text',
+            answer0 = '',
+            answer1 = '',
+            answer2 = '',
+            answer3 = '',
+            answer4 = '',
+            answer5 = '',
+            answer6 = '',
+            answer7 = '',
+            answer8 = '',
+            answer9 = '',
+        )
+        DBSession.add(question)
+
+        assignment = Assignments(
+            user_id = 1,
+            publish_datetime = datetime.datetime.now(),
+            expire_datetime = \
+                datetime.datetime.now() + datetime.timedelta(days=30),
+            geo_fence = json.dumps({}),
+        )
+        DBSession.add(assignment)
         
+        questionassignment = QuestionAssignments(
+            assignment_id = 1,
+            question_id = 1,
+        )
+        DBSession.add(questionassignment)
+        
+        transaction.commit()
+
 

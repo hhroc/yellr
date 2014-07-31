@@ -227,14 +227,14 @@ def get_assignments(request):
         assignments = Assignments.get_all_open_with_questions(DBSession,language_code)
 
         ret_assignments = []
-        for organization, publish_datetime, expire_datetime, fence, \
+        for publish_datetime, expire_datetime, fence, organization, \
                 question_text, question_type, answer0, answer1, answer2, \
                 answer3, answer4, answer5, answer6, answer7, answer8, \
                 answer9 in assignments:
             ret_assignments.append({
                 'organization': organization,
-                'publish_datetime': publish_datetime,
-                'expire_datetime': expire_datetime,
+                'publish_datetime': str(publish_datetime),
+                'expire_datetime': str(expire_datetime),
                 'fence': fence,
                 'question_text': question_text,
                 'question_type': question_type,

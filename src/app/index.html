@@ -147,12 +147,11 @@
           </ul>
         </div>
         <div id="submit-form" class="pt-page pt-page-6">
-          <div id="form-wrapper" class="form wrapper submit-preview">
-            <form id="imageUploadForm" name="imageupload" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
-              <input type="hidden" name="client_id" value="123456789" class="client_id">
-              <input type="hidden" name="media_type" value="image">
-              <input type="file" name="media_file" size="30">
-              <input type="submit" name="upload" value="Upload">
+          <div id="form-wrapper" class="form wrapper submit-preview"><form name="imageupload" id="imageUploadForm" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
+            <input type="text" hidden="hidden" id="client_id" name="client_id" value="1"/>
+            <input type="text" hidden="hidden" id="media_type" name="media_type" value="image"/>
+            <input type="file" id="media_file" name="media_file" size="30"/>
+            <input type="submit" name="upload" value="Upload" />
             </form>
             <div id="add-extra-media" class="add-extra-media">
               <p>Add extra media:</p>
@@ -247,9 +246,7 @@
   <script src="js/libs/fastclick.js"></script>
   <script src="js/libs/jquery.js"></script>
   <script src="js/libs/jquery.tap.min.js"></script>
-  <script src="js/libs/jquery.ui.widget.js"></script>
-  <script src="js/libs/jquery.fileupload.js"></script>
-  <script src="js/libs/jquery.iframe-transport.js"></script>
+  <script src="js/libs/jquery.form.min.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/moment.js"></script>
   <script src="js/yellr/config.js"></script>

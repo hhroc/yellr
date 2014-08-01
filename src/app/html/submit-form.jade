@@ -16,9 +16,17 @@ div#form-wrapper.form.wrapper.submit-preview
         span.add-more-media.flex-1#add-more-media-btn
           i.fa.fa-plus
 
-
+  <form name="imageupload" id="imageUploadForm" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
+  <input type="text" hidden="hidden" id="client_id" name="client_id" value="1"/>
+  <input type="text" hidden="hidden" id="media_type" name="media_type" value="image"/>
+  <input type="file" id="media_file" name="media_file" size="30"/>
+  <input type="submit" name="upload" value="Upload" />
+  </form>
+  //- <br>
+  //- <button id="uploadimage">Uploadfs</button>
   //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-  form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
+  //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
+  //- form#imageUploadForm(name="imageupload", action="http://yellr.mycodespace.net/upload_media.json", method="post")
     input.client_id(type="hidden", name="client_id", value="123456789")
     input(type="hidden", name="media_type", value="image")
     input(type="file", name="media_file", size="30")

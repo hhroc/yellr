@@ -103,36 +103,73 @@ yellr.setup = {
       forms[i].querySelector('.client_id').value = yellr.localStorage.client_id;
     }
 
-
-
-    // alert('form setup');
-    $('#imageUploadForm').on('submit', function(e) {
-      e.preventDefault();
-
-      // alert('submitting...');
-      var formData = new FormData(this);
-      console.log(formData);
-      // alert(formData);
-
-      $.ajax({
-        type:'POST',
-        url: $(this).attr('action'),
-        data:formData,
-        cache:false,
-        contentType: false,
-        processData: false,
-        success:function(data){
-          console.log("success");
-          console.log(data);
-          // alert('you are winner ahaha');
-        },
-        error: function(data){
-          console.log("error");
-          console.log(data);
-          // alert('YOU LOSE');
-        }
-      });
+    $('#imageUploadForm').ajaxForm(function() {
+      // alert('did that shit work?');
+      alert('image posted');
     });
+
+
+    // the below works in newer browsers
+    // $('#uploadimage').on('click',(function() {
+    //   //e.preventDefault();
+    //   alert('submitting form');
+    //   alert('testing FormData');
+
+    //   var formData = new FormData( document.getElementById('imageUploadForm') );
+    //   alert(formData);
+    //   $.ajax({
+    //     type:'POST',
+    //     url: "http://yellrdev.wxxi.org/upload_media.json", //$(this).attr('action'),
+    //     // url: "http://yellr.mycodespace.net/upload_media.json", //$(this).attr('action'),
+    //     data: formData,
+    //     cache: false,
+    //     contentType: false,
+    //     processData: false,
+    //     success:function(data){
+    //       if ( data.success == true ) {
+    //         alert( 'File successfully uploaded.' );
+    //       }
+    //       else {
+    //         alert( 'Something went wrong while uploading the file.' );
+    //       }
+    //     },
+    //     error: function(data){
+    //       alert( 'There was an error reaching the server.' );
+    //     }
+    //   });
+
+    // }));
+
+
+
+    // // alert('form setup');
+    // $('#imageUploadForm').on('submit', function(e) {
+    //   e.preventDefault();
+
+    //   // alert('submitting...');
+    //   var formData = new FormData(this);
+    //   console.log(formData);
+    //   // alert(formData);
+
+    //   $.ajax({
+    //     type:'POST',
+    //     url: $(this).attr('action'),
+    //     data:formData,
+    //     cache:false,
+    //     contentType: false,
+    //     processData: false,
+    //     success:function(data){
+    //       console.log("success");
+    //       console.log(data);
+    //       // alert('you are winner ahaha');
+    //     },
+    //     error: function(data){
+    //       console.log("error");
+    //       console.log(data);
+    //       // alert('YOU LOSE');
+    //     }
+    //   });
+    // });
 
     // $("#ImageBrowse").on("change", function() {
     //     $("#imageUploadForm").submit();

@@ -33,7 +33,7 @@ yellr.setup = {
     }
 
     yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
-    alert(yellr.localStorage.client_id);
+    alert('Your UUID: ' + yellr.localStorage.client_id);
   },
 
 

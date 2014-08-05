@@ -2,22 +2,15 @@
 div#form-wrapper.form.wrapper.submit-preview
 
 
-  form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
+  //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
     input.client_id(type="hidden", name="client_id", value="123456789")
     input(type="hidden", name="media_type", value="image")
     input(type="file", name="media_file", size="30")
     input(type="submit", name="upload", value="Upload")
 
-  //- <form name="imageupload" id="imageUploadForm" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
-  //- <input type="text" id="client_id" name="client_id" value="1"/>
-  //- <input type="text" id="media_type" name="media_type" value="image"/>
-  //- <input type="file" id="media_file" name="media_file" size="30"/>
-  //- <input type="submit" name="upload" value="Upload" />
-  //- </form>
-
 
   //- text
-  //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+  form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
     input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="text")
     input(type="text", name="media_caption", placeholder="Title (optional)")

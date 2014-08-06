@@ -1,29 +1,104 @@
 'use strict';
 var yellr = yellr || {};
 
-yellr.routes = function() {
+yellr.routes = (function() {
+
     /**
      * routes.js
      *
-     * exposes a Flask-like API that allows us to call a function based on the page we're on
+     * exposes a Flask-like API that allows us
+     * to call a view function based on the hash
      */
-    console.log('hello from: routes.js');
 
     var init = function() {
-      console.log('on hashchange call yellr.view');
+
+      // call the view function on hash change
+      window.onhashchange = this.view;
+
+      // provide route alias
+      yellr.route = this.route;
+
+      // hook up routes to view functions
+      this.setup_routes();
+
+      // index: assignments
+      window.location.hash = '#assignments';
+
     }
 
-    var route = function(hash, func) {
-      console.log('route set: ' + hash);
+
+
+
+
+    var setup_routes = function() {
+      /**
+       * our app routes
+       *
+       *
+       * to add a new view/page:
+       * - choose the hash
+       * - create a new js file in js/yellr/view/
+       *
+       * ex: making the debug page
+       *     hash: #debug
+       *     file: js/yellr/view/debug.js
+       *           note - the js filename should follow the hash
+       *           #debug --> view/debug.js
+       *
+       *     init: add the new route to this function:
+       *           yellr.route('#debug', yellr.view.debug)
+       *           note - the js file should create a new object to view object
+       */
+
+      // yellr.view = {};
+      yellr.route('#profile', yellr.view.profile);
+      yellr.route('#news-feed', yellr.view.news_feed);
+      yellr.route('#assignments', yellr.view.assignments);
+      yellr.route('#notifications', yellr.view.notifications);
+      yellr.route('#messages', yellr.view.messages);
+      yellr.route('#report', yellr.view.report);
+
     }
+
+
+
+
+
+    var views = {}; // holds our views
+
+    var route = function(hash, view) {
+      /**
+       * this function creates a 'private' object
+       * that we can quickly call from the view function
+       */
+
+      views[hash] = view;
+
+    }
+
+
+
+
 
     var view = function() {
-      // called on window.hashchange
-      console.log('view: ' );
+
+      // get the hash
+      var hash = window.location.hash;
+      if (hash == '' || hash == '#') hash = '#assignments';
+
+      // call the render function
+      views[hash].render();
+
     }
+
+
+
+
 
     return {
       init: init,
-      route: route
+      route: route,
+      setup_routes: setup_routes,
+      view: view
     }
-}()
+})()

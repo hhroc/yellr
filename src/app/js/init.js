@@ -8,30 +8,32 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
+
+// create 'global' variables
+// yellr.view = {};
+// yellr.user = {};
+
+
 window.onload = function() {
-  /* DEBUG MODE */
-  // localStorage.removeItem('yellr');
-
-  // setup
-  yellr.setup.DOM();
-  yellr.route('#');
-
-  if (yellr.localStorage === undefined) {
-    console.log('setting dev local storage');
-    yellr.localStorage = {
-      client_id: '123456789'
-    }
-  }
 
 
-  // load assignments
-  $.getJSON('data/assignments.json', function(data) {
-    yellr.utils.render_list({
-      data: data,
-      target: '#latest-assignments',
-      prepend: true
-    });
-  });
+
+  // set up routes
+  // - js/yellr/routes.js
+  yellr.routes.init();
+
+
+  // set up user profile
+  /**
+   * yellr.user = {
+   *   settings: {}
+   *   notifications: [],
+   *   messages: [],
+   *   badges: []
+   * }
+   */
+
+
 }
 
 document.addEventListener('deviceready', function() {

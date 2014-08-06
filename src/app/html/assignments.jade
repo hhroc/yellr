@@ -26,4 +26,6 @@ ul#latest-assignments.assignments-list.list-style-none
 
 div.templates
   script#assignments-li(type="text/x-handlerbars-template")
-    <li> <h2 class="assignment-title"> <a href="#view-assignment/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li>
+    {{#each assignments}}
+    <li> <h2 class="assignment-title"> <a href="#view-assignment/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions.[length] }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li>
+    {{/each}}

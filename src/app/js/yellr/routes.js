@@ -10,6 +10,14 @@ yellr.routes = (function() {
      * to call a view function based on the hash
      */
 
+    // the _default_template_settings object gets passed to every route
+    var _default_template_settings = {
+      header: {target: '#app-header'},
+      // subnav: {target: '#app-subnav'},
+      footer: {target: '#app-footer'}
+    }
+
+
     var init = function() {
 
       // call the view function on hash change
@@ -60,6 +68,7 @@ yellr.routes = (function() {
       yellr.route('#messages', yellr.view.messages);
       yellr.route('#view-message', yellr.view.messages);
       yellr.route('#news-feed', yellr.view.news_feed);
+      yellr.route('#view-news', yellr.view.news_feed);
       yellr.route('#notifications', yellr.view.notifications);
       yellr.route('#profile', yellr.view.profile);
       yellr.route('#report', yellr.view.report);
@@ -110,7 +119,8 @@ yellr.routes = (function() {
       // call the render function
       views[hash].render({
         hash: hash,
-        id: id
+        id: id,
+        template: _default_template_settings
       });
 
 

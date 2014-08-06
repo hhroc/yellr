@@ -14,6 +14,10 @@ var yellr = yellr || {};
 yellr.utils = {
 
   no_subnav: function() {
+    /**
+     * convenience function. call it to remove the subnav
+     */
+
     this.render_template({
       target: '#app-subnav',
       template: ''
@@ -63,40 +67,40 @@ yellr.utils = {
     }
     else return html;
 
-    // add events
-    if(settings.events) settings.events();
+    // // add events
+    // if(settings.events) settings.events();
   },
 
 
-  render_list: function(options) {
-    if (!options.data || !options.target) {
-      console.log('missing data or target');
-      return;
-    }
+  // render_list: function(options) {
+  //   if (!options.data || !options.target) {
+  //     console.log('missing data or target');
+  //     return;
+  //   }
 
-    // Handlebars compile into strings
-    // so we'll be concatenating to this string
-    var html = '';
+  //   // Handlebars compile into strings
+  //   // so we'll be concatenating to this string
+  //   var html = '';
 
-    for (var i = 0; i < options.data.length; i++) {
-      var asgmt = options.data[i];
-      html += this.render_template({
-        template: '#assignments-li',
-        context: {
-          id: asgmt.id,
-          title: asgmt.title,
-          contributions: asgmt.contributions.length,
-          deadline: moment(asgmt.deadline).fromNow(true)
-        }
-      });
-    };
+  //   for (var i = 0; i < options.data.length; i++) {
+  //     var asgmt = options.data[i];
+  //     html += this.render_template({
+  //       template: '#assignments-li',
+  //       context: {
+  //         id: asgmt.id,
+  //         title: asgmt.title,
+  //         contributions: asgmt.contributions.length,
+  //         deadline: moment(asgmt.deadline).fromNow(true)
+  //       }
+  //     });
+  //   };
 
-    if (options.prepend) $(options.target).prepend(html);
-    else if (options.append) $(options.target).append(html);
-    else $(options.target).html(html);
+  //   if (options.prepend) $(options.target).prepend(html);
+  //   else if (options.append) $(options.target).append(html);
+  //   else $(options.target).html(html);
 
-    if (options.events) options.events();
-  },
+  //   if (options.events) options.events();
+  // },
 
 
   clearNode: function(DOMnode) {

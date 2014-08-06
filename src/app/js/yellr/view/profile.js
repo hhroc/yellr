@@ -9,10 +9,28 @@ yellr.view.profile = (function() {
      * the user profile page for yellr
      */
 
-    var render = function() {
-      console.log('hello from: profile render');
-      yellr.utils.no_subnav();
+    var render_template = yellr.utils.render_template;
+    var header, footer;
+
+
+
+    var render = function(data) {
+
+      /**
+       * get the hash (single or feed view?)
+       */
+
+
+      header = data.template.header;
+      footer = data.template.footer;
+
+
+      render_template(header);
+      render_template(footer);
+
     }
+
+
 
     return {
       render: render

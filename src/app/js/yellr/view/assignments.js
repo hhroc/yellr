@@ -13,22 +13,22 @@ yellr.view.assignments = (function() {
 
 
     var render_template = yellr.utils.render_template;
-
-    // template targets
-    var header = {target: '#app-header'},
-        footer = {target: '#app-footer'};
+    var header, footer;
 
 
 
-    var render = function(url) {
+    var render = function(data) {
 
       /**
        * get the hash (single or feed view?)
        */
 
 
-      if (url.hash === '#view-assignment')
-        this.render_assignment(url.id);
+      header = data.template.header;
+      footer = data.template.footer;
+
+      if (data.hash === '#view-assignment')
+        this.render_assignment(data.id);
       else this.render_feed();
 
       render_template(header);
@@ -54,6 +54,7 @@ yellr.view.assignments = (function() {
         target: '#app-subnav',
         template: '#homepage-subnav'
       });
+      document.querySelector('#assignments-tab').className = 'current';
 
 
       // make sure we have data
@@ -64,12 +65,19 @@ yellr.view.assignments = (function() {
 
 
       // render the content
-      yellr.utils.render_list({
-        data: yellr.DATA.assignments,
-        target: '#latest-assignments',
-        li_template: '#assignments-li',
-        prepend: true
-      });
+      var results = render_template({
+        template: '#assignments-li',
+        context: {
+          assignments: yellr.DATA.assignments
+        }
+      })
+      $('#latest-assignments').prepend(results);
+
+      // parse UTC dates with moment.js
+      var dates = document.querySelectorAll('.assignment-deadline');
+      for (var i = 0; i < dates.length; i++) {
+        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
+      };
 
     }
 

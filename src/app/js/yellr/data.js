@@ -3,7 +3,7 @@ var yellr = yellr || {};
 
 yellr.data = (function() {
 
-    var urls = {
+    var dev_urls = {
       assignments: 'data/assignments.json',
       notifications: 'data/notifications.json',
       messages: 'data/messages.json',
@@ -19,6 +19,8 @@ yellr.data = (function() {
       profile: ''
     }
 
+    var urls = {};
+
 
 
     var init = function() {
@@ -26,12 +28,14 @@ yellr.data = (function() {
       // grab the data already stored
       // DATA = yellr.DATA;
 
-
+      urls = dev_urls;
+      // urls = live_urls;
 
       // load all of the things
       this.load_assignments();
+      this.load_messages();
       // this.load_news_reports();
-      // this.load_notifications();
+      this.load_notifications();
       this.load_profile();
 
     }
@@ -42,7 +46,7 @@ yellr.data = (function() {
 
     var load_assignments = function(callback) {
 
-      // console.log('... loading assignments');
+      console.log('... loading assignments');
 
       // load assignments
       $.getJSON(urls.assignments, function(data) {
@@ -59,10 +63,29 @@ yellr.data = (function() {
 
 
 
+    var load_messages = function(callback) {
+
+      console.log('... loading messages');
+
+      // load messages
+      $.getJSON(urls.messages, function(data) {
+        yellr.DATA.messages = data;
+        // console.log('... loading messages | DONE');
+        yellr.utils.save();
+
+        if (callback) callback();
+      });
+
+    }
+
+
+
+
+
 
     var load_notifications = function(callback) {
 
-      // console.log('... loading notifications');
+      console.log('... loading notifications');
 
       // load notifications
       $.getJSON(urls.notifications, function(data) {
@@ -82,7 +105,7 @@ yellr.data = (function() {
 
     var load_news_reports = function(callback) {
 
-      // console.log('... loading news_reports');
+      console.log('... loading news_reports');
 
       // load news_reports
       $.getJSON(urls.news_reports, function(data) {
@@ -101,7 +124,7 @@ yellr.data = (function() {
 
     var load_profile = function(uuid, callback) {
 
-      // console.log('... loading profile');
+      console.log('... loading profile');
 
       // load profile
       var url = (uuid) ? urls.profile + '?client_id='+uuid : urls.profile;
@@ -124,6 +147,7 @@ yellr.data = (function() {
     return {
       init: init,
       load_assignments: load_assignments,
+      load_messages: load_messages,
       load_notifications: load_notifications,
       load_news_reports: load_news_reports,
       load_profile: load_profile

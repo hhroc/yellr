@@ -13,6 +13,13 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  no_subnav: function() {
+    this.render_template({
+      target: '#app-subnav',
+      template: ''
+    })
+  },
+
   save: function() {
     /**
      * Saves/updates our yellr.localStorage
@@ -91,24 +98,6 @@ yellr.utils = {
     if (options.events) options.events();
   },
 
-  render_assignment: function(settings) {
-    // all we get is JSON
-    // there are 2 hard-coded targets
-    var data = settings.data;
-
-    // render actual assignment
-    this.render_template({
-      template: '#assignment-view',
-      target: '#view-assignment .assignment-view',
-      context: {
-        title: data.title,
-        image: data.image,
-        description: data.description,
-        deadline: moment(data.deadline).fromNow(true)
-      }
-    })
-
-  },
 
   clearNode: function(DOMnode) {
     while(DOMnode.hasChildNodes())

@@ -13,25 +13,22 @@ yellr.view.assignments = (function() {
 
 
     var render_template = yellr.utils.render_template;
-    var hash, id;
-    var header, footer;
+
+    // template targets
+    var header = {target: '#app-header'},
+        footer = {target: '#app-footer'};
 
 
-    var render = function() {
+
+    var render = function(url) {
 
       /**
        * get the hash (single or feed view?)
        */
 
-      var hash_string = (window.location.hash === '') ? '#assignments' : window.location.hash;  // ex. #assignments
-      hash_string = hash_string.split('/');
 
-      // ex. #assignments/43132
-      hash = hash_string[0];  // #assignments
-      id   = hash_string[1];  // 43132
-      // console.log(hash, id);
-
-      if (hash === '#view-assignment') this.render_assignment();
+      if (url.hash === '#view-assignment')
+        this.render_assignment(url.id);
       else this.render_feed();
 
       render_template(header);
@@ -49,33 +46,28 @@ yellr.view.assignments = (function() {
 
     var render_feed = function() {
 
-      // render header
-      header = {
-        template: '#main-header',
-        target: '#app-header'
-      };
+      // template settings
+      header.template = '#main-header';
+      footer.template = '#report-bar';
+      // subnav
+      render_template({
+        target: '#app-subnav',
+        template: '#homepage-subnav'
+      });
 
-      var subnav = {
-        template: '#report-bar',
-        target: '#query-string',
-      };
-      $('#homepage-subnav').show();
 
-      // footer
-      footer = {
-        template: '#report-bar',
-        target: '#app-footer',
-        // events: yellr.setup.report_bar
-      };
-
+      // make sure we have data
       if (yellr.DATA.assignments === undefined) {
-        wait_for_data(this.render_feed);
+        wait_for_data(this.render_feed, yellr.data.load_assignments);
         return;
       }
 
+
+      // render the content
       yellr.utils.render_list({
         data: yellr.DATA.assignments,
         target: '#latest-assignments',
+        li_template: '#assignments-li',
         prepend: true
       });
 
@@ -90,18 +82,20 @@ yellr.view.assignments = (function() {
 
 
 
-    var render_assignment = function() {
+    var render_assignment = function(id) {
 
+      // template settings
       header.template = '#page-header';
       header.context = {page: 'Assignment'};
-      header.events = undefined;
+      yellr.utils.no_subnav();
+      footer.template = '';
 
-      $('#homepage-subnav').hide();
 
-      footer = {
-        template: '',
-        target: '#app-footer',
-      };
+      // render the assignment
+      var assignment = {
+        template: '#assignment-view',
+        target: '#view-assignment .assignment-view'
+      }
 
       // find the right one first
       for (var i = 0; i < yellr.DATA.assignments.length; i++) {
@@ -109,22 +103,20 @@ yellr.view.assignments = (function() {
         // careful, the 'id' var came fromt a string split
         if (yellr.DATA.assignments[i].id === parseInt(id)) {
 
-          // render the page
-          render_template({
-            template: '#assignment-view',
-            target: '#view-assignment .assignment-view',
-            context: context: {
-              title: yellr.DATA.assignments[i].title,
-              image: yellr.DATA.assignments[i].image,
-              description: yellr.DATA.assignments[i].description,
-              deadline: moment(yellr.DATA.assignments[i].deadline).fromNow(true)
-            }
+          assignment.context = {
+            title: yellr.DATA.assignments[i].title,
+            image: yellr.DATA.assignments[i].image,
+            description: yellr.DATA.assignments[i].description,
+            deadline: moment(yellr.DATA.assignments[i].deadline).fromNow(true)
+          }
 
-          })
-
-          return;
+          break;
         }
       }
+
+      // render the page
+      render_template(assignment);
+
     }
 
 
@@ -141,7 +133,7 @@ yellr.view.assignments = (function() {
 
     var wait_time = 0;
 
-    var wait_for_data = function(callback) {
+    var wait_for_data = function(callback, reload) {
 
       setTimeout(callback, 1000);
       wait_time++;
@@ -154,6 +146,7 @@ yellr.view.assignments = (function() {
         // ask if user wants to try again
         // if yes reset wait_time to 0
         // call yellr.data.load_assignments
+        reload();
       };
 
     }

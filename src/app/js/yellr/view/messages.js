@@ -11,7 +11,6 @@ yellr.view.messages = (function() {
 
     var render = function() {
       console.log('hello from: messages render');
-      $('#homepage-subnav').hide();
 
     }
 

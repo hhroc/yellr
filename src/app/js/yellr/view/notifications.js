@@ -11,8 +11,7 @@ yellr.view.notifications = (function() {
 
     var render = function() {
       console.log('hello from: notifications render');
-      $('#homepage-subnav').hide();
-
+      yellr.utils.no_subnav();
     }
 
     return {

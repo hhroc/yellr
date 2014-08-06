@@ -90,17 +90,30 @@ yellr.routes = (function() {
       /**
        * this gets called on every hash change
        *
-       * we render the html first
+       * we get the URL hash string
+       * we render the html
        * then give the <div> a class of 'current'
        */
 
       // get the hash
-      var hash = window.location.hash;
-      if (hash == '' || hash == '#') hash = '#assignments';
-      hash = hash.split('/')[0];
+      var hash_string = (window.location.hash === '' || window.location.hash === '#') ? '#assignments' : window.location.hash;  // ex. #assignments
+      // if (hash == '' || hash == '#') hash = '#assignments';
+      hash_string = hash_string.split('/');
+
+      // ex. #assignments/43132
+      var hash = hash_string[0];  // #assignments
+      var id   = hash_string[1];  // 43132
+      // console.log(hash, id);
+
+
 
       // call the render function
-      views[hash].render();
+      views[hash].render({
+        hash: hash,
+        id: id
+      });
+
+
 
       // clear last class
       var previous_page = document.querySelector('.pt-perspective .current');

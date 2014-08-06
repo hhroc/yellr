@@ -15,14 +15,16 @@ yellr.utils = {
 
   save: function() {
     /**
-     * Saves our yellr.localStorage
-     * Updates our yellr.localStorage ref
-     * THIS IS ONLY FOR LOCAL STORAGE
+     * Saves/updates our yellr.localStorage
      */
 
-    localStorage.setItem('yellr', JSON.stringify(yellr.localStorage));
-    yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
-    console.log('localStorage saved.');
+    localStorage.setItem('yellr', JSON.stringify({DATA: yellr.DATA, SETTINGS: yellr.SETTINGS, UUID: yellr.UUID }));
+    // console.log('===================================');
+    // console.log('localStorage saved.');
+    // console.log(yellr.DATA);
+    // console.log(yellr.SETTINGS);
+    // console.log(yellr.UUID);
+    // console.log('===================================');
   },
 
   render_template: function(settings) {
@@ -154,7 +156,8 @@ yellr.utils = {
       }
     }
 
-    alert('GUID: '+ uuid.join(''));
+    // alert('GUID: '+ uuid.join(''));
+    // console.log('new GUID generated');
     return uuid.join('');
   }
 };

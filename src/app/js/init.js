@@ -8,13 +8,45 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
-
-// create 'global' variables
-// yellr.view = {};
-// yellr.user = {};
-
+var DEBUG = true;
 
 window.onload = function() {
+
+  // if (DEBUG) localStorage.removeItem('yellr');
+
+
+  // check for pre-existing data, if none, create it
+  if (localStorage.getItem('yellr') === null) localStorage.setItem('yellr', JSON.stringify({DATA: {}, SETTINGS: {}, UUID: undefined}));
+
+  // get saved data
+  var data = JSON.parse(localStorage.getItem('yellr'));
+  console.log(data);
+  yellr.DATA = data.DATA;
+  yellr.SETTINGS = data.SETTINGS;
+  yellr.UUID = data.UUID;
+
+
+  /** MUST RUN INITS() IN THIS ORDER **/
+  /*  a user ID must exists before we can load data for it */
+  if (yellr.UUID === undefined) {
+    console.log('first run');
+    /**
+     * - setup user things                js/yellr/user.js
+     * - ping the server and load data    js/yellr/data.js
+     */
+
+    yellr.user.init();
+    yellr.data.init();
+    // update the local storage
+    yellr.utils.save();
+  }
+
+  console.log(yellr);
+
+
+
+
+
 
 
 
@@ -22,16 +54,6 @@ window.onload = function() {
   // - js/yellr/routes.js
   yellr.routes.init();
 
-
-  // set up user profile
-  /**
-   * yellr.user = {
-   *   settings: {}
-   *   notifications: [],
-   *   messages: [],
-   *   badges: []
-   * }
-   */
 
 
 }

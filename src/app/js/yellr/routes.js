@@ -81,10 +81,14 @@ yellr.routes = (function() {
 
 
     var view = function() {
+      /**
+       * this gets called on every hash change
+       */
 
       // get the hash
       var hash = window.location.hash;
       if (hash == '' || hash == '#') hash = '#assignments';
+      hash = hash.split('/')[0];
 
       // call the render function
       views[hash].render();

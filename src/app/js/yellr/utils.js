@@ -19,12 +19,6 @@ yellr.utils = {
      */
 
     localStorage.setItem('yellr', JSON.stringify({DATA: yellr.DATA, SETTINGS: yellr.SETTINGS, UUID: yellr.UUID }));
-    // console.log('===================================');
-    // console.log('localStorage saved.');
-    // console.log(yellr.DATA);
-    // console.log(yellr.SETTINGS);
-    // console.log(yellr.UUID);
-    // console.log('===================================');
   },
 
   render_template: function(settings) {

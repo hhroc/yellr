@@ -89,6 +89,9 @@ yellr.routes = (function() {
     var view = function() {
       /**
        * this gets called on every hash change
+       *
+       * we render the html first
+       * then give the <div> a class of 'current'
        */
 
       // get the hash

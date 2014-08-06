@@ -42,6 +42,11 @@ yellr.view.assignments = (function() {
 
 
 
+
+
+
+
+
     var render_feed = function() {
 
       // render header
@@ -68,28 +73,6 @@ yellr.view.assignments = (function() {
         return;
       }
 
-      // console.log(yellr.DATA.assignments);
-
-
-      // Handlebars compile into strings
-      // so we'll be concatenating to this string
-      // var html = '';
-
-      // for (var i = 0; i < yellr.DATA.assignments.length; i++) {
-      //   var asgmt = yellr.DATA.assignments[i];
-      //   html += render_template({
-      //     template: '#assignments-li',
-      //     context: {
-      //       id: asgmt.id,
-      //       title: asgmt.title,
-      //       contributions: asgmt.contributions.length,
-      //       deadline: moment(asgmt.deadline).fromNow(true)
-      //     }
-      //   });
-      // };
-
-      // $('#latest-assignments').html(html);
-
       yellr.utils.render_list({
         data: yellr.DATA.assignments,
         target: '#latest-assignments',
@@ -97,6 +80,9 @@ yellr.view.assignments = (function() {
       });
 
     }
+
+
+
 
 
 
@@ -127,7 +113,13 @@ yellr.view.assignments = (function() {
           render_template({
             template: '#assignment-view',
             target: '#view-assignment .assignment-view',
-            context: yellr.DATA.assignments[i]
+            context: context: {
+              title: yellr.DATA.assignments[i].title,
+              image: yellr.DATA.assignments[i].image,
+              description: yellr.DATA.assignments[i].description,
+              deadline: moment(yellr.DATA.assignments[i].deadline).fromNow(true)
+            }
+
           })
 
           return;

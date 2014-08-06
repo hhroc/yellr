@@ -6,12 +6,18 @@ yellr.data = (function() {
     var urls = {
       assignments: 'data/assignments.json',
       notifications: 'data/notifications.json',
+      messages: 'data/messages.json',
       news_reports: 'data/news-reports.json',
       profile: 'data/profile.json'
     };
 
-    // 'private' reference to localStorage
-    // var DATA = {};
+    var live_urls = {
+      assignments: 'http://yellrdev.wxxi.org/get_assignments.json',
+      notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id=',
+      messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id=',
+      news_reports: '',
+      profile: ''
+    }
 
 
 

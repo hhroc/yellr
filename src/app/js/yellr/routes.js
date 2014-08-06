@@ -21,8 +21,8 @@ yellr.routes = (function() {
       // hook up routes to view functions
       this.setup_routes();
 
-      // index: assignments
-      window.location.hash = '#assignments';
+      // start app on assignments list
+      window.location.hash = (window.location.hash === '#assignments') ? '#' : '#assignments';
 
     }
 
@@ -40,6 +40,10 @@ yellr.routes = (function() {
        * - create a new js file in js/yellr/view/
        *
        * ex: making the debug page
+       *     html: make the HTML first
+       *           turn it into a Handlebar template
+       *           add new <div id='debug'> in app/html/index
+       *           note- the container div for the page should have an id matching the hash
        *     hash: #debug
        *     file: js/yellr/view/debug.js
        *           note - the js filename should follow the hash
@@ -51,11 +55,12 @@ yellr.routes = (function() {
        */
 
       // yellr.view = {};
-      yellr.route('#profile', yellr.view.profile);
-      yellr.route('#news-feed', yellr.view.news_feed);
       yellr.route('#assignments', yellr.view.assignments);
-      yellr.route('#notifications', yellr.view.notifications);
+      yellr.route('#view-assignment', yellr.view.assignments);
       yellr.route('#messages', yellr.view.messages);
+      yellr.route('#news-feed', yellr.view.news_feed);
+      yellr.route('#notifications', yellr.view.notifications);
+      yellr.route('#profile', yellr.view.profile);
       yellr.route('#report', yellr.view.report);
 
     }
@@ -92,6 +97,14 @@ yellr.routes = (function() {
 
       // call the render function
       views[hash].render();
+
+      // clear last class
+      var previous_page = document.querySelector('.pt-perspective .current');
+      if (previous_page !== null) previous_page.className = previous_page.getAttribute('data-classes');
+
+      var next_page = document.querySelector(hash);
+          next_page.setAttribute('data-classes', next_page.className);
+          next_page.className += ' current';
 
     }
 

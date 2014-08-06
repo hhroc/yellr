@@ -24,22 +24,10 @@ yellr.data = (function() {
 
       // load all of the things
       this.load_assignments();
-      // this.load_notifications();
       // this.load_news_reports();
-      // this.load_profile();
+      // this.load_notifications();
+      this.load_profile();
 
-    }
-
-
-
-    var save = function() {
-
-      // localStorage.setItem('yellr', JSON.stringify(yellr.localStorage));
-      // yellr.localStorage = JSON.parse(localStorage.getItem('yellr'));
-      // console.log('localStorage saved.');
-
-
-      // console.log('data saved');
     }
 
 
@@ -53,8 +41,7 @@ yellr.data = (function() {
       // load assignments
       $.getJSON(urls.assignments, function(data) {
         yellr.DATA.assignments = data;
-        console.log('... loading assignments | DONE');
-        console.log(yellr);
+        // console.log('... loading assignments | DONE');
         yellr.utils.save();
       });
 
@@ -66,7 +53,16 @@ yellr.data = (function() {
 
 
     var load_notifications = function() {
+
       // console.log('... loading notifications');
+
+      // load notifications
+      $.getJSON(urls.notifications, function(data) {
+        yellr.DATA.notifications = data;
+        // console.log('... loading notifications | DONE');
+        yellr.utils.save();
+      });
+
     }
 
 
@@ -75,7 +71,16 @@ yellr.data = (function() {
 
 
     var load_news_reports = function() {
+
       // console.log('... loading news_reports');
+
+      // load news_reports
+      $.getJSON(urls.news_reports, function(data) {
+        yellr.DATA.news_reports = data;
+        // console.log('... loading news_reports | DONE');
+        yellr.utils.save();
+      });
+
     }
 
 
@@ -83,7 +88,16 @@ yellr.data = (function() {
 
 
     var load_profile = function() {
+
       // console.log('... loading profile');
+
+      // load profile
+      $.getJSON(urls.profile, function(data) {
+        yellr.DATA.profile = data;
+        // console.log('... loading profile | DONE');
+        yellr.utils.save();
+      });
+
     }
 
 
@@ -92,7 +106,6 @@ yellr.data = (function() {
 
     return {
       init: init,
-      save: save,
       load_assignments: load_assignments,
       load_notifications: load_notifications,
       load_news_reports: load_news_reports,

@@ -46,6 +46,7 @@ yellr.user = (function() {
       /**
        * this gets called when Cordova has been initialized
        */
+      console.log('cordova ready. setup user');
     }
 
 

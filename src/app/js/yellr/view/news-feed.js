@@ -5,6 +5,8 @@ yellr.view.news_feed = (function() {
 
     var render = function() {
       console.log('hello from: news_feed.render');
+      $('#homepage-subnav').hide();
+
     }
 
     return {

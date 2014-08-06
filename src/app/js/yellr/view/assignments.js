@@ -54,7 +54,7 @@ yellr.view.assignments = (function() {
         template: '#report-bar',
         target: '#query-string',
       };
-
+      $('#homepage-subnav').show();
 
       // footer
       footer = {
@@ -110,6 +110,12 @@ yellr.view.assignments = (function() {
       header.context = {page: 'Assignment'};
       header.events = undefined;
 
+      $('#homepage-subnav').hide();
+
+      footer = {
+        template: '',
+        target: '#app-footer',
+      };
 
       // find the right one first
       for (var i = 0; i < yellr.DATA.assignments.length; i++) {

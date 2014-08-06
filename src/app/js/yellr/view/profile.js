@@ -11,6 +11,7 @@ yellr.view.profile = (function() {
 
     var render = function() {
       console.log('hello from: profile render');
+      $('#homepage-subnav').hide();
     }
 
     return {

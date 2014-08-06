@@ -34,7 +34,7 @@ yellr.data = (function() {
 
 
 
-    var load_assignments = function() {
+    var load_assignments = function(callback) {
 
       // console.log('... loading assignments');
 
@@ -43,6 +43,8 @@ yellr.data = (function() {
         yellr.DATA.assignments = data;
         // console.log('... loading assignments | DONE');
         yellr.utils.save();
+
+        if (callback) callback();
       });
 
     }
@@ -52,7 +54,7 @@ yellr.data = (function() {
 
 
 
-    var load_notifications = function() {
+    var load_notifications = function(callback) {
 
       // console.log('... loading notifications');
 
@@ -61,6 +63,8 @@ yellr.data = (function() {
         yellr.DATA.notifications = data;
         // console.log('... loading notifications | DONE');
         yellr.utils.save();
+
+        if (callback) callback();
       });
 
     }
@@ -70,7 +74,7 @@ yellr.data = (function() {
 
 
 
-    var load_news_reports = function() {
+    var load_news_reports = function(callback) {
 
       // console.log('... loading news_reports');
 
@@ -79,6 +83,8 @@ yellr.data = (function() {
         yellr.DATA.news_reports = data;
         // console.log('... loading news_reports | DONE');
         yellr.utils.save();
+
+        if (callback) callback();
       });
 
     }
@@ -87,15 +93,20 @@ yellr.data = (function() {
 
 
 
-    var load_profile = function() {
+    var load_profile = function(uuid, callback) {
 
       // console.log('... loading profile');
 
       // load profile
-      $.getJSON(urls.profile, function(data) {
+      var url = (uuid) ? urls.profile + '?client_id='+uuid : urls.profile;
+      console.log('... ' + url);
+
+      $.getJSON(url, function(data) {
         yellr.DATA.profile = data;
         // console.log('... loading profile | DONE');
         yellr.utils.save();
+
+        if (callback) callback();
       });
 
     }

@@ -42,13 +42,6 @@ window.onload = function() {
   }
 
 
-  // // initialize moment.js
-  // moment().format();
-
-  // // set default language => english
-  // moment.lang();
-  // // moment.lang(yellr.config.language.code);
-
 
 
   // set up routes

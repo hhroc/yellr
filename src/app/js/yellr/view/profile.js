@@ -22,17 +22,58 @@ yellr.view.profile = (function() {
 
 
       header = data.template.header;
+      header.template = '#page-header';
+      header.context = {page: 'Profile'};
+
       footer = data.template.footer;
 
 
       render_template(header);
       render_template(footer);
+      yellr.utils.no_subnav();
+
+      document.querySelector('#username').innerHTML = yellr.UUID;
+
+      this.add_eventlisteners();
 
     }
 
 
 
+    var update = function() {
+      console.log('new data availble...');
+      console.log('...check if it is new/different');
+    }
+
+
+
+
+    var add_eventlisteners = function() {
+      // refresh button
+      document.querySelector('#refresh-btn').onclick = function(e) {
+        console.log('load profile data');
+        console.log('spin the thing to show we\'re loading something');
+        yellr.data.load_profile(yellr.UUID, this.update);
+      }
+
+
+      // generate new uid
+      document.querySelector('#generate-new-uuid').onclick = function(e) {
+        console.log('old uuid: '+ yellr.UUID);
+        yellr.UUID = yellr.utils.guid();
+        console.log('new uuid: '+ yellr.UUID);
+
+        console.log('TO DO: CLEAR ALL DATA WITH NEW UUID');
+
+        yellr.utils.save();
+      }
+      // change language
+    }
+
+
     return {
-      render: render
+      add_eventlisteners: add_eventlisteners,
+      render: render,
+      update: update
     }
 })();

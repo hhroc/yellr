@@ -22,17 +22,38 @@ yellr.view.notifications = (function() {
 
 
       header = data.template.header;
+      header.template = '#page-header';
+      header.context = {page: 'Notifications'};
       footer = data.template.footer;
 
 
       render_template(header);
       render_template(footer);
       yellr.utils.no_subnav();
+
+      this.add_eventlisteners();
     }
 
 
 
+
+
+    var update = function() {
+      console.log('check if data is new and different');
+    }
+
+
+
+    var add_eventlisteners = function() {
+      // refresh
+      document.querySelector('#refresh-btn').onclick = function(e) {
+        yellr.data.load_notifications(this.update);
+      }
+    }
+
     return {
-      render: render
+      add_eventlisteners: add_eventlisteners,
+      render: render,
+      update: update
     }
 })();

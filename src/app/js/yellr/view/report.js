@@ -30,6 +30,15 @@ yellr.view.report = (function() {
       render_template(footer);
       yellr.utils.no_subnav();
 
+      // on the submission forms we can add multiple files
+      // this listener handles clicks
+      $('#add-extra-media').on('tap', function(e) {
+        console.log(
+          'target: ', e.target,
+          'parent: ', e.target.parentNode
+          );
+      })
+
 
       this.setup_form();
 

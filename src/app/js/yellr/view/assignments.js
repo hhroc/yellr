@@ -59,19 +59,18 @@ yellr.view.assignments = (function() {
 
       // make sure we have data
       if (yellr.DATA.assignments === undefined) {
-        wait_for_data(this.render_feed, yellr.data.load_assignments);
+        wait_for_data(yellr.view.assignments.render_feed, yellr.data.load_assignments);
         return;
       }
 
-
       // render the content
-      var results = render_template({
+      var latest_assignments = render_template({
         template: '#assignments-li',
-        context: {
-          assignments: yellr.DATA.assignments
-        }
-      })
-      $('#latest-assignments').prepend(results);
+        context: {assignments: yellr.DATA.assignments }
+      });
+      console.log(yellr.DATA.assignments);
+      console.log(latest_assignments);
+      $('#latest-assignments').prepend(latest_assignments);
 
       // parse UTC dates with moment.js
       var dates = document.querySelectorAll('.assignment-deadline');
@@ -154,6 +153,7 @@ yellr.view.assignments = (function() {
         // ask if user wants to try again
         // if yes reset wait_time to 0
         // call yellr.data.load_assignments
+        wait_time = 0;
         reload();
       };
 

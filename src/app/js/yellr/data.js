@@ -50,13 +50,12 @@ yellr.data = (function() {
 
       // load assignments
       $.getJSON(urls.assignments, function(data) {
-        yellr.DATA.assignments = data;
+        yellr.DATA.assignments = data.assignments;
         // console.log('... loading assignments | DONE');
         yellr.utils.save();
 
         if (callback) callback();
       });
-
     }
 
 
@@ -69,7 +68,7 @@ yellr.data = (function() {
 
       // load messages
       $.getJSON(urls.messages, function(data) {
-        yellr.DATA.messages = data;
+        yellr.DATA.messages = data.messages;
         // console.log('... loading messages | DONE');
         yellr.utils.save();
 
@@ -89,7 +88,7 @@ yellr.data = (function() {
 
       // load notifications
       $.getJSON(urls.notifications, function(data) {
-        yellr.DATA.notifications = data;
+        yellr.DATA.notifications = data.notifications;
         // console.log('... loading notifications | DONE');
         yellr.utils.save();
 
@@ -127,7 +126,7 @@ yellr.data = (function() {
       console.log('... loading profile');
 
       // load profile
-      var url = (uuid) ? urls.profile + '?client_id='+uuid : urls.profile;
+      var url = (uuid) ? urls.profile+uuid : urls.profile;
       console.log('... ' + url);
 
       $.getJSON(url, function(data) {

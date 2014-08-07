@@ -1,7 +1,7 @@
 {
   "assignments": [
     {
-      "question_text": "What’s your favorite indoor/outdoor activity?",
+      "question_text": "What's your favorite indoor/outdoor activity?",
       "answer9": "",
       "answer8": "",
       "fence": "{}",
@@ -24,7 +24,7 @@
       "contributions": "4"
     },
     {
-      "question_text": "What’s your least favorite mode of transportation?",
+      "question_text": "What's your least favorite mode of transportation?",
       "answer9": "",
       "answer8": "",
       "fence": "{}",
@@ -93,7 +93,7 @@
       "contributions": "4"
     },
     {
-      "question_text": "What’s the best/worst gift you’ve ever given/received?",
+      "question_text": "What's the best/worst gift you've ever given/received?",
       "answer9": "",
       "answer8": "",
       "fence": "{}",
@@ -183,7 +183,7 @@
       "image": "http://lorempixel.com/800/400",
       "description": "Do you prefer it with cheese? Do you enjoy chicken and broccoli at Chinese restaurants? Let us know!",
       "contributions": "4"
-    },
+    }
   ],
   "success": true
 }

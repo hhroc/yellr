@@ -127,7 +127,6 @@ yellr.data = (function() {
 
       // load profile
       var url = (uuid) ? urls.profile+uuid : urls.profile;
-      console.log('... ' + url);
 
       $.getJSON(url, function(data) {
         yellr.DATA.profile = data;

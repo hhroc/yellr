@@ -68,9 +68,8 @@ yellr.view.assignments = (function() {
         template: '#assignments-li',
         context: {assignments: yellr.DATA.assignments }
       });
-      console.log(yellr.DATA.assignments);
-      console.log(latest_assignments);
-      $('#latest-assignments').prepend(latest_assignments);
+      $('#latest-assignments').html(latest_assignments);
+      // $('#latest-assignments').prepend(latest_assignments);
 
       // parse UTC dates with moment.js
       var dates = document.querySelectorAll('.assignment-deadline');
@@ -111,10 +110,10 @@ yellr.view.assignments = (function() {
         if (yellr.DATA.assignments[i].id === parseInt(id)) {
 
           assignment.context = {
-            title: yellr.DATA.assignments[i].title,
+            title: yellr.DATA.assignments[i].question_text,
             image: yellr.DATA.assignments[i].image,
             description: yellr.DATA.assignments[i].description,
-            deadline: moment(yellr.DATA.assignments[i].deadline).fromNow(true)
+            deadline: moment(yellr.DATA.assignments[i].expire_datetime).fromNow(true)
           }
 
           break;

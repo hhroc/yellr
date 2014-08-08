@@ -430,11 +430,3 @@ moderator.filter = {
   }
 
 }
-
-
-
-
-window.onload = function() {
-  moderator.demo.loadData();
-  moderator.main.init();
-}

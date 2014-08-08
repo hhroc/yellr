@@ -115,41 +115,6 @@ body#moderator
 
 
 
-        div#post-question-container.right-wrapper
-          form#post-question-form.form(action="#")
-            div
-              label
-                span Select language:
-                select(name="language")
-                  option(name="english", value="english") English
-                  option(name="espanol", value="espanol") Espanol
-            div
-              textarea(rows="2", name="question_text", placeholder="Ask the community...")
-            div
-              label
-                p
-                  span.icon &nbsp;
-                    i.fa.fa-plus
-                    i.fa.fa-image
-                  small Add a photo
-                  em  * Optional
-                input(type="file", hidden, name="question_image")
-            div
-              input(type="submit", value="Post")
-
-        div#send-message-container.right-wrapper
-          form#send-message-form.form(action="#")
-            div
-              span To:
-              input(type="text", name="send_to")
-            div
-              span Subject <br/>
-              input(type="text", name="subject", placeholder="Subject...")
-            div
-              textarea(rows="2", name="message_text", placeholder="New message...")
-            div
-              input(type="submit", value="Send")
-
         div
           p post a question to the community
           p get latest_posts

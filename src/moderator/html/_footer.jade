@@ -1,0 +1,27 @@
+//- this is really just a middle man for adding the _scripts.jade
+//- but we migh have some other stuff to add
+//- we'll leave it here for now
+
+div#overlay-div-container
+  //- this div gets populated with various content
+  //- it has CSS rules to overlay it over the whole DOM
+  div#view-message
+    div.content
+      h3.subject title of message
+      span.date-sent Aug 8
+      div
+        p message content
+    div#message-reply-container
+      form#reply-form.form(action="#")
+        input(type="hidden", name="email_id", value="email-id")
+        h3.t2 Reply
+        div
+          textarea(rows="2", name="message_text", placeholder="New message...")
+        div.submit-div
+          label
+            span.submit-btn Submit
+            input(type="submit", value="Send", hidden)
+
+
+include _handlebar-templates.jade
+include _scripts.jade

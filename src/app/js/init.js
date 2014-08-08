@@ -8,33 +8,50 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
+var DEBUG = true;
+
 window.onload = function() {
-  /* DEBUG MODE */
-  // localStorage.removeItem('yellr');
 
-  // setup
-  yellr.setup.DOM();
-  yellr.route('#');
+  // if (DEBUG) localStorage.removeItem('yellr');
 
-  if (yellr.localStorage === undefined) {
-    console.log('setting dev local storage');
-    yellr.localStorage = {
-      client_id: '123456789'
-    }
+
+  // check for preexisting data
+  // ===================================
+
+  // check for pre-existing data, if none, create it
+  if (localStorage.getItem('yellr') === null) localStorage.setItem('yellr', JSON.stringify({DATA: {}, SETTINGS: {}, UUID: undefined}));
+
+  // get saved data
+  var data = JSON.parse(localStorage.getItem('yellr'));
+  // set values for DATA, SETTINGS, UUID
+  yellr.DATA = data.DATA; yellr.SETTINGS = data.SETTINGS; yellr.UUID = data.UUID;
+
+
+  /** MUST RUN INITS() IN THIS ORDER **/
+  /*  a user ID must exists before we can load data for it */
+  if (yellr.UUID === undefined) {
+    /**
+     * - setup user things                js/yellr/user.js
+     * - ping the server and load data    js/yellr/data.js
+     */
+
+    yellr.user.init();
+    yellr.data.init();
+    // update the local storage
+    yellr.utils.save();
   }
 
 
-  // load assignments
-  $.getJSON('data/assignments.json', function(data) {
-    yellr.utils.render_list({
-      data: data,
-      target: '#latest-assignments',
-      prepend: true
-    });
-  });
+
+
+  // set up routes
+  // - js/yellr/routes.js
+  yellr.routes.init();
+
 }
 
 document.addEventListener('deviceready', function() {
-  yellr.setup.user();
-  yellr.setup.app();
+  // yellr.setup.user();
+  yellr.user.cordova();
+  // yellr.setup.app();
 }, false);

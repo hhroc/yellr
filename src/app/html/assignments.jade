@@ -1,14 +1,31 @@
 //- div.container.pt-page.pt-page-1#assignments
+
+
+//- sub nav
+//- nav.app-bar.secondary-nav#homepage-subnav
+  div(data-page="#assignments")#assignments-tab
+    a(href="#assignments") Assignments
+  div(data-page="#news-feed")#news-feed-tab
+    a(href="#news-feed") News Feed
+div.templates
+  script#homepage-subnav(type="text/x-handlerbars-template")
+    <div id="assignments-tab"><a href="#assignments">Assignments</a></div>
+    <div id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
+
+
+
 ul#latest-assignments.assignments-list.list-style-none
   //- li
     h2.assignment-title
-      a(href="#assignments/00001") Who makes the best cup-of-soup?
+      a(href="#view-assignment/00001") Who makes the best cup-of-soup?
     div.assignment-action
       p.view-assignment-details
-        a(href="#assignments/00001") View assignment
+        a(href="#view-assignment/00001") View assignment
       p.assignment-contributions 24
     p.assignment-deadline 6 days
 
 div.templates
   script#assignments-li(type="text/x-handlerbars-template")
-    <li> <h2 class="assignment-title"> <a href="#assignments/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#assignments/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li>
+    {{#each assignments}}
+    <li> <h2 class="assignment-title"> <a href="#view-assignment/{{ id }}">{{ question_text }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ expire_datetime }}</p> </li>
+    {{/each}}

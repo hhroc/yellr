@@ -1,0 +1,130 @@
+//-div.container.pt-page.pt-page-6#submit-form
+div#form-wrapper.form.wrapper.submit-preview
+
+
+  //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
+    input.client_id(type="hidden", name="client_id", value="123456789")
+    input(type="hidden", name="media_type", value="image")
+    input(type="file", name="media_file", size="30")
+    input(type="submit", name="upload", value="Upload")
+
+
+  //- text
+  //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="text")
+    input(type="text", name="media_caption", placeholder="Title (optional)")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+
+
+
+  //- image form
+  //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="image")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+    input(type="file", name="media_payload", multiple)
+    div.media-submission-wrapper
+      div.media-preview
+        i.fa.fa-close
+        img(src="")#img-preview
+        //- img(src="http://lorempixel.com/400/200")#img-preview
+      //- div.media-options
+        span.add-more-media.flex-1#add-more-media-btn
+          i.fa.fa-plus
+
+
+
+  //- video form
+  //- form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="video")
+    div.submit-video
+      //- description
+      //- thumbnail preview
+      textarea(rows="2", columns="10", placeholder="Add description")
+      div.media-submission-wrapper
+        div.media-preview
+          i.fa.fa-close
+          i.fa.fa-video-camera
+
+
+  //- audio
+  //- form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    input(type="hidden", name="media_type", value="audio")
+    div.submit-audio
+      //- audio timeline preview?..
+      //- description / title
+      textarea(rows="2", columns="10", placeholder="Add description")
+      div.media-submission-wrapper
+        div.media-preview
+          i.fa.fa-close
+          i.fa.fa-microphone
+
+
+div#extra-media-wrapper
+
+//- div#add-extra-media.add-extra-media
+  p.wrapper Add extra media:
+  div.flex
+    div.add-photo.flex-1
+      i.fa.fa-plus
+      i.fa.fa-camera
+    div.add-video.flex-1
+      i.fa.fa-plus
+      i.fa.fa-video-camera
+    div.add-autio.flex-1
+      i.fa.fa-plus
+      i.fa.fa-microphone
+
+
+
+
+div.templates
+  script#text-form(type="text/x-handlebars-template")
+    <form class="text-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="media_type" value="text">
+    <input type="text" name="media_caption" placeholder="Title (optional)">
+    <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+    </form>
+
+  script#image-form(type="text/x-handlebars-template")
+    <form class="image-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="media_type" value="image">
+    <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+    <input type="file" name="media_file" size="30" multiple>
+    <div class="media-submission-wrapper">
+    <div class="media-preview"><i class="fa fa-close"></i><img src="" class="img-preview"></div>
+    </div>
+    </form>
+
+  script#video-form(type="text/x-handlebars-template")
+    <form class="video-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="media_type" value="video">
+    <textarea rows="2" columns="10" placeholder="Add description"></textarea>
+    <input type="file" name="media_file" size="30" multiple>
+    <div class="media-submission-wrapper">
+    <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div>
+    </div>
+    </form>
+
+  script#audio-form(type="text/x-handlebars-template")
+    <form class="audio-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="media_type" value="audio">
+    <textarea rows="2" columns="10" placeholder="Add description"></textarea>
+    <input type="file" name="media_file" size="30" multiple>
+    <div class="media-submission-wrapper">
+    <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div>
+    </div>
+    </form>
+
+  script#extra-media(type="text/x-handlebars-template")
+    <div id="add-extra-media" class="add-extra-media">
+    <p class="wrapper">Add extra media:</p>
+    <div class="flex"> <div class="add-photo flex-1"><i class="fa fa-plus"></i><i class="fa fa-camera"></i></div> <div class="add-video flex-1"><i class="fa fa-plus"></i><i class="fa fa-video-camera"></i></div> <div class="add-autio flex-1"><i class="fa fa-plus"></i><i class="fa fa-microphone"></i></div> </div>
+    </div>

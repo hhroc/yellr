@@ -1,0 +1,48 @@
+{
+  "notifications": [
+    {
+      "notification_id": 1,
+      "notification_type": "new_message",
+      "notification_datetime": "2014-07-31 14:36:48.360304",
+      "payload": {
+        "organization": "Yellr"
+      }
+    },
+    {
+      "notification_id": 2,
+      "notification_type": "post_viewed",
+      "notification_datetime": "2014-07-31 14:36:48.360304",
+      "payload": {
+        "organization": "WXXI",
+        "viewed_datetime": "2014-08-08 12:43:43.430943",
+        "post": "P0ST=1D"
+      }
+    },
+    {
+      "notification_id": 3,
+      "notification_type": "post_successful",
+      "notification_datetime": "2014-07-31 14:36:48.360304",
+      "payload": {
+        "post_id": 123,
+        "title": "Title of post sent"
+      }
+    },
+    {
+      "notification_id": 4,
+      "notification_type": "message_sent",
+      "notification_datetime": "2014-07-31 14:36:48.360304",
+      "payload": {
+        "message_subject": "Reply: Hello from WDKX"
+      }
+    },
+    {
+      "notification_id": 5,
+      "notification_type": "new_message",
+      "notification_datetime": "2014-07-31 14:36:48.360304",
+      "payload": {
+        "organization": "Yellr"
+      }
+    }
+  ],
+  "success": true
+}

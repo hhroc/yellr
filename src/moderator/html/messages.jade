@@ -1,0 +1,82 @@
+include ../../common/html/jade-helpers.jade
+!!! 5
+head
+  include ../../common/html/_head/meta.jade
+
+  title Yellr - Moderator backend
+  meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+
+  include ../../common/html/_head/favicon.jade
+  include ../../common/html/_head/head-scripts.jade
+  link(rel="stylesheet", href="style/moderator.css")
+
+
+body#moderator
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+
+    //-div#main
+    div#main.flex
+      div.flex-1#left
+        include _sidebar.jade
+
+      div.flex-4#right
+        div.right-wrapper
+          h2.t1 Messages
+          div.message-actions
+            span#new-message-btn New Message
+
+        section#inbox
+          ul#unread-mail-list.mail-list
+            //- li(data-id="1231231")
+              h3.sender Cedric Bixler
+              span.subject Transient jet-lag, ecto-mimed bison. This is the haunt of roulette dares
+              span.date Aug 8
+
+          ul#read-mail-list.mail-list
+            //- li
+              h3.sender Cedric Bixler
+              span.subject Trans-oceanic death in this earth, with this world coming to an end
+              span.date Aug 8
+
+
+
+
+
+        //- div#message-reply-container.right-wrapper
+          form#reply-form.form(action="#")
+            input(type="hidden", name="email_id", value="email-id")
+            h3.t2 Reply
+            div
+              textarea(rows="2", name="message_text", placeholder="New message...")
+            div.submit-div
+              label
+                span.submit-btn Submit
+                input(type="submit", value="Send", hidden)
+
+
+
+
+
+        //- div#send-message-container.right-wrapper
+          form#send-message-form.form(action="#")
+            h3.t2 New Message
+            div
+              span.block To
+              input(type="text", name="send_to")
+            div
+              span.block Subject
+              input(type="text", name="subject")
+            div
+              span.block Message
+              textarea(rows="2", name="message_text", placeholder="New message...")
+            div.submit-div
+              label
+                span.submit-btn Submit
+                input(type="submit", value="Send", hidden)
+
+
+
+
+  include _footer.jade
+</html>

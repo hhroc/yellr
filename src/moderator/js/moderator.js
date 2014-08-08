@@ -116,7 +116,7 @@ moderator.main = {
         // console.log('herro');
         // console.dir(e.target.offsetParent);
         console.log(
-          e.target.offsetParent.getAttribute('data-uid');
+          e.target.offsetParent.getAttribute('data-uid')
         );
       }
     };
@@ -429,12 +429,4 @@ moderator.filter = {
     moderator.packery.layout();
   }
 
-}
-
-
-
-
-window.onload = function() {
-  moderator.demo.loadData();
-  moderator.main.init();
 }

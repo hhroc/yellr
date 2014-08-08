@@ -1,55 +1,55 @@
 include common/html/jade-helpers.jade
 !!! 5
 head
-	include common/html/_head/meta.jade
-	
-	title Yellr
-	meta(name="description", content="Yellr - Citizen engagement and journalism app")
+  include common/html/_head/meta.jade
 
-	include common/html/_head/favicon.jade
-	include common/html/_head/head-scripts.jade
-	link(rel="stylesheet", href="common.css")		
+  title Yellr
+  meta(name="description", content="Yellr - Citizen engagement and journalism app")
+
+  include common/html/_head/favicon.jade
+  include common/html/_head/head-scripts.jade
+  link(rel="stylesheet", href="common.css")
 
 
 
 body#yellr-index
-	a(href="#main", class="assistive-text") Skip to main content
-	div.container#yellr-index-wrapper
-		div.vertical-center-wrapper
-			div.vertical-center	
-				h1 yellr
-				ul#yellr-project-list.list-style-none
-					li
-						div.flex-3
-							h2 App
-							p The mobile Yellr application
-						a(href="app/").flex-1.project-link
-							div.vertical-center-wrapper
-								div.vertical-center
-									span View
-					li
-						div.flex-3
-							h2 Moderator
-							p The moderator end where submissions are curated
-						a(href="moderator/mod_login.html").flex-1.project-link
-							div.vertical-center-wrapper
-								div.vertical-center
-									span View
-					li
-						div.flex-3
-							h2 Storefront
-							p The public end where approved submissions can be viewed by everyone
-						a(href="storefront/storefront.html").flex-1.project-link
-							div.vertical-center-wrapper
-								div.vertical-center
-									span View
-					li
-						div.flex-3
-							h2 One-pager
-							p For promotional purposes
-						a(href="one-pager/").flex-1.project-link
-							div.vertical-center-wrapper
-								div.vertical-center
-									span View
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container#yellr-index-wrapper
+    div.vertical-center-wrapper
+      div.vertical-center
+        h1 yellr
+        ul#yellr-project-list.list-style-none
+          li
+            div.flex-3
+              h2 App
+              p The mobile Yellr application
+            a(href="app/").flex-1.project-link
+              div.vertical-center-wrapper
+                div.vertical-center
+                  span View
+          li
+            div.flex-3
+              h2 Moderator
+              p The moderator end where submissions are curated
+            a(href="moderator/").flex-1.project-link
+              div.vertical-center-wrapper
+                div.vertical-center
+                  span View
+          li
+            div.flex-3
+              h2 Storefront
+              p The public end where approved submissions can be viewed by everyone
+            a(href="storefront/").flex-1.project-link
+              div.vertical-center-wrapper
+                div.vertical-center
+                  span View
+          li
+            div.flex-3
+              h2 One-pager
+              p For promotional purposes
+            a(href="one-pager/").flex-1.project-link
+              div.vertical-center-wrapper
+                div.vertical-center
+                  span View
 
 </html>

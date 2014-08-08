@@ -1,0 +1,32 @@
+//- this is really just a middle man for adding the _scripts.jade
+//- but we migh have some other stuff to add
+//- we'll leave it here for now
+
+div#overlay-div-container
+  //- this div gets populated with various content
+  //- it has CSS rules to overlay it over the whole DOM
+  div#post-question-container
+    form#post-question-form.form(action="#")
+      div
+        label
+          span Select language:
+          select(name="language")
+            option(name="english", value="english") English
+            option(name="espanol", value="espanol") Espanol
+      div
+        textarea(rows="2", name="question_text", placeholder="Ask the community...")
+      div
+        label
+          p
+            span.icon &nbsp;
+              i.fa.fa-plus
+              i.fa.fa-image
+            small Add a photo
+            em  * Optional
+          input(type="file", hidden, name="question_image")
+      div
+        label
+          span.submit-btn Submit
+          input(type="submit", hidden, value="Post")
+
+include _scripts.jade

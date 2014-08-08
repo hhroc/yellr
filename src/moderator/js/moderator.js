@@ -116,7 +116,7 @@ moderator.main = {
         // console.log('herro');
         // console.dir(e.target.offsetParent);
         console.log(
-          e.target.offsetParent.getAttribute('data-uid');
+          e.target.offsetParent.getAttribute('data-uid')
         );
       }
     };

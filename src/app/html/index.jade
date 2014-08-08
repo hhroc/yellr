@@ -1,57 +1,57 @@
 include ../../common/html/jade-helpers.jade
 !!! 5
 head
-	meta(charset="utf-8")
-	meta(name="format-detection", content="telephone=no")
-	meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height")
-	meta(name="msapplication-tap-highlight", content="no")
-	title Yellr
-	meta(name="description", content="Yellr - Citizen engagement and journalism app")
-	link(rel="stylesheet", href="style/style.css")
-	script(src="js/libs/modernizr.js")
+  meta(charset="utf-8")
+  meta(name="format-detection", content="telephone=no")
+  meta(name="viewport", content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height")
+  meta(name="msapplication-tap-highlight", content="no")
+  title Yellr
+  link(rel="stylesheet", href="style/style.css")
+  script(src="js/libs/modernizr.js")
 
-body#app(data-state="#")
-	div.container
+body#app
+  div.container
 
-		//- app headers
-		include _header.jade
+    //- app headers
+    include _header.jade
 
-		//- main content area
-		div#main
-			div#pt-main.pt-perspective
-				div.pt-page.with-secondary-nav.pt-page-1#assignments
-					include assignments.jade
+    //- main content area
+    div#main
+      div#pt-main.pt-perspective
+        div.pt-page.with-secondary-nav#assignments
+          include assignments.jade
 
-				div.pt-page.with-secondary-nav.pt-page-2#news-feed
-					include news-feed.jade
+        div.pt-page#view-assignment
+          include view-assignment.jade
 
-				div.pt-page.pt-page-3#profile
-					include profile.jade
+        div.pt-page.with-secondary-nav#news-feed
+          include news-feed.jade
 
-				div.pt-page.pt-page-4#notifications
-					include notifications.jade
+        div.pt-page#profile
+          include profile.jade
 
-				div.pt-page.with-secondary-nav.pt-page-5#messages
-					include messages.jade
+        div.pt-page#notifications
+          include notifications.jade
 
-				div.pt-page.pt-page-6#submit-form
-					include submit-form.jade
+        div.pt-page.with-secondary-nav#messages
+          include messages.jade
 
-				div.pt-page.pt-page-7#view-assignment
-					include assignment.jade
-
-				div.pt-page.pt-page-8#view-story
-					include news-story.jade
+        div.pt-page#report
+          include report.jade
 
 
+        div.pt-page#view-news
+          include view-news.jade
 
-			//- include _debug.jade
-		//- end main
 
-		//- app footer
-		include _footer.jade
 
-	//- our scripts
-	include _scripts.jade
+      //- include _debug.jade
+    //- end main
+
+    //- app footer
+    include _footer.jade
+
+  //- our scripts
+  include _scripts.jade
 
 </html>

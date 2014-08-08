@@ -40,13 +40,14 @@ header#header.header-wrapper
     script#main-header(type="text/x-handlebars-template")
       <h1 id="app-h1" data-page="index"><a href="#assignments">Yellr</a></h1> <nav id="app-nav"><a href="#notifications" id="notifications-btn" class="btn"><i class="fa fa-bell-o"></i></a><a href="#messages" id="messages-btn" class="btn"><i class="fa fa-envelope-o"></i></a><a href="#profile" id="profile-btn" class="btn"><i class="fa fa-user"></i></a></nav>
     script#page-header(type="text/x-handlebars-template")
-      <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
+      {{#if hash }}
+      <nav class="back-btn"> <a href="{{hash}}"> <i class="fa fa-arrow-left"></i></a></nav>
+      {{else}}
+      <nav class="back-btn"> <a href="#"> <i class="fa fa-arrow-left"></i></a></nav>
+      {{/if}}
+      <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
     script#submit-header(type="text/x-handlebars-template")
       <nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1><a id="submit-btn" href="#"><i class="fa fa-check"></i></a>
 
 
-  nav.app-bar.secondary-nav#homepage-subnav
-    div(data-page="#assignments")#assignments-tab
-      a(href="#assignments") Assignments
-    div(data-page="#news-feed")#news-feed-tab
-      a(href="#news-feed") News Feed
+  nav.app-bar.secondary-nav#app-subnav

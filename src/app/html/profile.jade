@@ -7,7 +7,7 @@ section
       img(src="http://lorempixel.com/200/200")#profile-picture
     div.profile-meta
       h2#username Username
-      div.profile-stats
+      //- div.profile-stats
         dl.profile-stats-list
           dt Posts
           dd#posts-total 32
@@ -17,24 +17,27 @@ section
           dd#following-total 240
 
   p.wrapper#generate-new-uuid Generate new UUID
+  p.wrapper
+    small
+      em This will erase your current profile data.
+
+  p.wrapper Create a verified account
 
 
 
   nav.profile-nav-bar
     span.btn Posts
-    span.btn Badges
-    span.btn Followers
     span.btn Settings
 
   div.pt-perspective.profile-content
-    //- div#user-posts.profile-content
+    div#user-posts.profile-content
       ul.profile-posts-list
         li title of text post
         li title of image post
         li video post
         li audio post
 
-    div#user-badges.profile-badges
+    //- div#user-badges.profile-badges
       div.grid.badges-grid
         div.gi
           img(src="http://lorempixel.com/150/150").badge-icon
@@ -49,7 +52,7 @@ section
           img(src="http://lorempixel.com/150/150").badge-icon
           h3.badge-name Badge name
 
-    div#user-followers.profile-followers
+    //- div#user-followers.profile-followers
       ul.followers-list
         li
           figure.follower-thumbnail
@@ -57,7 +60,7 @@ section
           h3.follower-username follower_sn
           div.follow-back
             i.fa.fa-check
-    div#user-settings.profile-settings
+    //- div#user-settings.profile-settings
       ul
         li#language-btn
           a(href="#language-setting")

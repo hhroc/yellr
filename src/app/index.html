@@ -5,11 +5,10 @@
   <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
   <meta name="msapplication-tap-highlight" content="no">
   <title>Yellr</title>
-  <meta name="description" content="Yellr - Citizen engagement and journalism app">
   <link rel="stylesheet" href="style/style.css">
   <script src="js/libs/modernizr.js"></script>
 </head>
-<body id="app" data-state="#">
+<body id="app">
   <div class="container">
     <header id="header" class="header-wrapper">
       <header id="app-header" class="app-bar header"></header>
@@ -18,21 +17,89 @@
         <script id="page-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">{{ page }}</h1> <span id="refresh-btn"><i class="fa fa-refresh"></i></span></script>
         <script id="submit-header" type="text/x-handlebars-template"><nav class="back-btn"><a href="#"><i class="fa fa-arrow-left"></i></a></nav> <h1 id="page-h1">Submit Report</h1><a id="submit-btn" href="#"><i class="fa fa-check"></i></a></script>
       </div>
-      <nav id="homepage-subnav" class="app-bar secondary-nav">
-        <div data-page="#assignments" id="assignments-tab"><a href="#assignments">Assignments</a></div>
-        <div data-page="#news-feed" id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
-      </nav>
+      <nav id="app-subnav" class="app-bar secondary-nav"></nav>
     </header>
     <div id="main">
       <div id="pt-main" class="pt-perspective">
-        <div id="assignments" class="pt-page with-secondary-nav pt-page-1">
+        <div id="assignments" class="pt-page with-secondary-nav">
+          <div class="templates">
+            <script id="homepage-subnav" type="text/x-handlerbars-template">
+              <div id="assignments-tab"><a href="#assignments">Assignments</a></div>
+              <div id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
+            </script>
+          </div>
           <ul id="latest-assignments" class="assignments-list list-style-none">
           </ul>
           <div class="templates">
-            <script id="assignments-li" type="text/x-handlerbars-template"><li> <h2 class="assignment-title"> <a href="#assignments/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#assignments/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li></script>
+            <script id="assignments-li" type="text/x-handlerbars-template"><li> <h2 class="assignment-title"> <a href="#view-assignment/{{ id }}">{{ title }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ deadline }}</p> </li></script>
           </div>
         </div>
-        <div id="news-feed" class="pt-page with-secondary-nav pt-page-2">
+        <div id="view-assignment" class="pt-page">
+          <section class="assignment-view">
+          </section>
+          <div class="templates">
+            <script id="assignment-view" type="text/x-handlebars-template">
+              <h2 class="assignment-title">{{ title }}</h2>
+              {{#if image }}
+              <figure class="assignment-details-image"><img src="{{image}}"/></figure>
+              {{/if}}
+              <p class="assignment-details">{{ description }}</p>
+              <a href="#" class="contribute-to-assignment">Contribute</a>
+              <div class="accepted-media-wrapper">
+              <em>Accepted Media:</em>
+              <ul class="accepted-media">
+              <li><i class="fa fa-video-camera"></i></li>
+              <li><i class="fa fa-camera"></i></li>
+              <li><i class="fa fa-volume-up"></i></li>
+              <li><i class="fa fa-file-text-o"></i></li>
+              </ul>
+              </div>
+              <p class="assignment-deadline">{{ deadline }}</p>
+            </script>
+          </div>
+          <aside class="assignment-contributions">
+            <h3>Latest Contributions</h3>
+            <ul class="assignment-contributions-list">
+            </ul>
+            <div class="templates">
+              <script id="contributions-li-text" type="text/x-handlebars-template">
+                <li>
+                <a href="#">
+                <span class="contributor">{{username}}</span>
+                <p>{{ text }}</p>
+                </a>
+                </li>
+              </script>
+              <script id="contributions-li-text-long" type="text/x-handlebars-template">
+                <li>
+                <a href="#">
+                <span class="contributor">{{username}}</span>
+                <p>{{ text }}</p>
+                </a>
+                </li>
+              </script>
+              <script id="contributions-li-text-picture" type="text/x-handlebars-template">
+                <li>
+                <a href="#">
+                <span class="contributor">{{username}}</span>
+                <p>{{ text }}</p>
+                <figure><img src="{{ image }}"/></figure>
+                </a>
+                </li>
+              </script>
+              <script id="contributions-li-picture-text" type="text/x-handlebars-template">
+                <li>
+                <a href="#">
+                <span class="contributor">{{username}}</span>
+                <figure><img src="{{ image }}"/></figure>
+                <p>{{ text }}</p>
+                </a>
+                </li>
+              </script>
+            </div>
+          </aside>
+        </div>
+        <div id="news-feed" class="pt-page with-secondary-nav">
           <ul id="latest-stories" class="list-style-none">
             <li>
               <h2 class="t1"><a href="#">Title of story</a></h2>
@@ -57,7 +124,7 @@
             </li>
           </ul>
         </div>
-        <div id="profile" class="pt-page pt-page-3">
+        <div id="profile" class="pt-page">
           <section>
             <div class="profile-overview">
               <figure class="profile-picture"><i id="anon-icon" class="fa fa-user"></i><img src="http://lorempixel.com/200/200" id="profile-picture"></figure>
@@ -116,7 +183,7 @@
             </div>
           </section>
         </div>
-        <div id="notifications" class="pt-page pt-page-4">
+        <div id="notifications" class="pt-page">
           <h2 class="wrapper">Recent</h2>
           <ul id="recent-notifications" class="notifications-list">
           </ul>
@@ -127,7 +194,7 @@
             <script id="post-viewed-li" type="text/x-handlebars-template"><li><strong>{{ organization }}</strong> viewed your post</li></script>
           </div>
         </div>
-        <div id="messages" class="pt-page with-secondary-nav pt-page-5">
+        <div id="messages" class="pt-page with-secondary-nav">
           <ul class="messages-list">
             <li class="message-li">
               <h2 class="message-overview">WXXI<span class="message-subject">Hello from WXXI!</span></h2>
@@ -146,12 +213,13 @@
             </li>
           </ul>
         </div>
-        <div id="submit-form" class="pt-page pt-page-6">
-          <div id="form-wrapper" class="form wrapper submit-preview"><form name="imageupload" id="imageUploadForm" action="http://yellrdev.wxxi.org/upload_media.json" method="post">
-            <input type="text" hidden="hidden" id="client_id" name="client_id" value="1"/>
-            <input type="text" hidden="hidden" id="media_type" name="media_type" value="image"/>
-            <input type="file" id="media_file" name="media_file" size="30"/>
-            <input type="submit" name="upload" value="Upload" />
+        <div id="submit-form" class="pt-page">
+          <div id="form-wrapper" class="form wrapper submit-preview">
+            <form id="text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+              <input type="hidden" name="client_id" value="" class="client_id">
+              <input type="hidden" name="media_type" value="text">
+              <input type="text" name="media_caption" placeholder="Title (optional)">
+              <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
             </form>
             <div id="add-extra-media" class="add-extra-media">
               <p>Add extra media:</p>
@@ -163,72 +231,7 @@
             </div>
           </div>
         </div>
-        <div id="view-assignment" class="pt-page pt-page-7">
-          <section class="assignment-view">
-            <div class="templates">
-              <script id="assignment-view" type="text/x-handlebars-template">
-                <h2 class="assignment-title">{{ title }}</h2>
-                {{#if image }}
-                <figure class="assignment-details-image"><img src="{{image}}"/></figure>
-                {{/if}}
-                <p class="assignment-details">{{ description }}</p>
-                <a href="#" class="contribute-to-assignment">Contribute</a>
-                <div class="accepted-media-wrapper">
-                <em>Accepted Media:</em>
-                <ul class="accepted-media">
-                <li><i class="fa fa-video-camera"></i></li>
-                <li><i class="fa fa-camera"></i></li>
-                <li><i class="fa fa-volume-up"></i></li>
-                <li><i class="fa fa-file-text-o"></i></li>
-                </ul>
-                </div>
-                <p class="assignment-deadline">{{ deadline }}</p>
-              </script>
-            </div>
-          </section>
-          <aside class="assignment-contributions">
-            <h3>Latest Contributions</h3>
-            <ul class="assignment-contributions-list">
-            </ul>
-            <div class="templates">
-              <script id="contributions-li-text" type="text/x-handlebars-template">
-                <li>
-                <a href="#">
-                <span class="contributor">{{username}}</span>
-                <p>{{ text }}</p>
-                </a>
-                </li>
-              </script>
-              <script id="contributions-li-text-long" type="text/x-handlebars-template">
-                <li>
-                <a href="#">
-                <span class="contributor">{{username}}</span>
-                <p>{{ text }}</p>
-                </a>
-                </li>
-              </script>
-              <script id="contributions-li-text-picture" type="text/x-handlebars-template">
-                <li>
-                <a href="#">
-                <span class="contributor">{{username}}</span>
-                <p>{{ text }}</p>
-                <figure><img src="{{ image }}"/></figure>
-                </a>
-                </li>
-              </script>
-              <script id="contributions-li-picture-text" type="text/x-handlebars-template">
-                <li>
-                <a href="#">
-                <span class="contributor">{{username}}</span>
-                <figure><img src="{{ image }}"/></figure>
-                <p>{{ text }}</p>
-                </a>
-                </li>
-              </script>
-            </div>
-          </aside>
-        </div>
-        <div id="view-story" class="pt-page pt-page-8">
+        <div id="view-story" class="pt-page">
           <h2>view story</h2>
         </div>
       </div>
@@ -244,17 +247,22 @@
   </div>
   <script src="cordova.js"></script>
   <script src="js/libs/fastclick.js"></script>
-  <script src="js/libs/jquery.js"></script>
-  <script src="js/libs/jquery.tap.min.js"></script>
-  <script src="js/libs/jquery.form.min.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/libs/moment.js"></script>
-  <script src="js/yellr/config.js"></script>
-  <script src="js/yellr/parse.js"></script>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/jquery.tap.min.js"></script>
+  <script src="js/libs/jquery.ui.widget.js"></script>
+  <script src="js/libs/jquery.fileupload.js"></script>
+  <script src="js/libs/jquery.iframe-transport.js"></script>
+  <script src="js/yellr/data.js"></script>
+  <script src="js/yellr/routes.js"></script>
+  <script src="js/yellr/user.js"></script>
   <script src="js/yellr/utils.js"></script>
-  <script src="js/yellr/events.js"></script>
-  <script src="js/yellr/setup.js"></script>
-  <script src="js/yellr/views.js"></script>
-  <script src="js/demo.js"></script>
+  <script src="js/yellr/view/profile.js"></script>
+  <script src="js/yellr/view/assignments.js"></script>
+  <script src="js/yellr/view/messages.js"></script>
+  <script src="js/yellr/view/news-feed.js"></script>
+  <script src="js/yellr/view/notifications.js"></script>
+  <script src="js/yellr/view/report.js"></script>
   <script src="js/init.js"></script>
 </body></html>

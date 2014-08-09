@@ -1,5 +1,11 @@
 module.exports = function(grunt) {
 
+  'use strict';
+
+  // Force use of Unix newlines
+  grunt.util.linefeed = '\n';
+
+
   // Folder vars
   // ===================================
   var buildFolder = '../build/';
@@ -52,11 +58,142 @@ module.exports = function(grunt) {
   }
 
 
+
+
   // Project configuration. (the good stuff)
-  // ===================================
-  // ===================================
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
+
+
+
+    banner: '/*!\n' +
+            ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+            ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
+            ' */\n',
+
+
+    clean: ['../build'],
+
+
+
+    jshint: {
+      options: {
+        jshintrc: 'common/js/.jshintrc'
+      },
+      src: {
+        src: ['js/*.js', 'js/**/*.js']
+      }
+    },
+
+
+
+    concat: {
+      options: {
+        banner: '<%= banner %>',
+        stripBanners: false
+      },
+      build: {
+        src: [
+          'js/main.js'
+          // 'js/libs/*.js',
+          // 'js/project/*.js'
+        ],
+        dest: buildFolder+'js/<%= pkg.name %>.js'
+      }
+    },
+
+
+
+    uglify: {
+      options: {
+        preserveComments: 'some'
+      },
+      build: {
+        src: '<%= concat.monte.dest %>',
+        dest: buildFolder+'js/<%= pkg.name %>.min.js'
+      }
+    },
+
+
+
+    autoprefixer: {
+      options: {
+        browsers: [
+          'Android 2.3',
+          'Android >= 4',
+          'Chrome >= 20',
+          'Firefox >= 24', // Firefox 24 is the latest ESR
+          'Explorer >= 8',
+          'iOS >= 6',
+          'Opera >= 12',
+          'Safari >= 6'
+        ]
+      },
+      build: {
+        options: {
+          map: true
+        },
+        src: buildFolder+'style/<%= pkg.name %>.css'
+      }
+    },
+
+
+
+    csslint: {
+      options: {
+        csslintrc: 'style/.csslintrc'
+      },
+      src: [buildFolder+'style/<%= pkg.name %>.css']
+    },
+
+
+
+    cssmin: {
+      options: {
+        compatibility: 'ie8',
+        keepSpecialComments: '*',
+        noAdvanced: true
+      },
+      build: {
+        src: [buildFolder+'style/<%= pkg.name %>.css'],
+        dest: buildFolder+'style/<%= pkg.name %>.min.css'
+      }
+    },
+
+
+
+    usebanner: {
+      options: {
+        position: 'top',
+        banner: '<%= banner %>'
+      },
+      files: {
+        src: [
+          buildFolder+'style/<%= pkg.name %>.css',
+          buildFolder+'style/<%= pkg.name %>.min.css',
+          buildFolder+'js/<%= pkg.name %>.js',
+          buildFolder+'js/<%= pkg.name %>.min.js'
+        ]
+      }
+    },
+
+
+
+    csscomb: {
+      options: {
+        config: 'style/.csscomb.json'
+      },
+      build: {
+        expand: true,
+        cwd: buildFolder+'style/',
+        src: ['*.css', '!*.min.css'],
+        dest: buildFolder+'style/'
+      }
+    },
+
+
 
     // compile SASS files
     // ===================================
@@ -282,17 +419,39 @@ module.exports = function(grunt) {
 
     },
 
-    // yui compression
-    min: {
-      dist: {
-        src: [buildFolder+'js/main.js', buildFolder+'js/modules/*.js'],
-        dest: buildFolder+'js/main.min.js'
+
+    htmlmin: {                                     // Task
+      dist: {                                      // Target
+        options: {                                 // Target options
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {                                   // Dictionary of files
+          'dist/index.html': 'src/index.html',     // 'destination': 'source'
+          'dist/contact.html': 'src/contact.html'
+        }
+      },
+      dev: {                                       // Another target
+        files: {
+          'dist/index.html': 'src/index.html',
+          'dist/contact.html': 'src/contact.html'
+        }
       }
     },
-    cssmin: {
-      dist: {
-        src: [buildFolder+'style/style.css', buildFolder+'style/modules/*.css'],
-        dest: buildFolder+'style/style.min.css'
+
+
+
+    yuidoc: {
+      compile: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        options: {
+          paths: 'path/to/source/code/',
+          themedir: 'path/to/custom/theme/',
+          outdir: 'where/to/save/docs/'
+        }
       }
     }
 
@@ -302,11 +461,8 @@ module.exports = function(grunt) {
 
   // Load the plugins
   // ===================================
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jade');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-yui-compressor');
+  require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
+  require('time-grunt')(grunt);
 
 
 

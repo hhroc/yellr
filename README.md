@@ -19,9 +19,6 @@ $ npm install -g cordova    # make sure Cordova is installed
 $ git clone https://github.com/hhroc/yellr.git
 $ cd yellr
 $ make init
-$ cd yellr/src/
-$ npm install
-$ grunt
 ```
 
 

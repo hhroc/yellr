@@ -47,6 +47,8 @@ yellr.view.notifications = (function() {
     var add_eventlisteners = function() {
       // refresh
       document.querySelector('#refresh-btn').onclick = function(e) {
+        this.className = 'loading';
+        console.log(this);
         yellr.data.load_notifications(this.update);
       }
     }

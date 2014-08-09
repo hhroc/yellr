@@ -387,7 +387,7 @@ module.exports = function(grunt) {
       // build app markup
       app: {
         options: jadedebug,
-        files: [{expand: true, cwd: './app/html/', src: ['*.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }]
+        files: [{expand: true, cwd: './app/html/', src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }]
       },
       // build moderator pages
       moderator: {
@@ -511,10 +511,10 @@ module.exports = function(grunt) {
       app_style: {files: [app_folder+'style/**'], tasks: ['compass:app', 'autoprefixer:app'] },
       app_html: {files: [app_folder+'index.html'], tasks: ['copy:index_html'] },
       app_config: {files: [app_folder+'config.xml'], tasks: ['copy:config_xml'] },
-      www: {
-        files: [app_folder+app_build+'**'],
-        tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
-      },
+      // www: {
+      //   files: [app_folder+app_build+'**'],
+      //   tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
+      // },
       moderator_js: {files: [moderator_folder+'js/**'], tasks: ['copy:moderator_js'] },
       moderator_style: {files: [moderator_folder+'style/**'], tasks: ['compass:moderator', 'autoprefixer:moderator'] },
       moderator_html: {files: [moderator_folder+'html/**'], tasks: ['jade:moderator'] },

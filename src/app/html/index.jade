@@ -17,14 +17,17 @@ body#app
     //- main content area
     div#main
       div#pt-main.pt-perspective
-        div.pt-page.with-secondary-nav#assignments
+        div.pt-page#assignments
           include assignments.jade
 
         div.pt-page#view-assignment
           include view-assignment.jade
 
-        div.pt-page.with-secondary-nav#news-feed
+        div.pt-page#news-feed
           include news-feed.jade
+
+        div.pt-page#view-news
+          include view-news.jade
 
         div.pt-page#profile
           include profile.jade
@@ -32,25 +35,25 @@ body#app
         div.pt-page#notifications
           include notifications.jade
 
-        div.pt-page.with-secondary-nav#messages
+        div.pt-page#messages
           include messages.jade
+
+        div.pt-page#view-message
+          include view-message.jade
 
         div.pt-page#report
           include report.jade
 
-
-        div.pt-page#view-news
-          include view-news.jade
-
-
-
-      //- include _debug.jade
+        div.pt-page#debug
+          include _debug.jade
     //- end main
 
     //- app footer
     include _footer.jade
 
-  //- our scripts
-  include _scripts.jade
+  //- Handlebar templates
+  include _templates.jade
 
+  //- JS files
+  include _scripts.jade
 </html>

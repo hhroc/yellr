@@ -8,14 +8,15 @@ module.exports = function(grunt) {
 
   // Folder vars
   // ===================================
-  var buildFolder = '../build/';
-  var applicationFolder = '../application/';
-  var common_folder = 'common/';
-  var app_build = 'www/';
-  var app_folder = 'app/';
-  var moderator_folder = 'moderator/';
-  var onepager_folder = 'one-pager/';
-  var storefront_folder = 'storefront/';
+  var buildFolder = '../build/',
+      docsFolder = '../docs/',
+      applicationFolder = '../application/',
+      common_folder = 'common/',
+      app_build = 'www/',
+      app_folder = 'app/',
+      moderator_folder = 'moderator/',
+      onepager_folder = 'one-pager/',
+      storefront_folder = 'storefront/';
 
 
 
@@ -66,58 +67,6 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
 
-
-    banner: '/*!\n' +
-            ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-            ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
-            ' */\n',
-
-
-    clean: ['../build'],
-
-
-
-    jshint: {
-      options: {
-        jshintrc: 'common/js/.jshintrc'
-      },
-      src: {
-        src: ['js/*.js', 'js/**/*.js']
-      }
-    },
-
-
-
-    concat: {
-      options: {
-        banner: '<%= banner %>',
-        stripBanners: false
-      },
-      build: {
-        src: [
-          'js/main.js'
-          // 'js/libs/*.js',
-          // 'js/project/*.js'
-        ],
-        dest: buildFolder+'js/<%= pkg.name %>.js'
-      }
-    },
-
-
-
-    uglify: {
-      options: {
-        preserveComments: 'some'
-      },
-      build: {
-        src: '<%= concat.monte.dest %>',
-        dest: buildFolder+'js/<%= pkg.name %>.min.js'
-      }
-    },
-
-
-
     autoprefixer: {
       options: {
         browsers: [
@@ -131,79 +80,44 @@ module.exports = function(grunt) {
           'Safari >= 6'
         ]
       },
-      build: {
-        options: {
-          map: true
-        },
-        src: buildFolder+'style/<%= pkg.name %>.css'
-      }
-    },
-
-
-
-    csslint: {
-      options: {
-        csslintrc: 'style/.csslintrc'
-      },
-      src: [buildFolder+'style/<%= pkg.name %>.css']
-    },
-
-
-
-    cssmin: {
-      options: {
-        compatibility: 'ie8',
-        keepSpecialComments: '*',
-        noAdvanced: true
-      },
-      build: {
-        src: [buildFolder+'style/<%= pkg.name %>.css'],
-        dest: buildFolder+'style/<%= pkg.name %>.min.css'
-      }
-    },
-
-
-
-    usebanner: {
-      options: {
-        position: 'top',
-        banner: '<%= banner %>'
-      },
-      files: {
+      app: {
         src: [
-          buildFolder+'style/<%= pkg.name %>.css',
-          buildFolder+'style/<%= pkg.name %>.min.css',
-          buildFolder+'js/<%= pkg.name %>.js',
-          buildFolder+'js/<%= pkg.name %>.min.js'
+          buildFolder+app_folder+'style/style.css',
+          app_folder+app_build+'style/style.css'
         ]
-      }
-    },
-
-
-
-    csscomb: {
-      options: {
-        config: 'style/.csscomb.json'
       },
-      build: {
-        expand: true,
-        cwd: buildFolder+'style/',
-        src: ['*.css', '!*.min.css'],
-        dest: buildFolder+'style/'
+      moderator: {
+        src: buildFolder+moderator_folder+'style/style.css'
+      },
+      onepager: {
+        src: buildFolder+onepager_folder+'style/style.css'
+      },
+      storefront: {
+        src: buildFolder+storefront_folder+'style/style.css'
       }
     },
 
 
 
-    // compile SASS files
-    // ===================================
+
+    banner: '/*!\n' +
+            ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+            ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
+            ' */\n',
+
+
+    clean: ['../build'],
+
+
+
     compass: {
       // common css
       common: {
         options: {
           sassDir: common_folder+'style',
           cssDir: buildFolder,
-          outputStyle: 'compressed',
+          outputStyle: 'expanded',
           noLineComments: true,
           force: true,
           relativeAssets: true,
@@ -225,7 +139,7 @@ module.exports = function(grunt) {
         options: {
           sassDir: app_folder+'style',
           cssDir: app_folder+app_build+'style',
-          outputStyle: 'compressed',
+          outputStyle: 'expanded',
           noLineComments: true,
           force: true,
           relativeAssets: true,
@@ -247,7 +161,7 @@ module.exports = function(grunt) {
         options: {
           sassDir: onepager_folder+'style',
           cssDir: buildFolder+onepager_folder+'style',
-          outputStyle: 'compressed',
+          outputStyle: 'expanded',
           noLineComments: true,
           force: true,
           relativeAssets: true,
@@ -267,8 +181,33 @@ module.exports = function(grunt) {
     },
 
 
-    // Copy files (font, img, js)
-    // ===================================
+
+
+    concat: {
+      options: {
+        banner: '<%= banner %>',
+        stripBanners: false
+      },
+      app: {
+        src: [
+          app_folder+'js/init.js',
+          app_folder+'js/yellr/*js',
+          app_folder+'js/yellr/view/*.js'
+        ],
+        dest: app_folder+app_build+'js/app.js'
+      },
+      moderator: {
+        src: [
+          moderator_folder+'js/*.js',
+          moderator_folder+'js/mod/*.js'
+        ],
+        dest: moderator_folder+'js/moderator.js'
+      }
+    },
+
+
+
+
     copy: {
       // copy fonts
       fonts: {
@@ -348,8 +287,94 @@ module.exports = function(grunt) {
     },
 
 
-    // compile jade files
-    // ===================================
+
+
+    csscomb: {
+      options: {
+        config: 'common/style/.csscomb.json'
+      },
+      app: {
+        expand: true,
+        src: [buildFolder+app_folder+'style/style.css'],
+        dest: buildFolder+app_folder+'style/'
+      },
+      moderator: {
+        expand: true,
+        src: [buildFolder+moderator_folder+'style/style.css'],
+        dest: buildFolder+moderator_folder+'style/'
+      },
+      onepager: {
+        expand: true,
+        src: [buildFolder+onepager_folder+'style/style.css'],
+        dest: buildFolder+onepager_folder+'style/'
+      },
+      storefront: {
+        expand: true,
+        src: [buildFolder+storefront_folder+'style/style.css'],
+        dest: buildFolder+storefront_folder+'style/'
+      }
+    },
+
+
+
+
+
+    csslint: {
+      options: {
+        csslintrc: 'common/style/.csslintrc'
+      },
+      app: {
+        src: [app_folder+app_build+'style/style.css']
+      },
+      moderator: {
+        src: [buildFolder+moderator_folder+'style/style.css']
+      }
+    },
+
+
+
+
+
+    cssmin: {
+      options: {
+        compatibility: 'ie9',
+        keepSpecialComments: '*',
+        noAdvanced: true
+      },
+      app: {
+        src: [app_folder+app_build+'style/style.css'],
+        dest: app_folder+app_build+'style/style.min.css'
+      },
+      moderator: {
+        src: [buildFolder+moderator_folder+'style/style.css'],
+        dest: buildFolder+moderator_folder+'style/style.min.css'
+      },
+      build: {
+        src: [buildFolder+'style/<%= pkg.name %>.css'],
+        dest: buildFolder+'style/<%= pkg.name %>.min.css'
+      }
+    },
+
+
+
+
+    htmlmin: {
+      app: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {
+          // 'destination': 'source'
+          'app/www/index.html': '../build/app/index.html'
+        }
+      }
+    },
+
+
+
+
+
     jade: {
       // index page, show 4 links
       index: {
@@ -378,7 +403,93 @@ module.exports = function(grunt) {
       }
     },
 
-    // tasks: ['compass:www', 'copy:images_to_www', 'copy:js_to_www', 'copy:data_to_www']
+
+
+
+
+    jshint: {
+      options: {
+        jshintrc: 'common/js/.jshintrc'
+      },
+      app: {
+        src: [
+          app_folder+'js/init.js',
+          app_folder+'js/yellr/*.js',
+          app_folder+'js/yellr/**/*.js'
+        ]
+      },
+      moderator: {
+        src: [
+          moderator_folder+'js/*.js',
+          moderator_folder+'js/mod/*.js',
+        ]
+      }
+    },
+
+
+
+
+    jsonlint: {
+      all: {
+        src: [
+          app_folder+'data/*.json',
+          common_folder+'data/*.json',
+          moderator_folder+'data/*json'
+        ]
+      },
+      app: {
+        src: [app_folder+'data/*.json']
+      },
+      common: {
+        src: [common_folder+'data/*.json']
+      },
+      moderator: {
+        src: [moderator_folder+'data/*json']
+      }
+    },
+
+
+
+
+
+    uglify: {
+      options: {
+        preserveComments: 'some'
+      },
+      app: {
+        src: '<% concat.app.dest %>',
+        dest: app_folder+app_build+'js/app.min.js'
+      },
+      moderator: {
+        src: '<% concat.moderator.dest %>',
+        dest: buildFolder+moderator_folder+'js/moderator.min.js'
+      }
+    },
+
+
+
+
+    usebanner: {
+      options: {
+        position: 'top',
+        banner: '<%= banner %>'
+      },
+      files: {
+        src: [
+          app_folder+app_build+'style/style.css',
+          app_folder+app_build+'style/style.min.css',
+          app_folder+app_build+'js/app.js',
+          app_folder+app_build+'js/app.min.js',
+          buildFolder+moderator_folder+'style/style.css',
+          buildFolder+moderator_folder+'style/style.min.css',
+          buildFolder+moderator_folder+'js/moderator.js',
+          buildFolder+moderator_folder+'js/moderator.min.js',
+        ]
+      }
+    },
+
+
+
 
     // watch file changes
     watch: {
@@ -420,37 +531,54 @@ module.exports = function(grunt) {
     },
 
 
-    htmlmin: {                                     // Task
-      dist: {                                      // Target
-        options: {                                 // Target options
-          removeComments: true,
-          collapseWhitespace: true
-        },
-        files: {                                   // Dictionary of files
-          'dist/index.html': 'src/index.html',     // 'destination': 'source'
-          'dist/contact.html': 'src/contact.html'
-        }
-      },
-      dev: {                                       // Another target
-        files: {
-          'dist/index.html': 'src/index.html',
-          'dist/contact.html': 'src/contact.html'
-        }
-      }
-    },
-
-
 
     yuidoc: {
-      compile: {
+      app: {
         name: '<%= pkg.name %>',
         description: '<%= pkg.description %>',
         version: '<%= pkg.version %>',
         url: '<%= pkg.homepage %>',
+        logo: 'url.png',
         options: {
-          paths: 'path/to/source/code/',
-          themedir: 'path/to/custom/theme/',
-          outdir: 'where/to/save/docs/'
+          paths: [app_folder+'js/'],
+          ignorePaths: [app_folder+'js/libs'],
+          outdir: docsFolder+app_folder
+        }
+      },
+      moderator: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        logo: 'url.png',
+        options: {
+          paths: [moderator_folder+'js/'],
+          ignorePaths: [moderator_folder+'js/libs'],
+          outdir: docsFolder+moderator_folder
+        }
+      },
+      onepager: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        logo: 'url.png',
+        options: {
+          paths: [onepager_folder+'js/'],
+          ignorePaths: [onepager_folder+'js/libs'],
+          outdir: docsFolder+onepager_folder
+        }
+      },
+      storefront: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        logo: 'url.png',
+        options: {
+          paths: [storefront_folder+'js/'],
+          ignorePaths: [storefront_folder+'js/libs'],
+          outdir: docsFolder+storefront_folder
         }
       }
     }

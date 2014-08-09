@@ -354,6 +354,13 @@ module.exports = function(grunt) {
 
 
 
+    exec: {
+      android: 'echo "need to figure this out later"'
+    },
+
+
+
+
     htmlmin: {
       app: {
         options: {

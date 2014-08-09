@@ -104,7 +104,7 @@ module.exports = function(grunt) {
             ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
             ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
             ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
-            ' */\n',
+            ' */\n\n',
 
 
     clean: ['../build'],
@@ -191,17 +191,17 @@ module.exports = function(grunt) {
       app: {
         src: [
           app_folder+'js/init.js',
-          app_folder+'js/yellr/*js',
-          app_folder+'js/yellr/view/*.js'
+          app_folder+'js/yellr/**.js',
+          app_folder+'js/yellr/view/**.js'
         ],
-        dest: app_folder+app_build+'js/app.js'
+        dest: buildFolder + app_folder+'js/app.js'
       },
       moderator: {
         src: [
           moderator_folder+'js/*.js',
           moderator_folder+'js/mod/*.js'
         ],
-        dest: moderator_folder+'js/moderator.js'
+        dest: buildFolder+moderator_folder+'js/moderator.js'
       }
     },
 
@@ -296,22 +296,22 @@ module.exports = function(grunt) {
       app: {
         expand: true,
         src: [buildFolder+app_folder+'style/style.css'],
-        dest: buildFolder+app_folder+'style/'
+        dest: './'
       },
       moderator: {
         expand: true,
         src: [buildFolder+moderator_folder+'style/style.css'],
-        dest: buildFolder+moderator_folder+'style/'
+        dest: './'
       },
       onepager: {
         expand: true,
         src: [buildFolder+onepager_folder+'style/style.css'],
-        dest: buildFolder+onepager_folder+'style/'
+        dest: './'
       },
       storefront: {
         expand: true,
         src: [buildFolder+storefront_folder+'style/style.css'],
-        dest: buildFolder+storefront_folder+'style/'
+        dest: './'
       }
     },
 
@@ -343,15 +343,11 @@ module.exports = function(grunt) {
       },
       app: {
         src: [app_folder+app_build+'style/style.css'],
-        dest: app_folder+app_build+'style/style.min.css'
+        dest: buildFolder+app_folder+'style/style.min.css'
       },
       moderator: {
         src: [buildFolder+moderator_folder+'style/style.css'],
         dest: buildFolder+moderator_folder+'style/style.min.css'
-      },
-      build: {
-        src: [buildFolder+'style/<%= pkg.name %>.css'],
-        dest: buildFolder+'style/<%= pkg.name %>.min.css'
       }
     },
 
@@ -454,15 +450,18 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
+        mangle: true,
         preserveComments: 'some'
       },
       app: {
-        src: '<% concat.app.dest %>',
-        dest: app_folder+app_build+'js/app.min.js'
+        files: {
+          '../build/app/js/app.min.js': ['../build/app/js/app.js']
+        }
       },
       moderator: {
-        src: '<% concat.moderator.dest %>',
-        dest: buildFolder+moderator_folder+'js/moderator.min.js'
+        files: {
+          '../build/moderator/js/moderator.min.js': ['../build/moderator/js/moderator.js']
+        }
       }
     },
 
@@ -502,7 +501,7 @@ module.exports = function(grunt) {
       app_jade: {files: [app_folder+'html/**'], tasks: ['jade:app'] },
       app_images: {files: [app_folder+'img/**'], tasks: ['copy:app_images'] },
       app_js: {files: [app_folder+'js/**'], tasks: ['copy:app_js'] },
-      app_style: {files: [app_folder+'style/**'], tasks: ['compass:app'] },
+      app_style: {files: [app_folder+'style/**'], tasks: ['compass:app', 'autoprefixer:app'] },
       app_html: {files: [app_folder+'index.html'], tasks: ['copy:index_html'] },
       app_config: {files: [app_folder+'config.xml'], tasks: ['copy:config_xml'] },
       www: {
@@ -510,7 +509,7 @@ module.exports = function(grunt) {
         tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
       },
       moderator_js: {files: [moderator_folder+'js/**'], tasks: ['copy:moderator_js'] },
-      moderator_style: {files: [moderator_folder+'style/**'], tasks: ['compass:moderator'] },
+      moderator_style: {files: [moderator_folder+'style/**'], tasks: ['compass:moderator', 'autoprefixer:moderator'] },
       moderator_html: {files: [moderator_folder+'html/**'], tasks: ['jade:moderator'] },
       moderator_data: {files: [moderator_folder+'data/**'], tasks: ['copy:moderator_data'] },
       // moderator: {},
@@ -587,6 +586,11 @@ module.exports = function(grunt) {
 
 
 
+
+
+
+
+
   // Load the plugins
   // ===================================
   require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
@@ -595,9 +599,15 @@ module.exports = function(grunt) {
 
 
 
+
+
+
+
+
   // Default task(s)
   // ===================================
   grunt.registerTask('default', ['build']);
+
 
   grunt.registerTask('build', function() {
     grunt.task.run([
@@ -626,6 +636,23 @@ module.exports = function(grunt) {
       'copy:storefront_data',
     ]);
   });
+
+
+
+  grunt.registerTask('autoprefix', function() {
+    grunt.task.run([
+      'autoprefixer:app',
+      'autoprefixer:moderator',
+      'autoprefixer:onepager',
+      'autoprefixer:storefront'
+    ]);
+  });
+
+
+
+
+
+
 
   grunt.registerTask('build_app', function() {
     grunt.task.run([

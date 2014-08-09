@@ -2,6 +2,7 @@
   "name": "yellr",
   "description": "citizen engagement/journalism project",
   "author": "hhroc - Hacks and Hackers Rochester",
+  "homepage": "http://hhroc.github.io/",
   "version": "0.0.1",
   "repository": {
     "type": "git",

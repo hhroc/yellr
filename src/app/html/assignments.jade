@@ -25,7 +25,7 @@ ul#latest-assignments.assignments-list.list-style-none
     p.assignment-deadline 6 days
 
 div.templates
-  script#assignments-li(type="text/x-handlerbars-template")
+  script#assignments-li(type="text/x-handlerbars-template").
     {{#each assignments}}
     <li> <h2 class="assignment-title"> <a href="#view-assignment/{{ id }}">{{ question_text }}</a> </h2> <div class="assignment-action"> <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p> <p class="assignment-contributions">{{ contributions }}</p> </div> <p class="assignment-deadline">{{ expire_datetime }}</p> </li>
     {{/each}}

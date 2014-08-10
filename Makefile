@@ -19,7 +19,7 @@ init:
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git;
-	
+
 	# grunt tings - build project, build www not that application exists
 	# we build with grunt after running cordova because Cordova must
 	# create the directory first

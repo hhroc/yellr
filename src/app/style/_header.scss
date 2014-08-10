@@ -106,8 +106,7 @@
   .btn {
     display: block;
     padding: $icon-padding;
-    border-right: 1px solid $dark-yellow;
-    &:first-child{border-left: 1px solid $dark-yellow;}
+    border-left: 1px solid $dark-yellow;
     text-align: center;
     width: 33%;
     @include flex(1);

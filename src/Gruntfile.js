@@ -8,15 +8,13 @@ module.exports = function(grunt) {
 
   // Folder vars
   // ===================================
-  var buildFolder = '../build/',
-      docsFolder = '../docs/',
-      applicationFolder = '../application/',
-      common_folder = 'common/',
-      app_build = 'www/',
-      app_folder = 'app/',
-      moderator_folder = 'moderator/',
-      onepager_folder = 'one-pager/',
-      storefront_folder = 'storefront/';
+  var buildFolder       =   '../build/',
+      docsFolder        =   '../docs/',
+      common_folder     =   'common/',
+      app_folder        =   'app/',
+      moderator_folder  =   'moderator/',
+      onepager_folder   =   'one-pager/',
+      storefront_folder =   'storefront/';
 
 
 
@@ -80,21 +78,10 @@ module.exports = function(grunt) {
           'Safari >= 6'
         ]
       },
-      app: {
-        src: [
-          buildFolder+app_folder+'style/style.css',
-          app_folder+app_build+'style/style.css'
-        ]
-      },
-      moderator: {
-        src: buildFolder+moderator_folder+'style/style.css'
-      },
-      onepager: {
-        src: buildFolder+onepager_folder+'style/style.css'
-      },
-      storefront: {
-        src: buildFolder+storefront_folder+'style/style.css'
-      }
+      app:          {src: buildFolder+app_folder+'style/style.css'},
+      moderator:    {src: buildFolder+moderator_folder+'style/style.css'},
+      onepager:     {src: buildFolder+onepager_folder+'style/style.css'},
+      storefront:   {src: buildFolder+storefront_folder+'style/style.css'}
     },
 
 
@@ -102,7 +89,7 @@ module.exports = function(grunt) {
 
     banner: '/*!\n' +
             ' * <%= pkg.name %> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-            ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Copyright <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
             ' * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n' +
             ' */\n\n',
 
@@ -113,7 +100,7 @@ module.exports = function(grunt) {
 
     compass: {
       // common css
-      common: {
+      index: {
         options: {
           sassDir: common_folder+'style',
           cssDir: buildFolder,
@@ -128,17 +115,6 @@ module.exports = function(grunt) {
         options: {
           sassDir: app_folder+'style',
           cssDir: buildFolder+app_folder+'style',
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
-        }
-      },
-      // send app styles to its 'www' dir
-      www: {
-        options: {
-          sassDir: app_folder+'style',
-          cssDir: app_folder+app_build+'style',
           outputStyle: 'expanded',
           noLineComments: true,
           force: true,
@@ -185,8 +161,9 @@ module.exports = function(grunt) {
 
     concat: {
       options: {
-        banner: '<%= banner %>',
-        stripBanners: false
+        // banner: '<%= banner %>',
+        // stripBanners: false
+        stripBanners: true
       },
       app: {
         src: [
@@ -202,6 +179,13 @@ module.exports = function(grunt) {
           moderator_folder+'js/mod/*.js'
         ],
         dest: buildFolder+moderator_folder+'js/moderator.js'
+      },
+      storefront: {
+        src: [
+          storefront_folder+'js/*.js',
+          storefront_folder+'js/mod/*.js'
+        ],
+        dest: buildFolder+storefront_folder+'js/storefront.js'
       }
     },
 
@@ -212,15 +196,9 @@ module.exports = function(grunt) {
       // copy fonts
       fonts: {
         files: [
-          // app
           {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+app_folder+'style/fonts'},
-          // www
-          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: app_folder+app_build+'style/fonts'},
-          // moderator
           {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+moderator_folder+'style/fonts'},
-          // one-pager
           {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+onepager_folder+'style/fonts'},
-          // storefront
           {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+storefront_folder+'style/fonts'},
         ]
       },
@@ -228,62 +206,28 @@ module.exports = function(grunt) {
       images: {
         files : [
           {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+app_folder+'img'},
-          {expand: true, cwd: 'common/img', src: ['**'], dest: app_folder+app_build+'img'},
           {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+moderator_folder+'img'},
           {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+onepager_folder+'img'},
           {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+storefront_folder+'img'},
         ]
       },
-      // copy app images
-      app_images: {files: [{expand: true, cwd: app_folder+'/img', src: ['**'], dest: buildFolder+app_folder+'img'}] },
-      // copy them to the www folder
-      images_to_www: {files: [{expand: true, cwd: app_folder+'/img', src: ['**'], dest: app_folder+app_build+'img'}] },
-      // copy moderator images
-      moderator_images: {files: [{expand: true, cwd: moderator_folder+'/img', src: ['**'], dest: buildFolder+moderator_folder+'img'}] },
-      // copy onepager images
-      onepager_images: {files: [{expand: true, cwd: onepager_folder+'/img', src: ['**'], dest: buildFolder+onepager_folder+'img'}] },
-      // copy storefront images
-      storefront_images: {files: [{expand: true, cwd: storefront_folder+'/img', src: ['**'], dest: buildFolder+storefront_folder+'img'}] },
-      // copy JS files
-      js: {
-        files : [
-          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+app_folder+'js'},
-          {expand: true, cwd: 'common/js', src: ['**'], dest: app_folder+app_build+'js'},
-          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+moderator_folder+'js'},
-          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+onepager_folder+'js'},
-          {expand: true, cwd: 'common/js', src: ['**'], dest: buildFolder+storefront_folder+'js'},
-        ]
-      },
-      // copy app js files
-      app_js: {files: [{expand: true, cwd: app_folder+'/js', src: ['**'], dest: buildFolder+app_folder+'js'}] },
-      // copy js to www
-      js_to_www: {files: [{expand: true, cwd: app_folder+'/js', src: ['**'], dest: app_folder+app_build+'js'}] },
-      // copy moderator js
-      moderator_js: {files: [{expand: true, cwd: moderator_folder+'/js', src: ['**'], dest: buildFolder+moderator_folder+'js'}] },
-      // copy onepager js
-      onepager_js: {files: [{expand: true, cwd: onepager_folder+'/js', src: ['**'], dest: buildFolder+onepager_folder+'js'}] },
-      // copy storefront js
-      storefront_js: {files: [{expand: true, cwd: storefront_folder+'/js', src: ['**'], dest: buildFolder+storefront_folder+'js'}] },
-      // copy sample data
-      data: {
-        files : [
-          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+app_folder+'data'},
-          {expand: true, cwd: 'common/data', src: ['*.json'], dest: app_folder+app_build+'data'},
-          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+moderator_folder+'data'},
-          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+onepager_folder+'data'},
-          {expand: true, cwd: 'common/data', src: ['*.json'], dest: buildFolder+storefront_folder+'data'},
-        ]
-      },
-      // copy specfic datasets
-      app_data: {files: [{expand: true, cwd: app_folder+'/data', src: ['**'], dest: buildFolder+app_folder+'data'}] },
-      data_to_www: {files: [{expand: true, cwd: app_folder+'/data', src: ['**'], dest: app_folder+app_build+'data'}] },
-      moderator_data: {files: [{expand: true, cwd: moderator_folder+'/data', src: ['**'], dest: buildFolder+moderator_folder+'data'}] },
-      onepager_data: {files: [{expand: true, cwd: onepager_folder+'/data', src: ['**'], dest: buildFolder+onepager_folder+'data'}] },
-      storefront_data: {files: [{expand: true, cwd: storefront_folder+'/data', src: ['**'], dest: buildFolder+storefront_folder+'data'}] },
+      // copy JS libs
+      app_js_libs:        {files: [{expand: true, cwd: app_folder+'/js/libs', src: ['**'], dest: buildFolder+app_folder+'js/libs'}] },
+      moderator_js_libs:  {files: [{expand: true, cwd: moderator_folder+'/js/libs', src: ['**'], dest: buildFolder+moderator_folder+'js/libs'}] },
+      onepager_js_libs:   {files: [{expand: true, cwd: onepager_folder+'/js/libs', src: ['**'], dest: buildFolder+onepager_folder+'js/libs'}] },
+      storefront_js_libs: {files: [{expand: true, cwd: storefront_folder+'/js/libs', src: ['**'], dest: buildFolder+storefront_folder+'js/libs'}] },
+      // images for specfic parts
+      app_images:         {files: [{expand: true, cwd: app_folder+'/img', src: ['**'], dest: buildFolder+app_folder+'img'}] },
+      moderator_images:   {files: [{expand: true, cwd: moderator_folder+'/img', src: ['**'], dest: buildFolder+moderator_folder+'img'}] },
+      onepager_images:    {files: [{expand: true, cwd: onepager_folder+'/img', src: ['**'], dest: buildFolder+onepager_folder+'img'}] },
+      storefront_images:  {files: [{expand: true, cwd: storefront_folder+'/img', src: ['**'], dest: buildFolder+storefront_folder+'img'}] },
+      // copy sample JSON files
+      app_data:           {files: [{expand: true, cwd: app_folder+'/data', src: ['**'], dest: buildFolder+app_folder+'data'}] },
+      moderator_data:     {files: [{expand: true, cwd: moderator_folder+'/data', src: ['**'], dest: buildFolder+moderator_folder+'data'}] },
+      onepager_data:      {files: [{expand: true, cwd: onepager_folder+'/data', src: ['**'], dest: buildFolder+onepager_folder+'data'}] },
+      storefront_data:    {files: [{expand: true, cwd: storefront_folder+'/data', src: ['**'], dest: buildFolder+storefront_folder+'data'}] },
       // copy things to the actual application folder running cordova
-      config_xml: {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: applicationFolder}] },
-      index_html:{files: [{expand: true, cwd: app_folder, src: ['index.html'], dest: app_folder+app_build}] },
-      www: {files: [{expand: true, cwd: app_folder+'www', src: ['**'], dest: applicationFolder+'www'}] },
+      config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: buildFolder+app_folder}] },
     },
 
 
@@ -293,26 +237,10 @@ module.exports = function(grunt) {
       options: {
         config: 'common/style/.csscomb.json'
       },
-      app: {
-        expand: true,
-        src: [buildFolder+app_folder+'style/style.css'],
-        dest: './'
-      },
-      moderator: {
-        expand: true,
-        src: [buildFolder+moderator_folder+'style/style.css'],
-        dest: './'
-      },
-      onepager: {
-        expand: true,
-        src: [buildFolder+onepager_folder+'style/style.css'],
-        dest: './'
-      },
-      storefront: {
-        expand: true,
-        src: [buildFolder+storefront_folder+'style/style.css'],
-        dest: './'
-      }
+      app:          {expand: true, src: [buildFolder+app_folder+'style/style.css'], dest: './'},
+      moderator:    {expand: true, src: [buildFolder+moderator_folder+'style/style.css'], dest: './'},
+      onepager:     {expand: true, src: [buildFolder+onepager_folder+'style/style.css'], dest: './'},
+      storefront:   {expand: true, src: [buildFolder+storefront_folder+'style/style.css'], dest: './'}
     },
 
 
@@ -323,12 +251,10 @@ module.exports = function(grunt) {
       options: {
         csslintrc: 'common/style/.csslintrc'
       },
-      app: {
-        src: [app_folder+app_build+'style/style.css']
-      },
-      moderator: {
-        src: [buildFolder+moderator_folder+'style/style.css']
-      }
+      app:        {src: [buildFolder+app_folder+'style/style.css'] },
+      moderator:  {src: [buildFolder+moderator_folder+'style/style.css'] },
+      onepager:  {src: [buildFolder+onepager_folder+'style/style.css'] },
+      storefront:  {src: [buildFolder+storefront_folder+'style/style.css'] }
     },
 
 
@@ -342,12 +268,20 @@ module.exports = function(grunt) {
         noAdvanced: true
       },
       app: {
-        src: [app_folder+app_build+'style/style.css'],
+        src: [buildFolder+app_folder+'style/style.css'],
         dest: buildFolder+app_folder+'style/style.min.css'
       },
       moderator: {
         src: [buildFolder+moderator_folder+'style/style.css'],
         dest: buildFolder+moderator_folder+'style/style.min.css'
+      },
+      onepager: {
+        src: [buildFolder+onepager_folder+'style/style.css'],
+        dest: buildFolder+onepager_folder+'style/style.min.css'
+      },
+      storefront: {
+        src: [buildFolder+storefront_folder+'style/style.css'],
+        dest: buildFolder+storefront_folder+'style/style.min.css'
       }
     },
 
@@ -365,11 +299,12 @@ module.exports = function(grunt) {
       app: {
         options: {
           removeComments: true,
-          collapseWhitespace: true
+          collapseWhitespace: true,
+          processScripts: ['text/x-handlebars-template']
         },
         files: {
           // 'destination': 'source'
-          'app/www/index.html': '../build/app/index.html'
+          '../build/app/index.html': '../build/app/index.html'
         }
       }
     },
@@ -379,31 +314,11 @@ module.exports = function(grunt) {
 
 
     jade: {
-      // index page, show 4 links
-      index: {
-        options: jadedebug,
-        files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }]
-      },
-      // build app markup
-      app: {
-        options: jadedebug,
-        files: [{expand: true, cwd: './app/html/', src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }]
-      },
-      // build moderator pages
-      moderator: {
-        options: jadedebug,
-        files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }]
-      },
-      // build the one-pager
-      onepager: {
-        options: jadedebug,
-        files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }]
-      },
-      // build the storefront
-      storefront: {
-        options: jadedebug,
-        files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }]
-      }
+      index:      {options: jadedebug, files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }] },
+      app:        {options: jadedebug, files: [{expand: true, cwd: './app/html/', src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }] },
+      moderator:  {options: jadedebug, files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }] },
+      onepager:   {options: jadedebug, files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }] },
+      storefront: {options: jadedebug, files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }] }
     },
 
 
@@ -433,22 +348,9 @@ module.exports = function(grunt) {
 
 
     jsonlint: {
-      all: {
-        src: [
-          app_folder+'data/*.json',
-          common_folder+'data/*.json',
-          moderator_folder+'data/*json'
-        ]
-      },
-      app: {
-        src: [app_folder+'data/*.json']
-      },
-      common: {
-        src: [common_folder+'data/*.json']
-      },
-      moderator: {
-        src: [moderator_folder+'data/*json']
-      }
+      app:        {src: [app_folder+'data/*.json'] },
+      moderator:  {src: [moderator_folder+'data/*json'] },
+      storefront: {src: [storefront_folder+'data/*json'] }
     },
 
 
@@ -460,16 +362,9 @@ module.exports = function(grunt) {
         mangle: true,
         preserveComments: 'some'
       },
-      app: {
-        files: {
-          '../build/app/js/app.min.js': ['../build/app/js/app.js']
-        }
-      },
-      moderator: {
-        files: {
-          '../build/moderator/js/moderator.min.js': ['../build/moderator/js/moderator.js']
-        }
-      }
+      app:        {files: {'../build/app/js/app.min.js': ['../build/app/js/app.js'] } },
+      moderator:  {files: {'../build/moderator/js/moderator.min.js': ['../build/moderator/js/moderator.js'] } },
+      storefront:  {files: {'../build/storefront/js/storefront.min.js': ['../build/storefront/js/storefront.js'] } }
     },
 
 
@@ -480,16 +375,28 @@ module.exports = function(grunt) {
         position: 'top',
         banner: '<%= banner %>'
       },
-      files: {
+      app: {
         src: [
-          app_folder+app_build+'style/style.css',
-          app_folder+app_build+'style/style.min.css',
-          app_folder+app_build+'js/app.js',
-          app_folder+app_build+'js/app.min.js',
+          buildFolder+app_folder+'style/style.css',
+          buildFolder+app_folder+'style/style.min.css',
+          buildFolder+app_folder+'js/app.js',
+          buildFolder+app_folder+'js/app.min.js'
+        ]
+      },
+      moderator: {
+        src: [
           buildFolder+moderator_folder+'style/style.css',
           buildFolder+moderator_folder+'style/style.min.css',
           buildFolder+moderator_folder+'js/moderator.js',
-          buildFolder+moderator_folder+'js/moderator.min.js',
+          buildFolder+moderator_folder+'js/moderator.min.js'
+        ]
+      },
+      storefront: {
+        src: [
+          buildFolder+storefront_folder+'style/style.css',
+          buildFolder+storefront_folder+'style/style.min.css',
+          buildFolder+storefront_folder+'js/storefront.js',
+          buildFolder+storefront_folder+'js/storefront.min.js'
         ]
       }
     },
@@ -499,40 +406,35 @@ module.exports = function(grunt) {
 
     // watch file changes
     watch: {
-      index: {
-        files: ['index.jade'],
-        tasks: ['jade:index']
-      },
+      index: {files: ['index.jade'], tasks: ['jade:index'] },
       // watch app things
-      app_data: {files: [app_folder+'data/**'], tasks: ['copy:app_data'] },
-      app_jade: {files: [app_folder+'html/**'], tasks: ['jade:app'] },
-      app_images: {files: [app_folder+'img/**'], tasks: ['copy:app_images'] },
-      app_js: {files: [app_folder+'js/**'], tasks: ['copy:app_js'] },
-      app_style: {files: [app_folder+'style/**'], tasks: ['compass:app', 'autoprefixer:app'] },
-      app_html: {files: [app_folder+'index.html'], tasks: ['copy:index_html'] },
-      app_config: {files: [app_folder+'config.xml'], tasks: ['copy:config_xml'] },
-      // www: {
-      //   files: [app_folder+app_build+'**'],
-      //   tasks: ['copy:index_html', 'copy:www', 'copy:config_xml']
-      // },
-      moderator_js: {files: [moderator_folder+'js/**'], tasks: ['copy:moderator_js'] },
-      moderator_style: {files: [moderator_folder+'style/**'], tasks: ['compass:moderator', 'autoprefixer:moderator'] },
-      moderator_html: {files: [moderator_folder+'html/**'], tasks: ['jade:moderator'] },
-      moderator_data: {files: [moderator_folder+'data/**'], tasks: ['copy:moderator_data'] },
-      // moderator: {},
+      app_data:         {files: [app_folder+'data/**'],         tasks: ['jsonlint:app', 'copy:app_data'] },
+      app_images:       {files: [app_folder+'img/**'],          tasks: ['copy:app_images'] },
+      app_jade:         {files: [app_folder+'html/**'],         tasks: ['jade:app'] },
+      app_js:           {files: [app_folder+'js/**'],           tasks: ['concat:app', 'uglify:app'] },
+      app_style:        {files: [app_folder+'style/**'],        tasks: ['compass:app', 'autoprefixer:app', 'csscomb:app', 'cssmin:app'] },
+      app_config:       {files: [app_folder+'config.xml'],      tasks: ['copy:config_xml'] },
+      // moderator folder
+      moderator_data:   {files: [moderator_folder+'data/**'],   tasks: ['jsonlint:moderator', 'copy:moderator_data'] },
+      moderator_jade:   {files: [moderator_folder+'html/**'],   tasks: ['jade:moderator'] },
+      moderator_js:     {files: [moderator_folder+'js/**'],     tasks: ['concat:moderator', 'uglify:moderator'] },
+      moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['compass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator'] },
       // onepager: {
       //   files: [onepager_folder+'**'],
-      //   tasks: ['onepager']
+      //      tasks: ['onepager']
       // },
-      // storefront: {},
+      // storefront folder
+      storefront_data:   {files: [storefront_folder+'data/**'],   tasks: ['jsonlint:storefront', 'copy:storefront_data'] },
+      storefront_jade:   {files: [storefront_folder+'html/**'],   tasks: ['jade:storefront'] },
+      storefront_js:     {files: [storefront_folder+'js/**'],     tasks: ['concat:storefront', 'uglify:storefront'] },
+      storefront_style:  {files: [storefront_folder+'style/**'],  tasks: ['compass:storefront', 'autoprefixer:storefront', 'csscomb:storefront', 'cssmin:storefront'] },
+
       // watch common assets
-      common_data: {files: [common_folder+'data/**'], tasks: ['copy:data'] },
-      common_jade: {files: [common_folder+'html/**'], tasks: ['build_html'] },
-      common_images: {files: [common_folder+'img/**'], tasks: ['copy:images'] },
-      common_js: {files: [common_folder+'js/**'], tasks: ['copy:js'] },
-      common_fonts: {files: [common_folder+'style/fonts/**'], tasks: ['compass:common', 'build_css'] },
-      common_style: {files: [common_folder+'style/common.scss'], tasks: ['compass:common'] },
-      common_style_libs: {files: [common_folder+'style/libs/**', common_folder+'style/pieces/**', common_folder+'style/theme/**'], tasks: ['compass:common', 'build_css'] },
+      common_jade:      {files: [common_folder+'html/**'],      tasks: ['build_html'] },
+      common_images:    {files: [common_folder+'img/**'],       tasks: ['copy:images'] },
+      common_fonts:     {files: [common_folder+'style/fonts/**'],tasks: ['build_css'] },
+      common_style:     {files: [common_folder+'style/common.scss'],tasks: ['compass:index'] },
+      common_style_libs:{files: [common_folder+'style/libs/**', common_folder+'style/pieces/**', common_folder+'style/theme/**'],tasks: ['build_css'] },
 
     },
 
@@ -561,18 +463,6 @@ module.exports = function(grunt) {
           paths: [moderator_folder+'js/'],
           ignorePaths: [moderator_folder+'js/libs'],
           outdir: docsFolder+moderator_folder
-        }
-      },
-      onepager: {
-        name: '<%= pkg.name %>',
-        description: '<%= pkg.description %>',
-        version: '<%= pkg.version %>',
-        url: '<%= pkg.homepage %>',
-        logo: 'url.png',
-        options: {
-          paths: [onepager_folder+'js/'],
-          ignorePaths: [onepager_folder+'js/libs'],
-          outdir: docsFolder+onepager_folder
         }
       },
       storefront: {
@@ -618,29 +508,183 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', function() {
     grunt.task.run([
-      'build_html',       // build html
-      'build_css',        // compile sass (copy fonts)
-      // copy images
+      // build the thing dammit.
+      'build_app',
+      'build_moderator',
+      'build_storefront',
+      'build_onepager',
+      // 'build_docs',
+
+      // copy fonts and logos
+      'copy:fonts',
       'copy:images',
-      'copy:app_images',
-      'copy:images_to_www',
-      'copy:moderator_images',
-      'copy:onepager_images',
-      'copy:storefront_images',
-      // js
-      'copy:js',
-      'copy:app_js',
-      'copy:js_to_www',
-      'copy:moderator_js',
-      'copy:onepager_js',
-      'copy:storefront_js',
-      // data
-      'copy:data',
+
+      // build project index stuff
+      'jade:index',
+      'compass:index'
+    ]);
+  });
+
+
+
+
+
+
+
+
+
+
+  grunt.registerTask('build_app', function() {
+    grunt.task.run([
+      // HTML
+      // build > minify
+      'jade:app',
+      'htmlmin:app',
+      // copy config.xml
+      'copy:config_xml',
+      // CSS
+      // build > autoprefix > comb > minify
+      'compass:app',
+      'autoprefixer:app',
+      'csscomb:app',
+      'cssmin:app',
+      // JS
+      // concat > minify
+      // copy libs
+      'concat:app',
+      'uglify:app',
+      'copy:app_js_libs',
+      // JSON
+      // lint > copy
+      'jsonlint:app',
       'copy:app_data',
-      'copy:data_to_www',
+      // IMAGES
+      'copy:app_images',
+      // details
+      'usebanner:app'
+    ]);
+  });
+
+
+
+  grunt.registerTask('build_moderator', function() {
+    grunt.task.run([
+      // HTML
+      'jade:moderator',
+      // CSS
+      // build > autoprefix > comb > minify
+      'compass:moderator',
+      'autoprefixer:moderator',
+      'csscomb:moderator',
+      'cssmin:moderator',
+      // JS
+      // concat > minify
+      'concat:moderator',
+      'uglify:moderator',
+      'copy:moderator_js_libs',
+      // JSON
+      // lint > copy
+      'jsonlint:moderator',
       'copy:moderator_data',
-      'copy:onepager_data',
+      // IMAGES
+      'copy:moderator_images',
+      // details
+      'usebanner:moderator'
+    ]);
+  });
+
+
+
+  grunt.registerTask('build_storefront', function() {
+    grunt.task.run([
+      // HTML
+      'jade:storefront',
+      // CSS
+      // build > autoprefix > comb > minify
+      'compass:storefront',
+      'autoprefixer:storefront',
+      'csscomb:storefront',
+      'cssmin:storefront',
+      // JS
+      // concat > minify
+      'concat:storefront',
+      'uglify:storefront',
+      'copy:storefront_js_libs',
+      // JSON
+      // lint > copy
+      'jsonlint:storefront',
       'copy:storefront_data',
+      // IMAGES
+      'copy:storefront_images',
+      // details
+      'usebanner:storefront'
+    ]);
+  });
+
+
+
+  grunt.registerTask('build_onepager', function() {
+    grunt.task.run([
+      // HTML
+      'jade:onepager',
+      // CSS
+      // build > autoprefix > comb > minify
+      'compass:onepager',
+      'autoprefixer:onepager',
+      'csscomb:onepager',
+      'cssmin:onepager',
+      // // JS
+      // // concat > minify
+      // 'concat:onepager',
+      // 'uglify:onepager',
+      // 'copy:onepager_js_libs',
+      // // JSON
+      // // lint > copy
+      // 'jsonlint:onepager',
+      // 'copy:onepager_data',
+      // IMAGES
+      'copy:onepager_images'
+      // // details
+      // 'usebanner:onepager'
+    ]);
+  });
+
+
+
+  grunt.registerTask('build_docs', function() {
+    grunt.task.run([
+      'yuidoc:app',
+      'yuidoc:moderator',
+      'yuidoc:storefront'
+    ]);
+  });
+
+
+
+
+
+
+
+  grunt.registerTask('build_html', function() {
+    grunt.task.run([
+      'jade:index',
+      'jade:app',
+      'jade:moderator',
+      'jade:onepager',
+      'jade:storefront',
+    ]);
+  });
+
+
+
+  grunt.registerTask('build_css', function() {
+    grunt.task.run([
+      'compass:index',
+      'compass:app',
+      'compass:moderator',
+      'compass:onepager',
+      'compass:storefront',
+      'copy:fonts',
     ]);
   });
 
@@ -657,69 +701,15 @@ module.exports = function(grunt) {
 
 
 
-
-
-
-
-  grunt.registerTask('build_app', function() {
+  grunt.registerTask('lint_json', function() {
     grunt.task.run([
-      'copy:index_html',
-      'compass:www',
-      'copy:images_to_www',
-      'copy:js_to_www',
-      'copy:data_to_www',
-      'copy:www',
-      'copy:config_xml'
-    ]);
-  });
-
-  grunt.registerTask('copy_app', function() {
-    grunt.task.run([
-      'copy:index_html',
-      'copy:www',
-      'copy:config_xml',
-    ]);
-  });
-
-  grunt.registerTask('onepager', function() {
-    grunt.task.run([
-      'jade:onepager',
-      'compass:onepager',
-      'copy:onepager_images',
-      'copy:onepager_js',
-      'copy:onepager_data',
-    ]);
-  });
-
-  grunt.registerTask('build_html', function() {
-    grunt.task.run([
-      'jade:index',
-      'jade:app',
-      'jade:moderator',
-      'jade:onepager',
-      'jade:storefront',
-    ]);
-  });
-
-  grunt.registerTask('build_css', function() {
-    grunt.task.run([
-      'compass:app',
-      'compass:www',
-      'compass:moderator',
-      'compass:onepager',
-      'compass:storefront',
-      'copy:fonts',
+      'jsonlint:app',
+      'jsonlint:moderator'
+      // 'jsonlint:onepager',
+      // 'jsonlint:storefront'
     ]);
   });
 
 
-
-
-  grunt.registerTask('minify', function() {
-    grunt.task.run([
-      'min',
-      'cssmin'
-    ]);
-  });
 
 };

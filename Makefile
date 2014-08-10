@@ -3,7 +3,6 @@ init:
 	cd ./src; bundle install; npm install;
 	# build the corova app
 	cordova create application com.hhroc.yellr "Yellr";
-	rm -rf application/www/css;
 	# add all cordova plugins. check the docs for a detailed list
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git;
 	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git;
@@ -23,10 +22,10 @@ init:
 	# grunt tings - build project, build www not that application exists
 	# we build with grunt after running cordova because Cordova must
 	# create the directory first
-	cd ./src; grunt; grunt build_app;
+	cd ./src; grunt; grunt deploy_app;
 
 	# feedback
-	clear; echo; echo Project build complete.; echo; echo Run \'make ios\' or \'make android\' to build an app.; echo Must have the SDKs for those devices installed.;
+	clear; echo; echo Project build complete.; echo; echo Run \'make ios\' or \'make android\' to build an app.; echo Must have the SDKs for those devices installed.; echo;
 
 
 

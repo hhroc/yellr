@@ -94,7 +94,12 @@ module.exports = function(grunt) {
             ' */\n\n',
 
 
-    clean: ['../build'],
+    clean: {
+      options: {
+        force: true
+      },
+      application: ['../application/www']
+    },
 
 
 
@@ -227,7 +232,8 @@ module.exports = function(grunt) {
       onepager_data:      {files: [{expand: true, cwd: onepager_folder+'/data', src: ['**'], dest: buildFolder+onepager_folder+'data'}] },
       storefront_data:    {files: [{expand: true, cwd: storefront_folder+'/data', src: ['**'], dest: buildFolder+storefront_folder+'data'}] },
       // copy things to the actual application folder running cordova
-      config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: buildFolder+app_folder}] },
+      app:                {files: [{expand: true, cwd: buildFolder+app_folder, src: ['**'], dest: '../application/www'}] },
+      config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: '../application'}] },
     },
 
 
@@ -289,7 +295,8 @@ module.exports = function(grunt) {
 
 
     exec: {
-      android: 'echo "need to figure this out later"'
+      run_android: 'cd ../application; cordova run android;',
+      build_ios: 'cd ../application; cordova build ios;'
     },
 
 
@@ -529,19 +536,12 @@ module.exports = function(grunt) {
 
 
 
-
-
-
-
-
   grunt.registerTask('build_app', function() {
     grunt.task.run([
       // HTML
       // build > minify
       'jade:app',
       'htmlmin:app',
-      // copy config.xml
-      'copy:config_xml',
       // CSS
       // build > autoprefix > comb > minify
       'compass:app',
@@ -564,6 +564,37 @@ module.exports = function(grunt) {
       'usebanner:app'
     ]);
   });
+
+
+  grunt.registerTask('deploy_app', function() {
+    // this packages the built content in build/app
+    // into a www/ folder with config.xml
+    grunt.task.run([
+      'clean:application',
+      'copy:app',
+      'copy:config_xml'
+    ]);
+  });
+
+
+  grunt.registerTask('android', function() {
+    grunt.task.run([
+      'deploy_app',
+      'exec:run_android'
+    ]);
+  });
+
+
+  grunt.registerTask('ios', function() {
+    grunt.task.run([
+      'deploy_app',
+      'exec:build_ios'
+    ]);
+  });
+
+
+
+
 
 
 
@@ -633,19 +664,8 @@ module.exports = function(grunt) {
       'autoprefixer:onepager',
       'csscomb:onepager',
       'cssmin:onepager',
-      // // JS
-      // // concat > minify
-      // 'concat:onepager',
-      // 'uglify:onepager',
-      // 'copy:onepager_js_libs',
-      // // JSON
-      // // lint > copy
-      // 'jsonlint:onepager',
-      // 'copy:onepager_data',
       // IMAGES
       'copy:onepager_images'
-      // // details
-      // 'usebanner:onepager'
     ]);
   });
 

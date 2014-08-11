@@ -94,7 +94,12 @@ module.exports = function(grunt) {
             ' */\n\n',
 
 
-    clean: ['../build'],
+    clean: {
+      options: {
+        force: true
+      },
+      application: ['../application/www']
+    },
 
 
 
@@ -227,7 +232,8 @@ module.exports = function(grunt) {
       onepager_data:      {files: [{expand: true, cwd: onepager_folder+'/data', src: ['**'], dest: buildFolder+onepager_folder+'data'}] },
       storefront_data:    {files: [{expand: true, cwd: storefront_folder+'/data', src: ['**'], dest: buildFolder+storefront_folder+'data'}] },
       // copy things to the actual application folder running cordova
-      config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: buildFolder+app_folder}] },
+      app:                {files: [{expand: true, cwd: buildFolder+app_folder, src: ['**'], dest: '../application/www'}] },
+      config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: '../application'}] },
     },
 
 
@@ -289,7 +295,17 @@ module.exports = function(grunt) {
 
 
     exec: {
-      android: 'echo "need to figure this out later"'
+      run_android: 'cd ../application;'+
+                   ' cordova run android;'+
+                   'echo;echo "    Building and installing Android APK.";echo;',
+      build_android: 'cd ../application;'+
+                   ' cordova build android;'+
+                   'echo;echo "    Android APK built.";echo;',
+      build_ios: 'cd ../application;'+
+                 ' cordova build ios;'+
+                 'echo;echo "    iOS xCode project build.";echo;',
+      save_apk: 'cp ../application/platforms/android/ant-build/Yellr-debug.apk ../bin/' +
+                'echo;echo "    APK saved.";echo;'
     },
 
 
@@ -528,7 +544,46 @@ module.exports = function(grunt) {
 
 
 
+  // // grunt w:app
+  // grunt.registerTask('w', 'watch only certain src parts', function(module) {
+  //   // var target = grunt.option('target');
+  //   console.log(module);
+  //   switch (module) {
+  //     case 'app':
+  //       grunt.task.run([
+  //         'watch:app_data',
+  //         'watch:app_images',
+  //         'watch:app_jade',
+  //         'watch:app_js',
+  //         'watch:app_style',
+  //         'watch:app_config'
+  //       ]);
+  //       break;
+  //     case 'moderator':
+  //       grunt.task.run([
+  //         'watch:moderator_data',
+  //         'watch:moderator_jade',
+  //         'watch:moderator_js',
+  //         'watch:moderator_style'
+  //       ]);
+  //       break;
+  //     // case 'onepager':
+  //     //   break;
+  //     case 'storefront':
+  //       grunt.task.run([
+  //         'watch:storefront_data',
+  //         'watch:storefront_jade',
+  //         'watch:storefront_js',
+  //         'watch:storefront_style'
+  //       ]);
+  //       break;
+  //     default:
+  //       console.log('no module passed. watching everything. like the nsa');
+  //       grunt.task.run(['watch']);
+  //       break;
+  //   }
 
+  // });
 
 
 
@@ -540,8 +595,6 @@ module.exports = function(grunt) {
       // build > minify
       'jade:app',
       'htmlmin:app',
-      // copy config.xml
-      'copy:config_xml',
       // CSS
       // build > autoprefix > comb > minify
       'compass:app',
@@ -564,6 +617,41 @@ module.exports = function(grunt) {
       'usebanner:app'
     ]);
   });
+
+
+  grunt.registerTask('deploy_app', function() {
+    // this packages the built content in build/app
+    // into a www/ folder with config.xml
+    grunt.task.run([
+      'clean:application',
+      'copy:app',
+      'copy:config_xml'
+    ]);
+  });
+
+
+  grunt.registerTask('build_android', function() {
+    grunt.task.run([
+      'deploy_app',
+      'exec:run_android'
+    ]);
+  });
+
+
+  grunt.registerTask('build_ios', function() {
+    grunt.task.run([
+      'deploy_app',
+      'exec:build_ios'
+    ]);
+  });
+
+
+  grunt.registerTask('save_apk', function() {
+    grunt.task.run(['exec:save_apk']);
+  });
+
+
+
 
 
 
@@ -633,19 +721,8 @@ module.exports = function(grunt) {
       'autoprefixer:onepager',
       'csscomb:onepager',
       'cssmin:onepager',
-      // // JS
-      // // concat > minify
-      // 'concat:onepager',
-      // 'uglify:onepager',
-      // 'copy:onepager_js_libs',
-      // // JSON
-      // // lint > copy
-      // 'jsonlint:onepager',
-      // 'copy:onepager_data',
       // IMAGES
       'copy:onepager_images'
-      // // details
-      // 'usebanner:onepager'
     ]);
   });
 

@@ -9,8 +9,9 @@ yellr.view.report = (function() {
      * the user report page for yellr
      */
 
-    var render_template = yellr.utils.render_template;
-    var header, footer;
+    var render_template = yellr.utils.render_template,
+        header,
+        footer;
 
 
 
@@ -23,18 +24,20 @@ yellr.view.report = (function() {
 
       header = data.template.header;
       header.template = '#submit-header';
+      render_template(header);
+
+      yellr.utils.no_subnav();
+
       footer = data.template.footer;
       footer.template = '';
-
-      render_template(header);
       render_template(footer);
-      yellr.utils.no_subnav();
+
+
+
       $('#submit-btn').on('tap', this.submit_form);
 
 
-
       this.setup_form(data.id);
-
 
 
       // add extra media bar
@@ -60,15 +63,40 @@ yellr.view.report = (function() {
 
 
 
-    var render_template = yellr.utils.render_template;
 
 
     var setup_form = function(type, append) {
       console.log('setting up ' +type+ ' form');
 
       if (append) $('#form-wrapper').append(render_template({template: '#'+type+'-form', context: {client_id: yellr.UUID } }));
-      else $('#form-wrapper').html(render_template({template: '#'+type+'-form', context: {client_id: yellr.UUID } }));
+      else {
 
+        var form = {
+          template: '#'+type+'-form',
+          target: '#form-wrapper',
+          context: {client_id: yellr.UUID }
+        }
+
+
+        // replying to assignment
+        // grab the ID
+        var reply_details = window.location.hash.split('reply-');
+        if (reply_details[1]) {
+          reply_details = reply_details[1].split('/');
+
+
+          form.context.assignment_id = reply_details[1];
+          if (reply_details[0] === 'survey') {
+            var test = yellr.DATA.assignments.filter(function(val, i, arr) {
+              if (val.id === parseInt(reply_details[1])) return true;
+            });
+            form.context.answers = test[0].answers;
+          }
+        }
+
+        render_template(form);
+
+      }
     }
 
 

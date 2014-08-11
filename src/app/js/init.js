@@ -12,7 +12,7 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
 
 
   // check for preexisting data

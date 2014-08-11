@@ -49,7 +49,7 @@ div#templates
   //- ===================================
 
   //- homepage | Assignments - News Feed
-  script#homepage-subnav(type="text/x-handlerbars-template")
+  script#homepage-subnav(type="text/x-handlebars-template")
     <div id="assignments-tab"><a href="#assignments">Assignments</a></div>
     <div id="news-feed-tab"><a href="#news-feed">News Feed</a></div>
 
@@ -112,7 +112,7 @@ div#templates
   //- ===================================
 
   //- assignment list <li>
-  script#assignments-li(type="text/x-handlerbars-template").
+  script#assignments-li(type="text/x-handlebars-template").
     {{#each assignments}}
     <li>
       <h2 class="assignment-title">
@@ -129,21 +129,18 @@ div#templates
 
   //- single view
   script#assignment-view(type="text/x-handlebars-template").
+    <h2 class="assignment-title">{{title}}</h2>
     {{#if image }}
     <figure class="assignment-details-image"><img src="{{image}}"/></figure>
     {{/if}}
     <p class="assignment-details">{{ description }}</p>
-    <a href="#" class="contribute-to-assignment">Contribute</a>
-    <div class="accepted-media-wrapper">
-      <em>Accepted Media:</em>
-      <ul class="accepted-media">
-        <li><i class="fa fa-video-camera"></i></li>
-        <li><i class="fa fa-camera"></i></li>
-        <li><i class="fa fa-volume-up"></i></li>
-        <li><i class="fa fa-file-text-o"></i></li>
-      </ul>
-    </div>
     <p class="assignment-deadline">{{ deadline }}</p>
+    {{#if survey}}
+    <a href="#report/reply-survey/{{id}}" class="contribute-to-assignment">Contribute</a>
+    {{/if}}
+    {{#if free_text}}
+    <a href="#report/reply-text/{{id}}" class="contribute-to-assignment">Contribute</a>
+    {{/if}}
 
 
 
@@ -206,10 +203,10 @@ div#templates
   //- News Feed
   //- ===================================
   script#news-feed-li(type="text/x-handlebars-template").
-    {{#each news}}
+    {{#each news_feed}}
     <li>
-      <h2 class="t1"><a href="#view-news/{{id}}">{{title}}</a></h2>
-      <p>{{preview_text}}</p>
+      <h2 class="t1 news-title"><a href="#view-news/{{id}}">{{title}}</a></h2>
+      <div class="news-preview">{{{preview_text}}}</div>
       {{#if image}}
       <figure>
         <img src="{{image}}">
@@ -222,6 +219,18 @@ div#templates
     {{/each}}
 
 
+
+  script#news-story-template(type="text/x-handlebars-template").
+    <h2 class="news-title">{{title}}</h2>
+    {{#if image}}
+    <figure>
+      <img src="{{image}}">
+      {{#if image_caption}}
+      <figcaption>{{image_caption}}</figcaption>
+      {{/if}}
+    </figure>
+    {{/if}}
+    <div class="story-content">{{{full_text}}}</div>
 
 
 
@@ -304,6 +313,32 @@ div#templates
           <i class="fa fa-microphone"></i>
         </div>
       </div>
+    </form>
+
+
+  //- reply to: survey
+  script#reply-survey-form(type="text/x-handlebars-template").
+    <form method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+      <input type="hidden" name="client_id" value="{{ client_id }}">
+      <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
+      <ul class="list-style-none radio-list">
+        {{#each answers}}
+        <li>
+          <label>
+            <input type="radio" name="survey_answer" value="{{@index}}"><span>{{this}}</span>
+          </label>
+        </li>
+        {{/each}}
+      </ul>
+    </form>
+
+
+  //- reply to: question
+  script#reply-text-form(type="text/x-handlebars-template").
+    <form id="reply-text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+      <input type="hidden" name="client_id" value="{{ client_id }}">
+      <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
+      <textarea name="media_text" rows="2" columns="10" placeholder="Tell us the story..."></textarea>
     </form>
 
 

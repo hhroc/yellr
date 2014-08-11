@@ -2,6 +2,33 @@
 div#form-wrapper.form.wrapper.submit-preview
 
 
+  //- form#reply-survey-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    ul.list-style-none.radio-list
+      li
+        label
+          input(type="radio", name="survey_answer", value="one")
+          span Answer one
+      li
+        label
+          input(type="radio", name="survey_answer", value="two")
+          span Answer two
+      li
+        label
+          input(type="radio", name="survey_answer", value="three")
+          span Answer three
+      li
+        label
+          input(type="radio", name="survey_answer", value="four")
+          span Answer four
+
+
+  //- form#reply-text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    //- input(type="hidden", name="media_type", value="text")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Tell us the story...")
+
+
   //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
     input.client_id(type="hidden", name="client_id", value="123456789")
     input(type="hidden", name="media_type", value="image")

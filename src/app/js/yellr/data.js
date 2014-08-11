@@ -50,8 +50,24 @@ yellr.data = (function() {
 
       // load assignments
       $.getJSON(urls.assignments, function(data) {
-        yellr.DATA.assignments = data.assignments;
-        // console.log('... loading assignments | DONE');
+
+        // get assignments based on language
+        var current_language = yellr.SETTINGS.language.code || 'en';
+        var assignments = data.assignments.filter(function(val) {
+          if (val.language[current_language]) return true;
+        });
+
+        // we need the data in a certain form so we can avoid
+        // adding lanuage data logic
+        for (var i = 0; i < assignments.length; i++) {
+          var text = assignments[i].language[current_language];
+          assignments[i].question_text = text.question_text;
+          assignments[i].description = text.description;
+          assignments[i].answers = text.answers;
+        };
+
+        // save assignments
+        yellr.DATA.assignments = assignments;
         yellr.utils.save();
 
         if (callback) callback();

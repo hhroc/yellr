@@ -2,6 +2,21 @@
 @import "vars";
 
 
+.assignment-view {
+  padding: 1rem 0.5rem;
+}
+
+.contribute-to-assignment {
+  background: $yellow;
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.7rem 1.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: inherit;
+}
+
+
 // aissgnments list
 // ===================================
 .assignments-list {
@@ -50,7 +65,7 @@
 }
 .assignment-deadline {
   font-size: 0.75rem;
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   &:before {
     content: "Deadline: ";
     color: tomato;

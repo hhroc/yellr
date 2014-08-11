@@ -295,8 +295,17 @@ module.exports = function(grunt) {
 
 
     exec: {
-      run_android: 'cd ../application; cordova run android;',
-      build_ios: 'cd ../application; cordova build ios;'
+      run_android: 'cd ../application;'+
+                   ' cordova run android;'+
+                   'echo;echo "    Building and installing Android APK.";echo;',
+      build_android: 'cd ../application;'+
+                   ' cordova build android;'+
+                   'echo;echo "    Android APK built.";echo;',
+      build_ios: 'cd ../application;'+
+                 ' cordova build ios;'+
+                 'echo;echo "    iOS xCode project build.";echo;',
+      save_apk: 'cp ../application/platforms/android/ant-build/Yellr-debug.apk ../bin/' +
+                'echo;echo "    APK saved.";echo;'
     },
 
 
@@ -535,6 +544,50 @@ module.exports = function(grunt) {
 
 
 
+  // // grunt w:app
+  // grunt.registerTask('w', 'watch only certain src parts', function(module) {
+  //   // var target = grunt.option('target');
+  //   console.log(module);
+  //   switch (module) {
+  //     case 'app':
+  //       grunt.task.run([
+  //         'watch:app_data',
+  //         'watch:app_images',
+  //         'watch:app_jade',
+  //         'watch:app_js',
+  //         'watch:app_style',
+  //         'watch:app_config'
+  //       ]);
+  //       break;
+  //     case 'moderator':
+  //       grunt.task.run([
+  //         'watch:moderator_data',
+  //         'watch:moderator_jade',
+  //         'watch:moderator_js',
+  //         'watch:moderator_style'
+  //       ]);
+  //       break;
+  //     // case 'onepager':
+  //     //   break;
+  //     case 'storefront':
+  //       grunt.task.run([
+  //         'watch:storefront_data',
+  //         'watch:storefront_jade',
+  //         'watch:storefront_js',
+  //         'watch:storefront_style'
+  //       ]);
+  //       break;
+  //     default:
+  //       console.log('no module passed. watching everything. like the nsa');
+  //       grunt.task.run(['watch']);
+  //       break;
+  //   }
+
+  // });
+
+
+
+
 
   grunt.registerTask('build_app', function() {
     grunt.task.run([
@@ -577,7 +630,7 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('android', function() {
+  grunt.registerTask('build_android', function() {
     grunt.task.run([
       'deploy_app',
       'exec:run_android'
@@ -585,13 +638,17 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.registerTask('ios', function() {
+  grunt.registerTask('build_ios', function() {
     grunt.task.run([
       'deploy_app',
       'exec:build_ios'
     ]);
   });
 
+
+  grunt.registerTask('save_apk', function() {
+    grunt.task.run(['exec:save_apk']);
+  });
 
 
 

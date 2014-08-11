@@ -39,7 +39,17 @@ yellr.view.news_feed = (function() {
         template: '#homepage-subnav'
       });
       document.querySelector('#news-feed-tab').className = 'current';
-      console.log('latest news');
+
+
+      // render the content
+      var latest_news_feed = render_template({
+        template: '#news-feed-li',
+        context: {news_feed: yellr.DATA.news_feed }
+      });
+      $('#latest-stories').html(latest_news_feed);
+
+      // $('#latest-stories').prepend(latest_news_feed);
+
     }
 
 
@@ -47,10 +57,34 @@ yellr.view.news_feed = (function() {
 
 
     var read_story = function(id) {
-      console.log('read story: ' + id);
       header.template = '#page-header';
       header.context = {page: 'Story Title', hash: '#news-feed'};
       yellr.utils.no_subnav();
+
+      var story = {
+        template: '#news-story-template',
+        target: '#story-container'
+      };
+
+      for (var i = 0; i < yellr.DATA.news_feed.length; i++) {
+        if (yellr.DATA.news_feed[i].id === parseInt(id)) {
+
+          story.context = {
+            title: yellr.DATA.news_feed[i].title,
+            full_text: yellr.DATA.news_feed[i].full_text
+          }
+
+          if (yellr.DATA.news_feed[i].image) {
+            story.context.image = yellr.DATA.news_feed[i].image;
+            story.context.image_caption = yellr.DATA.news_feed[i].image_caption;
+          }
+
+          break;
+        }
+      }
+
+      render_template(story);
+
     }
 
 

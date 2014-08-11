@@ -7,7 +7,7 @@ yellr.data = (function() {
       assignments: 'data/assignments.json',
       notifications: 'data/notifications.json',
       messages: 'data/messages.json',
-      news_reports: 'data/news-reports.json',
+      news_feed: 'data/news-feed.json',
       profile: 'data/profile.json'
     };
 
@@ -15,7 +15,7 @@ yellr.data = (function() {
       assignments: 'http://yellrdev.wxxi.org/get_assignments.json',
       notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id=',
       messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id=',
-      news_reports: '',
+      news_feed: '',
       profile: ''
     }
 
@@ -34,7 +34,7 @@ yellr.data = (function() {
       // load all of the things
       this.load_assignments();
       this.load_messages();
-      // this.load_news_reports();
+      this.load_news_feed();
       this.load_notifications();
       this.load_profile();
 
@@ -102,14 +102,14 @@ yellr.data = (function() {
 
 
 
-    var load_news_reports = function(callback) {
+    var load_news_feed = function(callback) {
 
-      console.log('... loading news_reports');
+      console.log('... loading news_feed');
 
-      // load news_reports
-      $.getJSON(urls.news_reports, function(data) {
-        yellr.DATA.news_reports = data;
-        // console.log('... loading news_reports | DONE');
+      // load news_feed
+      $.getJSON(urls.news_feed, function(data) {
+        yellr.DATA.news_feed = data.news;
+        // console.log('... loading news_feed | DONE');
         yellr.utils.save();
 
         if (callback) callback();
@@ -147,7 +147,7 @@ yellr.data = (function() {
       load_assignments: load_assignments,
       load_messages: load_messages,
       load_notifications: load_notifications,
-      load_news_reports: load_news_reports,
+      load_news_feed: load_news_feed,
       load_profile: load_profile
     }
 })();

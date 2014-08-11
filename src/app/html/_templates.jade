@@ -206,10 +206,10 @@ div#templates
   //- News Feed
   //- ===================================
   script#news-feed-li(type="text/x-handlebars-template").
-    {{#each news}}
+    {{#each news_feed}}
     <li>
-      <h2 class="t1"><a href="#view-news/{{id}}">{{title}}</a></h2>
-      <p>{{preview_text}}</p>
+      <h2 class="t1 news-title"><a href="#view-news/{{id}}">{{title}}</a></h2>
+      <div class="news-preview">{{{preview_text}}}</div>
       {{#if image}}
       <figure>
         <img src="{{image}}">
@@ -222,6 +222,18 @@ div#templates
     {{/each}}
 
 
+
+  script#news-story-template(type="text/x-handlebars-template").
+    <h2 class="news-title">{{title}}</h2>
+    {{#if image}}
+    <figure>
+      <img src="{{image}}">
+      {{#if image_caption}}
+      <figcaption>{{image_caption}}</figcaption>
+      {{/if}}
+    </figure>
+    {{/if}}
+    <div class="story-content">{{{full_text}}}</div>
 
 
 

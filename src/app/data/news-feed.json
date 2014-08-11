@@ -1,0 +1,45 @@
+{
+  "news": [
+    {
+      "id": 12312341,
+      "title": "Dapibus id augue lorem.",
+      "preview_text": "<p>Vestibulum ac est lacinia nisi venenatis tristique. In eleifend quam a odio. Aenean fermentum.</p>",
+      "image": "http://lorempixel.com/400/200",
+      "image_caption": "Etiam faucibus cursus urna.",
+      "full_text": "<p>Vestibulum ac est lacinia nisi venenatis tristique. In eleifend quam a odio. Aenean fermentum.</p><p>Praesent blandit lacinia erat. Praesent id massa id nisl venenatis lacinia. In hac habitasse platea dictumst.</p><p>Donec semper sapien a libero. Aliquam quis turpis eget elit sodales scelerisque. Nunc purus.</p> "
+    },
+    {
+      "id": 42334023,
+      "title": "Id mauris dis ante!",
+      "preview_text": "<p>Vestibulum sed magna at nunc commodo placerat. Vivamus vestibulum sagittis sapien. Mauris ullamcorper purus sit amet nulla.</p>",
+      "image": "http://lorempixel.com/400/200",
+      "image_caption": "Maecenas pulvinar lobortis est.",
+      "full_text": "<p>Vestibulum sed magna at nunc commodo placerat. Vivamus vestibulum sagittis sapien. Mauris ullamcorper purus sit amet nulla.</p><p>Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Duis mattis egestas metus. Aliquam sit amet diam in magna bibendum imperdiet.</p><p>Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Quisque id justo sit amet sapien dignissim vestibulum.</p>"
+    },
+    {
+      "id": 32402340,
+      "title": "Potenti lectus nam suspendisse.",
+      "preview_text": "<p>Duis ac nibh. Praesent lectus. Nam tristique tortor eu pede.</p>",
+      "image": "http://lorempixel.com/400/200",
+      "image_caption": "Suspendisse potenti.",
+      "full_text": "<p>Duis ac nibh. Praesent lectus. Nam tristique tortor eu pede.</p><p>Suspendisse accumsan tortor quis turpis. Praesent lectus. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.</p><p>Praesent blandit lacinia erat. Donec vitae nisi. Suspendisse potenti.</p>"
+    },
+    {
+      "id": 340234034,
+      "title": "Pede morbi donec dolor?",
+      "preview_text": "<p>Suspendisse potenti. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Nunc rhoncus dui vel sem.</p>",
+      "image": "http://lorempixel.com/400/200",
+      "image_caption": "Quisque porta volutpat erat.",
+      "full_text": "<p>Suspendisse potenti. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Nunc rhoncus dui vel sem.</p><p>Mauris ullamcorper purus sit amet nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi quis tortor id nulla ultrices aliquet.</p><p>Aliquam sit amet diam in magna bibendum imperdiet. Nullam porttitor lacus at turpis. Nullam sit amet turpis elementum ligula vehicula consequat.</p>"
+    },
+    {
+      "id": 234023043,
+      "title": "Vivamus nulla molestie nam!",
+      "preview_text": "<p>Duis at velit eu est congue elementum. Aenean fermentum. Vestibulum ac est lacinia nisi venenatis tristique.</p>",
+      "image": "http://lorempixel.com/400/200",
+      "image_caption": "Curabitur gravida nisi at nibh.",
+      "full_text": "<p>Duis at velit eu est congue elementum. Aenean fermentum. Vestibulum ac est lacinia nisi venenatis tristique.</p><p>Duis mattis egestas metus. Morbi ut odio. Morbi a ipsum.</p><p>Donec posuere metus vitae ipsum. Ut tellus. Sed accumsan felis.</p>"
+    }
+  ],
+  "success": true
+}

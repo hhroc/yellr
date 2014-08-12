@@ -120,7 +120,8 @@ yellr.routes = (function() {
       views[hash].render({
         hash: hash,
         id: id,
-        template: _default_template_settings
+        template: _default_template_settings,
+        raw: hash_string
       });
 
 

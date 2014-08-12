@@ -35,8 +35,8 @@ yellr.view.report = (function() {
 
 
 
-      this.setup_form(data.id);
-      this.setup_extra_media();
+      this.setup_form(data);
+      this.setup_extra_media(data);
 
     }
 
@@ -47,43 +47,48 @@ yellr.view.report = (function() {
 
 
 
-    var setup_form = function(type, append) {
-      console.log('setting up ' +type+ ' form');
+    var setup_form = function(data, append) {
+      console.log('setting up ' +data.id+ ' form');
 
-      if (append) $('#form-wrapper').append(render_template({template: '#'+type+'-form', context: {client_id: yellr.UUID } }));
+      // set up things for Handlebars
+      var form = {
+        template: '#'+data.id+'-form',
+        context: {
+          client_id: yellr.UUID,
+          assignment_id: null
+        }
+      }
+
+      // are we replying to an assignment?
+      if (data.raw[2]) {
+
+        // grab the ID from the URL
+        form.context.assignment_id = data.raw[2];
+        if (data.id === 'reply-survey') {
+          var test = yellr.DATA.assignments.filter(function(val, i, arr) {
+            if (val.id === parseInt(data.raw[2])) return true;
+          });
+          // console.log(test);
+          form.context.answers = test[0].answers;
+        }
+      }
+
+
+      if (append) $('#form-wrapper').append(render_template(form));
       else {
-
-        var form = {
-          template: '#'+type+'-form',
-          target: '#form-wrapper',
-          context: {client_id: yellr.UUID }
-        }
-
-
-        // replying to assignment
-        // grab the ID
-        var reply_details = window.location.hash.split('reply-');
-        if (reply_details[1]) {
-          reply_details = reply_details[1].split('/');
-
-
-          form.context.assignment_id = reply_details[1];
-          if (reply_details[0] === 'survey') {
-            var test = yellr.DATA.assignments.filter(function(val, i, arr) {
-              if (val.id === parseInt(reply_details[1])) return true;
-            });
-            form.context.answers = test[0].answers;
-          }
-        }
-
+        form.target = '#form-wrapper';
         render_template(form);
-
       }
     }
 
 
 
-    var setup_extra_media = function () {
+
+
+
+
+
+    var setup_extra_media = function (data) {
 
       var self = this;
 
@@ -99,12 +104,8 @@ yellr.view.report = (function() {
       $('#extra-media-wrapper div.flex').on('tap', function(e) {
         if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
           var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
-          form_type = form_type.split('add-')[1].split(' ')[0];
-          console.log(form_type);
-
-
-          self.setup_form(form_type, true);
-
+          data.id = form_type.split('add-')[1].split(' ')[0];
+          self.setup_form(data, true);
         }
       });
 

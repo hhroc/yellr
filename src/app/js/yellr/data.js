@@ -84,8 +84,13 @@ yellr.data = (function() {
 
       // load messages
       $.getJSON(urls.messages, function(data) {
+
+        // make a short message preview
+        for (var i = 0; i < data.messages.length; i++) {
+          data.messages[i].message_preview = data.messages[i].text.slice(0, 36).concat('...');
+        };
+
         yellr.DATA.messages = data.messages;
-        // console.log('... loading messages | DONE');
         yellr.utils.save();
 
         if (callback) callback();

@@ -25,6 +25,7 @@ yellr.view.report = (function() {
       header = data.template.header;
       header.template = '#submit-header';
       render_template(header);
+      $('#submit-btn').on('tap', this.submit_form);
 
       yellr.utils.no_subnav();
 
@@ -34,27 +35,8 @@ yellr.view.report = (function() {
 
 
 
-      $('#submit-btn').on('tap', this.submit_form);
-
-
       this.setup_form(data.id);
-
-
-      // add extra media bar
-      render_template({
-        template: '#extra-media',
-        target: '#extra-media-wrapper'
-      });
-
-
-      // on the submission forms we can add multiple files
-      // this listener handles clicks
-      $('#extra-media-wrapper').on('tap', function(e) {
-        console.log(
-          'target: ', e.target,
-          'parent: ', e.target.parentNode
-        );
-      });
+      this.setup_extra_media();
 
     }
 
@@ -99,6 +81,34 @@ yellr.view.report = (function() {
       }
     }
 
+
+
+    var setup_extra_media = function () {
+
+      var self = this;
+
+      // add extra media bar
+      render_template({
+        template: '#extra-media',
+        target: '#extra-media-wrapper'
+      });
+
+
+      // on the submission forms we can add multiple files
+      // this listener handles clicks
+      $('#extra-media-wrapper div.flex').on('tap', function(e) {
+        if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
+          var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
+          form_type = form_type.split('add-')[1].split(' ')[0];
+          console.log(form_type);
+
+
+          self.setup_form(form_type, true);
+
+        }
+      });
+
+    }
 
 
 
@@ -239,6 +249,7 @@ yellr.view.report = (function() {
       publish_post: publish_post,
       render: render,
       setup_form: setup_form,
+      setup_extra_media: setup_extra_media,
       submit_form: submit_form
     }
 })();

@@ -223,6 +223,41 @@ yellr.utils = {
       // render_template(form);
     });
 
+  },
+
+
+  notify: function(e) {
+    // cache the DOM Nofitications button
+    var notifications_btn = document.querySelector('#notifications-btn');
+
+    // add class to show new Notication has been received
+    $(notifications_btn).addClass('new');
+    // NOTE:
+    // because we clear and recompile the HTML with Handlebar templates
+    // we automatically clear the 'new' class from the button
+    // this is convenient
+    // but, if a user goes to 'Messages' and then goes back, the class will be gone
+    // even though the user did not view the new Notification
+    // this is because the Handlebar template does not change
+    // console.log('remove class when new notification is viewed');
+    console.log('make new <li> in notifications list');
+    yellr.utils.render_template({
+      template: '#post-submitted-li',
+      target: '#recent-notifications',
+      context: e,
+      append: true
+    })
+    console.log(e);
+  },
+
+
+  clearForm: function() {
+    // for all the forms, clear the data
+    var forms = document.querySelectorAll('#form-wrapper form.target');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].className='';
+      forms[i].reset();
+    };
   }
 
 };

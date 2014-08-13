@@ -72,6 +72,7 @@ yellr.routes = (function() {
       yellr.route('#notifications', yellr.view.notifications);
       yellr.route('#profile', yellr.view.profile);
       yellr.route('#report', yellr.view.report);
+      yellr.route('#debug', yellr.view.debug);
 
     }
 

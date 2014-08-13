@@ -304,8 +304,8 @@ module.exports = function(grunt) {
       build_ios: 'cd ../application;'+
                  ' cordova build ios;'+
                  'echo;echo "    iOS xCode project build.";echo;',
-      save_apk: 'cp ../application/platforms/android/ant-build/Yellr-debug.apk ../bin/' +
-                'echo;echo "    APK saved.";echo;'
+      save_apk: 'cp ../application/platforms/android/ant-build/Yellr-debug.apk ../bin/;' +
+                'echo "    APK saved.";echo;'
     },
 
 
@@ -588,6 +588,9 @@ module.exports = function(grunt) {
 
 
 
+  // ===================================
+  // These two tasks are used internally.
+  // You could call them yourself, but there's no real reason too.
 
   grunt.registerTask('build_app', function() {
     grunt.task.run([
@@ -629,9 +632,22 @@ module.exports = function(grunt) {
     ]);
   });
 
+  // ===================================
+
+
 
   grunt.registerTask('build_android', function() {
     grunt.task.run([
+      'build_app',
+      'deploy_app',
+      'exec:build_android'
+    ]);
+  });
+
+
+  grunt.registerTask('run_android', function() {
+    grunt.task.run([
+      'build_app',
       'deploy_app',
       'exec:run_android'
     ]);
@@ -640,6 +656,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build_ios', function() {
     grunt.task.run([
+      'build_app',
       'deploy_app',
       'exec:build_ios'
     ]);

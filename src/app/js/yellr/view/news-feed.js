@@ -24,6 +24,7 @@ yellr.view.news_feed = (function() {
 
       render_template(header);
       render_template(footer);
+      yellr.utils.setup_report_bar();
 
     }
 

@@ -32,6 +32,7 @@ yellr.view.notifications = (function() {
       yellr.utils.no_subnav();
 
       this.add_eventlisteners();
+      yellr.utils.setup_report_bar();
     }
 
 

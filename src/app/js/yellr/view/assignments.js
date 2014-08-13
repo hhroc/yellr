@@ -34,6 +34,8 @@ yellr.view.assignments = (function() {
       render_template(header);
       render_template(footer);
 
+      yellr.utils.setup_report_bar();
+
     }
 
 

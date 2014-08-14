@@ -41,6 +41,11 @@ system_status = {
 }
 
 def make_response(resp_dict):
+
+    print "[DEBUG]"
+    print resp_dict
+    print '\n'
+
     resp = Response(json.dumps(resp_dict), content_type='application/json', charset='utf8')
     resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
     return resp
@@ -447,12 +452,16 @@ def upload_media(request):
         file_name = ''
         try:
 
+            print '\n[DEBUG] POST items:\n'
+            print request.POST.items()
+            print '\n\n'
+
             try:
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
                 #raise Exception("Missing or invalid media_file field")
-                raise Exception('')
+                raise Exception('Invalid media_file field.')
 
             # decode media type
             if media_type == 'image':

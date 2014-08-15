@@ -4,6 +4,7 @@ from time import strftime
 import uuid
 import datetime
 
+from utils import make_response
 
 import urllib
 
@@ -40,15 +41,15 @@ system_status = {
     'launchtime': str(strftime("%Y-%m-%d %H:%M:%S")),
 }
 
-def make_response(resp_dict):
-
-    print "[DEBUG]"
-    print resp_dict
-    print '\n'
-
-    resp = Response(json.dumps(resp_dict), content_type='application/json', charset='utf8')
-    resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
-    return resp
+#def make_response(resp_dict):
+#
+#    print "[DEBUG]"
+#    print resp_dict
+#    print '\n'
+#
+#    resp = Response(json.dumps(resp_dict), content_type='application/json', charset='utf8')
+#    resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
+#    return resp
 
 @view_config(route_name='index.html')
 def index(request):
@@ -100,8 +101,8 @@ def get_users(request):
 
     result = {'success': False}
 
-#    try:
-    if True:
+    try:
+    #if True:
 
         users = Users.get_all(DBSession)
         ret_users = []
@@ -122,8 +123,9 @@ def get_users(request):
         result['users'] = ret_users
         result['success'] = True
 
-#    except:
-#        pass
+    except:
+        result['error_text'] = "An internal error occured.  Please try again later."
+        pass
 
     resp = json.dumps(result)
     return Response(resp,content_type='application/json')
@@ -138,8 +140,8 @@ def get_posts(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         reported = False
         try:
@@ -157,18 +159,20 @@ def get_posts(request):
             )
             user_id = user.user_id
         except:
+            client_id = None
+            result['error_text'] = "Invalid or missing 'client_id' field."
+            raise Exception('invalid or missing client_id')
             pass
 
         if user_id != None:
             posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
-
         else:    
-            posts = Posts.get_all_posts(DBSession, reported)
-            
+            posts = Posts.get_posts(DBSession, reported)
 
         ret_posts = []
-        for post_id,title,post_datetime,reported,lat,lng,verified,user_client_id, \
-                first_name,last_name,organization,language_code,language_name in posts:
+        for post_id,title,post_datetime,reported,lat,lng,assignment_id, \
+                verified,user_client_id,first_name,last_name,organization, \
+                language_code,language_name in posts:
             media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
             ret_media_objects = []
             for file_name,caption,media_text,name,description in media_objects:
@@ -199,16 +203,17 @@ def get_posts(request):
         result['posts'] = ret_posts
         result['success'] = True
 
+    except:
+        pass
+
     event_type = 'http_request'
     event_details = {
         'client_id': client_id,
         'method': 'get_posts.json',
         'post_count': len(ret_posts),
+        'result': result,
     }
     client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details)) 
-
-    #except:
-    #    pass
 
     resp = json.dumps(result)
     return Response(resp, content_type='application/json')
@@ -218,11 +223,12 @@ def get_assignments(request):
 
     result = {'success': False}
 
-#    try:
-    if True:
+    try:
+#    if True:
     
         language_code = 'en'
         try:
+            client_id = request.GET['client_id']
             langage_code = request.GET['language_code']
         except:
             pass
@@ -258,8 +264,18 @@ def get_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
     
-#    except:
-#        pass
+    except:
+        result['error_text'] = "An internal error occured.  Please try again later."
+        pass
+
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_assignments.json',
+        'message_count': len(ret_assignments),
+        'result': result,
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     return make_response(result)
 
@@ -274,7 +290,7 @@ def get_notifications(request):
         try:
             client_id = request.GET['client_id']
         except:
-            pass
+            raise Exception("Missing or invalid 'client_id' field.")
 
         if client_id != None:
             notifications,created = Notifications.get_notifications_from_client_id(
@@ -295,8 +311,18 @@ def get_notifications(request):
             result['success'] = True
 
     except Exception, e:
-        result['error_text'] = str(e)
+        #result['error_text'] = str(e)
+        #result['error_text'] = "An internal error occured.  Please try again later."
         pass
+
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_notifications.json',
+        'message_count': len(ret_notifications),
+        'result': result,
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
     return make_response(result)
 
@@ -305,15 +331,15 @@ def get_messages(request):
 
     result = {'success': False}
 
-#    try:
+    try:
 
-    if True:
+#    if True:
 
         client_id = None
         try:
             client_id = request.GET['client_id']
         except:
-            pass
+            raise Exception("Missing or invalid 'client_id' field.")
 
         if client_id != None:
             messages = Messages.get_messages_from_client_id(DBSession, client_id)
@@ -336,16 +362,17 @@ def get_messages(request):
             result['messages'] = ret_messages
             result['success'] = True
 
+    except:
+        pass
+
     event_type = 'http_request'
     event_details = {
         'client_id': client_id,
         'method': 'get_messages.json',
         'message_count': len(ret_messages),
+        'result': result,
     }
     client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
-
-#    except:
-#        pass
 
     return make_response(result)
 
@@ -365,20 +392,33 @@ def publish_post(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
-        client_id = request.POST['client_id']
-        assignment_id = request.POST['assignment_id']
-        title = request.POST['title']
-        language_code = request.POST['language_code']
-        location = json.loads(urllib.unquote(request.POST['location']).decode('utf8'))
-        media_objects = json.loads(urllib.unquote(request.POST['media_objects']).decode('utf8'))
+        try:
+            client_id = request.POST['client_id']
+            assignment_id = request.POST['assignment_id']
+            title = request.POST['title']
+            language_code = request.POST['language_code']
+            location = json.loads(urllib.unquote(
+                request.POST['location']).decode('utf8')
+            )
+            media_objects = json.loads(urllib.unquote(
+                request.POST['media_objects']).decode('utf8')
+            )
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id, \
+assignment_id, title, language_code, location (json dict), media_objects \
+(json array).\
+"""
+            raise Exception('Missing field(s)')
 
         post,created = Posts.create_from_http(
             DBSession,
             client_id,
             assignment_id,
+            title,
             language_code,
             location, # dict
             media_objects, # array
@@ -413,8 +453,8 @@ def publish_post(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    #except:
-    #   pass
+    except:
+       pass
 
     #resp = json.dumps(result)
     #return Response(resp,content_type='application/json') 
@@ -442,24 +482,31 @@ def upload_media(request):
     result = {'success': False}
 
     error_text = ''
-    #try:
-    if True:
+    try:
+    #if True:
 
-        # get required fields
-        client_id = request.POST['client_id']
-        media_type = request.POST['media_type']
+        try:
+            client_id = request.POST['client_id']
+            media_type = request.POST['media_type']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id, \
+media_type. \
+"""
+            raise Exception('missing fields')
 
         file_name = ''
         try:
 
-            print '\n[DEBUG] POST items:\n'
-            print request.POST.items()
-            print '\n\n'
+            #print '\n[DEBUG] POST items:\n'
+            #print request.POST.items()
+            #print '\n\n'
 
             try:
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
+                
                 #raise Exception("Missing or invalid media_file field")
                 raise Exception('Invalid media_file field.')
 
@@ -474,7 +521,7 @@ def upload_media(request):
                 media_extention = 'txt'
             else:
                 error_text = 'invalid media type'
-                raise Exception('invalid media type')
+                raise Exception('')
         
             # generate a unique file name to store the file to
             file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
@@ -557,8 +604,8 @@ def upload_media(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    #except:
-    #    pass
+    except:
+        pass
 
 
     #resp = json.dumps(result)

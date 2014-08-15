@@ -25,6 +25,7 @@ from ..models import (
     Assignments,
     Questions,
     QuestionAssignments,
+    QuestionTypes,
     )
 
 
@@ -113,22 +114,48 @@ def main(argv=sys.argv):
 
         transaction.commit()
 
-    with transaction.manager:
+    #with transaction.manager:
 
-        # Users
-        usertype = UserTypes.get_from_name(DBSession,'system')
-        user_system = Users(
-            user_type_id = usertype.user_type_id,
-            verified = True,
-            client_id = str(uuid.uuid4()),
-            first_name = 'SYSTEM USER',
-            last_name = 'SYSTEM USER',
-            organization = 'Yellr',
-            email = '',
-            pass_salt = 'salt',
-            pass_hash = 'hash', # NOTE: will never be the result of a md5 hash
+    system_user_client_id = str(uuid.uuid4())
+    system_user_type = UserTypes.get_from_name(DBSession,'system')
+
+    # create the systme user
+    system_user = Users.create_new_user(
+        session = DBSession,
+        user_type_id = system_user_type.user_type_id,
+        client_id = system_user_client_id,
+        #verified = True,
+        #user_name = '',
+        first_name = 'SYSTEM USER',
+        last_name = 'SYSTEM USER',
+        email = '',
+        organization = 'Yellr',
+        #pass_salt = '',
+        #pass_hash = 'hash', # NOTE: will never be the result of a md5 hash
+    )
+    
+    # set the system user as verified
+    system_user = Users.verify_user(
+        session = DBSession,
+        client_id = system_user_client_id,
+        user_name = 'system',
+        password = 'password',
+        email=''
+    )
+
+    with transaction.manager:
+        question_type_free_text = QuestionTypes(
+            question_type = 'free_text',
+            question_type_description = 'Free form text responce.',
         )
-        DBSession.add(user_system)
+        DBSession.add(question_type_free_text)
+
+        question_type_multiple_choice = QuestionTypes(
+            question_type = 'multiple_choice',
+            question_type_description = 'Allows for up to ten multiple \
+choice options',
+        )
+        DBSession.add(question_type_multiple_choice)
 
         transaction.commit()
 
@@ -137,7 +164,7 @@ def main(argv=sys.argv):
         question = Questions(
             language_id = language.language_id,
             question_text = 'How do you feel about broccoli?',
-            question_type = 'free_text',
+            question_type_id = question_type_free_text.question_type_id,
             answer0 = '',
             answer1 = '',
             answer2 = '',

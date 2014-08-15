@@ -4,6 +4,7 @@ import uuid
 import datetime
 from time import strftime
 from random import randint
+import hashlib
 
 import transaction
 
@@ -20,7 +21,7 @@ from sqlalchemy import (
 
 from sqlalchemy import ForeignKey
 
-from sqlalchemy import update
+from sqlalchemy import update, desc
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -79,15 +80,18 @@ class Users(Base):
     user_type_id = Column(Integer, ForeignKey('usertypes.user_type_id'))
     verified = Column(Boolean)
     client_id = Column(Text)
+    user_name = Column(Text)
     first_name = Column(Text)
     last_name = Column(Text)
     organization = Column(Text)
     email = Column(Text)
     pass_salt = Column(Text)
     pass_hash = Column(Text)
+    token = Column(Text)
+    token_expire_datetime = Column(DateTime)
 
     @classmethod
-    def create_new_user(cls, session, user_type_id, client_id,
+    def create_new_user(cls, session, user_type_id, client_id, user_name = '',
             verified=False, first_name='', last_name='', email='',
             organization='', pass_salt=randint(10000,99999), 
             pass_hash=''):
@@ -114,6 +118,24 @@ class Users(Base):
             subject = 'Welcome to Yellr!',
             text = "Congratulations, you are now a part of Yellr!  You can start posting content right away!",
         )
+        return user
+
+    @classmethod
+    def verify_user(cls, session, client_id, user_name, password, email = ''):
+        with transaction.manager:
+            user,created = Users.get_from_client_id(session, client_id)
+            # TODO: may wan tto check to see if we just created the user, because that
+            #       should never happen ...
+            pass_hash = hashlib.md5('{0}{1}'.format(
+                password,
+                user.pass_salt
+            )).hexdigest()
+            user.user_name = user_name
+            user.pass_hash = pass_hash
+            user.email = email
+            user.verified = True
+            session.add(user)
+            transaction.commit()
         return user
 
     @classmethod
@@ -159,10 +181,10 @@ class Users(Base):
     def get_from_user_id(cls, session, user_id):
         with transaction.manager:
             user = session.query(
-                Users
+                Users,
             ).filter(
-                Users.user_id == user_id
-            ).all()
+                Users.user_id == user_id,
+            ).first()
         return user
 
     @classmethod
@@ -174,6 +196,16 @@ class Users(Base):
                 Users,Posts.user_id,
             ).filter(
                 Posts.id == post_id,
+            ).first()
+        return user
+
+    @classmethod
+    def get_from_token(cls, session, token):
+        with transaction.manager:
+            user = session.query(
+                Users,
+            ).filter(
+                Users.token == token,
             ).first()
         return user
 
@@ -196,6 +228,49 @@ class Users(Base):
                 Users.user_type_id == UserTypes.user_type_id,
             ).all()
         return users
+
+    @classmethod
+    def authenticate(cls, session, user_name, password):
+        with transaction.manager:
+            user_user_type_id = \
+                UserTypes.get_from_name(session, 'user').user_type_id
+            #admin_user_type_id = \
+            #    UserTypes.get_from_name(session, 'admin').user_type_id
+            #mod_user_type_id = \
+            #    UserTypes.get_from_name(session, 'moderator').user_type_id
+            #sub_user_type_id = \
+            #    UserTypes.get_from_name(session, 'subscriber').user_type_id
+            #print "sys: {0}, admin: {1}, mod: {2}, sub: {3}".format(system_user_type_id, admin_user_type_id, mod_user_type_id, sub_user_type_id)
+            user = session.query(
+                Users,
+            ).filter(
+                Users.verified == True,
+                Users.user_type_id != user_user_type_id, # or \
+                #    Users.user_type_id == admin_user_type_id or \
+                #    Users.user_type_id == mod_user_type_id or \
+                #    Users.user_type_id == sub_user_type_id,
+                Users.user_name == user_name,
+            ).first()
+            token = None
+            if user != None:
+                pass_hash = hashlib.md5('{0}{1}'.format(password, user.pass_salt)).hexdigest()
+                if ( user.pass_hash == pass_hash ):
+                    token = str(uuid.uuid4())
+                    user.token = token
+                    user.token_expire_datetime = datetime.datetime.now() + \
+                        datetime.timedelta(hours=24)
+                    session.add(user)
+                    transaction.commit()
+        return token
+
+    @classmethod
+    def validate_token(cls, session, token):
+        user = Users.get_from_token(session, token)
+        valid = False
+        if user != None:
+            if user.token_expire_datetime > datetime.datetime.now():
+                valid = True
+        return valid, user
 
 class Assignments(Base):
 
@@ -244,7 +319,7 @@ class Assignments(Base):
                 Assignments.geo_fence,
                 Users.organization,
                 Questions.question_text,
-                Questions.question_type,
+                Questions.question_type_id,
                 Questions.answer0,
                 Questions.answer1,
                 Questions.answer2,
@@ -267,7 +342,44 @@ class Assignments(Base):
             ).all()
         return assignments
 
-            
+    @classmethod
+    def create_from_http(cls, session, token, life_time=30,geo_fence=''):
+        with transaction.manager:
+            user = Users.get_from_token(session, token)
+            assignment = None
+            if user != None:
+                assignment = Assignments(
+                    user_id = user.user_id,
+                    publish_datetime = datetime.datetime.now(),
+                    expire_datetime = datetime.datetime.now() + \
+                        datetime.timedelta(hours=life_time),
+                    geo_fence = geo_fence
+                )
+                session.add(assignment)
+                transaction.commit()
+        return assignment
+
+class QuestionTypes(Base):
+
+    """
+    A collection of different types of questions.  This can be free text,
+    multiple choice, etc.
+    """
+
+    __tablename__ = 'questiontypes'
+    question_type_id = Column(Integer, primary_key=True)
+    question_type = Column(Text)
+    question_type_description = Column(Text)
+
+    @classmethod
+    def get_from_type(cls, session, question_type):
+        with transaction.manager:
+            question_type = session.query(
+                QuestionTypes,
+            ).filter(
+                QuestionTypes.question_type == question_type,
+            ).first()
+        return question_type
 
 class Questions(Base):
 
@@ -282,7 +394,7 @@ class Questions(Base):
     question_id = Column(Integer, primary_key=True)
     language_id = Column(Integer, ForeignKey('languages.language_id'))
     question_text = Column(Text)
-    question_type = Column(Integer)
+    question_type_id = Column(Integer, ForeignKey('questiontypes.question_type_id'))
     answer0 = Column(Text)
     answer1 = Column(Text)
     answer2 = Column(Text)
@@ -293,6 +405,36 @@ class Questions(Base):
     answer7 = Column(Text)
     answer8 = Column(Text)
     answer9 = Column(Text)
+
+    @classmethod
+    def create_from_http(cls, session, language_code, question_text,
+            question_type, answers):
+        with transaction.manager:
+            question = None
+            if len(answers) == 10:
+                language = Languages.get_from_code(session, language_code)
+                question_type = QuestionTypes.get_from_type(
+                    session,
+                    question_type
+                )
+                question = Questions(
+                    language_id = language.language_id,
+                    question_text = question_text,
+                    question_type_id = question_type.question_type_id,
+                    answer0 = answers[0],
+                    answer1 = answers[1],
+                    answer2 = answers[2],
+                    answer3 = answers[3],
+                    answer4 = answers[4],
+                    answer5 = answers[5],
+                    answer6 = answers[6],
+                    answer7 = answers[7],
+                    answer8 = answers[8],
+                    answer9 = answers[9],
+                )
+                session.add(question)
+                transaction.commit()
+        return question
 
 class QuestionAssignments(Base):
 
@@ -306,6 +448,17 @@ class QuestionAssignments(Base):
     question_assignment_id = Column(Integer, primary_key=True)
     assignment_id = Column(Integer, ForeignKey('assignments.assignment_id'))
     question_id = Column(Integer, ForeignKey('questions.question_id'))
+
+    @classmethod
+    def create(cls, session, assignment_id, question_id):
+        with transaction.manager:
+            question_assignment = QuestionAssignments(
+                assignment_id = assignment_id,
+                question_id = question_id,
+            )
+            session.add(question_assignment)
+            transaction.commit()
+        return question_assignment
 
 class Languages(Base):
 
@@ -395,6 +548,7 @@ class Posts(Base):
                 Posts.reported,
                 Posts.lat,
                 Posts.lng,
+                Posts.assignment_id,
                 Users.verified,
                 Users.client_id,
                 Users.first_name,
@@ -414,14 +568,16 @@ class Posts(Base):
         return posts
 
     @classmethod
-    def get_all_posts(cls, session, reported=False):
+    def get_posts(cls, session, reported=False, start=0, count=0):
         with transaction.manager:
-            posts = session.query(
+            posts_query = session.query(
                 Posts.post_id,
+                Posts.title,
                 Posts.post_datetime,
                 Posts.reported,
                 Posts.lat,
                 Posts.lng,
+                Posts.assignment_id,
                 Users.verified,
                 Users.client_id,
                 Users.first_name,
@@ -436,8 +592,15 @@ class Posts(Base):
                 Posts.user_id == Users.user_id,
                 Posts.language_id == Languages.language_id,
                 Posts.reported == reported,
-            ).all()
-        return posts
+            ).order_by(
+                desc(Posts.post_datetime),
+            )
+            total_post_count = posts_query.count()
+            if start == 0 and count == 0:
+                posts = posts_query.all()
+            else:
+                posts = posts_query.slice(start, start+count)
+        return posts, total_post_count
 
 #class PostViews(Base):
 #

@@ -48,13 +48,37 @@ window.onload = function() {
   // extras
   // FastClick.attach(document.body);
 
+
+  document.addEventListener('deviceready', function() {
+    yellr.user.cordova();
+    // alert('running deviceready');
+    // // yellr.setup.user();
+    // // yellr.setup.app();
+    // // hide splash screen
+    // // navigator.splashscreen.hide();
+
+    // if (navigator.notification) { // Override default HTML alert with native dialog
+    //   window.alert = function (message) {
+    //     navigator.notification.alert(
+    //       message,    // message
+    //       null,       // callback
+    //       "Workshop", // title
+    //       'OK'        // buttonName
+    //     );
+    //   };
+    // }
+
+    // alert('this should look a little different?');
+
+  }, false);
+
 }
 
-document.addEventListener('deviceready', function() {
-  // yellr.setup.user();
-  yellr.user.cordova();
-  // yellr.setup.app();
-  // hide splash screen
-  // navigator.splashscreen.hide();
+// document.addEventListener('deviceready', function() {
+//   // yellr.setup.user();
+//   yellr.user.cordova();
+//   // yellr.setup.app();
+//   // hide splash screen
+//   // navigator.splashscreen.hide();
 
-}, false);
+// }, false);

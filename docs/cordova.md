@@ -1,3 +1,7 @@
+to check out later:
+https://github.com/katzer/cordova-plugin-local-notifications
+
+
 ##### Aug 11 update
 Cordova updatd these plugins:
 

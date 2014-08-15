@@ -114,40 +114,88 @@ yellr.utils = {
   },
 
 
+  promptCallback: function (results) {
+    // console.log('hello from: promptCallback');
+    alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+  },
+
+
   setup_report_bar: function() {
     // Media capture (audio, video, photo, text)
-    // ===================================
+    alert('this fires once?');
+
+    var test = navigator.notification.prompt;
+
+    $('#capture-image').on('tap', function(e) {
+      // e.preventDefault();
+
+      alert('things got weird here. notification.prompt not working on my Android. TO FIX');
+
+      // alert('test notification.alert');
+      // /* alert, confirm and prompt aren't working */
+      // navigator.notification.alert(
+      //   'You are the winner!',  // message
+      //   null,         // callback
+      //   'Game Over',            // title
+      //   'Done'                  // buttonName
+      // );
+
+      // alert('test notification.confirm');
+      // navigator.notification.confirm(
+      //   'You are the winner!', // message
+      //    null,            // callback to invoke with index of button pressed
+      //   'Game Over',           // title
+      //   'Restart,Exit'         // buttonLabels
+      // );
+
+      // alert('test notification.prompt');
+      // navigator.notification.prompt(
+      //   'Please enter your name',  // message
+      //   function (results) {
+      //     // console.log('hello from: promptCallback');
+      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+      //   },
+      //   'Registration',            // title
+      //   ['Ok','Exit'],             // buttonLabels
+      //   'Jane Doe'                 // defaultText
+      // );
+
+      // alert('test notification.beep');
+      // navigator.notification.beep(1);
+
+      // alert('test notification.vibrate');
+      // navigator.notification.vibrate(250);
 
 
-    // image
-    // ----------------------------
-    // var cameraOptions = {
-    //  quality : 75,
-    //  destinationType : Camera.DestinationType.DATA_URL,
-    //  sourceType : Camera.PictureSourceType.CAMERA,
-    //  allowEdit : true,
-    //  encodingType: Camera.EncodingType.JPEG,
-    //  targetWidth: 100,
-    //  targetHeight: 100,
-    //  saveToPhotoAlbum: false
-    // };
 
-    $('#capture-image').on('tap', function() {
+      // navigator.notification.prompt(
+      //   'Choose source',
+      //   function (results) {
+      //     // console.log('hello from: promptCallback');
+      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+      //   },
+      //   ['Camera'],
+      //   ['Take a Photo', 'Pick from Gallery'],
+      //   'Default text'
+      // );
 
-      navigator.camera.getPicture(
-        function(imgData) {
 
-          // yellr.route('#submit-form');
-          document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
-        },
-        function(error) {
-          alert('Photo Capture fail: ' + error);
-        },
-        {
-          quality: 50,
-          destinationType: Camera.DestinationType.DATA_URL
-        }
-      );
+
+
+      // navigator.camera.getPicture(
+      //   function(imgData) {
+
+      //     // yellr.route('#submit-form');
+      //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+      //   },
+      //   function(error) {
+      //     alert('Photo Capture fail: ' + error);
+      //   },
+      //   {
+      //     quality: 50,
+      //     destinationType: Camera.DestinationType.DATA_URL
+      //   }
+      // );
     });
     // // double tap to select from camera roll
     // $('#capture-image').on('doubleTap', function() {
@@ -217,11 +265,11 @@ yellr.utils = {
       );
     });
 
-    // lowly ol' text
-    $('#capture-text').on('tap', function() {
-      // render template
-      // render_template(form);
-    });
+    // // lowly ol' text
+    // $('#capture-text').on('tap', function() {
+    //   // render template
+    //   // render_template(form);
+    // });
 
   },
 

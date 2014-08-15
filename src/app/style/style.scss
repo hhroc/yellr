@@ -16,6 +16,74 @@
 @import "../../common/style/theme/typography";
 @import "vars";
 
+
+.radio-list {
+  margin: 1rem 1rem 1.5rem;
+  li {
+    margin: 1rem 0;
+  }
+  input[type="radio"] {
+    margin-right: 0.75rem;
+    vertical-align: middle;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.news-story-view {
+  margin: 1rem 0 1.5rem;
+  figcaption {
+    padding: 0.25rem 0.5rem;
+  }
+}
+.news-title {
+  padding: 0 0.5rem;
+  margin: 0 0 0.75rem;
+}
+.story-content {
+  padding: 0.25rem 0.5rem;
+}
+
+.latest-stories-list {
+  .news-preview,
+  figcaption {
+    padding: 0.25rem 0.5rem;
+  }
+  li {
+    margin: 1rem 0;
+    padding: 1rem 0;
+    // padding: 1.75rem 0.5rem;
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+    @include transition(background, 0.3s);
+    &:hover {
+      background: $light-yellow;
+    }
+  }
+  a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+
+
+.has-subnav {
+  margin-top: 3rem;
+}
+
 .add-extra-media {
   p {
     color: #666;
@@ -47,7 +115,7 @@
   }
 }
 
-html, body { height: 100%; }
+html, body { height: 100%;}
 
 .templates {
   display: none;
@@ -130,53 +198,6 @@ html, body { height: 100%; }
   }
 }
 
-
-// FOR PAGE TRANSITIONS
-// ===================================
-@import "animations";
-
-
-// .pt-perspective {
-//  position: relative;
-//  overflow: hidden;
-//  width: 100%;
-//  // height: 100%;
-//  -webkit-perspective: 1200px;
-//  -moz-perspective: 1200px;
-//  perspective: 1200px;
-//  -webkit-transform-style: preserve-3d;
-//  -moz-transform-style: preserve-3d;
-//  transform-style: preserve-3d;
-//  // @include transition(height, 0.3s);
-// }
-
-// .pt-page {
-//  width: 100%;
-//  // height: 100%;
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  visibility: hidden;
-//  // overflow: hidden;
-//  -webkit-backface-visibility: hidden;
-//  -moz-backface-visibility: hidden;
-//  backface-visibility: hidden;
-//  -webkit-transform: translate3d(0, 0, 0);
-//  -moz-transform: translate3d(0, 0, 0);
-//  transform: translate3d(0, 0, 0);
-// }
-
-// .pt-page-current,
-// .no-js .pt-page {
-//  visibility: visible;
-// }
-
-
-// .pt-page-ontop {
-//  z-index: 999;
-// }
-
-/* Text Styles, Colors, Backgrounds */
 
 .pt-perspective {
   position: relative;

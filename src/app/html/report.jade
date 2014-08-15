@@ -2,6 +2,33 @@
 div#form-wrapper.form.wrapper.submit-preview
 
 
+  //- form#reply-survey-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    ul.list-style-none.radio-list
+      li
+        label
+          input(type="radio", name="survey_answer", value="one")
+          span Answer one
+      li
+        label
+          input(type="radio", name="survey_answer", value="two")
+          span Answer two
+      li
+        label
+          input(type="radio", name="survey_answer", value="three")
+          span Answer three
+      li
+        label
+          input(type="radio", name="survey_answer", value="four")
+          span Answer four
+
+
+  //- form#reply-text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+    input.client_id(type="hidden", name="client_id", value="")
+    //- input(type="hidden", name="media_type", value="text")
+    textarea(name="media_text", rows="2", columns="10", placeholder="Tell us the story...")
+
+
   //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
     input.client_id(type="hidden", name="client_id", value="123456789")
     input(type="hidden", name="media_type", value="image")
@@ -79,52 +106,3 @@ div#extra-media-wrapper
       i.fa.fa-microphone
 
 
-
-
-div.templates
-  script#text-form(type="text/x-handlebars-template")
-    <form class="text-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-    <input type="hidden" name="client_id" value="{{ client_id }}">
-    <input type="hidden" name="media_type" value="text">
-    <input type="text" name="media_caption" placeholder="Title (optional)">
-    <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
-    </form>
-
-  script#image-form(type="text/x-handlebars-template")
-    <form class="image-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-    <input type="hidden" name="client_id" value="{{ client_id }}">
-    <input type="hidden" name="media_type" value="image">
-    <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
-    <input type="file" name="media_file" size="30" multiple>
-    <div class="media-submission-wrapper">
-    <div class="media-preview"><i class="fa fa-close"></i><img src="" class="img-preview"></div>
-    </div>
-    </form>
-
-  script#video-form(type="text/x-handlebars-template")
-    <form class="video-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-    <input type="hidden" name="client_id" value="{{ client_id }}">
-    <input type="hidden" name="media_type" value="video">
-    <textarea rows="2" columns="10" placeholder="Add description"></textarea>
-    <input type="file" name="media_file" size="30" multiple>
-    <div class="media-submission-wrapper">
-    <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-video-camera"></i></div>
-    </div>
-    </form>
-
-  script#audio-form(type="text/x-handlebars-template")
-    <form class="audio-form" method="post" action="http://yellrdev.wxxi.org/upload_media.json" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-    <input type="hidden" name="client_id" value="{{ client_id }}">
-    <input type="hidden" name="media_type" value="audio">
-    <textarea rows="2" columns="10" placeholder="Add description"></textarea>
-    <input type="file" name="media_file" size="30" multiple>
-    <div class="media-submission-wrapper">
-    <div class="media-preview"><i class="fa fa-close"></i><i class="fa fa-microphone"></i></div>
-    </div>
-    </form>
-
-  script#extra-media(type="text/x-handlebars-template")
-    <div id="add-extra-media" class="add-extra-media">
-    <p class="wrapper">Add extra media:</p>
-    <div class="flex"> <div class="add-photo flex-1"><i class="fa fa-plus"></i><i class="fa fa-camera"></i></div> <div class="add-video flex-1"><i class="fa fa-plus"></i><i class="fa fa-video-camera"></i></div> <div class="add-autio flex-1"><i class="fa fa-plus"></i><i class="fa fa-microphone"></i></div> </div>
-    </div>

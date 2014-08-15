@@ -1,0 +1,10 @@
+//- message template
+script#messages-li(type="text/x-handlebars-template").
+  {{#each messages}}
+  <li class="message-li" data-id="{{id}}">
+    <h2 class="message-subject">{{subject}}</h2>
+    <p class="message-sender">{{from_first_name}} {{from_last_name}}</p>
+    <p class="message-preview">{{message_preview}}</p>
+    <p class="message-meta">{{message_datetime}}</p>
+  </li>
+  {{/each}}

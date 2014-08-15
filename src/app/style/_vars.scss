@@ -1,9 +1,9 @@
 $icon-padding: 0.875rem;
 %btn {
-	display: block;
-	@include flex(1);
-	padding: $icon-padding;	
-	@include transition(background, 0.3s);
+  display: block;
+  @include flex(1);
+  padding: $icon-padding;
+  @include transition(background, 0.3s);
 }
 
 $light-gray: #eee;

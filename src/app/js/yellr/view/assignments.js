@@ -34,6 +34,8 @@ yellr.view.assignments = (function() {
       render_template(header);
       render_template(footer);
 
+      yellr.utils.setup_report_bar();
+
     }
 
 
@@ -63,7 +65,7 @@ yellr.view.assignments = (function() {
         return;
       }
 
-      // render the content
+
       var latest_assignments = render_template({
         template: '#assignments-li',
         context: {assignments: yellr.DATA.assignments }
@@ -110,10 +112,22 @@ yellr.view.assignments = (function() {
         if (yellr.DATA.assignments[i].id === parseInt(id)) {
 
           assignment.context = {
+            id: yellr.DATA.assignments[i].id,
             title: yellr.DATA.assignments[i].question_text,
             image: yellr.DATA.assignments[i].image,
             description: yellr.DATA.assignments[i].description,
             deadline: moment(yellr.DATA.assignments[i].expire_datetime).fromNow(true)
+          }
+
+          switch (yellr.DATA.assignments[i].question_type) {
+            case 'survey':
+              assignment.context.survey = true;
+              break;
+            case 'free_text':
+              assignment.context.free_text = true;
+              break;
+            default:
+              break;
           }
 
           break;

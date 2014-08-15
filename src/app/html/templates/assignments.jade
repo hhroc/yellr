@@ -1,0 +1,60 @@
+
+//- assignment list <li>
+script#assignments-li(type="text/x-handlebars-template").
+  {{#each assignments}}
+  <li>
+    <h2 class="assignment-title">
+      <a href="#view-assignment/{{ id }}">{{ question_text }}</a>
+    </h2>
+    <div class="assignment-action">
+      <p class="view-assignment-details"><a href="#view-assignment/{{ id }}">View assignment</a></p>
+      <p class="assignment-contributions">{{ contributions }}</p>
+    </div>
+    <p class="assignment-deadline">{{ expire_datetime }}</p>
+  </li>
+  {{/each}}
+
+
+//- single view
+script#assignment-view(type="text/x-handlebars-template").
+  <h2 class="assignment-title">{{title}}</h2>
+  {{#if image }}
+  <figure class="assignment-details-image"><img src="{{image}}"/></figure>
+  {{/if}}
+  <p class="assignment-details">{{ description }}</p>
+  <p class="assignment-deadline">{{ deadline }}</p>
+  {{#if survey}}
+  <a href="#report/reply-survey/{{id}}" class="contribute-to-assignment">Contribute</a>
+  {{/if}}
+  {{#if free_text}}
+  <a href="#report/reply-text/{{id}}" class="contribute-to-assignment">Contribute</a>
+  {{/if}}
+
+
+
+script#contributions-li-text(type="text/x-handlebars-template").
+  <li>
+    <a href="#"><span class="contributor">{{username}}</span></a>
+    <p>{{ text }}</p>
+  </li>
+
+script#contributions-li-text-long(type="text/x-handlebars-template").
+  <li>
+    <a href="#"><span class="contributor">{{username}}</span></a>
+    <p>{{ text }}</p>
+  </li>
+
+script#contributions-li-text-picture(type="text/x-handlebars-template").
+  <li>
+    <a href="#"><span class="contributor">{{username}}</span></a>
+    <p>{{ text }}</p>
+    <figure><img src="{{ image }}"/></figure>
+  </li>
+
+script#contributions-li-picture-text(type="text/x-handlebars-template").
+  <li>
+    <a href="#"><span class="contributor">{{username}}</span></a>
+    <figure><img src="{{ image }}"/></figure>
+    <p>{{ text }}</p>
+  </li>
+

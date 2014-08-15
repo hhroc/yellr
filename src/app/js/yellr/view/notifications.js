@@ -32,6 +32,7 @@ yellr.view.notifications = (function() {
       yellr.utils.no_subnav();
 
       this.add_eventlisteners();
+      yellr.utils.setup_report_bar();
     }
 
 
@@ -47,6 +48,8 @@ yellr.view.notifications = (function() {
     var add_eventlisteners = function() {
       // refresh
       document.querySelector('#refresh-btn').onclick = function(e) {
+        this.className = 'loading';
+        console.log(this);
         yellr.data.load_notifications(this.update);
       }
     }

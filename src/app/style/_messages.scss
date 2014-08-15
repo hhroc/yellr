@@ -2,34 +2,38 @@
 @import "vars";
 
 .messages-list {
-	list-style: none;
+  list-style: none;
 }
 
 .message-li {
-	padding: 0.75rem;
-	// @include flexbox();
-	border-bottom: 1px solid #ccc;
-	&.unread {
-		background: #eee;
-		color: #888;
-	}
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #ccc;
+  margin: 1rem 0;
+  &:last-child {margin-bottom:0;}
+  &.unread {
+    background: #eee;
+    color: #888;
+  }
 }
 
-.message-overview {
-	font-size: 1.125rem;
-	margin: 0 0 0.75rem;
+.message-sender {
+  font-weight: bold;
+  font-style: italic;
+  margin: 0 0 0.875rem;
+  color: #777;
 }
+
 .message-subject {
-	font-size: 1rem;
-	margin-left: 1rem;
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
 }
 
 .message-preview {
-	margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .message-meta {
-	font-size: 0.875rem;
-	margin-bottom: 0;
-	color: #888;
+  font-size: 0.875rem;
+  margin-bottom: 0;
+  color: #888;
 }

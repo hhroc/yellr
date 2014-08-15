@@ -1,22 +1,25 @@
-# yellr source
-
-client/
-	- holds our Grunt installation
-	- has all the main CSS styles, JS, and markup
-server/
-	- Python server code
-www/
-	- holds the code which is copied to the app/www directory
-	- index.html must be manually editted
-	- all other folders and files are built from the client dir
+# Yellr Source Code
 
 
-The markup, styles, and events are all housed in src/client/. The majority of front-end and app edits should be done from this directory.
-From the client directory run 'grunt watch' to rebuild the project after file changes.
-$ cd src/client
-$ grunt watch
+### app/
+Creates the HTML/CSS/JS for the mobile application.
 
 
-Grunt will build the project files into a build/ folder at the top directory.
+### common/
+Holds elemnts common to each project. For example, the hex color for our yellow is stored in here so all our CSS styles can grab from the same value.
 
-build/ holds a single html file that has all the mark-up and styles applied. That html file is then cut up and used accordingly for templates used by the website and app.
+
+### moderator/
+Front-end source code for the moderator back-end (does that make sense? Lol)
+
+
+### one-pager/
+Used for promotional purposes. Disregard.
+
+
+### server/
+Pyramid server back-end code for Yellr.
+
+
+### storefront/
+The public facing feed where approved submissions are viewed.

@@ -111,5 +111,201 @@ yellr.utils = {
     }
 
     return uuid.join('');
+  },
+
+
+  promptCallback: function (results) {
+    // console.log('hello from: promptCallback');
+    alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+  },
+
+
+  setup_report_bar: function() {
+    // Media capture (audio, video, photo, text)
+    alert('this fires once?');
+
+    var test = navigator.notification.prompt;
+
+    $('#capture-image').on('tap', function(e) {
+      // e.preventDefault();
+
+      alert('things got weird here. notification.prompt not working on my Android. TO FIX');
+
+      // alert('test notification.alert');
+      // /* alert, confirm and prompt aren't working */
+      // navigator.notification.alert(
+      //   'You are the winner!',  // message
+      //   null,         // callback
+      //   'Game Over',            // title
+      //   'Done'                  // buttonName
+      // );
+
+      // alert('test notification.confirm');
+      // navigator.notification.confirm(
+      //   'You are the winner!', // message
+      //    null,            // callback to invoke with index of button pressed
+      //   'Game Over',           // title
+      //   'Restart,Exit'         // buttonLabels
+      // );
+
+      // alert('test notification.prompt');
+      // navigator.notification.prompt(
+      //   'Please enter your name',  // message
+      //   function (results) {
+      //     // console.log('hello from: promptCallback');
+      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+      //   },
+      //   'Registration',            // title
+      //   ['Ok','Exit'],             // buttonLabels
+      //   'Jane Doe'                 // defaultText
+      // );
+
+      // alert('test notification.beep');
+      // navigator.notification.beep(1);
+
+      // alert('test notification.vibrate');
+      // navigator.notification.vibrate(250);
+
+
+
+      // navigator.notification.prompt(
+      //   'Choose source',
+      //   function (results) {
+      //     // console.log('hello from: promptCallback');
+      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+      //   },
+      //   ['Camera'],
+      //   ['Take a Photo', 'Pick from Gallery'],
+      //   'Default text'
+      // );
+
+
+
+
+      // navigator.camera.getPicture(
+      //   function(imgData) {
+
+      //     // yellr.route('#submit-form');
+      //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+      //   },
+      //   function(error) {
+      //     alert('Photo Capture fail: ' + error);
+      //   },
+      //   {
+      //     quality: 50,
+      //     destinationType: Camera.DestinationType.DATA_URL
+      //   }
+      // );
+    });
+    // // double tap to select from camera roll
+    // $('#capture-image').on('doubleTap', function() {
+    //   alert('double tap. always double tap');
+    // });
+    // // long tap to select from camera roll
+    // $('#capture-image').on('longTap', function() {
+    //   alert('long tap');
+    // });
+
+
+
+
+
+
+
+    // audio
+    $('#capture-audio').on('tap', function() {
+      // render template
+      // render_template(form);
+
+      navigator.device.capture.captureAudio(
+        function(audioFiles) {
+          alert('captured: ' + audioFiles.length + ' files');
+          var html = '';
+          for (var i = 0; i < audioFiles.length; i++) {
+            var path = audioFiles[i].fullPath;
+            var name = audioFiles[i].name;
+            html += name + ' | ' + path + '<br/>';
+          };
+          document.querySelector('#cordova-audio').innerHTML = html;
+        },
+        function(error) {
+          if (error.CAPTURE_NO_MEDIA_FILES) {
+            alert('nothing captured');
+          }
+          alert('closed without capturing audio');
+        }
+      );
+    });
+
+
+
+
+
+
+    // video
+    $('#capture-video').on('tap', function() {
+      // render template
+      // render_template(form);
+
+      navigator.device.capture.captureVideo(
+        function(videoFiles) {
+          alert('Captured ' + videoFiles.length + ' videos');
+          var html = '';
+
+          for (var i = 0; i < videoFiles.length; i++) {
+            var name = videoFiles[i].name;
+            var path = videoFiles[i].fullPath;
+            html += name + ' | ' + path + '<br/>';
+          };
+          document.querySelector('#cordova-video').innerHTML = html;
+        },
+        function(error) {
+          alert('error taking video');
+        }
+      );
+    });
+
+    // // lowly ol' text
+    // $('#capture-text').on('tap', function() {
+    //   // render template
+    //   // render_template(form);
+    // });
+
+  },
+
+
+  notify: function(e) {
+    // cache the DOM Nofitications button
+    var notifications_btn = document.querySelector('#notifications-btn');
+
+    // add class to show new Notication has been received
+    $(notifications_btn).addClass('new');
+    // NOTE:
+    // because we clear and recompile the HTML with Handlebar templates
+    // we automatically clear the 'new' class from the button
+    // this is convenient
+    // but, if a user goes to 'Messages' and then goes back, the class will be gone
+    // even though the user did not view the new Notification
+    // this is because the Handlebar template does not change
+    // console.log('remove class when new notification is viewed');
+    console.log('make new <li> in notifications list');
+    yellr.utils.render_template({
+      template: '#post-submitted-li',
+      target: '#recent-notifications',
+      context: e,
+      append: true
+    })
+    console.log(e);
+  },
+
+
+  clearForm: function() {
+    // for all the forms, clear the data
+    var forms = document.querySelectorAll('#form-wrapper form.target');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].className='';
+      forms[i].reset();
+    };
   }
+
 };

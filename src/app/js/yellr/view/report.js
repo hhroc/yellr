@@ -3,14 +3,22 @@ var yellr = yellr || {};
     yellr.view = yellr.view || {};
 
 
+/*
+  we have 3 submit form functions. no
+ */
+
+
+
+
 yellr.view.report = (function() {
 
     /**
      * the user report page for yellr
      */
 
-    var render_template = yellr.utils.render_template;
-    var header, footer;
+    var render_template = yellr.utils.render_template,
+        header,
+        footer;
 
 
 
@@ -23,19 +31,73 @@ yellr.view.report = (function() {
 
       header = data.template.header;
       header.template = '#submit-header';
-      footer = data.template.footer;
-      footer.template = '';
-
       render_template(header);
-      render_template(footer);
-      yellr.utils.no_subnav();
       $('#submit-btn').on('tap', this.submit_form);
 
+      yellr.utils.no_subnav();
+
+      footer = data.template.footer;
+      footer.template = '';
+      render_template(footer);
 
 
-      this.setup_form(data.id);
+
+      this.setup_form(data);
+      this.setup_extra_media(data);
+
+    }
 
 
+
+
+
+
+
+
+    var setup_form = function(data, append) {
+      console.log('setting up ' +data.id+ ' form');
+
+      // set up things for Handlebars
+      var form = {
+        template: '#'+data.id+'-form',
+        context: {
+          client_id: yellr.UUID,
+          assignment_id: null
+        }
+      }
+
+      // are we replying to an assignment?
+      if (data.raw[2]) {
+
+        // grab the ID from the URL
+        form.context.assignment_id = data.raw[2];
+        if (data.id === 'reply-survey') {
+          var test = yellr.DATA.assignments.filter(function(val, i, arr) {
+            if (val.id === parseInt(data.raw[2])) return true;
+          });
+          // console.log(test);
+          form.context.answers = test[0].answers;
+        }
+      }
+
+
+      if (append) $('#form-wrapper').append(render_template(form));
+      else {
+        form.target = '#form-wrapper';
+        render_template(form);
+      }
+    }
+
+
+
+
+
+
+
+
+    var setup_extra_media = function (data) {
+
+      var self = this;
 
       // add extra media bar
       render_template({
@@ -46,31 +108,15 @@ yellr.view.report = (function() {
 
       // on the submission forms we can add multiple files
       // this listener handles clicks
-      $('#extra-media-wrapper').on('tap', function(e) {
-        console.log(
-          'target: ', e.target,
-          'parent: ', e.target.parentNode
-        );
+      $('#extra-media-wrapper div.flex').on('tap', function(e) {
+        if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
+          var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
+          data.id = form_type.split('add-')[1].split(' ')[0];
+          self.setup_form(data, true);
+        }
       });
 
     }
-
-
-
-
-
-
-    var render_template = yellr.utils.render_template;
-
-
-    var setup_form = function(type, append) {
-      console.log('setting up ' +type+ ' form');
-
-      if (append) $('#form-wrapper').append(render_template({template: '#'+type+'-form', context: {client_id: yellr.UUID } }));
-      else $('#form-wrapper').html(render_template({template: '#'+type+'-form', context: {client_id: yellr.UUID } }));
-
-    }
-
 
 
 
@@ -207,10 +253,114 @@ yellr.view.report = (function() {
 
 
 
+
+    // var submit_form = function(e) {
+
+
+    //   // get active forms
+    //   // var forms = document.querySelectorAll('.submit-form.target');
+    //   // console.log(forms);
+
+    //   var $form = $('#form-wrapper form');
+    //   var $form2 = $('.target');
+    //   var form3 = document.querySelector('.target');
+
+    //   console.log('only grab the form that has been changed', $form, $form2, form3);
+
+
+    //   /* mycodespace URLs */
+    //   // var media_url = 'http://yellr.mycodespace.net/upload_media.json';
+    //   // var post_url = 'http://yellr.mycodespace.net/publish_post.json';
+
+    //   /* yellrdev.wxxi.org URLs */
+    //   var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
+    //   var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
+
+
+    //   $.post(media_url, $form.serialize(), function(response){
+    //     // we posted media to the server
+    //     // we get a response back
+    //     // the response has a media_object_id
+    //     // console.log(response);
+    //     // alert(response);
+
+    //     // post the
+    //     $.post(post_url, {
+    //       client_id: yellr.localStorage.client_id,
+    //       assignment_id: null,
+    //       language_code: 'en',
+    //       location: JSON.stringify({
+    //         lat: 44,
+    //         lng: -77
+    //       }),
+    //       media_objects: JSON.stringify([
+    //         response.media_id
+    //       ])
+    //     }, function(e) {
+    //       console.log(e);
+    //       // alert(e);
+    //     });
+    //   });
+    // }
+
+
+    // $('#submit-btn').on('tap', yellr.events.submit_form);
+
+    // // add client_id values
+    // var forms = document.querySelectorAll('.submit-form');
+    // for (var i = 0; i < forms.length; i++) {
+    //   forms[i].onchange = function(e) {
+    //     // add class 'target' (do it only once)
+    //     if (this.className.split('target').length === 1) this.className += ' target';
+    //   }
+    //   forms[i].querySelector('.client_id').value = yellr.localStorage.client_id;
+    // }
+
+
+
+    // // alert('form setup');
+    // $('#imageUploadForm').on('submit', function(e) {
+    //   e.preventDefault();
+
+    //   // alert('submitting...');
+    //   var formData = new FormData(this);
+    //   console.log(formData);
+    //   // alert(formData);
+
+    //   $.ajax({
+    //     type:'POST',
+    //     url: $(this).attr('action'),
+    //     data:formData,
+    //     cache:false,
+    //     contentType: false,
+    //     processData: false,
+    //     success:function(data){
+    //       console.log("success");
+    //       console.log(data);
+    //       // alert('you are winner ahaha');
+    //     },
+    //     error: function(data){
+    //       console.log("error");
+    //       console.log(data);
+    //       // alert('YOU LOSE');
+    //     }
+    //   });
+    // });
+
+
+
+
+
+
+
+
+
+
     return {
       publish_post: publish_post,
       render: render,
       setup_form: setup_form,
+      setup_extra_media: setup_extra_media,
       submit_form: submit_form
     }
 })();

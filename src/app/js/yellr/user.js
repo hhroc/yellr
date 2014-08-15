@@ -6,16 +6,16 @@ yellr.user = (function() {
     // default settings
     var SETTINGS = {
       language: {
-        code: 'en-US',
+        code: 'en',
         name: 'English',
         set: function(lang) {
           // pass in a code from Cordova api
           this.code = lang;
 
           // decipher
-          if (lang === 'en-US') this.name = 'English';  // *
-          if (lang === 'es-US') this.name = 'Español';  // *
-          if (lang === 'fr-US') this.name = 'French';   // *
+          if (lang === 'en') this.name = 'English';  // *
+          if (lang === 'es') this.name = 'Español';  // *
+          if (lang === 'fr') this.name = 'French';   // *
 
           // * - from HTC Inspire (Android)
         }

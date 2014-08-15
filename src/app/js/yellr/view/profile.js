@@ -35,6 +35,7 @@ yellr.view.profile = (function() {
       document.querySelector('#username').innerHTML = yellr.UUID;
 
       this.add_eventlisteners();
+      yellr.utils.setup_report_bar();
 
     }
 

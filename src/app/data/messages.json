@@ -1,6 +1,7 @@
 {
   "messages": [
     {
+      "id": "4342342341",
       "was_read": "0",
       "from_first_name": "Hank",
       "from_last_name": "Robin",
@@ -13,14 +14,54 @@
       "message_datetime": "2014-08-10 14:36:48.341560"
     },
     {
+      "id": "1231242342",
       "was_read": "0",
-      "from_last_name": "SYSTEM USER",
+      "from_first_name": "SYSTEM",
+      "from_last_name": "USER",
       "from_organization": "Yellr",
       "parent_message_id": 0,
       "text": "Congratulations, you are now a part of Yellr! You can start posting content right away!",
       "from_user_id": 1,
       "to_user_id": 2,
-      "from_first_name": "SYSTEM USER",
+      "subject": "Welcome to Yellr!",
+      "message_datetime": "2014-07-31 14:36:48.341560"
+    },
+    {
+      "id": "42342352",
+      "was_read": "0",
+      "from_first_name": "SYSTEM",
+      "from_last_name": "USER",
+      "from_organization": "Yellr",
+      "parent_message_id": 0,
+      "text": "Congratulations, you are now a part of Yellr! You can start posting content right away!",
+      "from_user_id": 1,
+      "to_user_id": 2,
+      "subject": "Welcome to Yellr!",
+      "message_datetime": "2014-07-31 14:36:48.341560"
+    },
+    {
+      "id": "453453453",
+      "was_read": "0",
+      "from_first_name": "SYSTEM",
+      "from_last_name": "USER",
+      "from_organization": "Yellr",
+      "parent_message_id": 0,
+      "text": "Congratulations, you are now a part of Yellr! You can start posting content right away!",
+      "from_user_id": 1,
+      "to_user_id": 2,
+      "subject": "Welcome to Yellr!",
+      "message_datetime": "2014-07-31 14:36:48.341560"
+    },
+    {
+      "id": "908098097",
+      "was_read": "0",
+      "from_first_name": "SYSTEM",
+      "from_last_name": "USER",
+      "from_organization": "Yellr",
+      "parent_message_id": 0,
+      "text": "Congratulations, you are now a part of Yellr! You can start posting content right away!",
+      "from_user_id": 1,
+      "to_user_id": 2,
       "subject": "Welcome to Yellr!",
       "message_datetime": "2014-07-31 14:36:48.341560"
     }

@@ -102,6 +102,12 @@ module.exports = function(grunt) {
     },
 
 
+    // concurrent: {
+    //   target1: ['watch', 'compass:watch'],
+    //   target2: ['jshint', 'mocha']
+    // }
+
+
 
     compass: {
       // common css
@@ -422,9 +428,9 @@ module.exports = function(grunt) {
 
     // watch file changes
     watch: {
-      // options: {
-      //   livereload: true
-      // },
+      options: {
+        livereload: true
+      },
       index: {files: ['index.jade'], tasks: ['jade:index'] },
       // watch app things
       app_data:         {files: [app_folder+'data/**'],         tasks: ['jsonlint:app', 'copy:app_data'] },

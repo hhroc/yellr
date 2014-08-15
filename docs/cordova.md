@@ -1,3 +1,42 @@
+##### Aug 11 update
+Cordova updatd these plugins:
+
+cordova plugin add org.apache.cordova.file
+
+cordova plugin add org.cordova.battery-status
+cordova plugin add org.cordova.camera
+cordova plugin add org.cordova.console
+cordova plugin add org.cordova.device
+cordova plugin add org.cordova.dialogs
+cordova plugin add org.cordova.file
+cordova plugin add org.cordova.file-transfer
+cordova plugin add org.cordova.geolocation
+cordova plugin add org.cordova.globalization
+cordova plugin add org.cordova.media
+cordova plugin add org.cordova.media-capture
+cordova plugin add org.cordova.network-information
+cordova plugin add org.cordova.splashscreen
+cordova plugin add org.cordova.vibration
+cordova plugin add org.cordova.statusbar
+
+
+- cordova-plugin-battery-status: 0.2.10
+- cordova-plugin-camera: 0.3.1
+- cordova-plugin-console: 0.2.10
+- cordova-plugin-device: 0.2.11
+- cordova-plugin-dialogs: 0.2.9
+- cordova-plugin-file: 1.3.0
+- cordova-plugin-file-transfer: 0.4.5
+- cordova-plugin-geolocation: 0.3.9
+- cordova-plugin-globalization: 0.3.0
+- cordova-plugin-media: 0.2.12
+- cordova-plugin-media-capture: 0.3.2
+- cordova-plugin-network-information: 0.2.11
+- cordova-plugin-splashscreen: 0.3.2
+- cordova-plugin-vibration: 0.3.10
+- cordova-plugin-statusbar: 0.1.7
+
+
 
 Device
 https://cordova.apache.org/docs/en/3.0.0/cordova_device_device.md.html#Device

@@ -4,20 +4,21 @@ init:
 	# build the corova app
 	cordova create application com.hhroc.yellr "Yellr";
 	# add all cordova plugins. check the docs for a detailed list
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-battery-status.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-camera.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-media-capture.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-file.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-file-transfer.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-vibration.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-globalization.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git;
-	cd application; cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-console.git;
+	cd application; cordova plugin add org.apache.cordova.battery-status
+	cd application; cordova plugin add org.apache.cordova.camera
+	cd application; cordova plugin add org.apache.cordova.console
+	cd application; cordova plugin add org.apache.cordova.device
+	cd application; cordova plugin add org.apache.cordova.dialogs
+	cd application; cordova plugin add org.apache.cordova.file
+	cd application; cordova plugin add org.apache.cordova.file-transfer
+	cd application; cordova plugin add org.apache.cordova.geolocation
+	cd application; cordova plugin add org.apache.cordova.globalization
+	cd application; cordova plugin add org.apache.cordova.media
+	cd application; cordova plugin add org.apache.cordova.media-capture
+	cd application; cordova plugin add org.apache.cordova.network-information
+	cd application; cordova plugin add org.apache.cordova.splashscreen
+	cd application; cordova plugin add org.apache.cordova.vibration
+	cd application; cordova plugin add org.apache.cordova.statusbar
 
 	# grunt tings - build project, build www not that application exists
 	# we build with grunt after running cordova because Cordova must
@@ -38,7 +39,7 @@ ios:
 	open application/platforms/ios;
 
 	# feedback
-	clear; echo; echo iOS build complete.; echo;
+	clear; echo; echo iOS build complete. Opening folder containing Xcode project; echo;
 
 
 
@@ -51,7 +52,7 @@ android:
 	cd application; cordova build android;
 
 	# feddback
-	clear; echo; echo Android build complete.; echo;
+	clear; echo; echo Android build complete. APK is in application/platforms/android/ant-build/; echo;
 
 
 server:

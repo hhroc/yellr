@@ -45,8 +45,6 @@ window.onload = function() {
   // set up routes
   // - js/yellr/routes.js
   yellr.routes.init();
-
-
   // extras
   // FastClick.attach(document.body);
 

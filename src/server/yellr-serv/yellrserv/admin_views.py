@@ -52,7 +52,7 @@ def get_access_token(request):
             user_name = request.GET['user_name']
             password = request.GET['password']
         except:
-            result['error_text'] = "Missing 'username' or 'password' within request"
+            result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')
 
         print "working on u: '{0}', p: '{1}'".format(user_name, password)
@@ -258,6 +258,7 @@ questions (JSON list of question id's). \
         geo_fence = ''
         try:
             geo_gence = json.dumps(json.loads(request.POST['geo_fence']))
+
         except:
             pass
 
@@ -284,5 +285,60 @@ questions (JSON list of question id's). \
     except:
         pass
 
+
+    return make_response(result)
+
+@view_config(route_name='admin/create_message.json')
+def admin_create_message(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+ 
+        try:
+            to_client_id = request.POST['to_client_id']
+            subject = request.POST['subject']
+            text = request.POST['text']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: life_time,\
+questions (JSON list of question id's). \
+"""
+            raise Exception('invalid/missing field')
+        
+        parent_message_id = None
+        try:
+            parent_message_id = request.POST['parent_message_id']
+        except:
+            pass
+
+        message = Messages.create_message_from_http(
+            session = DBSession,
+            from_token = token,
+            to_client_id = to_client_id,
+            subject = subject,
+            text = text,
+            parent_message_id = parent_message_id,
+        )
+
+        if message != None:
+            result['message_id'] = message.message_id
+            result['success'] = True
+
+    except:
+        pass
 
     return make_response(result)

@@ -46,6 +46,7 @@ def main(global_config, **settings):
     config.add_route('admin/get_posts.json', 'admin/get_posts.json')
     config.add_route('admin/create_question.json', 'admin/create_question.json')
     config.add_route('admin/publish_assignment.json', 'admin/publish_assignment.json')
+    config.add_route('admin/create_message.json', 'admin/create_message.json')
 
     # client views
     config.add_route('get_assignments.json','get_assignments.json')

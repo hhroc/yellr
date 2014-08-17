@@ -326,6 +326,46 @@ def get_notifications(request):
 
     return make_response(result)
 
+@view_config(route_name='create_response_message.json')
+def create_response_message(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            client_id = request.POST['client_id']
+            parent_message_id = request.POST['parent_message_id']
+            subject = request.POST['subject']
+            text = request.POST['text']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id, \
+parent_message_id, subject, text.\
+"""
+            raise Exception("missing/invalid field")
+
+        message = Messages.create_response_message_from_http(
+            session = DBSession,
+            client_id = client_id,
+            parent_message_id = parent_message_id,
+            subject = subject,
+            text = text,
+        )
+
+        if message != None:
+            result['message_id'] = message.message_id
+            result['success'] = True
+        else:
+            result['error_text'] = "Message already has posted response."
+
+    except:
+        pass
+
+    return make_response(result)
+
 @view_config(route_name='get_messages.json')
 def get_messages(request):
 
@@ -339,28 +379,28 @@ def get_messages(request):
         try:
             client_id = request.GET['client_id']
         except:
-            raise Exception("Missing or invalid 'client_id' field.")
+            result['error_text'] = "Missing or invalid 'client_id' field."
+            raise Exception("missing/invalid field")
 
-        if client_id != None:
-            messages = Messages.get_messages_from_client_id(DBSession, client_id)
-            ret_messages = []
-            for from_user_id,to_user_id,message_datetime,parent_message_id,subject,text, \
-                    was_read,from_organization,from_first_name,from_last_name in messages:
-                ret_messages.append({
-                    'from_user_id': from_user_id,
-                    'to_user_id': to_user_id,
-                    'from_organization': from_organization,
-                    'from_first_name': from_first_name,
-                    'from_last_name': from_last_name,
-                    'message_datetime': str(message_datetime),
-                    'parent_message_id': parent_message_id,
-                    'subject': subject,
-                    'text': text,
-                    'was_read': was_read,
-                })
+        messages = Messages.get_messages_from_client_id(DBSession, client_id)
+        ret_messages = []
+        for from_user_id,to_user_id,message_datetime,parent_message_id,subject,text, \
+                was_read,from_organization,from_first_name,from_last_name in messages:
+            ret_messages.append({
+                'from_user_id': from_user_id,
+                'to_user_id': to_user_id,
+                'from_organization': from_organization,
+                'from_first_name': from_first_name,
+                'from_last_name': from_last_name,
+                'message_datetime': str(message_datetime),
+                'parent_message_id': parent_message_id,
+                'subject': subject,
+                'text': text,
+                'was_read': was_read,
+            })
 
-            result['messages'] = ret_messages
-            result['success'] = True
+        result['messages'] = ret_messages
+        result['success'] = True
 
     except:
         pass

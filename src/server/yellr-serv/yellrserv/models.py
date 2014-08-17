@@ -920,13 +920,24 @@ class Messages(Base):
         return message.from_user_id
 
     @classmethod
-    def create_message(cls, session, from_user_id, to_user_id, subject, text):
+    def get_from_message_id(cls, session, message_id):
+        with transaction.manager:
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.message_id == message_id,
+            ).first()
+        return message
+
+    @classmethod
+    def create_message(cls, session, from_user_id, to_user_id, subject, text, 
+            parent_message_id=None):
         with transaction.manager:
             message = cls(
                 from_user_id = from_user_id,
                 to_user_id = to_user_id,
                 message_datetime = datetime.datetime.now(),
-                parent_message_id = 0, # TODO: why can't this be None?
+                parent_message_id = parent_message_id,
                 subject = subject,
                 text = text,
                 was_read = False,
@@ -943,25 +954,89 @@ class Messages(Base):
         return message
 
     @classmethod
-    def create_response_message(cls, session, clientid, 
-            parent_message_id, text, subject):
-        with transaction.manager:
-            user, created = Users.get_from_client_id(session, client_id)
-            to_user_id = Messages.get_user_id_from_message_id(parent_message_id)
-            message = cls(
-                from_user_id = user.user_id,
-                to_user_id = to_user_id,
-                message_datetime = datetime.datetime.now(),
-                parent_message_id = parent_message_id,
+    def create_message_from_http(cls, session, from_token, to_client_id, subject, 
+            text, parent_message_id=None):
+        from_user = Users.get_from_token(session, from_token)
+        to_user,created = Users.get_from_client_id(session, to_client_id)
+        message = None
+        if created == False:
+            message = Messages.create_message(
+                session = session,
+                from_user_id = from_user.user_id,
+                to_user_id = to_user.user_id,
                 subject = subject,
                 text = text,
-                was_read = False,
+                parent_message_id = parent_message_id,
             )
+            session.add(message)
+            transaction.commit() 
+        return message
+
+    @classmethod
+    def create_response_message_from_http(cls, session, client_id,
+            parent_message_id, subject, text):
+        exists = Messages.check_if_message_has_child(session, parent_message_id)
+        parent_message = Messages.get_from_message_id(
+            session, 
+            parent_message_id
+        )
+        message = None
+        if parent_message != None and exists == False:
+            from_user, created = Users.get_from_client_id(session, client_id)
+            to_user_id = Messages.get_user_id_from_message_id(
+                session,
+                parent_message_id
+            )
+            with transaction.manager:
+                message = cls(
+                    from_user_id = from_user.user_id,
+                    to_user_id = to_user_id,
+                    message_datetime = datetime.datetime.now(),
+                    parent_message_id = parent_message_id,
+                    subject = subject,
+                    text = text,
+                    was_read = False,
+                )
+                session.add(message)
+                transaction.commit()
+            Notifications.create_notification(
+                session,
+                to_user_id,
+                'new_message',
+                json.dumps({'parent_message_id': parent_message_id}),
+            )
+        return message
+
+    @classmethod
+    def check_if_message_has_child(cls, session, parent_message_id):
+        with transaction.manager:
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.parent_message_id == parent_message_id,
+            ).first()
+            exists = False
+            if message != None:
+                exists = True
+        return exists
+
+    @classmethod
+    def mark_as_read(cls, session, client_id, message_id):
+        with transaction.manager:
+            user = Users.get_from_client_id(session, client_id)
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.message_id == message_id,
+                # only the recipiant can mark as read.
+                Messages.to_user_id == user.user_id,
+            ).first()
+            message.was_read = True
             session.add(message)
             transaction.commit()
         return message
 
-    # TODO: make this not gross ...
+    # TODO: make this not have to itterate through all the messages ...
     @classmethod
     def mark_all_as_read(cls, session, user_id):
         with transaction.manager:
@@ -973,7 +1048,7 @@ class Messages(Base):
                     Messages.to_user_id == user_id,
                     Messages.was_read == False,
                 ).first() 
-                if message == None:
+                if message != None:
                     break
                 message.was_read = True
                 session.add(message)

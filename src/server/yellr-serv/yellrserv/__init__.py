@@ -49,6 +49,8 @@ def main(global_config, **settings):
     config.add_route('admin/create_message.json', 'admin/create_message.json')
 
     # client views
+    config.add_route('create_response_message.json', \
+        'create_response_message.json')
     config.add_route('get_assignments.json','get_assignments.json')
     config.add_route('get_messages.json','get_messages.json')
     config.add_route('get_notifications.json','get_notifications.json')

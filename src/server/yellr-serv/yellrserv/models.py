@@ -920,6 +920,16 @@ class Messages(Base):
         return message.from_user_id
 
     @classmethod
+    def get_from_message_id(cls, session, message_id):
+        with transaction.manager:
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.message_id == message_id,
+            ).first()
+        return message
+
+    @classmethod
     def create_message(cls, session, from_user_id, to_user_id, subject, text, 
             parent_message_id=None):
         with transaction.manager:
@@ -957,33 +967,58 @@ class Messages(Base):
                 subject = subject,
                 text = text,
                 parent_message_id = parent_message_id,
-            ) 
+            )
+            session.add(message)
+            transaction.commit() 
         return message
 
     @classmethod
-    def create_response_message(cls, session, clientid, parent_message_id,
-            text, subject):
-        user, created = Users.get_from_client_id(session, client_id)
-        to_user_id = Messages.get_user_id_from_message_id(parent_message_id)
-        with transaction.manager:
-            message = cls(
-                from_user_id = user.user_id,
-                to_user_id = to_user_id,
-                message_datetime = datetime.datetime.now(),
-                parent_message_id = parent_message_id,
-                subject = subject,
-                text = text,
-                was_read = False,
-            )
-            session.add(message)
-            transaction.commit()
-        Notifications.create_notification(
-            session,
-            to_user_id,
-            'new_message',
-            json.dumps({'parent_message_id': parent_message_id}),
+    def create_response_message_from_http(cls, session, client_id,
+            parent_message_id, subject, text):
+        exists = Messages.check_if_message_has_child(session, parent_message_id)
+        parent_message = Messages.get_from_message_id(
+            session, 
+            parent_message_id
         )
+        message = None
+        if parent_message != None and exists == False:
+            from_user, created = Users.get_from_client_id(session, client_id)
+            to_user_id = Messages.get_user_id_from_message_id(
+                session,
+                parent_message_id
+            )
+            with transaction.manager:
+                message = cls(
+                    from_user_id = from_user.user_id,
+                    to_user_id = to_user_id,
+                    message_datetime = datetime.datetime.now(),
+                    parent_message_id = parent_message_id,
+                    subject = subject,
+                    text = text,
+                    was_read = False,
+                )
+                session.add(message)
+                transaction.commit()
+            Notifications.create_notification(
+                session,
+                to_user_id,
+                'new_message',
+                json.dumps({'parent_message_id': parent_message_id}),
+            )
         return message
+
+    @classmethod
+    def check_if_message_has_child(cls, session, parent_message_id):
+        with transaction.manager:
+            message = session.query(
+                Messages,
+            ).filter(
+                Messages.parent_message_id == parent_message_id,
+            ).first()
+            exists = False
+            if message != None:
+                exists = True
+        return exists
 
     @classmethod
     def mark_as_read(cls, session, client_id, message_id):

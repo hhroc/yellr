@@ -314,8 +314,8 @@ def admin_create_message(request):
             text = request.POST['text']
         except:
             result['error_text'] = """\
-One or more of the following fields is missing or invalid: life_time,\
-questions (JSON list of question id's). \
+One or more of the following fields is missing or invalid: to_client_id, \
+subject, text.
 """
             raise Exception('invalid/missing field')
         

@@ -331,21 +331,21 @@ def create_response_message(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
-        #try:
-        if True:
+        try:
+        #if True:
             client_id = request.POST['client_id']
             parent_message_id = request.POST['parent_message_id']
             subject = request.POST['subject']
             text = request.POST['text']
-#        except:
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: client_id, \
-#parent_message_id, subject, text.\
-#"""
-#            raise Exception("missing/invalid field")
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id, \
+parent_message_id, subject, text.\
+"""
+            raise Exception("missing/invalid field")
 
         message = Messages.create_response_message_from_http(
             session = DBSession,
@@ -356,12 +356,13 @@ def create_response_message(request):
         )
 
         if message != None:
+            result['message_id'] = message.message_id
             result['success'] = True
         else:
             result['error_text'] = "Message already has posted response."
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 

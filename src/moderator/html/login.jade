@@ -13,14 +13,16 @@ body#moderator.login(data-page="login")
           h1 Yellr
           p Communicate with your community
           form#mod-login.form
+            p#login-feedback
+
             label
-              span.block Email
-              input(type="text")
+              span.block Username
+              input(type="text", name="user_name")
             label
               span.block Password
-              input(type="password")
+              input(type="password", name="password")
             label.block
-              input(type="button", value="Login").inline-block
+              input(type="submit", value="Login").inline-block
 
   include _scripts.jade
 </html>

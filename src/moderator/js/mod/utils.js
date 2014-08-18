@@ -4,6 +4,11 @@ var mod = mod || {};
 mod.utils = {
 
 
+    save: function() {
+      localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: mod.TOKEN }));
+    },
+
+
     show_overlay: function (args) {
 
       var overlay = document.querySelector('#overlay-div-container');

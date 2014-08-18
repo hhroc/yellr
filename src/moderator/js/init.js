@@ -9,20 +9,32 @@ window.onload = function () {
       return;
     }
 
+    // ----------------------------
+
     // check for pre-existing data, if none, create it
     if (localStorage.getItem('yellr-mod') === null) localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: undefined }));
 
     // get auth token
     mod.TOKEN = JSON.parse(localStorage.getItem('yellr-mod')).TOKEN;
 
+    console.log(mod.TOKEN);
 
-    // redirect to login page, if we're not there already
-    if (mod.TOKEN === undefined && document.querySelector('body').getAttribute('data-page') !== 'login') {
-      /* TODO: use a real url */
-      alert('Must login. Missing authentication token.');
-      window.location.replace('http://127.0.0.1:8000/moderator/login.html');
+    // check that we have a valid token
+    if (mod.TOKEN === undefined) {
+      // redirect to login page, if we're not there already
+      if (document.querySelector('body').getAttribute('data-page') !== 'login') {
+        /* TODO: use a real url */
+        alert('Must login. Missing authentication token.');
+        window.location.replace('http://127.0.0.1:8000/moderator/login.html');
+
+      }
     }
     // else if (mod.TOKEN !== expired) {};
+
+
+    // ===================================
+
+
 
     // get current page
     var page = document.querySelector('body').getAttribute('data-page');

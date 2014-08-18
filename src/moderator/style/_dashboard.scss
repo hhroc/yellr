@@ -1,0 +1,89 @@
+// these are styles that apply to the entire dashboard
+// where they simply can't be categorized as belonging to a single page
+
+#left {
+  max-width: 12.25rem; // 196px
+  min-width: 11.5rem; // 184px
+  position: relative;
+  background: $black;
+}
+
+
+#right {position: relative; }
+
+#post-question-btn {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  background: #ebebeb;
+  color: $black;
+  width: 80%;
+  max-width: 10rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 4px;
+  @include transition(background, 0.3s);
+  &:hover {
+    background: $yellow;
+    cursor: pointer;
+  }
+}
+
+
+
+#post-question-form {
+  // max-width: 30rem;
+  // margin: 0 auto;
+  padding: 1rem;
+  background: #ebebeb;
+  div {
+    margin-bottom: 0.875rem;
+    &:last-child {
+      margin-bottom: 0;
+      @include cf();
+    }
+  }
+  textarea {
+    width: 100%;
+    max-width: none;
+  }
+  .icon {
+    margin-right: 0.5rem;
+    .fa {vertical-align: middle; }
+    .fa-plus {margin-right: 0.25rem; }
+    .fa-image {font-size: 3rem; }
+  }
+  .submit-btn {
+    background: $blue;
+    padding: 0.5rem 1.25rem;
+    color: #eee;
+    float: right;
+    margin-bottom: 0;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+
+#overlay-div-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  z-index: 1000;
+  overflow: hidden;
+  padding-top: 25%;
+  @include transition(background, 0.3s);
+  &.active {
+    width: 100%;
+    background: rgba($black, 0.9);
+  }
+  @include mq(netbook) {
+    padding-top: 15%;
+  }
+  form {
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+}

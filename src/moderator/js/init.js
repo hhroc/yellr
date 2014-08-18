@@ -17,9 +17,7 @@ window.onload = function () {
     // get auth token
     mod.TOKEN = JSON.parse(localStorage.getItem('yellr-mod')).TOKEN;
 
-    console.log(mod.TOKEN);
-
-    // check that we have a valid token
+    // check that we have a valid token, that hasn't expired
     if (mod.TOKEN === undefined) {
       // redirect to login page, if we're not there already
       if (document.querySelector('body').getAttribute('data-page') !== 'login') {
@@ -29,11 +27,8 @@ window.onload = function () {
 
       }
     }
-    // else if (mod.TOKEN !== expired) {};
 
-
-    // ===================================
-
+    // ----------------------------
 
 
     // get current page

@@ -3,11 +3,9 @@ var mod = mod || {};
 
 mod.login = (function() {
 
-    var $form;
-
     var init = function () {
 
-      $form = $('#mod-login');
+      var $form = $('#mod-login');
 
       $form.submit(function (e) {
         e.preventDefault();
@@ -38,4 +36,5 @@ mod.login = (function() {
     return {
       init: init
     };
+
 })();

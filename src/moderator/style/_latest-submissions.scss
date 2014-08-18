@@ -1,0 +1,150 @@
+.latest-feed-list {
+  li {
+    @include flexbox();
+    max-width: 30rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+.media-preview {
+  @include flex(3);
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+.user-preview {
+  @include flex(1);
+  border-left: 1px solid #ccc;
+}
+
+
+
+.filter-wrapper {
+  margin-bottom: 2rem;
+}
+.filter-form {
+  label {margin-right: 1rem; }
+  input[type="text"] {font-size: 1rem; }
+  input[type="checkbox"], input[type="radio"] {
+    margin-right: 0.5rem;
+  }
+}
+
+.filter-toggle {
+  display: inline-block;
+  text-transform: uppercase;
+  padding: 0.75rem 1rem 0.5rem;
+  &:hover {cursor: pointer; }
+}
+.filter-list {
+  padding: 1.25rem 0.75rem 1.25rem;
+  @include flexbox();
+  li {@include flex(1); }
+}
+.filter-toggle, .filter-list {
+  background: #ddd;
+}
+.filtered-out {
+  opacity: 0.3;
+  // display: none;
+}
+
+
+.grid-sizer, .gi {
+  width: 32%;
+}
+.gutter-sizer {
+  width: 1.5%;
+}
+.gi {
+  @include transition(background, 0.3s);
+  &:hover {
+    background: lighten($yellow, 15%);
+  }
+}
+// Story item
+.story-item {
+  position: relative;
+  padding: 0.75rem;
+  border: 1px solid #eee;
+}
+
+.source {
+  &:before {content: "Source: "; }
+  font-size: 0.75rem;
+  text-align: right;
+  color: #bbb;
+  margin-bottom: 0;
+  @include transition(color, 0.3s);
+  &:hover {color: #777; }
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:hover {text-decoration: underline; }
+  }
+}
+
+.media-preview {
+  margin-bottom:0.5rem;
+  img {display: block; }
+  &:hover {cursor: pointer; }
+}
+
+.description {
+  font-size: 0.875rem;
+}
+
+.tags-list {
+  list-style: none;
+  font-size: 0.875rem;
+  margin-bottom:0.75rem;
+  li {
+    @include transition(color, 0.3s);
+    color: #aaa;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 0.25rem;
+    &:hover {color: #555; }
+    &:before {content: "#"; }
+  }
+}
+
+.options-wrapper {
+  background: #eee;
+  border: 1px solid #ddd;
+  @include cf();
+}
+.options-list {
+  font-size: 0.875rem;
+  list-style: none;
+  float: right;
+  @include flexbox();
+  li {
+    @include flex(1);
+    text-align: center;
+    color: #aaa;
+    border-left: 1px solid #ddd;
+    &:hover {
+      background: #bbb;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+  i {
+    padding: 0.5rem 0.75rem;
+    @include transition(background, 0.3s);
+    &.fa-folder:hover {
+      background: $blue;
+    }
+    &.fa-comment:hover {
+      background: $green;
+    }
+    &.fa-flag:hover {
+      background: $red;
+    }
+  }
+}

@@ -1,33 +1,3 @@
-'use strict';
-var moderator = moderator || {};
-
-
-// functions to load demo stuff
-moderator.demo = {
-  loadData: function() {
-    $.ajax({
-      url: 'data/moderator-sample.json',
-      beforeSend: function( xhr ) {
-        xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
-      }
-    })
-    .done(function( data ) {
-      var json = JSON.parse(data);
-
-      if (document.querySelector('#all-submissions')) {
-        moderator.main.createGrid(json.latest_submissions, document.querySelector('.grid.submissions-grid'));
-      }
-
-    });
-  },
-
-  uid: function() {
-    return Math.random().toString().split('.')[1].slice(0,8);
-  }
-}
-
-
-
 moderator.packery = undefined;
 
 moderator.drag = function(e, element) {

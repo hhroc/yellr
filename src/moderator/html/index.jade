@@ -1,131 +1,25 @@
 doctype html
 head
-  include ../../common/html/_head/meta.jade
-
   title Yellr - Moderator backend
   meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+  link(rel="stylesheet", href="style/style.min.css")
 
-  include ../../common/html/_head/favicon.jade
-  include ../../common/html/_head/head-scripts.jade
-  link(rel="stylesheet", href="style/style.css")
-
-
-body#moderator
+body#moderator.login
   a(href="#main", class="assistive-text") Skip to main content
   div.container
+    div.vertical-center-wrapper
+      div.vertical-center
+        div.mod-login-wrapper
+          h1 Yellr
+          p Communicate with your community
+          form#mod-login.form(action="#")
+            label
+              span.block Email
+              input(type="text")
+            label
+              span.block Password
+              input(type="password")
+            label.block
+              input(type="button", value="Login").inline-block
 
-    //-div#main
-    div#main.flex
-      div.flex-1#left
-        include _sidebar.jade
-
-      div.flex-4#right
-        //- section#latest-feed.right-wrapper
-          h2.t1 Latest
-          div#latest-feed-wrapper
-            //- this will hold:
-            //-   <ul> or <div>
-            //- depending on
-            ul.latest-feed-list
-              //- text
-              li
-                div.media-preview
-                  h3 there's a title in here too
-                  p a text submission is raw text that gets
-                div.user-preview
-                  div.post-user
-                    h3 user id - 1230904-912390-124-123-4134-fsdf
-                  div.post-response-to
-                    p Response to:
-                    p.assignment-id 123-134234-23123
-                    p.assignment-alias Rochester Traffic
-
-              //- image
-              li
-                div.media-preview
-                  img(src="http://lorempixel.com/400/200")
-                div.user-preview
-                  h3 user id - SFLKSJS-912390-124-123-4134-fsdf
-              //- video
-              li
-                div.media-preview
-                  i.fa.fa-play
-                  img(src="http://lorempixel.com/400/200")
-                div.user-preview
-                  h3 user id - SDF-033-912390-124-123-4134-fsdf
-              //- audio
-              li
-                div.media-preview
-                  div.waveform-preview
-                div.user-preview
-                  h3 user id - SKALFJJ-123-SF-124-123-4134-fsdf
-
-
-
-
-
-        section#all-submissions.right-wrapper
-          h2.t1 All Submissions
-
-          div.filter-wrapper
-            div.form.filter-form
-              span.filter-toggle Filter
-              ul.list-style-none.filter-list
-                li#filter-submission-type
-                  p Submission Type
-                  label
-                    input(type="radio", name="sub-type", value="anonymous")
-                    span Anonymous
-                  label
-                    input(type="radio", name="sub-type", value="validated")
-                    span Validated
-                  label
-                    input(type="radio", name="sub-type", value="all", checked)
-                    span All
-                li#filter-content-type
-                  p Content Type
-                  label
-                    input(type="checkbox", value="video", checked)
-                    span Video
-                  label
-                    input(type="checkbox", value="photo", checked)
-                    span Photo
-                  label
-                    input(type="checkbox", value="audio", checked)
-                    span Audio
-                  label
-                    input(type="checkbox", value="text", checked)
-                    span Text
-                li#filter-search
-                  p Search
-                  input(type="text", placeholder="Search by tag, keyword, or UID")
-
-
-          div.grid-view-wrapper
-            p View:
-            ul.inline
-              li List
-              li Grid
-
-
-          div.grid.submissions-grid
-            div.grid-sizer
-            div.gutter-sizer
-
-
-
-        div
-          p post a question to the community
-          p get latest_posts
-          p get latest_users
-          p view single_user
-          p provide feedback on a post
-
-        section.yellr-action-bar
-          nav.flexbox
-            a#post-question Ask Question
-            a#send-message Send Message
-
-
-  include _footer.jade
 </html>

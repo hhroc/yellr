@@ -21,7 +21,10 @@
   margin: 0 auto 5rem;
   @include transition(background, 0.3s);
   &:hover {background: lighten($yellow, 5%); }
-  span {color: #444; }
+  span {
+    color: #444;
+    margin: 0.75rem 0 0.25rem;
+  }
   input[type="text"], input[type="password"] {
     width: 100%;
     border: none;
@@ -29,5 +32,5 @@
     border-radius: 6px;
     margin-bottom: 0.75rem;
   }
-  input[type="button"] {margin-top: 1.25rem; }
+  input[type="button"] {margin-top: 1rem; }
 }

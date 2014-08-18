@@ -1,0 +1,26 @@
+doctype html
+head
+  title Yellr - Moderator backend
+  meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+  link(rel="stylesheet", href="style/style.min.css")
+
+body#moderator.login(data-page="login")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+    div.vertical-center-wrapper
+      div.vertical-center
+        div.mod-login-wrapper
+          h1 Yellr
+          p Communicate with your community
+          form#mod-login.form
+            label
+              span.block Email
+              input(type="text")
+            label
+              span.block Password
+              input(type="password")
+            label.block
+              input(type="button", value="Login").inline-block
+
+  include _scripts.jade
+</html>

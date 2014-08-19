@@ -474,12 +474,22 @@ class Languages(Base):
 
     @classmethod
     def get_from_code(cls, session, language_code):
-        language = session.query(
-            Languages
-        ).filter(
-            Languages.language_code == language_code
-        ).first()
+        with transaction.manager:
+            language = session.query(
+                Languages
+            ).filter(
+                Languages.language_code == language_code
+            ).first()
         return language
+
+    @classmethod
+    def get_all(cls, session):
+        with transaction.manager:
+            languages = session.query(
+                Languages.language_code,
+                Languages.name,
+            ).all()
+        return languages
 
 class Posts(Base):
 

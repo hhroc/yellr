@@ -31,39 +31,7 @@
 
 
 
-#post-question-form {
-  // max-width: 30rem;
-  // margin: 0 auto;
-  padding: 1rem;
-  background: #ebebeb;
-  div {
-    margin-bottom: 0.875rem;
-    &:last-child {
-      margin-bottom: 0;
-      @include cf();
-    }
-  }
-  textarea {
-    width: 100%;
-    max-width: none;
-  }
-  .icon {
-    margin-right: 0.5rem;
-    .fa {vertical-align: middle; }
-    .fa-plus {margin-right: 0.25rem; }
-    .fa-image {font-size: 3rem; }
-  }
-  .submit-btn {
-    background: $blue;
-    padding: 0.5rem 1.25rem;
-    color: #eee;
-    float: right;
-    margin-bottom: 0;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}
+
 
 
 #overlay-div-container {

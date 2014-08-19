@@ -3,6 +3,11 @@
 
 
 .form {
+  .t2 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
   li {
     margin-bottom: 1.5rem;
     &:last-child {margin-bottom: 0; }

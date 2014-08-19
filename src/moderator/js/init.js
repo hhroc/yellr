@@ -38,42 +38,88 @@ window.onload = function () {
 
 
 
+    // ----------------------------
+    // not sure where to put the following functions yet
+    // they run on every page (most of them anyways)
 
-    // moderator.demo.loadData();
+    document.querySelector('#post-question-btn').onclick = function() {
+      // render the form
+      mod.utils.show_overlay({
+        template: '#post-question-template'
+      });
+
+      // add event listeners
+      var $question_form = $('#post-question-form');
+
+      var language_select = $question_form.find('#language-select');
+      console.log(language_select);
+
+      language_select.on('change', function (e) {
+        console.log(e.target);
+        console.log('language selected: ');
+        console.log('show form things');
+      })
 
 
-    // document.querySelector('#post-question-btn').onclick = function() {
-    //   mod.utils.show_overlay({
-    //     template: '#post-question-template'
-    //   });
-    // }
+      // if question type is multiple_choice, show text inputs
+      // else make sure it is hidden
+
+      $question_form.submit(function (e) {
+        e.preventDefault();
+
+        console.log('submit form');
+        var url = 'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN;
+        console.log('url: '+url);
+
+        // var fields = $question_form.serializeArray(),
+        //     username = fields[0].value,
+        //     password = fields[1].value;
+
+        // // $question_form
+        // $.ajax({
+        //   type: 'POST',
+        //   url: url,
+        //   success: function (data) {
+        //     if (data.success) {
+        //       mod.TOKEN = data.token;
+        //       mod.utils.save();
+        //       window.location.href = 'http://127.0.0.1:8000/moderator/latest-submissions.html';
+        //     } else {
+        //       document.querySelector('#login-feedback').innerHTML = data.error_text;
+        //     }
+        //   },
+        //   dataType: 'json'
+        // });
+      })
+
+    }
 
 
     // // #reply-template
 
 
-    // // if on messages, render inbox
-    // if (document.querySelector('#inbox')) {
+    // if on messages, render inbox
+    if (document.querySelector('#inbox')) {
 
-    //   // hook up the button
-    //   document.querySelector('#new-message-btn').onclick = function() {
-    //     mod.utils.show_overlay({
-    //       template: '#send-message-template'
-    //     });
-    //   }
+      // hook up the button
+      document.querySelector('#new-message-btn').onclick = function() {
+        mod.utils.show_overlay({
+          template: '#send-message-template'
+        });
+      }
 
 
-    //   // setup inbox
-    //   inbox.init({
-    //     data_url: 'data/messages.json',
-    //     template: '#inbox-li',
-    //     container: '#inbox',
-    //     read_target: '#read-mail-list',
-    //     unread_target: '#unread-mail-list'
-    //   });
+      // setup inbox
+      inbox.init({
+        data_url: 'data/messages.json',
+        template: '#inbox-li',
+        container: '#inbox',
+        read_target: '#read-mail-list',
+        unread_target: '#unread-mail-list'
+      });
 
 
     // } else {
     //   moderator.main.init();
-    // }
+    }
 }

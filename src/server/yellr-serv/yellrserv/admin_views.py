@@ -342,3 +342,40 @@ subject, text.
         pass
 
     return make_response(result)
+
+@view_config(route_name='admin/get_languages.json')
+def admin_get_languages(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        languages = Languages.get_all(DBSession)
+
+        ret_languages = []
+        for language_code, name in languages:
+            ret_languages.append({
+                'name': name,
+                'code': language_code,
+            })
+
+        result['languages'] = ret_languages
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)

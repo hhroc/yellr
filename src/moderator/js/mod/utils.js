@@ -6,7 +6,7 @@ mod.utils = {
     main_setup: function () {
       // set up the Post question form
       // it is ony evry page
-      document.querySelector('#post-question-btn').onclick = mod.new_question.setup_form;
+      document.querySelector('#post-question-btn').onclick = mod.new_assignment.setup_form;
 
 
       // if on messages, render inbox

@@ -1,0 +1,130 @@
+#supported-languages {
+  li {
+    background: $blue;
+    color: #eee;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    &:last-child {
+      background: none;
+      color: #333;
+    }
+  }
+}
+
+
+#question-text-preview {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 1.25rem 0;
+}
+
+#new-assignment-section {
+  padding: 1rem 1rem 1.75rem;
+  background: #ebebeb;
+  max-width: 30rem;
+  margin: 0 auto;
+  .t2 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+}
+
+
+#add-language-btn {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.cancel-question-btn-wrapper {
+  text-align: right;
+}
+
+#cancel-question-btn {
+  background: $red;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  opacity: 0.4;
+  transition: opacity 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
+
+.question-answer-input {
+  max-width: 18rem;
+}
+
+.form-fields-list {
+  list-style-type: none;
+  margin: 1.5rem 0 1rem;
+  li {
+    margin-bottom: 0.75rem;
+    &:last-child {margin-bottom: 0;}
+  }
+}
+
+#post-question-form {
+  textarea {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+#post-question-btn {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  background: #ebebeb;
+  color: $black;
+  width: 80%;
+  max-width: 10rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 4px;
+  @include transition(background, 0.3s);
+  &:hover {
+    background: $yellow;
+    cursor: pointer;
+  }
+}
+
+
+.user-actions {
+  text-align: right;
+  margin-top: 2rem;
+  .action {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    margin-right: 0.5rem;
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+}
+
+#preview-question {
+  color: $green;
+}
+
+#save-draft {
+  color: $blue;
+}
+
+.add-photo-wrapper {
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+
+.extra-fields {
+  margin-bottom: 0 !important;
+  label {
+    margin-right: 0.8rem;
+  }
+}

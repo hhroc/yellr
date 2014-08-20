@@ -35,14 +35,10 @@
   p {
     margin-bottom: 0.25rem;
   }
-  .submit-div {
-    @include cf();
-  }
   .submit-btn {
     background: $blue;
     padding: 0.5rem 1.25rem;
     color: #eee;
-    float: right;
     margin-bottom: 0;
     @include transition(background, 0.3s);
     &:hover {

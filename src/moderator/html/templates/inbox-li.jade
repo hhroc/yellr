@@ -1,0 +1,9 @@
+//- used to render our inbox items
+script#inbox-li(type="text/x-handlebars-template").
+  {{#each messages}}
+  <li data-id="{{id}}">
+    <h3 class="sender">{{sender}}</h3>
+    <span class="subject">{{subject}}</span>
+    <span class="date">{{send_date}}</span>
+  </li>
+  {{/each}}

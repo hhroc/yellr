@@ -18,54 +18,5 @@
 @import "messages";
 @import "sidebar";
 @import "latest-submissions";
+@import "new-assignment";
 @import "dashboard";
-
-
-.cancel-question-btn-wrapper {
-  text-align: right;
-}
-
-#cancel-question-btn {
-  background: $red;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  opacity: 0.4;
-  transition: opacity 0.3s ease-out;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-}
-
-
-.question-answer-input {
-  max-width: 18rem;
-}
-.form-fields-list {
-  list-style-type: none;
-  li {margin-bottom: 0.75rem;}
-}
-
-#post-question-form {
-  padding: 1rem 1rem 1.75rem;
-  background: #ebebeb;
-  textarea {
-    width: 100%;
-    max-width: none;
-  }
-  .icon {
-    margin-right: 0.5rem;
-    .fa {vertical-align: middle; }
-    .fa-plus {margin-right: 0.25rem; }
-    .fa-image {font-size: 3rem; }
-  }
-  .submit-btn {
-    background: $blue;
-    padding: 0.5rem 1.25rem;
-    color: #eee;
-    margin-bottom: 0;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-}

@@ -11,23 +11,7 @@
 
 #right {position: relative; }
 
-#post-question-btn {
-  display: block;
-  font-size: 0.875rem;
-  text-align: center;
-  background: #ebebeb;
-  color: $black;
-  width: 80%;
-  max-width: 10rem;
-  margin: 0 auto;
-  padding: 0.5rem;
-  border-radius: 4px;
-  @include transition(background, 0.3s);
-  &:hover {
-    background: $yellow;
-    cursor: pointer;
-  }
-}
+
 
 
 

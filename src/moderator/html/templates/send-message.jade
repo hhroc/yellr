@@ -1,0 +1,19 @@
+//- formto send a message to yellr users
+script#send-message-template(type="text/x-handlebars-template").
+  <form id="send-message-form" action="#" class="form">
+    <h3 class="t2">New Message</h3>
+    <div><span class="block">To</span>
+      <input type="text" name="send_to">
+    </div>
+    <div><span class="block">Subject</span>
+      <input type="text" name="subject">
+    </div>
+    <div><span class="block">Message</span>
+      <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+    </div>
+    <div class="submit-div">
+      <label><span class="submit-btn">Submit</span>
+        <input type="submit" value="Send" hidden>
+      </label>
+    </div>
+  </form>

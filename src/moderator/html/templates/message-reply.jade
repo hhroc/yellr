@@ -1,0 +1,14 @@
+//- reply to a message
+script#reply-template(type="text/x-handlebars-template").
+  <form id="reply-form" action="#" class="form">
+    <input type="hidden" name="email_id" value="email-id">
+    <h3 class="t2">Reply</h3>
+    <div>
+      <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+    </div>
+    <div class="submit-div">
+      <label><span class="submit-btn">Submit</span>
+        <input type="submit" value="Send" hidden>
+      </label>
+    </div>
+  </form>

@@ -107,7 +107,7 @@ def main(argv=sys.argv):
         )
         DBSession.add(language_english)
         language_spanish = Languages(
-            language_code = 'sp',
+            language_code = 'es',
             name = 'Spanish',
         )
         DBSession.add(language_spanish)

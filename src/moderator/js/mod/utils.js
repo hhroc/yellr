@@ -3,6 +3,36 @@ var mod = mod || {};
 
 mod.utils = {
 
+    main_setup: function () {
+      // set up the Post question form
+      // it is ony evry page
+      document.querySelector('#post-question-btn').onclick = mod.new_question.setup_form;
+
+
+      // if on messages, render inbox
+      if (document.querySelector('#inbox')) {
+
+        // hook up the button
+        document.querySelector('#new-message-btn').onclick = function() {
+          mod.utils.show_overlay({
+            template: '#send-message-template'
+          });
+        }
+
+
+        // setup inbox
+        inbox.init({
+          data_url: 'data/messages.json',
+          template: '#inbox-li',
+          container: '#inbox',
+          read_target: '#read-mail-list',
+          unread_target: '#unread-mail-list'
+        });
+
+      }
+
+    },
+
 
     save: function() {
       localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: mod.TOKEN }));
@@ -31,7 +61,7 @@ mod.utils = {
 
 
     clear_overlay: function (e) {
-      if (e.target.id === 'overlay-div-container') {
+      if (e === undefined || e.target.id === 'overlay-div-container') {
         var overlay = document.querySelector('#overlay-div-container');
         overlay.className = '';
         overlay.removeEventListener('click', mod.utils.clear_overlay,false);

@@ -32,6 +32,42 @@ div#handlebar-templates
           <span id="cancel-question-btn">X</span>
         </div>
       </div>
+      <ul class="form-fields-list">
+        <li>
+          <textarea rows="5" name="question_text" placeholder="Ask the community..."></textarea>
+        </li>
+        <li class="flex">
+          <div class="flex-3">
+            <p><small>Question Type</small></p>
+            <label>
+              <input type="radio" name="question_type" value="free_text" checked>
+              <span>Free Response</span>
+            </label>
+            <label>
+              <input type="radio" name="question_type" value="multiple_choice">
+              <span>Survey</span>
+            </label>
+          </div>
+          <div class="flex-2">
+            <label>
+              <p><span class="icon">&nbsp;<i class="fa fa-plus"></i><i class="fa fa-image"></i></span><small>Add a photo</small><em> * Optional</em></p>
+              <input type="file" hidden name="question_image">
+            </label>
+          </div>
+        </li>
+        <li>
+          <p><small>Answers</small></p>
+          <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
+        </li>
+        <li>
+          <span>Preview</span>
+          <span>Save draft</span>
+          <label>
+            <span class="submit-btn">Submit</span>
+            <input type="submit" hidden value="Post">
+          </label>
+        </li>
+      </ul>
     </form>
 
 

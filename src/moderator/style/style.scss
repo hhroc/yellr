@@ -29,7 +29,12 @@
   background: $red;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
-  opacity: 0.6;
+  opacity: 0.4;
+  transition: opacity 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 }
 
 
@@ -38,23 +43,12 @@
 }
 .form-fields-list {
   list-style-type: none;
-  li {
-    margin-bottom: 0.75rem;
-  }
+  li {margin-bottom: 0.75rem;}
 }
 
 #post-question-form {
-  // max-width: 30rem;
-  // margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 1rem 1.75rem;
   background: #ebebeb;
-  // div {
-  //   margin-bottom: 0.875rem;
-  //   &:last-child {
-  //     margin-bottom: 0;
-  //     @include cf();
-  //   }
-  // }
   textarea {
     width: 100%;
     max-width: none;
@@ -69,7 +63,6 @@
     background: $blue;
     padding: 0.5rem 1.25rem;
     color: #eee;
-    // float: right;
     margin-bottom: 0;
     &:hover {
       cursor: pointer;

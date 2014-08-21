@@ -27,9 +27,9 @@ mod.new_assignment = (function () {
     $form         = $('#assignment-form'),
     $questions_container = $form.find('#questions-container'),
     $extra_fields = $form.find('#extra-assignment-fields'),
-    $cancel_btn   = $form.find('#cancel-assignment'),
-    $save_btn     = $form.find('#save-assignment'),
-    $post_btn     = $form.find('#post-assignment');
+    $cancel_btn   = $form.find('#cancel-assignment-btn'),
+    $save_btn     = $form.find('#save-assignment-btn'),
+    $post_btn     = $form.find('#post-assignment-btn');
 
     $preview_text = $('#question-text-preview');
 
@@ -39,7 +39,6 @@ mod.new_assignment = (function () {
     $extra_fields.hide();
     $save_btn.hide();
     $post_btn.hide();
-
 
 
     // add event listeners
@@ -83,11 +82,12 @@ mod.new_assignment = (function () {
     });
 
 
-    $save_btn.show();
     $post_btn.show();
-    $post_btn.text('Add Question');
+    $post_btn.html('Add Question');
 
 
+    // we render a form with the language code in the id
+    // id="es-question-form", id="en-question-form"
     $question_form = $form.find('#'+language_code+'-question-form');
 
 
@@ -123,11 +123,20 @@ mod.new_assignment = (function () {
 
   var successful_question_post = function (data) {
 
+    // push the question ID to our array
     questions.push(data.question_id);
 
-    // post-process things
+    // update preview text
     $preview_text.html($question_form.find('textarea').val())
     $preview_text.addClass('active');
+
+    // hide form
+    $question_form.hide();
+
+    // hide language select
+    $form.find('.language-select-wrapper').hide();
+
+    $save_btn.show();
 
     $post_btn.html('Post Assignment');
     $post_btn.off('click');
@@ -148,6 +157,20 @@ mod.new_assignment = (function () {
 
   var post = function () {
     console.log('post the form');
+    // we need the array and a length of time
+    $.ajax({
+      type: 'POST',
+      url: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
+      data: {
+        'life_time': 24,
+        'questions': questions
+      },
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+      }
+    });
+
   }
 
 

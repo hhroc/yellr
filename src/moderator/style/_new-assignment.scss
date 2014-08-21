@@ -1,23 +1,3 @@
-#supported-languages {
-  li {
-    background: $blue;
-    color: #eee;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    &:last-child {
-      background: none;
-      color: #333;
-    }
-  }
-}
-
-
-#question-text-preview {
-  font-size: 2rem;
-  line-height: 1.2;
-  margin: 1.25rem 0;
-}
-
 #new-assignment-section {
   padding: 1rem 1rem 1.75rem;
   background: #ebebeb;
@@ -31,29 +11,111 @@
 }
 
 
+
+#question-text-preview {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 1.25rem 0 2rem;
+  color: #aaa;
+  transition: color 0.3s ease-out;
+  &.active {
+    color: #333;
+  }
+}
+
+
+.form-actions {
+  margin-top: 1.25rem;
+  .action {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    margin-right: 0.5rem;
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+  .flex-3 {
+    text-align: right;
+  }
+}
+
+
+#cancel-assignment-btn {
+  color: $red;
+}
+
+#save-assignment-btn {
+  color: $blue;
+}
+
+#post-assignment-btn {
+  background: $blue;
+  color: #eee;
+  display: inline-block;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.75rem;
+  transition: background 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    background: lighten($blue, 10%);
+  }
+}
+
+
+#extra-assignment-fields {
+  .flex-2 {
+    padding-left: 1rem;
+    p {
+      vertical-align: bottom;
+    }
+  }
+}
+
+#lifetime {
+  max-width: 2.25rem;
+  + span {
+    font-size: 0.875rem;
+    background: tomato;
+  }
+}
+#unit-of-time-list {
+  list-style: none;
+  li {
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+
+#supported-languages {
+  border-right: 1px solid #aaa;
+  padding-right: 1rem;
+
+  li {
+    margin-bottom: 0.5rem;
+    &.default {
+      border: 1px solid $green;
+      background: rgba($green, 0.2);
+      // color: $green;
+    }
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+
+
+
 #add-language-btn {
   text-decoration: underline;
+  font-size: 0.75rem !important;
   &:hover {
     text-decoration: none;
     cursor: pointer;
   }
 }
 
-.cancel-question-btn-wrapper {
-  text-align: right;
-}
-
-#cancel-question-btn {
-  background: $red;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  opacity: 0.4;
-  transition: opacity 0.3s ease-out;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-}
 
 
 .question-answer-input {
@@ -95,27 +157,9 @@
 }
 
 
-.user-actions {
-  text-align: right;
-  margin-top: 2rem;
-  .action {
-    font-size: 0.875rem;
-    text-decoration: underline;
-    margin-right: 0.5rem;
-    &:hover {
-      cursor: pointer;
-      text-decoration: none;
-    }
-  }
-}
 
-#preview-question {
-  color: $green;
-}
 
-#save-draft {
-  color: $blue;
-}
+
 
 .add-photo-wrapper {
   border-left: 1px solid #ccc;

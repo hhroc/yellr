@@ -4,10 +4,15 @@ var mod = mod || {};
 mod.new_assignment = (function () {
 
 
-  var $form,
-      $fields,
-      $answers_wrapper,
-      $add_question_btn;
+  var questions = [],
+      $form,
+      $preview_text,
+      $questions_container,
+      $question_form,
+      $extra_fields,
+      $cancel_btn,
+      $save_btn,
+      $post_btn;
 
 
   var setup_form = function () {
@@ -17,78 +22,94 @@ mod.new_assignment = (function () {
       template: '#new-assignment-template'
     });
 
+
     // get DOM refs
-    $form             = $('#post-question-form'),
-    $fields           = $form.find('.form-fields-list'),
-    $answers_wrapper  = $form.find('.answers-input-wrapper'),
-    $add_question_btn = $form.find('.submit-btn');
+    $form         = $('#assignment-form'),
+    $questions_container = $form.find('#questions-container'),
+    $extra_fields = $form.find('#extra-assignment-fields'),
+    $cancel_btn   = $form.find('#cancel-assignment'),
+    $save_btn     = $form.find('#save-assignment'),
+    $post_btn     = $form.find('#post-assignment');
+
+    $preview_text = $('#question-text-preview');
 
 
-    // basic setup
-    $fields.hide();
-    $answers_wrapper.hide();
+    // hide things
+    $form.find('.form-fields-list').hide();
+    $extra_fields.hide();
+    $save_btn.hide();
+    $post_btn.hide();
+
 
 
     // add event listeners
     // 1. close/cancel post
-    // 2. onchange of language, show the actual fields
-    // 3. preview btn
-    // 4. save draft btn
-    // 5. add fields if 'survey'
+    // 2. onchange of language, show form
+    // 3. save draft btn
 
 
     // 1.
-    $form.find('#cancel-question-btn').on('click', function (e) {
+    $cancel_btn.on('click', function (e) {
       mod.utils.clear_overlay();
     });
 
+
     // 2.
     $form.find('#language-select').on('change', function (e) {
-      mod.new_assignment.show_fields(this.value);
+      mod.new_assignment.question_form(this.value);
     });
+
 
     // 3.
-    $form.find('#preview-question').on('click', function (e) {
-      mod.new_assignment.preview();
-    });
-
-    // 4.
-    $form.find('#save-draft').on('click', function (e) {
+    $save_btn.on('click', function (e) {
       mod.new_assignment.save_draft();
     });
 
-    // 5.
-    $form.find('input[type="radio"]').on('change', function (e) {
-      if (this.value === 'multiple_choice') $answers_wrapper.show();
-      else $answers_wrapper.hide();
-    });
+
 
   }
 
 
 
-  var show_fields = function (language_code) {
+  var question_form = function (language_code) {
 
-    $fields.show();
+    mod.utils.render_template({
+      template: '#new-question-template',
+      target: $questions_container,
+      context: {
+        language: language_code
+      },
+      append: true
+    });
 
-    $add_question_btn.on('click', function (e) {
-      e.preventDefault();
-      console.log('adding question');
+
+    $save_btn.show();
+    $post_btn.show();
+    $post_btn.text('Add Question');
+
+
+    $question_form = $form.find('#'+language_code+'-question-form');
+
+
+    // add event listeners
+    $question_form.find('input[type="radio"]').on('change', function (e) {
+      console.log(this.value);
+    });
+
+
+    $post_btn.on('click', function (e) {
+
       var url = 'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN;
-      console.log('url: '+url);
-      console.log($form.serialize());
 
       $.ajax({
         type: 'POST',
         url: url,
-        data: $form.serialize(),
+        data: $question_form.serialize(),
         dataType: 'json',
         success: function (data) {
           if (data.success) {
             console.log('SUCCESS');
-            console.log(data);
-            alert('show overview page. allow users to add another lnguage. can submit if they want to');
-            // mod.utils.clear_overlay();
+            mod.new_assignment.successful_question_post(data);
           } else {
             console.log('FAIL');
             console.log(data);
@@ -100,8 +121,23 @@ mod.new_assignment = (function () {
   }
 
 
-  var preview = function () {
-    alert('hello from: preview_question');
+  var successful_question_post = function (data) {
+
+    questions.push(data.question_id);
+
+    // post-process things
+    $preview_text.html($question_form.find('textarea').val())
+    $preview_text.addClass('active');
+
+    $post_btn.html('Post Assignment');
+    $post_btn.off('click');
+    $post_btn.on('click', function (e) {
+      mod.new_assignment.post();
+    });
+
+    $extra_fields.show();
+    console.log(questions);
+
   }
 
 
@@ -110,40 +146,17 @@ mod.new_assignment = (function () {
   }
 
 
-  // $question_form.submit(function (e) {
-  //   e.preventDefault();
-
-  //   console.log('submit form');
-  //   var url = 'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN;
-  //   console.log('url: '+url);
-
-  //   // var fields = $question_form.serializeArray(),
-  //   //     username = fields[0].value,
-  //   //     password = fields[1].value;
-
-  //   // $question_form
-  //   $.ajax({
-  //     type: 'POST',
-  //     url: url,
-  //     success: function (data) {
-  //       if (data.success) {
-  //         mod.TOKEN = data.token;
-  //         mod.utils.save();
-  //         window.location.href = 'http://127.0.0.1:8000/moderator/latest-submissions.html';
-  //       } else {
-  //         document.querySelector('#login-feedback').innerHTML = data.error_text;
-  //       }
-  //     },
-  //     dataType: 'json'
-  //   });
-  // })
+  var post = function () {
+    console.log('post the form');
+  }
 
 
 
   return {
     setup_form: setup_form,
-    show_fields: show_fields,
-    preview: preview,
+    question_form: question_form,
+    successful_question_post: successful_question_post,
+    post: post,
     save_draft: save_draft
   }
 

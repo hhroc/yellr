@@ -2,68 +2,99 @@
 script#new-assignment-template(type="text/x-handlebars-template").
   <section id="new-assignment-section">
     <h3 class="t2">New Assignment</h3>
-    <p id="question-text-preview">This is where the question text will be rendered</p>
-    <form id="assignment-form" class="form">
-      <p><small>Supported Languages</small></p>
-      <ul id="supported-languages" class="inline">
-        <li>English</li>
-        <li>Espanol</li>
-        <li id="add-language-btn">+ Add Language</li>
-      </ul>
-      <div class="flex">
-        <div class="flex-2">Due: 7 days</div>
-        <div class="flex-2">Post Assignment</div>
+    <p id="question-text-preview">Please select a language...</p>
+
+    <div id="assignment-form" class="form">
+
+      <input type="hidden" id="question-IDs" name="questions" value="">
+
+      <div class="language-select-wrapper">
+        <label>
+          <span>Select language:</span>
+          <select id="language-select" name="language_code">
+            <option name="none" value="--">--</option>
+            <option name="english" value="en">English</option>
+            <option name="espanol" value="es">Espanol</option>
+          </select>
+        </label>
       </div>
-    </form>
-    <form id="post-question-form" class="form">
-      <div class="flex language-select-wrapper">
-        <div class="flex-4">
-          <label>
-            <span>Select language:</span>
-            <select id="language-select" name="language_code">
-              <option name="none" value="--">--</option>
-              <option name="english" value="en">English</option>
-              <option name="espanol" value="es">Espanol</option>
-            </select>
-          </label>
+
+      <div id="questions-container"></div>
+
+      <div id="extra-assignment-fields" class="flex">
+        <div class="languages-wrapper flex-3">
+          <p><small>Supported Languages</small></p>
+          <ul id="supported-languages" class="inline">
+            <li class="default">English</li>
+            <li id="add-language-btn">+ Add Language</li>
+          </ul>
         </div>
-        <div class="flex-1 cancel-question-btn-wrapper">
-          <span id="cancel-question-btn">X</span>
+        <div class="flex-2">
+          <p><small>Duration</small></p>
+          <p class="inline-block">
+            <span>Due:</span>
+            <input type="number" id="lifetime" value="14">
+            <input type="hidden" name="life_time" value="">
+          </p>
+          <ul id="unit-of-time-list" class="inline-block">
+            <li>
+              <label>
+                <input type="radio" name="unit-of-time" value="days" checked>
+                <span>Days</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="unit-of-time" value="months">
+                <span>Months</span>
+              </label>
+            </li>
+          </ul>
         </div>
       </div>
-      <ul class="form-fields-list">
-        <li>
-          <textarea rows="5" name="question_text" placeholder="Ask the community..."></textarea>
-        </li>
-        <li class="flex extra-fields">
-          <div class="flex-3">
-            <p><small>Question Type</small></p>
-            <label>
-              <input type="radio" name="question_type" value="free_text" checked>
-              <span>Free Response</span>
-            </label>
-            <label>
-              <input type="radio" name="question_type" value="multiple_choice">
-              <span>Survey</span>
-            </label>
-          </div>
-          <div class="flex-2 add-photo-wrapper">
-            <p><small>Add a photo <em> * Optional</em></small></p>
-            <input type="file" name="question_image">
-          </div>
-        </li>
-        <li class="answers-input-wrapper">
-          <p><small>Answers</small></p>
-          <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
-        </li>
-        <li class="user-actions">
-          <span id="preview-question" class="action">Preview</span>
-          <span id="save-draft" class="action">Save draft</span>
-          <label>
-            <span class="submit-btn">Add Question</span>
-            <input type="submit" hidden value="Post">
-          </label>
-        </li>
-      </ul>
-    </form>
+
+      <div class="form-actions flex">
+        <div class="flex-2">
+          <span id="cancel-assignment-btn" class="action">Cancel</span>
+        </div>
+        <div class="flex-3">
+          <span id="save-assignment-btn" class="action">Save Draft</span>
+          <span id="post-assignment-btn">Post Assignment</span>
+        </div>
+      </div>
+    </div>
   </section>
+
+
+script#new-question-template(type="text/x-handlebars-template").
+  <form id="{{language}}-question-form" class="form">
+    <ul class="form-fields-list">
+      <li>
+        <input type="hidden" name="language_code" value="{{language}}">
+      </li>
+      <li>
+        <textarea rows="5" name="question_text" placeholder="Ask the community..."></textarea>
+      </li>
+      <li class="flex extra-fields">
+        <div class="flex-3">
+          <p><small>Question Type</small></p>
+          <label>
+            <input type="radio" name="question_type" value="free_text" checked>
+            <span>Free Response</span>
+          </label>
+          <label>
+            <input type="radio" name="question_type" value="multiple_choice">
+            <span>Survey</span>
+          </label>
+        </div>
+        <div class="flex-2 add-photo-wrapper">
+          <p><small>Add a photo <em> * Optional</em></small></p>
+          <input type="file" name="question_image">
+        </div>
+      </li>
+      <!--<li class="answers-input-wrapper">
+        <p><small>Answers</small></p>
+        <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
+      </li>-->
+    </ul>
+  </form>

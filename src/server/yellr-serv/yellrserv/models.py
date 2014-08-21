@@ -163,18 +163,21 @@ class Users(Base):
 
     @classmethod
     def get_from_client_id(cls, session, client_id, create_if_not_exist=True):
-        with transaction.manager:
-            user = session.query(
-                Users
-            ).filter(
-                Users.client_id == client_id
-            ).first()
-            created = False
-            if user == None and create_if_not_exist == True:
-                user_type = UserTypes.get_from_name(session,name='user')
-                user = cls.create_new_user(session,
+        user = None
+        created = False
+        if client_id != None:
+            with transaction.manager:
+                user = session.query(
+                    Users
+                ).filter(
+                    Users.client_id == client_id
+                ).first()
+                created = False
+                if user == None and create_if_not_exist == True:
+                    user_type = UserTypes.get_from_name(session,name='user')
+                    user = cls.create_new_user(session,
                         user_type.user_type_id,client_id)
-                created = True
+                    created = True
         return (user, created)
 
     @classmethod
@@ -285,7 +288,11 @@ class Assignments(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'))
     publish_datetime = Column(DateTime)
     expire_datetime = Column(DateTime)
-    geo_fence = Column(Text)
+    top_left_lat = Column(Float)
+    top_left_lng = Column(Float)
+    bottom_right_lat = Column(Float)
+    bottom_right_lng = Column(Float)
+    use_fence = Column(Boolean)
 
     @classmethod
     def get_by_assignment_id(cls, session, assignment_id):
@@ -310,13 +317,17 @@ class Assignments(Base):
         return (assignment,question)
 
     @classmethod
-    def get_all_open_with_questions(cls, session, language_code):
+    def get_all_open_with_questions(cls, session, language_code, lat, lng):
         with transaction.manager:
             language = Languages.get_from_code(session,language_code)
             assignments = session.query(
                 Assignments.publish_datetime,
                 Assignments.expire_datetime,
-                Assignments.geo_fence,
+                Assignments.top_left_lat,
+                Assignments.top_left_lng,
+                Assignments.bottom_right_lat,
+                Assignments.bottom_right_lng,
+                Assignments.use_fence,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
@@ -337,13 +348,19 @@ class Assignments(Base):
             ).join(
                 Questions,
             ).filter(
+                # we add offsets so we can do simple comparisons
+                Assignments.top_left_lat + 90 > lat + 90,
+                Assignments.top_left_lng + 180 < lng + 180,
+                Assignments.bottom_right_lat + 90 < lat + 90,
+                Assignments.bottom_right_lng + 180 > lng + 180,
                 Questions.language_id == language.language_id,
                 Assignments.expire_datetime > Assignments.publish_datetime,
             ).all()
         return assignments
 
     @classmethod
-    def create_from_http(cls, session, token, life_time=30,geo_fence=''):
+    def create_from_http(cls, session, token, life_time, geo_fence,
+            use_fence=True):
         with transaction.manager:
             user = Users.get_from_token(session, token)
             assignment = None
@@ -353,7 +370,11 @@ class Assignments(Base):
                     publish_datetime = datetime.datetime.now(),
                     expire_datetime = datetime.datetime.now() + \
                         datetime.timedelta(hours=life_time),
-                    geo_fence = geo_fence
+                    top_left_lat = geo_fence['top_left_lat'],
+                    top_left_lng = geo_fence['top_left_lng'],
+                    bottom_right_lat = geo_fence['bottom_right_lat'],
+                    bottom_right_lng = geo_fence['bottom_right_lng'],
+                    use_fence = use_fence,
                 )
                 session.add(assignment)
                 transaction.commit()
@@ -773,8 +794,11 @@ class EventLogs(Base):
     def log(cls, session, client_id, event_type, details):
         with transaction.manager:
             user,created = Users.get_from_client_id(session,client_id)
+            user_id = 0
+            if user != None:
+                user_id = user.user_id
             eventlog = EventLogs(
-                user_id = user.user_id,
+                user_id = user_id,
                 event_type = event_type,
                 event_datetime = datetime.datetime.now(),
                 details = details,

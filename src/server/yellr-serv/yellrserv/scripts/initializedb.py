@@ -183,7 +183,14 @@ choice options',
             publish_datetime = datetime.datetime.now(),
             expire_datetime = \
                 datetime.datetime.now() + datetime.timedelta(days=30),
-            geo_fence = json.dumps({}),
+
+            # approximately monroe county, ny
+            top_left_lat = 43.4,
+            top_left_lng = -77.9,
+            bottom_right_lat = 43,
+            bottom_right_lng = -77.3,
+
+            use_fence = True,
         )
         DBSession.add(assignment)
         

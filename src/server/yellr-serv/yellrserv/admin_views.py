@@ -244,30 +244,36 @@ def admin_publish_assignment(request):
             raise Exception('invalid token')
 
 
+        #if True:
         try:
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
             questions = json.loads(request.POST['questions'])
+            top_left_lat = float(request.POST['top_left_lat'])
+            top_left_lng = float(request.POST['top_left_lng'])
+            bottom_right_lat = float(request.POST['bottom_right_lat'])
+            bottom_right_lng = float(request.POST['bottom_right_lng'])
         except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: life_time,\
-questions (JSON list of question id's). \
+questions (JSON list of question id's), top_left_lat, top_left_lng, \
+bottom_right_lat, bottom_right_lng.
 """
             raise Exception('invalid/missing field')
 
-        geo_fence = ''
-        try:
-            geo_gence = json.dumps(json.loads(request.POST['geo_fence']))
-
-        except:
-            pass
+        geo_fence = {
+            'top_left_lat': top_left_lat,
+            'top_left_lng': top_left_lng,
+            'bottom_right_lat': bottom_right_lat,
+            'bottom_right_lng': bottom_right_lng,
+        }
 
         # create assignment
         assignment = Assignments.create_from_http(
-            DBSession,
-            token,
-            life_time,
-            geo_fence,
+            session = DBSession,
+            token = token,
+            life_time = life_time,
+            geo_fence = geo_fence,
         )
 
         # assign question to assignment

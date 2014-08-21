@@ -124,7 +124,6 @@ def get_users(request):
         result['success'] = True
 
     except:
-        result['error_text'] = "An internal error occured.  Please try again later."
         pass
 
     resp = json.dumps(result)
@@ -159,10 +158,8 @@ def get_posts(request):
             )
             user_id = user.user_id
         except:
-            client_id = None
-            result['error_text'] = "Invalid or missing 'client_id' field."
-            raise Exception('invalid or missing client_id')
-            pass
+            result['error_text'] = "Missing or invalidfield"
+            raise Exception('missing/invalid field')
 
         if user_id != None:
             posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
@@ -213,7 +210,8 @@ def get_posts(request):
         'post_count': len(ret_posts),
         'result': result,
     }
-    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details)) 
+    client_log = EventLogs.log(DBSession,client_id,event_type, \
+        json.dumps(event_details))
 
     resp = json.dumps(result)
     return Response(resp, content_type='application/json')
@@ -223,22 +221,30 @@ def get_assignments(request):
 
     result = {'success': False}
 
-    try:
-#    if True:
+    # defaults for client logs
+    client_id = None
+    ret_assignments = []
+
+    #try:
+    if True:
     
-        language_code = 'en'
+        #language_code = 'en'
+        #if True:
         try:
             client_id = request.GET['client_id']
-            langage_code = request.GET['language_code']
+            language_code = request.GET['language_code']
+            lat = float(request.GET['lat'])
+            lng = float(request.GET['lng'])
         except:
-            pass
+            result['error_text'] = "Missing or invalid field"
+            raise Exception('missing/invalid field')
 
-        #assignment = Assignments.get_with_question(DBSession,1,1)
-
-        assignments = Assignments.get_all_open_with_questions(DBSession,language_code)
+        assignments = Assignments.get_all_open_with_questions(DBSession, \
+            language_code, lat, lng)
 
         ret_assignments = []
-        for publish_datetime, expire_datetime, fence, organization, \
+        for publish_datetime, expire_datetime, top_left_lat, top_left_lng, \
+                bottom_right_lat, bottom_right_lng, use_fence, organization, \
                 question_text, question_type, answer0, answer1, answer2, \
                 answer3, answer4, answer5, answer6, answer7, answer8, \
                 answer9 in assignments:
@@ -246,7 +252,10 @@ def get_assignments(request):
                 'organization': organization,
                 'publish_datetime': str(publish_datetime),
                 'expire_datetime': str(expire_datetime),
-                'fence': fence,
+                'top_left_lat': top_left_lat,
+                'top_left_lng': top_left_lng,
+                'bottom_right_lat': bottom_right_lng,
+                'bottom_right_lng': bottom_right_lng,
                 'question_text': question_text,
                 'question_type': question_type,
                 'answer0': answer0,
@@ -264,9 +273,8 @@ def get_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
     
-    except:
-        result['error_text'] = "An internal error occured.  Please try again later."
-        pass
+    #except:
+    #    pass
 
     event_type = 'http_request'
     event_details = {
@@ -290,7 +298,8 @@ def get_notifications(request):
         try:
             client_id = request.GET['client_id']
         except:
-            raise Exception("Missing or invalid 'client_id' field.")
+            result['error_text'] = 'Missing or invalid field'
+            raise Exception("missing/invalid field")
 
         if client_id != None:
             notifications,created = Notifications.get_notifications_from_client_id(
@@ -311,8 +320,6 @@ def get_notifications(request):
             result['success'] = True
 
     except Exception, e:
-        #result['error_text'] = str(e)
-        #result['error_text'] = "An internal error occured.  Please try again later."
         pass
 
     event_type = 'http_request'
@@ -341,10 +348,11 @@ def create_response_message(request):
             subject = request.POST['subject']
             text = request.POST['text']
         except:
-            result['error_text'] = """\
-One or more of the following fields is missing or invalid: client_id, \
-parent_message_id, subject, text.\
-"""
+            result['error_text'] = 'Missing or invalid field'
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: client_id, \
+#parent_message_id, subject, text.\
+#"""
             raise Exception("missing/invalid field")
 
         message = Messages.create_response_message_from_http(
@@ -379,7 +387,7 @@ def get_messages(request):
         try:
             client_id = request.GET['client_id']
         except:
-            result['error_text'] = "Missing or invalid 'client_id' field."
+            result['error_text'] = "Missing or invalid field."
             raise Exception("missing/invalid field")
 
         messages = Messages.get_messages_from_client_id(DBSession, client_id)
@@ -447,12 +455,13 @@ def publish_post(request):
                 request.POST['media_objects']).decode('utf8')
             )
         except:
-            result['error_text'] = """\
-One or more of the following fields is missing or invalid: client_id, \
-assignment_id, title, language_code, location (json dict), media_objects \
-(json array).\
-"""
-            raise Exception('Missing field(s)')
+            result['error_text'] = 'Missing or invalid field'
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: client_id, \
+#assignment_id, title, language_code, location (json dict), media_objects \
+#(json array).\
+#"""
+            raise Exception('missing/invalid field')
 
         post,created = Posts.create_from_http(
             DBSession,
@@ -529,10 +538,11 @@ def upload_media(request):
             client_id = request.POST['client_id']
             media_type = request.POST['media_type']
         except:
-            result['error_text'] = """\
-One or more of the following fields is missing or invalid: client_id, \
-media_type. \
-"""
+            result['error_text'] = 'Missing or invalid field'
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: client_id, \
+#media_type. \
+#"""
             raise Exception('missing fields')
 
         file_name = ''
@@ -652,30 +662,4 @@ media_type. \
     #return Response(resp,content_type='application/json')
 
     return make_response(result)
-
-
-#@view_config(route_name='home', renderer='templates/mytemplate.pt')
-#def my_view(request):
-#    try:
-#        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
-#    except DBAPIError:
-#        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-#    return {'one': one, 'project': 'yellr-serv'}
-
-
-conn_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_yellr-serv_db" script
-    to initialize your database tables.  Check your virtual
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
 

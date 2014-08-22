@@ -3,40 +3,36 @@ var yellr = yellr || {};
 
 yellr.data = (function() {
 
-    var dev_urls = {
-      assignments: 'data/assignments.json',
-      notifications: 'data/notifications.json',
-      messages: 'data/messages.json',
-      news_feed: 'data/news-feed.json',
-      profile: 'data/profile.json'
-    };
-
-    var live_urls = {
-      assignments: 'http://yellrdev.wxxi.org/get_assignments.json',
-      notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id=',
-      messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id=',
-      news_feed: '',
-      profile: ''
-    }
-
-    var urls = {};
+    var urls = {},
+        dev_urls = {
+          assignments: 'data/assignments.json',
+          notifications: 'data/notifications.json',
+          messages: 'data/messages.json',
+          news_feed: 'data/news-feed.json',
+          profile: 'data/profile.json'
+        };
 
 
 
     var init = function() {
 
-      // grab the data already stored
-      // DATA = yellr.DATA;
+      var live_urls = {
+        assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+        notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+        messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+        news_feed: '',
+        profile: ''
+      }
 
-      urls = dev_urls;
-      // urls = live_urls;
+      // urls = dev_urls;
+      urls = live_urls;
 
       // load all of the things
       this.load_assignments();
-      this.load_messages();
-      this.load_news_feed();
-      this.load_notifications();
-      this.load_profile();
+      // this.load_messages();
+      // this.load_news_feed();
+      // this.load_notifications();
+      // this.load_profile();
 
     }
 
@@ -72,23 +68,25 @@ yellr.data = (function() {
       // load assignments
       $.getJSON(urls.assignments, function(data) {
 
-        // get assignments based on language
-        var current_language = yellr.SETTINGS.language.code || 'en';
-        var assignments = data.assignments.filter(function(val) {
-          if (val.language[current_language]) return true;
-        });
+        console.log(data);
 
-        // we need the data in a certain form so we can avoid
-        // adding lanuage data logic
-        for (var i = 0; i < assignments.length; i++) {
-          var text = assignments[i].language[current_language];
-          assignments[i].question_text = text.question_text;
-          assignments[i].description = text.description;
-          assignments[i].answers = text.answers;
-        };
+        // // get assignments based on language
+        // var current_language = yellr.SETTINGS.language.code || 'en';
+        // var assignments = data.assignments.filter(function(val) {
+        //   if (val.language[current_language]) return true;
+        // });
+
+        // // we need the data in a certain form so we can avoid
+        // // adding lanuage data logic
+        // for (var i = 0; i < assignments.length; i++) {
+        //   var text = assignments[i].language[current_language];
+        //   assignments[i].question_text = text.question_text;
+        //   assignments[i].description = text.description;
+        //   assignments[i].answers = text.answers;
+        // };
 
         // save assignments
-        yellr.DATA.assignments = assignments;
+        yellr.DATA.assignments = data.assignments;
         yellr.utils.save();
 
         if (callback) callback();

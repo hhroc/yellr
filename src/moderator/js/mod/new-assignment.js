@@ -206,7 +206,11 @@ mod.new_assignment = (function () {
       url: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
       data: {
         'life_time': total,
-        'questions': JSON.stringify(questions)
+        'questions': JSON.stringify(questions),
+        'top_left_lat': 43.4,
+        'top_left_lng': -77.9,
+        'bottom_right_lat': 43.0,
+        'bottom_right_lng': -77.3
       },
       dataType: 'json',
       success: function (data) {

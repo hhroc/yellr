@@ -93,7 +93,7 @@ class Users(Base):
     @classmethod
     def create_new_user(cls, session, user_type_id, client_id, user_name = '',
             verified=False, first_name='', last_name='', email='',
-            organization='', pass_salt=randint(10000,99999), 
+            organization='', pass_salt=str(uuid.uuid4()), 
             pass_hash=''):
         user = None
         with transaction.manager:
@@ -121,12 +121,13 @@ class Users(Base):
         return user
 
     @classmethod
-    def verify_user(cls, session, client_id, user_name, password, email = ''):
+    def verify_user(cls, session, client_id, user_name, password, 
+            first_name = '', last_name = '', email = ''):
         with transaction.manager:
             user,created = Users.get_from_client_id(session, client_id)
             # TODO: may wan tto check to see if we just created the user, because that
             #       should never happen ...
-            pass_hash = hashlib.md5('{0}{1}'.format(
+            pass_hash = hashlib.sha256('{0}{1}'.format(
                 password,
                 user.pass_salt
             )).hexdigest()
@@ -256,7 +257,7 @@ class Users(Base):
             ).first()
             token = None
             if user != None:
-                pass_hash = hashlib.md5('{0}{1}'.format(password, user.pass_salt)).hexdigest()
+                pass_hash = hashlib.sha256('{0}{1}'.format(password, user.pass_salt)).hexdigest()
                 if ( user.pass_hash == pass_hash ):
                     token = str(uuid.uuid4())
                     user.token = token
@@ -633,45 +634,51 @@ class Posts(Base):
                 posts = posts_query.slice(start, start+count)
         return posts, total_post_count
 
-#class PostViews(Base):
-#
-#    """
-#    This holds the event of a moderator or subscriber viewing a users post.  This
-#    is a nice way to give feedback to the user that someone is actually looking at
-#    their content.
-#    """
-#
-#    __tablename__ = 'postviews'
-#    post_view_id = Column(Integer, primary_key=True)
-#    viewing_user_id = Column(Integer, ForeignKey('users.user_id'))
-#    post_id = Column(Integer, ForeignKey('posts.post_id'))
-#    view_datetime = Column(DateTime)
-#    acknowledged = Column(Boolean)
-#
-#    @classmethod
-#    def create_new_postview(cls, session, viewing_user_id, post_id):
-#        with transaction.manager:
-#            postview = cls(
-#                viewing_user_id = viewing_user_id,
-#                post_id = post_id,
-#                view_datetime = datetime.datetime.now(),
-#                acknowledged = False,
-#            )
-#        return postview
-#
-#    @classmethod
-#    def get_unacknowledged_from_uniqueid(cls, session, client_id):
-#        with transaction.manager:
-#            user = Users.get_from_client_id(client_id)
-#            postviews = session.query(
-#                PostViews
-#            ).join(
-#                PostViews, Posts.post_id,
-#            ).filter(
-#                Posts.user_id == user.user_id,
-#                PostViews.acknowledged == False,
-#            )
-#        return postviews
+    @classmethod
+    def get_all_from_assignment_id(cls, session, assignment_id, start=0,
+            count=0):
+        with transaction.manager:
+            posts_query = session.query(
+                Posts.post_id,
+                Posts.assignment_id,
+                Posts.user_id,
+                Posts.title,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                MediaObjects.media_object_id,
+                MediaObjects.unique_id,
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
+                Users.verified,
+                Users.client_id,
+                Languages.language_code,
+                Languages.name,
+            ).join(
+                PostMediaObjects,
+            ).join(
+                MediaObjects,
+            ).join(
+                MediaTypes,
+            ).join(
+                Users,Users.user_id == Posts.post_id,
+            ).join(
+                Languages,
+            ).filter(
+                Posts.assignment_id == assignment_id,
+            ).order_by(
+                 desc(Posts.post_datetime),
+            )
+            total_post_count = posts_query.count()
+            if start == 0 and count == 0:
+                posts = posts_query.all()
+            else:
+                posts = posts_query.slice(start, start+count)
+        return posts, total_post_count
 
 class MediaTypes(Base):
 
@@ -775,6 +782,16 @@ class PostMediaObjects(Base):
                 post_id = post_id,
                 media_object_id = media_objectid,
             )
+
+#class Stories(Base):
+#
+#    """
+#    This is used to hold the 'store front' stories for the site.  These
+#    stories are writen in markdown and html, and reference media objects.
+#    """
+#
+#    __tablename__ = 'stories'
+
 
 class EventLogs(Base):
 

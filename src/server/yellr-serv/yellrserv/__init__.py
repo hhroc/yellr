@@ -48,6 +48,9 @@ def main(global_config, **settings):
     config.add_route('admin/publish_assignment.json', 'admin/publish_assignment.json')
     config.add_route('admin/create_message.json', 'admin/create_message.json')
     config.add_route('admin/get_languages.json', 'admin/get_languages.json')
+    config.add_route('admin/create_user.json', 'admin/create_user.json')
+    config.add_route('admin/get_assignment_responses.json', \
+        'admin/get_assignment_responses.json')
 
     # client views
     config.add_route('create_response_message.json', \

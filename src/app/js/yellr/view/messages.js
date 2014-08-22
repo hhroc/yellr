@@ -36,6 +36,16 @@ yellr.view.messages = (function() {
       else this.inbox();
 
 
+      // check for mail
+      // alert('CHECKING FOR MAIL');
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+      //   type: 'json',
+      //   success: function (data) {
+      //     console.log(data);
+      //   }
+      // });
 
 
       // leave these here..

@@ -1,6 +1,7 @@
 'use strict';
+var mod = mod || {};
 
-var inbox = (function () {
+mod.messages = (function () {
 
     // raw_data, read, and unread as JSON objects
     var template,
@@ -63,10 +64,16 @@ var inbox = (function () {
 
 
 
+    var create_message = function () {
+      console.log('create message');
+    }
+
+
 
     return {
       init: init,
       render: render,
-      view_message: view_message
+      view_message: view_message,
+      create_message: create_message
     }
 })();

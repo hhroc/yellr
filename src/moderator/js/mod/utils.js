@@ -12,22 +12,39 @@ mod.utils = {
       // if on messages, render inbox
       if (document.querySelector('#inbox')) {
 
-        // hook up the button
-        document.querySelector('#new-message-btn').onclick = function() {
-          mod.utils.show_overlay({
-            template: '#send-message-template'
-          });
-        }
-
-
         // setup inbox
-        inbox.init({
+        mod.messages.init({
           data_url: 'data/messages.json',
           template: '#inbox-li',
           container: '#inbox',
           read_target: '#read-mail-list',
           unread_target: '#unread-mail-list'
         });
+
+        // hook up the button
+        document.querySelector('#new-message-btn').onclick = function() {
+          mod.utils.show_overlay({
+            template: '#send-message-template'
+          });
+
+          mod.messages.create_message();
+
+          $('#send-message-form .submit-btn').on('click', function (e) {
+            e.preventDefault();
+
+            console.log('send message..');
+            console.log($('#send-message-form').serialize());
+            $.ajax({
+              type: 'POST',
+              url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+              dataType: 'json',
+              data: $('#send-message-form').serialize(),
+              success: function (data) {
+                console.log(data);
+              }
+            })
+          })
+        }
 
       }
 

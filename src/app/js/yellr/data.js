@@ -48,6 +48,27 @@ yellr.data = (function() {
 
       console.log('... loading assignments');
 
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'http://yellrdev.wxxi.org/admin/get_posts.json',
+      //   dataType: 'json',
+      //   success: function (data) {
+      //     console.log(data);
+      //   }
+      // });
+
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'http://yellrdev.wxxi.org/get_assignments.json?client_id=00A0710F-03BC-4867-9B1F-D5EFEFD86E55&language_code=en&lat=44.1&lng=77.6',
+      //   dataType: 'json',
+      //   success: function (data) {
+      //     console.log(data);
+      //   }
+      // });
+
+
+
+
       // load assignments
       $.getJSON(urls.assignments, function(data) {
 

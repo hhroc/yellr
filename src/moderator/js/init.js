@@ -49,4 +49,7 @@ window.onload = function () {
     if (page === 'login') mod.login.init();
     else mod.utils.main_setup();
 
+
+    // $.ajax({type: 'POST', url: 'http://yellrdev.wxxi.org/admin/get_posts.json?token=26426e96-1fa0-4d25-ba66-7258fd77996e', dataType: 'json', success: function (data) {console.log(data); } });
+
 }

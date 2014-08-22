@@ -122,9 +122,9 @@ yellr.utils = {
 
   setup_report_bar: function() {
     // Media capture (audio, video, photo, text)
-    alert('this fires once?');
+    // alert('this fires once?');
 
-    var test = navigator.notification.prompt;
+    // var test = navigator.notification.prompt;
 
     $('#capture-image').on('tap', function(e) {
       // e.preventDefault();

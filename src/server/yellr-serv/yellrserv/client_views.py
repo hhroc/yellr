@@ -27,6 +27,7 @@ from .models import (
     MediaTypes,
     MediaObjects,
     PostMediaObjects,
+    Stories,
     EventLogs,
     Collections,
     CollectionPosts,
@@ -424,6 +425,90 @@ def get_messages(request):
 
     return make_response(result)
 
+@view_config(route_name='get_stories.json')
+def get_stories(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        client_id = None
+        if True:
+        #try:
+            client_id = request.GET['client_id']
+            lat = float(request.GET['lat'])
+            lng = float(request.GET['lng'])
+            language_code = request.GET['language_code']
+        #except:
+        #    result['error_text'] = "Missing or invalid field."
+        #    raise Exception("missing/invalid field")
+
+        start = 0
+        try:
+            start = request.GET['start']
+        except:
+            pass
+
+        count = 0
+        try:
+            count = request.GET['start']
+        except:
+            pass
+
+        stories, total_story_count = Stories.get_stories(
+            session = DBSession,
+            lat = lat,
+            lng = lng,
+            language_code = language_code,
+            start = start,
+            count = count,
+        )
+
+        ret_stories = []
+        for story_unique_id, publish_datetime, edited_datetime, title, tags, \
+                top_text, contents, top_left_lat, top_left_lng, \
+                bottom_right_lat, bottom_right_lng, first_name, last_name, \
+                organization, email, media_file_name, media_id in stories:
+            ret_stories.append({
+                'story_unique_id': story_unique_id,
+                'publish_datetime': str(publish_datetime),
+                'edited_datetime': str(edited_datetime),
+                'title': title,
+                'tags': tags,
+                'top_text': top_text,
+                'contents': contents,
+                'top_left_lat': top_left_lat,
+                'top_left_lng': top_left_lng,
+                'bottom_right_lat': bottom_right_lat,
+                'bottom_right_lng': bottom_right_lng,
+                'author_first_name': first_name,
+                'author_last_name': last_name,
+                'author_organization': organization,
+                'author_email': email,
+                'banner_media_file_name': media_file_name,
+                'banner_media_id': media_id,
+            })
+
+        result['total_story_count'] = total_story_count
+        result['stories'] = ret_stories
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_stories.json',
+        'message_count': len(ret_stories),
+        'result': result,
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+
+    return make_response(result)
+
+
 @view_config(route_name='publish_post.json')
 def publish_post(request):
 
@@ -530,7 +615,7 @@ def upload_media(request):
 
     result = {'success': False}
 
-    error_text = ''
+    #error_text = ''
     try:
     #if True:
 
@@ -594,10 +679,10 @@ def upload_media(request):
 
             result['file_name'] = file_name
 
-        except Exception, e:
-            file_name = ''
-            error_text = str(e) 
-            pass
+        except:
+            result['file_name'] = ''
+            result['error_text'] = 'Missing or invalid media_file contents.'
+            raise Exception('missing/invalid media_file contents')
 
         media_caption = ''
         try:
@@ -621,12 +706,12 @@ def upload_media(request):
             media_text,
         )
 
-        result['media_id'] = media_object.unique_id
+        result['media_id'] = media_object.media_id
         result['success'] = True
         result['new_user'] = created
-        result['error_text'] = error_text
         result['media_text'] = media_text
-        
+        result['error_text'] = '' 
+
         # Debug/Logging
         #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
         event_type = 'http_request'
@@ -641,7 +726,7 @@ def upload_media(request):
             'success': result['success'],
             'media_id': result['media_id'],
             'new_user': result['new_user'],
-            'error_text': error_text,
+            'error_text': result['error_text'],
         }
         client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 

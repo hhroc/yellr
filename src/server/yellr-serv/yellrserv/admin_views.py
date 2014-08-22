@@ -27,6 +27,7 @@ from .models import (
     MediaTypes,
     MediaObjects,
     PostMediaObjects,
+    Stories,
     EventLogs,
     Collections,
     CollectionPosts,
@@ -294,6 +295,65 @@ bottom_right_lat, bottom_right_lng.
 
     return make_response(result)
 
+@view_config(route_name='admin/update_assignment.json')
+def admin_update_assignment(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+
+        if True:
+        #try:
+            assignment_id = request.POST['assignment_id']
+            #client_id = request.POST['client_id']
+            life_time = int(request.POST['life_time'])
+            #questions = json.loads(request.POST['questions'])
+            top_left_lat = float(request.POST['top_left_lat'])
+            top_left_lng = float(request.POST['top_left_lng'])
+            bottom_right_lat = float(request.POST['bottom_right_lat'])
+            bottom_right_lng = float(request.POST['bottom_right_lng'])
+            #use_fence = boolean(request.POST['use_fence'])
+#        except:
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: life_time, \
+#top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
+#"""
+#            raise Exception('invalid/missing field')
+
+        # create assignment
+        assignment = Assignments.update_assignment(
+            session = DBSession,
+            assignment_id = assignment_id,
+            life_time = life_time,
+            top_left_lat = top_left_lat,
+            top_left_lng = top_left_lng,
+            bottom_right_lat = bottom_right_lat,
+            bottom_right_lng = bottom_right_lng,
+            #use_fence = use_fence,
+        )
+
+        result['assignment_id'] = assignment.assignment_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
 @view_config(route_name='admin/create_message.json')
 def admin_create_message(request):
 
@@ -476,13 +536,13 @@ One or more of the following fields is missing or invalid: assignment_id. \
  
         start=0
         try:
-            start = request.GET['start']
+            start = int(request.GET['start'])
         except:
             pass
 
         count=0
         try:
-            count = request.GET['count']
+            count = int(request.GET['count'])
         except:
             pass
 
@@ -498,35 +558,108 @@ One or more of the following fields is missing or invalid: assignment_id. \
         print "\n"
 
         index = 0
-        ret_posts = []
+        ret_posts = {}
         for post_id, assignment_id, user_id, title, post_datetime, reported, \
                 lat, lng, media_object_id, media_id, file_name, caption, \
                 media_text, media_type_name, media_type_description, \
                 verified, client_id, language_code, language_name in posts:
-            ret_posts.append({
-                'post_id': post_id,
-                'assignment_id': assignment_id,
-                'user_id': user_id,
-                'title': title,
-                'post_datetime': str(post_datetime),
-                'reported': reported,
-                'lat': lat,
-                'lng': lng,
-                'media_id': media_id,
-                'file_name': file_name,
-                'caption': caption,
-                'media_text': media_text,
-                'media_type_name': media_type_name,
-                'media_type_description': media_type_description,
-                'verified': verified,
-                'client_id': client_id,
-                'language_code': language_code,
-                'language_name': language_name, 
-            })
-                
+            if post_id in ret_posts:
+                ret_posts[post_id]['media_objects'].append({
+                    'media_id': media_id,
+                    'file_name': file_name,
+                    'caption': caption,
+                    'media_text': media_text,
+                    'media_type_name': media_type_name,
+                    'media_type_description': media_type_description,
+                })
+            else:
+                ret_posts[post_id] = {
+                    'post_id': post_id,
+                    'assignment_id': assignment_id,
+                    'user_id': user_id,
+                    'title': title,
+                    'post_datetime': str(post_datetime),
+                    'reported': reported,
+                    'lat': lat,
+                    'lng': lng,
+                    'verified_user': bool(verified),
+                    'client_id': client_id,
+                    'language_code': language_code,
+                    'language_name': language_name,
+                    'media_objects': [{
+                        'media_id': media_id,
+                        'file_name': file_name,
+                        'caption': caption,
+                        'media_text': media_text,
+                        'media_type_name': media_type_name,
+                        'media_type_description': media_type_description,
+                    }],
+                } 
 
         result['post_count'] = post_count
         result['posts'] = ret_posts
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/publish_story.json')
+def admin_publish_story(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+            title = request.POST['title']
+            tags = request.POST['tags']
+            top_text = request.POST['top_text']
+            banner_media_id = request.POST['banner_media_id']
+            contents = request.POST['contents']
+            top_left_lat = float(request.POST['top_left_lat'])
+            top_left_lng = float(request.POST['top_left_lng'])
+            bottom_right_lat = float(request.POST['bottom_right_lat'])
+            bottom_right_lng = float(request.POST['bottom_right_lng'])
+            language_code = request.POST['language_code']
+            #use_fense = request.POST['use_fense']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid:  \
+"""
+            raise Exception('invalid/missing field')
+
+        story = Stories.create_from_http(
+            session = DBSession,
+            token = token,
+            title = title,
+            tags = tags,
+            top_text = top_text,
+            media_id = banner_media_id,
+            contents = contents,
+            top_left_lat = top_left_lat,
+            top_left_lng = top_left_lng,
+            bottom_right_lat = bottom_right_lat,
+            bottom_right_lng = bottom_right_lng,
+            #use_fence = use_fense,
+            language_code = language_code,
+        ) 
+
+        result['story_unique_id'] = story.story_unique_id
         result['success'] = True
 
     #except:

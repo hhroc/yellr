@@ -12,10 +12,12 @@ window.onload = function () {
     // ----------------------------
 
     // check for pre-existing data, if none, create it
-    if (localStorage.getItem('yellr-mod') === null) localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: undefined }));
+    if (localStorage.getItem('yellr-mod') === null) localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: undefined, LANGUAGES: undefined }));
 
     // get auth token
-    mod.TOKEN = JSON.parse(localStorage.getItem('yellr-mod')).TOKEN;
+    var local = JSON.parse(localStorage.getItem('yellr-mod'));
+    mod.TOKEN = local.TOKEN;
+    mod.LANGUAGES = local.LANGUAGES;
 
     // check that we have a valid token, that hasn't expired
     // TODO: check if the token has expire
@@ -25,8 +27,19 @@ window.onload = function () {
         /* TODO: use a real url */
         alert('Must login. Missing authentication token.');
         window.location.replace('http://127.0.0.1:8000/moderator/login.html');
-
       }
+    }
+
+    if (mod.LANGUAGES === undefined) {
+      // make call to get_languages API
+      $.ajax({
+        type: 'POST',
+        url: 'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
+        dataType: 'json',
+        success: function (data) {
+          mod.LANGUAGES = data.languages;
+        }
+      });
     }
 
     // ----------------------------

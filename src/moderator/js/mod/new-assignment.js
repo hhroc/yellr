@@ -24,7 +24,7 @@ mod.new_assignment = (function () {
 
 
     // get DOM refs
-    $form         = $('#assignment-form'),
+    $form         = $('#assignment-form-wrapper'),
     $questions_container = $form.find('#questions-container'),
     $extra_fields = $form.find('#extra-assignment-fields'),
     $cancel_btn   = $form.find('#cancel-assignment-btn'),
@@ -109,6 +109,8 @@ mod.new_assignment = (function () {
         success: function (data) {
           if (data.success) {
             console.log('SUCCESS');
+            // add the language code to the data object for our convenience
+            data.language_code = language_code;
             mod.new_assignment.successful_question_post(data);
           } else {
             console.log('FAIL');
@@ -145,7 +147,39 @@ mod.new_assignment = (function () {
     });
 
     $extra_fields.show();
-    console.log(questions);
+
+    // // get the language text for each code
+    // var language = '';
+    // for (var i = 0; i < mod.LANGUAGES.length; i++) {
+    //   if (mod.LANGUAGES[i].code === data.language_code) {
+    //     language = mod.LANGUAGES[i].name;
+    //     break;
+    //   }
+    // };
+
+
+    // // the lanuage overview bullshit
+    // var $languages_list = $extra_fields.find('#supported-languages');
+    // var langs = $languages_list.find('li');
+
+    // if (langs.length === 1) {
+
+    //   // first run
+    //   // prepend the thing
+    //   $languages_list.prepend('<li class="default">'+language+'</li>');
+    // } else {
+    //   $languages_list.find('#add-language-btn').before('<li>'+language+'</li>');
+    // }
+
+
+    // // add a default language
+    // // prepend
+
+    // $languages_list.find('#add-language-btn').on('click', function (e) {
+    //   console.log('hello from: ');
+    //   $form.find('.language-select-wrapper').show();
+    // })
+
 
   }
 
@@ -156,18 +190,29 @@ mod.new_assignment = (function () {
 
 
   var post = function () {
-    console.log('post the form');
-    // we need the array and a length of time
+
+    // calculate the amount of time in hours
+    var amt = $form.find('#lifetime').val(),
+        unit_type = $form.find('#unit-of-time-list input:checked').val();
+
+    // we have to pass in hours
+    // if days: X * 24
+    // if months: x * 720 (24*30)
+    var unit = (unit_type === 'days') ? 24 : 720;
+    var total = amt * unit;
+
     $.ajax({
       type: 'POST',
       url: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
       data: {
-        'life_time': 24,
-        'questions': questions
+        'life_time': total,
+        'questions': JSON.stringify(questions)
       },
       dataType: 'json',
       success: function (data) {
         console.log(data);
+        mod.utils.clear_overlay();
+        alert('should redirect to the assignment');
       }
     });
 

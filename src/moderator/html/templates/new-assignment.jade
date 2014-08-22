@@ -4,9 +4,7 @@ script#new-assignment-template(type="text/x-handlebars-template").
     <h3 class="t2">New Assignment</h3>
     <p id="question-text-preview">Please select a language...</p>
 
-    <div id="assignment-form" class="form">
-
-      <input type="hidden" id="question-IDs" name="questions" value="">
+    <div id="assignment-form-wrapper" class="form">
 
       <div class="language-select-wrapper">
         <label>
@@ -25,7 +23,7 @@ script#new-assignment-template(type="text/x-handlebars-template").
         <div class="languages-wrapper flex-3">
           <p><small>Supported Languages</small></p>
           <ul id="supported-languages" class="inline">
-            <li class="default">English</li>
+            <!--<li class="default">English</li>-->
             <li id="add-language-btn">+ Add Language</li>
           </ul>
         </div>

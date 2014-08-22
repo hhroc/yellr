@@ -94,13 +94,15 @@
 
   li {
     margin-bottom: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    &:hover {
+      cursor: pointer;
+    }
     &.default {
       border: 1px solid $green;
       background: rgba($green, 0.2);
-      // color: $green;
     }
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
   }
 }
 

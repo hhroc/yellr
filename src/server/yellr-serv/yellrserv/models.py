@@ -381,6 +381,28 @@ class Assignments(Base):
                 transaction.commit()
         return assignment
 
+    @classmethod
+    def update_assignment(cls, session, assignment_id, life_time, \
+            top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng, \
+            use_fence=True):
+        with transaction.manager:
+            assignment = session.query(
+                Assignments,
+            ).filter(
+                Assignments.assignment_id == assignment_id,
+            ).first()
+            expire_datetime = assignment.publish_datetime + \
+                datetime.timedelta(hours=life_time) 
+            assignment.expire_datetime = expire_datetime
+            assignment.top_left_lat = top_left_lat
+            assignment.top_left_lng = top_left_lng
+            assignment.bottom_right_lat = bottom_right_lat
+            assignment.bottom_right_lng = bottom_right_lng
+            assignment.use_fence = use_fence
+            session.add(assignment)
+            transaction.commit()
+        return assignment
+        
 class QuestionTypes(Base):
 
     """
@@ -558,9 +580,10 @@ class Posts(Base):
             transaction.commit()
         # assign media objects to the post
         with transaction.manager:
-            for media_object_client_id in media_objects:
-                media_object = MediaObjects.get_from_unique_id(
-                    session,media_object_client_id
+            for media_id in media_objects:
+                media_object = MediaObjects.get_from_media_id(
+                    session,
+                    media_id,
                 )
                 post_media_object = PostMediaObjects(
                     post_id = post.post_id,
@@ -648,7 +671,7 @@ class Posts(Base):
                 Posts.lat,
                 Posts.lng,
                 MediaObjects.media_object_id,
-                MediaObjects.unique_id,
+                MediaObjects.media_id,
                 MediaObjects.file_name,
                 MediaObjects.caption,
                 MediaObjects.media_text,
@@ -711,18 +734,18 @@ class MediaObjects(Base):
     media_object_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))
     media_type_id = Column(Integer, ForeignKey('mediatypes.media_type_id'))
-    unique_id = Column(Text)
+    media_id = Column(Text)
     file_name = Column(Text)
     caption = Column(Text)
     media_text = Column(Text)
 
     @classmethod
-    def get_from_unique_id(cls, session, unique_id):
+    def get_from_media_id(cls, session, media_id):
         with transaction.manager:
             media_object = session.query(
                 MediaObjects,
             ).filter(
-                MediaObjects.unique_id == unique_id,
+                MediaObjects.media_id == media_id,
             ).first()
         return media_object
 
@@ -754,7 +777,7 @@ class MediaObjects(Base):
             mediaobject = cls(
                 user_id = user.user_id,
                 media_type_id = mediatype.media_type_id,
-                unique_id = str(uuid.uuid4()),
+                media_id = str(uuid.uuid4()),
                 file_name = file_name,
                 caption = caption,
                 media_text = text,
@@ -783,14 +806,113 @@ class PostMediaObjects(Base):
                 media_object_id = media_objectid,
             )
 
-#class Stories(Base):
-#
-#    """
-#    This is used to hold the 'store front' stories for the site.  These
-#    stories are writen in markdown and html, and reference media objects.
-#    """
-#
-#    __tablename__ = 'stories'
+class Stories(Base):
+
+    """
+    This is used to hold the 'store front' stories for the site.  These
+    stories are writen in markdown and html, and reference media objects.
+    """
+
+    __tablename__ = 'stories'
+    story_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id')) 
+    story_unique_id = Column(Text)
+    publish_datetime = Column(DateTime)
+    edited_datetime = Column(DateTime, nullable=True)
+    title = Column(Text)
+    tags = Column(Text)
+    top_text = Column(Text)
+    media_object_id = Column(Integer, \
+        ForeignKey('mediaobjects.media_object_id'))
+    contents = Column(Text)
+    top_left_lat = Column(Float)
+    top_left_lng = Column(Float)
+    bottom_right_lat = Column(Float)
+    bottom_right_lng = Column(Float)
+    #use_fense = Column(Boolean)
+    language_id = Column(Integer, ForeignKey('languages.language_id')) 
+ 
+    @classmethod
+    def create_from_http(cls, session, token, title, tags, top_text, \
+            media_id, contents, top_left_lat, top_left_lng, \
+            bottom_right_lat, bottom_right_lng, use_fence=True, \
+            language_code=''):
+        with transaction.manager:
+            user = Users.get_from_token(session, token)
+            media_object = MediaObjects.get_from_media_id(
+                session,
+                media_id,
+            )
+            language = Languages.get_from_code(session, language_code)
+            story = cls(
+                user_id = user.user_id,
+                story_unique_id = str(uuid.uuid4()),
+                publish_datetime = datetime.datetime.now(),
+                edited_datetime = None,
+                title = title,
+                tags = tags,
+                top_text = top_text,
+                media_object_id = media_object.media_object_id,
+                contents = contents,
+                top_left_lat = top_left_lat,
+                top_left_lng = top_left_lng,
+                bottom_right_lat = bottom_right_lat,
+                bottom_right_lng = bottom_right_lng,
+                #use_fence = use_fence,
+                language_id = language.language_id,
+            )
+            session.add(story)
+            transaction.commit()
+        return story
+   
+    @classmethod
+    def get_stories(cls, session, lat, lng, language_code, start=0, count=0):
+        with transaction.manager:
+            stories_query = session.query(
+                Stories.story_unique_id,
+                Stories.publish_datetime,
+                Stories.edited_datetime,
+                Stories.title,
+                Stories.tags,
+                Stories.top_text,
+                Stories.contents,
+                Stories.top_left_lat,
+                Stories.top_left_lng,
+                Stories.bottom_right_lat,
+                Stories.bottom_right_lng,
+                Users.first_name,
+                Users.last_name,
+                Users.organization,
+                Users.email,
+                MediaObjects.file_name,
+                MediaObjects.media_id,
+            ).join(
+                Users,Stories.user_id == Users.user_id,
+            ).join(
+                MediaObjects,Stories.media_object_id == \
+                    MediaObjects.media_object_id,
+            )
+            stories_filter_query = stories_query
+            if language_code != '':
+                language = Languages.get_from_code(session, language_code)
+                stories_filter_query = stories_filter_query.filter(
+                    Stories.language_id == language.language_id,
+                )
+            stories_filter_query = stories_filter_query.filter(
+                Stories.top_left_lat + 90 > lat + 90,
+                Stories.top_left_lng + 180 < lng + 180,
+                Stories.bottom_right_lat + 90 < lat + 90,
+                Stories.bottom_right_lng + 180 > lng + 180,
+                # Stories.user_fense == True,
+            ).order_by(
+                 desc(Stories.publish_datetime),
+            )
+            total_story_count = stories_filter_query.count()
+            if start == 0 and count == 0:
+                stories = stories_filter_query.all()
+            else:
+                stories = posts_query.slice(start, start+count)  
+        return stories, total_story_count
 
 
 class EventLogs(Base):

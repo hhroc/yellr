@@ -385,3 +385,152 @@ def admin_get_languages(request):
     #    pass
 
     return make_response(result)
+
+@view_config(route_name='admin/create_user.json')
+def admin_create_user(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+            user_type_text = request.POST['user_type']
+            user_name = request.POST['user_name']
+            password = request.POST['password']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
+            organization = request.POST['organization']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: user_type, \
+user_name, password, first_name, last_name, email, organization. \
+"""
+            raise Exception('invalid/missing field')
+
+        user_type = UserTypes.get_from_name(DBSession, user_type_text)
+        user = Users.create_new_user(
+            session = DBSession,
+            user_type_id = user_type.user_type_id,
+            client_id = str(uuid.uuid4()),
+        )
+
+        user = Users.verify_user(
+            session = DBSession,
+            client_id = user.client_id,
+            user_name = user_name,
+            password = password,
+            first_name = first_name,
+            last_name = last_name,
+            email = email, 
+        )
+
+        result['user_id'] = user.user_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/get_assignment_responses.json')
+def admin_get_assignment_responses(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+            assignment_id = int(request.GET['assignment_id'])
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: assignment_id. \
+"""
+            raise Exception('invalid/missing field')
+ 
+        start=0
+        try:
+            start = request.GET['start']
+        except:
+            pass
+
+        count=0
+        try:
+            count = request.GET['count']
+        except:
+            pass
+
+        posts,post_count = Posts.get_all_from_assignment_id(
+            session = DBSession,
+            assignment_id = assignment_id,
+            start = start,
+            count = count,
+        )
+
+        print "\n"
+        print posts
+        print "\n"
+
+        index = 0
+        ret_posts = []
+        for post_id, assignment_id, user_id, title, post_datetime, reported, \
+                lat, lng, media_object_id, media_id, file_name, caption, \
+                media_text, media_type_name, media_type_description, \
+                verified, client_id, language_code, language_name in posts:
+            ret_posts.append({
+                'post_id': post_id,
+                'assignment_id': assignment_id,
+                'user_id': user_id,
+                'title': title,
+                'post_datetime': str(post_datetime),
+                'reported': reported,
+                'lat': lat,
+                'lng': lng,
+                'media_id': media_id,
+                'file_name': file_name,
+                'caption': caption,
+                'media_text': media_text,
+                'media_type_name': media_type_name,
+                'media_type_description': media_type_description,
+                'verified': verified,
+                'client_id': client_id,
+                'language_code': language_code,
+                'language_name': language_name, 
+            })
+                
+
+        result['post_count'] = post_count
+        result['posts'] = ret_posts
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+

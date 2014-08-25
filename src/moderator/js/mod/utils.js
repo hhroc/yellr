@@ -52,7 +52,11 @@ mod.utils = {
 
 
     save: function() {
-      localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: mod.TOKEN }));
+      localStorage.setItem('yellr-mod', JSON.stringify({
+        TOKEN: mod.TOKEN,
+        LANGUAGES: mod.LANGUAGES,
+        DATA: mod.DATA
+      }));
     },
 
 
@@ -115,6 +119,7 @@ mod.utils = {
       // replace html, or return HTML frag
       if (settings.target) {
         // if (settings.append) $(settings.target).append(html);
+        // else $(settings.target).html(html);
         $(settings.target).html(html);
       }
       else return html;

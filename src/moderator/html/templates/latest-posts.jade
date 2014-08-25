@@ -1,0 +1,20 @@
+script#latest-posts-template(type="text/x-handlebars-template").
+  {{#each posts}}
+  <div class="gi">
+    <div class="story-item">
+      <div class="media-preview">
+        <img src="http://lorempixel.com/400/200">
+      </div>
+      <p class="description">{{ title }}</p>
+      <p class="source"><a href="#">{{ client_id }}</a></p>
+      <div data-source="anonymous" data-type="photo" data-uid="{{ client_id }}" class="meta-div"></div>
+    </div>
+    <div class="options-wrapper">
+      <ul class="options-list">
+        <li><i title="Add to collection" class="fa fa-folder"></i></li>
+        <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+        <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+      </ul>
+    </div>
+  </div>
+  {{/each}}

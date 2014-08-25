@@ -258,7 +258,7 @@ def get_assignments(request):
                 'top_left_lng': top_left_lng,
                 'bottom_right_lat': bottom_right_lng,
                 'bottom_right_lng': bottom_right_lng,
-                #'question_text': question_text,
+                'question_text': question_text,
                 'question_type_id': question_type_id,
                 'answer0': answer0,
                 'answer1': answer1,

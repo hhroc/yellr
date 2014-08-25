@@ -289,6 +289,7 @@ class Assignments(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'))
     publish_datetime = Column(DateTime)
     expire_datetime = Column(DateTime)
+    #assignment_unique_id = Column(Text)
     top_left_lat = Column(Float)
     top_left_lng = Column(Float)
     bottom_right_lat = Column(Float)
@@ -322,8 +323,10 @@ class Assignments(Base):
         with transaction.manager:
             language = Languages.get_from_code(session,language_code)
             assignments = session.query(
+                Assignments.assignment_id,
                 Assignments.publish_datetime,
                 Assignments.expire_datetime,
+                #Assignments.assignment_unique_id,
                 Assignments.top_left_lat,
                 Assignments.top_left_lng,
                 Assignments.bottom_right_lat,
@@ -371,6 +374,7 @@ class Assignments(Base):
                     publish_datetime = datetime.datetime.now(),
                     expire_datetime = datetime.datetime.now() + \
                         datetime.timedelta(hours=life_time),
+                    #assignment_unique_id = str(uuid.uuid4()),
                     top_left_lat = geo_fence['top_left_lat'],
                     top_left_lng = geo_fence['top_left_lng'],
                     bottom_right_lat = geo_fence['bottom_right_lat'],

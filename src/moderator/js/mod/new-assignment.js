@@ -216,6 +216,9 @@ mod.new_assignment = (function () {
       success: function (data) {
         console.log(data);
         mod.utils.clear_overlay();
+
+        // clear array
+        questions = [];
         alert('should redirect to the assignment');
       }
     });

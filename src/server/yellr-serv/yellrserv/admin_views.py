@@ -21,6 +21,7 @@ from .models import (
     Users,
     Assignments,
     Questions,
+    QuestionTypes,
     QuestionAssignments,
     Languages,
     Posts,
@@ -445,6 +446,46 @@ def admin_get_languages(request):
     #    pass
 
     return make_response(result)
+
+@view_config(route_name='admin/get_question_types.json')
+def admin_get_question_types(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        question_types = QuestionTypes.get_all(DBSession)
+
+        ret_question_types = []
+        for question_type_id, question_type_text, question_type_description \
+                in question_types:
+            ret_question_types.append({
+                'question_type_id': question_type_id,
+                'question_type_text': question_type_text,
+                'question_type_description': question_type_description,
+            })
+
+        result['question_types'] = ret_question_types
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
 
 @view_config(route_name='admin/create_user.json')
 def admin_create_user(request):

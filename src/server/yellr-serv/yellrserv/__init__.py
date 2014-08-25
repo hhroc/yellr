@@ -49,6 +49,7 @@ def main(global_config, **settings):
     config.add_route('admin/update_assignment.json', 'admin/update_assignment.json')
     config.add_route('admin/create_message.json', 'admin/create_message.json')
     config.add_route('admin/get_languages.json', 'admin/get_languages.json')
+    config.add_route('admin/get_question_types.json', 'admin/get_question_types.json')
     config.add_route('admin/create_user.json', 'admin/create_user.json')
     config.add_route('admin/get_assignment_responses.json', \
         'admin/get_assignment_responses.json')

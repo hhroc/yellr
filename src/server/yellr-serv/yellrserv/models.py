@@ -429,6 +429,16 @@ class QuestionTypes(Base):
             ).first()
         return question_type
 
+    @classmethod
+    def get_all(cls, session):
+        with transaction.manager:
+            question_types = session.query(
+                QuestionTypes.question_type_id,
+                QuestionTypes.question_type,
+                QuestionTypes.question_type_description,
+            ).all()
+        return question_types
+
 class Questions(Base):
 
     """

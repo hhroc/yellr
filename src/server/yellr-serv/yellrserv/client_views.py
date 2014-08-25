@@ -246,7 +246,7 @@ def get_assignments(request):
         ret_assignments = []
         for assignment_id, publish_datetime, expire_datetime, top_left_lat, \
                 top_left_lng, bottom_right_lat, bottom_right_lng, use_fence, \
-                organization, question_text, question_type, answer0, answer1, \
+                organization, question_text, question_typei_id, answer0, answer1, \
                 answer2, answer3, answer4, answer5, answer6, answer7, \
                 answer8, answer9 in assignments:
             ret_assignments.append({
@@ -258,8 +258,8 @@ def get_assignments(request):
                 'top_left_lng': top_left_lng,
                 'bottom_right_lat': bottom_right_lng,
                 'bottom_right_lng': bottom_right_lng,
-                'question_text': question_text,
-                'question_type': question_type,
+                #'question_text': question_text,
+                'question_typei_id': question_type_id,
                 'answer0': answer0,
                 'answer1': answer1,
                 'answer2': answer2,

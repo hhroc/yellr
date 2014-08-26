@@ -74,7 +74,7 @@ class Users(Base):
     idenfity them.  if the user wants to be verified then, then the rest of the
     information is used.  All fields are used for admins, mods, and subs.
     """
-    
+
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
     user_type_id = Column(Integer, ForeignKey('usertypes.user_type_id'))
@@ -93,7 +93,7 @@ class Users(Base):
     @classmethod
     def create_new_user(cls, session, user_type_id, client_id, user_name = '',
             verified=False, first_name='', last_name='', email='',
-            organization='', pass_salt=str(uuid.uuid4()), 
+            organization='', pass_salt=str(uuid.uuid4()),
             pass_hash=''):
         user = None
         with transaction.manager:
@@ -121,7 +121,7 @@ class Users(Base):
         return user
 
     @classmethod
-    def verify_user(cls, session, client_id, user_name, password, 
+    def verify_user(cls, session, client_id, user_name, password,
             first_name = '', last_name = '', email = ''):
         with transaction.manager:
             user,created = Users.get_from_client_id(session, client_id)
@@ -359,6 +359,8 @@ class Assignments(Base):
                 Assignments.bottom_right_lng + 180 > lng + 180,
                 Questions.language_id == language.language_id,
                 Assignments.expire_datetime > Assignments.publish_datetime,
+            ).order_by(
+                desc(Assignments.expire_datetime),
             ).all()
         return assignments
 
@@ -396,7 +398,7 @@ class Assignments(Base):
                 Assignments.assignment_id == assignment_id,
             ).first()
             expire_datetime = assignment.publish_datetime + \
-                datetime.timedelta(hours=life_time) 
+                datetime.timedelta(hours=life_time)
             assignment.expire_datetime = expire_datetime
             assignment.top_left_lat = top_left_lat
             assignment.top_left_lng = top_left_lng
@@ -406,7 +408,7 @@ class Assignments(Base):
             session.add(assignment)
             transaction.commit()
         return assignment
-        
+
 class QuestionTypes(Base):
 
     """
@@ -552,7 +554,7 @@ class Languages(Base):
 class Posts(Base):
 
     """
-    These are the posts by users.  They can be unsolicited, or associated with a 
+    These are the posts by users.  They can be unsolicited, or associated with a
     assignment.  The post has the users id, the optional assignment id, date/time
     language, and the lat/lng of the post.  There is a boolean option for flagging
     the post as 'innapropreate'.
@@ -624,7 +626,7 @@ class Posts(Base):
                 Users.last_name,
                 Users.organization,
                 Languages.language_code,
-                Languages.name, 
+                Languages.name,
             ).join(
                 Users,
                 Languages,
@@ -783,7 +785,7 @@ class MediaObjects(Base):
         return media_objects
 
     @classmethod
-    def create_new_media_object(cls, session, client_id, media_type_value, 
+    def create_new_media_object(cls, session, client_id, media_type_value,
             file_name, caption, text):
         with transaction.manager:
             user,created = Users.get_from_client_id(session,client_id)
@@ -829,7 +831,7 @@ class Stories(Base):
 
     __tablename__ = 'stories'
     story_id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.user_id')) 
+    user_id = Column(Integer, ForeignKey('users.user_id'))
     story_unique_id = Column(Text)
     publish_datetime = Column(DateTime)
     edited_datetime = Column(DateTime, nullable=True)
@@ -844,8 +846,8 @@ class Stories(Base):
     bottom_right_lat = Column(Float)
     bottom_right_lng = Column(Float)
     #use_fense = Column(Boolean)
-    language_id = Column(Integer, ForeignKey('languages.language_id')) 
- 
+    language_id = Column(Integer, ForeignKey('languages.language_id'))
+
     @classmethod
     def create_from_http(cls, session, token, title, tags, top_text, \
             media_id, contents, top_left_lat, top_left_lng, \
@@ -878,7 +880,7 @@ class Stories(Base):
             session.add(story)
             transaction.commit()
         return story
-   
+
     @classmethod
     def get_stories(cls, session, lat, lng, language_code, start=0, count=0):
         with transaction.manager:
@@ -925,7 +927,7 @@ class Stories(Base):
             if start == 0 and count == 0:
                 stories = stories_filter_query.all()
             else:
-                stories = posts_query.slice(start, start+count)  
+                stories = posts_query.slice(start, start+count)
         return stories, total_story_count
 
 
@@ -1040,7 +1042,7 @@ class Notifications(Base):
                 payload = {
                     'message_subject': ''
                 }
-            
+
     """
 
     __tablename__ = 'notifications'
@@ -1062,7 +1064,7 @@ class Notifications(Base):
             ).filter(
                 Notifications.user_id == user.user_id,
             ).all() #.limit(25).all()
-            # update table 
+            # update table
         return notifications, created
 
     @classmethod
@@ -1076,7 +1078,7 @@ class Notifications(Base):
             )
             session.add(notification)
             transaction.commit()
-        return notification 
+        return notification
 
 class Messages(Base):
 
@@ -1117,7 +1119,7 @@ class Messages(Base):
         return message
 
     @classmethod
-    def create_message(cls, session, from_user_id, to_user_id, subject, text, 
+    def create_message(cls, session, from_user_id, to_user_id, subject, text,
             parent_message_id=None):
         with transaction.manager:
             message = cls(
@@ -1141,7 +1143,7 @@ class Messages(Base):
         return message
 
     @classmethod
-    def create_message_from_http(cls, session, from_token, to_client_id, subject, 
+    def create_message_from_http(cls, session, from_token, to_client_id, subject,
             text, parent_message_id=None):
         from_user = Users.get_from_token(session, from_token)
         to_user,created = Users.get_from_client_id(session, to_client_id)
@@ -1156,7 +1158,7 @@ class Messages(Base):
                 parent_message_id = parent_message_id,
             )
             session.add(message)
-            transaction.commit() 
+            transaction.commit()
         return message
 
     @classmethod
@@ -1164,7 +1166,7 @@ class Messages(Base):
             parent_message_id, subject, text):
         exists = Messages.check_if_message_has_child(session, parent_message_id)
         parent_message = Messages.get_from_message_id(
-            session, 
+            session,
             parent_message_id
         )
         message = None
@@ -1234,7 +1236,7 @@ class Messages(Base):
                 ).filter(
                     Messages.to_user_id == user_id,
                     Messages.was_read == False,
-                ).first() 
+                ).first()
                 if message != None:
                     break
                 message.was_read = True
@@ -1275,7 +1277,7 @@ class Messages(Base):
         for m in messages:
             #print "Message:"
             #print m
-            #print 
+            #print
             Messages.mark_all_as_read(session,m[1])
         return messages
 
@@ -1290,7 +1292,7 @@ class DebugSubmissions(Base):
     user_id = Column(Integer, ForeignKey('users.user_id'))
     debug_text = Column(Text)
     sumbission_datetime = Column(DateTime)
- 
+
     @classmethod
     def create_new_submission(cls, session, client_id, debug_text):
         with transaction.manager:

@@ -632,8 +632,10 @@ def upload_media(request):
             raise Exception('missing fields')
 
         file_name = ''
-        try:
+        if media_type == 'image' or media_type == 'video' \
+                or media_type == 'audio':
 
+    
             #print '\n[DEBUG] POST items:\n'
             #print request.POST.items()
             #print '\n\n'
@@ -642,8 +644,7 @@ def upload_media(request):
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
-                
-                #raise Exception("Missing or invalid media_file field")
+                result['error_text'] = 'Invalid or missing field'
                 raise Exception('Invalid media_file field.')
 
             # decode media type
@@ -680,10 +681,9 @@ def upload_media(request):
 
             result['file_name'] = file_name
 
-        except:
-            result['file_name'] = ''
-            result['error_text'] = 'Missing or invalid media_file contents.'
-            raise Exception('missing/invalid media_file contents')
+        #except:
+            #result['error_text'] = 'Missing or invalid media_file contents.'
+            #raise Exception('missing/invalid media_file contents')
 
         media_caption = ''
         try:
@@ -691,11 +691,13 @@ def upload_media(request):
         except:
             pass
 
+        
         media_text = ''
-        try:
-            media_text = request.POST['media_text']
-        except:
-            pass
+        if media_type == 'text':
+            try:
+                media_text = request.POST['media_text']
+            except:
+                raise Exception('Invalid/missing field')
 
         # register file with database, and get file id back
         media_object, created = MediaObjects.create_new_media_object(
@@ -710,7 +712,7 @@ def upload_media(request):
         result['media_id'] = media_object.media_id
         result['success'] = True
         result['new_user'] = created
-        result['media_text'] = media_text
+        #result['media_text'] = media_text
         result['error_text'] = '' 
 
         # Debug/Logging

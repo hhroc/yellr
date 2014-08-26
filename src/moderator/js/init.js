@@ -60,6 +60,14 @@ window.onload = function () {
     // setup data object
     mod.data.init();
 
+    $.ajax({
+      url: 'http://yellrdev.wxxi.org/admin/get_assignment_responses.json?token='+mod.TOKEN+'&assignment_id=7',
+      type: 'POST',
+      success: function (resp) {
+        console.log(resp);
+      }
+    });
+
     // get current page
     mod.PAGE = document.querySelector('body').getAttribute('data-page');
     if (mod.PAGE === 'login') mod.login.init();

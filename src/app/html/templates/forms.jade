@@ -80,6 +80,7 @@ script#reply-text-form(type="text/x-handlebars-template").
   <form id="reply-text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
+    <input type="hidden" name="media_type" value="text">
     <textarea name="media_text" rows="2" columns="10" placeholder="Tell us the story..."></textarea>
   </form>
 

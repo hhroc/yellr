@@ -162,7 +162,7 @@ yellr.view.report = (function() {
             if (response.success) {
               yellr.view.report.publish_post(response);
             } else {
-              console.log('something went wrong......');
+              console.log('something went wrong with upload_media......');
               console.log(response);
             }
           }
@@ -187,9 +187,10 @@ yellr.view.report = (function() {
       if (form_counter === total_forms) {
 
         console.log('all forms submitted');
+        console.log('assignment_id: ' + assignment_id);
 
-        $.post(urls.post_url, {
-          title: 'Addy you\'re OK',
+        var our_data = {
+          title: 'Conquest',
           client_id: yellr.UUID,
           assignment_id: assignment_id,
           language_code: yellr.SETTINGS.language.code,
@@ -198,7 +199,10 @@ yellr.view.report = (function() {
             lng: -77
           }),
           media_objects: JSON.stringify(media_objects)
-        }, function(e) {
+        };
+        console.log(our_data);
+
+        $.post(urls.post_url, our_data, function(e) {
           console.log(media_objects);
           media_objects = [];
           form_counter = 0;

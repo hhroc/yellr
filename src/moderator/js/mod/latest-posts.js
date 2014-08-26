@@ -19,6 +19,10 @@ mod.latest_posts = (function() {
       }
       else this.render();
 
+      $('#refresh-posts').on('click', function (e) {
+        mod.data.load_posts();
+        mod.latest_posts.render();
+      });
     }
 
 
@@ -57,6 +61,14 @@ mod.latest_posts = (function() {
           mod.messages.create_message(uid);
         }
       };
+
+
+      var delay_packery = setTimeout(function () {
+        packery.layout();
+
+        clearTimeout(delay_packery);
+      }, 2000);
+
 
     }
 

@@ -5,7 +5,7 @@ script#send-message-template(type="text/x-handlebars-template").
     <div><span class="block">To</span>
       {{#if uid}}
       <input type="text" name="to_client_id" value="{{ uid }}">
-      {{/else}}
+      {{else}}
       <input type="text" name="to_client_id" value="{{ uid }}">
       {{/if}}
     </div>

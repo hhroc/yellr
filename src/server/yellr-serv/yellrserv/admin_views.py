@@ -112,7 +112,7 @@ def admin_get_posts(request):
 
         reported = False
         try:
-             reported = bool(int(request.GET['count']))
+             reported = bool(int(request.GET['reported']))
         except:
             pass
 
@@ -140,6 +140,7 @@ def admin_get_posts(request):
                     'media_description': media_description,
                 })
             ret_posts.append({
+                'post_id': post_id,
                 'title': title,
                 'datetime': str(post_datetime),
                 'reported': reported,
@@ -301,8 +302,8 @@ def admin_update_assignment(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         try:
         #if True:
@@ -317,8 +318,8 @@ def admin_update_assignment(request):
             raise Exception('invalid token')
 
 
-        if True:
-        #try:
+        #if True:
+        try:
             assignment_id = request.POST['assignment_id']
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
@@ -328,12 +329,12 @@ def admin_update_assignment(request):
             bottom_right_lat = float(request.POST['bottom_right_lat'])
             bottom_right_lng = float(request.POST['bottom_right_lng'])
             #use_fence = boolean(request.POST['use_fence'])
-#        except:
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: life_time, \
-#top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
-#"""
-#            raise Exception('invalid/missing field')
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: life_time, \
+top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
+"""
+            raise Exception('invalid/missing field')
 
         # create assignment
         assignment = Assignments.update_assignment(
@@ -350,8 +351,8 @@ def admin_update_assignment(request):
         result['assignment_id'] = assignment.assignment_id
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -415,8 +416,8 @@ def admin_get_languages(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         try:
         #if True:
@@ -442,8 +443,8 @@ def admin_get_languages(request):
         result['languages'] = ret_languages
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -452,8 +453,8 @@ def admin_get_question_types(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         try:
         #if True:
@@ -481,8 +482,8 @@ def admin_get_question_types(request):
         result['question_types'] = ret_question_types
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -492,8 +493,8 @@ def admin_create_user(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         try:
         #if True:
@@ -542,8 +543,8 @@ user_name, password, first_name, last_name, email, organization. \
         result['user_id'] = user.user_id
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -552,8 +553,8 @@ def admin_get_assignment_responses(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         try:
         #if True:
@@ -593,10 +594,6 @@ One or more of the following fields is missing or invalid: assignment_id. \
             start = start,
             count = count,
         )
-
-        print "\n"
-        print posts
-        print "\n"
 
         index = 0
         ret_posts = {}
@@ -641,8 +638,8 @@ One or more of the following fields is missing or invalid: assignment_id. \
         result['posts'] = ret_posts
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -680,7 +677,9 @@ def admin_publish_story(request):
             #use_fense = request.POST['use_fense']
         except:
             result['error_text'] = """\
-One or more of the following fields is missing or invalid:  \
+One or more of the following fields is missing or invalid: title, tags, \
+top_text, banner_media_id, contents, top_left_lat, top_left_lng, \
+bottom_right_lat, bottom_right_lng, language_code. \
 """
             raise Exception('invalid/missing field')
 
@@ -701,6 +700,292 @@ One or more of the following fields is missing or invalid:  \
         ) 
 
         result['story_unique_id'] = story.story_unique_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/create_collection.json')
+def admin_create_collection(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+        #if True:
+            name = request.POST['name']
+            description = request.POST['description']
+            tags = request.POST['tags']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: name, \
+description, tags. \
+"""
+            raise Exception('Missing or invalid field.')
+
+        collection = Collections.create_new_collection_from_http(
+            session = DBSession,
+            token = token,
+            name = name,
+            description = description,
+            tags = tags,
+        )
+
+        result['collection_id'] = collection.collection_id
+        result['success'] = True
+
+    except:
+        pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/add_post_to_collection.json')
+def admin_add_post_to_collection(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+        #if True:
+            collection_id = int(request.POST['collection_id'])
+            post_id = int(request.POST['post_id'])
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: collection_id, \
+post_id. \
+"""
+            raise Exception('Missing or invalid field.')
+
+        collection = Collections.add_post_to_collection(
+            session = DBSession,
+            collection_id = collection_id,
+            post_id = post_id,
+        )
+
+        result['post_id'] = post_id
+        result['collection_id'] = collection_id
+        result['success'] = True
+
+    except:
+        pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/remove_post_from_collection.json')
+def admin_remove_post_from_collection(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+        #if True:
+            collection_id = int(request.POST['collection_id'])
+            post_id = int(request.POST['post_id'])
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: collection_id, \
+post_id. \
+"""
+            raise Exception('Missing or invalid field.')
+
+        successfully_removed = Collections.remove_post_from_collection(
+            session = DBSession,
+            collection_id = collection_id,
+            post_id = post_id,
+        )
+        if successfully_removed:
+            result['post_id'] = post_id
+            result['collection_id'] = collection_id
+            result['success'] = True
+        else:
+            result['error_text'] = 'Post does not exist within collection.'
+
+    except:
+        pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/disable_collection.json')
+def admin_disable_collection(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+        #if True:
+            collection_id = int(request.POST['collection_id'])
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: collection_id. \
+"""
+            raise Exception('Missing or invalid field.')
+
+        collection = Collections.disable_collection(
+            session = DBSession,
+            collection_id = collection_id,
+        )
+        
+        result['collection_id'] = collection.collection_id
+        result['disabled'] = True
+        result['success'] = True
+
+    except:
+        pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/get_collection_posts.json')
+def admin_get_collection_posts(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        try:
+        #if True:
+            token = request.GET['token']
+            valid_token, user = check_token(token)
+        except:
+            result['error_text'] = "Missing 'token' field in request."
+            raise Exception('missing token')
+
+        if valid_token == False:
+            result['error_text'] = 'Invalid auth token.'
+            raise Exception('invalid token')
+
+        try:
+            collection_id = int(request.GET['collection_id'])
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: collection_id. \
+"""
+            raise Exception('invalid/missing field')
+ 
+        start=0
+        try:
+            start = int(request.GET['start'])
+        except:
+            pass
+
+        count=0
+        try:
+            count = int(request.GET['count'])
+        except:
+            pass
+
+        posts,post_count = Posts.get_all_from_collection_id(
+            session = DBSession,
+            collection_id = collection_id,
+            start = start,
+            count = count,
+        )
+        collection = Collections.get_from_collection_id(
+            session = DBSession,
+            collection_id = collection_id,
+        )
+
+        index = 0
+        ret_posts = {}
+        for post_id, assignment_id, user_id, title, post_datetime, reported, \
+                lat, lng, media_object_id, media_id, file_name, caption, \
+                media_text, media_type_name, media_type_description, \
+                verified, client_id, language_code, language_name in posts:
+            if post_id in ret_posts:
+                ret_posts[post_id]['media_objects'].append({
+                    'media_id': media_id,
+                    'file_name': file_name,
+                    'caption': caption,
+                    'media_text': media_text,
+                    'media_type_name': media_type_name,
+                    'media_type_description': media_type_description,
+                })
+            else:
+                ret_posts[post_id] = {
+                    'post_id': post_id,
+                    'assignment_id': assignment_id,
+                    'user_id': user_id,
+                    'title': title,
+                    'post_datetime': str(post_datetime),
+                    'reported': reported,
+                    'lat': lat,
+                    'lng': lng,
+                    'verified_user': bool(verified),
+                    'client_id': client_id,
+                    'language_code': language_code,
+                    'language_name': language_name,
+                    'media_objects': [{
+                        'media_id': media_id,
+                        'file_name': file_name,
+                        'caption': caption,
+                        'media_text': media_text,
+                        'media_type_name': media_type_name,
+                        'media_type_description': media_type_description,
+                    }],
+                } 
+
+        result['post_count'] = post_count
+        result['collection_id'] = collection.collection_id
+        result['collection_name'] = collection.name
+        result['posts'] = ret_posts
         result['success'] = True
 
     #except:

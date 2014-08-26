@@ -719,6 +719,56 @@ class Posts(Base):
                 posts = posts_query.slice(start, start+count)
         return posts, total_post_count
 
+    @classmethod
+    def get_all_from_collection_id(cls, session, collection_id, 
+            start=0, count=0):
+        with transaction.manager:
+            posts_query = session.query(
+                Posts.post_id,
+                Posts.assignment_id,
+                Posts.user_id,
+                Posts.title,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                MediaObjects.media_object_id,
+                MediaObjects.media_id,
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
+                Users.verified,
+                Users.client_id,
+                Languages.language_code,
+                Languages.name,
+                #CollectionPosts,
+            ).join(
+                PostMediaObjects,
+            ).join(
+                MediaObjects,
+            ).join(
+                MediaTypes,
+            ).join(
+                Users,Users.user_id == Posts.post_id,
+            ).join(
+                Languages,
+            ).join(
+                CollectionPosts,
+            ).filter(
+                CollectionPosts.collection_id == collection_id,
+            ).order_by(
+                 desc(Posts.post_datetime),
+            )
+            total_post_count = posts_query.count()
+            if start == 0 and count == 0:
+                posts = posts_query.all()
+            else:
+                posts = posts_query.slice(start, start+count)
+        return posts, total_post_count
+
+
 class MediaTypes(Base):
 
     """
@@ -982,20 +1032,76 @@ class Collections(Base):
     collection_datetime = Column(DateTime)
     name = Column(Text)
     description = Column(Text)
-    tag = Column(Text)
+    tags = Column(Text)
+    enabled = Column(Boolean)
+    #private = Column(Boolean)
 
     @classmethod
-    def create_new_collection(cls, session, user_id, name,
-            description='', collection_tag=''):
+    def get_from_collection_id(cls, session, collection_id):
         with transaction.manager:
+            collection = session.query(
+                Collections,
+            ).filter(
+                Collections.collection_id == collection_id,
+            ).first()
+        return collection
+
+    @classmethod
+    def create_new_collection_from_http(cls, session, token, name,
+            description='', tags=''):
+        with transaction.manager:
+            user = Users.get_from_token(session, token)
             collection = cls(
-                user_id = user_id,
+                user_id = user.user_id,
                 collection_datetime = datetime.datetime.now(),
                 name = name,
                 description = description,
-                tag = tag,
+                tags = tags,
+                enabled = True,
             )
+            session.add(collection)
+            transaction.commit()
         return collection
+
+    @classmethod
+    def disable_collection(cls, session, collection_id):
+        with transaction.manager:
+            collection = session.query(
+                Collections,
+            ).filter(
+                Collections.collection_id == collection_id,
+            ).first()
+            collection.enabled = False
+            session.add(collection)
+            transaction.commit()
+        return collection
+
+    @classmethod
+    def add_post_to_collection(cls, session, collection_id, post_id):
+        with transaction.manager:
+            collection_post = CollectionPosts(
+                collection_id = collection_id,
+                post_id = post_id,
+            )
+            session.add(collection_post)
+            transaction.commit()
+        return collection_post
+
+    @classmethod
+    def remove_post_from_collection(cls, session, collection_id, post_id):
+        with transaction.manager:
+            collection_post = session.query(
+                CollectionPosts,
+            ).filter(
+                CollectionPosts.collection_id == collection_id,
+                CollectionPosts.post_id == post_id,
+            ).first()
+            success = False
+            if collection_post != None:
+                session.delete(collection_post)
+                transaction.commit()
+                success = True
+        return success
 
 class CollectionPosts(Base):
 

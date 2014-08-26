@@ -60,18 +60,26 @@ window.onload = function () {
     // setup data object
     mod.data.init();
 
-    $.ajax({
-      url: 'http://yellrdev.wxxi.org/admin/get_assignment_responses.json?token='+mod.TOKEN+'&assignment_id=7',
-      type: 'POST',
-      success: function (resp) {
-        console.log(resp);
-      }
-    });
 
     // get current page
     mod.PAGE = document.querySelector('body').getAttribute('data-page');
-    if (mod.PAGE === 'login') mod.login.init();
-    if (mod.PAGE === 'posts') mod.latest_posts.init();
+    switch (mod.PAGE) {
+      case 'login':
+        mod.login.init();
+        break;
+      case 'posts':
+        mod.latest_posts.init();
+        break;
+      case 'assignments':
+        mod.assignments.init();
+        break;
+      case 'single-assignment':
+        mod.assignments.view();
+        break;
+      default:
+        console.log('lol');
+        break;
+    }
 
     mod.utils.main_setup();
 

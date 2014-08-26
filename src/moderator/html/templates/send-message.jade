@@ -3,7 +3,11 @@ script#send-message-template(type="text/x-handlebars-template").
   <form id="send-message-form" action="#" class="form">
     <h3 class="t2">New Message</h3>
     <div><span class="block">To</span>
-      <input type="text" name="to_client_id" value="3F54C0CB-8C4A-4FDB-941F-2E2AB57968AE">
+      {{#if uid}}
+      <input type="text" name="to_client_id" value="{{ uid }}">
+      {{/else}}
+      <input type="text" name="to_client_id" value="{{ uid }}">
+      {{/if}}
     </div>
     <div><span class="block">Subject</span>
       <input type="text" name="subject">

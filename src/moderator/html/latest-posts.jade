@@ -20,52 +20,9 @@ body#moderator(data-page="posts")
         include _sidebar.jade
 
       div.flex-4#right
-        //- section#latest-feed.right-wrapper
-          h2.t1 Latest
-          div#latest-feed-wrapper
-            //- this will hold:
-            //-   <ul> or <div>
-            //- depending on
-            ul.latest-feed-list
-              //- text
-              li
-                div.media-preview
-                  h3 there's a title in here too
-                  p a text submission is raw text that gets
-                div.user-preview
-                  div.post-user
-                    h3 user id - 1230904-912390-124-123-4134-fsdf
-                  div.post-response-to
-                    p Response to:
-                    p.assignment-id 123-134234-23123
-                    p.assignment-alias Rochester Traffic
-
-              //- image
-              li
-                div.media-preview
-                  img(src="http://lorempixel.com/400/200")
-                div.user-preview
-                  h3 user id - SFLKSJS-912390-124-123-4134-fsdf
-              //- video
-              li
-                div.media-preview
-                  i.fa.fa-play
-                  img(src="http://lorempixel.com/400/200")
-                div.user-preview
-                  h3 user id - SDF-033-912390-124-123-4134-fsdf
-              //- audio
-              li
-                div.media-preview
-                  div.waveform-preview
-                div.user-preview
-                  h3 user id - SKALFJJ-123-SF-124-123-4134-fsdf
-
-
-
-
 
         section#all-submissions.right-wrapper
-          h2.t1 All Submissions
+          h2.t1 All Posts
 
           div.filter-wrapper
             div.form.filter-form
@@ -112,19 +69,6 @@ body#moderator(data-page="posts")
             div.grid-sizer
             div.gutter-sizer
 
-
-
-        div
-          p post a question to the community
-          p get latest_posts
-          p get latest_users
-          p view single_user
-          p provide feedback on a post
-
-        section.yellr-action-bar
-          nav.flexbox
-            a#post-question Ask Question
-            a#send-message Send Message
 
 
   include _footer.jade

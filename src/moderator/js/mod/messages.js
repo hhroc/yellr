@@ -64,8 +64,32 @@ mod.messages = (function () {
 
 
 
-    var create_message = function () {
+    var create_message = function (uid) {
       console.log('create message');
+
+      mod.utils.show_overlay({
+        template: '#send-message-template',
+        context: {
+          uid: uid
+        }
+      });
+
+      $('#send-message-form .submit-btn').on('click', function (e) {
+        e.preventDefault();
+
+        console.log('send message..');
+        console.log($('#send-message-form').serialize());
+        $.ajax({
+          type: 'POST',
+          url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+          dataType: 'json',
+          data: $('#send-message-form').serialize(),
+          success: function (data) {
+            console.log(data);
+          }
+        })
+      })
+
     }
 
 

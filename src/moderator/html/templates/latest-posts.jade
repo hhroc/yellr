@@ -7,6 +7,8 @@ script#latest-posts-template(type="text/x-handlebars-template").
       </div>
       <p class="description">{{ title }}</p>
       <p class="source"><a href="#">{{ client_id }}</a></p>
+      <!-- data-type could be video, text, or audio -->
+      <!-- need to add logic to handle that -->
       <div data-source="anonymous" data-type="photo" data-uid="{{ client_id }}" class="meta-div"></div>
     </div>
     <div class="options-wrapper">

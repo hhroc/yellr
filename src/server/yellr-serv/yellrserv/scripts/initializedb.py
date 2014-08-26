@@ -1,6 +1,8 @@
 import os
 import sys
 import uuid
+import datetime
+import json
 
 import transaction
 
@@ -15,12 +17,15 @@ from pyramid.scripts.common import parse_vars
 
 from ..models import (
     DBSession,
-    #MyModel,
+    Base,
     UserTypes,
     MediaTypes,
     Languages,
     Users,
-    Base,
+    Assignments,
+    Questions,
+    QuestionAssignments,
+    QuestionTypes,
     )
 
 
@@ -102,29 +107,99 @@ def main(argv=sys.argv):
         )
         DBSession.add(language_english)
         language_spanish = Languages(
-            language_code = 'sp',
+            language_code = 'es',
             name = 'Spanish',
         )
         DBSession.add(language_spanish)
 
         transaction.commit()
 
-    with transaction.manager:
+    #with transaction.manager:
 
-        # Users
-        usertype = UserTypes.get_from_name(DBSession,'system')
-        user_system = Users(
-            user_type_id = usertype.user_type_id,
-            verified = True,
-            client_id = str(uuid.uuid4()),
-            first_name = 'SYSTEM USER',
-            last_name = 'SYSTEM USER',
-            organization = 'Yellr',
-            email = '',
-            pass_salt = 'salt',
-            pass_hash = 'hash', # NOTE: will never be the result of a md5 hash 
+    system_user_client_id = str(uuid.uuid4())
+    system_user_type = UserTypes.get_from_name(DBSession,'system')
+
+    # create the systme user
+    system_user = Users.create_new_user(
+        session = DBSession,
+        user_type_id = system_user_type.user_type_id,
+        client_id = system_user_client_id,
+        #verified = True,
+        #user_name = '',
+        first_name = 'SYSTEM USER',
+        last_name = 'SYSTEM USER',
+        email = '',
+        organization = 'Yellr',
+        #pass_salt = '',
+        #pass_hash = 'hash', # NOTE: will never be the result of a md5 hash
+    )
+    
+    # set the system user as verified
+    system_user = Users.verify_user(
+        session = DBSession,
+        client_id = system_user_client_id,
+        user_name = 'system',
+        password = 'password',
+        email=''
+    )
+
+    with transaction.manager:
+        question_type_free_text = QuestionTypes(
+            question_type = 'free_text',
+            question_type_description = 'Free form text responce.',
         )
-        DBSession.add(user_system)
+        DBSession.add(question_type_free_text)
+
+        question_type_multiple_choice = QuestionTypes(
+            question_type = 'multiple_choice',
+            question_type_description = 'Allows for up to ten multiple \
+choice options',
+        )
+        DBSession.add(question_type_multiple_choice)
 
         transaction.commit()
+
+    with transaction.manager:
+        language = Languages.get_from_code(DBSession,'en')
+        question = Questions(
+            language_id = language.language_id,
+            question_text = 'How do you feel about broccoli?',
+            question_type_id = question_type_free_text.question_type_id,
+            answer0 = '',
+            answer1 = '',
+            answer2 = '',
+            answer3 = '',
+            answer4 = '',
+            answer5 = '',
+            answer6 = '',
+            answer7 = '',
+            answer8 = '',
+            answer9 = '',
+        )
+        DBSession.add(question)
+
+        assignment = Assignments(
+            user_id = 1,
+            publish_datetime = datetime.datetime.now(),
+            expire_datetime = \
+                datetime.datetime.now() + datetime.timedelta(days=30),
+
+            # approximately monroe county, ny
+            top_left_lat = 43.4,
+            top_left_lng = -77.9,
+            bottom_right_lat = 43,
+            bottom_right_lng = -77.3,
+
+            use_fence = True,
+        )
+        DBSession.add(assignment)
+        
+        questionassignment = QuestionAssignments(
+            assignment_id = 1,
+            question_id = 1,
+        )
+        DBSession.add(questionassignment)
+        
+        transaction.commit()
+
 

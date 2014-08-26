@@ -33,12 +33,36 @@ def main(global_config, **settings):
 
     config.add_static_view(name='media', path=media_path)
 
+    
+ 
+    # systme / debug views
     config.add_route('index.html', '/')
     config.add_route('status.json','status.json')
     config.add_route('client_logs.json','client_logs.json')  
     config.add_route('get_users.json','get_users.json')
+    
+    # admin views
+    config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
+    config.add_route('admin/get_posts.json', 'admin/get_posts.json')
+    config.add_route('admin/create_question.json', 'admin/create_question.json')
+    config.add_route('admin/publish_assignment.json', 'admin/publish_assignment.json')
+    config.add_route('admin/update_assignment.json', 'admin/update_assignment.json')
+    config.add_route('admin/create_message.json', 'admin/create_message.json')
+    config.add_route('admin/get_languages.json', 'admin/get_languages.json')
+    config.add_route('admin/get_question_types.json', 'admin/get_question_types.json')
+    config.add_route('admin/create_user.json', 'admin/create_user.json')
+    config.add_route('admin/get_assignment_responses.json', \
+        'admin/get_assignment_responses.json')
+    config.add_route('admin/publish_story.json', 'admin/publish_story.json')
+
+    # client views
+    config.add_route('create_response_message.json', \
+        'create_response_message.json')
+    config.add_route('get_assignments.json','get_assignments.json')
     config.add_route('get_messages.json','get_messages.json')
-    config.add_route('get_posts.json', 'get_posts.json')
+    config.add_route('get_notifications.json','get_notifications.json')
+    config.add_route('get_posts.json','get_posts.json')
+    config.add_route('get_stories.json', 'get_stories.json')
     config.add_route('upload_media.json','upload_media.json')
     config.add_route('upload_test.json','upload_test.json')
     config.add_route('publish_post.json','publish_post.json')

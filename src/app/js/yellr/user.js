@@ -5,6 +5,9 @@ yellr.user = (function() {
 
     // default settings
     var SETTINGS = {
+      // default to Rochester, NY
+      lat: 43.2,
+      lng: -77.6,
       language: {
         code: 'en',
         name: 'English',

@@ -92,6 +92,10 @@ yellr.view.assignments = (function() {
 
     var render_assignment = function(id) {
 
+      // parse to int
+      id = parseInt(id)
+
+
       // template settings
       header.template = '#page-header';
       header.context = {page: 'Assignment'};
@@ -105,33 +109,24 @@ yellr.view.assignments = (function() {
         target: '#view-assignment .assignment-view'
       }
 
-      // find the right one first
-      for (var i = 0; i < yellr.DATA.assignments.length; i++) {
 
-        // careful, the 'id' var came fromt a string split
-        if (yellr.DATA.assignments[i].id === parseInt(id)) {
+      assignment.context = {
+        id: yellr.DATA.assignments[id].assignment_id,
+        title: yellr.DATA.assignments[id].question_text,
+        image: yellr.DATA.assignments[id].image,
+        description: (yellr.DATA.assignments[id].description) ? yellr.DATA.assignments[id].description : 'This is where a longer description would be for the assignment',
+        deadline: moment(yellr.DATA.assignments[id].expire_datetime).fromNow(true)
+      }
 
-          assignment.context = {
-            id: yellr.DATA.assignments[i].id,
-            title: yellr.DATA.assignments[i].question_text,
-            image: yellr.DATA.assignments[i].image,
-            description: yellr.DATA.assignments[i].description,
-            deadline: moment(yellr.DATA.assignments[i].expire_datetime).fromNow(true)
-          }
-
-          switch (yellr.DATA.assignments[i].question_type) {
-            case 'survey':
-              assignment.context.survey = true;
-              break;
-            case 'free_text':
-              assignment.context.free_text = true;
-              break;
-            default:
-              break;
-          }
-
+      switch (yellr.DATA.assignments[id].question_type_id) {
+        case 1:
+          assignment.context.free_text = true;
           break;
-        }
+        case 2:
+          assignment.context.survey = true;
+          break;
+        default:
+          break;
       }
 
       // render the page

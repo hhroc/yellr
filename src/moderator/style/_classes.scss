@@ -1,0 +1,49 @@
+.right-wrapper {padding: 2rem; }
+.meta-div {display: none; }
+
+
+.form {
+  .t2 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+  li {
+    margin-bottom: 1.5rem;
+    &:last-child {margin-bottom: 0; }
+    input {margin-bottom: 0;}
+  }
+  label span {
+    font-size: 0.875rem;
+  }
+  .text-field,
+  input[type="text"], input[type="password"], textarea {
+    font-size: 1rem;
+    padding: 0.25rem;
+    width: 100%;
+    // max-width: 20rem;
+  }
+  input[type="file"] {
+    margin-bottom: 0.5rem;
+  }
+  em {
+    display: inline-block;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    color: $dark-blue;
+  }
+  p {
+    margin-bottom: 0.25rem;
+  }
+  .submit-btn {
+    background: $blue;
+    padding: 0.5rem 1.25rem;
+    color: #eee;
+    margin-bottom: 0;
+    @include transition(background, 0.3s);
+    &:hover {
+      cursor: pointer;
+      background: lighten($blue, 10%);
+    }
+  }
+}

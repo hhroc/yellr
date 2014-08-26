@@ -1,0 +1,41 @@
+// these are styles that apply to the entire dashboard
+// where they simply can't be categorized as belonging to a single page
+
+#left {
+  max-width: 12.25rem; // 196px
+  min-width: 11.5rem; // 184px
+  position: relative;
+  background: $black;
+}
+
+
+#right {position: relative; }
+
+
+
+
+
+
+
+
+#overlay-div-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  z-index: 1000;
+  overflow: hidden;
+  padding-top: 25%;
+  @include transition(background, 0.3s);
+  &.active {
+    width: 100%;
+    background: rgba($black, 0.9);
+  }
+  @include mq(netbook) {
+    padding-top: 15%;
+  }
+  form {
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,25 @@
+//- view a message + reply form
+script#view-message-template(type="text/x-handlebars-template").
+  <div id="view-message">
+    <div class="content">
+      <h3 class="subject">{{subject}}</h3>
+      <span class="date-sent">{{send_date}}</span>
+      <div>
+        <p>{{content}}</p>
+      </div>
+    </div>
+    <div id="message-reply-container">
+      <form id="reply-form" action="#" class="form">
+        <input type="hidden" name="email_id" value="{{id}}">
+        <h3 class="t2">Reply</h3>
+        <div>
+          <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+        </div>
+        <div class="submit-div">
+          <label><span class="submit-btn">Submit</span>
+            <input type="submit" value="Send" hidden>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>

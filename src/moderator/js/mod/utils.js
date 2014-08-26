@@ -3,6 +3,62 @@ var mod = mod || {};
 
 mod.utils = {
 
+    main_setup: function () {
+      // set up the Post question form
+      // it is ony evry page
+      document.querySelector('#post-question-btn').onclick = mod.new_assignment.setup_form;
+
+
+      // if on messages, render inbox
+      if (document.querySelector('#inbox')) {
+
+        // setup inbox
+        mod.messages.init({
+          data_url: 'data/messages.json',
+          template: '#inbox-li',
+          container: '#inbox',
+          read_target: '#read-mail-list',
+          unread_target: '#unread-mail-list'
+        });
+
+        // hook up the button
+        document.querySelector('#new-message-btn').onclick = function() {
+          mod.utils.show_overlay({
+            template: '#send-message-template'
+          });
+
+          mod.messages.create_message();
+
+          $('#send-message-form .submit-btn').on('click', function (e) {
+            e.preventDefault();
+
+            console.log('send message..');
+            console.log($('#send-message-form').serialize());
+            $.ajax({
+              type: 'POST',
+              url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+              dataType: 'json',
+              data: $('#send-message-form').serialize(),
+              success: function (data) {
+                console.log(data);
+              }
+            })
+          })
+        }
+
+      }
+
+    },
+
+
+    save: function() {
+      localStorage.setItem('yellr-mod', JSON.stringify({
+        TOKEN: mod.TOKEN,
+        LANGUAGES: mod.LANGUAGES,
+        DATA: mod.DATA
+      }));
+    },
+
 
     show_overlay: function (args) {
 
@@ -26,7 +82,7 @@ mod.utils = {
 
 
     clear_overlay: function (e) {
-      if (e.target.id === 'overlay-div-container') {
+      if (e === undefined || e.target.id === 'overlay-div-container') {
         var overlay = document.querySelector('#overlay-div-container');
         overlay.className = '';
         overlay.removeEventListener('click', mod.utils.clear_overlay,false);
@@ -62,8 +118,9 @@ mod.utils = {
 
       // replace html, or return HTML frag
       if (settings.target) {
-        // if (settings.append) $(settings.target).append(html);
-        $(settings.target).html(html);
+        if (settings.append) $(settings.target).append(html);
+        else $(settings.target).html(html);
+        // $(settings.target).html(html);
       }
       else return html;
 

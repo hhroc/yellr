@@ -1,0 +1,78 @@
+#new-message-btn {
+  background: $yellow;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  @include transition(background, 0.3s);
+  &:hover {
+    cursor: pointer;
+    background: $light-yellow;
+  }
+}
+
+
+#send-message-form {
+  padding: 1rem;
+  background: #ebebeb;
+  max-width: 25rem;
+  .block {
+    margin-bottom: 0.5rem;
+  }
+  .submit-div {
+    margin: 1rem 0 0;
+  }
+}
+
+
+
+
+
+#inbox {
+  margin: 2.5rem 0;
+}
+
+.mail-list {
+  $border_color: #ddd;
+  @include hover();
+  font-size: 0.9rem;
+  // border-right: 1px solid $border_color;
+  // border-left: 1px solid $border_color;
+  li {
+    @include flexbox();
+    font-weight: bold;
+    padding: 0.65rem 1.25rem 0.6rem;
+    border-top: 1px solid $border_color;
+    &:last-child {
+      border-bottom: 1px solid $border_color;
+    }
+  }
+  .sender {
+    font-size: 0.9rem;
+    margin: 0;
+    @include flex(2);
+  }
+  .subject  {@include flex(5); }
+  .date     {@include flex(1); }
+  .sender, .subject, .date {padding: 0 0.75rem; }
+}
+
+#read-mail-list {
+  li {
+    background: #ebebeb;
+    color: #888;
+    font-weight: normal;
+  }
+
+  .sender {
+    font-weight: normal;
+  }
+  // .subject {
+  // }
+}
+
+#view-message {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 1rem;
+  background: #ebebeb;
+}
+

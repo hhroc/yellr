@@ -1,6 +1,7 @@
 'use strict';
+var mod = mod || {};
 
-var inbox = (function () {
+mod.messages = (function () {
 
     // raw_data, read, and unread as JSON objects
     var template,
@@ -63,10 +64,40 @@ var inbox = (function () {
 
 
 
+    var create_message = function (uid) {
+      console.log('create message');
+
+      mod.utils.show_overlay({
+        template: '#send-message-template',
+        context: {
+          uid: uid
+        }
+      });
+
+      $('#send-message-form .submit-btn').on('click', function (e) {
+        e.preventDefault();
+
+        console.log('send message..');
+        console.log($('#send-message-form').serialize());
+        $.ajax({
+          type: 'POST',
+          url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+          dataType: 'json',
+          data: $('#send-message-form').serialize(),
+          success: function (data) {
+            console.log(data);
+          }
+        })
+      })
+
+    }
+
+
 
     return {
       init: init,
       render: render,
-      view_message: view_message
+      view_message: view_message,
+      create_message: create_message
     }
 })();

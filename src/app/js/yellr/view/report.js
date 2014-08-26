@@ -17,6 +17,7 @@ yellr.view.report = (function() {
      */
 
     var render_template = yellr.utils.render_template,
+        assignment_id,
         header,
         footer;
 
@@ -42,6 +43,10 @@ yellr.view.report = (function() {
 
 
 
+      // the assignment ID is in the URL
+      // the URL parts are in the data.raw array
+      assignment_id = (data.raw[2]) ? data.raw[2] : null;
+      console.log(assignment_id);
       this.setup_form(data);
       this.setup_extra_media(data);
 
@@ -60,17 +65,16 @@ yellr.view.report = (function() {
       // set up things for Handlebars
       var form = {
         template: '#'+data.id+'-form',
-        context: {
-          client_id: yellr.UUID,
-          assignment_id: null
-        }
+        context: {client_id: yellr.UUID}
       }
+        // append: true
 
       // are we replying to an assignment?
       if (data.raw[2]) {
 
         // grab the ID from the URL
         form.context.assignment_id = data.raw[2];
+
         if (data.id === 'reply-survey') {
           var test = yellr.DATA.assignments.filter(function(val, i, arr) {
             if (val.id === parseInt(data.raw[2])) return true;
@@ -138,216 +142,73 @@ yellr.view.report = (function() {
     var form_counter = 0;
     var total_forms = 0;
 
+
+
+
     var submit_form = function() {
 
       urls = wxxi;
 
       var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
-      console.log('forms to submit: ', forms);
       total_forms = forms.length;
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];
 
-        // post each form
-        // $(form).ajaxForm(function(response) {
-        //   // alert('did that shit work?');
-        //   alert('image posted');
-        //   console.log('successful post!', response);
-        //   console.log(this);
-        //   console.log('call a function, pass the media_id');
-        //   yellr.view.report.publish_post(response);
-        // });
-
-        $.post(urls.media_url, $(form).serialize(), function(response) {
-          console.log('successful post');
-          yellr.view.report.publish_post(response);
-        })
-      };
-
-
-      // $('#imageUploadForm').ajaxForm(function(response) {
-      //   // alert('did that shit work?');
-      //   alert('image posted');
-      //   console.log('image posted');
-      //   console.log(response);
-      // });
+        console.log('submitting form #'+(i+1)+' of '+forms.length);
+        $(form).ajaxSubmit({
+          url: urls.media_url,
+          success: function (response) {
+            if (response.success) {
+              yellr.view.report.publish_post(response);
+            } else {
+              console.log('something went wrong......');
+              console.log(response);
+            }
+          }
+        });
+      }
 
     }
+
+
+
 
 
     // this is used to a publish  post
     var media_objects = [];
 
     var publish_post = function(server_response) {
-      console.log('count how many times weve been pinged','when number equals length of forms submitted, publish post');
 
-      console.log(server_response);
-      media_objects.push(server_response.media_id);
       form_counter++;
-
-      $.post(urls.post_url, {
-        title: 'test',
-        client_id: yellr.UUID,
-        assignment_id: null,
-        language_code: 'en',
-        location: JSON.stringify({
-          lat: 44,
-          lng: -77
-        }),
-        media_objects: JSON.stringify([
-          server_response.media_id
-        ])
-      }, function(e) {
-        console.log(e);
-        // alert(e);
-      });
-
-      // if (form_counter >= total_forms) {
-      //   console.log('we have submitted all the forms');
-      //   console.log(media_objects);
-
-      //   $.post(urls.post_url, {
-      //     title: 'test',
-      //     client_id: yellr.UUID,
-      //     assignment_id: null,
-      //     language_code: 'en',
-      //     location: JSON.stringify({
-      //       lat: 44,
-      //       lng: -77
-      //     }),
-      //     media_objects: JSON.stringify(media_objects)
-      //   }, function(e) {
-      //     console.log('post published');
-      //     console.log(e);
-      //     // alert(e);
-      //   });
-
-      // };
+      media_objects.push(server_response.media_id);
 
 
+      if (form_counter === total_forms) {
 
-      // $.post(post_url, {
-      //   client_id: yellr.UUID,
-      //   assignment_id: null,
-      //   language_code: 'en',
-      //   location: JSON.stringify({
-      //     lat: 44,
-      //     lng: -77
-      //   }),
-      //   media_objects: JSON.stringify([
-      //     response.media_id
-      //   ])
-      // }, function(e) {
-      //   console.log(e);
-      //   // alert(e);
-      // });
+        console.log('all forms submitted');
 
-    // <input id="client_id" name="client_id" type="text" value="{0}">
-    // <input id="assignment_id" name="assignment_id" type="text" value="{0}">
-    // <input id="language_code" name="language_code" type="text" value="en">
-    // <input id="location" name="location" type="text" value="{'lat': 44, 'lng': -77}">
-    // <input id="media_objects" name="media_objects" type="text" value="{'<uuid>','<uuid>', etc.}">
+        $.post(urls.post_url, {
+          title: 'Addy you\'re OK',
+          client_id: yellr.UUID,
+          assignment_id: assignment_id,
+          language_code: yellr.SETTINGS.language.code,
+          location: JSON.stringify({
+            lat: 44,
+            lng: -77
+          }),
+          media_objects: JSON.stringify(media_objects)
+        }, function(e) {
+          console.log(media_objects);
+          media_objects = [];
+          form_counter = 0;
+          total_forms = 0;
+          console.log('post published');
+        });
+      }
+
 
     }
-
-
-
-
-    // var submit_form = function(e) {
-
-
-    //   // get active forms
-    //   // var forms = document.querySelectorAll('.submit-form.target');
-    //   // console.log(forms);
-
-    //   var $form = $('#form-wrapper form');
-    //   var $form2 = $('.target');
-    //   var form3 = document.querySelector('.target');
-
-    //   console.log('only grab the form that has been changed', $form, $form2, form3);
-
-
-    //   /* mycodespace URLs */
-    //   // var media_url = 'http://yellr.mycodespace.net/upload_media.json';
-    //   // var post_url = 'http://yellr.mycodespace.net/publish_post.json';
-
-    //   /* yellrdev.wxxi.org URLs */
-    //   var media_url = 'http://yellrdev.wxxi.org/upload_media.json';
-    //   var post_url = 'http://yellrdev.wxxi.org/publish_post.json';
-
-
-    //   $.post(media_url, $form.serialize(), function(response){
-    //     // we posted media to the server
-    //     // we get a response back
-    //     // the response has a media_object_id
-    //     // console.log(response);
-    //     // alert(response);
-
-    //     // post the
-    //     $.post(post_url, {
-    //       client_id: yellr.localStorage.client_id,
-    //       assignment_id: null,
-    //       language_code: 'en',
-    //       location: JSON.stringify({
-    //         lat: 44,
-    //         lng: -77
-    //       }),
-    //       media_objects: JSON.stringify([
-    //         response.media_id
-    //       ])
-    //     }, function(e) {
-    //       console.log(e);
-    //       // alert(e);
-    //     });
-    //   });
-    // }
-
-
-    // $('#submit-btn').on('tap', yellr.events.submit_form);
-
-    // // add client_id values
-    // var forms = document.querySelectorAll('.submit-form');
-    // for (var i = 0; i < forms.length; i++) {
-    //   forms[i].onchange = function(e) {
-    //     // add class 'target' (do it only once)
-    //     if (this.className.split('target').length === 1) this.className += ' target';
-    //   }
-    //   forms[i].querySelector('.client_id').value = yellr.localStorage.client_id;
-    // }
-
-
-
-    // // alert('form setup');
-    // $('#imageUploadForm').on('submit', function(e) {
-    //   e.preventDefault();
-
-    //   // alert('submitting...');
-    //   var formData = new FormData(this);
-    //   console.log(formData);
-    //   // alert(formData);
-
-    //   $.ajax({
-    //     type:'POST',
-    //     url: $(this).attr('action'),
-    //     data:formData,
-    //     cache:false,
-    //     contentType: false,
-    //     processData: false,
-    //     success:function(data){
-    //       console.log("success");
-    //       console.log(data);
-    //       // alert('you are winner ahaha');
-    //     },
-    //     error: function(data){
-    //       console.log("error");
-    //       console.log(data);
-    //       // alert('YOU LOSE');
-    //     }
-    //   });
-    // });
-
-
 
 
 

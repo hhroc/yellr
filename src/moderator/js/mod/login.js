@@ -22,7 +22,7 @@ mod.login = (function() {
             if (data.success) {
               mod.TOKEN = data.token;
               mod.utils.save();
-              window.location.href = 'http://127.0.0.1:8000/moderator/latest-submissions.html';
+              window.location.href = 'http://127.0.0.1:8000/moderator/latest-posts.html';
             } else {
               document.querySelector('#login-feedback').innerHTML = data.error_text;
             }

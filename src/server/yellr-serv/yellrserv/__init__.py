@@ -54,6 +54,12 @@ def main(global_config, **settings):
     config.add_route('admin/get_assignment_responses.json', \
         'admin/get_assignment_responses.json')
     config.add_route('admin/publish_story.json', 'admin/publish_story.json')
+    config.add_route('admin/create_collection.json', 'admin/create_collection.json')
+    config.add_route('admin/add_post_to_collection.json', 'admin/add_post_to_collection.json')
+    config.add_route('admin/remove_post_from_collection.json', 'admin/remove_post_from_collection.json')
+    config.add_route('admin/disable_collection.json', 'admin/disable_collection.json')
+    config.add_route('admin/get_collection_posts.json', 'admin/get_collection_posts.json')
+
 
     # client views
     config.add_route('create_response_message.json', \

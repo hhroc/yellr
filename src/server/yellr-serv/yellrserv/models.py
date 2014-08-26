@@ -504,7 +504,7 @@ class QuestionAssignments(Base):
     question).
     """
 
-    __tablename__ = 'question_assignmenets'
+    __tablename__ = 'questionassignments'
     question_assignment_id = Column(Integer, primary_key=True)
     assignment_id = Column(Integer, ForeignKey('assignments.assignment_id'))
     question_id = Column(Integer, ForeignKey('questions.question_id'))
@@ -573,7 +573,7 @@ class Posts(Base):
 
     @classmethod
     def create_from_http(cls, session, client_id, assignment_id, title,
-            language_code, location={'lat':0,'lng':0}, media_objects=[]):
+            language_code, lat, lng, media_objects=[]):
         # create post
         with transaction.manager:
             language = Languages.get_from_code(session,language_code)
@@ -589,8 +589,8 @@ class Posts(Base):
                 post_datetime = datetime.datetime.now(),
                 language_id = language.language_id,
                 reported = False,
-                lat = location['lat'],
-                lng = location['lng'],
+                lat = lat,
+                lng = lng,
             )
             session.add(post)
             transaction.commit()

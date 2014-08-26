@@ -38,11 +38,13 @@ def main(global_config, **settings):
     # systme / debug views
     config.add_route('index.html', '/')
     config.add_route('status.json','status.json')
-    config.add_route('client_logs.json','client_logs.json')  
+    #config.add_route('client_logs.json','client_logs.json')  
     config.add_route('get_users.json','get_users.json')
     
     # admin views
     config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
+
+    config.add_route('admin/get_client_logs.json', 'admin/get_client_logs.json')
     config.add_route('admin/get_posts.json', 'admin/get_posts.json')
     config.add_route('admin/create_question.json', 'admin/create_question.json')
     config.add_route('admin/publish_assignment.json', 'admin/publish_assignment.json')

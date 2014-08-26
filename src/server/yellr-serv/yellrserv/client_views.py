@@ -71,29 +71,6 @@ def status(request):
     resp = json.dumps(system_status)
     return Response(resp,content_type="application/json")
 
-@view_config(route_name='client_logs.json')
-def client_log(request):
-
-    """
-    This is for debug use only.  Returns all of the event logs in the system.
-    """
-
-    # get all of the client logs in the system
-    # note: this could be a LOT of logs.
-    logs = EventLogs.get_all(DBSession)
-
-    retlogs = []
-    for log in logs:
-        retlogs.append({
-            'event_log_id': log.event_log_id,
-            'user_id': log.user_id,
-            'event_type': log.event_type,
-            'event_datetime': str(log.event_datetime),
-            'details': json.loads(log.details),
-        })
-    resp = json.dumps(retlogs)
-    return Response(resp,content_type='application/json')
-
 @view_config(route_name='get_users.json')
 def get_users(request):
 
@@ -519,7 +496,8 @@ def publish_post(request):
     client_id, type: text (unique client id)
     assignment_id, type: text ( '' for no assignment)
     language_code, type: text (two letter language code)
-    location, type: text (json dict of lat and lng)
+    lat, type: text (latitude in degrees)
+    lng, type: text (longitude in degrees)
     media_objects, type: text (json array of media id's)
 
     """
@@ -534,29 +512,24 @@ def publish_post(request):
             assignment_id = request.POST['assignment_id']
             title = request.POST['title']
             language_code = request.POST['language_code']
-            location = json.loads(urllib.unquote(
-                request.POST['location']).decode('utf8')
-            )
+            lat = request.POST['lat']
+            lng = request.POST['lng']
             media_objects = json.loads(urllib.unquote(
                 request.POST['media_objects']).decode('utf8')
             )
         except:
             result['error_text'] = 'Missing or invalid field'
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: client_id, \
-#assignment_id, title, language_code, location (json dict), media_objects \
-#(json array).\
-#"""
             raise Exception('missing/invalid field')
 
         post,created = Posts.create_from_http(
-            DBSession,
-            client_id,
-            assignment_id,
-            title,
-            language_code,
-            location, # dict
-            media_objects, # array
+            session = DBSession,
+            client_id = client_id,
+            assignment_id = assignment_id,
+            title = title,
+            language_code = language_code,
+            lat = lat,
+            lng = lng,
+            media_objects = media_objects, # array
         )
 
         result['success'] = True
@@ -571,7 +544,8 @@ def publish_post(request):
             'client_id': client_id,
             'assignment_id': assignment_id,
             'language_code': language_code,
-            'location': location,
+            'lat': lat,
+            'lng': lng,
             'media_objects': media_objects,
             'success': result['success'],
             'post_id': result['post_id'],

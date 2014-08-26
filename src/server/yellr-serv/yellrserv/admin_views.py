@@ -36,11 +36,16 @@ from .models import (
     Notifications,
     )
 
-def check_token(token):
+def check_token(request):
     """ validates token against database """
-    valid, user = Users.validate_token(DBSession, token)
+    valid = False
+    user = None
+    try:
+        token = request.GET['token']
+        valid, user = Users.validate_token(DBSession, token)
+    except:
+        pass 
     return valid, user
-
 
 @view_config(route_name='admin/get_access_token.json')
 def get_access_token(request):
@@ -74,6 +79,50 @@ def get_access_token(request):
 
     return make_response(result)
 
+@view_config(route_name='admin/get_client_logs.json')
+def admin_get_client_logs(request):
+
+    """
+    Returns all of the event logs in the system.  Optionally by client_id.
+    """
+
+    result = {'succes' :False}
+
+    try:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+        client_id = None
+        try:
+            client_id = request.GET['client_id']
+        except:
+            pass
+
+        logs = EventLogs.get_all(DBSession)
+
+        ret_logs = []
+        for log in logs:
+            ret_logs.append({
+                'event_log_id': log.event_log_id,
+                'user_id': log.user_id,
+                'event_type': log.event_type,
+                'event_datetime': str(log.event_datetime),
+                'details': json.loads(log.details),
+            })
+
+        result['logs'] = ret_logs
+        result['success'] = True
+
+    except:
+        pass
+
+    return make_response(result)
+
 @view_config(route_name='admin/get_posts.json')
 def admin_get_posts(request):
 
@@ -86,17 +135,10 @@ def admin_get_posts(request):
 
         token = None
         valid_token = False
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         start = 0
         try:
@@ -172,17 +214,12 @@ def admin_create_question(request):
     #if True:
     try:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         #if True:
         try:
@@ -234,18 +271,12 @@ def admin_publish_assignment(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
-
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         #if True:
         try:
@@ -305,18 +336,12 @@ def admin_update_assignment(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
-
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         #if True:
         try:
@@ -364,17 +389,12 @@ def admin_create_message(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
  
         try:
             to_client_id = request.POST['to_client_id']
@@ -419,17 +439,12 @@ def admin_get_languages(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         languages = Languages.get_all(DBSession)
 
@@ -456,17 +471,12 @@ def admin_get_question_types(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         question_types = QuestionTypes.get_all(DBSession)
 
@@ -496,17 +506,12 @@ def admin_create_user(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
             user_type_text = request.POST['user_type']
@@ -556,17 +561,12 @@ def admin_get_assignment_responses(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
             assignment_id = int(request.GET['assignment_id'])
@@ -651,17 +651,12 @@ def admin_publish_story(request):
     #try:
     if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
             title = request.POST['title']
@@ -715,17 +710,12 @@ def admin_create_collection(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
         #if True:
@@ -763,17 +753,12 @@ def admin_add_post_to_collection(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
         #if True:
@@ -809,17 +794,12 @@ def admin_remove_post_from_collection(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
         #if True:
@@ -857,17 +837,12 @@ def admin_disable_collection(request):
     try:
     #if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
         #if True:
@@ -900,17 +875,12 @@ def admin_get_collection_posts(request):
     #try:
     if True:
 
-        try:
-        #if True:
-            token = request.GET['token']
-            valid_token, user = check_token(token)
-        except:
-            result['error_text'] = "Missing 'token' field in request."
-            raise Exception('missing token')
-
-        if valid_token == False:
-            result['error_text'] = 'Invalid auth token.'
-            raise Exception('invalid token')
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
 
         try:
             collection_id = int(request.GET['collection_id'])

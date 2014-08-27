@@ -319,6 +319,52 @@ class Assignments(Base):
         return (assignment,question)
 
     @classmethod
+    def get_all_with_questions_from_token(cls, session, token, \
+            start=0, count=0):
+        with transaction.manager:
+            user = Users.get_from_token(session, token)
+            assignments_query = session.query(
+                Assignments.assignment_id,
+                Assignments.publish_datetime,
+                Assignments.expire_datetime,
+                #Assignments.assignment_unique_id,
+                Assignments.top_left_lat,
+                Assignments.top_left_lng,
+                Assignments.bottom_right_lat,
+                Assignments.bottom_right_lng,
+                Assignments.use_fence,
+                Users.organization,
+                Questions.question_text,
+                Questions.question_type_id,
+                Questions.answer0,
+                Questions.answer1,
+                Questions.answer2,
+                Questions.answer3,
+                Questions.answer4,
+                Questions.answer5,
+                Questions.answer6,
+                Questions.answer7,
+                Questions.answer8,
+                Questions.answer9,
+            ).join(
+                Users
+            ).join(
+                QuestionAssignments,
+            ).join(
+                Questions,
+            ).filter(
+                Assignments.user_id == user.user_id,
+            ).order_by(
+                desc(Assignments.publish_datetime),
+            )
+            total_assignment_count = assignments_query.count()
+            if start == 0 and count == 0:
+                assignments = assignments_query.all()
+            else:
+                assignments = assignments_query.slice(start, start+count)
+        return assignments
+
+    @classmethod
     def get_all_open_with_questions(cls, session, language_code, lat, lng):
         with transaction.manager:
             language = Languages.get_from_code(session,language_code)
@@ -360,13 +406,13 @@ class Assignments(Base):
                 Questions.language_id == language.language_id,
                 Assignments.expire_datetime > Assignments.publish_datetime,
             ).order_by(
-                desc(Assignments.expire_datetime),
+                desc(Assignments.publish_datetime),
             ).all()
         return assignments
 
     @classmethod
-    def create_from_http(cls, session, token, life_time, geo_fence,
-            use_fence=True):
+    def create_from_http(cls, session, token, life_time, top_left_lat, \
+            top_left_lng, bottom_right_lat, bottom_right_lng, use_fence=True):
         with transaction.manager:
             user = Users.get_from_token(session, token)
             assignment = None
@@ -377,10 +423,10 @@ class Assignments(Base):
                     expire_datetime = datetime.datetime.now() + \
                         datetime.timedelta(hours=life_time),
                     #assignment_unique_id = str(uuid.uuid4()),
-                    top_left_lat = geo_fence['top_left_lat'],
-                    top_left_lng = geo_fence['top_left_lng'],
-                    bottom_right_lat = geo_fence['bottom_right_lat'],
-                    bottom_right_lng = geo_fence['bottom_right_lng'],
+                    top_left_lat = top_left_lat,
+                    top_left_lng = top_left_lng,
+                    bottom_right_lat = bottom_right_lat,
+                    bottom_right_lng = bottom_right_lng,
                     use_fence = use_fence,
                 )
                 session.add(assignment)
@@ -452,8 +498,10 @@ class Questions(Base):
 
     __tablename__ = 'questions'
     question_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
     language_id = Column(Integer, ForeignKey('languages.language_id'))
     question_text = Column(Text)
+    description = Column(Text)
     question_type_id = Column(Integer, ForeignKey('questiontypes.question_type_id'))
     answer0 = Column(Text)
     answer1 = Column(Text)
@@ -467,9 +515,10 @@ class Questions(Base):
     answer9 = Column(Text)
 
     @classmethod
-    def create_from_http(cls, session, language_code, question_text,
-            question_type, answers):
+    def create_from_http(cls, session, token, language_code, question_text,
+            description, question_type, answers):
         with transaction.manager:
+            user = Users.get_from_token(session, token)
             question = None
             if len(answers) == 10:
                 language = Languages.get_from_code(session, language_code)
@@ -478,8 +527,10 @@ class Questions(Base):
                     question_type
                 )
                 question = Questions(
+                    user_id = user.user_id,
                     language_id = language.language_id,
                     question_text = question_text,
+                    description = description,
                     question_type_id = question_type.question_type_id,
                     answer0 = answers[0],
                     answer1 = answers[1],
@@ -496,6 +547,34 @@ class Questions(Base):
                 transaction.commit()
         return question
 
+    @classmethod
+    def update_question(cls, session, question_id, language_id, \
+            question_text, description, question_type_id, answers):
+        with transaction.manager:
+            question = session.query(
+                Questions,
+            ).filter(
+                Questions.question_id == question_id,
+            ).first()
+            question.language_id = language_id
+            question.question_text = question_text
+            question.description = description
+            question.question_type_id = question_type_id
+            question.answer0 = answers[0]
+            question.answer1 = answers[1]
+            question.answer2 = answers[2]
+            question.answer3 = answers[3]
+            question.answer4 = answers[4]
+            question.answer5 = answers[5]
+            question.answer6 = answers[6]
+            question.answer7 = answers[7]
+            question.answer8 = answers[8]
+            question.answer9 = answers[9]
+            session.add(question)
+            transaction.commit()
+        return question
+ 
+
 class QuestionAssignments(Base):
 
     """
@@ -504,7 +583,7 @@ class QuestionAssignments(Base):
     question).
     """
 
-    __tablename__ = 'question_assignmenets'
+    __tablename__ = 'questionassignments'
     question_assignment_id = Column(Integer, primary_key=True)
     assignment_id = Column(Integer, ForeignKey('assignments.assignment_id'))
     question_id = Column(Integer, ForeignKey('questions.question_id'))
@@ -573,7 +652,7 @@ class Posts(Base):
 
     @classmethod
     def create_from_http(cls, session, client_id, assignment_id, title,
-            language_code, location={'lat':0,'lng':0}, media_objects=[]):
+            language_code, lat, lng, media_objects=[]):
         # create post
         with transaction.manager:
             language = Languages.get_from_code(session,language_code)
@@ -589,8 +668,8 @@ class Posts(Base):
                 post_datetime = datetime.datetime.now(),
                 language_id = language.language_id,
                 reported = False,
-                lat = location['lat'],
-                lng = location['lng'],
+                lat = lat,
+                lng = lng,
             )
             session.add(post)
             transaction.commit()
@@ -704,7 +783,7 @@ class Posts(Base):
             ).join(
                 MediaTypes,
             ).join(
-                Users,Users.user_id == Posts.post_id,
+                Users,Users.user_id == Posts.user_id,
             ).join(
                 Languages,
             ).filter(

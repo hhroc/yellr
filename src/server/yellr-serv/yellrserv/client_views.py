@@ -233,7 +233,7 @@ def get_assignments(request):
                 'expire_datetime': str(expire_datetime),
                 'top_left_lat': top_left_lat,
                 'top_left_lng': top_left_lng,
-                'bottom_right_lat': bottom_right_lng,
+                'bottom_right_lat': bottom_right_lat,
                 'bottom_right_lng': bottom_right_lng,
                 'question_text': question_text,
                 'question_type_id': question_type_id,
@@ -505,7 +505,6 @@ def publish_post(request):
     result = {'success': False}
 
     try:
-    #if True:
 
         try:
             client_id = request.POST['client_id']
@@ -531,6 +530,10 @@ def publish_post(request):
             lng = lng,
             media_objects = media_objects, # array
         )
+
+        print "\nThis client_id was seen by the server:\n"
+        print client_id
+        print "\n\n"
 
         result['success'] = True
         result['post_id'] = post.post_id
@@ -588,21 +591,22 @@ def upload_media(request):
 
     """
 
+    #print "\n"
+    #print request.POST
+    #print "\n"
+
     result = {'success': False}
 
     #error_text = ''
     try:
     #if True:
 
+        #if True:
         try:
             client_id = request.POST['client_id']
             media_type = request.POST['media_type']
         except:
             result['error_text'] = 'Missing or invalid field'
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: client_id, \
-#media_type. \
-#"""
             raise Exception('missing fields')
 
         file_name = ''
@@ -618,7 +622,7 @@ def upload_media(request):
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
-                result['error_text'] = 'Invalid or missing field'
+                result['error_text'] = 'Missing or invalid file field'
                 raise Exception('Invalid media_file field.')
 
             # decode media type

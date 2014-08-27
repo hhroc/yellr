@@ -357,19 +357,23 @@ bottom_right_lat, bottom_right_lng.
 """
             raise Exception('invalid/missing field')
 
-        geo_fence = {
-            'top_left_lat': top_left_lat,
-            'top_left_lng': top_left_lng,
-            'bottom_right_lat': bottom_right_lat,
-            'bottom_right_lng': bottom_right_lng,
-        }
+        #geo_fence = {
+        #    'top_left_lat': top_left_lat,
+        #    'top_left_lng': top_left_lng,
+        #    'bottom_right_lat': bottom_right_lat,
+        #    'bottom_right_lng': bottom_right_lng,
+        #}
 
         # create assignment
         assignment = Assignments.create_from_http(
             session = DBSession,
             token = user.token,
             life_time = life_time,
-            geo_fence = geo_fence,
+            #geo_fence = geo_fence,
+            top_left_lat = top_left_lat,
+            top_left_lng = top_left_lng,
+            bottom_right_lat = bottom_right_lat,
+            bottom_right_lng = bottom_right_lng,
         )
 
         # assign question to assignment

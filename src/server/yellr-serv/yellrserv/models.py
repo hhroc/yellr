@@ -411,8 +411,8 @@ class Assignments(Base):
         return assignments
 
     @classmethod
-    def create_from_http(cls, session, token, life_time, geo_fence,
-            use_fence=True):
+    def create_from_http(cls, session, token, life_time, top_left_lat, \
+            top_left_lng, bottom_right_lat, bottom_right_lng, use_fence=True):
         with transaction.manager:
             user = Users.get_from_token(session, token)
             assignment = None
@@ -423,10 +423,10 @@ class Assignments(Base):
                     expire_datetime = datetime.datetime.now() + \
                         datetime.timedelta(hours=life_time),
                     #assignment_unique_id = str(uuid.uuid4()),
-                    top_left_lat = geo_fence['top_left_lat'],
-                    top_left_lng = geo_fence['top_left_lng'],
-                    bottom_right_lat = geo_fence['bottom_right_lat'],
-                    bottom_right_lng = geo_fence['bottom_right_lng'],
+                    top_left_lat = top_left_lat,
+                    top_left_lng = top_left_lng,
+                    bottom_right_lat = bottom_right_lat,
+                    bottom_right_lng = bottom_right_lng,
                     use_fence = use_fence,
                 )
                 session.add(assignment)
@@ -783,7 +783,7 @@ class Posts(Base):
             ).join(
                 MediaTypes,
             ).join(
-                Users,Users.user_id == Posts.post_id,
+                Users,Users.user_id == Posts.user_id,
             ).join(
                 Languages,
             ).filter(

@@ -203,8 +203,8 @@ def get_assignments(request):
     client_id = None
     ret_assignments = []
 
-    #try:
-    if True:
+    try:
+    #if True:
     
         #language_code = 'en'
         #if True:
@@ -252,8 +252,8 @@ def get_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
     
-    #except:
-    #    pass
+    except:
+        pass
 
     event_type = 'http_request'
     event_details = {

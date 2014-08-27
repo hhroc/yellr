@@ -211,8 +211,8 @@ def admin_create_question(request):
 
     result = {'success': False}
 
-    if True:
-    #try:
+    #if True:
+    try:
 
         token = None
         valid_token = False
@@ -220,6 +220,10 @@ def admin_create_question(request):
         if valid == False:
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
+
+        print ""
+        print request.POST
+        print ""
 
         #if True:
         try:
@@ -259,8 +263,8 @@ question_text, description, question_type. \
         result['question_id'] = question.question_id 
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     return make_response(result)
 

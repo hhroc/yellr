@@ -86,6 +86,7 @@ mod.messages = (function () {
           data: $('#send-message-form').serialize(),
           success: function (data) {
             console.log(data);
+            mod.utils.clear_overlay();
           }
         })
       })

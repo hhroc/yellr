@@ -129,7 +129,7 @@ yellr.utils = {
     $('#capture-image').on('tap', function(e) {
       // e.preventDefault();
 
-      alert('things got weird here. notification.prompt not working on my Android. TO FIX');
+      // alert('things got weird here. notification.prompt not working on my Android. TO FIX');
 
       // alert('test notification.alert');
       // /* alert, confirm and prompt aren't working */

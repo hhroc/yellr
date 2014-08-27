@@ -2,9 +2,11 @@
 script#send-message-template(type="text/x-handlebars-template").
   <form id="send-message-form" action="#" class="form">
     <h3 class="t2">New Message</h3>
-    <div><span class="block">To</span>
+    <div>
+      <span>To</span>
       {{#if uid}}
-      <input type="text" name="to_client_id" value="{{ uid }}">
+      <input type="hidden" name="to_client_id" value="{{ uid }}">
+      <span>{{uid}}</span>
       {{else}}
       <input type="text" name="to_client_id" value="{{ uid }}">
       {{/if}}

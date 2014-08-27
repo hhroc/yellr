@@ -36,22 +36,10 @@ yellr.view.messages = (function() {
       else this.inbox();
 
 
-      // check for mail
-      // alert('CHECKING FOR MAIL');
-      // $.ajax({
-      //   type: 'POST',
-      //   url: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
-      //   type: 'json',
-      //   success: function (data) {
-      //     console.log(data);
-      //   }
-      // });
-
 
       // leave these here..
       render_template(header);
       render_template(footer);
-
 
     }
 
@@ -60,31 +48,18 @@ yellr.view.messages = (function() {
 
 
     var view_message = function(id) {
-      console.log('read message: ' + id);
-      for (var i = 0; i < yellr.DATA.messages.length; i++) {
-        if (yellr.DATA.messages[i].id === id) {
-          var msg = yellr.DATA.messages[i];
-          console.log(msg);
-          render_template ({
-            template: '#message-template',
-            target: '#message-container',
-            context: msg
-          });
-          break;
-        }
-      };
-    }
 
+      header.template = '#page-header';
+      header.context = {page: 'View Message', hash: '#messages'};
 
-    var message_li_handler = function (e) {
-
-      var id = (e.target.nodeName === 'LI') ? e.target.getAttribute('data-id') : e.target.parentNode.getAttribute('data-id');
-      if (id) {
-        this.view_message(id);
-        document.querySelector('#messages-list').removeEventListener('click', message_li_handler);
-      }
+      render_template ({
+        template: '#view-message-template',
+        target: '#message-wrapper',
+        context: yellr.DATA.messages[parseInt(id)]
+      });
 
     }
+
 
 
     var inbox = function() {
@@ -100,9 +75,6 @@ yellr.view.messages = (function() {
       });
 
 
-      // add event listener to render single message
-      document.querySelector('#messages-list').onclick = this.message_li_handler;
-//
     }
 
 
@@ -110,7 +82,6 @@ yellr.view.messages = (function() {
     return {
       inbox: inbox,
       render: render,
-      message_li_handler: message_li_handler,
       view_message: view_message
     }
 })();

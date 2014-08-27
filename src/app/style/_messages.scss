@@ -9,6 +9,10 @@
   padding: 1rem 0.75rem;
   border-bottom: 1px solid #ccc;
   margin: 1rem 0;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
   &:last-child {margin-bottom:0;}
   &.unread {
     background: #eee;
@@ -36,4 +40,12 @@
   font-size: 0.875rem;
   margin-bottom: 0;
   color: #888;
+}
+
+.message-wrapper {
+  margin: 1rem 0.5rem 2rem;
+}
+
+.message-content {
+  line-height: 1.4;
 }

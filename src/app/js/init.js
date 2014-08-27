@@ -41,6 +41,7 @@ window.onload = function() {
 
 
 
+  yellr.data.init();
 
   // set up routes
   // - js/yellr/routes.js

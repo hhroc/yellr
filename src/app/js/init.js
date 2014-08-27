@@ -12,7 +12,7 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  if (DEBUG) localStorage.removeItem('yellr');
+  // if (DEBUG) localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) localStorage.setItem('yellr', JSON.stringify({DATA: {}, SETTINGS: {}, UUID: undefined}));

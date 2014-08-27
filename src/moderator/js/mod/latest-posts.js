@@ -40,15 +40,21 @@ mod.latest_posts = (function() {
       });
 
 
-      // set up the grid magic with packery
-      var container = document.querySelector('#latest-posts');
-      // var pckry = new Packery( container, {
-      var packery = new Packery( container, {
-        itemSelector: '.gi',
-        columnWidth: container.querySelector('.grid-sizer'),
-        gutter: container.querySelector('.gutter-sizer'),
-        isResizeBound: true,
-      });
+      // // set up the grid magic with packery
+      // var container = document.querySelector('#latest-posts');
+      // // var pckry = new Packery( container, {
+      // var packery = new Packery( container, {
+      //   itemSelector: '.gi',
+      //   columnWidth: container.querySelector('.grid-sizer'),
+      //   gutter: container.querySelector('.gutter-sizer'),
+      //   isResizeBound: true,
+      // });
+
+      // var delay_packery = setTimeout(function () {
+      //   packery.layout();
+
+      //   clearTimeout(delay_packery);
+      // }, 2000);
 
 
 
@@ -62,12 +68,6 @@ mod.latest_posts = (function() {
         }
       };
 
-
-      var delay_packery = setTimeout(function () {
-        packery.layout();
-
-        clearTimeout(delay_packery);
-      }, 2000);
 
 
     }

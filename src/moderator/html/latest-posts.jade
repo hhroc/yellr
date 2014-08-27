@@ -25,50 +25,66 @@ body#moderator(data-page="posts")
           h2.t1 All Posts
           p#refresh-posts Refresh/Reload
 
-          div.filter-wrapper
-            div.form.filter-form
-              span.filter-toggle Filter
-              ul.list-style-none.filter-list
-                li#filter-submission-type
-                  p Submission Type
-                  label
-                    input(type="radio", name="sub-type", value="anonymous")
-                    span Anonymous
-                  label
-                    input(type="radio", name="sub-type", value="validated")
-                    span Validated
-                  label
-                    input(type="radio", name="sub-type", value="all", checked)
-                    span All
-                li#filter-content-type
+
+          div#latest-posts-wrapper.flex
+
+            div.grid.submissions-grid#latest-posts.flex-3
+              div.grid-sizer
+              div.gutter-sizer
+
+            div#feed-controls.flex-1
+              div.feed-controls-wrapper
+                div#change-view.feed-filter
+                  p View:
+                  ul.list-style-none
+                    li
+                      label
+                        input(type="radio", name="feed-view", value="list", checked)
+                        span List
+                    li
+                      label
+                        input(type="radio", name="feed-view", value="grid")
+                        span Grid
+
+                div#filter-content-type.feed-filter
                   p Content Type
-                  label
-                    input(type="checkbox", value="video", checked)
-                    span Video
-                  label
-                    input(type="checkbox", value="photo", checked)
-                    span Photo
-                  label
-                    input(type="checkbox", value="audio", checked)
-                    span Audio
-                  label
-                    input(type="checkbox", value="text", checked)
-                    span Text
-                li#filter-search
+                  ul.list-style-none
+                    li
+                      label
+                        input(type="checkbox", value="video", checked)
+                        span Video
+                    li
+                      label
+                        input(type="checkbox", value="photo", checked)
+                        span Photo
+                    li
+                      label
+                        input(type="checkbox", value="audio", checked)
+                        span Audio
+                    li
+                      label
+                        input(type="checkbox", value="text", checked)
+                        span Text
+
+                div#filter-submission-type.feed-filter
+                  p Submission Type
+                  ul.list-style-none
+                    li
+                      label
+                        input(type="radio", name="sub-type", value="all", checked)
+                        span All
+                    li
+                      label
+                        input(type="radio", name="sub-type", value="anonymous")
+                        span Anonymous
+                    li
+                      label
+                        input(type="radio", name="sub-type", value="validated")
+                        span Validated
+
+                div#filter-search.feed-filter
                   p Search
                   input(type="text", placeholder="Search by tag, keyword, or UID")
-
-
-          div.grid-view-wrapper
-            p View:
-            ul.inline
-              li List
-              li Grid
-
-
-          div.grid.submissions-grid#latest-posts
-            div.grid-sizer
-            div.gutter-sizer
 
 
 

@@ -17,7 +17,11 @@ script#page-header(type="text/x-handlebars-template").
     <i class="fa fa-arrow-left"></i></a>
   </nav>
   <h1 id="page-h1">{{page}}</h1>
+  {{#if refresh}}
   <span id="refresh-btn"><i class="fa fa-refresh"></i></span>
+  {{else}}
+  <span >&nbsp;</span>
+  {{/if}}
 
 
 //- submitting  report

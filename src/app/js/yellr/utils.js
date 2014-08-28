@@ -13,6 +13,32 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  load_data: function (url, callback) {
+    /**
+     * ping the yellr server to get data
+     */
+    $.getJSON(url, function (response) {
+      if (response.success) {
+
+        console.log(response);
+        // yellr.DATA[]
+        // save assignments
+        // yellr.DATA.assignments = data.assignments;
+        // yellr.utils.save();
+
+        // if (callback) callback();
+
+      } else {
+        console.log('something went wrong loading');
+      }
+    });
+  },
+
+  reload: function (data_name) {
+    console.log('reload: '+data_name);
+  },
+
+
   no_subnav: function() {
     /**
      * convenience function. call it to remove the subnav

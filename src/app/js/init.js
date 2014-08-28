@@ -27,18 +27,7 @@ window.onload = function() {
 
   /** MUST RUN INITS() IN THIS ORDER **/
   /*  a user ID must exists before we can load data for it */
-  if (yellr.UUID === undefined) {
-    /**
-     * - setup user things                js/yellr/user.js
-     * - ping the server and load data    js/yellr/data.js
-     */
-
-    yellr.user.init();
-    yellr.data.init();
-    // update the local storage
-    yellr.utils.save();
-  }
-
+  if (yellr.UUID === undefined) yellr.user.init();
 
 
   yellr.data.init();

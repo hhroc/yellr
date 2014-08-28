@@ -46,7 +46,6 @@ yellr.view.report = (function() {
       // the assignment ID is in the URL
       // the URL parts are in the data.raw array
       assignment_id = (data.raw[2]) ? data.raw[2] : null;
-      console.log(assignment_id);
       this.setup_form(data);
       this.setup_extra_media(data);
 
@@ -60,7 +59,6 @@ yellr.view.report = (function() {
 
 
     var setup_form = function(data, append) {
-      console.log('setting up ' +data.id+ ' form');
 
       // set up things for Handlebars
       var form = {

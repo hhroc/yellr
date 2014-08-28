@@ -23,7 +23,10 @@ yellr.view.notifications = (function() {
 
       header = data.template.header;
       header.template = '#page-header';
-      header.context = {page: 'Notifications'};
+      header.context = {
+        page: 'Notifications',
+        refresh: true
+      };
       footer = data.template.footer;
 
 
@@ -31,7 +34,7 @@ yellr.view.notifications = (function() {
       render_template(footer);
       yellr.utils.no_subnav();
 
-      this.add_eventlisteners();
+      // this.add_eventlisteners();
       yellr.utils.setup_report_bar();
     }
 

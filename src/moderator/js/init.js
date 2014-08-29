@@ -70,7 +70,7 @@ window.onload = function () {
 
     if (mod.URLS !== undefined) {
       // load new data
-      mod.utils.load('posts');
+      mod.utils.load('posts', mod.latest_posts.render_feed);
       mod.utils.load('messages');
       mod.utils.load('languages');
       // mod.utils.load('collections');

@@ -11,34 +11,41 @@ mod.latest_posts = (function() {
 
     var init = function () {
 
-
       // make sure we have data
       if (mod.DATA.posts === undefined) {
         console.log('show loading gif. tell them we\'re loading data');
         mod.utils.load('posts');
-
         var wait = setTimeout(mod.latest_posts.init, 1000);
+      }
+      else {
+        this.render_feed();
 
+        // Send a message to a user who submitted content
+        var msg_btn = document.querySelector('.submissions-grid');
+        msg_btn.onclick = function(e) {
+          if (e.target.className === 'fa fa-comment') {
+            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+            console.log(uid);
+            mod.messages.create_message(uid);
+          }
+        };
 
-        // // make sure we have data
-        // if (yellr.DATA.assignments === undefined) {
-        //   wait_for_data(yellr.view.assignments.render_feed, yellr.utils.load('assignments'));
-        //   return;
-        // }
-
+        $('#refresh-posts').on('click', function (e) {
+          mod.utils.load('posts');
+          mod.latest_posts.render();
+        });
 
       }
-      else this.render();
+      // end if..else
 
-      $('#refresh-posts').on('click', function (e) {
-        mod.utils.load('posts');
-        mod.latest_posts.render();
-      });
     }
 
 
 
-    var render = function () {
+
+
+
+    var render_feed = function () {
       console.log('hello from: render');
 
       mod.utils.render_template({
@@ -67,16 +74,6 @@ mod.latest_posts = (function() {
       // }, 2000);
 
 
-
-      // Send a message to a user who submitted content
-      var msg_btn = document.querySelector('.submissions-grid');
-      msg_btn.onclick = function(e) {
-        if (e.target.className === 'fa fa-comment') {
-          var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-          console.log(uid);
-          mod.messages.create_message(uid);
-        }
-      };
 
 
 
@@ -129,6 +126,6 @@ mod.latest_posts = (function() {
 
     return {
       init: init,
-      render: render
+      render_feed: render_feed
     }
 })();

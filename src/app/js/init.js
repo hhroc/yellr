@@ -64,7 +64,7 @@ window.onload = function() {
   }
 
   // ping server for new data
-  yellr.utils.load('assignments');
+  yellr.utils.load('assignments', yellr.view.assignments.render_feed);
   yellr.utils.load('notifications');
   yellr.utils.load('messages');
 

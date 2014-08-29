@@ -29,7 +29,9 @@ yellr.view.assignments = (function() {
 
       if (data.hash === '#view-assignment')
         this.render_assignment(data.id);
-      else this.render_feed();
+      else {
+        this.setup_feed();
+      }
 
       render_template(header);
       render_template(footer);
@@ -44,9 +46,25 @@ yellr.view.assignments = (function() {
 
 
 
-
-
     var render_feed = function() {
+      render_template({
+        target: '#latest-assignments',
+        template: '#assignments-li',
+        context: {assignments: yellr.DATA.assignments }
+      });
+
+      // parse UTC dates with moment.js
+      var dates = document.querySelectorAll('.assignment-deadline');
+      for (var i = 0; i < dates.length; i++) {
+        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
+      };
+
+    }
+
+
+
+
+    var setup_feed = function() {
 
       // template settings
       header.template = '#main-header';
@@ -63,21 +81,10 @@ yellr.view.assignments = (function() {
       if (yellr.DATA.assignments === undefined) {
         wait_for_data(yellr.view.assignments.render_feed, yellr.utils.load('assignments'));
         return;
+      } else {
+        this.render_feed();
       }
 
-
-      var latest_assignments = render_template({
-        template: '#assignments-li',
-        context: {assignments: yellr.DATA.assignments }
-      });
-      $('#latest-assignments').html(latest_assignments);
-      // $('#latest-assignments').prepend(latest_assignments);
-
-      // parse UTC dates with moment.js
-      var dates = document.querySelectorAll('.assignment-deadline');
-      for (var i = 0; i < dates.length; i++) {
-        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-      };
 
     }
 
@@ -171,6 +178,7 @@ yellr.view.assignments = (function() {
 
     return {
       render: render,
+      setup_feed: setup_feed,
       render_feed: render_feed,
       render_assignment: render_assignment,
       wait_for_data: wait_for_data

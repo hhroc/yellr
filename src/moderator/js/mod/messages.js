@@ -11,6 +11,50 @@ mod.messages = (function () {
         unread_target,
         self;
 
+
+    // // if on messages, render inbox
+    // if (document.querySelector('#inbox')) {
+
+    //   // setup inbox
+    //   mod.messages.init({
+    //     data_url: 'data/messages.json',
+    //     template: '#inbox-li',
+    //     container: '#inbox',
+    //     read_target: '#read-mail-list',
+    //     unread_target: '#unread-mail-list'
+    //   });
+
+    //   // hook up the button
+    //   document.querySelector('#new-message-btn').onclick = function() {
+    //     mod.utils.show_overlay({
+    //       template: '#send-message-template'
+    //     });
+
+    //     mod.messages.create_message();
+
+    //     $('#send-message-form .submit-btn').on('click', function (e) {
+    //       e.preventDefault();
+
+    //       console.log('send message..');
+    //       console.log($('#send-message-form').serialize());
+    //       $.ajax({
+    //         type: 'POST',
+    //         url: 'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
+    //         // url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+    //         dataType: 'json',
+    //         data: $('#send-message-form').serialize(),
+    //         success: function (data) {
+    //           console.log(data);
+    //         }
+    //       })
+    //     })
+    //   }
+
+    // }
+
+
+
+
     var init = function (args) {
       self = this;
       template = Handlebars.compile($(args.template).html());

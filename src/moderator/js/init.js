@@ -8,6 +8,9 @@ window.onload = function () {
     // console.log('removing localStorage');
     // if (DEBUG) localStorage.removeItem('yellr-mod');
 
+    // Handlebars check
+    // ===================================
+
     // check for dependencies
     if (!Handlebars || !$) {
       console.log('missing dependencies for mod.utils.render_template');
@@ -47,65 +50,41 @@ window.onload = function () {
 
     });
 
-
     // ----------------------------
+
+
 
     // check for pre-existing data, if none, create it
-    if (localStorage.getItem('yellr-mod') === null) localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: undefined, LANGUAGES: {}, DATA: {} }));
+    if (localStorage.getItem('yellr-mod') === null) {
 
-    // get auth token
-    var local = JSON.parse(localStorage.getItem('yellr-mod'));
-    mod.TOKEN = local.TOKEN;
-    mod.LANGUAGES = local.LANGUAGES;
-    console.log(local.DATA);
-    mod.DATA = local.DATA;
+      // get auth token
+      // - redirect to login page
+      mod.utils.redirect_to_login('Missing authentication token. Please login to continue');
 
+    } else {
 
-    // check that we have a valid token, that hasn't expired
-    // TODO: check if the token has expire
-    if (mod.TOKEN === undefined) {
-      // redirect to login page, if we're not there already
-      if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-        /* TODO: use a real url */
-        alert('Must login. Missing authentication token.');
-        window.location.replace('http://127.0.0.1:8000/moderator/login.html');
-      }
+      mod.utils.load_localStorage();
+
     }
 
-    if (mod.LANGUAGES === undefined) {
-      // make call to get_languages API
-      $.ajax({
-        type: 'POST',
-        url: 'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN,
-        // url: 'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
-        dataType: 'json',
-        success: function (data) {
-          if (data.success) {
-            mod.LANGUAGES = data.languages;
-            mod.utils.save();
-          } else {
-            if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-              /* TODO: use a real url */
-              alert('Must login. Missing authentication token.');
-              window.location.replace('http://127.0.0.1:8000/moderator/login.html');
-            }
-          }
-        }
-      });
+
+    if (mod.URLS !== undefined) {
+      // load new data
+      mod.utils.load('posts');
+      mod.utils.load('messages');
+      mod.utils.load('languages');
+      // mod.utils.load('collections');
+      // mod.utils.load('assignments');
     }
 
-    // ----------------------------
 
-
-    // setup data object
-    mod.data.init();
-
-
-    // get current page
+    // get our current page
     mod.PAGE = document.querySelector('body').getAttribute('data-page');
+
+    // do specfic things for each page
     switch (mod.PAGE) {
       case 'login':
-        mod.login.init();
+        mod.utils.login();
         break;
       case 'posts':
         mod.latest_posts.init();
@@ -121,7 +100,6 @@ window.onload = function () {
         break;
     }
 
-    mod.utils.main_setup();
-
+    if (document.querySelector('#sidebar')) mod.utils.setup_sidebar();
 
 }

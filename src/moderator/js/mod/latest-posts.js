@@ -15,12 +15,23 @@ mod.latest_posts = (function() {
       // make sure we have data
       if (mod.DATA.posts === undefined) {
         console.log('show loading gif. tell them we\'re loading data');
-        mod.data.load_posts();
+        mod.utils.load('posts');
+
+        var wait = setTimeout(mod.latest_posts.init, 1000);
+
+
+        // // make sure we have data
+        // if (yellr.DATA.assignments === undefined) {
+        //   wait_for_data(yellr.view.assignments.render_feed, yellr.utils.load('assignments'));
+        //   return;
+        // }
+
+
       }
       else this.render();
 
       $('#refresh-posts').on('click', function (e) {
-        mod.data.load_posts();
+        mod.utils.load('posts');
         mod.latest_posts.render();
       });
     }
@@ -35,8 +46,7 @@ mod.latest_posts = (function() {
         target: '#latest-posts',
         context: {
           posts: mod.DATA.posts
-        },
-        append: true
+        }
       });
 
 

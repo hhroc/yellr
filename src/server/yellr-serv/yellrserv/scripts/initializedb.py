@@ -126,14 +126,14 @@ def main(argv=sys.argv):
         client_id = system_user_client_id,
         #verified = True,
         #user_name = '',
-        first_name = 'SYSTEM USER',
-        last_name = 'SYSTEM USER',
+        first_name = 'SYSTEM',
+        last_name = 'USER',
         email = '',
         organization = 'Yellr',
         #pass_salt = '',
         #pass_hash = 'hash', # NOTE: will never be the result of a md5 hash
     )
-    
+
     # set the system user as verified
     system_user = Users.verify_user(
         session = DBSession,
@@ -193,13 +193,13 @@ choice options',
             use_fence = True,
         )
         DBSession.add(assignment)
-        
+
         questionassignment = QuestionAssignments(
             assignment_id = 1,
             question_id = 1,
         )
         DBSession.add(questionassignment)
-        
+
         transaction.commit()
 
 

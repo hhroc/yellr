@@ -125,8 +125,8 @@ yellr.view.report = (function() {
 
     /* mycodespace URLs */
     var mycodespace = {
-      media_url: 'http://yellr.mycodespace.net/upload_media.json',
-      post_url: 'http://yellr.mycodespace.net/publish_post.json'
+      media_url: 'http://127.0.0.1:8080/upload_media.json',
+      post_url: 'http://127.0.0.1:8080/publish_post.json'
     }
 
     /* yellrdev.wxxi.org URLs */
@@ -145,7 +145,8 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      urls = wxxi;
+      // urls = wxxi;
+      urls = mycodespace;
 
       var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
       total_forms = forms.length;

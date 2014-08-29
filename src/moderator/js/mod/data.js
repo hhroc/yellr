@@ -11,7 +11,8 @@ mod.data = (function() {
       if (mod.DATA === undefined) mod.DATA = {};
 
       urls = {
-        posts: 'http://yellrdev.wxxi.org/admin/get_posts.json?token='+mod.TOKEN
+        // posts: 'http://yellrdev.wxxi.org/admin/get_posts.json?token='+mod.TOKEN
+        posts: 'http://127.0.0.1:8080/admin/get_posts.json?token='+mod.TOKEN
       }
 
       // load all of the things

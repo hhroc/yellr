@@ -16,10 +16,18 @@ yellr.data = (function() {
 
     var init = function() {
 
+      // var live_urls = {
+      //   assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+      //   notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+      //   messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+      //   news_feed: '',
+      //   profile: ''
+      // }
+
       var live_urls = {
-        assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-        notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
-        messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+        assignments: 'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+        notifications: 'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
+        messages: 'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
         news_feed: '',
         profile: ''
       }

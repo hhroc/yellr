@@ -1,7 +1,12 @@
 'use strict';
 var mod = mod || {};
 
+var DEBUG = true;
+
 window.onload = function () {
+
+    // console.log('removing localStorage');
+    // if (DEBUG) localStorage.removeItem('yellr-mod');
 
     // check for dependencies
     if (!Handlebars || !$) {
@@ -71,7 +76,8 @@ window.onload = function () {
       // make call to get_languages API
       $.ajax({
         type: 'POST',
-        url: 'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
+        url: 'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN,
+        // url: 'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
         dataType: 'json',
         success: function (data) {
           if (data.success) {

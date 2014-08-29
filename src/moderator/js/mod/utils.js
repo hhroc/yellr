@@ -36,7 +36,8 @@ mod.utils = {
             console.log($('#send-message-form').serialize());
             $.ajax({
               type: 'POST',
-              url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+              url: 'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
+              // url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
               dataType: 'json',
               data: $('#send-message-form').serialize(),
               success: function (data) {

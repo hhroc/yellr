@@ -99,7 +99,8 @@ mod.new_assignment = (function () {
 
     $post_btn.on('click', function (e) {
 
-      var url = 'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN;
+      var url = 'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN;
+      // var url = 'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN;
 
       $.ajax({
         type: 'POST',
@@ -203,7 +204,8 @@ mod.new_assignment = (function () {
 
     $.ajax({
       type: 'POST',
-      url: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
+      // url: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
+      url: 'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
       data: {
         'life_time': total,
         'questions': JSON.stringify(questions),

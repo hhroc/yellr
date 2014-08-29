@@ -14,7 +14,8 @@ mod.login = (function() {
             password = fields[1].value;
 
         // $form
-        var url = 'http://yellrdev.wxxi.org/admin/get_access_token.json?user_name='+username+'&password='+password;
+        var url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password;
+        // var url = 'http://yellrdev.wxxi.org/admin/get_access_token.json?user_name='+username+'&password='+password;
         $.ajax({
           type: 'POST',
           url: url,

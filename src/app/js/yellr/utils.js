@@ -4,59 +4,113 @@ var yellr = yellr || {};
 /**
  * utility functions
  * ===================================
+ * load_localStorage - load localtorage
+ * load - load data from server
+ * save - save yellr object to local storage
+ * set_urls - set API urls
+ * render_template - generate our Handlebar templates
+ * guid - generate a unique identifier
+ * notify - make q quick 'pop up' to notify user of activity
+ * no_subnav - remove the subnav easily from a page
  *
- * - render_template
- * - render_list
- * - clearNode
  */
 
 
 yellr.utils = {
 
-  load_data: function (url, callback) {
+
+
+  load_localStorage: function () {
+
+    var data = JSON.parse(localStorage.getItem('yellr'));
+    // set values for DATA, SETTINGS, UUID
+    yellr.DATA      = data.DATA;
+    yellr.SETTINGS  = data.SETTINGS;
+    yellr.UUID      = data.UUID;
+    yellr.URLS      = data.URLS;
+
+  },
+
+
+
+  load: function (dataType, callback) {
+
     /**
      * ping the yellr server to get data
      */
-    $.getJSON(url, function (response) {
+
+    // make sure we have our data object
+    if (yellr.DATA === undefined) yellr.DATA = {};
+
+    // load the things
+    $.getJSON(yellr.URLS[dataType], function (response) {
       if (response.success) {
 
-        console.log(response);
-        // yellr.DATA[]
-        // save assignments
-        // yellr.DATA.assignments = data.assignments;
-        // yellr.utils.save();
+        yellr.DATA[dataType] = response[dataType];
+        yellr.utils.save();
 
-        // if (callback) callback();
+        if (callback) callback();
 
       } else {
-        console.log('something went wrong loading');
+        yellr.utils.notify('Something went wrong loading '+dataType + ' from the server.');
       }
     });
-  },
 
-  reload: function (data_name) {
-    console.log('reload: '+data_name);
   },
 
 
-  no_subnav: function() {
-    /**
-     * convenience function. call it to remove the subnav
-     */
-
-    this.render_template({
-      target: '#app-subnav',
-      template: ''
-    })
-  },
 
   save: function() {
     /**
      * Saves/updates our yellr.localStorage
      */
 
-    localStorage.setItem('yellr', JSON.stringify({DATA: yellr.DATA, SETTINGS: yellr.SETTINGS, UUID: yellr.UUID }));
+    localStorage.setItem('yellr', JSON.stringify({
+      DATA: yellr.DATA,
+      SETTINGS: yellr.SETTINGS,
+      URLS: yellr.URLS,
+      UUID: yellr.UUID,
+    }));
   },
+
+
+
+  set_urls: function () {
+
+    /**
+     * use development urls or production urls
+     * if a user creates a new UUID, we have to change our API calls accordingly
+     */
+
+    // two sets of URLS
+    var dev_urls = {
+          assignments: 'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications: 'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
+          messages: 'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
+          news_feed: '',
+          profile: '',
+          upload: 'http://127.0.0.1:8080/upload_media.json',
+          post: 'http://127.0.0.1:8080/publish_post.json'
+
+        };
+
+    var live_urls = {
+          assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+          messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+          news_feed: '',
+          profile: '',
+          upload: 'http://yellrdev.wxxi.org/upload_media.json',
+          post: 'http://yellrdev.wxxi.org/publish_post.json'
+
+        };
+
+    // if in devevlopment, use local URLs
+    return (DEBUG) ? dev_urls : live_urls;
+
+  },
+
+
 
   render_template: function(settings) {
     /**
@@ -96,10 +150,6 @@ yellr.utils = {
   },
 
 
-  clearNode: function(DOMnode) {
-    while(DOMnode.hasChildNodes())
-      DOMnode.removeChild(DOMnode.firstChild);
-  },
 
   guid: function (len, radix) {
     /*!
@@ -138,6 +188,62 @@ yellr.utils = {
 
     return uuid.join('');
   },
+
+
+
+  notify: function(message) {
+
+    /**
+     * this function follows the idea of Flask's "flash message"
+     */
+
+     console.log('notify: ' + message);
+
+
+    // // cache the DOM Nofitications button
+    // var notifications_btn = document.querySelector('#notifications-btn');
+
+    // // add class to show new Notication has been received
+    // $(notifications_btn).addClass('new');
+    // // NOTE:
+    // // because we clear and recompile the HTML with Handlebar templates
+    // // we automatically clear the 'new' class from the button
+    // // this is convenient
+    // // but, if a user goes to 'Messages' and then goes back, the class will be gone
+    // // even though the user did not view the new Notification
+    // // this is because the Handlebar template does not change
+    // // console.log('remove class when new notification is viewed');
+    // console.log('make new <li> in notifications list');
+    // yellr.utils.render_template({
+    //   template: '#post-submitted-li',
+    //   target: '#recent-notifications',
+    //   context: e,
+    //   append: true
+    // })
+    // console.log(e);
+  },
+
+
+
+  no_subnav: function() {
+    /**
+     * convenience function. call it to remove the subnav
+     */
+
+    this.render_template({
+      target: '#app-subnav',
+      template: ''
+    })
+  },
+
+
+
+
+  clearNode: function(DOMnode) {
+    while(DOMnode.hasChildNodes())
+      DOMnode.removeChild(DOMnode.firstChild);
+  },
+
 
 
   promptCallback: function (results) {
@@ -297,41 +403,7 @@ yellr.utils = {
     //   // render_template(form);
     // });
 
-  },
-
-
-  notify: function(e) {
-    // cache the DOM Nofitications button
-    var notifications_btn = document.querySelector('#notifications-btn');
-
-    // add class to show new Notication has been received
-    $(notifications_btn).addClass('new');
-    // NOTE:
-    // because we clear and recompile the HTML with Handlebar templates
-    // we automatically clear the 'new' class from the button
-    // this is convenient
-    // but, if a user goes to 'Messages' and then goes back, the class will be gone
-    // even though the user did not view the new Notification
-    // this is because the Handlebar template does not change
-    // console.log('remove class when new notification is viewed');
-    console.log('make new <li> in notifications list');
-    yellr.utils.render_template({
-      template: '#post-submitted-li',
-      target: '#recent-notifications',
-      context: e,
-      append: true
-    })
-    console.log(e);
-  },
-
-
-  clearForm: function() {
-    // for all the forms, clear the data
-    var forms = document.querySelectorAll('#form-wrapper form.target');
-    for (var i = 0; i < forms.length; i++) {
-      forms[i].className='';
-      forms[i].reset();
-    };
   }
+
 
 };

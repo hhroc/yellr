@@ -61,7 +61,7 @@ yellr.view.assignments = (function() {
 
       // make sure we have data
       if (yellr.DATA.assignments === undefined) {
-        wait_for_data(yellr.view.assignments.render_feed, yellr.data.load_assignments);
+        wait_for_data(yellr.view.assignments.render_feed, yellr.utils.load('assignments'));
         return;
       }
 

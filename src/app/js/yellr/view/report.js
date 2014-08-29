@@ -17,6 +17,9 @@ yellr.view.report = (function() {
      */
 
     var render_template = yellr.utils.render_template,
+        form_counter = 0,
+        total_forms = 0,
+        media_objects = [],
         assignment_id,
         header,
         footer;
@@ -65,7 +68,6 @@ yellr.view.report = (function() {
         template: '#'+data.id+'-form',
         context: {client_id: yellr.UUID}
       }
-        // append: true
 
       // are we replying to an assignment?
       if (data.raw[2]) {
@@ -123,30 +125,12 @@ yellr.view.report = (function() {
 
 
 
-    /* mycodespace URLs */
-    var mycodespace = {
-      media_url: 'http://127.0.0.1:8080/upload_media.json',
-      post_url: 'http://127.0.0.1:8080/publish_post.json'
-    }
-
-    /* yellrdev.wxxi.org URLs */
-    var wxxi = {
-      media_url: 'http://yellrdev.wxxi.org/upload_media.json',
-      post_url: 'http://yellrdev.wxxi.org/publish_post.json'
-    }
-
-    var urls;
-
-    var form_counter = 0;
-    var total_forms = 0;
 
 
 
 
     var submit_form = function() {
 
-      // urls = wxxi;
-      urls = mycodespace;
 
       var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
       total_forms = forms.length;
@@ -155,13 +139,14 @@ yellr.view.report = (function() {
         var form = forms[i];
 
         console.log('submitting form #'+(i+1)+' of '+forms.length);
+
         $(form).ajaxSubmit({
-          url: urls.media_url,
+          url: yellr.URLS.upload,
           success: function (response) {
             if (response.success) {
               yellr.view.report.publish_post(response);
             } else {
-              console.log('something went wrong with upload_media......');
+              yellr.utils.notify('something went wrong with upload_media...');
               console.log(response);
             }
           }
@@ -175,7 +160,6 @@ yellr.view.report = (function() {
 
 
     // this is used to a publish  post
-    var media_objects = [];
 
     var publish_post = function(server_response) {
 
@@ -186,7 +170,6 @@ yellr.view.report = (function() {
       if (form_counter === total_forms) {
 
         console.log('all forms submitted');
-        console.log('assignment_id: ' + assignment_id);
 
         var our_data = {
           title: 'Conquest',
@@ -194,22 +177,19 @@ yellr.view.report = (function() {
           assignment_id: assignment_id,
           language_code: yellr.SETTINGS.language.code,
           location: JSON.stringify({
-            lat: 44,
-            lng: -77
+            lat: yellr.SETTINGS.lat,
+            lng: yellr.SETTINGS.lng
           }),
           media_objects: JSON.stringify(media_objects)
         };
-        console.log(our_data);
 
-        $.post(urls.post_url, our_data, function(e) {
-          console.log(media_objects);
+        $.post(yellr.URLS.post, our_data, function(e) {
           media_objects = [];
           form_counter = 0;
           total_forms = 0;
           console.log('post published');
         });
       }
-
 
     }
 

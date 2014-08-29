@@ -12,29 +12,66 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
+
+  // check for a UUID,
+  // - if none create it
+  // - set default app settings
 
   // check for pre-existing data, if none, create it
-  if (localStorage.getItem('yellr') === null) localStorage.setItem('yellr', JSON.stringify({DATA: {}, SETTINGS: {}, UUID: undefined}));
+  if (localStorage.getItem('yellr') === null) {
 
-  // get saved data
-  var data = JSON.parse(localStorage.getItem('yellr'));
-  // set values for DATA, SETTINGS, UUID
-  yellr.DATA = data.DATA;
-  yellr.SETTINGS = data.SETTINGS;
-  yellr.UUID = data.UUID;
+    // create a new user ID
+    yellr.UUID = yellr.utils.guid();
 
+    // default settings
+    yellr.SETTINGS = {
+      // default to Rochester, NY
+      lat: 43.2,
+      lng: -77.6,
+      language: {
+        code: 'en',
+        name: 'English',
+        set: function(lang) {
+          // pass in a code from Cordova api
+          this.code = lang;
 
-  /** MUST RUN INITS() IN THIS ORDER **/
-  /*  a user ID must exists before we can load data for it */
-  if (yellr.UUID === undefined) yellr.user.init();
+          // decipher
+          if (lang === 'en') this.name = 'English';  // *
+          if (lang === 'es') this.name = 'Español';  // *
+          if (lang === 'fr') this.name = 'French';   // *
 
+          // * - from HTC Inspire (Android)
+        }
+      },
+      app: {
+        // to do
+        // phone specific settings
+      }
+    };
 
-  yellr.data.init();
+    // set our API urls
+    // ** TO EDIT API URLS GO TO utils.js and change the set_urls function **
+    yellr.URLS = yellr.utils.set_urls();
+
+    yellr.utils.save();
+
+  } else {
+
+    // we ave existing local storage, load it
+    yellr.utils.load_localStorage();
+
+  }
+
+  // ping server for new data
+  yellr.utils.load('assignments');
+  yellr.utils.load('notifications');
+  yellr.utils.load('messages');
+
 
   // set up routes
-  // - js/yellr/routes.js
   yellr.routes.init();
+
   // extras
   // FastClick.attach(document.body);
 

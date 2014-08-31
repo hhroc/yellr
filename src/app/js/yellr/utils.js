@@ -246,88 +246,96 @@ yellr.utils = {
 
 
 
-  promptCallback: function (results) {
-    // console.log('hello from: promptCallback');
-    alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+  open_camera: function () {
+
+    console.log('open camera');
+
+    // navigator.camera.getPicture(
+    //   function(imgData) {
+
+    //     // yellr.route('#submit-form');
+    //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+    //   },
+    //   function(error) {
+    //     alert('Photo Capture fail: ' + error);
+    //   },
+    //   {
+    //     quality: 50,
+    //     destinationType: Camera.DestinationType.DATA_URL
+    //   }
+    // );
+
   },
+
+
+
+  open_gallery: function () {
+    console.log('hello from: open_gallery');
+  },
+
+
+
+  prompt: function (title, choices) {
+
+    $('#overlay-container').addClass('show');
+
+    // add event listner to conainer to close if user wants to cancel
+    $('#overlay-container').on('tap', function (e) {
+      e.preventDefault();
+      if (e.target.className === 'vertical-center') {
+        $('#overlay-container').removeClass('show');
+      }
+    });
+
+
+    // make the HTML
+    this.render_template({
+      template: '#prompt-template',
+      target: '#overlay',
+      context: {
+        title: title,
+        choices: choices
+      }
+    });
+
+
+    // setup event listeners
+    for (var i = 0; i < choices.length; i++) {
+      console.log(choices[i].callback);
+
+      var node = '#prompt-'+i;
+      var callback = choices[i].callback;
+      var thing = $(node);
+      // debugger;
+      $(node).on('tap', function (e) {
+        // callback();
+        console.log('hahahahah');
+        console.log(i);
+      });
+    };
+
+  },
+
 
 
   setup_report_bar: function() {
     // Media capture (audio, video, photo, text)
-    // alert('this fires once?');
-
-    // var test = navigator.notification.prompt;
 
     $('#capture-image').on('tap', function(e) {
-      // e.preventDefault();
+      e.preventDefault();
 
-      // alert('things got weird here. notification.prompt not working on my Android. TO FIX');
-
-      // alert('test notification.alert');
-      // /* alert, confirm and prompt aren't working */
-      // navigator.notification.alert(
-      //   'You are the winner!',  // message
-      //   null,         // callback
-      //   'Game Over',            // title
-      //   'Done'                  // buttonName
-      // );
-
-      // alert('test notification.confirm');
-      // navigator.notification.confirm(
-      //   'You are the winner!', // message
-      //    null,            // callback to invoke with index of button pressed
-      //   'Game Over',           // title
-      //   'Restart,Exit'         // buttonLabels
-      // );
-
-      // alert('test notification.prompt');
-      // navigator.notification.prompt(
-      //   'Please enter your name',  // message
-      //   function (results) {
-      //     // console.log('hello from: promptCallback');
-      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-      //   },
-      //   'Registration',            // title
-      //   ['Ok','Exit'],             // buttonLabels
-      //   'Jane Doe'                 // defaultText
-      // );
-
-      // alert('test notification.beep');
-      // navigator.notification.beep(1);
-
-      // alert('test notification.vibrate');
-      // navigator.notification.vibrate(250);
-
-
-
-      // navigator.notification.prompt(
-      //   'Choose source',
-      //   function (results) {
-      //     // console.log('hello from: promptCallback');
-      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-      //   },
-      //   ['Camera'],
-      //   ['Take a Photo', 'Pick from Gallery'],
-      //   'Default text'
-      // );
-
-
-
-
-      // navigator.camera.getPicture(
-      //   function(imgData) {
-
-      //     // yellr.route('#submit-form');
-      //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
-      //   },
-      //   function(error) {
-      //     alert('Photo Capture fail: ' + error);
-      //   },
-      //   {
-      //     quality: 50,
-      //     destinationType: Camera.DestinationType.DATA_URL
-      //   }
-      // );
+      // show overlay, popup thing
+      yellr.utils.prompt('Choose image source',
+        [
+          {
+            title: 'Use camera',
+            callback: yellr.utils.open_camera
+          },
+          {
+            title: 'Open gallery',
+            callback: yellr.utils.open_gallery
+          }
+        ]);
     });
     // // double tap to select from camera roll
     // $('#capture-image').on('doubleTap', function() {

@@ -1,0 +1,23 @@
+script#collections-li-template(type="text/x-handlebars-template").
+  <li>
+    <div class="collection-wrapper">
+      <h3 class="t2">{{ title }}</h3>
+      <p>{{ total_posts }}</p>
+      <input type="button" value="Export content">
+    </div>
+  </li>
+
+
+script#collections-form-template(type="text/x-handlebars-template").
+  <div class="overlay-container">
+    <h3 class="t2">New Collection</h3>
+    <form id="new-collections-form" class="form">
+      <input type="text" name="name" placeholder="Collections name">
+      <textarea name="description" rows="2" placeholder="Collection description (optional)"></textarea>
+      <input type="text" name="tags" placeholder="Collection tags (use commas to add multiple tags)">
+      <label class="submit-label">
+        <input type="submit" hidden>
+        <span class="submit-btn">Create</span>
+      </label>
+    </form>
+  </div>

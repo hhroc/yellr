@@ -95,6 +95,22 @@ window.onload = function () {
       case 'single-assignment':
         mod.assignments.view();
         break;
+      case 'collections':
+        // setup collections page
+        // hook up the buttons
+        document.querySelector('#new-collection-btn').onclick = function (e) {
+
+          mod.utils.show_overlay({
+            template: '#collections-form-template'
+          });
+          mod.collections.setup_form();
+
+        }
+        document.querySelector('#delete-collection-btn').onclick = function (e) {
+          console.log('delete collection');
+        }
+
+        break;
       default:
         console.log('lol');
         break;

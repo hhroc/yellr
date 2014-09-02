@@ -114,6 +114,7 @@ mod.utils = {
       messages:           'http://127.0.0.1:8080/admin/get_posts.json?token='+mod.TOKEN,
       create_message:     'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
       create_question:    'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
+      create_collection:  'http://127.0.0.1:8080/admin/create_collection.json?token='+mod.TOKEN,
       publish_assignment: 'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
       languages:          'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN
     }
@@ -123,6 +124,7 @@ mod.utils = {
       messages:           'http://yellrdev.wxxi.org/admin/get_posts.json?token='+mod.TOKEN,
       create_message:     'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
       create_question:    'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN,
+      create_collection:  'http://yellrdev.wxxi.org/admin/create_collection.json?token='+mod.TOKEN,
       publish_assignment: 'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
       languages:          'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN
     }
@@ -143,7 +145,7 @@ mod.utils = {
     overlay.onclick = mod.utils.clear_overlay;
 
 
-    if (args.template) {
+    if (args) {
       this.render_template({
         template: args.template,
         context: args.context,

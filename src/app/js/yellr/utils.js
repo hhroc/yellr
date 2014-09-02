@@ -337,17 +337,6 @@ yellr.utils = {
           }
         ]);
     });
-    // // double tap to select from camera roll
-    // $('#capture-image').on('doubleTap', function() {
-    //   alert('double tap. always double tap');
-    // });
-    // // long tap to select from camera roll
-    // $('#capture-image').on('longTap', function() {
-    //   alert('long tap');
-    // });
-
-
-
 
 
 
@@ -404,12 +393,6 @@ yellr.utils = {
         }
       );
     });
-
-    // // lowly ol' text
-    // $('#capture-text').on('tap', function() {
-    //   // render template
-    //   // render_template(form);
-    // });
 
   }
 

@@ -38,15 +38,19 @@ def main(global_config, **settings):
     # systme / debug views
     config.add_route('index.html', '/')
     config.add_route('status.json','status.json')
-    config.add_route('client_logs.json','client_logs.json')  
+    #config.add_route('client_logs.json','client_logs.json')  
     config.add_route('get_users.json','get_users.json')
     
     # admin views
     config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
+
+    config.add_route('admin/get_client_logs.json', 'admin/get_client_logs.json')
     config.add_route('admin/get_posts.json', 'admin/get_posts.json')
     config.add_route('admin/create_question.json', 'admin/create_question.json')
+    config.add_route('admin/update_question.json', 'admin/update_question.json')
     config.add_route('admin/publish_assignment.json', 'admin/publish_assignment.json')
     config.add_route('admin/update_assignment.json', 'admin/update_assignment.json')
+    config.add_route('admin/get_my_assignments.json', 'admin/get_my_assignments.json')
     config.add_route('admin/create_message.json', 'admin/create_message.json')
     config.add_route('admin/get_languages.json', 'admin/get_languages.json')
     config.add_route('admin/get_question_types.json', 'admin/get_question_types.json')
@@ -54,6 +58,12 @@ def main(global_config, **settings):
     config.add_route('admin/get_assignment_responses.json', \
         'admin/get_assignment_responses.json')
     config.add_route('admin/publish_story.json', 'admin/publish_story.json')
+    config.add_route('admin/create_collection.json', 'admin/create_collection.json')
+    config.add_route('admin/add_post_to_collection.json', 'admin/add_post_to_collection.json')
+    config.add_route('admin/remove_post_from_collection.json', 'admin/remove_post_from_collection.json')
+    config.add_route('admin/disable_collection.json', 'admin/disable_collection.json')
+    config.add_route('admin/get_collection_posts.json', 'admin/get_collection_posts.json')
+
 
     # client views
     config.add_route('create_response_message.json', \

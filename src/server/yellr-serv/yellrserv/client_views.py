@@ -71,29 +71,6 @@ def status(request):
     resp = json.dumps(system_status)
     return Response(resp,content_type="application/json")
 
-@view_config(route_name='client_logs.json')
-def client_log(request):
-
-    """
-    This is for debug use only.  Returns all of the event logs in the system.
-    """
-
-    # get all of the client logs in the system
-    # note: this could be a LOT of logs.
-    logs = EventLogs.get_all(DBSession)
-
-    retlogs = []
-    for log in logs:
-        retlogs.append({
-            'event_log_id': log.event_log_id,
-            'user_id': log.user_id,
-            'event_type': log.event_type,
-            'event_datetime': str(log.event_datetime),
-            'details': json.loads(log.details),
-        })
-    resp = json.dumps(retlogs)
-    return Response(resp,content_type='application/json')
-
 @view_config(route_name='get_users.json')
 def get_users(request):
 
@@ -226,8 +203,8 @@ def get_assignments(request):
     client_id = None
     ret_assignments = []
 
-    #try:
-    if True:
+    try:
+    #if True:
     
         #language_code = 'en'
         #if True:
@@ -256,7 +233,7 @@ def get_assignments(request):
                 'expire_datetime': str(expire_datetime),
                 'top_left_lat': top_left_lat,
                 'top_left_lng': top_left_lng,
-                'bottom_right_lat': bottom_right_lng,
+                'bottom_right_lat': bottom_right_lat,
                 'bottom_right_lng': bottom_right_lng,
                 'question_text': question_text,
                 'question_type_id': question_type_id,
@@ -275,8 +252,8 @@ def get_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
     
-    #except:
-    #    pass
+    except:
+        pass
 
     event_type = 'http_request'
     event_details = {
@@ -519,7 +496,8 @@ def publish_post(request):
     client_id, type: text (unique client id)
     assignment_id, type: text ( '' for no assignment)
     language_code, type: text (two letter language code)
-    location, type: text (json dict of lat and lng)
+    lat, type: text (latitude in degrees)
+    lng, type: text (longitude in degrees)
     media_objects, type: text (json array of media id's)
 
     """
@@ -527,37 +505,35 @@ def publish_post(request):
     result = {'success': False}
 
     try:
-    #if True:
 
         try:
             client_id = request.POST['client_id']
             assignment_id = request.POST['assignment_id']
             title = request.POST['title']
             language_code = request.POST['language_code']
-            location = json.loads(urllib.unquote(
-                request.POST['location']).decode('utf8')
-            )
+            lat = request.POST['lat']
+            lng = request.POST['lng']
             media_objects = json.loads(urllib.unquote(
                 request.POST['media_objects']).decode('utf8')
             )
         except:
             result['error_text'] = 'Missing or invalid field'
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: client_id, \
-#assignment_id, title, language_code, location (json dict), media_objects \
-#(json array).\
-#"""
             raise Exception('missing/invalid field')
 
         post,created = Posts.create_from_http(
-            DBSession,
-            client_id,
-            assignment_id,
-            title,
-            language_code,
-            location, # dict
-            media_objects, # array
+            session = DBSession,
+            client_id = client_id,
+            assignment_id = assignment_id,
+            title = title,
+            language_code = language_code,
+            lat = lat,
+            lng = lng,
+            media_objects = media_objects, # array
         )
+
+        print "\nThis client_id was seen by the server:\n"
+        print client_id
+        print "\n\n"
 
         result['success'] = True
         result['post_id'] = post.post_id
@@ -571,7 +547,8 @@ def publish_post(request):
             'client_id': client_id,
             'assignment_id': assignment_id,
             'language_code': language_code,
-            'location': location,
+            'lat': lat,
+            'lng': lng,
             'media_objects': media_objects,
             'success': result['success'],
             'post_id': result['post_id'],
@@ -614,26 +591,29 @@ def upload_media(request):
 
     """
 
+    #print "\n"
+    #print request.POST
+    #print "\n"
+
     result = {'success': False}
 
     #error_text = ''
     try:
     #if True:
 
+        #if True:
         try:
             client_id = request.POST['client_id']
             media_type = request.POST['media_type']
         except:
             result['error_text'] = 'Missing or invalid field'
-#            result['error_text'] = """\
-#One or more of the following fields is missing or invalid: client_id, \
-#media_type. \
-#"""
             raise Exception('missing fields')
 
         file_name = ''
-        try:
+        if media_type == 'image' or media_type == 'video' \
+                or media_type == 'audio':
 
+    
             #print '\n[DEBUG] POST items:\n'
             #print request.POST.items()
             #print '\n\n'
@@ -642,8 +622,7 @@ def upload_media(request):
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
-                
-                #raise Exception("Missing or invalid media_file field")
+                result['error_text'] = 'Missing or invalid file field'
                 raise Exception('Invalid media_file field.')
 
             # decode media type
@@ -680,10 +659,9 @@ def upload_media(request):
 
             result['file_name'] = file_name
 
-        except:
-            result['file_name'] = ''
-            result['error_text'] = 'Missing or invalid media_file contents.'
-            raise Exception('missing/invalid media_file contents')
+        #except:
+            #result['error_text'] = 'Missing or invalid media_file contents.'
+            #raise Exception('missing/invalid media_file contents')
 
         media_caption = ''
         try:
@@ -691,11 +669,13 @@ def upload_media(request):
         except:
             pass
 
+        
         media_text = ''
-        try:
-            media_text = request.POST['media_text']
-        except:
-            pass
+        if media_type == 'text':
+            try:
+                media_text = request.POST['media_text']
+            except:
+                raise Exception('Invalid/missing field')
 
         # register file with database, and get file id back
         media_object, created = MediaObjects.create_new_media_object(
@@ -710,7 +690,7 @@ def upload_media(request):
         result['media_id'] = media_object.media_id
         result['success'] = True
         result['new_user'] = created
-        result['media_text'] = media_text
+        #result['media_text'] = media_text
         result['error_text'] = '' 
 
         # Debug/Logging

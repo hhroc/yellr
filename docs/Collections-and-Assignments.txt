@@ -1,0 +1,12 @@
+# Assignments and Collections
+
+Understanding the relationship between Assignments and Collections.
+
+- Assignment - question text, deadline
+- Collection - group of posts submitted by users
+
+
+Collections are typically associated with an Assignment.
+However, this is not always the case. A user (users in the context of this article referes to the "Admin" users) can create a collection for just about anything. Collections are essentially folders. They allow you to group similar content together.
+
+Collections are the bridge between creating an assignment and a published report.

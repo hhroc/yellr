@@ -73,7 +73,7 @@ window.onload = function () {
       mod.utils.load('posts', mod.latest_posts.render_feed);
       mod.utils.load('messages');
       mod.utils.load('languages');
-      // mod.utils.load('collections');
+      mod.utils.load('collections');
       // mod.utils.load('assignments');
     }
 
@@ -100,15 +100,15 @@ window.onload = function () {
         // hook up the buttons
         document.querySelector('#new-collection-btn').onclick = function (e) {
 
-          mod.utils.show_overlay({
-            template: '#collections-form-template'
-          });
+          mod.utils.show_overlay({template: '#collections-form-template'});
           mod.collections.setup_form();
 
         }
         document.querySelector('#delete-collection-btn').onclick = function (e) {
           console.log('delete collection');
         }
+
+        mod.collections.view_all();
 
         break;
       default:

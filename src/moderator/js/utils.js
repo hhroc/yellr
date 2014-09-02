@@ -17,13 +17,9 @@ mod.utils = {
 
   login: function () {
 
-    console.log('lol - login?');
-
     var $form = $('#mod-login');
 
     $form.submit(function (e) {
-
-      console.log('lol');
 
       e.preventDefault();
       var fields = $form.serializeArray(),
@@ -208,7 +204,7 @@ mod.utils = {
   setup_sidebar: function () {
     // set up the Post question form
     // it is ony evry page
-    document.querySelector('#post-question-btn').onclick = mod.new_assignment.setup_form;
+    document.querySelector('#post-question-btn').onclick = mod.assignments.setup_form;
 
   }
 

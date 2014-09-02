@@ -32,7 +32,7 @@ mod.latest_posts = (function() {
 
         $('#refresh-posts').on('click', function (e) {
           mod.utils.load('posts');
-          mod.latest_posts.render();
+          mod.latest_posts.render_feed();
         });
 
       }

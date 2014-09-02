@@ -1,0 +1,82 @@
+//- view a message + reply form
+script#view-message-template(type="text/x-handlebars-template").
+  <div id="view-message">
+    <div class="content">
+      <h3 class="subject">{{subject}}</h3>
+      <span class="date-sent">{{send_date}}</span>
+      <div>
+        <p>{{content}}</p>
+      </div>
+    </div>
+    <div id="message-reply-container">
+      <form id="reply-form" action="#" class="form">
+        <input type="hidden" name="email_id" value="{{id}}">
+        <h3 class="t2">Reply</h3>
+        <div>
+          <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+        </div>
+        <div class="submit-div">
+          <label><span class="submit-btn">Submit</span>
+            <input type="submit" value="Send" hidden>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+//- formto send a message to yellr users
+script#send-message-template(type="text/x-handlebars-template").
+  <form id="send-message-form" action="#" class="form">
+    <h3 class="t2">New Message</h3>
+    <div>
+      <span>To</span>
+      {{#if uid}}
+      <input type="hidden" name="to_client_id" value="{{ uid }}">
+      <span>{{uid}}</span>
+      {{else}}
+      <input type="text" name="to_client_id" value="{{ uid }}">
+      {{/if}}
+    </div>
+    <div><span class="block">Subject</span>
+      <input type="text" name="subject">
+    </div>
+    <div><span class="block">Message</span>
+      <textarea rows="2" name="text" placeholder="New message..."></textarea>
+    </div>
+    <div class="submit-div">
+      <label><span class="submit-btn">Submit</span>
+        <input type="submit" value="Send" hidden>
+      </label>
+    </div>
+  </form>
+
+
+
+//- reply to a message
+script#reply-template(type="text/x-handlebars-template").
+  <form id="reply-form" action="#" class="form">
+    <input type="hidden" name="email_id" value="email-id">
+    <h3 class="t2">Reply</h3>
+    <div>
+      <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+    </div>
+    <div class="submit-div">
+      <label><span class="submit-btn">Submit</span>
+        <input type="submit" value="Send" hidden>
+      </label>
+    </div>
+  </form>
+
+
+
+//- used to render our inbox items
+script#inbox-li(type="text/x-handlebars-template").
+  {{#each messages}}
+  <li data-id="{{id}}">
+    <h3 class="sender">{{sender}}</h3>
+    <span class="subject">{{subject}}</span>
+    <span class="date">{{send_date}}</span>
+  </li>
+  {{/each}}

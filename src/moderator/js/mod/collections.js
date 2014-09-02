@@ -4,6 +4,15 @@ var mod = mod || {};
 mod.collections = (function() {
 
 
+
+  var view_all = function () {
+    console.log('hello from: view_all');
+
+  }
+
+
+
+
   var init = function () {
     console.log('hello from: collections.init');
   }
@@ -55,6 +64,7 @@ mod.collections = (function() {
   return {
     init: init,
     view: view,
+    view_all: view_all,
     setup_form: setup_form,
     submit_form: submit_form
   }

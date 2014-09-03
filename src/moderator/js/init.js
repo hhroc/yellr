@@ -1,7 +1,7 @@
 'use strict';
 var mod = mod || {};
 
-var DEBUG = true;
+var DEBUG = false;
 
 window.onload = function () {
 

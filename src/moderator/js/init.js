@@ -111,6 +111,23 @@ window.onload = function () {
         mod.collections.view_all();
 
         break;
+      case 'messages':
+
+        // // setup inbox
+        // mod.messages.init({
+        //   data_url: mod.URLS.messages,
+        //   template: '#inbox-li',
+        //   container: '#inbox',
+        //   read_target: '#read-mail-list',
+        //   unread_target: '#unread-mail-list'
+        // });
+
+        // hook up the button
+        document.querySelector('#new-message-btn').onclick = function() {
+          mod.messages.create_message();
+        }
+        break;
+
       default:
         console.log('lol');
         break;

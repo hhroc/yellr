@@ -12,48 +12,6 @@ mod.messages = (function () {
         self;
 
 
-    // // if on messages, render inbox
-    // if (document.querySelector('#inbox')) {
-
-    //   // setup inbox
-    //   mod.messages.init({
-    //     data_url: 'data/messages.json',
-    //     template: '#inbox-li',
-    //     container: '#inbox',
-    //     read_target: '#read-mail-list',
-    //     unread_target: '#unread-mail-list'
-    //   });
-
-    //   // hook up the button
-    //   document.querySelector('#new-message-btn').onclick = function() {
-    //     mod.utils.show_overlay({
-    //       template: '#send-message-template'
-    //     });
-
-    //     mod.messages.create_message();
-
-    //     $('#send-message-form .submit-btn').on('click', function (e) {
-    //       e.preventDefault();
-
-    //       console.log('send message..');
-    //       console.log($('#send-message-form').serialize());
-    //       $.ajax({
-    //         type: 'POST',
-    //         url: 'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
-    //         // url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
-    //         dataType: 'json',
-    //         data: $('#send-message-form').serialize(),
-    //         success: function (data) {
-    //           console.log(data);
-    //         }
-    //       })
-    //     })
-    //   }
-
-    // }
-
-
-
 
     var init = function (args) {
       self = this;
@@ -109,7 +67,6 @@ mod.messages = (function () {
 
 
     var create_message = function (uid) {
-      console.log('create message');
 
       mod.utils.show_overlay({
         template: '#send-message-template',
@@ -118,20 +75,22 @@ mod.messages = (function () {
         }
       });
 
+
       $('#send-message-form .submit-btn').on('click', function (e) {
         e.preventDefault();
 
-        console.log('send message..');
-        console.log($('#send-message-form').serialize());
         $.ajax({
           type: 'POST',
-          url: 'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
-          // url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+          url: mod.URLS.create_message,
           dataType: 'json',
           data: $('#send-message-form').serialize(),
-          success: function (data) {
-            console.log(data);
-            mod.utils.clear_overlay();
+          success: function (response) {
+            if (response.success) {
+              console.log('message sent');
+              mod.utils.clear_overlay();
+            } else {
+              alert('Error sending message. Check the user ID.');
+            }
           }
         })
       })

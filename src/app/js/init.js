@@ -77,8 +77,8 @@ window.onload = function() {
 
 
   document.addEventListener('deviceready', function() {
-    yellr.user.cordova();
-    // alert('running deviceready');
+    // yellr.user.cordova();
+    alert('running deviceready');
     // // yellr.setup.user();
     // // yellr.setup.app();
     // // hide splash screen

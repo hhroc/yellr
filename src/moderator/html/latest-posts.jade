@@ -22,70 +22,92 @@ body#moderator(data-page="posts")
       div.flex-4#right
 
         section#all-submissions.right-wrapper
+          h2.t1 Active Assignments
+          div.active-assignments-wrapper
+            ul#active-assignments-list.inline
+              li
+                h3.t3 Assignment Title
+                div.flex
+                  div.flex-3
+                    a(href="#") View assignment
+                  p.flex-2.assignment-deadline 2 weeks
+              li
+                h3.t3 Assignment Title
+                div.flex
+                  div.flex-3
+                    a(href="#") View assignment
+                  p.flex-2.assignment-deadline 2 weeks
+              li
+                h3.t3 Assignment Title
+                div.flex
+                  div.flex-3
+                    a(href="#") View assignment
+                  p.flex-2.assignment-deadline 2 weeks
+
+
+
           h2.t1 All Posts
-          p#refresh-posts Refresh/Reload
-
-
           div#latest-posts-wrapper.flex
-
-            div.grid.submissions-grid#latest-posts.flex-3
-              div.grid-sizer
-              div.gutter-sizer
 
             div#feed-controls.flex-1
               div.feed-controls-wrapper
+                p#refresh-posts.feed-filter Refresh/Reload
                 div#change-view.feed-filter
-                  p View:
+                  p View
                   ul.list-style-none
                     li
                       label
-                        input(type="radio", name="feed-view", value="list", checked)
                         span List
+                        input(type="radio", name="feed-view", value="list", checked)
                     li
                       label
-                        input(type="radio", name="feed-view", value="grid")
                         span Grid
+                        input(type="radio", name="feed-view", value="grid")
 
                 div#filter-content-type.feed-filter
                   p Content Type
                   ul.list-style-none
                     li
                       label
-                        input(type="checkbox", value="video", checked)
                         span Video
+                        input(type="checkbox", value="video", checked)
                     li
                       label
-                        input(type="checkbox", value="photo", checked)
                         span Photo
+                        input(type="checkbox", value="photo", checked)
                     li
                       label
-                        input(type="checkbox", value="audio", checked)
                         span Audio
+                        input(type="checkbox", value="audio", checked)
                     li
                       label
-                        input(type="checkbox", value="text", checked)
                         span Text
+                        input(type="checkbox", value="text", checked)
 
                 div#filter-submission-type.feed-filter
                   p Submission Type
                   ul.list-style-none
                     li
                       label
-                        input(type="radio", name="sub-type", value="all", checked)
                         span All
+                        input(type="radio", name="sub-type", value="all", checked)
                     li
                       label
-                        input(type="radio", name="sub-type", value="anonymous")
                         span Anonymous
+                        input(type="radio", name="sub-type", value="anonymous")
                     li
                       label
-                        input(type="radio", name="sub-type", value="validated")
                         span Validated
+                        input(type="radio", name="sub-type", value="validated")
 
                 div#filter-search.feed-filter
                   p Search
                   input(type="text", placeholder="Search by tag, keyword, or UID")
 
+
+            div.grid.submissions-grid#latest-posts.flex-3
+              div.grid-sizer
+              div.gutter-sizer
 
 
   include _footer.jade

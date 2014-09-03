@@ -12,7 +12,7 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
 
   // check for a UUID,
   // - if none create it
@@ -65,8 +65,8 @@ window.onload = function() {
 
   // ping server for new data
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
-  yellr.utils.load('notifications');
-  yellr.utils.load('messages');
+  yellr.utils.load('notifications', yellr.utils.check_notifications);
+  yellr.utils.load('messages', yellr.utils.check_messages);
 
 
   // set up routes

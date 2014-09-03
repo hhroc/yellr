@@ -191,36 +191,53 @@ yellr.utils = {
 
 
 
+  check_notifications: function () {
+    console.log('check notifications');
+    console.log(yellr.DATA.notifications);
+    if (yellr.DATA.notifications) {
+      yellr.utils.notify('You have a new message!');
+    };
+  },
+
+
+
+  check_messages: function () {
+    console.log('check_messages');
+    console.log(yellr.DATA.messages);
+  },
+
+
+
+
   notify: function(message) {
 
     /**
      * this function follows the idea of Flask's "flash message"
      */
 
-     console.log('notify: ' + message);
+
+    // if a messsage was passed, show that
+    // alert('notify: ' + message);
+    yellr.utils.render_template({
+      template: '#notify-tmpl',
+      target: '#notify-list',
+      context: {
+        message: message
+      },
+      append: true
+    })
+
+    // we set the height inline so we can transition nicely
+    $('#notify-wrapper').css('height', $('#notify-list').css('height'));
 
 
-    // // cache the DOM Nofitications button
-    // var notifications_btn = document.querySelector('#notifications-btn');
+    setTimeout(function () {
 
-    // // add class to show new Notication has been received
-    // $(notifications_btn).addClass('new');
-    // // NOTE:
-    // // because we clear and recompile the HTML with Handlebar templates
-    // // we automatically clear the 'new' class from the button
-    // // this is convenient
-    // // but, if a user goes to 'Messages' and then goes back, the class will be gone
-    // // even though the user did not view the new Notification
-    // // this is because the Handlebar template does not change
-    // // console.log('remove class when new notification is viewed');
-    // console.log('make new <li> in notifications list');
-    // yellr.utils.render_template({
-    //   template: '#post-submitted-li',
-    //   target: '#recent-notifications',
-    //   context: e,
-    //   append: true
-    // })
-    // console.log(e);
+      document.querySelector('#notify-list').removeChild(document.querySelector('#notify-list').firstChild);
+      $('#notify-wrapper').css('height', $('#notify-list').css('height'));
+      console.log('lol');
+    }, 3000);
+
   },
 
 

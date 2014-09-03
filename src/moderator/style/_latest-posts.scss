@@ -1,3 +1,7 @@
+.active-assignments-wrapper {
+  margin-bottom: 2.5rem;
+}
+
 
 
 .latest-feed-list {
@@ -50,8 +54,14 @@
 }
 
 .feed-controls-wrapper {
-  background: #d2d2d2;
+  max-width: 10rem;
+  text-align: right;
+  background: #ebebeb;
   padding: 1rem 1rem 2rem;
+  font-size: 0.875rem;
+  p {
+    font-weight: bold;
+  }
 }
 
 // .filter-wrapper {

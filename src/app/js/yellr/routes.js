@@ -67,6 +67,7 @@ yellr.routes = (function() {
       yellr.route('#view-assignment', yellr.view.assignments);
       yellr.route('#messages', yellr.view.messages);
       yellr.route('#view-message', yellr.view.messages);
+      yellr.route('#reply-message', yellr.view.messages);
       yellr.route('#news-feed', yellr.view.news_feed);
       yellr.route('#view-news', yellr.view.news_feed);
       yellr.route('#notifications', yellr.view.notifications);

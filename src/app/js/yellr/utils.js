@@ -4,33 +4,113 @@ var yellr = yellr || {};
 /**
  * utility functions
  * ===================================
+ * load_localStorage - load localtorage
+ * load - load data from server
+ * save - save yellr object to local storage
+ * set_urls - set API urls
+ * render_template - generate our Handlebar templates
+ * guid - generate a unique identifier
+ * notify - make q quick 'pop up' to notify user of activity
+ * no_subnav - remove the subnav easily from a page
  *
- * - render_template
- * - render_list
- * - clearNode
  */
 
 
 yellr.utils = {
 
-  no_subnav: function() {
+
+
+  load_localStorage: function () {
+
+    var data = JSON.parse(localStorage.getItem('yellr'));
+    // set values for DATA, SETTINGS, UUID
+    yellr.DATA      = data.DATA;
+    yellr.SETTINGS  = data.SETTINGS;
+    yellr.UUID      = data.UUID;
+    yellr.URLS      = data.URLS;
+
+  },
+
+
+
+  load: function (dataType, callback) {
+
     /**
-     * convenience function. call it to remove the subnav
+     * ping the yellr server to get data
      */
 
-    this.render_template({
-      target: '#app-subnav',
-      template: ''
-    })
+    // make sure we have our data object
+    if (yellr.DATA === undefined) yellr.DATA = {};
+
+    // load the things
+    $.getJSON(yellr.URLS[dataType], function (response) {
+      if (response.success) {
+
+        yellr.DATA[dataType] = response[dataType];
+        yellr.utils.save();
+
+        if (callback) callback();
+
+      } else {
+        yellr.utils.notify('Something went wrong loading '+dataType + ' from the server.');
+      }
+    });
+
   },
+
+
 
   save: function() {
     /**
      * Saves/updates our yellr.localStorage
      */
 
-    localStorage.setItem('yellr', JSON.stringify({DATA: yellr.DATA, SETTINGS: yellr.SETTINGS, UUID: yellr.UUID }));
+    localStorage.setItem('yellr', JSON.stringify({
+      DATA: yellr.DATA,
+      SETTINGS: yellr.SETTINGS,
+      URLS: yellr.URLS,
+      UUID: yellr.UUID,
+    }));
   },
+
+
+
+  set_urls: function () {
+
+    /**
+     * use development urls or production urls
+     * if a user creates a new UUID, we have to change our API calls accordingly
+     */
+
+    // two sets of URLS
+    var dev_urls = {
+          assignments: 'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications: 'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
+          messages: 'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
+          news_feed: '',
+          profile: '',
+          upload: 'http://127.0.0.1:8080/upload_media.json',
+          post: 'http://127.0.0.1:8080/publish_post.json'
+
+        };
+
+    var live_urls = {
+          assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+          messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+          news_feed: '',
+          profile: '',
+          upload: 'http://yellrdev.wxxi.org/upload_media.json',
+          post: 'http://yellrdev.wxxi.org/publish_post.json'
+
+        };
+
+    // if in devevlopment, use local URLs
+    return (DEBUG) ? dev_urls : live_urls;
+
+  },
+
+
 
   render_template: function(settings) {
     /**
@@ -70,10 +150,6 @@ yellr.utils = {
   },
 
 
-  clearNode: function(DOMnode) {
-    while(DOMnode.hasChildNodes())
-      DOMnode.removeChild(DOMnode.firstChild);
-  },
 
   guid: function (len, radix) {
     /*!
@@ -114,100 +190,170 @@ yellr.utils = {
   },
 
 
-  promptCallback: function (results) {
-    // console.log('hello from: promptCallback');
-    alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
+
+  check_notifications: function () {
+    console.log('check notifications');
+    console.log(yellr.DATA.notifications);
+    if (yellr.DATA.notifications) {
+      yellr.utils.notify('You have a new message!');
+    };
   },
+
+
+
+  check_messages: function () {
+    console.log('check_messages');
+    console.log(yellr.DATA.messages);
+  },
+
+
+
+
+  notify: function(message) {
+
+    /**
+     * this function follows the idea of Flask's "flash message"
+     */
+
+
+    // if a messsage was passed, show that
+    // alert('notify: ' + message);
+    yellr.utils.render_template({
+      template: '#notify-tmpl',
+      target: '#notify-list',
+      context: {
+        message: message
+      },
+      append: true
+    })
+
+    // we set the height inline so we can transition nicely
+    $('#notify-wrapper').css('height', $('#notify-list').css('height'));
+
+
+    setTimeout(function () {
+
+      document.querySelector('#notify-list').removeChild(document.querySelector('#notify-list').firstChild);
+      $('#notify-wrapper').css('height', $('#notify-list').css('height'));
+      console.log('lol');
+    }, 3000);
+
+  },
+
+
+
+  no_subnav: function() {
+    /**
+     * convenience function. call it to remove the subnav
+     */
+
+    this.render_template({
+      target: '#app-subnav',
+      template: ''
+    })
+  },
+
+
+
+
+  clearNode: function(DOMnode) {
+    while(DOMnode.hasChildNodes())
+      DOMnode.removeChild(DOMnode.firstChild);
+  },
+
+
+
+  open_camera: function () {
+
+    console.log('open camera');
+
+    // navigator.camera.getPicture(
+    //   function(imgData) {
+
+    //     // yellr.route('#submit-form');
+    //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+    //   },
+    //   function(error) {
+    //     alert('Photo Capture fail: ' + error);
+    //   },
+    //   {
+    //     quality: 50,
+    //     destinationType: Camera.DestinationType.DATA_URL
+    //   }
+    // );
+
+  },
+
+
+
+  open_gallery: function () {
+    console.log('hello from: open_gallery');
+  },
+
+
+
+  prompt: function (title, choices) {
+
+    $('#overlay-container').addClass('show');
+
+    // add event listner to conainer to close if user wants to cancel
+    $('#overlay-container').on('tap', function (e) {
+      e.preventDefault();
+      if (e.target.className === 'vertical-center') {
+        $('#overlay-container').removeClass('show');
+      }
+    });
+
+
+    // make the HTML
+    this.render_template({
+      template: '#prompt-template',
+      target: '#overlay',
+      context: {
+        title: title,
+        choices: choices
+      }
+    });
+
+
+    // setup event listeners
+    for (var i = 0; i < choices.length; i++) {
+      console.log(choices[i].callback);
+
+      var node = '#prompt-'+i;
+      var callback = choices[i].callback;
+      var thing = $(node);
+      // debugger;
+      $(node).on('tap', function (e) {
+        // callback();
+        console.log('hahahahah');
+        console.log(i);
+      });
+    };
+
+  },
+
 
 
   setup_report_bar: function() {
     // Media capture (audio, video, photo, text)
-    // alert('this fires once?');
-
-    // var test = navigator.notification.prompt;
 
     $('#capture-image').on('tap', function(e) {
-      // e.preventDefault();
+      e.preventDefault();
 
-      alert('things got weird here. notification.prompt not working on my Android. TO FIX');
-
-      // alert('test notification.alert');
-      // /* alert, confirm and prompt aren't working */
-      // navigator.notification.alert(
-      //   'You are the winner!',  // message
-      //   null,         // callback
-      //   'Game Over',            // title
-      //   'Done'                  // buttonName
-      // );
-
-      // alert('test notification.confirm');
-      // navigator.notification.confirm(
-      //   'You are the winner!', // message
-      //    null,            // callback to invoke with index of button pressed
-      //   'Game Over',           // title
-      //   'Restart,Exit'         // buttonLabels
-      // );
-
-      // alert('test notification.prompt');
-      // navigator.notification.prompt(
-      //   'Please enter your name',  // message
-      //   function (results) {
-      //     // console.log('hello from: promptCallback');
-      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-      //   },
-      //   'Registration',            // title
-      //   ['Ok','Exit'],             // buttonLabels
-      //   'Jane Doe'                 // defaultText
-      // );
-
-      // alert('test notification.beep');
-      // navigator.notification.beep(1);
-
-      // alert('test notification.vibrate');
-      // navigator.notification.vibrate(250);
-
-
-
-      // navigator.notification.prompt(
-      //   'Choose source',
-      //   function (results) {
-      //     // console.log('hello from: promptCallback');
-      //     alert("You selected button number " + results.buttonIndex + " and entered " + results.input1);
-      //   },
-      //   ['Camera'],
-      //   ['Take a Photo', 'Pick from Gallery'],
-      //   'Default text'
-      // );
-
-
-
-
-      // navigator.camera.getPicture(
-      //   function(imgData) {
-
-      //     // yellr.route('#submit-form');
-      //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
-      //   },
-      //   function(error) {
-      //     alert('Photo Capture fail: ' + error);
-      //   },
-      //   {
-      //     quality: 50,
-      //     destinationType: Camera.DestinationType.DATA_URL
-      //   }
-      // );
+      // show overlay, popup thing
+      yellr.utils.prompt('Choose image source',
+        [
+          {
+            title: 'Use camera',
+            callback: yellr.utils.open_camera
+          },
+          {
+            title: 'Open gallery',
+            callback: yellr.utils.open_gallery
+          }
+        ]);
     });
-    // // double tap to select from camera roll
-    // $('#capture-image').on('doubleTap', function() {
-    //   alert('double tap. always double tap');
-    // });
-    // // long tap to select from camera roll
-    // $('#capture-image').on('longTap', function() {
-    //   alert('long tap');
-    // });
-
-
-
 
 
 
@@ -265,47 +411,7 @@ yellr.utils = {
       );
     });
 
-    // // lowly ol' text
-    // $('#capture-text').on('tap', function() {
-    //   // render template
-    //   // render_template(form);
-    // });
-
-  },
-
-
-  notify: function(e) {
-    // cache the DOM Nofitications button
-    var notifications_btn = document.querySelector('#notifications-btn');
-
-    // add class to show new Notication has been received
-    $(notifications_btn).addClass('new');
-    // NOTE:
-    // because we clear and recompile the HTML with Handlebar templates
-    // we automatically clear the 'new' class from the button
-    // this is convenient
-    // but, if a user goes to 'Messages' and then goes back, the class will be gone
-    // even though the user did not view the new Notification
-    // this is because the Handlebar template does not change
-    // console.log('remove class when new notification is viewed');
-    console.log('make new <li> in notifications list');
-    yellr.utils.render_template({
-      template: '#post-submitted-li',
-      target: '#recent-notifications',
-      context: e,
-      append: true
-    })
-    console.log(e);
-  },
-
-
-  clearForm: function() {
-    // for all the forms, clear the data
-    var forms = document.querySelectorAll('#form-wrapper form.target');
-    for (var i = 0; i < forms.length; i++) {
-      forms[i].className='';
-      forms[i].reset();
-    };
   }
+
 
 };

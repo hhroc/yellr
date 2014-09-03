@@ -11,23 +11,41 @@ mod.latest_posts = (function() {
 
     var init = function () {
 
-
       // make sure we have data
       if (mod.DATA.posts === undefined) {
         console.log('show loading gif. tell them we\'re loading data');
-        mod.data.load_posts();
+        mod.utils.load('posts');
+        var wait = setTimeout(mod.latest_posts.init, 1000);
       }
-      else this.render();
+      else {
+        this.render_feed();
 
-      $('#refresh-posts').on('click', function (e) {
-        mod.data.load_posts();
-        mod.latest_posts.render();
-      });
+        // Send a message to a user who submitted content
+        var msg_btn = document.querySelector('.submissions-grid');
+        msg_btn.onclick = function(e) {
+          if (e.target.className === 'fa fa-comment') {
+            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+            console.log(uid);
+            mod.messages.create_message(uid);
+          }
+        };
+
+        $('#refresh-posts').on('click', function (e) {
+          mod.utils.load('posts');
+          mod.latest_posts.render_feed();
+        });
+
+      }
+      // end if..else
+
     }
 
 
 
-    var render = function () {
+
+
+
+    var render_feed = function () {
       console.log('hello from: render');
 
       mod.utils.render_template({
@@ -35,39 +53,28 @@ mod.latest_posts = (function() {
         target: '#latest-posts',
         context: {
           posts: mod.DATA.posts
-        },
-        append: true
-      });
-
-
-      // set up the grid magic with packery
-      var container = document.querySelector('#latest-posts');
-      // var pckry = new Packery( container, {
-      var packery = new Packery( container, {
-        itemSelector: '.gi',
-        columnWidth: container.querySelector('.grid-sizer'),
-        gutter: container.querySelector('.gutter-sizer'),
-        isResizeBound: true,
-      });
-
-
-
-      // Send a message to a user who submitted content
-      var msg_btn = document.querySelector('.submissions-grid');
-      msg_btn.onclick = function(e) {
-        if (e.target.className === 'fa fa-comment') {
-          var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-          console.log(uid);
-          mod.messages.create_message(uid);
         }
-      };
+      });
 
 
-      var delay_packery = setTimeout(function () {
-        packery.layout();
+      // // set up the grid magic with packery
+      // var container = document.querySelector('#latest-posts');
+      // // var pckry = new Packery( container, {
+      // var packery = new Packery( container, {
+      //   itemSelector: '.gi',
+      //   columnWidth: container.querySelector('.grid-sizer'),
+      //   gutter: container.querySelector('.gutter-sizer'),
+      //   isResizeBound: true,
+      // });
 
-        clearTimeout(delay_packery);
-      }, 2000);
+      // var delay_packery = setTimeout(function () {
+      //   packery.layout();
+
+      //   clearTimeout(delay_packery);
+      // }, 2000);
+
+
+
 
 
     }
@@ -119,6 +126,6 @@ mod.latest_posts = (function() {
 
     return {
       init: init,
-      render: render
+      render_feed: render_feed
     }
 })();

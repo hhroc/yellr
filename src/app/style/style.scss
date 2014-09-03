@@ -17,6 +17,65 @@
 @import "vars";
 
 
+
+// overlay styles assume you would want the sterotypical
+// vertically cernterned and black overlay
+
+#overlay-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(#111, 0.6);
+  display: none;
+  &.show {
+    z-index: 500;
+    display: block;
+  }
+}
+
+.p1 {
+  font-size: 1.125rem;
+  border-bottom: 1px solid $blue;
+  padding: 0 0 0.6rem 0.75rem;
+  margin: 0;
+}
+
+#overlay {
+  background: #ebebeb;
+  margin: 0 0.5rem 30%;
+  border-radius: 6px;
+  padding-top: 1rem;
+}
+
+.prompt-choices-vertical {
+  li {
+    padding: 1rem 0.75rem;
+    border-bottom: 2px solid #bbb;
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .radio-list {
   margin: 1rem 1rem 1.5rem;
   li {

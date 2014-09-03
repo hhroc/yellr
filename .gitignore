@@ -1,3 +1,5 @@
+design
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -56,9 +58,8 @@ node_modules
 to-do.txt
 .sass-cache/
 *.orig
-
-src/app/www
-
 application
 *.lock
 logs
+src/server/yellr-serv/uploads/*
+src/server/yellr-serv/*.sqlite

@@ -5,7 +5,18 @@
 div#overlay-div-container
   //- this div gets populated with various content
   //- it has CSS rules to overlay it over the whole DOM
-  div#view-message
+
+  //- div#new-collections-form-wrapper.overlay-container
+    h3.t2 New Collection
+    form#new-collections-form.form
+      input(type="text", name="name", placeholder="Collections name")
+      textarea(name="description", rows="2", placeholder="Collection description (optional)")
+      input(type="text", name="tags", placeholder="Collection tags (use commas to add multiple tags)")
+      label.submit-label
+        input(type="submit", hidden)
+        span.submit-btn Create
+
+  //- div#view-message
     div.content
       h3.subject title of message
       span.date-sent Aug 8

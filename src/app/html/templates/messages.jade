@@ -1,10 +1,35 @@
 //- message template
 script#messages-li(type="text/x-handlebars-template").
   {{#each messages}}
-  <li class="message-li" data-id="{{id}}">
-    <h2 class="message-subject">{{subject}}</h2>
-    <p class="message-sender">{{from_first_name}} {{from_last_name}}</p>
-    <p class="message-preview">{{message_preview}}</p>
-    <p class="message-meta">{{message_datetime}}</p>
+  <li class="message-li" data-id="{{@index}}">
+    <a href="#view-message/{{@index}}">
+      <h2 class="message-subject">{{subject}}</h2>
+      <p class="message-sender">{{from_first_name}} {{from_last_name}}, <span class="message-sender-organization">{{from_organization}}</span></p>
+    </a>
   </li>
   {{/each}}
+
+script#view-message-template(type="text/x-handlebars-template").
+  <section class="message-wrapper">
+    <h2>{{subject}}</h2>
+    <div class="message-content">
+      {{text}}
+    </div>
+    <p class="message-meta">{{message_datetime}}</p>
+    <p class="message-sender">{{from_first_name}} {{from_last_name}}</p>
+    <p class="message-sender-organization">{{from_organization}}</p>
+
+    <a class="message-reply-btn" href="#reply-message">Reply</a>
+  </section>
+
+
+
+//- reply to: message
+script#reply-message-template(type="text/x-handlebars-template").
+  <p>RE: {{ og_msg.subject }}</p>
+  <form id="reply-message-form" method="post" accept-charset="utf-8" class="form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="parent_message_id" value="{{ og_msg.message_id }}">
+    <input type="hidden" name="subject" value="RE: {{ og_msg.subject }}">
+    <textarea name="text" rows="2" columns="10" placeholder="Reply to message..."></textarea>
+  </form>

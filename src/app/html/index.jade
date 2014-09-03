@@ -40,6 +40,9 @@ body#app
       div.pt-page#view-message
         include view-message.jade
 
+      div.pt-page#reply-message
+        section#reply-message-wrapper
+
       div.pt-page#report
         include report.jade
 
@@ -49,6 +52,12 @@ body#app
 
     //- app footer
     include _footer.jade
+
+  div#overlay-container
+    div.vertical-center-wrapper
+      div.vertical-center
+        div#overlay
+
 
   //- Handlebar templates
   include _templates.jade

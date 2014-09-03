@@ -1,0 +1,61 @@
+.overlay-container {
+  max-width: 30rem;
+  padding: 1rem 1rem 1.75rem;
+  margin: 0 auto;
+  background: #ebebeb;
+  .t2 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+}
+
+.page-controls {
+  margin-bottom: 3rem;
+}
+
+.submit-label {
+  display: block;
+  text-align: right;
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  margin: 0 1rem;
+  transition: background 0.3s ease-out;
+  @include hover();
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+#new-collection-btn {
+  background: $yellow;
+  &:hover {
+    background: $light-yellow;
+  }
+}
+
+#delete-collection-btn {
+  background: #ccc;
+  &:hover {
+    background: $red;
+  }
+}
+
+
+.collections-list {
+  list-style: none;
+}
+
+
+.no-collections-li {
+  color: #888;
+  h3 {margin: 0; }
+}

@@ -1,0 +1,7 @@
+script#prompt-template(type="text/x-handlebars-template").
+  <h3 class="p1">{{title}}</h3>
+  <ul class="prompt-choices-vertical">
+  {{#each choices}}
+    <li id="prompt-{{@index}}">{{title}}</li>
+  {{/each}}
+  </ul>

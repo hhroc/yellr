@@ -10,11 +10,10 @@ head
   link(rel="stylesheet", href="style/style.css")
 
 
-body#moderator
+body#moderator(data-page="collections")
   a(href="#main", class="assistive-text") Skip to main content
   div.container
 
-    //-div#main
     div#main.flex
       div.flex-1#left
         include _sidebar.jade
@@ -23,8 +22,15 @@ body#moderator
         section#collections.right-wrapper
           h2.t1 Collections
 
+          div.page-controls
+            span.btn#new-collection-btn Create New
+            span.btn#delete-collection-btn Delete
+
           ul.collections-list
-            li
+            li.no-collections-li
+              h3 No collections created!
+              p Create one by clicking the button above or create a new assignment!
+            //- li
               div.collection-wrapper
                 h3.t2 City School District
                 p 12 total
@@ -42,44 +48,6 @@ body#moderator
                       p.source
                         a(href="#") 131231412
                       div.meta(data-source="anonymous", data-type="photo", data-uid="24012312")
-            li
-              div.collection-wrapper
-                h3.t2 Traffic Congestion
-                p 25 total
-                div.grid
-                  div.gi
-                    div.story-item
-                      div.media-preview
-                        img(src="http://lorempixel.com/400/200/people")
-                      p.description Rhinos win, Rhinos win!
-                      ul.tags-list
-                        li muse
-                        li race
-                        li win
-                      p.source
-                        a(href="#") 131231412
-                      div.meta(data-source="anonymous", data-type="photo", data-uid="24012312")
-                input(type="button", value="Export content")
-
-            li
-              div.collection-wrapper
-                h3.t2 Rochester Rhinos
-                p 3 total
-                div.grid
-                  div.gi
-                    div.story-item
-                      div.media-preview
-                        img(src="http://lorempixel.com/400/200/people")
-                      p.description Rhinos win, Rhinos win!
-                      ul.tags-list
-                        li muse
-                        li race
-                        li win
-                      p.source
-                        a(href="#") 131231412
-                      div.meta(data-source="anonymous", data-type="photo", data-uid="24012312")
-                input(type="button", value="Export content")
-
 
   include _footer.jade
 </html>

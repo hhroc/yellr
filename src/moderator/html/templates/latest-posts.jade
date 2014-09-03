@@ -2,21 +2,32 @@ script#latest-posts-template(type="text/x-handlebars-template").
   {{#each posts}}
   <div class="gi">
     <div class="story-item">
-      <div class="media-preview">
-        <img src="http://lorempixel.com/400/200">
+      {{#each media_objects }}
+      <div class="media-preview" data-type="{{ media_type }}">
+        {{#if file_name}}
+        <figure class="media-file-image">
+          <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+          <figcaption>{{ media_description }}</figcaption>
+        </figure>
+        {{else}}
+        <p class="media-text">{{ media_text }}</p>
+        {{/if}}
+
+        {{#if caption}}
+        <p>{{ caption }}</p>
+        {{/if}}
       </div>
+      {{/each }}
       <p class="description">{{ title }}</p>
-      <p class="source"><a href="#">{{ client_id }}</a></p>
-      <!-- data-type could be video, text, or audio -->
-      <!-- need to add logic to handle that -->
-      <div data-source="anonymous" data-type="photo" data-uid="{{ client_id }}" class="meta-div"></div>
     </div>
-    <div class="options-wrapper">
-      <ul class="options-list">
+    <div class="story-meta flex">
+      <p class="source flex-3"><a href="#">{{ client_id }}</a></p>
+      <ul class="options-list flex-1">
         <li><i title="Add to collection" class="fa fa-folder"></i></li>
         <li><i title="Leave feedback" class="fa fa-comment"></i></li>
         <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
       </ul>
     </div>
+    <div data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
   </div>
   {{/each}}

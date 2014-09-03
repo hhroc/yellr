@@ -1,7 +1,15 @@
 'use strict';
 var mod = mod || {};
 
+var DEBUG = true;
+
 window.onload = function () {
+
+    // console.log('removing localStorage');
+    // if (DEBUG) localStorage.removeItem('yellr-mod');
+
+    // Handlebars check
+    // ===================================
 
     // check for dependencies
     if (!Handlebars || !$) {
@@ -9,63 +17,74 @@ window.onload = function () {
       return;
     }
 
+    // load our Handlebars halper
+    // https://gist.github.com/doginthehat/1890659
+    Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+
+      if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+      operator = options.hash.operator || "==";
+
+      var operators = {
+        '==':   function(l,r) { return l == r; },
+        '===':  function(l,r) { return l === r; },
+        '!=':   function(l,r) { return l != r; },
+        '<':    function(l,r) { return l < r; },
+        '>':    function(l,r) { return l > r; },
+        '<=':   function(l,r) { return l <= r; },
+        '>=':   function(l,r) { return l >= r; },
+        'typeof': function(l,r) { return typeof l == r; }
+      }
+
+      if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+      var result = operators[operator](lvalue,rvalue);
+
+      if( result ) {
+        return options.fn(this);
+      } else {
+        return options.inverse(this);
+      }
+
+    });
+
     // ----------------------------
+
+
 
     // check for pre-existing data, if none, create it
-    if (localStorage.getItem('yellr-mod') === null) localStorage.setItem('yellr-mod', JSON.stringify({TOKEN: undefined, LANGUAGES: {}, DATA: {} }));
+    if (localStorage.getItem('yellr-mod') === null) {
 
-    // get auth token
-    var local = JSON.parse(localStorage.getItem('yellr-mod'));
-    mod.TOKEN = local.TOKEN;
-    mod.LANGUAGES = local.LANGUAGES;
-    console.log(local.DATA);
-    mod.DATA = local.DATA;
+      // get auth token
+      // - redirect to login page
+      mod.utils.redirect_to_login('Missing authentication token. Please login to continue');
 
+    } else {
 
-    // check that we have a valid token, that hasn't expired
-    // TODO: check if the token has expire
-    if (mod.TOKEN === undefined) {
-      // redirect to login page, if we're not there already
-      if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-        /* TODO: use a real url */
-        alert('Must login. Missing authentication token.');
-        window.location.replace('http://127.0.0.1:8000/moderator/login.html');
-      }
+      mod.utils.load_localStorage();
+
     }
 
-    if (mod.LANGUAGES === undefined) {
-      // make call to get_languages API
-      $.ajax({
-        type: 'POST',
-        url: 'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
-        dataType: 'json',
-        success: function (data) {
-          if (data.success) {
-            mod.LANGUAGES = data.languages;
-            mod.utils.save();
-          } else {
-            if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-              /* TODO: use a real url */
-              alert('Must login. Missing authentication token.');
-              window.location.replace('http://127.0.0.1:8000/moderator/login.html');
-            }
-          }
-        }
-      });
+
+    if (mod.URLS !== undefined) {
+      // load new data
+      mod.utils.load('posts', mod.latest_posts.render_feed);
+      mod.utils.load('messages');
+      mod.utils.load('languages');
+      mod.utils.load('collections');
+      // mod.utils.load('assignments');
     }
 
-    // ----------------------------
 
-
-    // setup data object
-    mod.data.init();
-
-
-    // get current page
+    // get our current page
     mod.PAGE = document.querySelector('body').getAttribute('data-page');
+
+    // do specfic things for each page
     switch (mod.PAGE) {
       case 'login':
-        mod.login.init();
+        mod.utils.login();
         break;
       case 'posts':
         mod.latest_posts.init();
@@ -76,12 +95,44 @@ window.onload = function () {
       case 'single-assignment':
         mod.assignments.view();
         break;
+      case 'collections':
+        // setup collections page
+        // hook up the buttons
+        document.querySelector('#new-collection-btn').onclick = function (e) {
+
+          mod.utils.show_overlay({template: '#collections-form-template'});
+          mod.collections.setup_form();
+
+        }
+        document.querySelector('#delete-collection-btn').onclick = function (e) {
+          console.log('delete collection');
+        }
+
+        mod.collections.view_all();
+
+        break;
+      case 'messages':
+
+        // // setup inbox
+        // mod.messages.init({
+        //   data_url: mod.URLS.messages,
+        //   template: '#inbox-li',
+        //   container: '#inbox',
+        //   read_target: '#read-mail-list',
+        //   unread_target: '#unread-mail-list'
+        // });
+
+        // hook up the button
+        document.querySelector('#new-message-btn').onclick = function() {
+          mod.messages.create_message();
+        }
+        break;
+
       default:
         console.log('lol');
         break;
     }
 
-    mod.utils.main_setup();
-
+    if (document.querySelector('#sidebar')) mod.utils.setup_sidebar();
 
 }

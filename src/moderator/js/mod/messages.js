@@ -11,6 +11,8 @@ mod.messages = (function () {
         unread_target,
         self;
 
+
+
     var init = function (args) {
       self = this;
       template = Handlebars.compile($(args.template).html());
@@ -65,7 +67,6 @@ mod.messages = (function () {
 
 
     var create_message = function (uid) {
-      console.log('create message');
 
       mod.utils.show_overlay({
         template: '#send-message-template',
@@ -74,18 +75,22 @@ mod.messages = (function () {
         }
       });
 
+
       $('#send-message-form .submit-btn').on('click', function (e) {
         e.preventDefault();
 
-        console.log('send message..');
-        console.log($('#send-message-form').serialize());
         $.ajax({
           type: 'POST',
-          url: 'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+          url: mod.URLS.create_message,
           dataType: 'json',
           data: $('#send-message-form').serialize(),
-          success: function (data) {
-            console.log(data);
+          success: function (response) {
+            if (response.success) {
+              console.log('message sent');
+              mod.utils.clear_overlay();
+            } else {
+              alert('Error sending message. Check the user ID.');
+            }
           }
         })
       })

@@ -288,22 +288,32 @@ yellr.utils = {
 
   open_gallery: function () {
     console.log('hello from: open_gallery');
+    window.location.href='#report/image';
+
   },
 
+  show_overlay: function () {
 
+    var $overlay = $('#overlay-container');
 
-  prompt: function (title, choices) {
-
-    $('#overlay-container').addClass('show');
+    $overlay.addClass('show');
 
     // add event listner to conainer to close if user wants to cancel
-    $('#overlay-container').on('tap', function (e) {
+    $overlay.on('tap', function (e) {
       e.preventDefault();
       if (e.target.className === 'vertical-center') {
-        $('#overlay-container').removeClass('show');
+        yellr.utils.hide_overlay();
       }
     });
 
+  },
+  hide_overlay: function () {
+    $('#overlay-container').removeClass('show');
+  },
+
+  prompt: function (title, choices, setup) {
+
+    yellr.utils.show_overlay();
 
     // make the HTML
     this.render_template({
@@ -316,20 +326,41 @@ yellr.utils = {
     });
 
 
-    // setup event listeners
-    for (var i = 0; i < choices.length; i++) {
-      console.log(choices[i].callback);
+    $('#prompt-0').on('tap', function (e) {
+      yellr.utils.hide_overlay();
+      setup[0]();
+    });
 
-      var node = '#prompt-'+i;
-      var callback = choices[i].callback;
-      var thing = $(node);
-      // debugger;
-      $(node).on('tap', function (e) {
-        // callback();
-        console.log('hahahahah');
-        console.log(i);
-      });
-    };
+    $('#prompt-1').on('tap', function (e) {
+      yellr.utils.hide_overlay();
+      setup[1]();
+    });
+
+    // // setup event listeners
+    // console.log(choices);
+    // console.log(choices.length);
+    // for (var i = 0; i < choices.length; i++) {
+    //   console.log('===================================');
+    //   console.log(i);
+    //   // console.log(choices[i].callback);
+
+    //   var node = '#prompt-'+i;
+    //   console.log(node);
+    //   var callback = choices[i].callback;
+    //   console.log(callback);
+    //   var thing = $(node);
+    //   console.log(thing);
+    //   // debugger;
+    //   document.querySelector(node).onclick = function (e) {
+    //     callback();
+    //   }
+
+    //   thing.on('tap', {callback: callback},function (e) {
+    //     callback();
+    //     // console.log('hahahahah');
+    //     // console.log(i);
+    //   });
+    // };
 
   },
 
@@ -342,17 +373,11 @@ yellr.utils = {
       e.preventDefault();
 
       // show overlay, popup thing
-      yellr.utils.prompt('Choose image source',
-        [
-          {
-            title: 'Use camera',
-            callback: yellr.utils.open_camera
-          },
-          {
-            title: 'Open gallery',
-            callback: yellr.utils.open_gallery
-          }
-        ]);
+      yellr.utils.prompt(
+        'Choose image source',
+        [{title: 'Use camera'}, {title: 'Open gallery'}],
+        [yellr.utils.open_camera, yellr.utils.open_gallery ]
+      );
     });
 
 

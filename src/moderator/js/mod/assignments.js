@@ -65,7 +65,7 @@ mod.assignments = (function() {
 
     // 2.
     $form.find('#language-select').on('change', function (e) {
-      mod.assignments.question_form(this.value);
+      mod.assignments.create_question_form(this.value);
     });
 
 
@@ -80,7 +80,16 @@ mod.assignments = (function() {
 
 
 
-  var question_form = function (language_code) {
+  var create_question_form = function (language_code) {
+
+    // mod.utils.render_template({
+    //   template: '#new-question-template',
+    //   target: $questions_container,
+    //   context: {
+    //     language: language_code
+    //   },
+    //   append: true
+    // });
 
     mod.utils.render_template({
       template: '#new-question-template',
@@ -102,8 +111,13 @@ mod.assignments = (function() {
 
 
     // add event listeners
+    // ----------------------------
     $question_form.find('input[type="radio"]').on('change', function (e) {
-      console.log(this.value);
+      if (this.value === 'multiple_choice') {
+        console.log('show the input for multiple_choice');
+      } else {
+        console.log('hide it');
+      }
     });
 
 
@@ -245,7 +259,7 @@ mod.assignments = (function() {
     init: init,
     view: view,
     setup_form: setup_form,
-    question_form: question_form,
+    create_question_form: create_question_form,
     successful_question_post: successful_question_post,
     post: post,
     save_draft: save_draft

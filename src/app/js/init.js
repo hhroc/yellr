@@ -8,7 +8,7 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
-var DEBUG = false;
+var DEBUG = true;
 
 window.onload = function() {
 

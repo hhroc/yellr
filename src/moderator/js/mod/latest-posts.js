@@ -23,10 +23,19 @@ mod.latest_posts = (function() {
         // Send a message to a user who submitted content
         var msg_btn = document.querySelector('.submissions-grid');
         msg_btn.onclick = function(e) {
-          if (e.target.className === 'fa fa-comment') {
-            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-            console.log(uid);
-            mod.messages.create_message(uid);
+          switch (e.target.className) {
+            case 'fa fa-folder':
+              mod.latest_posts.toggle_collections_dropdown(e.target);
+              break;
+            case 'fa fa-comment':
+              var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+              mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+              break;
+            case 'fa fa-flag':
+              console.log('report the motherfucker');
+              break;
+            default:
+              break;
           }
         };
 
@@ -41,6 +50,85 @@ mod.latest_posts = (function() {
     }
 
 
+
+
+    var toggle_collections_dropdown = function (target) {
+
+      if ($(target.parentNode).hasClass('dropdown-container'))
+        mod.latest_posts.hide_collections_dropdown(target);
+      else mod.latest_posts.show_collections_dropdown(target);
+
+    }
+
+
+
+    var show_collections_dropdown = function (target) {
+      // we are here --> <i class="fa fa-thing"></i>
+      // we want the parent <li> to start
+
+      mod.DATA.collections = [
+        {title: 'Do you think that schools should move their start time to later?', id: 0 },
+        {title: 'We\'ve got to get something to eat and to drink yeah.', id: 1 },
+        {title: 'Let\'s go get a bottle', id: 2 }
+      ];
+
+      $(target.parentNode).addClass('dropdown-container');
+
+      mod.utils.render_template({
+        template: '#collections-dropdown-template',
+        target: target.parentNode,
+        context: {collections: mod.DATA.collections},
+        append: true
+      });
+
+      $(target.parentNode).find('.collections-dropdown').on('click', function (e) {
+        console.log(e);
+        mod.latest_posts.add_post_to_collection(e.target)
+      })
+    }
+
+
+
+    var hide_collections_dropdown = function (target) {
+
+      $(target.parentNode).removeClass('dropdown-container');
+
+      mod.utils.render_template({
+        template: '',
+        target: $(target.parentNode).find('.collections-dropdown')
+      });
+    }
+
+
+
+    var add_post_to_collection = function (target) {
+      console.log('add post to collection');
+      // we're in pretty deep with the DOM, need to get out
+      // console.dir(target);
+      // console.log(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
+      // var $collection = $(target).data('collection-id');
+      // console.log($collection);
+      var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
+      // console.log($gi);
+
+      console.log({
+        post_id: $gi.find('.meta-div').data('post-id'),
+        collection_id: $(target).data('collection-id')
+      });
+
+      $.post(mod.URLS.add_post_to_collection, {
+        post_id: $gi.find('.meta-div').data('post-id'),
+        collection_id: $(target).data('collection-id')
+      }, function (response) {
+        if (response.success) {
+          // mod.latest_posts.hide_collections_dropdown();
+          console.log('added post to collection');
+        } else {
+          console.log('something went wrong adding the post to the collection');
+        }
+      })
+
+    }
 
 
 
@@ -126,6 +214,10 @@ mod.latest_posts = (function() {
 
     return {
       init: init,
-      render_feed: render_feed
+      render_feed: render_feed,
+      show_collections_dropdown: show_collections_dropdown,
+      hide_collections_dropdown: hide_collections_dropdown,
+      toggle_collections_dropdown: toggle_collections_dropdown,
+      add_post_to_collection: add_post_to_collection
     }
 })();

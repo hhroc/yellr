@@ -1,3 +1,37 @@
+#active-assignments-list {
+  // @include cf();
+  display: flex;
+  li {
+    flex: 1;
+    list-style: none;
+    // float: left;
+    border: 1px solid #888;
+    border-right: none;
+    padding: 1rem;
+    &:last-child {
+      border-right: 1px solid #888;
+    }
+  }
+  h3 {
+    font-size: 1.25rem;
+    margin: 0 0 1.5rem;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+.assignment-meta {
+  font-size: 0.75rem;
+}
+.assignment-deadline {
+  text-align: right;
+  &:before {
+    content: "Deadline: ";
+  }
+}
+
+
+
 #new-assignment-section {
   padding: 1rem 1rem 1.75rem;
   background: #ebebeb;

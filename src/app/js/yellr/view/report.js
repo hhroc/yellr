@@ -165,7 +165,7 @@ yellr.view.report = (function() {
 
       form_counter++;
       media_objects.push(server_response.media_id);
-
+      console.log(media_objects);
 
       if (form_counter === total_forms) {
 
@@ -176,12 +176,13 @@ yellr.view.report = (function() {
           client_id: yellr.UUID,
           assignment_id: assignment_id,
           language_code: yellr.SETTINGS.language.code,
-          location: JSON.stringify({
-            lat: yellr.SETTINGS.lat,
-            lng: yellr.SETTINGS.lng
-          }),
+          lat: yellr.SETTINGS.lat,
+          lng: yellr.SETTINGS.lng,
           media_objects: JSON.stringify(media_objects)
         };
+
+        console.log(our_data);
+        debugger;
 
         $.post(yellr.URLS.post, our_data, function(e) {
           media_objects = [];

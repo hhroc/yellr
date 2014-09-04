@@ -28,6 +28,6 @@ script#latest-posts-template(type="text/x-handlebars-template").
         <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
       </ul>
     </div>
-    <div data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+    <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
   </div>
   {{/each}}

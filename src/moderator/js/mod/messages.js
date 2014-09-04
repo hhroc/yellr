@@ -64,12 +64,13 @@ mod.messages = (function () {
 
 
 
-    var create_message = function (uid) {
+    var create_message = function (uid, subject) {
 
       mod.utils.show_overlay({
         template: '#send-message-template',
         context: {
-          uid: uid
+          uid: uid,
+          subject: subject
         }
       });
 

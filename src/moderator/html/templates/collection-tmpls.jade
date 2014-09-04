@@ -21,3 +21,13 @@ script#collections-form-template(type="text/x-handlebars-template").
       </label>
     </form>
   </div>
+
+script#collections-dropdown-template(type="text/x-handlebars-template").
+  <ul class="collections-dropdown">
+    {{#each collections}}
+    <li>
+      <p data-collection-id="{{id}}">{{title}}</p>
+    </li>
+    {{/each}}
+  </ul>
+

@@ -25,11 +25,11 @@ mod.collections = (function() {
 
   var setup_form = function () {
     console.log('hello from: setup_form');
-    $('#new-collections-form').submit(function (e) {
-      e.preventDefault();
-      console.log('hello from: submit');
-      mod.collections.submit_form();
-    });
+    // $('#new-collections-form').submit(function (e) {
+    //   e.preventDefault();
+    //   console.log('hello from: submit');
+    //   mod.collections.submit_form();
+    // });
 
     $('#new-collections-form').find('.submit-btn').on('click', function () {
       console.log('submit the form');

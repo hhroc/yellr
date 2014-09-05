@@ -65,23 +65,36 @@ mod.utils = {
   },
 
 
-  load: function (dataType, callback) {
+  load: function (settings) {
+
+    /**
+     * settings = {
+     *   data - is the object name of the data we want
+     *   saveAs - save the reponse the the DATA object as this parameter
+     *     * only works if saveAs is the same as the response, else use callback to handle it
+     *   callback - do things with the server response
+     * }
+     */
 
     // setup our data object
     if (mod.DATA === undefined) mod.DATA = {};
 
     // do te things
-    $.getJSON(mod.URLS[dataType], function(response) {
+    $.getJSON(mod.URLS[settings.data], function(response) {
 
       if (response.success) {
-        mod.DATA[dataType] = response[dataType];
-        mod.utils.save();
 
-        if (callback) callback();
+        // save the JSON data directly
+        if (settings.saveAs) {
+          mod.DATA[settings.saveAs] = response[settings.saveAs];
+          mod.utils.save();
+        }
+        // or do stuff with it
+        if (settings.callback) settings.callback(response);
       } else {
 
         mod.utils.redirect_to_login(''+
-          'Something went wrong loading: '+ dataType+'\n'+
+          'Something went wrong loading: '+ settings.data+'\n'+
           'This could be because your previous session has expired. Please log back in');
 
       }
@@ -106,27 +119,55 @@ mod.utils = {
   set_urls: function (username, password) {
 
     var dev_urls = {
-      posts:                  'http://127.0.0.1:8080/admin/get_posts.json?token='+mod.TOKEN,
-      messages:               'http://127.0.0.1:8080/admin?token='+mod.TOKEN,
-      create_message:         'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
-      create_question:        'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
-      create_collection:      'http://127.0.0.1:8080/admin/create_collection.json?token='+mod.TOKEN,
-      add_post_to_collection: 'http://127.0.0.1:8080/admin/add_post_to_collection.json?token='+mod.TOKEN,
-      publish_assignment:     'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
-      languages:              'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN,
-      publish_story:          'http://127.0.0.1:8080/admin/publish_story.json?token='+mod.TOKEN
+      // get latest user posts
+      get_posts:                    'http://127.0.0.1:8080/admin/get_posts.json?token='+mod.TOKEN,
+      // messaging
+      get_my_messages:              'http://127.0.0.1:8080/admin?token='+mod.TOKEN,
+      create_message:               'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
+      // questions/assignments
+      create_question:              'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
+      publish_assignment:           'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
+      update_assignment:            'http://127.0.0.1:8080/admin/update_assignment.json?token='+mod.TOKEN,
+      get_assignment_responses:     'http://127.0.0.1:8080/admin/get_assignment_responses.json?token='+mod.TOKEN,
+      // collections
+      create_collection:            'http://127.0.0.1:8080/admin/create_collection.json?token='+mod.TOKEN,
+      get_my_collections:           'http://127.0.0.1:8080/admin/get_my_collections.json?token='+mod.TOKEN,
+      disable_collection:           'http://127.0.0.1:8080/admin/disable_collection.json?token='+mod.TOKEN,
+      add_post_to_collection:       'http://127.0.0.1:8080/admin/add_post_to_collection.json?token='+mod.TOKEN,
+      remove_post_from_collection:  'http://127.0.0.1:8080/admin/remove_post_from_collection.json?token='+mod.TOKEN,
+      get_collection_posts:         'http://127.0.0.1:8080/admin/get_collection_posts.json?token='+mod.TOKEN,
+      // meta
+      get_languages:                'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN,
+      get_question_types:           'http://127.0.0.1:8080/admin/get_question_types.json?token='+mod.TOKEN,
+      create_user:                  'http://127.0.0.1:8080/admin/create_user.json?token='+mod.TOKEN,
+      // publish
+      publish_story:                'http://127.0.0.1:8080/admin/publish_story.json?token='+mod.TOKEN
     }
 
     var live_urls = {
-      posts:                  'http://yellrdev.wxxi.org/admin/get_posts.json?token='+mod.TOKEN,
-      messages:               'http://yellrdev.wxxi.org/admin?token='+mod.TOKEN,
-      create_message:         'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
-      create_question:        'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN,
-      create_collection:      'http://yellrdev.wxxi.org/admin/create_collection.json?token='+mod.TOKEN,
-      add_post_to_collection: 'http://yellrdev.wxxi.org/admin/add_post_to_collection.json?token='+mod.TOKEN,
-      publish_assignment:     'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
-      languages:              'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
-      publish_story:          'http://yellrdev.wxxi.org/admin/publish_story.json?token='+mod.TOKEN
+      // get latest user posts
+      get_posts:                    'http://yellrdev.wxxi.org/admin/get_posts.json?token='+mod.TOKEN,
+      // messaging
+      get_my_messages:              'http://yellrdev.wxxi.org/admin?token='+mod.TOKEN,
+      create_message:               'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
+      // questions/assignments
+      create_question:              'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN,
+      publish_assignment:           'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
+      update_assignment:            'http://yellrdev.wxxi.org/admin/update_assignment.json?token='+mod.TOKEN,
+      get_assignment_responses:     'http://yellrdev.wxxi.org/admin/get_assignment_responses.json?token='+mod.TOKEN,
+      // collections
+      create_collection:            'http://yellrdev.wxxi.org/admin/create_collection.json?token='+mod.TOKEN,
+      get_my_collections:           'http://yellrdev.wxxi.org/admin/get_my_collections.json?token='+mod.TOKEN,
+      disable_collection:           'http://yellrdev.wxxi.org/admin/disable_collection.json?token='+mod.TOKEN,
+      add_post_to_collection:       'http://yellrdev.wxxi.org/admin/add_post_to_collection.json?token='+mod.TOKEN,
+      remove_post_from_collection:  'http://yellrdev.wxxi.org/admin/remove_post_from_collection.json?token='+mod.TOKEN,
+      get_collection_posts:         'http://yellrdev.wxxi.org/admin/get_collection_posts.json?token='+mod.TOKEN,
+      // meta
+      get_languages:                'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
+      get_question_types:           'http://yellrdev.wxxi.org/admin/get_question_types.json?token='+mod.TOKEN,
+      create_user:                  'http://yellrdev.wxxi.org/admin/create_user.json?token='+mod.TOKEN,
+      // publish
+      publish_story:                'http://yellrdev.wxxi.org/admin/publish_story.json?token='+mod.TOKEN
     }
 
     mod.URLS = (DEBUG) ? dev_urls : live_urls;

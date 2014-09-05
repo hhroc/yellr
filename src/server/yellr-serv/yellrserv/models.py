@@ -988,6 +988,10 @@ class Stories(Base):
                 session,
                 media_id,
             )
+            if media_object == None:
+                media_object_id = None
+            else:
+                media_object_id = media_object.media_object_id
             language = Languages.get_from_code(session, language_code)
             story = cls(
                 user_id = user.user_id,
@@ -997,7 +1001,7 @@ class Stories(Base):
                 title = title,
                 tags = tags,
                 top_text = top_text,
-                media_object_id = media_object.media_object_id,
+                media_object_id = media_object_id,
                 contents = contents,
                 top_left_lat = top_left_lat,
                 top_left_lng = top_left_lng,

@@ -598,6 +598,71 @@ subject, text.
 
     return make_response(result)
 
+@view_config(route_name='admin/get_my_messages.json')
+def admin_get_my_messages(request):
+
+    result = {'success': False}
+
+    try:
+    #if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+#        try:
+#            to_client_id = request.POST['to_client_id']
+#            subject = request.POST['subject']
+#            text = request.POST['text']
+#        except:
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: to_client_id, \
+#subject, text.
+#"""
+#            raise Exception('invalid/missing field')
+
+#        parent_message_id = None
+#        try:
+#            parent_message_id = request.POST['parent_message_id']
+#        except:
+#            pass
+
+
+        user = Users.get_from_token(DBSession, token)
+        messages = Messages.get_messages_from_client_id(
+            DBSession,
+            user.client_id,
+        )
+        ret_messages = []
+        for message_id, from_user_id,to_user_id,message_datetime, \
+                parent_message_id,subject,text, was_read,from_organization, \
+                from_first_name,from_last_name in messages:
+            ret_messages.append({
+                'message_id': message_id,
+                'from_user_id': from_user_id,
+                'to_user_id': to_user_id,
+                'from_organization': from_organization,
+                'from_first_name': from_first_name,
+                'from_last_name': from_last_name,
+                'message_datetime': str(message_datetime),
+                'parent_message_id': parent_message_id,
+                'subject': subject,
+                'text': text,
+                'was_read': was_read,
+            })
+
+        result['messages'] = ret_messages
+        result['success'] = True
+
+    except:
+        pass
+
+    return make_response(result)
+
+
 @view_config(route_name='admin/get_languages.json')
 def admin_get_languages(request):
 
@@ -862,6 +927,58 @@ bottom_right_lat, bottom_right_lng, language_code. \
         ) 
 
         result['story_unique_id'] = story.story_unique_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/get_my_collections.json')
+def admin_get_my_collection(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+#        try:
+#        #if True:
+#            name = request.POST['name']
+#            description = request.POST['description']
+#            tags = request.POST['tags']
+#        except:
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: name, \
+#description, tags. \
+#"""
+#            raise Exception('Missing or invalid field.')
+
+        collections = Collections.get_all_from_http(
+           session = DBSession,
+           token = user.token,
+        )
+
+        ret_collections = []
+        for collection_id, user_id, collection_datetime, name, description, \
+                tags, enabled in collections:
+            ret_collections.append({
+                'collection_id': collection_id,
+                'collection_datetime': str(collection_datetime),
+                'name': name,
+                'decription': description,
+                'tags': tags,
+                'enabled': enabled,
+            })
+
+        result['collections'] = ret_collections
         result['success'] = True
 
     #except:

@@ -223,9 +223,9 @@ def get_assignments(request):
         ret_assignments = []
         for assignment_id, publish_datetime, expire_datetime, top_left_lat, \
                 top_left_lng, bottom_right_lat, bottom_right_lng, use_fence, \
-                organization, question_text, question_type_id, answer0, answer1, \
-                answer2, answer3, answer4, answer5, answer6, answer7, \
-                answer8, answer9 in assignments:
+                organization, question_text, question_type_id, description, \
+                answer0, answer1, answer2, answer3, answer4, answer5, answer6, \
+                answer7, answer8, answer9 in assignments:
             ret_assignments.append({
                 'assignment_id': assignment_id,
                 'organization': organization,
@@ -237,6 +237,7 @@ def get_assignments(request):
                 'bottom_right_lng': bottom_right_lng,
                 'question_text': question_text,
                 'question_type_id': question_type_id,
+                'description': description,
                 'answer0': answer0,
                 'answer1': answer1,
                 'answer2': answer2,
@@ -358,9 +359,9 @@ def get_messages(request):
 
     result = {'success': False}
 
-    try:
+#    try:
 
-#    if True:
+    if True:
 
         client_id = None
         try:
@@ -371,9 +372,11 @@ def get_messages(request):
 
         messages = Messages.get_messages_from_client_id(DBSession, client_id)
         ret_messages = []
-        for from_user_id,to_user_id,message_datetime,parent_message_id,subject,text, \
-                was_read,from_organization,from_first_name,from_last_name in messages:
+        for message_id, from_user_id,to_user_id,message_datetime, \
+                parent_message_id,subject,text, was_read,from_organization, \
+                from_first_name,from_last_name in messages:
             ret_messages.append({
+                'message_id': message_id,
                 'from_user_id': from_user_id,
                 'to_user_id': to_user_id,
                 'from_organization': from_organization,
@@ -389,8 +392,8 @@ def get_messages(request):
         result['messages'] = ret_messages
         result['success'] = True
 
-    except:
-        pass
+#    except:
+#        pass
 
     event_type = 'http_request'
     event_details = {

@@ -359,7 +359,7 @@ def admin_create_user(root_domain, token):
             #question_types = json_response['question_types']
             result['passed'] = True
         else:
-            result['fail_text'] = "Unable to get list of question types.  Error: '{0}'.".format(json_response['error_text'])
+            result['fail_text'] = "Unable to create new user.  Error: '{0}'.".format(json_response['error_text'])
     except:
         result['fail_text'] = "Failed to load JSON response from server."
 
@@ -401,7 +401,7 @@ def upload_media(root_domain, client_id):
             media_id = json_response['media_id']
             result['passed'] = True
         else:
-            result['fail_text'] = "Assignment was not published successfully.  Error: '{0}'.".format(json_response['error_text'])
+            result['fail_text'] = "Unable to upload media object.  Error: '{0}'.".format(json_response['error_text'])
     #except:
     #    result['fail_text'] = "Failed to load JSON response from server."
 
@@ -413,9 +413,9 @@ def upload_media(root_domain, client_id):
 
 def publish_post(root_domain, client_id, assignment_id, media_id):
 
-    print "\nThis client_id is being sent to the server:\n"
-    print client_id
-    print "\n\n"
+    #print "\nThis client_id is being sent to the server:\n"
+    #print client_id
+    #print "\n\n"
 
     result = {}
     result['passed'] = False
@@ -450,7 +450,7 @@ def publish_post(root_domain, client_id, assignment_id, media_id):
             post_id = json_response['post_id']
             result['passed'] = True
         else:
-            result['fail_text'] = "Assignment was not published successfully.  Error: '{0}'.".format(json_response['error_text'])
+            result['fail_text'] = "Unable to publish post.  Error: '{0}'.".format(json_response['error_text'])
     #except:
     #    result['fail_text'] = "Failed to load JSON response from server."
 
@@ -507,12 +507,12 @@ def test_assignment_responses(posts, post_data, client_id):
     if True:
     #try:
    
-        print "\n\n"
-        print posts
-        print "\n\n"
+        #print "\n\n"
+        #print posts
+        #print "\n\n"
 
-        print client_id
-        print "\n\n"
+        #print client_id
+        #print "\n\n"
  
         if posts == None:
             result['fail_text'] = "Posts array was None.."
@@ -559,6 +559,150 @@ def test_assignment_responses(posts, post_data, client_id):
     result['total_time'] = end_time - start_time
 
     return result
+
+def admin_create_collection(root_domain, token):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "admin/create_collection.json"
+    result['description'] = "Creates a new collection."
+
+    url = "{0}/admin/create_collection.json?token={1}".format(
+        root_domain,
+        token,
+    )
+
+    user_data = dict(
+        name = 'My First Collection',
+        description = 'A collection that I will put posts in.',
+        tags = 'first, yellr, posts, awesome',
+    )
+
+    start_time = time.time()
+    collection_id = None
+    #if True:
+    try:
+        http_response = requests.post(url, data=user_data).text
+        json_response = json.loads(http_response)
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            collection_id = json_response['collection_id']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to create collection.  Error: '{0}'.".format(json_response['error_text'])
+    except:
+        result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, collection_id
+
+def admin_get_my_collections(root_domain, token):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "admin/get_my_collections.json"
+    result['description'] = "Gets all of the posts that are in response to an assignment."
+
+    url = "{0}/admin/get_my_collections.json?token={1}".format(
+        root_domain,
+        token,
+    )
+
+    start_time = time.time()
+    posts = None
+    #if True:
+    try:
+        http_response = requests.get(url).text
+        print http_response
+        json_response = json.loads(http_response)
+
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            collections = json_response['collections']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to get list of collections.  Error: '{0}'.".format(json_response['error_text'])
+    except:
+        result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, posts
+
+def get_messages(root_domain, client_id):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "get_messages.json"
+    result['description'] = "Gets a list of messages."
+
+    url = "{0}/get_messages.json?client_id={1}".format(
+        root_domain,
+        client_id,
+    )
+
+    start_time = time.time()
+    messages = None
+    #if True:
+    try:
+        #http_response = urllib2.urlopen(url).read()
+        http_response = requests.get(url).text
+        json_response = json.loads(http_response)
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            messages = json_response['messages']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to get list of messages.  Error: '{0}'.".format(json_response['error_text'])
+    except:
+        result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, messages 
+
+def admin_get_my_messages(root_domain, token):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "admin/get_messages.json"
+    result['description'] = "Gets a list of admin messages."
+
+    url = "{0}/admin/get_my_messages.json?token={1}".format(
+        root_domain,
+        token,
+    )
+
+    start_time = time.time()
+    messages = None
+    #if True:
+    try:
+        #http_response = urllib2.urlopen(url).read()
+        http_response = requests.get(url).text
+        print http_response
+        json_response = json.loads(http_response)
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            messages = json_response['messages']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to get list of messages.  Error: '{0}'.".format(json_response['error_text'])
+    except:
+        result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, messages
+
 
 if __name__ == '__main__':
 
@@ -676,6 +820,30 @@ if __name__ == '__main__':
             posts,
             post_data,
             client_id,
+        )
+        count += declare_result(result)
+
+        result,collection_id = admin_create_collection(
+            root_domain,
+            token,
+        )
+        count += declare_result(result)
+
+        result,collections = admin_get_my_collections(
+            root_domain,
+            token,
+        )
+        count += declare_result(result)
+
+        result,messages = get_messages(
+            root_domain,
+            client_id,
+        )
+        count += declare_result(result)
+
+        result,messages = admin_get_my_messages(
+            root_domain,
+            token,
         )
         count += declare_result(result)
 

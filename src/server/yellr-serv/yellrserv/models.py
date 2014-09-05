@@ -381,6 +381,7 @@ class Assignments(Base):
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
+                Questions.description,
                 Questions.answer0,
                 Questions.answer1,
                 Questions.answer2,
@@ -1120,6 +1121,23 @@ class Collections(Base):
     #private = Column(Boolean)
 
     @classmethod
+    def get_all_from_http(cls, session, token):
+        with transaction.manager:
+            user = Users.get_from_token(session, token)
+            collections = session.query(
+                Collections.collection_id,
+                Collections.user_id,
+                Collections.collection_datetime,
+                Collections.name,
+                Collections.description,
+                Collections.tags,
+                Collections.enabled,
+            ).filter(
+                Collections.user_id == user.user_id,
+            ).all()
+        return collections
+
+    @classmethod
     def get_from_collection_id(cls, session, collection_id):
         with transaction.manager:
             collection = session.query(
@@ -1444,6 +1462,7 @@ class Messages(Base):
             messages = []
             if user != None:
                 messages = session.query(
+                    Messages.message_id,
                     Messages.from_user_id,
                     Messages.to_user_id,
                     Messages.message_datetime,
@@ -1467,7 +1486,7 @@ class Messages(Base):
             #print "Message:"
             #print m
             #print
-            Messages.mark_all_as_read(session,m[1])
+            Messages.mark_all_as_read(session,m[2])
         return messages
 
 class DebugSubmissions(Base):

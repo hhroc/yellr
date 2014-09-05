@@ -91,8 +91,10 @@ yellr.utils = {
           profile: '',
           upload: 'http://127.0.0.1:8080/upload_media.json',
           post: 'http://127.0.0.1:8080/publish_post.json'
-
+// get_stories.json?client_id=<client_id>&lat=<lat>&lng=<lng>&language_code=<language_code>
         };
+// $.getJSON('http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+43.2+'&lng='+77.6+'&language_code=en', function(response){console.log(response)})
+// $.getJSON('http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+43.2+'&lng=-77.6&language_code=en', function(response){console.log(response)})
 
     var live_urls = {
           assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,

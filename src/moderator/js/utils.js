@@ -113,7 +113,8 @@ mod.utils = {
       create_collection:      'http://127.0.0.1:8080/admin/create_collection.json?token='+mod.TOKEN,
       add_post_to_collection: 'http://127.0.0.1:8080/admin/add_post_to_collection.json?token='+mod.TOKEN,
       publish_assignment:     'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
-      languages:              'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN
+      languages:              'http://127.0.0.1:8080/admin/get_languages.json?token='+mod.TOKEN,
+      publish_story:          'http://127.0.0.1:8080/admin/publish_story.json?token='+mod.TOKEN
     }
 
     var live_urls = {
@@ -124,7 +125,8 @@ mod.utils = {
       create_collection:      'http://yellrdev.wxxi.org/admin/create_collection.json?token='+mod.TOKEN,
       add_post_to_collection: 'http://yellrdev.wxxi.org/admin/add_post_to_collection.json?token='+mod.TOKEN,
       publish_assignment:     'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
-      languages:              'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN
+      languages:              'http://yellrdev.wxxi.org/admin/get_languages.json?token='+mod.TOKEN,
+      publish_story:          'http://yellrdev.wxxi.org/admin/publish_story.json?token='+mod.TOKEN
     }
 
     mod.URLS = (DEBUG) ? dev_urls : live_urls;

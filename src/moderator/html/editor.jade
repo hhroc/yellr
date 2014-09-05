@@ -20,18 +20,33 @@ body#moderator(data-page="editor")
         include _sidebar.jade
 
       div.flex-4#right
-        section#editor-wrapper.right-wrapper
-          h2.t1 Editor
-          p Title
-          input(type="text", name="title", placeholder="Article title...")
-          p Content
-          p
-            small Markdown is used
-          textarea#markdown-editor(oninput="this.editor.update()", rows="15", name="content", placeholder="Enter text here")
-          div#preview
-          label
-            span.submit-btn Publish
-            input(type="submit", hidden)
+        h2.t1.right-wrapper Editor
+          span#preview-btn Preview
+        div#editor-workspace.right-wrapper.flex
+          div.editor-container.flex-3
+            div#editor-input.form.editor-tab.active
+              p Title
+              input#article-title(type="text", name="title", placeholder="Article title...")
+              p Content
+                small Markdown is used
+              textarea#markdown-editor(oninput="this.editor.update()", rows="15", name="content", placeholder="Enter text here")
+              div#editor-controls
+                span Preview
+                span.submit-btn Publish
+            div#editor-preview-container.editor-tab.inactive
+              h3.t3 Preview
+              div#editor-preview
+          div.collections-container.flex-1
+            h3.t2 Collections
+            p
+              span Change
+            ul#editor-collections-list
+              li
+                img(src="http://127.0.0.1:8080/media/aaebf37c-9f33-4e61-a2c3-492d951d8c0d.jpg")
+              li
+                img(src="http://127.0.0.1:8080/media/47160929-075a-46dd-8068-ca2664c4c628.jpg")
+              li
+                img(src="http://127.0.0.1:8080/media/78d6ec40-1dc6-46ff-ada3-f590ea0bda19.jpg")
 
   include _footer.jade
   script(src="js/libs/markdown.js")
@@ -43,5 +58,5 @@ body#moderator(data-page="editor")
       input.editor = this;
       this.update();
     }
-    new Editor(document.getElementById("markdown-editor"), document.getElementById("preview"));
+    new Editor(document.getElementById("markdown-editor"), document.getElementById("editor-preview"));
 </html>

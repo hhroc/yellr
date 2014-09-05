@@ -95,6 +95,9 @@ window.onload = function () {
       case 'single-assignment':
         mod.assignments.view();
         break;
+      case 'editor':
+        mod.editor.init();
+        break;
       case 'collections':
         // setup collections page
         // hook up the buttons

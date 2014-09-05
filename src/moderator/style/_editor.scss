@@ -1,0 +1,25 @@
+.editor-container {
+  position: relative;
+}
+#editor-controls {
+  text-align: right;
+  padding: 0.5rem 0;
+}
+.editor-tab {
+  padding-right: 1.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  &.active {
+    z-index: 15;
+  }
+  &.inactive {
+    z-index: -10;
+  }
+}
+
+#editor-preview-container {
+  bottom: 0;
+}

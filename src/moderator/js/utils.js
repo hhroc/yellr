@@ -53,6 +53,12 @@ mod.utils = {
   },
 
 
+  logout: function () {
+    localStorage.removeItem('yellr-mod');
+    mod.utils.redirect_to_login('You are now being logged out');
+  },
+
+
   load_localStorage: function () {
 
     // get auth token
@@ -93,6 +99,8 @@ mod.utils = {
         if (settings.callback) settings.callback(response);
       } else {
 
+        console.log(response);
+        console.log(mod.URLS[settings.data]);
         mod.utils.redirect_to_login(''+
           'Something went wrong loading: '+ settings.data+'\n'+
           'This could be because your previous session has expired. Please log back in');
@@ -253,7 +261,7 @@ mod.utils = {
     // set up the Post question form
     // it is ony evry page
     document.querySelector('#post-question-btn').onclick = mod.assignments.setup_form;
-
+    document.querySelector('#logout-btn').onclick = mod.utils.logout;
   }
 
 

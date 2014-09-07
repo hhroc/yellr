@@ -88,6 +88,7 @@ window.onload = function () {
         // callback: mod.latest_posts.render_active_assignments
       });
       // mod.utils.load('collections');
+      console.log(mod.URLS);
     }
 
 

@@ -3,6 +3,21 @@ var mod = mod || {};
 
 mod.assignments = (function() {
 
+  // 'global' vars
+  var questions = [],
+      survey_answers = [],
+      supported_languages = [],
+      $form,
+      $preview_text,
+      $questions_container,
+      $question_form,
+      $question_textarea,
+      $extra_fields,
+      $cancel_btn,
+      $save_btn,
+      $post_btn;
+
+
 
   var init = function () {
     console.log('hello from: assignments.init');
@@ -14,15 +29,7 @@ mod.assignments = (function() {
   }
 
 
-  var questions = [],
-      $form,
-      $preview_text,
-      $questions_container,
-      $question_form,
-      $extra_fields,
-      $cancel_btn,
-      $save_btn,
-      $post_btn;
+
 
 
   var setup_form = function () {
@@ -36,7 +43,11 @@ mod.assignments = (function() {
     // get DOM refs
     $form         = $('#assignment-form-wrapper'),
     $questions_container = $form.find('#questions-container'),
+
+    // fields for: deadline, setting default language
     $extra_fields = $form.find('#extra-assignment-fields'),
+
+    // action buttons
     $cancel_btn   = $form.find('#cancel-assignment-btn'),
     $save_btn     = $form.find('#save-assignment-btn'),
     $post_btn     = $form.find('#post-assignment-btn');
@@ -74,69 +85,95 @@ mod.assignments = (function() {
       mod.assignments.save_draft();
     });
 
-
-
   }
 
 
 
   var create_question_form = function (language_code) {
 
-    // mod.utils.render_template({
-    //   template: '#new-question-template',
-    //   target: $questions_container,
-    //   context: {
-    //     language: language_code
-    //   },
-    //   append: true
-    // });
-
+    // create a new question form based on the language selected
     mod.utils.render_template({
       template: '#new-question-template',
       target: $questions_container,
       context: {
         language: language_code
-      },
-      append: true
+      }
     });
-
-
-    $post_btn.show();
-    $post_btn.html('Add Question');
-
 
     // we render a form with the language code in the id
     // id="es-question-form", id="en-question-form"
     $question_form = $form.find('#'+language_code+'-question-form');
+    $question_form.find('.answers-input-wrapper').hide();
+
 
 
     // add event listeners
     // ----------------------------
+
+    // choose between a Free Response or Survey
     $question_form.find('input[type="radio"]').on('change', function (e) {
-      if (this.value === 'multiple_choice') {
-        console.log('show the input for multiple_choice');
-      } else {
-        console.log('hide it');
-      }
+
+      if (this.value === 'multiple_choice') $question_form.find('.answers-input-wrapper').show();
+      else $question_form.find('.answers-input-wrapper').hide();
+
+    });
+
+    // when the user presses Enter, update the Survey answers list
+    $question_form.find('.question-answer-input').keypress(function (e) {
+
+      if (e.which === 13) {
+        e.preventDefault();
+        // push the input to the array
+        survey_answers.push($question_form.find('.question-answer-input').val());
+
+        // update the HTML
+        mod.utils.render_template({
+          template: '#new-survey-answer-template',
+          target: '#survey-answers-list',
+          context: {answer: $question_form.find('.question-answer-input').val() },
+          append: true
+        })
+
+        // reset the form
+        $question_form.find('.question-answer-input').val('');
+        console.log(survey_answers);
+      };
     });
 
 
+    // update the preview text on user input
+    $question_textarea = $question_form.find('#question_textarea');
+    $question_textarea.on('keyup', function (e) {
+      $preview_text.html($question_textarea.val());
+      if ($question_textarea.val() === '') $preview_text.html('Ask the community...');
+    });
+    // [default text]
+    $preview_text.html('Ask the community...');
+
+
+
+    // show the post button
+    $post_btn.show();
+    $post_btn.html('Add Question');
     $post_btn.on('click', function (e) {
+
+      // console.log($question_form.serialize()+'&answers='+JSON.stringify(survey_answers));
+      // alert('testing out survey answers');
 
       $.ajax({
         type: 'POST',
         url: mod.URLS.create_question,
-        data: $question_form.serialize(),
+        data: $question_form.serialize()+'&answers='+JSON.stringify(survey_answers),
         dataType: 'json',
-        success: function (data) {
-          if (data.success) {
+        success: function (response) {
+          if (response.success) {
             console.log('SUCCESS');
-            // add the language code to the data object for our convenience
-            data.language_code = language_code;
-            mod.assignments.successful_question_post(data);
+            // update our supported languages
+            supported_languages.push(language_code)
+            mod.assignments.successful_question_post(response);
           } else {
             console.log('FAIL');
-            console.log(data);
+            console.log(response);
           }
         }
       });
@@ -151,7 +188,7 @@ mod.assignments = (function() {
     questions.push(data.question_id);
 
     // update preview text
-    $preview_text.html($question_form.find('textarea').val())
+    $preview_text.html($question_textarea.val());
     $preview_text.addClass('active');
 
     // hide form
@@ -170,40 +207,42 @@ mod.assignments = (function() {
 
     $extra_fields.show();
 
-    // // get the language text for each code
-    // var language = '';
-    // for (var i = 0; i < mod.LANGUAGES.length; i++) {
-    //   if (mod.LANGUAGES[i].code === data.language_code) {
-    //     language = mod.LANGUAGES[i].name;
-    //     break;
-    //   }
-    // };
 
-
-    // // the lanuage overview bullshit
-    // var $languages_list = $extra_fields.find('#supported-languages');
-    // var langs = $languages_list.find('li');
-
-    // if (langs.length === 1) {
-
-    //   // first run
-    //   // prepend the thing
-    //   $languages_list.prepend('<li class="default">'+language+'</li>');
-    // } else {
-    //   $languages_list.find('#add-language-btn').before('<li>'+language+'</li>');
-    // }
-
-
-    // // add a default language
-    // // prepend
-
-    // $languages_list.find('#add-language-btn').on('click', function (e) {
-    //   console.log('hello from: ');
-    //   $form.find('.language-select-wrapper').show();
-    // })
-
+    this.language_feedback();
 
   }
+
+
+
+  var language_feedback = function () {
+
+    // give the user feedback on the languages the current assignment supports
+    console.log('hello from: language_feedback');
+
+    // we use the supported_languages array, which is populated
+    // as we successfully post questions to the server | in create_question_form()
+
+    var languages = [];
+    for (var i = 0; i < supported_languages.length; i++) {
+      languages.push({language: mod.DATA.languages[supported_languages[i]]});
+    };
+    console.log(languages);
+
+    mod.utils.render_template({
+      target: '#supported-languages',
+      template: '#language-support-template',
+      context: {languages: languages}
+    });
+
+
+    $languages_list.find('#add-language-btn').on('click', function (e) {
+      $form.find('.language-select-wrapper').show();
+    })
+
+  }
+
+
+
 
 
   var save_draft = function () {
@@ -262,7 +301,7 @@ mod.assignments = (function() {
     create_question_form: create_question_form,
     successful_question_post: successful_question_post,
     post: post,
-    save_draft: save_draft
-
+    save_draft: save_draft,
+    language_feedback: language_feedback
   }
 })();

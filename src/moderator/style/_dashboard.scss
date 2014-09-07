@@ -32,7 +32,7 @@
     background: rgba($black, 0.9);
   }
   @include mq(netbook) {
-    padding-top: 15%;
+    padding-top: 10%;
   }
   form {
     max-width: 30rem;

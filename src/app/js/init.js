@@ -67,6 +67,7 @@ window.onload = function() {
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
   yellr.utils.load('notifications', yellr.utils.check_notifications);
   yellr.utils.load('messages', yellr.utils.check_messages);
+  yellr.utils.load('stories');
 
 
   // set up routes

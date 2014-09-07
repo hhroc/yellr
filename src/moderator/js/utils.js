@@ -126,6 +126,7 @@ mod.utils = {
       create_message:               'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
       // questions/assignments
       create_question:              'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
+      get_my_assignments:           'http://127.0.0.1:8080/admin/get_my_assignments.json?token='+mod.TOKEN,
       publish_assignment:           'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
       update_assignment:            'http://127.0.0.1:8080/admin/update_assignment.json?token='+mod.TOKEN,
       get_assignment_responses:     'http://127.0.0.1:8080/admin/get_assignment_responses.json?token='+mod.TOKEN,
@@ -152,6 +153,7 @@ mod.utils = {
       create_message:               'http://yellrdev.wxxi.org/admin/create_message.json?token='+mod.TOKEN,
       // questions/assignments
       create_question:              'http://yellrdev.wxxi.org/admin/create_question.json?token='+mod.TOKEN,
+      get_my_assignments:           'http://yellrdev.wxxi.org/admin/get_my_assignments.json?token='+mod.TOKEN,
       publish_assignment:           'http://yellrdev.wxxi.org/admin/publish_assignment.json?token='+mod.TOKEN,
       update_assignment:            'http://yellrdev.wxxi.org/admin/update_assignment.json?token='+mod.TOKEN,
       get_assignment_responses:     'http://yellrdev.wxxi.org/admin/get_assignment_responses.json?token='+mod.TOKEN,
@@ -236,6 +238,7 @@ mod.utils = {
     // replace html, or return HTML frag
     if (settings.target) {
       if (settings.append) $(settings.target).append(html);
+      else if (settings.prepend) $(settings.target).prepend(html);
       else $(settings.target).html(html);
       // $(settings.target).html(html);
     }

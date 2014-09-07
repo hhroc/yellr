@@ -1,4 +1,21 @@
 //- form for moderator to ask community a new question
+script#active-assignment-template(type="text/x-handlebars-template").
+  {{#if assignments}}
+    {{#each assignments}}
+    <li>
+      <h3>{{title}}</h3>
+      <div class="flex assignment-meta">
+        <div class="flex-1"><a href="#assignments/{{id}}">View</a></div>
+        <p class="flex-2 assignment-deadline">{{deadline}}</p>
+      </div>
+    </li>
+    {{/each}}
+  {{else}}
+    <li>No active assignments</li>
+  {{/if}}
+
+
+//- form for moderator to ask community a new question
 script#new-assignment-template(type="text/x-handlebars-template").
   <section id="new-assignment-section">
     <h3 class="t2">New Assignment</h3>
@@ -23,8 +40,6 @@ script#new-assignment-template(type="text/x-handlebars-template").
         <div class="languages-wrapper flex-3">
           <p><small>Supported Languages</small></p>
           <ul id="supported-languages" class="inline">
-            <!--<li class="default">English</li>-->
-            <li id="add-language-btn">+ Add Language</li>
           </ul>
         </div>
         <div class="flex-2">
@@ -63,15 +78,22 @@ script#new-assignment-template(type="text/x-handlebars-template").
     </div>
   </section>
 
+script#language-support-template(type="text/x-handlebars-template").
+  {{#each languages}}
+  <li>{{language}}</li>
+  {{/each}}
+  <li id="add-language-btn">+ Add Language</li>
+
+
+
+
 
 script#new-question-template(type="text/x-handlebars-template").
   <form id="{{language}}-question-form" class="form">
+    <input type="hidden" name="language_code" value="{{language}}">
     <ul class="form-fields-list">
       <li>
-        <input type="hidden" name="language_code" value="{{language}}">
-      </li>
-      <li>
-        <textarea rows="5" name="question_text" placeholder="Ask the community..."></textarea>
+        <textarea id="question_textarea" rows="3" name="question_text" placeholder="Ask the community..."></textarea>
       </li>
       <li>
         <textarea rows="2" name="description" placeholder="Add a description"></textarea>
@@ -93,9 +115,17 @@ script#new-question-template(type="text/x-handlebars-template").
           <input type="file" name="question_image">
         </div>
       </li>
-      <li class="answers-input-wrapper">
-        <p><small>Answers</small></p>
-        <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
+      <li class="answers-input-wrapper flex">
+        <div class="flex-3">
+          <p><small>Answers</small></p>
+          <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
+        </div>
+        <div class="flex-1">
+          <ul id="survey-answers-list"></ul>
+        </div>
       </li>
     </ul>
   </form>
+
+script#new-survey-answer-template(type="text/x-handlebars-template").
+  <li>{{answer}}</li>

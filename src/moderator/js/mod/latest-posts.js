@@ -19,6 +19,7 @@ mod.latest_posts = (function() {
       }
       else {
         this.render_feed();
+        this.render_active_assignments();
 
         // Send a message to a user who submitted content
         var msg_btn = document.querySelector('.submissions-grid');
@@ -134,7 +135,7 @@ mod.latest_posts = (function() {
 
 
     var render_feed = function () {
-      console.log('hello from: render');
+      // console.log('hello from: render');
 
       mod.utils.render_template({
         template: '#latest-posts-template',
@@ -161,13 +162,21 @@ mod.latest_posts = (function() {
       //   clearTimeout(delay_packery);
       // }, 2000);
 
-
-
-
-
     }
 
 
+
+    var render_active_assignments = function () {
+
+      mod.utils.render_template({
+        template: '#active-assignment-template',
+        target: '#active-assignments-list',
+        context: {
+          assignments: mod.DATA.assignments
+        }
+      });
+
+    }
 
 
     // DRAG AND DROP
@@ -218,6 +227,7 @@ mod.latest_posts = (function() {
       show_collections_dropdown: show_collections_dropdown,
       hide_collections_dropdown: hide_collections_dropdown,
       toggle_collections_dropdown: toggle_collections_dropdown,
-      add_post_to_collection: add_post_to_collection
+      add_post_to_collection: add_post_to_collection,
+      render_active_assignments: render_active_assignments
     }
 })();

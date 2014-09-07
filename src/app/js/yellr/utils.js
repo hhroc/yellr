@@ -84,27 +84,23 @@ yellr.utils = {
 
     // two sets of URLS
     var dev_urls = {
-          assignments: 'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications: 'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
-          messages: 'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
-          news_feed: '',
-          profile: '',
-          upload: 'http://127.0.0.1:8080/upload_media.json',
-          post: 'http://127.0.0.1:8080/publish_post.json'
-// get_stories.json?client_id=<client_id>&lat=<lat>&lng=<lng>&language_code=<language_code>
+          assignments:    'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications:  'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
+          messages:       'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
+          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+          profile:        '',
+          upload:         'http://127.0.0.1:8080/upload_media.json',
+          post:           'http://127.0.0.1:8080/publish_post.json'
         };
-// $.getJSON('http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+43.2+'&lng='+77.6+'&language_code=en', function(response){console.log(response)})
-// $.getJSON('http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+43.2+'&lng=-77.6&language_code=en', function(response){console.log(response)})
 
     var live_urls = {
-          assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
-          messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
-          news_feed: '',
-          profile: '',
-          upload: 'http://yellrdev.wxxi.org/upload_media.json',
-          post: 'http://yellrdev.wxxi.org/publish_post.json'
-
+          assignments:    'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications:  'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+          messages:       'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+          profile:        '',
+          upload:         'http://yellrdev.wxxi.org/upload_media.json',
+          post:           'http://yellrdev.wxxi.org/publish_post.json'
         };
 
     // if in devevlopment, use local URLs
@@ -211,12 +207,14 @@ yellr.utils = {
 
 
 
-  notify: function(message) {
+  notify: function(message, time) {
 
     /**
      * this function follows the idea of Flask's "flash message"
      */
 
+    // default to 3 seconds, can override with parameter
+    var _time = (time) ? time: 3500;
 
     // if a messsage was passed, show that
     // alert('notify: ' + message);
@@ -232,13 +230,11 @@ yellr.utils = {
     // we set the height inline so we can transition nicely
     $('#notify-wrapper').css('height', $('#notify-list').css('height'));
 
-
+    // delete notifications after a while
     setTimeout(function () {
-
       document.querySelector('#notify-list').removeChild(document.querySelector('#notify-list').firstChild);
       $('#notify-wrapper').css('height', $('#notify-list').css('height'));
-      console.log('lol');
-    }, 3000);
+    }, _time);
 
   },
 

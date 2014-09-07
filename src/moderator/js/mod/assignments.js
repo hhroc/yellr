@@ -21,7 +21,24 @@ mod.assignments = (function() {
 
 
   var view = function () {
-    console.log('hello from: assignments.view');
+    // the URL hash is the assignment ID
+    var assignment_id = parseInt(window.location.hash.split('#')[1]);
+    console.log(assignment_id);
+
+    if (assignment_id !== NaN) {
+      // avoid regular hash things
+      // load that assignment
+      var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
+        if (val.assignment_id === assignment_id) return true;
+      })[0];
+      console.log(assignment);
+
+      mod.utils.render_template({
+        template: '#single-assignment-template',
+        target: '#single-assignment-container',
+        context: {assignment: assignment}
+      });
+    }
   }
 
 
@@ -235,11 +252,8 @@ mod.assignments = (function() {
   var language_feedback = function () {
 
     // give the user feedback on the languages the current assignment supports
-    console.log('hello from: language_feedback');
 
-    // we use the supported_languages array, which is populated
-    // as we successfully post questions to the server | in create_question_form()
-
+    // get the languages the question supports compared to what yellr supports
     var languages = mod.DATA.languages.filter(function (val, i, array) {
       for (var j = 0; j < supported_languages.length; j++) {
         if (val.code === supported_languages[j]) {
@@ -301,12 +315,18 @@ mod.assignments = (function() {
       success: function (response) {
 
         if (response.success) {
-          console.log(response);
-          mod.utils.clear_overlay();
-
           // clear array
           questions = [];
-          alert('should redirect to the assignment');
+          mod.utils.clear_overlay();
+
+          // ----------------------------
+          // we won't need this soon, only temporaray
+          if (mod.DATA.assignments === undefined) mod.DATA.assignments = [];
+          mod.DATA.assignments.push({assignment_id: response.assignment_id})
+          mod.utils.save();
+          // ----------------------------
+
+          mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
         } else {
           alert('Something went wrong submitting an Assignment');
         }

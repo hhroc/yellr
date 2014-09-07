@@ -33,11 +33,27 @@ mod.assignments = (function() {
       })[0];
       console.log(assignment);
 
-      mod.utils.render_template({
-        template: '#single-assignment-template',
-        target: '#single-assignment-container',
-        context: {assignment: assignment}
-      });
+      console.log('render the assignment overview');
+      // mod.utils.render_template({
+      //   template: '#single-assignment-template',
+      //   target: '#single-assignment-container',
+      //   context: {assignment: assignment}
+      // });
+      console.log('get assignment responses');
+      // mod.utils.load({
+      //   data: ''
+      // });
+      console.log('get assignment collection');
+      console.log('if one doesn\'t exist, make it easy for them to create one');
+
+    // parse UTC dates with moment.js
+    var deadline = document.querySelector('.assignment-deadline');
+    deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+    // deadline.innerHTML = moment(deadline.innerHTML).fromNow(true);
+// moment().format('MMMM Do YYYY, h:mm:ss');
+    var published = document.querySelector('.assignment-published');
+    published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+
     }
   }
 

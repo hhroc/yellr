@@ -9,31 +9,112 @@ body#moderator(data-page="single-assignment")
   div.container
 
     div#main.flex
-      div.flex-1#left
+      div#left.flex-1
         include _sidebar.jade
 
-      div.flex-4#right
-        section#view-assignment-section.right-wrapper
-          h2.t1 Why can't I walk down a street free of suggestions?
+      div#right.flex-4.right-wrapper
+        section#view-assignment-section
+          h2.t3 Assignment 1
+          h3.t1 Why can't I walk down a street free of suggestions?
+          div.flex
+            div.flex-2
+              p When nobody will look at you, you can stare a hole in them. Picking out all the little details you'd never stare long enough to get if she'd even just return your gaze, this, this is your revenge.
+              ul.inline.assignment-dates-list
+                li.assignment-published 2014-9-15 16:20:21.420420
+                li.assignment-deadline 2014-10-15 16:20:21.420420
+            div.flex-1
+              p
+                span.btn#edit-assignment-btn Edit
+                span.btn#close-assignment-btn Close
 
-          ul#responses-list
-            li
-              div.gi
-                div.story-item
-                  div.media-preview
-                    img(src="http://lorempixel.com/400/200")
-                    p The Toons win! They're not going to Moron Mountain
-                    p.source
-                      a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
-                    div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
-                  div.options-wrapper
-                    ul.options-list
+        div#assignment-reply-container.flex
+          div.assignment-replies-wrapper.flex-2
+            h3.t2 Responses
+            //- ul#assignment-replies-list.list-style-none
+              li.faded
+                h3.t2 No replies yet
+                p It might take a while for people to respond. Also be sure to check the regular feed just in case.
+            ul#assignment-replies-list.list-style-none
+              li
+                div.gi
+                  div.story-item
+                    p.description Response to Assignment 6
+                    p.media-text Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine
+                  div.story-meta.flex
+                    p.source.flex3
+                      a(href="#") SAF-ASDFASDF-SADF-SDFA-saSFSAF
+                    ul.options-list.flex-1
                       li
-                        i.fa.fa-folder
+                        i.fa.fa-plus(title="Add to collection")
                       li
-                        i.fa.fa-comment
+                        i.fa.fa-comment(title="Leave feedback")
                       li
-                        i.fa.fa-flag
+                        i.fa.fa-flag(title="Mark as inappropriate")
+                      li
+                        i.fa.fa-trash(title="Remove from responses")
+                    div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+
+              li
+                div.gi
+                  div.story-item
+                    div.media-preview
+                      img(src="http://lorempixel.com/400/200")
+                      p The Toons win! They're not going to Moron Mountain
+                      p.source
+                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
+                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
+                    div.options-wrapper
+                      ul.options-list
+                        li
+                          i.fa.fa-folder
+                        li
+                          i.fa.fa-comment
+                        li
+                          i.fa.fa-flag
+              //- li
+                div.gi
+                  div.story-item
+                    div.media-preview
+                      img(src="http://lorempixel.com/400/200")
+                      p The Toons win! They're not going to Moron Mountain
+                      p.source
+                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
+                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
+                    div.options-wrapper
+                      ul.options-list
+                        li
+                          i.fa.fa-folder
+                        li
+                          i.fa.fa-comment
+                        li
+                          i.fa.fa-flag
+              //- li
+                div.gi
+                  div.story-item
+                    div.media-preview
+                      img(src="http://lorempixel.com/400/200")
+                      p The Toons win! They're not going to Moron Mountain
+                      p.source
+                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
+                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
+                    div.options-wrapper
+                      ul.options-list
+                        li
+                          i.fa.fa-folder
+                        li
+                          i.fa.fa-comment
+                        li
+                          i.fa.fa-flag
+
+          div.assignment-collection-wrapper.flex-1
+            h3.t2 Collection
+            ul#assignment-collection-list.list-style-none
+              li.faded
+                h3.t2 No collection started
+                p Collections are a great way to collect the best responess submitted on Yellr.
+                  | Create one by clicking the Folder icon one a feed item or clicking&nbsp;
+                  span#create-collection-btn here
 
   include _footer.jade
 </html>

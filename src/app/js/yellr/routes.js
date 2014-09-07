@@ -13,7 +13,6 @@ yellr.routes = (function() {
     // the _default_template_settings object gets passed to every route
     var _default_template_settings = {
       header: {target: '#app-header'},
-      // subnav: {target: '#app-subnav'},
       footer: {target: '#app-footer'}
     }
 

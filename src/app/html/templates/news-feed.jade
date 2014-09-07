@@ -1,20 +1,25 @@
 script#news-feed-li(type="text/x-handlebars-template").
-  {{#each news_feed}}
-  <li>
-    <h2 class="t1 news-title"><a href="#view-news/{{id}}">{{title}}</a></h2>
-    <div class="news-preview">{{{preview_text}}}</div>
-    {{#if image}}
-    <figure>
-      <img src="{{image}}">
-      {{#if image_caption}}
-      <figcaption>{{image_caption}}</figcaption>
+  {{#if stories}}
+    {{#each stories}}
+    <li>
+      <h2 class="t1 news-title"><a href="#view-news/{{id}}">{{title}}</a></h2>
+      <div class="news-preview">{{{preview_text}}}</div>
+      {{#if image}}
+      <figure>
+        <img src="{{image}}">
+        {{#if image_caption}}
+        <figcaption>{{image_caption}}</figcaption>
+        {{/if}}
+      </figure>
       {{/if}}
-    </figure>
-    {{/if}}
-  </li>
-  {{/each}}
-
-
+    </li>
+    {{/each}}
+  {{else}}
+    <li class="faded">
+      <h2 class="t1 news-title">No news stories yet in your area.</h2>
+      <div class="news-preview">By submitting things important to you, you can get your voice heard!</div>
+    </li>
+  {{/if}}
 
 script#news-story-template(type="text/x-handlebars-template").
   <h2 class="news-title">{{title}}</h2>

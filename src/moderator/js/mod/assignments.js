@@ -36,6 +36,12 @@ mod.assignments = (function() {
       }
     });
 
+    // parse UTC dates with moment.js
+    var dates = document.querySelectorAll('.assignment-deadline');
+    for (var i = 0; i < dates.length; i++) {
+      dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
+    };
+
   }
 
 
@@ -84,7 +90,7 @@ mod.assignments = (function() {
 
     // 2.
     $form.find('#language-select').on('change', function (e) {
-      mod.assignments.create_question_form(this.value);
+      if (this.value !== '--') mod.assignments.create_question_form(this.value);
     });
 
 
@@ -98,6 +104,9 @@ mod.assignments = (function() {
 
 
   var create_question_form = function (language_code) {
+
+    $extra_fields.hide();
+    $preview_text.removeClass('active');
 
     // create a new question form based on the language selected
     mod.utils.render_template({
@@ -163,6 +172,7 @@ mod.assignments = (function() {
     // show the post button
     $post_btn.show();
     $post_btn.html('Add Question');
+    $post_btn.off('click');
     $post_btn.on('click', function (e) {
 
       // console.log($question_form.serialize()+'&answers='+JSON.stringify(survey_answers));
@@ -230,11 +240,14 @@ mod.assignments = (function() {
     // we use the supported_languages array, which is populated
     // as we successfully post questions to the server | in create_question_form()
 
-    var languages = [];
-    for (var i = 0; i < supported_languages.length; i++) {
-      languages.push({language: mod.DATA.languages[supported_languages[i]]});
-    };
-    console.log(languages);
+    var languages = mod.DATA.languages.filter(function (val, i, array) {
+      for (var j = 0; j < supported_languages.length; j++) {
+        if (val.code === supported_languages[j]) {
+          return true;
+        }
+      };
+    });
+
 
     mod.utils.render_template({
       target: '#supported-languages',
@@ -242,9 +255,12 @@ mod.assignments = (function() {
       context: {languages: languages}
     });
 
+    // users can still add different languages
+    // we remove the ones that they have already done to prevent duplicates
+    $('#language-select').find('option[value="'+supported_languages[supported_languages.length-1]+'"]').remove();
 
-    $languages_list.find('#add-language-btn').on('click', function (e) {
-      $form.find('.language-select-wrapper').show();
+    $('#add-language-btn').on('click', function (e) {
+      $('#assignment-form-wrapper .language-select-wrapper').show();
     })
 
   }

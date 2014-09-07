@@ -80,7 +80,6 @@ mod.setup = {
         saveAs: 'assignments'
       });
 
-
       var wait = setTimeout(mod.setup.dashboard, 1000);
     }
     else {
@@ -91,7 +90,9 @@ mod.setup = {
       mod.assignments.render_active();
 
 
-      // Send a message to a user who submitted content
+      // - send a message to a user who submitted content
+      // - add post to a collection
+      // - flag inappropriate content
       var post_actions = document.querySelector('.submissions-grid');
 
       post_actions.onclick = function(e) {
@@ -112,15 +113,17 @@ mod.setup = {
       };
 
 
+      // refresh the feed
       $('#refresh-posts').on('click', function (e) {
-        mod.utils.load('posts');
-        mod.latest_posts.render_feed();
+        mod.utils.load({
+          data: 'get_posts',
+          saveAs: 'posts',
+          callback: mod.feed.render_latest_posts
+        });
       });
 
     }
     // end if..else
-
-
 
   },
 }

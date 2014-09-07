@@ -48,6 +48,11 @@ body#moderator(data-page="index")
           h2.t4.uppercase All Posts
           div#latest-posts-wrapper.flex
 
+            div.grid.submissions-grid#latest-posts.flex-3
+              div.grid-sizer
+              div.gutter-sizer
+
+
             div#feed-controls.flex-1
               div.feed-controls-wrapper
                 p#refresh-posts.feed-filter Refresh/Reload
@@ -56,57 +61,52 @@ body#moderator(data-page="index")
                   ul.list-style-none
                     li
                       label
-                        span List
                         input(type="radio", name="feed-view", value="list", checked)
+                        span List
                     li
                       label
-                        span Grid
                         input(type="radio", name="feed-view", value="grid")
+                        span Grid
 
                 div#filter-content-type.feed-filter
                   p Content Type
                   ul.list-style-none
                     li
                       label
-                        span Video
                         input(type="checkbox", value="video", checked)
+                        span Video
                     li
                       label
-                        span Photo
                         input(type="checkbox", value="photo", checked)
+                        span Photo
                     li
                       label
-                        span Audio
                         input(type="checkbox", value="audio", checked)
+                        span Audio
                     li
                       label
-                        span Text
                         input(type="checkbox", value="text", checked)
+                        span Text
 
                 div#filter-submission-type.feed-filter
                   p Submission Type
                   ul.list-style-none
                     li
                       label
-                        span All
                         input(type="radio", name="sub-type", value="all", checked)
+                        span All
                     li
                       label
-                        span Anonymous
                         input(type="radio", name="sub-type", value="anonymous")
+                        span Anonymous
                     li
                       label
-                        span Validated
                         input(type="radio", name="sub-type", value="validated")
+                        span Validated
 
                 div#filter-search.feed-filter
                   p Search
                   input(type="text", placeholder="Search by tag, keyword, or UID")
-
-
-            div.grid.submissions-grid#latest-posts.flex-3
-              div.grid-sizer
-              div.gutter-sizer
 
 
   include _footer.jade

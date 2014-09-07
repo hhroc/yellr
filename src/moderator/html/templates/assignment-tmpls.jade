@@ -3,10 +3,10 @@ script#active-assignment-template(type="text/x-handlebars-template").
   {{#if assignments}}
     {{#each assignments}}
     <li>
-      <h3>{{title}}</h3>
+      <h3>{{question_text}}</h3>
       <div class="flex assignment-meta">
-        <div class="flex-1"><a href="#assignments/{{id}}">View</a></div>
-        <p class="flex-2 assignment-deadline">{{deadline}}</p>
+        <div class="flex-1"><a href="assignments.html/{{assignment_id}}">View</a></div>
+        <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
       </div>
     </li>
     {{/each}}

@@ -15,39 +15,34 @@ mod.utils = {
   },
 
 
-  login: function () {
+  login: function (username, password) {
 
-    var $form = $('#mod-login');
-
-    $form.submit(function (e) {
-
-      e.preventDefault();
-      var fields = $form.serializeArray(),
-          username = fields[0].value,
-          password = fields[1].value;
-
-      // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-      var dev_url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password,
-          live_url = 'http://yellrdev.wxxi.org/admin/get_access_token.json?user_name='+username+'&password='+password;
+    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
+    var dev_url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password,
+        live_url = 'http://yellrdev.wxxi.org/admin/get_access_token.json?user_name='+username+'&password='+password;
 
 
-      // $form
-      $.ajax({
-        type: 'POST',
-        url: (DEBUG) ? dev_url : live_url,
-        dataType: 'json',
-        success: function (data) {
-          if (data.success) {
-            mod.TOKEN = data.token;
-            mod.utils.save();
-            mod.utils.set_urls();
+    // $form
+    $.ajax({
+      type: 'POST',
+      url: (DEBUG) ? dev_url : live_url,
+      dataType: 'json',
+      success: function (data) {
+        if (data.success) {
+          mod.TOKEN = data.token;
+          mod.utils.save();
+          mod.utils.set_urls();
 
-            window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/latest-posts.html' : '/latest-posts.html';
-          } else {
-            document.querySelector('#login-feedback').innerHTML = data.error_text;
-          }
+          mod.utils.load({
+            data: 'get_languages',
+            saveAs: 'languages'
+          });
+
+          window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/index.html' : '/index.html';
+        } else {
+          document.querySelector('#login-feedback').innerHTML = data.error_text;
         }
-      });
+      }
     });
 
   },
@@ -55,7 +50,7 @@ mod.utils = {
 
   logout: function () {
     localStorage.removeItem('yellr-mod');
-    mod.utils.redirect_to_login('You are now being logged out');
+    mod.utils.redirect_to_login('You have been logged out');
   },
 
 
@@ -101,9 +96,13 @@ mod.utils = {
 
         console.log(response);
         console.log(mod.URLS[settings.data]);
-        mod.utils.redirect_to_login(''+
+        console.log(''+
           'Something went wrong loading: '+ settings.data+'\n'+
           'This could be because your previous session has expired. Please log back in');
+        // mod.utils.redirect_to_login(''+
+        //   'Something went wrong loading: '+ settings.data+'\n'+
+        //   'This could be because your previous session has expired. Please log back in');
+
 
       }
     });
@@ -134,7 +133,8 @@ mod.utils = {
       create_message:               'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
       // questions/assignments
       create_question:              'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
-      get_my_assignments:           'http://127.0.0.1:8080/admin/get_my_assignments.json?token='+mod.TOKEN,
+      get_my_assignments:           'data/admin-assignments.json',
+      // get_my_assignments:           'http://127.0.0.1:8080/admin/get_my_assignments.json?token='+mod.TOKEN,
       publish_assignment:           'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
       update_assignment:            'http://127.0.0.1:8080/admin/update_assignment.json?token='+mod.TOKEN,
       get_assignment_responses:     'http://127.0.0.1:8080/admin/get_assignment_responses.json?token='+mod.TOKEN,

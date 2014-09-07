@@ -19,16 +19,24 @@ mod.assignments = (function() {
 
 
 
-  var init = function () {
-    console.log('hello from: assignments.init');
-    console.log('look at all the assignments you\'ve posted');
-  }
 
   var view = function () {
     console.log('hello from: assignments.view');
   }
 
 
+
+  var render_active = function () {
+
+    mod.utils.render_template({
+      template: '#active-assignment-template',
+      target: '#active-assignments-list',
+      context: {
+        assignments: mod.DATA.assignments
+      }
+    });
+
+  }
 
 
 
@@ -295,13 +303,13 @@ mod.assignments = (function() {
 
 
   return {
-    init: init,
     view: view,
     setup_form: setup_form,
     create_question_form: create_question_form,
     successful_question_post: successful_question_post,
     post: post,
     save_draft: save_draft,
-    language_feedback: language_feedback
+    language_feedback: language_feedback,
+    render_active: render_active
   }
 })();

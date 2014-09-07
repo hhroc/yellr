@@ -1,7 +1,7 @@
 'use strict';
 var mod = mod || {};
 
-mod.latest_posts = (function() {
+mod.feed = (function() {
 
     /**
      * This object renders the Posts feed
@@ -9,55 +9,12 @@ mod.latest_posts = (function() {
      */
 
 
-    var init = function () {
-
-      // make sure we have data
-      if (mod.DATA.posts === undefined) {
-        console.log('show loading gif. tell them we\'re loading data');
-        mod.utils.load('posts');
-        var wait = setTimeout(mod.latest_posts.init, 1000);
-      }
-      else {
-        this.render_feed();
-        this.render_active_assignments();
-
-        // Send a message to a user who submitted content
-        var msg_btn = document.querySelector('.submissions-grid');
-        msg_btn.onclick = function(e) {
-          switch (e.target.className) {
-            case 'fa fa-folder':
-              mod.latest_posts.toggle_collections_dropdown(e.target);
-              break;
-            case 'fa fa-comment':
-              var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-              mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-              break;
-            case 'fa fa-flag':
-              console.log('report the motherfucker');
-              break;
-            default:
-              break;
-          }
-        };
-
-        $('#refresh-posts').on('click', function (e) {
-          mod.utils.load('posts');
-          mod.latest_posts.render_feed();
-        });
-
-      }
-      // end if..else
-
-    }
-
-
-
 
     var toggle_collections_dropdown = function (target) {
 
       if ($(target.parentNode).hasClass('dropdown-container'))
-        mod.latest_posts.hide_collections_dropdown(target);
-      else mod.latest_posts.show_collections_dropdown(target);
+        mod.feed.hide_collections_dropdown(target);
+      else mod.feed.show_collections_dropdown(target);
 
     }
 
@@ -84,7 +41,7 @@ mod.latest_posts = (function() {
 
       $(target.parentNode).find('.collections-dropdown').on('click', function (e) {
         console.log(e);
-        mod.latest_posts.add_post_to_collection(e.target)
+        mod.feed.add_post_to_collection(e.target)
       })
     }
 
@@ -122,7 +79,7 @@ mod.latest_posts = (function() {
         collection_id: $(target).data('collection-id')
       }, function (response) {
         if (response.success) {
-          // mod.latest_posts.hide_collections_dropdown();
+          // mod.feed.hide_collections_dropdown();
           console.log('added post to collection');
         } else {
           console.log('something went wrong adding the post to the collection');
@@ -134,7 +91,7 @@ mod.latest_posts = (function() {
 
 
 
-    var render_feed = function () {
+    var render_latest_posts = function () {
       // console.log('hello from: render');
 
       mod.utils.render_template({
@@ -166,17 +123,7 @@ mod.latest_posts = (function() {
 
 
 
-    var render_active_assignments = function () {
 
-      mod.utils.render_template({
-        template: '#active-assignment-template',
-        target: '#active-assignments-list',
-        context: {
-          assignments: mod.DATA.assignments
-        }
-      });
-
-    }
 
 
     // DRAG AND DROP
@@ -222,12 +169,10 @@ mod.latest_posts = (function() {
 
 
     return {
-      init: init,
-      render_feed: render_feed,
+      render_latest_posts: render_latest_posts,
       show_collections_dropdown: show_collections_dropdown,
       hide_collections_dropdown: hide_collections_dropdown,
       toggle_collections_dropdown: toggle_collections_dropdown,
-      add_post_to_collection: add_post_to_collection,
-      render_active_assignments: render_active_assignments
+      add_post_to_collection: add_post_to_collection
     }
 })();

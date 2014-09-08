@@ -8,13 +8,12 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
-// var DEBUG = true;
-var DEBUG = false;
+var DEBUG = true;
+// var DEBUG = false;
 
 window.onload = function() {
 
-  // if (DEBUG)
-  localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
 
   // check for a UUID,
   // - if none create it

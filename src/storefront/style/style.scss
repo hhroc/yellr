@@ -3,280 +3,81 @@
 @import "../../common/style/pieces/classes";
 @import "../../common/style/pieces/normalize";
 @import "../../common/style/pieces/base";
-@import "../../common/style/pieces/modules";
 
 // libraries
-@import "../../common/style/libs/font-awesome/font-awesome";
+// @import "../../common/style/libs/font-awesome/font-awesome";
 
 // yellr specific
 @import "../../common/style/theme/vars";
 @import "../../common/style/theme/classes";
 @import "../../common/style/theme/typography";
-@import "../../common/style/theme/forms";
-@import "../../common/style/theme/header";
-@import "../../common/style/theme/user-bar";
-@import "../../common/style/theme/question-prompt";
-@import "../../common/style/theme/assignments";
 
-
-
-// ===================================
-// quick and dirty testing
-// ===================================
-.module-wrapper {
-	&:nth-child(2),
-	&:nth-child(3) {
-		display: none;
-	}
-}
-// ===================================
-
-
-
-.submit-report-header {
-	background: $yellow;
-	z-index: 75 !important;
-	max-height: 3.25rem;
-	border-bottom: 1px solid $dark-yellow;
-	@include flexbox();
-	a, span {
-		padding: 1rem;
-	}
-	a {
-		max-width: 3.25rem;
-		text-align: center;
-	}
-}
-.header-back {
-	@include flex(1);
-	color: darken($yellow, 15%);
-	border-right: 1px solid $dark-yellow;
+.t3 {
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin-bottom: 1.5rem;
 }
 
-.header-current {
-	@include flex(3);
-	font-weight: bold;
+#header {
+  background: $yellow;
+  color: $black;
+  h1 {
+    margin: 0;
+    font-size: 1rem;
+    padding: 0.75rem;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
 }
-
-.header-next {
-	@include flex(1);
-	color: $black;
-	border-left: 1px solid darken($yellow, 5%);
-}
-
-.no-border {
-	border: none;
-}
-
-.submit-preview {
-	padding: 1rem 0;
-	textarea {
-		margin-bottom: 0.75rem;
-	}
-}
-
-.media-submission-wrapper {
-	@include flexbox();
-	margin-bottom: 0.875rem;
-}
-
-.media-preview {
-	@include flex(3);
-}
-.media-options {
-	@include flex(1);
-	max-width: 3rem;
-	text-align: center;
-	.fa-plus {
-		color: #aaa;
-	}
-}
-
-.submit-report-footer {
-	z-index: 75 !important;
-	// background: tomato;
-	background: #ebebeb;
-	border-top: 1px solid #ccc;
-	div {
-		text-align: center;
-		border-right: 1px solid #ccc;
-		@include transition(background, 0.3s);
-		&:last-child {border: none; }
-		&:hover {
-			background: #fff;
-		}
-	}
-	i {
-		padding: 0.875rem;
-		color: #999;
-	}
-}
-
-
-.extra-info {
-	position: relative;
-}
-.info {
-	position: absolute;
-	top: 0;
-	left: 0;
-	max-height: 0;
-	@include transition(max-height, 0.3s);
-	&.show {
-		max-height: 30rem;
-	}
-}
-
-.tags-list {
-	list-style: none;
-	font-size: 0.875rem;
-	margin-bottom:0.75rem;
-	li {
-		@include transition(color, 0.3s);
-		color: #aaa;
-		display: inline-block;
-		vertical-align: top;
-		margin-right: 0.25rem;
-		&:hover {color: #555; }
-		&:before {content: "#"; }
-	}
-}
-
-
-.pos-rel {
-	position: relative;
-}
-
-
-
-
-// DELETE THIS LATER
-// THIS IS A QUICK AND DIRTY HACK THAT COULD HIDE DEEPER ISSUES
-.container {
-	overflow: hidden;
-}
-// ===================================
-
-
-
-
-// HEADER BAR
-// ----------------------------
-.header-bar-wrapper {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 50;
-}
-
-#header-bar {
-	@include flexbox();
-	background: $yellow;
-	color: $black;
-	$border: #aaa;
-	border-bottom: 1px solid $border;
-	h1 {
-		margin: 0;
-		line-height: 1.65;
-	}
-}
-#home-btn {
-	padding-left: 1rem;
-}
-.more-controls {
-	@include flexbox();
-	// max-width: 6.375rem;
-	div {
-		@include transition(background, 0.3s);
-		width: 49.5%; // in case the phone doesn't support flex
-		max-width: 3.125rem;
-		@include flex(1);
-		display: inline-block;
-		padding: 1rem;
-		text-align: center;
-		border-left: 1px solid $dark-yellow;
-		&:hover {background: $dark-yellow; }
-	}	
-	i {font-size: 1.25rem; }
-}
-
-
-
-
-
-
-
-
-// REPORT BAR
-// ----------------------------
-.report-bar-wrapper {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	z-index: 50;
-}
-#report-bar {
-	@include flexbox();
-	background: $yellow;
-	color: $black;
-	border-bottom: 1px solid #aaa;
-	div {
-		@include transition(background, 0.3s);
-		width: 25%; // in case the phone doesn't support flex
-		@include flex(1);
-		padding: 0.75rem;
-		text-align: center;
-		border-right: 1px solid $dark-yellow;
-		&:last-child {border: none; }
-		&:hover {background: $dark-yellow; }
-	}
-	i {font-size: 1.25rem; }
-}
-#anonymous-disclaimer {
-	text-align: center;
-	font-style: italic;
-	font-size: 0.75rem;
-	padding: 0.25rem 0;
-	margin-bottom: 0;
-	background: $black;
-	color: $white;
-	max-width: none;
-}
-
-
-
-
-
-
-
 
 %wrapper {
-	width: 90%;
-	max-width: 1024px;
-	margin: 0 auto;
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
-#main {padding: 6rem 0; }
-
-// report submisssion
-#submit-report {max-width: 20rem; }
-
-
-
-// latest assignments
-#latest-assignments {
-	p {
-		display: none;
-		@include mq(tablet) {display: block; }
-	}
-}
-#latest-assignments, #latest-stories {
-	li {margin-bottom: 1.5rem; }
+#main {
+  padding: 2rem 0 4rem;
 }
 
 
 // footer
 #footer {
-	background: $black;
-	color: $white;
+  background: $black;
+  color: $white;
+}
+
+#stories-list {
+  li {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+    margin-bottom: 4rem;
+  }
+}
+
+.by-line {
+  &:before {
+    content: "By ";
+  }
+}
+.published-datetime {
+  &:before {
+    content: "Published: ";
+  }
+}
+
+
+.article-content {
+  padding-bottom: 2rem;
+}
+
+.article-tags-list {
+  margin-bottom: 1.5rem;
+  li {
+    background: #ccc;
+    padding: 0.5rem 0.875rem;
+    // font-weight: bold;
+  }
 }

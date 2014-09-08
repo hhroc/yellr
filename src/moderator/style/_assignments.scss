@@ -1,3 +1,88 @@
+#view-assignment-section {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #999;
+  margin: 0 0 3rem;
+  .t3 {margin-bottom: 1rem;}
+  .t2 {margin-bottom: 1.75rem;}
+  .assignment-published:before {color: $blue;}
+  .assignment-deadline:before {color: $red;}
+  .btn {color: #fff;}
+}
+#edit-assignment-btn {
+  background: rgba($blue, 0.6);
+  &:hover {background: $blue; }
+}
+#close-assignment-btn {
+  background: rgba(#999,0.6);
+  &:hover {background: $red; }
+}
+.write-article-btn-container {
+  margin-top: 0.75rem;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;
+}
+#write-article-btn {
+  background: rgba($green, 0.5);
+  &:hover {background: $green; }
+}
+
+.assignment-dates-list {
+  li {margin-right: 1.5rem; &:last-child {margin-right:0;}}
+}
+
+#assignment-reply-container {
+  .flex-1 {
+    &:first-child {padding-right: 1rem;}
+    &:last-child {padding-left: 1rem;}
+  }
+}
+
+
+
+.active-assignments-wrapper {
+  margin-bottom: 3.5rem;
+}
+
+#active-assignments-list {
+  display: flex;
+  overflow: overlay;
+  li {
+    flex: 1;
+    list-style: none;
+    border: 1px solid #888;
+    border-right: none;
+    padding: 1rem;
+    min-width: 15rem;
+    &:last-child {
+      border-right: 1px solid #888;
+    }
+  }
+  h3 {
+    font-size: 1.25rem;
+    margin: 0 0 1.5rem;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+.assignment-meta {
+  font-size: 0.75rem;
+}
+
+.assignment-published {
+  &:before {
+    content: "Published: ";
+  }
+}
+.assignment-deadline {
+  text-align: right;
+  &:before {
+    content: "Deadline: ";
+  }
+}
+
+
+
 #new-assignment-section {
   padding: 1rem 1rem 1.75rem;
   background: #ebebeb;

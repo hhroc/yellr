@@ -1,0 +1,54 @@
+doctype html
+head
+  include ../../common/html/_head/meta.jade
+
+  title Yellr
+  meta(name="description", content="Yellr - Article")
+  include _header.jade
+
+
+body#storefront(data-page="article")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+    header#header
+      .wrapper
+        h1
+          a(href="index.html") Yellr - Rochester News
+
+    div#main
+      .wrapper
+        article.article
+          header.article-header
+            h2.t1 U.S. Border Patrol Apprehending Fewer Central Americans
+            p.by-line Cris Armstrong
+            p.published-datetime 2014-08-22 16:03:37.450331
+          div.content
+            p The number of Central American children and families being apprehended at the U.S.-Mexican border has dropped dramatically in recent months, according to the U.S. Border Patrol. There has been a 60 percent decline in apprehensions of minors since the record numbers making the illegal trek earlier this summer.
+            p A lot of factors may be contributing to the dramatic drop, including heavy rains along the migrant route and media campaigns in home countries dispelling rumors that kids can stay in the U.S.
+            p But one component seems to be increased security along Mexico's southern border. In the southern Mexican border town of Tapachula, Central American migrants say the increased presence of Mexican officials is blocking them from even trying to reach America.
+          footer.article-footer
+            ul.article-tags-list.inline
+              li first
+              li story
+              li fresh
+            div.share
+              p Share
+            div.next-article
+              p
+                a(href="#") Next article title text
+
+    footer#footer.header-footer
+      .wrapper
+        p Privacy policy
+        ul#footer-links.list-style-none
+          li
+            a(href="#") link
+          li
+            a(href="#") link
+          li
+            a(href="#") link
+
+  include _templates.jade
+  include _scripts.jade
+
+</html>

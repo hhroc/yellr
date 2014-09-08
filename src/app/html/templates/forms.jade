@@ -11,11 +11,27 @@ script#text-form(type="text/x-handlebars-template").
     {{/if}}
   </form>
 
+
+//- reply to: question
+script#reply-text-form(type="text/x-handlebars-template").
+  <form id="reply-text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
+    <input type="hidden" name="media_type" value="text">
+    <textarea name="media_text" rows="2" columns="10" placeholder="Tell us the story..."></textarea>
+  </form>
+
+
 //- image
 script#image-form(type="text/x-handlebars-template").
   <form class="image-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="media_type" value="image">
+    {{#if assignment_id}}
+    <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
+    {{else}}
+    <input type="hidden" name="assignment_id" value="">
+    {{/if}}
     <textarea name="media_caption" rows="2" columns="10" placeholder="Add image description (optional)"></textarea>
     <input type="file" name="media_file" size="30" multiple>
     <div class="media-submission-wrapper">
@@ -64,23 +80,16 @@ script#reply-survey-form(type="text/x-handlebars-template").
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
     <ul class="list-style-none radio-list">
-      {{#each answers}}
-      <li>
-        <label>
-          <input type="radio" name="survey_answer" value="{{@index}}"><span>{{this}}</span>
-        </label>
-      </li>
-      {{/each}}
+      {{#if answer0}} <li> <label> <input type="radio" name="survey_answer" value="answer0"><span>{{answer0}}</span> </label> </li> {{/if}}
+      {{#if answer1}} <li> <label> <input type="radio" name="survey_answer" value="answer1"><span>{{answer1}}</span> </label> </li> {{/if}}
+      {{#if answer2}} <li> <label> <input type="radio" name="survey_answer" value="answer2"><span>{{answer2}}</span> </label> </li> {{/if}}
+      {{#if answer3}} <li> <label> <input type="radio" name="survey_answer" value="answer3"><span>{{answer3}}</span> </label> </li> {{/if}}
+      {{#if answer4}} <li> <label> <input type="radio" name="survey_answer" value="answer4"><span>{{answer4}}</span> </label> </li> {{/if}}
+      {{#if answer5}} <li> <label> <input type="radio" name="survey_answer" value="answer5"><span>{{answer5}}</span> </label> </li> {{/if}}
+      {{#if answer6}} <li> <label> <input type="radio" name="survey_answer" value="answer6"><span>{{answer6}}</span> </label> </li> {{/if}}
+      {{#if answer7}} <li> <label> <input type="radio" name="survey_answer" value="answer7"><span>{{answer7}}</span> </label> </li> {{/if}}
+      {{#if answer8}} <li> <label> <input type="radio" name="survey_answer" value="answer8"><span>{{answer8}}</span> </label> </li> {{/if}}
+      {{#if answer9}} <li> <label> <input type="radio" name="survey_answer" value="answer9"><span>{{answer9}}</span> </label> </li> {{/if}}
     </ul>
-  </form>
-
-
-//- reply to: question
-script#reply-text-form(type="text/x-handlebars-template").
-  <form id="reply-text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
-    <input type="hidden" name="client_id" value="{{ client_id }}">
-    <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
-    <input type="hidden" name="media_type" value="text">
-    <textarea name="media_text" rows="2" columns="10" placeholder="Tell us the story..."></textarea>
   </form>
 

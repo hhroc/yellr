@@ -51,13 +51,11 @@ mod.messages = (function () {
       var message_id = (e.target.nodeName === 'LI') ? e.target.getAttribute('data-id') : e.target.parentNode.getAttribute('data-id'),
           message;
 
-      console.log(message_id);
       for (var i = 0; i < raw_data.length; i++) {
         message = raw_data[i];
         break;
       };
 
-      console.log(message);
       mod.utils.show_overlay({
         template: '#view-message-template',
         context: message
@@ -66,12 +64,13 @@ mod.messages = (function () {
 
 
 
-    var create_message = function (uid) {
+    var create_message = function (uid, subject) {
 
       mod.utils.show_overlay({
         template: '#send-message-template',
         context: {
-          uid: uid
+          uid: uid,
+          subject: subject
         }
       });
 

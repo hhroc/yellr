@@ -1,0 +1,16 @@
+script#story-li-template(type="text/x-handlebars-template").
+  {{#if stories}}
+    {{#each stories}}
+    <li>
+      <h3 class="t1"><a href="article.html">{{title}}</a></h3>
+      <p>{{top_text}}</p>
+      {{#if banner_media_file_name}}
+      <figure>
+        <img src="http://127.0.0.1:8080/media/{{banner_media_file_name}}">
+      </figure>
+      {{/if}}
+    </li>
+    {{/each}}
+  {{else}}
+    <li class="faded">No stories yet!<li>
+  {{/if}}

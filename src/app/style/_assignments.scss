@@ -1,6 +1,9 @@
 @import "../../common/style/theme/vars";
 @import "vars";
 
+.faded, .no-assignments-li {
+  color: #999;
+}
 
 .assignment-view {
   padding: 1rem 0.5rem;

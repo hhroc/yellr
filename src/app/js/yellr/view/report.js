@@ -66,30 +66,30 @@ yellr.view.report = (function() {
       // set up things for Handlebars
       var form = {
         template: '#'+data.id+'-form',
-        context: {client_id: yellr.UUID}
-      }
+        target: '#form-wrapper'
+      };
 
-      // are we replying to an assignment?
+
+      // are we replying to an assignment? // grab the ID from the URL
       if (data.raw[2]) {
 
-        // grab the ID from the URL
+        // filter through the array to get right assignment
+        form.context = yellr.DATA.assignments.filter(function(val, i, arr) {
+          if (val.assignment_id === parseInt(data.raw[2])) return true;
+        })[0];
+
+
+        if (form.context === undefined) form.context = {};
         form.context.assignment_id = data.raw[2];
-
-        if (data.id === 'reply-survey') {
-          var test = yellr.DATA.assignments.filter(function(val, i, arr) {
-            if (val.id === parseInt(data.raw[2])) return true;
-          });
-          // console.log(test);
-          form.context.answers = test[0].answers;
-        }
       }
 
+      if (form.context === undefined) form.context = {};
+      form.context.client_id = yellr.UUID;
 
-      if (append) $('#form-wrapper').append(render_template(form));
-      else {
-        form.target = '#form-wrapper';
-        render_template(form);
-      }
+
+      if (append) form.append = true;
+
+      render_template(form);
     }
 
 
@@ -146,7 +146,7 @@ yellr.view.report = (function() {
             if (response.success) {
               yellr.view.report.publish_post(response);
             } else {
-              yellr.utils.notify('something went wrong with upload_media...');
+              yellr.utils.notify('Something went wrong with upload_media...');
               console.log(response);
             }
           }
@@ -165,23 +165,27 @@ yellr.view.report = (function() {
 
       form_counter++;
       media_objects.push(server_response.media_id);
-
+      console.log(media_objects);
 
       if (form_counter === total_forms) {
 
         console.log('all forms submitted');
 
+        // title should be either a free response or
+        // Reply to: Assignment ID
+
         var our_data = {
-          title: 'Conquest',
+          title: (assignment_id) ? 'Response to: Assignment '+assignment_id : 'Free Post',
           client_id: yellr.UUID,
           assignment_id: assignment_id,
           language_code: yellr.SETTINGS.language.code,
-          location: JSON.stringify({
-            lat: yellr.SETTINGS.lat,
-            lng: yellr.SETTINGS.lng
-          }),
+          lat: yellr.SETTINGS.lat,
+          lng: yellr.SETTINGS.lng,
           media_objects: JSON.stringify(media_objects)
         };
+
+        // console.log(our_data);
+        // debugger;
 
         $.post(yellr.URLS.post, our_data, function(e) {
           media_objects = [];

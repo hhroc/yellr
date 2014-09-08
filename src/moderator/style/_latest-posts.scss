@@ -1,6 +1,32 @@
-.active-assignments-wrapper {
-  margin-bottom: 2.5rem;
+.dropdown-container {
+  position: relative;
+  border-top: 1px solid #ebebeb;
 }
+
+.collections-dropdown {
+  list-style: none;
+  position: absolute;
+  bottom: 2rem;
+  right: 0;
+  width: 20rem;
+  background: $yellow;
+  p {
+    color: $black;
+    text-align: left;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+  }
+  li {
+    border-bottom: 1px solid #ccc;
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+
+
+
 
 
 
@@ -55,7 +81,7 @@
 
 .feed-controls-wrapper {
   max-width: 10rem;
-  text-align: right;
+  // text-align: right;
   background: #ebebeb;
   padding: 1rem 1rem 2rem;
   font-size: 0.875rem;

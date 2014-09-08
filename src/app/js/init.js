@@ -9,6 +9,7 @@ var yellr = yellr || {};
 */
 
 var DEBUG = true;
+// var DEBUG = false;
 
 window.onload = function() {
 
@@ -50,6 +51,9 @@ window.onload = function() {
       }
     };
 
+    // change settings to spanish
+    yellr.SETTINGS.language.set('es');
+
     // set our API urls
     // ** TO EDIT API URLS GO TO utils.js and change the set_urls function **
     yellr.URLS = yellr.utils.set_urls();
@@ -67,6 +71,7 @@ window.onload = function() {
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
   yellr.utils.load('notifications', yellr.utils.check_notifications);
   yellr.utils.load('messages', yellr.utils.check_messages);
+  yellr.utils.load('stories');
 
 
   // set up routes
@@ -77,8 +82,8 @@ window.onload = function() {
 
 
   document.addEventListener('deviceready', function() {
-    yellr.user.cordova();
-    // alert('running deviceready');
+    // yellr.user.cordova();
+    alert('running deviceready');
     // // yellr.setup.user();
     // // yellr.setup.app();
     // // hide splash screen

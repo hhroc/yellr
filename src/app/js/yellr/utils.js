@@ -84,25 +84,23 @@ yellr.utils = {
 
     // two sets of URLS
     var dev_urls = {
-          assignments: 'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications: 'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
-          messages: 'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
-          news_feed: '',
-          profile: '',
-          upload: 'http://127.0.0.1:8080/upload_media.json',
-          post: 'http://127.0.0.1:8080/publish_post.json'
-
+          assignments:    'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications:  'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
+          messages:       'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
+          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+          profile:        '',
+          upload:         'http://127.0.0.1:8080/upload_media.json',
+          post:           'http://127.0.0.1:8080/publish_post.json'
         };
 
     var live_urls = {
-          assignments: 'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications: 'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
-          messages: 'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
-          news_feed: '',
-          profile: '',
-          upload: 'http://yellrdev.wxxi.org/upload_media.json',
-          post: 'http://yellrdev.wxxi.org/publish_post.json'
-
+          assignments:    'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications:  'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
+          messages:       'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
+          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+          profile:        '',
+          upload:         'http://yellrdev.wxxi.org/upload_media.json',
+          post:           'http://yellrdev.wxxi.org/publish_post.json'
         };
 
     // if in devevlopment, use local URLs
@@ -209,12 +207,14 @@ yellr.utils = {
 
 
 
-  notify: function(message) {
+  notify: function(message, time) {
 
     /**
      * this function follows the idea of Flask's "flash message"
      */
 
+    // default to 3 seconds, can override with parameter
+    var _time = (time) ? time: 3500;
 
     // if a messsage was passed, show that
     // alert('notify: ' + message);
@@ -230,13 +230,11 @@ yellr.utils = {
     // we set the height inline so we can transition nicely
     $('#notify-wrapper').css('height', $('#notify-list').css('height'));
 
-
+    // delete notifications after a while
     setTimeout(function () {
-
       document.querySelector('#notify-list').removeChild(document.querySelector('#notify-list').firstChild);
       $('#notify-wrapper').css('height', $('#notify-list').css('height'));
-      console.log('lol');
-    }, 3000);
+    }, _time);
 
   },
 
@@ -288,22 +286,32 @@ yellr.utils = {
 
   open_gallery: function () {
     console.log('hello from: open_gallery');
+    window.location.href='#report/image';
+
   },
 
+  show_overlay: function () {
 
+    var $overlay = $('#overlay-container');
 
-  prompt: function (title, choices) {
-
-    $('#overlay-container').addClass('show');
+    $overlay.addClass('show');
 
     // add event listner to conainer to close if user wants to cancel
-    $('#overlay-container').on('tap', function (e) {
+    $overlay.on('tap', function (e) {
       e.preventDefault();
       if (e.target.className === 'vertical-center') {
-        $('#overlay-container').removeClass('show');
+        yellr.utils.hide_overlay();
       }
     });
 
+  },
+  hide_overlay: function () {
+    $('#overlay-container').removeClass('show');
+  },
+
+  prompt: function (title, choices, setup) {
+
+    yellr.utils.show_overlay();
 
     // make the HTML
     this.render_template({
@@ -316,20 +324,41 @@ yellr.utils = {
     });
 
 
-    // setup event listeners
-    for (var i = 0; i < choices.length; i++) {
-      console.log(choices[i].callback);
+    $('#prompt-0').on('tap', function (e) {
+      yellr.utils.hide_overlay();
+      setup[0]();
+    });
 
-      var node = '#prompt-'+i;
-      var callback = choices[i].callback;
-      var thing = $(node);
-      // debugger;
-      $(node).on('tap', function (e) {
-        // callback();
-        console.log('hahahahah');
-        console.log(i);
-      });
-    };
+    $('#prompt-1').on('tap', function (e) {
+      yellr.utils.hide_overlay();
+      setup[1]();
+    });
+
+    // // setup event listeners
+    // console.log(choices);
+    // console.log(choices.length);
+    // for (var i = 0; i < choices.length; i++) {
+    //   console.log('===================================');
+    //   console.log(i);
+    //   // console.log(choices[i].callback);
+
+    //   var node = '#prompt-'+i;
+    //   console.log(node);
+    //   var callback = choices[i].callback;
+    //   console.log(callback);
+    //   var thing = $(node);
+    //   console.log(thing);
+    //   // debugger;
+    //   document.querySelector(node).onclick = function (e) {
+    //     callback();
+    //   }
+
+    //   thing.on('tap', {callback: callback},function (e) {
+    //     callback();
+    //     // console.log('hahahahah');
+    //     // console.log(i);
+    //   });
+    // };
 
   },
 
@@ -342,17 +371,11 @@ yellr.utils = {
       e.preventDefault();
 
       // show overlay, popup thing
-      yellr.utils.prompt('Choose image source',
-        [
-          {
-            title: 'Use camera',
-            callback: yellr.utils.open_camera
-          },
-          {
-            title: 'Open gallery',
-            callback: yellr.utils.open_gallery
-          }
-        ]);
+      yellr.utils.prompt(
+        'Choose image source',
+        [{title: 'Use camera'}, {title: 'Open gallery'}],
+        [yellr.utils.open_camera, yellr.utils.open_gallery ]
+      );
     });
 
 

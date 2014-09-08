@@ -1,19 +1,25 @@
 
 //- assignment list <li>
 script#assignments-li(type="text/x-handlebars-template").
-  {{#each assignments}}
-  <li>
-    <h2 class="assignment-title">
-      <a href="#view-assignment/{{ @index }}">{{ question_text }}</a>
-    </h2>
-    <div class="assignment-action">
-      <p class="view-assignment-details"><a href="#view-assignment/{{ @index }}">View assignment</a></p>
-      <p class="assignment-contributions">{{ contributions }}</p>
-    </div>
-    <p class="assignment-deadline">{{ expire_datetime }}</p>
-  </li>
-  {{/each}}
-
+  {{#if assignments}}
+    {{#each assignments}}
+    <li>
+      <h2 class="assignment-title">
+        <a href="#view-assignment/{{ @index }}">{{ question_text }}</a>
+      </h2>
+      <div class="assignment-action">
+        <p class="view-assignment-details"><a href="#view-assignment/{{ @index }}">View assignment</a></p>
+        <p class="assignment-organization">{{ organization }}</p>
+      </div>
+      <p class="assignment-deadline">{{ expire_datetime }}</p>
+    </li>
+    {{/each}}
+  {{else}}
+    <li class="no-assignments-li">
+      <h2 class="assignment-title">No assignments yet!</h2>
+      <p>Check back later to see if there's anything new!</p>
+    </li>
+  {{/if}}
 
 //- single view
 script#assignment-view(type="text/x-handlebars-template").

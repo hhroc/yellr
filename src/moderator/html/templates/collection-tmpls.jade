@@ -1,11 +1,25 @@
+
+
 script#collections-li-template(type="text/x-handlebars-template").
-  <li>
-    <div class="collection-wrapper">
-      <h3 class="t2">{{ title }}</h3>
-      <p>{{ total_posts }}</p>
-      <input type="button" value="Export content">
-    </div>
+  {{#if collection}}
+    {{#each collection}}
+    <li>
+      <div class="collection-wrapper">
+        <h3 class="t2">{{ title }}</h3>
+        <p>{{ total_posts }}</p>
+        <input type="button" value="Export content">
+      </div>
+    </li>
+    {{/each}}
+  {{else}}
+  <li class="faded">
+    <h3 class="t2">No collection started</h3>
+    <p>
+      Create one by clicking the Folder icon one a feed item
+      or clicking&nbsp;<span id="create-collection-btn">here</span>
+    </p>
   </li>
+  {{/if}}
 
 
 script#collections-form-template(type="text/x-handlebars-template").
@@ -21,3 +35,22 @@ script#collections-form-template(type="text/x-handlebars-template").
       </label>
     </form>
   </div>
+
+script#collections-dropdown-template(type="text/x-handlebars-template").
+  <ul class="collections-dropdown">
+    {{#each collections}}
+    <li>
+      <p data-collection-id="{{id}}">{{title}}</p>
+    </li>
+    {{/each}}
+  </ul>
+
+
+script#collections-dropdown-templatesdffs(type="text/x-handlebars-template").
+  <li class="faded">
+    <h3 class="t2">No collection started</h3>
+    <p>
+      Collections are a great way to collect the best responess submitted on Yellr.
+      Create one by clicking the Folder icon one a feed item or clicking&nbsp;<span id="create-collection-btn">here</span>
+    </p>
+  </li>

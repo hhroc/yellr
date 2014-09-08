@@ -39,8 +39,14 @@ script#send-message-template(type="text/x-handlebars-template").
       <input type="text" name="to_client_id" placeholder="User ID">
       {{/if}}
     </div>
-    <div><span class="block">Subject</span>
+    <div>
+      <span class="block">Subject</span>
+      {{#if subject}}
+      <input type="hidden" name="subject" value="{{subject}}">
+      <span>{{subject}}</span>
+      {{else}}
       <input type="text" name="subject">
+      {{/if}}
     </div>
     <div><span class="block">Message</span>
       <textarea rows="2" name="text" placeholder="New message..."></textarea>

@@ -39,12 +39,24 @@ mod.utils = {
           mod.utils.save();
           mod.utils.set_urls();
 
-          mod.utils.load({
-            data: 'get_languages',
-            saveAs: 'languages'
+          // load languages
+          $.ajax({
+            url: mod.URLS.get_languages,
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+                mod.DATA.languages = response.languages;
+                mod.utils.save();
+              } else {
+                alert('Something went wrong loading Languages. Things might get weird from here...');
+              }
+            }
+          }).done(function () {
+            console.log('done loading languages');
+            window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/index.html' : '/index.html';
           });
 
-          window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/index.html' : '/index.html';
         } else {
           document.querySelector('#login-feedback').innerHTML = data.error_text;
         }

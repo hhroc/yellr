@@ -17,14 +17,10 @@ yellr.main = {
       case 'index':
         console.log('did we get here?');
         // load latest stories
-        // var url = 'data/stories.json';
-        var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
-
-        console.log(url);
+        var url = 'data/stories.json';
+        // var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
 
         $.getJSON(url, function (response) {
-
-          console.log(response);
 
           if (response.success) {
 

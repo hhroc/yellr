@@ -113,7 +113,7 @@ mod.setup = {
       post_actions.onclick = function(e) {
         switch (e.target.className) {
           case 'fa fa-folder':
-            mod.latest_posts.toggle_collections_dropdown(e.target);
+            mod.feed.toggle_collections_dropdown(e.target);
             break;
           case 'fa fa-comment':
             var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')

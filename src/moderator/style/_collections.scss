@@ -1,3 +1,31 @@
+#assignment-collection-list {
+  background: #eee;
+  li {
+    padding: 1rem 0.875rem;
+    border-bottom: 1px solid #ccc;
+  }
+ .media-text {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+ }
+}
+
+.assignment-collection-actions {
+  text-align: right;
+}
+
+.remove-btn {
+  color: #aaa;
+  transition: color 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    color: #333;
+  }
+}
+
+
+
+
 .overlay-container {
   max-width: 30rem;
   padding: 1rem 1rem 1.75rem;
@@ -17,22 +45,6 @@
 .submit-label {
   display: block;
   text-align: right;
-}
-
-.btn {
-  display: inline-block;
-  text-align: center;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  margin: 0 1rem;
-  transition: background 0.3s ease-out;
-  @include hover();
-  &:first-child {
-    margin-left: 0;
-  }
-  &:last-child {
-    margin-right: 0;
-  }
 }
 
 #new-collection-btn {

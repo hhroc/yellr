@@ -13,7 +13,7 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  if (DEBUG) localStorage.removeItem('yellr');
+  // if (DEBUG) localStorage.removeItem('yellr');
 
   // check for a UUID,
   // - if none create it
@@ -51,8 +51,8 @@ window.onload = function() {
       }
     };
 
-    // // change settings to spanish
-    // yellr.SETTINGS.language.set('es');
+    // change settings to spanish
+    yellr.SETTINGS.language.set('es');
 
     // set our API urls
     // ** TO EDIT API URLS GO TO utils.js and change the set_urls function **

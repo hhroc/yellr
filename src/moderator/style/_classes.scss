@@ -6,6 +6,23 @@
 .meta-div {display: none; }
 
 
+.btn {
+  display: inline-block;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  margin: 0 1rem;
+  transition: background 0.3s ease-out;
+  @include hover();
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+
 .form {
   .t2 {
     padding-bottom: 0.5rem;

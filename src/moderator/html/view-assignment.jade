@@ -61,11 +61,28 @@ body#moderator(data-page="single-assignment")
           div.assignment-collection-wrapper.flex-1
             h3.t2 Collection
             ul#assignment-collection-list.list-style-none
+              //- li
+              //-   p.media-text this was just a song by the Von Bondies
+              //-   div.assignment-collection-actions
+              //-     span.remove-btn
+              //-       i.fa.fa-close &nbsp;Remove
+              //- li
+              //-   p.media-text Western New York is the better New York
+              //-   div.assignment-collection-actions
+              //-     span.remove-btn
+              //-       i.fa.fa-close &nbsp;Remove
+              //- li
+              //-   figure.media-file-image
+              //-     img(src="http://127.0.0.1:8080/media/b7490408-aac5-45cd-8df7-accc5f9ae3b2.jpg", alt="{{media_description}}")
+              //-   div.assignment-collection-actions
+              //-     span.remove-btn
+              //-       i.fa.fa-close &nbsp;Remove
+
               li.faded
-                h3.t2 No collection started
-                p Collections are a great way to collect the best responess submitted on Yellr.
-                  | Create one by clicking the Folder icon one a feed item or clicking&nbsp;
-                  span#create-collection-btn here
+                h3.t2 Collection is empty
+                p Drag a Response from the left over here, or click the&nbsp;
+                  span.fa.fa-plus
+                  | &nbsp;icon
 
   include _footer.jade
 </html>

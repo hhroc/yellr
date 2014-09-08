@@ -23,6 +23,21 @@ mod.setup = {
     console.log('hello from: setup.assignments_page');
   },
 
+  assignment_overview: function () {
+
+    var assignment_id = parseInt(window.location.hash.split('#')[1]);
+
+    if (assignment_id !== NaN) {
+      // render the question text and things
+      mod.assignments.view(assignment_id);
+
+      // get replies to question
+    }
+
+
+  },
+
+
   collections_page: function () {
     // setup collections page
     // hook up the buttons

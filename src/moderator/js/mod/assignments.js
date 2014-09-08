@@ -20,41 +20,82 @@ mod.assignments = (function() {
 
 
 
-  var view = function () {
+  var view = function (assignment_id) {
     // the URL hash is the assignment ID
-    var assignment_id = parseInt(window.location.hash.split('#')[1]);
-    console.log(assignment_id);
 
-    if (assignment_id !== NaN) {
       // avoid regular hash things
       // load that assignment
       var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
         if (val.assignment_id === assignment_id) return true;
       })[0];
-      console.log(assignment);
 
-      console.log('render the assignment overview');
-      // mod.utils.render_template({
-      //   template: '#single-assignment-template',
-      //   target: '#single-assignment-container',
-      //   context: {assignment: assignment}
-      // });
-      console.log('get assignment responses');
-      // mod.utils.load({
-      //   data: ''
-      // });
+
+      // console.log('render the assignment overview');
+      mod.utils.render_template({
+        template: '#assignment-overview-template',
+        target: '#view-assignment-section',
+        context: {assignment: assignment}
+      });
+
+
+      // console.log('get assignment responses');
+      $.ajax({
+        url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+          // console.log(response);
+          if (response.success) {
+
+            var replies = [];
+            for (var key in response.posts) {
+              replies.push(response.posts[key]);
+            }
+
+            mod.utils.render_template({
+              template: '#assignment-response-li-template',
+              target: '#assignment-replies-list',
+              context: {replies: replies}
+            });
+
+            $('#assignment-replies-list').on('click', function (e) {
+              switch (e.target.className) {
+                case 'fa fa-plus':
+                  console.log('add to collection');
+                  mod.feed.add_post_to_collection(e.target);
+
+                  break;
+                case 'fa fa-comment':
+                  console.log('write a message');
+                  var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+                  mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+                  break;
+                case 'fa fa-flag':
+                  console.log('mark as ain appropriate');
+                  break;
+                case 'fa fa-trash':
+                  console.log('discard this reply');
+                  break;
+                default:
+                  break;
+              }
+            });
+          } else {
+            console.log('lol Something went wrong loading assignment reponses');
+          }
+        }
+      });
+
       console.log('get assignment collection');
+      console.log(mod.URLS.get_collection_posts);
       console.log('if one doesn\'t exist, make it easy for them to create one');
 
-    // parse UTC dates with moment.js
-    var deadline = document.querySelector('.assignment-deadline');
-    deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-    // deadline.innerHTML = moment(deadline.innerHTML).fromNow(true);
-// moment().format('MMMM Do YYYY, h:mm:ss');
-    var published = document.querySelector('.assignment-published');
-    published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+      // parse UTC dates with moment.js
+      var deadline = document.querySelector('.assignment-deadline');
+          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+      var published = document.querySelector('.assignment-published');
+          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
 
-    }
   }
 
 
@@ -331,6 +372,29 @@ mod.assignments = (function() {
       success: function (response) {
 
         if (response.success) {
+
+          // create a collection for the assignment
+          $.ajax({
+            url: mod.URLS.create_collection,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              name: '',
+              description: '',
+              tags: ''
+            },
+            success: function (response) {
+              console.log(response);
+              if (response.success) {
+
+              } else {
+                console.log('something went wrong creating a collection for this assignment');
+              }
+            }
+          });
+
+
+
           // clear array
           questions = [];
           mod.utils.clear_overlay();

@@ -37,7 +37,7 @@ window.onload = function () {
         mod.setup.assignments_page();
         break;
       case 'single-assignment':
-        mod.assignments.view();
+        mod.setup.assignment_overview();
         break;
       case 'editor':
         mod.editor.init();

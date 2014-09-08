@@ -14,6 +14,7 @@ body#moderator(data-page="single-assignment")
 
       div#right.flex-4.right-wrapper
         section#view-assignment-section
+        //- section#view-assignment-section
           h2.t3 Assignment 1
           h3.t1 Why can't I walk down a street free of suggestions?
           div.flex
@@ -26,15 +27,17 @@ body#moderator(data-page="single-assignment")
               p
                 span.btn#edit-assignment-btn Edit
                 span.btn#close-assignment-btn Close
+              p.write-article-btn-container
+                span.btn#write-article-btn Write Article
 
         div#assignment-reply-container.flex
           div.assignment-replies-wrapper.flex-2
             h3.t2 Responses
-            //- ul#assignment-replies-list.list-style-none
-              li.faded
+            ul#assignment-replies-list.list-style-none
+              //- li.faded
                 h3.t2 No replies yet
                 p It might take a while for people to respond. Also be sure to check the regular feed just in case.
-            ul#assignment-replies-list.list-style-none
+            //- ul#assignment-replies-list.list-style-none
               li
                 div.gi
                   div.story-item
@@ -54,58 +57,6 @@ body#moderator(data-page="single-assignment")
                         i.fa.fa-trash(title="Remove from responses")
                     div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
 
-
-              li
-                div.gi
-                  div.story-item
-                    div.media-preview
-                      img(src="http://lorempixel.com/400/200")
-                      p The Toons win! They're not going to Moron Mountain
-                      p.source
-                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
-                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
-                    div.options-wrapper
-                      ul.options-list
-                        li
-                          i.fa.fa-folder
-                        li
-                          i.fa.fa-comment
-                        li
-                          i.fa.fa-flag
-              //- li
-                div.gi
-                  div.story-item
-                    div.media-preview
-                      img(src="http://lorempixel.com/400/200")
-                      p The Toons win! They're not going to Moron Mountain
-                      p.source
-                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
-                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
-                    div.options-wrapper
-                      ul.options-list
-                        li
-                          i.fa.fa-folder
-                        li
-                          i.fa.fa-comment
-                        li
-                          i.fa.fa-flag
-              //- li
-                div.gi
-                  div.story-item
-                    div.media-preview
-                      img(src="http://lorempixel.com/400/200")
-                      p The Toons win! They're not going to Moron Mountain
-                      p.source
-                        a(href="#") 4FB362D3-7A58-4E0C-B38F-7AB63BF79F55
-                      div.meta-div(data-source="anonymous", data-type="photo", data-uid="4FB362D3-7A58-4E0C-B38F-7AB63BF79F55")
-                    div.options-wrapper
-                      ul.options-list
-                        li
-                          i.fa.fa-folder
-                        li
-                          i.fa.fa-comment
-                        li
-                          i.fa.fa-flag
 
           div.assignment-collection-wrapper.flex-1
             h3.t2 Collection

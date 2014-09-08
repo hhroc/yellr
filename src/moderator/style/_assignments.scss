@@ -9,17 +9,23 @@
   .btn {color: #fff;}
 }
 #edit-assignment-btn {
-  background: rgba($blue, 0.7);
-  &:hover {
-    background: $blue;
-  }
+  background: rgba($blue, 0.6);
+  &:hover {background: $blue; }
 }
 #close-assignment-btn {
-  background: #999;
-  &:hover {
-    background: $red;
-  }
+  background: rgba(#999,0.6);
+  &:hover {background: $red; }
 }
+.write-article-btn-container {
+  margin-top: 0.75rem;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;
+}
+#write-article-btn {
+  background: rgba($green, 0.5);
+  &:hover {background: $green; }
+}
+
 .assignment-dates-list {
   li {margin-right: 1.5rem; &:last-child {margin-right:0;}}
 }

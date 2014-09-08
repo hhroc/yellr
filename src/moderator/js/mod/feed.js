@@ -69,6 +69,8 @@ mod.feed = (function() {
       var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
       // console.log($gi);
 
+      console.log($(target).data('collection-id'));
+      console.log($(target));
       console.log({
         post_id: $gi.find('.meta-div').data('post-id'),
         collection_id: $(target).data('collection-id')

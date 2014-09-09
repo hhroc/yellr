@@ -58,6 +58,7 @@ def main(global_config, **settings):
     config.add_route('admin/create_user.json', 'admin/create_user.json')
     config.add_route('admin/get_assignment_responses.json', \
         'admin/get_assignment_responses.json')
+    config.add_route('admin/register_post_view.json','admin/register_post_view.json')
     config.add_route('admin/publish_story.json', 'admin/publish_story.json')
     config.add_route('admin/get_my_collections.json', 'admin/get_my_collections.json')
     config.add_route('admin/create_collection.json', 'admin/create_collection.json')
@@ -65,6 +66,7 @@ def main(global_config, **settings):
     config.add_route('admin/remove_post_from_collection.json', 'admin/remove_post_from_collection.json')
     config.add_route('admin/disable_collection.json', 'admin/disable_collection.json')
     config.add_route('admin/get_collection_posts.json', 'admin/get_collection_posts.json')
+    config.add_route('admin/get_user_posts.json','admin/get_user_posts.json')
 
 
     # client views
@@ -78,6 +80,7 @@ def main(global_config, **settings):
     config.add_route('upload_media.json','upload_media.json')
     config.add_route('upload_test.json','upload_test.json')
     config.add_route('publish_post.json','publish_post.json')
+    config.add_route('get_profile.json', 'get_profile.json')
     #config.add_route('','')
 
     config.scan()

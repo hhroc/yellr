@@ -38,7 +38,8 @@ def admin_get_access_token(root_domain, user_name, password):
     
     start_time = time.time()
     token = None
-    try:
+    if True:
+    #try:
         #http_response = urllib2.urlopen(url).read()
         http_response = requests.get(url).text
         json_response = json.loads(http_response)
@@ -48,8 +49,8 @@ def admin_get_access_token(root_domain, user_name, password):
             result['passed'] = True
         else:
             result['fail_text'] = "Token was not returned successfully.  Error: '{0}'.".format(json_response['error_text'])
-    except:
-        result['fail_text'] = "Failed to load JSON response from server."
+    #except:
+    #    result['fail_text'] = "Failed to load JSON response from server."
     end_time = time.time()
     result['total_time'] = end_time - start_time
 
@@ -350,9 +351,14 @@ def admin_create_user(root_domain, token):
 
     start_time = time.time()
     question_types = None
-    #if True:
-    try:
+    if True:
+    #try:
         http_response = requests.post(url, data=user_data).text
+
+        print "\n\n"
+        print http_response
+        print "\n\n"
+
         json_response = json.loads(http_response)
         result['json_response'] = json_response
         if json_response['success'] == True:
@@ -360,8 +366,8 @@ def admin_create_user(root_domain, token):
             result['passed'] = True
         else:
             result['fail_text'] = "Unable to create new user.  Error: '{0}'.".format(json_response['error_text'])
-    except:
-        result['fail_text'] = "Failed to load JSON response from server."
+    #except:
+    #    result['fail_text'] = "Failed to load JSON response from server."
 
     end_time = time.time()
 
@@ -901,7 +907,7 @@ if __name__ == '__main__':
         )
         count += declare_result(result)
 
-        
+         
 
         result = test_assignment_responses(
             posts,

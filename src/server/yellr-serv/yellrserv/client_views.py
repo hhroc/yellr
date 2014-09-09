@@ -732,3 +732,92 @@ def upload_media(request):
 
     return make_response(result)
 
+@view_config(route_name='get_profile.json')
+def get_profile(request):
+
+    result = {'success': False}
+
+#    try:
+
+    if True:
+
+        client_id = None
+        try:
+            client_id = request.GET['client_id']
+        except:
+            result['error_text'] = "Missing or invalid field."
+            raise Exception("missing/invalid field")
+
+        user,created = Users.get_from_client_id(
+            session = DBSession,
+            client_id = client_id,
+        )
+
+        posts,post_count = Posts.get_all_from_client_id(
+            session = DBSession,
+            client_id = client_id,
+            start = 0,
+            count = 5, # only return the last 5 posts
+        )
+
+        ret_posts = {}
+        for post_id, assignment_id, user_id, title, post_datetime, reported, \
+                lat, lng, media_object_id, media_id, file_name, caption, \
+                media_text, media_type_name, media_type_description, \
+                verified, client_id, language_code, language_name in posts:
+            if post_id in ret_posts:
+                ret_posts[post_id]['media_objects'].append({
+                    'media_id': media_id,
+                    'file_name': file_name,
+                    'caption': caption,
+                    'media_text': media_text,
+                    'media_type_name': media_type_name,
+                    'media_type_description': media_type_description,
+                })
+            else:
+                ret_posts[post_id] = {
+                    'post_id': post_id,
+                    'assignment_id': assignment_id,
+                    'user_id': user_id,
+                    'title': title,
+                    'post_datetime': str(post_datetime),
+                    'reported': reported,
+                    'lat': lat,
+                    'lng': lng,
+                    'verified_user': bool(verified),
+                    'client_id': client_id,
+                    'language_code': language_code,
+                    'language_name': language_name,
+                    'media_objects': [{
+                        'media_id': media_id,
+                        'file_name': file_name,
+                        'caption': caption,
+                        'media_text': media_text,
+                        'media_type_name': media_type_name,
+                        'media_type_description': media_type_description,
+                    }],
+                }
+ 
+        result['posts'] = ret_posts
+        result['post_count'] = post_count
+        result['first_name'] = user.first_name
+        result['last_name'] = user.last_name
+        result['organization'] = user.organization
+        result['email'] = user.email
+        result['verified']  = user.verified
+        result['success'] = True
+
+#    except:
+#        pass
+
+    event_type = 'http_request'
+    event_details = {
+        'client_id': client_id,
+        'method': 'get_profile.json',
+        #'post_count': len(ret_messages),
+        'result': result,
+    }
+    client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
+
+    return make_response(result)
+

@@ -1095,7 +1095,7 @@ class Stories(Base):
                 MediaObjects.media_id,
             ).join(
                 Users,Stories.user_id == Users.user_id,
-            ).join(
+            ).outerjoin(
                 MediaObjects,Stories.media_object_id == \
                     MediaObjects.media_object_id,
             )

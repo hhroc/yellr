@@ -84,18 +84,19 @@ mod.setup = {
     if (mod.DATA.posts === undefined) {
       console.log('show loading gif. tell them we\'re loading data');
 
+      mod.utils.load({
+        data: 'get_my_assignments',
+        saveAs: 'assignments'
+      });
+
       // load new data
       mod.utils.load({
         data: 'get_posts',
         saveAs: 'posts'
       });
 
-      mod.utils.load({
-        data: 'get_my_assignments',
-        saveAs: 'assignments'
-      });
-
-      var wait = setTimeout(mod.setup.dashboard, 1000);
+      // debugger;
+      // var wait = setTimeout(mod.setup.dashboard, 1000);
     }
     else {
 

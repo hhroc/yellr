@@ -13,7 +13,7 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
   // localStorage.removeItem('yellr');
 
   // check for a UUID,

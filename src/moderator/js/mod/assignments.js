@@ -341,7 +341,7 @@ mod.assignments = (function() {
 
 
   var save_draft = function () {
-    alert('save draft');
+    alert('save draft. NOT IMPLEMENTED. THIS DOES NOTHING LOL');
   }
 
 
@@ -373,32 +373,6 @@ mod.assignments = (function() {
 
         if (response.success) {
 
-          // create a collection for the assignment
-          $.ajax({
-            url: mod.URLS.create_collection,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              name: '',
-              description: '',
-              tags: ''
-            },
-            success: function (response) {
-              console.log(response);
-              if (response.success) {
-
-              } else {
-                console.log('something went wrong creating a collection for this assignment');
-              }
-            }
-          });
-
-
-
-          // clear array
-          questions = [];
-          mod.utils.clear_overlay();
-
           // ----------------------------
           // we won't need this soon, only temporaray
           if (mod.DATA.assignments === undefined) mod.DATA.assignments = [];
@@ -406,7 +380,40 @@ mod.assignments = (function() {
           mod.utils.save();
           // ----------------------------
 
-          mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+
+          // create a collection for the assignment
+          $.ajax({
+            url: mod.URLS.create_collection,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              name: 'Assignment <ID> collection',
+              description: 'Collection for <question text>',
+              tags: ''
+            },
+            success: function (_response) {
+              console.log(_response);
+              if (_response.success) {
+                console.log('collection created');
+                console.log(_response);
+                alert('check what we got');
+              } else {
+                console.log('something went wrong creating a collection for this assignment');
+              }
+            }
+          }).done(function () {
+            console.log('done creating collection for this assignment');
+            // clear array
+            questions = [];
+            mod.utils.clear_overlay();
+
+            mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+          });
+
+
+
+
+
         } else {
           alert('Something went wrong submitting an Assignment');
         }

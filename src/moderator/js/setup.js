@@ -84,25 +84,40 @@ mod.setup = {
     if (mod.DATA.posts === undefined) {
       console.log('show loading gif. tell them we\'re loading data');
 
+      mod.utils.load({
+        data: 'get_my_assignments',
+        saveAs: 'assignments'
+      });
+
       // load new data
       mod.utils.load({
         data: 'get_posts',
         saveAs: 'posts'
       });
 
-      mod.utils.load({
-        data: 'get_my_assignments',
-        saveAs: 'assignments'
-      });
-
-      var wait = setTimeout(mod.setup.dashboard, 1000);
+      // debugger;
+      // var wait = setTimeout(mod.setup.dashboard, 1000);
     }
     else {
 
-      // render latest posts
-      mod.feed.render_latest_posts();
-      // render active assignments
-      mod.assignments.render_active();
+      // load new data
+      mod.utils.load({
+        data: 'get_posts',
+        saveAs: 'posts',
+        callback: mod.feed.render_latest_posts
+      });
+
+      mod.utils.load({
+        data: 'get_my_assignments',
+        saveAs: 'assignments',
+        callback: mod.assignments.render_active
+      });
+
+
+      // // render latest posts
+      // mod.feed.render_latest_posts();
+      // // render active assignments
+      // mod.assignments.render_active();
 
 
       // - send a message to a user who submitted content

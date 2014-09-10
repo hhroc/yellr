@@ -21,6 +21,8 @@ window.onload = function () {
     if (localStorage.getItem('yellr-mod') === null) mod.utils.redirect_to_login('Missing authentication token. Please login to continue');
     else mod.utils.load_localStorage();
 
+    // make sure we have our DATA object setup
+    if (mod.DATA === undefined) mod.DATA = {};
 
     // get our current page
     mod.PAGE = document.querySelector('body').getAttribute('data-page');

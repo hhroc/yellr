@@ -50,12 +50,12 @@ yellr.view.profile = (function() {
 
 
     var add_eventlisteners = function() {
-      // refresh button
-      document.querySelector('#refresh-btn').onclick = function(e) {
-        console.log('load profile data');
-        console.log('spin the thing to show we\'re loading something');
-        yellr.data.load_profile(yellr.UUID, this.update);
-      }
+      // // refresh button
+      // document.querySelector('#refresh-btn').onclick = function(e) {
+      //   console.log('load profile data');
+      //   console.log('spin the thing to show we\'re loading something');
+      //   yellr.data.load_profile(yellr.UUID, this.update);
+      // }
 
 
       // generate new uid

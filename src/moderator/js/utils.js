@@ -39,12 +39,24 @@ mod.utils = {
           mod.utils.save();
           mod.utils.set_urls();
 
-          mod.utils.load({
-            data: 'get_languages',
-            saveAs: 'languages'
+          // load languages
+          $.ajax({
+            url: mod.URLS.get_languages,
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+                mod.DATA.languages = response.languages;
+                mod.utils.save();
+              } else {
+                alert('Something went wrong loading Languages. Things might get weird from here...');
+              }
+            }
+          }).done(function () {
+            console.log('done loading languages');
+            window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/index.html' : '/index.html';
           });
 
-          window.location.href = (DEBUG) ? 'http://127.0.0.1:8000/moderator/index.html' : '/index.html';
         } else {
           document.querySelector('#login-feedback').innerHTML = data.error_text;
         }
@@ -93,7 +105,23 @@ mod.utils = {
 
         // save the JSON data directly
         if (settings.saveAs) {
-          mod.DATA[settings.saveAs] = response[settings.saveAs];
+
+          // sometimes what we get back is an object
+          // we iterate through the objects keys to generate an array we can use
+          if (Array.isArray(response[settings.saveAs]) === false) {
+
+            var array = [];
+            for (var key in response.posts) {
+              array.push(response.posts[key]);
+            }
+            mod.DATA[settings.saveAs] = array;
+
+          } else {
+            // if it's already an array, just set it
+            mod.DATA[settings.saveAs] = response[settings.saveAs];
+          }
+
+          // save the data
           mod.utils.save();
         }
         // or do stuff with it
@@ -139,8 +167,8 @@ mod.utils = {
       create_message:               'http://127.0.0.1:8080/admin/create_message.json?token='+mod.TOKEN,
       // questions/assignments
       create_question:              'http://127.0.0.1:8080/admin/create_question.json?token='+mod.TOKEN,
-      get_my_assignments:           'data/admin-assignments.json',
-      // get_my_assignments:           'http://127.0.0.1:8080/admin/get_my_assignments.json?token='+mod.TOKEN,
+      // get_my_assignments:           'data/admin-assignments.json',
+      get_my_assignments:           'http://127.0.0.1:8080/admin/get_my_assignments.json?token='+mod.TOKEN,
       publish_assignment:           'http://127.0.0.1:8080/admin/publish_assignment.json?token='+mod.TOKEN,
       update_assignment:            'http://127.0.0.1:8080/admin/update_assignment.json?token='+mod.TOKEN,
       get_assignment_responses:     'http://127.0.0.1:8080/admin/get_assignment_responses.json?token='+mod.TOKEN,

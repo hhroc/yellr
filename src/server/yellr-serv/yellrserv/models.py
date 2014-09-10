@@ -1026,7 +1026,7 @@ class Stories(Base):
     tags = Column(Text)
     top_text = Column(Text)
     media_object_id = Column(Integer, \
-        ForeignKey('mediaobjects.media_object_id'))
+        ForeignKey('mediaobjects.media_object_id'), nullable=True)
     contents = Column(Text)
     top_left_lat = Column(Float)
     top_left_lng = Column(Float)

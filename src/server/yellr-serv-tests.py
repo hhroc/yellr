@@ -38,7 +38,8 @@ def admin_get_access_token(root_domain, user_name, password):
     
     start_time = time.time()
     token = None
-    try:
+    if True:
+    #try:
         #http_response = urllib2.urlopen(url).read()
         http_response = requests.get(url).text
         json_response = json.loads(http_response)
@@ -48,8 +49,8 @@ def admin_get_access_token(root_domain, user_name, password):
             result['passed'] = True
         else:
             result['fail_text'] = "Token was not returned successfully.  Error: '{0}'.".format(json_response['error_text'])
-    except:
-        result['fail_text'] = "Failed to load JSON response from server."
+    #except:
+    #    result['fail_text'] = "Failed to load JSON response from server."
     end_time = time.time()
     result['total_time'] = end_time - start_time
 
@@ -350,9 +351,14 @@ def admin_create_user(root_domain, token):
 
     start_time = time.time()
     question_types = None
-    #if True:
-    try:
+    if True:
+    #try:
         http_response = requests.post(url, data=user_data).text
+
+        print "\n\n"
+        print http_response
+        print "\n\n"
+
         json_response = json.loads(http_response)
         result['json_response'] = json_response
         if json_response['success'] == True:
@@ -360,8 +366,8 @@ def admin_create_user(root_domain, token):
             result['passed'] = True
         else:
             result['fail_text'] = "Unable to create new user.  Error: '{0}'.".format(json_response['error_text'])
-    except:
-        result['fail_text'] = "Failed to load JSON response from server."
+    #except:
+    #    result['fail_text'] = "Failed to load JSON response from server."
 
     end_time = time.time()
 
@@ -703,6 +709,91 @@ def admin_get_my_messages(root_domain, token):
 
     return result, messages
 
+def admin_publish_story(root_domain, token, media_id):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "admin/publish_story.json"
+    result['description'] = "Publishes a new story to the store front."
+
+    url = "{0}/admin/publish_story.json?token={1}".format(
+        root_domain,
+        token,
+    )
+
+    story_data = dict(
+        title = 'My First Story!!1!',
+        tags = 'first, yellr, story, awesome',
+        top_text = ' ',
+        banner_media_id = media_id,
+        contents = '##MAH POST!!1!##\n\nthis is my post, do you like?',
+        language_code = 'en',
+        top_left_lat = 43.4,
+        top_left_lng = -77.9,
+        bottom_right_lat = 43.0,
+        bottom_right_lng = -77.3,
+    )
+
+    start_time = time.time()
+    story_uniqye_id = None
+    #if True:
+    try:
+        http_response = requests.post(url, data=story_data).text
+        json_response = json.loads(http_response)
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            story_unique_id = json_response['story_unique_id']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to publish story.  Error: '{0}'.".format(json_response['error_text'])
+    except:
+        result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, story_data, story_unique_id
+
+def get_stories(root_domain, client_id, lat, lng):
+
+    result = {}
+    result['passed'] = False
+    result['test_name'] = "get_stories.json"
+    result['description'] = "Gets a list of current stories."
+
+    url = "{0}/get_stories.json?client_id={1}&lat={2}&lng={3}&language_code={4}".format(
+        root_domain,
+        client_id,
+        lat,
+        lng,
+        'en',
+    )
+
+    start_time = time.time()
+    stories = None
+    if True:
+    #try:
+        http_response = requests.get(url).text
+
+        
+
+        json_response = json.loads(http_response)
+        result['json_response'] = json_response
+        if json_response['success'] == True:
+            stories = json_response['stories']
+            result['passed'] = True
+        else:
+            result['fail_text'] = "Unable to get list of messages.  Error: '{0}'.".format(json_response['error_text'])
+    #except:
+    #    result['fail_text'] = "Failed to load JSON response from server."
+
+    end_time = time.time()
+
+    result['total_time'] = end_time - start_time
+
+    return result, stories
+
 
 if __name__ == '__main__':
 
@@ -816,6 +907,8 @@ if __name__ == '__main__':
         )
         count += declare_result(result)
 
+         
+
         result = test_assignment_responses(
             posts,
             post_data,
@@ -844,6 +937,29 @@ if __name__ == '__main__':
         result,messages = admin_get_my_messages(
             root_domain,
             token,
+        )
+        count += declare_result(result)
+
+        result,story_data,story_unique_id = admin_publish_story(
+            root_domain,
+            token,
+            media_id,
+        )
+        count += declare_result(result)
+
+        result,stories_good = get_stories(
+            root_domain,
+            client_id,
+            43.3,
+            -77.5,
+        )
+        count += declare_result(result)
+
+        result,stories_bad = get_stories(
+            root_domain,
+            client_id,
+            -50.3,
+            101.5,
         )
         count += declare_result(result)
 

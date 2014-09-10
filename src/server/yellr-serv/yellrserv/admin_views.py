@@ -48,7 +48,7 @@ def check_token(request):
     return valid, user
 
 @view_config(route_name='admin/get_access_token.json')
-def get_access_token(request):
+def admin_get_access_token(request):
 
     result = {'success': False}
 
@@ -64,15 +64,17 @@ def get_access_token(request):
 
         print "working on u: '{0}', p: '{1}'".format(user_name, password)
 
-        token = Users.authenticate(DBSession, user_name, password)
+        user, token = Users.authenticate(DBSession, user_name, password)
 
         if token == None:
             result['error_text'] = 'Invalid credentials'
             raise Exception('invalid credentials')
         else:
             result['token'] = token
-
-        result['success'] = True
+            result['first_name'] = user.first_name
+            result['last_name'] = user.last_name
+            result['organization'] = user.organization 
+            result['success'] = True
 
     except Exception, e:
         pass
@@ -452,8 +454,8 @@ def admin_get_my_assignments(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -513,10 +515,10 @@ def admin_get_my_assignments(request):
                     'answer9': answer9,
                 })
             else:
-                ret_posts[post_id] = {
+                ret_assignments[assignment_id] = {
                     'assignment_id': assignment_id,
-                    'publish_datetime': publish_datetime,
-                    'expire_datetime': expire_datetime,
+                    'publish_datetime': str(publish_datetime),
+                    'expire_datetime': str(expire_datetime),
                     'top_left_lat': top_left_lat,
                     'top_left_lng': top_left_lng,
                     'bottom_right_lat': bottom_right_lat,
@@ -539,12 +541,12 @@ def admin_get_my_assignments(request):
                     }],
                 } 
 
-        result['post_count'] = post_count
-        result['posts'] = ret_posts
+        result['assignment_count'] = assignment_count
+        result['assignments'] = ret_assignments
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -735,8 +737,8 @@ def admin_create_user(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -780,8 +782,8 @@ user_name, password, first_name, last_name, email, organization. \
         result['user_id'] = user.user_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -874,6 +876,53 @@ One or more of the following fields is missing or invalid: assignment_id. \
         pass
 
     return make_response(result)
+
+@view_config(route_name='admin/register_post_view.json')
+def admin_register_post_view(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+        try:
+            post_id = request.POST['post_id']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: post_id. \
+"""
+            raise Exception('invalid/missing field')
+
+        post = Posts.get_from_post_id(
+            session = DBSession,
+            post_id = post_id,
+        )
+
+        notification = Notifications.create_notification(
+            session = DBSession,
+            user_id = post.user_id,
+            notification_type = 'post_viewed',
+            payload = json.dumps({
+                'organization': user.organization,
+            })
+        )
+
+        result['post_id'] = post_id
+        result['notification_id'] = notification.notification_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
 
 @view_config(route_name='admin/publish_story.json')
 def admin_publish_story(request):
@@ -1240,6 +1289,97 @@ One or more of the following fields is missing or invalid: collection_id. \
         result['collection_id'] = collection.collection_id
         result['collection_name'] = collection.name
         result['posts'] = ret_posts
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/get_user_posts.json')
+def admin_get_user_posts(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+        try:
+        #if True:
+            client_id = request.GET['client_id']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id. \
+"""
+            raise Exception('Missing or invalid field.')
+
+        start=0
+        try:
+            start = int(request.GET['start'])
+        except:
+            pass
+
+        count=0
+        try:
+            count = int(request.GET['count'])
+        except:
+            pass
+ 
+        posts,post_count = Posts.get_all_from_client_id(
+            session = DBSession,
+            client_id = client_id,
+            start = start,
+            count = count,
+        )
+
+        ret_posts = {}
+        for post_id, assignment_id, user_id, title, post_datetime, reported, \
+                lat, lng, media_object_id, media_id, file_name, caption, \
+                media_text, media_type_name, media_type_description, \
+                verified, client_id, language_code, language_name in posts:
+            if post_id in ret_posts:
+                ret_posts[post_id]['media_objects'].append({
+                    'media_id': media_id,
+                    'file_name': file_name,
+                    'caption': caption,
+                    'media_text': media_text,
+                    'media_type_name': media_type_name,
+                    'media_type_description': media_type_description,
+                })
+            else:
+                ret_posts[post_id] = {
+                    'post_id': post_id,
+                    'assignment_id': assignment_id,
+                    'user_id': user_id,
+                    'title': title,
+                    'post_datetime': str(post_datetime),
+                    'reported': reported,
+                    'lat': lat,
+                    'lng': lng,
+                    'verified_user': bool(verified),
+                    'client_id': client_id,
+                    'language_code': language_code,
+                    'language_name': language_name,
+                    'media_objects': [{
+                        'media_id': media_id,
+                        'file_name': file_name,
+                        'caption': caption,
+                        'media_text': media_text,
+                        'media_type_name': media_type_name,
+                        'media_type_description': media_type_description,
+                    }],
+                }
+
+        result['post_count'] = post_count
+        result['posts'] = ret_posts
+        result['client_id'] = client_id
         result['success'] = True
 
     #except:

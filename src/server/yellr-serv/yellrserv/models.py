@@ -265,7 +265,7 @@ class Users(Base):
                         datetime.timedelta(hours=24)
                     session.add(user)
                     transaction.commit()
-        return token
+        return user, token
 
     @classmethod
     def validate_token(cls, session, token):
@@ -362,7 +362,7 @@ class Assignments(Base):
                 assignments = assignments_query.all()
             else:
                 assignments = assignments_query.slice(start, start+count)
-        return assignments
+        return assignments,total_assignment_count
 
     @classmethod
     def get_all_open_with_questions(cls, session, language_code, lat, lng):
@@ -719,6 +719,16 @@ class Posts(Base):
         return posts
 
     @classmethod
+    def get_from_post_id(cls, session, post_id):
+        with transaction.manager:
+            post = session.query(
+                Posts,
+            ).filter(
+                Posts.post_id == post_id,
+            ).first()
+        return post
+
+    @classmethod
     def get_posts(cls, session, reported=False, start=0, count=0):
         with transaction.manager:
             posts_query = session.query(
@@ -848,6 +858,53 @@ class Posts(Base):
                 posts = posts_query.slice(start, start+count)
         return posts, total_post_count
 
+    @classmethod
+    def get_all_from_client_id(cls, session, client_id,
+            start=0, count=0):
+        with transaction.manager:
+            user,created = Users.get_from_client_id(session, client_id, 
+                create_if_not_exist=False)
+            posts_query = session.query(
+                Posts.post_id,
+                Posts.assignment_id,
+                Posts.user_id,
+                Posts.title,
+                Posts.post_datetime,
+                Posts.reported,
+                Posts.lat,
+                Posts.lng,
+                MediaObjects.media_object_id,
+                MediaObjects.media_id,
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
+                Users.verified,
+                Users.client_id,
+                Languages.language_code,
+                Languages.name,
+            ).join(
+                PostMediaObjects,
+            ).join(
+                MediaObjects,
+            ).join(
+                MediaTypes,
+            ).join(
+                Users,Users.user_id == Posts.post_id,
+            ).join(
+                Languages,
+            ).filter(
+                Posts.user_id == user.user_id,
+            ).order_by(
+                 desc(Posts.post_datetime),
+            )
+            total_post_count = posts_query.count()
+            if start == 0 and count == 0:
+                posts = posts_query.all()
+            else:
+                posts = posts_query.slice(start, start+count)
+        return posts, total_post_count
 
 class MediaTypes(Base):
 

@@ -131,7 +131,6 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-
       var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
       total_forms = forms.length;
 
@@ -144,15 +143,20 @@ yellr.view.report = (function() {
           url: yellr.URLS.upload,
           success: function (response) {
             if (response.success) {
-              yellr.view.report.publish_post(response);
+              // add the media_id to our local array
+              form_counter++;
+              media_objects.push(response.media_id);
+              console.log(media_objects);
+              yellr.view.report.publish_post();
+
             } else {
               yellr.utils.notify('Something went wrong with upload_media...');
               console.log(response);
             }
           }
         });
-      }
-
+        // end ajaxSubmit
+      };
     }
 
 
@@ -161,11 +165,9 @@ yellr.view.report = (function() {
 
     // this is used to a publish  post
 
-    var publish_post = function(server_response) {
+    var publish_post = function() {
 
-      form_counter++;
-      media_objects.push(server_response.media_id);
-      console.log(media_objects);
+      // make sure we submitted all the forms
 
       if (form_counter === total_forms) {
 
@@ -191,6 +193,7 @@ yellr.view.report = (function() {
           media_objects = [];
           form_counter = 0;
           total_forms = 0;
+        }).done(function () {
           console.log('post published');
         });
       }

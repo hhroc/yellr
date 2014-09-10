@@ -99,10 +99,24 @@ mod.setup = {
     }
     else {
 
-      // render latest posts
-      mod.feed.render_latest_posts();
-      // render active assignments
-      mod.assignments.render_active();
+      // load new data
+      mod.utils.load({
+        data: 'get_posts',
+        saveAs: 'posts',
+        callback: mod.feed.render_latest_posts
+      });
+
+      mod.utils.load({
+        data: 'get_my_assignments',
+        saveAs: 'assignments',
+        callback: mod.assignments.render_active
+      });
+
+
+      // // render latest posts
+      // mod.feed.render_latest_posts();
+      // // render active assignments
+      // mod.assignments.render_active();
 
 
       // - send a message to a user who submitted content

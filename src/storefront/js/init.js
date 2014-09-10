@@ -10,19 +10,17 @@ yellr.main = {
     // get data-page attribute
     yellr.PAGE = document.querySelector('#storefront').getAttribute('data-page');
 
-    console.log('TESTING');
-
     switch (yellr.PAGE) {
 
       case 'index':
-        console.log('did we get here?');
         // load latest stories
-        var url = 'data/stories.json';
-        // var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
+        var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
 
         $.getJSON(url, function (response) {
 
           if (response.success) {
+
+            console.log(response);
 
             yellr.utils.render_template({
               template: '#story-li-template',

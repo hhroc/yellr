@@ -14,9 +14,13 @@ yellr.main = {
 
       case 'index':
         // load latest stories
-        var url = 'data/stories.json';
-        // var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
-
+        // var url = 'data/stories.json';
+    // {0}/get_stories.json?client_id={1}&lat={2}&lng={3}&language_code={4}
+    //     get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
+        var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
+        // var url = 'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.+'&lng=-77.5&language_code=en';
+        // var url = 'http://127.0.0.1:8080/get_stories.json?client_id=c26aee79-ed8d-479a-bcbc-a4445c7f3075&lat=43.3&lng=-77.5&language_code=en';
+// c26aee79-ed8d-479a-bcbc-a4445c7f3075
         $.getJSON(url, function (response) {
 
           if (response.success) {

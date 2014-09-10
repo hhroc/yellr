@@ -733,28 +733,38 @@ class Posts(Base):
         with transaction.manager:
             posts_query = session.query(
                 Posts.post_id,
+                Posts.assignment_id,
+                Posts.user_id,
                 Posts.title,
                 Posts.post_datetime,
                 Posts.reported,
                 Posts.lat,
                 Posts.lng,
-                Posts.assignment_id,
+                MediaObjects.media_object_id,
+                MediaObjects.media_id,
+                MediaObjects.file_name,
+                MediaObjects.caption,
+                MediaObjects.media_text,
+                MediaTypes.name,
+                MediaTypes.description,
                 Users.verified,
                 Users.client_id,
-                Users.first_name,
-                Users.last_name,
-                Users.organization,
                 Languages.language_code,
                 Languages.name,
             ).join(
-                Users,
+                PostMediaObjects,
+            ).join(
+                MediaObjects,
+            ).join(
+                MediaTypes,
+            ).join(
+                Users,Users.user_id == Posts.user_id,
+            ).join(
                 Languages,
             ).filter(
-                Posts.user_id == Users.user_id,
-                Posts.language_id == Languages.language_id,
-                Posts.reported == reported,
+                Posts.assignment_id == assignment_id,
             ).order_by(
-                desc(Posts.post_datetime),
+                 desc(Posts.post_datetime),
             )
             total_post_count = posts_query.count()
             if start == 0 and count == 0:
@@ -762,6 +772,7 @@ class Posts(Base):
             else:
                 posts = posts_query.slice(start, start+count)
         return posts, total_post_count
+
 
     @classmethod
     def get_all_from_assignment_id(cls, session, assignment_id, start=0,

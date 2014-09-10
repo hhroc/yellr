@@ -167,36 +167,44 @@ def admin_get_posts(request):
             count = count,
         )
 
-        ret_posts = []
-        for post_id, title, post_datetime, reported, lat, lng, assignment_id, \
-                verified, client_id, first_name, last_name, organization, \
-                language_code, language_name in posts:
-
-            media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
-            ret_media_objects = []
-            for file_name, caption, media_text, media_type, media_description \
-                    in media_objects:
-                ret_media_objects.append({
+        ret_posts = {}
+        for post_id, assignment_id, user_id, title, post_datetime, reported, \
+                lat, lng, media_object_id, media_id, file_name, caption, \
+                media_text, media_type_name, media_type_description, \
+                verified, client_id, language_code, language_name in posts:
+            if post_id in ret_posts:
+                ret_posts[post_id]['media_objects'].append({
+                    'media_id': media_id,
                     'file_name': file_name,
                     'caption': caption,
                     'media_text': media_text,
-                    'media_type': media_type,
-                    'media_description': media_description,
+                    'media_type_name': media_type_name,
+                    'media_type_description': media_type_description,
                 })
-            ret_posts.append({
-                'post_id': post_id,
-                'title': title,
-                'datetime': str(post_datetime),
-                'reported': reported,
-                'lat': lat,
-                'lng': lng,
-                'verified_user': verified, 
-                'client_id': client_id,
-                'first_name': first_name,
-                'last_name': last_name,
-                'organization': organization,
-                'media_objects': ret_media_objects,
-            })
+            else:
+                ret_posts[post_id] = {
+                    'post_id': post_id,
+                    'assignment_id': assignment_id,
+                    'user_id': user_id,
+                    'title': title,
+                    'post_datetime': str(post_datetime),
+                    'reported': reported,
+                    'lat': lat,
+                    'lng': lng,
+                    'verified_user': bool(verified),
+                    'client_id': client_id,
+                    'language_code': language_code,
+                    'language_name': language_name,
+                    'media_objects': [{
+                        'media_id': media_id,
+                        'file_name': file_name,
+                        'caption': caption,
+                        'media_text': media_text,
+                        'media_type_name': media_type_name,
+                        'media_type_description': media_type_description,
+                    }],
+                }
+
 
         result['total_post_count'] = total_post_count
         result['posts'] = ret_posts

@@ -4,6 +4,68 @@ var mod = mod || {};
 mod.collections = (function() {
 
 
+  var get_collection = function (collectionID) {
+
+    $.getJSON(mod.URLS.get_collection_posts, {
+      collection_id: collectionID
+    }, function (response) {
+
+      if (response.success) {
+
+        var posts = [];
+        for (var key in response.posts) {
+          posts.push(response.posts[key]);
+        }
+
+        // render the HTML to the list
+        mod.utils.render_template({
+          template: '#collections-li-template',
+          target: '#assignment-collection-list',
+          context: {posts: posts}
+        });
+
+      } else {
+        console.log('something went wrong loading collection posts');
+      }
+    });
+  }
+
+
+
+  var get_my_collections = function (callback) {
+
+    $.getJSON(mod.URLS.get_my_collections, function (response) {
+      if (response.success) {
+        // save our collections
+        mod.DATA.collections = response.collections;
+        mod.utils.save();
+      } else {
+        console.log('something went wrong getting your collections');
+      }
+    }).done(function () {
+      if (callback) callback();
+    });
+
+  }
+
+
+  var add_post_to_collection = function (postID, collectionID) {
+
+    $.post(mod.URLS.add_post_to_collection, {
+        post_id: postID,
+        collection_id: collectionID
+      }, function (response) {
+        if (response.success) {
+          console.log('added post to collection');
+        } else {
+          console.log('something went wrong adding the post to the collection');
+        }
+      }
+    );
+
+  }
+
+
 
   var view_all = function () {
     console.log('hello from: view_all');
@@ -66,6 +128,9 @@ mod.collections = (function() {
     view: view,
     view_all: view_all,
     setup_form: setup_form,
-    submit_form: submit_form
+    submit_form: submit_form,
+    add_post_to_collection: add_post_to_collection,
+    get_my_collections: get_my_collections,
+    get_collection: get_collection
   }
 })();

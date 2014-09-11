@@ -75,8 +75,10 @@ mod.assignments = (function() {
       $('#assignment-replies-list').on('click', function (e) {
         switch (e.target.className) {
           case 'fa fa-plus':
-            console.log('add to collection');
-            mod.feed.add_post_to_collection(e.target);
+            var postID = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'),
+                collectionID = document.querySelector('#assignment-collection-list').getAttribute('data-collection-id');
+            // add post to collection
+            mod.collections.add_post_to_collection(postID, collectionID);
             break;
           case 'fa fa-comment':
             console.log('write a message');
@@ -103,16 +105,11 @@ mod.assignments = (function() {
   var view = function (assignment_id) {
     // the URL hash is the assignment ID
 
-      // avoid regular hash things
       // load that assignment
       var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
         if (val.assignment_id === assignment_id) return true;
       })[0];
-
-      console.log(assignment);
-
-
-      // console.log('render the assignment overview');
+      // render the Handlebars template
       mod.utils.render_template({
         template: '#assignment-overview-template',
         target: '#view-assignment-section',
@@ -123,6 +120,10 @@ mod.assignments = (function() {
       // get assignment responses
       mod.assignments.get_responses_for(assignment_id);
 
+      // get assignment collection
+      mod.collections.get_collection(assignment_id);
+      // set the collection_id attribute to the #assignment-collections-list
+      document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
   }
 
 

@@ -136,7 +136,7 @@ script#assignment-overview-template(type="text/x-handlebars-template").
   <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
   <div class="flex">
     <div class="flex-2">
-      <p>{{assignment.description}}</p>
+      <p>{{assignment.questions.[0].description}}</p>
       <ul class="inline assignment-dates-list">
         <li class="assignment-published">{{assignment.publish_datetime}}</li>
         <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
@@ -144,7 +144,7 @@ script#assignment-overview-template(type="text/x-handlebars-template").
     </div>
     <div class="flex-1">
       <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-      <p class="write-article-btn-container"><span id="write-article-btn" class="btn">Write Article</span></p>
+      <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
     </div>
   </div>
   <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>

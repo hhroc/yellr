@@ -93,9 +93,7 @@ mod.setup = {
     // - send a message to a user who submitted content
     // - add post to a collection
     // - flag inappropriate content
-    var post_actions = document.querySelector('.submissions-grid');
-
-    post_actions.onclick = function(e) {
+    document.querySelector('.submissions-grid').onclick = function(e) {
       switch (e.target.className) {
         case 'fa fa-folder':
           mod.feed.toggle_collections_dropdown(e.target);

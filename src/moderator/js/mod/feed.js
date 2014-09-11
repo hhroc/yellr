@@ -62,31 +62,9 @@ mod.feed = (function() {
     var add_post_to_collection = function (target) {
       console.log('add post to collection');
       // we're in pretty deep with the DOM, need to get out
-      // console.dir(target);
-      // console.log(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
-      // var $collection = $(target).data('collection-id');
-      // console.log($collection);
       var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
-      // console.log($gi);
 
-      console.log($(target).data('collection-id'));
-      console.log($(target));
-      console.log({
-        post_id: $gi.find('.meta-div').data('post-id'),
-        collection_id: $(target).data('collection-id')
-      });
-
-      $.post(mod.URLS.add_post_to_collection, {
-        post_id: $gi.find('.meta-div').data('post-id'),
-        collection_id: $(target).data('collection-id')
-      }, function (response) {
-        if (response.success) {
-          // mod.feed.hide_collections_dropdown();
-          console.log('added post to collection');
-        } else {
-          console.log('something went wrong adding the post to the collection');
-        }
-      })
+      mod.collections.add_post_to_collection($gi.find('.meta-div').data('post-id'), $(target).data('collection-id'));
 
     }
 

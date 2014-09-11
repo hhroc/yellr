@@ -1,3 +1,33 @@
+script#collections-li-template(type="text/x-handlebars-template").
+  {{#if posts}}
+    {{#each posts}}
+    <li>
+      {{#each media_objects }}
+      <div class="media-preview" data-type="{{ media_type }}">
+        {{#if file_name}}
+        <figure class="media-file-image">
+          <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+          <figcaption>{{ media_description }}</figcaption>
+        </figure>
+        {{else}}
+        <p class="media-text">{{ media_text }}</p>
+        {{/if}}
+
+        {{#if caption}}
+        <p>{{ caption }}</p>
+        {{/if}}
+      </div>
+      {{/each }}
+      <div class="assignment-collection-actions"><span class="remove-btn"><i class="fa fa-close">&nbsp;Remove</i></span></div>
+      <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+    </li>
+    {{/each}}
+  {{else}}
+    <li class="faded">
+      <h3 class="t2">Collection is empty</h3>
+      <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+    </li>
+  {{/if}}
 
 
 script#collections-li-template(type="text/x-handlebars-template").
@@ -12,13 +42,10 @@ script#collections-li-template(type="text/x-handlebars-template").
     </li>
     {{/each}}
   {{else}}
-  <li class="faded">
-    <h3 class="t2">No collection started</h3>
-    <p>
-      Create one by clicking the Folder icon one a feed item
-      or clicking&nbsp;<span id="create-collection-btn">here</span>
-    </p>
-  </li>
+    <li class="faded">
+      <h3 class="t2">No collections!</h3>
+      <p>Create one by clicking the button above</p>
+    </li>
   {{/if}}
 
 

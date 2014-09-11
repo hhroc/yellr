@@ -19,6 +19,86 @@ mod.assignments = (function() {
 
 
 
+  var get_my_assignments = function (callback) {
+    // make the API call to get the Admin's assignments
+    $.getJSON(mod.URLS.get_my_assignments, function (response) {
+      if (response.success) {
+        // response.assignments is an object
+        var assignments = [];
+        for (var key in response.assignments) {
+          assignments.push(response.assignments[key]);
+        };
+        mod.DATA.assignments = assignments;
+        mod.utils.save();
+      } else {
+        console.log('something went wrong loading get_my_assignments');
+      }
+    }).done(function () {
+      if (callback) callback();
+    });
+  }
+
+  var get_responses_for = function (assignment_id) {
+    // get assignment responses
+    $.ajax({
+      url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
+      type: 'POST',
+      dataType: 'json',
+      success: function (response) {
+
+        if (response.success) {
+
+          var replies = [];
+          for (var key in response.posts) {
+            replies.push(response.posts[key]);
+          }
+
+          mod.utils.render_template({
+            template: '#assignment-response-li-template',
+            target: '#assignment-replies-list',
+            context: {replies: replies}
+          });
+
+          // parse UTC dates with moment.js
+          var deadline = document.querySelector('.assignment-deadline');
+              deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+          var published = document.querySelector('.assignment-published');
+              published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+
+        } else {
+          console.log('lol Something went wrong loading assignment reponses');
+        }
+      }
+    }).done(function () {
+
+      // setup the action buttons for each resposne
+      $('#assignment-replies-list').on('click', function (e) {
+        switch (e.target.className) {
+          case 'fa fa-plus':
+            console.log('add to collection');
+            mod.feed.add_post_to_collection(e.target);
+            break;
+          case 'fa fa-comment':
+            console.log('write a message');
+            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+            mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+            break;
+          case 'fa fa-flag':
+            console.log('mark as ain appropriate');
+            break;
+          case 'fa fa-trash':
+            console.log('discard this reply');
+            break;
+          default:
+            break;
+        }
+      });
+
+    });
+
+
+  }
+
 
   var view = function (assignment_id) {
     // the URL hash is the assignment ID
@@ -29,6 +109,8 @@ mod.assignments = (function() {
         if (val.assignment_id === assignment_id) return true;
       })[0];
 
+      console.log(assignment);
+
 
       // console.log('render the assignment overview');
       mod.utils.render_template({
@@ -38,63 +120,8 @@ mod.assignments = (function() {
       });
 
 
-      // console.log('get assignment responses');
-      $.ajax({
-        url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
-        type: 'POST',
-        dataType: 'json',
-        success: function (response) {
-          // console.log(response);
-          if (response.success) {
-
-            var replies = [];
-            for (var key in response.posts) {
-              replies.push(response.posts[key]);
-            }
-
-            mod.utils.render_template({
-              template: '#assignment-response-li-template',
-              target: '#assignment-replies-list',
-              context: {replies: replies}
-            });
-
-            $('#assignment-replies-list').on('click', function (e) {
-              switch (e.target.className) {
-                case 'fa fa-plus':
-                  console.log('add to collection');
-                  mod.feed.add_post_to_collection(e.target);
-
-                  break;
-                case 'fa fa-comment':
-                  console.log('write a message');
-                  var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-                  mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-                  break;
-                case 'fa fa-flag':
-                  console.log('mark as ain appropriate');
-                  break;
-                case 'fa fa-trash':
-                  console.log('discard this reply');
-                  break;
-                default:
-                  break;
-              }
-            });
-          } else {
-            console.log('lol Something went wrong loading assignment reponses');
-          }
-        }
-      });
-
-      console.log('get assignment collection');
-      console.log(mod.URLS.get_collection_posts);
-      console.log('if one doesn\'t exist, make it easy for them to create one');
-
-      // parse UTC dates with moment.js
-      var deadline = document.querySelector('.assignment-deadline');
-          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-      var published = document.querySelector('.assignment-published');
-          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+      // get assignment responses
+      mod.assignments.get_responses_for(assignment_id);
 
   }
 
@@ -102,12 +129,16 @@ mod.assignments = (function() {
 
   var render_active = function () {
 
+    var assignments = [];
+    for (var ass in mod.DATA.assignments) {
+      assignments.push(mod.DATA.assignments[ass]);
+      if (assignments.length > 4) break;
+    }
+
     mod.utils.render_template({
       template: '#active-assignment-template',
       target: '#active-assignments-list',
-      context: {
-        assignments: mod.DATA.assignments
-      }
+      context: {assignments: assignments }
     });
 
     // parse UTC dates with moment.js
@@ -373,52 +404,33 @@ mod.assignments = (function() {
 
         if (response.success) {
 
-          // ----------------------------
-          // we won't need this soon, only temporaray
-          if (mod.DATA.assignments === undefined) mod.DATA.assignments = [];
-          mod.DATA.assignments.push({assignment_id: response.assignment_id})
-          mod.utils.save();
-          // ----------------------------
-
-
           // create a collection for the assignment
           $.ajax({
             url: mod.URLS.create_collection,
             type: 'POST',
             dataType: 'json',
             data: {
-              name: 'Assignment <ID> collection',
-              description: 'Collection for <question text>',
-              tags: ''
+              name: 'Assignment #'+response.assignment_id+' Collection',
+              description: 'Collection for #'+response.assignment_id,
+              tags: 'some, example, collection tags'
             },
             success: function (_response) {
-              console.log(_response);
               if (_response.success) {
-                console.log('collection created');
-                console.log(_response);
-                alert('check what we got');
-              } else {
-                console.log('something went wrong creating a collection for this assignment');
-              }
+                // clear array
+                questions = [];
+                mod.utils.clear_overlay();
+              } else console.log('something went wrong creating a collection for this assignment');
             }
           }).done(function () {
-            console.log('done creating collection for this assignment');
-            // clear array
-            questions = [];
-            mod.utils.clear_overlay();
-
             mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
           });
-
-
-
-
+          // done creating collection for assignment
 
         } else {
           alert('Something went wrong submitting an Assignment');
         }
-
       }
+
     });
 
   }
@@ -433,6 +445,8 @@ mod.assignments = (function() {
     post: post,
     save_draft: save_draft,
     language_feedback: language_feedback,
-    render_active: render_active
+    render_active: render_active,
+    get_my_assignments: get_my_assignments,
+    get_responses_for: get_responses_for
   }
 })();

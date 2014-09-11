@@ -3,9 +3,9 @@ script#active-assignment-template(type="text/x-handlebars-template").
   {{#if assignments}}
     {{#each assignments}}
     <li>
-      <h3>{{question_text}}</h3>
+      <h3>{{ questions.[0].question_text }}</h3>
       <div class="flex assignment-meta">
-        <div class="flex-1"><a href="assignments.html/{{assignment_id}}">View</a></div>
+        <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
         <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
       </div>
     </li>
@@ -133,7 +133,7 @@ script#new-survey-answer-template(type="text/x-handlebars-template").
 
 script#assignment-overview-template(type="text/x-handlebars-template").
   <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-  <h3 class="t1">{{assignment.question_text}}</h3>
+  <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
   <div class="flex">
     <div class="flex-2">
       <p>{{assignment.description}}</p>

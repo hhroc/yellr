@@ -80,80 +80,48 @@ mod.setup = {
      * index.html
      */
 
-    // make sure we have data
-    if (mod.DATA.posts === undefined) {
-      console.log('show loading gif. tell them we\'re loading data');
+    // load new data
+    mod.utils.load({
+      data: 'get_posts',
+      saveAs: 'posts',
+      callback: mod.feed.render_latest_posts
+    });
 
-      mod.utils.load({
-        data: 'get_my_assignments',
-        saveAs: 'assignments'
-      });
+    mod.assignments.get_my_assignments(mod.assignments.render_active);
 
-      // load new data
-      mod.utils.load({
-        data: 'get_posts',
-        saveAs: 'posts'
-      });
 
-      // debugger;
-      // var wait = setTimeout(mod.setup.dashboard, 1000);
-    }
-    else {
+    // - send a message to a user who submitted content
+    // - add post to a collection
+    // - flag inappropriate content
+    var post_actions = document.querySelector('.submissions-grid');
 
-      // load new data
+    post_actions.onclick = function(e) {
+      switch (e.target.className) {
+        case 'fa fa-folder':
+          mod.feed.toggle_collections_dropdown(e.target);
+          break;
+        case 'fa fa-comment':
+          var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+          mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+          break;
+        case 'fa fa-flag':
+          console.log('report the motherfucker');
+          break;
+        default:
+          break;
+      }
+    };
+
+
+    // refresh the feed
+    $('#refresh-posts').on('click', function (e) {
       mod.utils.load({
         data: 'get_posts',
         saveAs: 'posts',
         callback: mod.feed.render_latest_posts
       });
+    });
 
-      mod.utils.load({
-        data: 'get_my_assignments',
-        saveAs: 'assignments',
-        callback: mod.assignments.render_active
-      });
-
-
-      // // render latest posts
-      // mod.feed.render_latest_posts();
-      // // render active assignments
-      // mod.assignments.render_active();
-
-
-      // - send a message to a user who submitted content
-      // - add post to a collection
-      // - flag inappropriate content
-      var post_actions = document.querySelector('.submissions-grid');
-
-      post_actions.onclick = function(e) {
-        switch (e.target.className) {
-          case 'fa fa-folder':
-            mod.feed.toggle_collections_dropdown(e.target);
-            break;
-          case 'fa fa-comment':
-            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-            mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-            break;
-          case 'fa fa-flag':
-            console.log('report the motherfucker');
-            break;
-          default:
-            break;
-        }
-      };
-
-
-      // refresh the feed
-      $('#refresh-posts').on('click', function (e) {
-        mod.utils.load({
-          data: 'get_posts',
-          saveAs: 'posts',
-          callback: mod.feed.render_latest_posts
-        });
-      });
-
-    }
-    // end if..else
 
   },
 }

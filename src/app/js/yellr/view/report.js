@@ -3,13 +3,6 @@ var yellr = yellr || {};
     yellr.view = yellr.view || {};
 
 
-/*
-  we have 3 submit form functions. no
- */
-
-
-
-
 yellr.view.report = (function() {
 
     /**
@@ -36,7 +29,9 @@ yellr.view.report = (function() {
       header = data.template.header;
       header.template = '#submit-header';
       render_template(header);
-      $('#submit-btn').on('tap', this.submit_form);
+      $('#submit-btn').on('tap', function (e) {
+        yellr.view.report.submit_form();
+      });
 
       yellr.utils.no_subnav();
 

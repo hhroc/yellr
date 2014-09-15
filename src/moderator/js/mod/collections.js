@@ -6,23 +6,47 @@ mod.collections = (function() {
 
   var get_collection = function (collectionID, render_settings) {
 
+    /**
+     * get_collection - for Assignments overview page
+     * make API post to server, get a collection back (array of posts)
+     * (for now) we always render
+     */
+
+
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
       if (response.success) {
 
+        // the posts response is an object that we turn into an array
+        // ----------------------------
         var posts = [];
         for (var key in response.posts) {
           posts.push(response.posts[key]);
         }
 
+
         // render the HTML to the list
-        mod.utils.render_template({
-          template: (render_settings.template) ? render_settings.template : '#collections-li-template',
-          target: (render_settings.target) ? render_settings.target : '#assignment-collection-list',
-          context: {posts: posts}
-        });
+        // ----------------------------
+        // ** this got a little messy **
+        var settings = {};
+        if (render_settings) {
+          // we have ternary operators here to check if we passed in a setting
+          // if we didn't we fall back to defaults
+          settings.template = (render_settings.template) ? render_settings.template : '#collections-li-template';
+          settings.target = (render_settings.target) ? render_settings.target : '#assignment-collection-list';
+        }
+        else {
+          // DEFAULT SETTINGS
+          settings.template = '#collections-li-template';
+          settings.target = '#assignment-collection-list';
+        }
+        // add the context
+        settings.context = {posts: posts};
+
+        // DO IT
+        mod.utils.render_template(settings);
 
       } else {
         console.log('something went wrong loading collection posts');

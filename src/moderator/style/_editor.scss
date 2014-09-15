@@ -1,5 +1,12 @@
+#preview-btn {
+  background: rgba($blue, 0.6);
+}
+
 .editor-container {
   position: relative;
+  .t3 {
+    text-decoration: underline;
+  }
 }
 #editor-controls {
   text-align: right;

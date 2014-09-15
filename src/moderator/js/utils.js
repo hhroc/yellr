@@ -120,6 +120,11 @@ mod.utils = {
             mod.DATA[settings.saveAs] = response[settings.saveAs];
           }
 
+          if (settings.saveAs === 'posts') {
+
+            mod.DATA.posts.reverse();
+          }
+
           // save the data
           mod.utils.save();
         }

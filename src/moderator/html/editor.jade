@@ -17,17 +17,21 @@ body#moderator(data-page="editor")
         include _sidebar.jade
 
       div.flex-4#right
-        h2.t1.right-wrapper Editor
-        p
-          span#preview-btn Preview
+        div.right-wrapper
+          h2.t1 Editor
+          p
+            span#preview-btn.btn Preview
 
         div#editor-workspace.right-wrapper.flex
           div.editor-container.flex-3
             div#editor-input.form.editor-tab.active
               p Title
               input#article-title(type="text", name="title", placeholder="Article title...")
+              p Top Text
+              textarea#top-text(rows="5", name="top-text", placeholder="Enter top text")
               p Content
-                small Markdown is used
+                small
+                  strong&nbsp;Markdown is used
               textarea#markdown-editor(oninput="this.editor.update()", rows="15", name="content", placeholder="Enter text here")
               div#editor-controls
                 span.submit-btn Publish
@@ -35,10 +39,11 @@ body#moderator(data-page="editor")
               h3.t3 Preview
               div#editor-preview
           div.collections-container.flex-1
-            h3.t2 Collections
-            p
+            h3.t2 Collection
+            //- p
               span Change
             ul#editor-collections-list
+            //- ul#editor-collections-list
               li
                 img(src="http://127.0.0.1:8080/media/88ac1a60-8f5e-4edd-a8ec-65fdffc556ab.jpg")
               li
@@ -48,13 +53,4 @@ body#moderator(data-page="editor")
 
   include _footer.jade
   script(src="js/libs/markdown.js")
-  script.
-    function Editor(input, preview) {
-      this.update = function () {
-        preview.innerHTML = markdown.toHTML(input.value);
-      };
-      input.editor = this;
-      this.update();
-    }
-    new Editor(document.getElementById("markdown-editor"), document.getElementById("editor-preview"));
 </html>

@@ -4,7 +4,7 @@ var mod = mod || {};
 mod.collections = (function() {
 
 
-  var get_collection = function (collectionID) {
+  var get_collection = function (collectionID, render_settings) {
 
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
@@ -19,8 +19,8 @@ mod.collections = (function() {
 
         // render the HTML to the list
         mod.utils.render_template({
-          template: '#collections-li-template',
-          target: '#assignment-collection-list',
+          template: (render_settings.template) ? render_settings.template : '#collections-li-template',
+          target: (render_settings.target) ? render_settings.target : '#assignment-collection-list',
           context: {posts: posts}
         });
 

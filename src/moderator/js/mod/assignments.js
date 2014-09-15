@@ -423,9 +423,15 @@ mod.assignments = (function() {
               } else console.log('something went wrong creating a collection for this assignment');
             }
           }).done(function () {
-            mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+
+            // update our assignments
+            mod.assignments.get_my_assignments(function () {
+              mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+            });
+
           });
           // done creating collection for assignment
+
 
         } else {
           alert('Something went wrong submitting an Assignment');
@@ -437,6 +443,9 @@ mod.assignments = (function() {
   }
 
 
+  var redirect = function () {
+    console.log('hello from: ');
+  }
 
   return {
     view: view,

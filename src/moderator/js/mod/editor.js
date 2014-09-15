@@ -4,8 +4,23 @@ var mod = mod || {};
 mod.editor = (function() {
 
   var init = function () {
+    // get the collection for the assignment
+    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), {target: '#editor-collections-list'});
 
 
+    function Editor(input, preview) {
+      this.update = function () {
+        var title = '# ' + $('#article-title').val() + '\n';
+        preview.innerHTML = markdown.toHTML(title + input.value);
+      };
+      input.editor = this;
+      this.update();
+    }
+
+    var editor = new Editor(document.getElementById("markdown-editor"), document.getElementById("editor-preview"));
+
+
+    // setup event listeners
     $('#preview-btn').on('click', function (e) {
 
       var $editor = $('#editor-workspace .editor-container');
@@ -13,7 +28,7 @@ mod.editor = (function() {
       var new_active = $editor.find('.inactive');
       new_inactive.removeClass('active').addClass('inactive');
       new_active.removeClass('inactive').addClass('active');
-
+      editor.update();
     });
 
 
@@ -22,7 +37,7 @@ mod.editor = (function() {
       $.post(mod.URLS.publish_story, {
         title: $('#article-title').val(),
         tags: 'test, 1, 2, 3',
-        top_text: 'top text',
+        top_text: $('#top-text').val(),
         banner_media_id: '',
         // banner_media_id: '329af2ee-6014-4a90-a7c3-05dba003c7ac',
         contents: $('#markdown-editor').val(),
@@ -42,6 +57,8 @@ mod.editor = (function() {
       });
 
     });
+
+
   }
 
   return {

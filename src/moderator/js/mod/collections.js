@@ -56,7 +56,7 @@ mod.collections = (function() {
 
 
 
-  var get_my_collections = function (callback) {
+  var get_my_collections = function (options) {
 
     $.getJSON(mod.URLS.get_my_collections, function (response) {
       if (response.success) {
@@ -67,7 +67,7 @@ mod.collections = (function() {
         console.log('something went wrong getting your collections');
       }
     }).done(function () {
-      if (callback) callback();
+      if (options.callback) options.callback();
     });
 
   }
@@ -106,15 +106,6 @@ mod.collections = (function() {
     });
 
   }
-
-
-
-  var view_all = function () {
-    console.log('hello from: view_all');
-
-  }
-
-
 
 
   var init = function () {
@@ -168,7 +159,6 @@ mod.collections = (function() {
   return {
     init: init,
     view: view,
-    view_all: view_all,
     setup_form: setup_form,
     submit_form: submit_form,
     add_post_to_collection: add_post_to_collection,

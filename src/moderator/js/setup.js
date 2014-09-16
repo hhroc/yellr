@@ -6,6 +6,7 @@ var mod = mod || {};
 
 mod.setup = {
 
+
   login: function () {
 
     var $form = $('#mod-login');
@@ -19,9 +20,28 @@ mod.setup = {
   },
 
 
+
   assignments_page: function () {
-    console.log('hello from: setup.assignments_page');
+    mod.assignments.get_my_assignments({
+      callback: function () {
+        console.log(mod.DATA.assignments);
+        // // render html
+        // mod.utils.render_template({
+        //   template: ,
+        //   target: ,
+        //   context: {assignments: mod.DATA.assignments}
+        // });
+      }
+    });
+
+    // var packery = new Packery('.album-cover-grid', {
+    //   itemSelector: '.album-cover-gi',
+    //   gutter: 10
+    // });
+
   },
+
+
 
   assignment_overview: function () {
 
@@ -46,7 +66,29 @@ mod.setup = {
 
 
   collections_page: function () {
-    // setup collections page
+
+    // get my collections
+    mod.collections.get_my_collections({
+      callback: function () {
+
+        // parse datetime with moment.js
+        // add url attribute for Handlebar template peace of mind
+        var collections = mod.DATA.collections.filter(function (val, i ,arr) {
+          val.collection_datetime = moment(val.collection_datetime).format('MMM Do YYYY');
+          val.url = 'view-collection.html#'+val.collection_id;
+          return true;
+        });
+
+        // render html
+        mod.utils.render_template({
+          template: '#collections-gi-template',
+          target: '.collections-grid',
+          context: {collections: collections}
+        });
+      }
+    });
+
+
     // hook up the buttons
     document.querySelector('#new-collection-btn').onclick = function (e) {
 
@@ -58,7 +100,7 @@ mod.setup = {
       console.log('delete collection');
     }
 
-    mod.collections.view_all();
+
 
   },
 

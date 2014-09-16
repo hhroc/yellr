@@ -1,3 +1,25 @@
+script#collections-gi-template(type="text/x-handlebars-template").
+  {{#if collections}}
+    {{#each collections}}
+    <div class="collections-gi">
+        <h3 class="title"><a href="{{url}}">{{name}}</a></h3>
+        <div class="flex">
+          <a href="{{url}}" class="view flex-1">View</a>
+          <p class="deadline flex-1">{{collection_datetime}}</p>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  {{else}}
+    <div class="collections-gi faded">
+        <h3 class="title">No collections! Create one by clicking the button above or creating a new assignment!</h3>
+      </div>
+    </div>
+  {{/if}}
+
+
+
+
 script#collections-li-template(type="text/x-handlebars-template").
   {{#if posts}}
     {{#each posts}}

@@ -64,18 +64,52 @@ mod.setup = {
 
 
   inbox: function () {
-    // // setup inbox
-    // mod.messages.init({
-    //   data_url: mod.URLS.messages,
-    //   template: '#inbox-li',
-    //   container: '#inbox',
-    //   read_target: '#read-mail-list',
-    //   unread_target: '#unread-mail-list'
-    // });
 
-    // hook up the button
+    // check for new messages
+    // (alert user of this action)
+    mod.messages.get_messages({
+      feedback: true,
+      callback: function () {
+
+        var filtered_messages = mod.messages.filter_messages();
+
+        // render messages
+        mod.utils.render_template({
+          template: '#inbox-li',
+          target: '#unread-mail-list',
+          context: {messages: filtered_messages.unread}
+        });
+
+        mod.utils.render_template({
+          template: '#inbox-li',
+          target: '#read-mail-list',
+          context: {messages: filtered_messages.read}
+        });
+      }
+    });
+
+
+
+    // view a message
+    document.querySelector('#inbox').onclick = function view_message(e) {
+
+      // read the data-id attribute of the right node
+      var message_id = (e.target.nodeName === 'LI') ? e.target.getAttribute('data-id') : e.target.parentNode.getAttribute('data-id'),
+          message = mod.DATA.messages.filter(function (val, i, arr) {
+            if (val.message_id === parseInt(message_id)) return true;
+          })[0];
+
+      mod.utils.show_overlay({
+        template: '#view-message-template',
+        context: message
+      });
+
+    };
+
+
+    // create a new message
     document.querySelector('#new-message-btn').onclick = function() {
-      mod.messages.create_message();
+      mod.messages.create_new_message();
     }
   },
 

@@ -3,6 +3,15 @@ var mod = mod || {};
 
 mod.utils = {
 
+
+  notify: function (text) {
+    // TODO
+    console.log(text);
+  },
+
+
+
+
   redirect_to: function (page) {
     var url_base = 'http://127.0.0.1:8000/moderator/';
     if (DEBUG) window.location.replace(url_base+page);

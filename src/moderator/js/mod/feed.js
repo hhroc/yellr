@@ -24,12 +24,6 @@ mod.feed = (function() {
       // we are here --> <i class="fa fa-thing"></i>
       // we want the parent <li> to start
 
-      mod.DATA.collections = [
-        {title: 'Do you think that schools should move their start time to later?', id: 0 },
-        {title: 'We\'ve got to get something to eat and to drink yeah.', id: 1 },
-        {title: 'Let\'s go get a bottle', id: 2 }
-      ];
-
       $(target.parentNode).addClass('dropdown-container');
 
       mod.utils.render_template({

@@ -73,19 +73,37 @@ mod.collections = (function() {
   }
 
 
-  var add_post_to_collection = function (postID, collectionID) {
+  var add_post_to_collection = function (postNode, collectionNode) {
+
+    /**
+     * pass in a string or DOM reference (DOM must have a data-attribute on it)
+     */
+
+    // if a DOM, get the attribute, otherwise assume they are the IDs
+    var postID = (typeof postNode === 'object') ? postNode.getAttribute('data-post-id') : postNode,
+        collectionID = (typeof collectionNode === 'object') ? collectionNode.getAttribute('data-collection-id') : collectionNode,
+        success = false;
+
 
     $.post(mod.URLS.add_post_to_collection, {
         post_id: postID,
         collection_id: collectionID
       }, function (response) {
         if (response.success) {
+          success = true;
           console.log('added post to collection');
         } else {
           console.log('something went wrong adding the post to the collection');
         }
       }
-    );
+    ).done(function () {
+      if (success && typeof postNode === 'object' && typeof collectionNode === 'object') {
+        // do the nice visual cue where we:
+        // - hide the post from the responses list
+        // - add it to the Collection list
+        $('#post-id-'+postID).hide();
+      }
+    });
 
   }
 

@@ -157,7 +157,7 @@ script#assignment-overview-template(type="text/x-handlebars-template").
 script#assignment-response-li-template(type="text/x-handlebars-template").
   {{#if replies}}
     {{#each replies}}
-    <li>
+    <li id="post-id-{{post_id}}">
       <div class="gi">
         <div class="story-item">
           <p class="description">{{title}}</p>

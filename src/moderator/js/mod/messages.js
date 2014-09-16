@@ -3,6 +3,39 @@ var mod = mod || {};
 
 mod.messages = (function () {
 
+  var get_messages = function get_messages() {
+    console.log('hello from: get_messages');
+    $.getJSON(mod.URLS.get_my_messages, function callback(response) {
+      console.log('hello from: callback');
+      console.log(response);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ===================================
+    // ===================================
+
     // raw_data, read, and unread as JSON objects
     var template,
         raw_data,

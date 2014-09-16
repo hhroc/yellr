@@ -32,6 +32,13 @@ mod.setup = {
       mod.assignments.view(assignment_id);
 
       // get replies to question
+      mod.assignments.get_responses_for(assignment_id);
+
+      // get assignment collection
+      mod.collections.get_collection(assignment_id);
+      // set the collection_id attribute to the #assignment-collections-list
+      document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
+
     }
 
 

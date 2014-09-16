@@ -39,6 +39,11 @@ mod.assignments = (function() {
   }
 
   var get_responses_for = function (assignment_id) {
+
+    // get our assignment respones
+    // render them to HTML
+    // this also sets up the event listeners
+
     // get assignment responses
     $.ajax({
       url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
@@ -75,11 +80,14 @@ mod.assignments = (function() {
       $('#assignment-replies-list').on('click', function (e) {
         switch (e.target.className) {
           case 'fa fa-plus':
-            var postID = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'),
-                collectionID = document.querySelector('#assignment-collection-list').getAttribute('data-collection-id');
+            // get the DOM references
+            var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
+                collectionNode = document.querySelector('#assignment-collection-list');
+
             // add post to collection
-            mod.collections.add_post_to_collection(postID, collectionID);
+            mod.collections.add_post_to_collection(postNode, collectionNode);
             break;
+
           case 'fa fa-comment':
             console.log('write a message');
             var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
@@ -103,27 +111,19 @@ mod.assignments = (function() {
 
 
   var view = function (assignment_id) {
-    // the URL hash is the assignment ID
 
-      // load that assignment
-      var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
-        if (val.assignment_id === assignment_id) return true;
-      })[0];
-      // render the Handlebars template
-      mod.utils.render_template({
-        template: '#assignment-overview-template',
-        target: '#view-assignment-section',
-        context: {assignment: assignment}
-      });
+    // load that assignment from localStorage
+    var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
+      if (val.assignment_id === assignment_id) return true;
+    })[0];
 
+    // render the Handlebars template
+    mod.utils.render_template({
+      template: '#assignment-overview-template',
+      target: '#view-assignment-section',
+      context: {assignment: assignment}
+    });
 
-      // get assignment responses
-      mod.assignments.get_responses_for(assignment_id);
-
-      // get assignment collection
-      mod.collections.get_collection(assignment_id);
-      // set the collection_id attribute to the #assignment-collections-list
-      document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
   }
 
 

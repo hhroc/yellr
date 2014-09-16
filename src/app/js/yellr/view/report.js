@@ -126,8 +126,14 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
+      // so it has something to do with our forms var...
+      console.log(document.querySelector('#form-wrapper'));
+      // console.log(document.querySelectorAll('#form-wrapper form'));
+
+      var forms = document.querySelectorAll('#form-wrapper form');
       total_forms = forms.length;
+
+      console.log(forms);
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];

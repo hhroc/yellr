@@ -273,13 +273,9 @@ mod.utils = {
     var html = template( settings.context ? settings.context : {} );
 
     // replace html, or return HTML frag
-    if (settings.target) {
-      if (settings.append) $(settings.target).append(html);
-      else if (settings.prepend) $(settings.target).prepend(html);
-      else $(settings.target).html(html);
-      // $(settings.target).html(html);
-    }
-    else return html;
+    if (settings.append) $(settings.target).append(html);
+    else if (settings.prepend) $(settings.target).prepend(html);
+    else $(settings.target).html(html);
 
   },
 

@@ -3,6 +3,14 @@ var mod = mod || {};
 
 mod.utils = {
 
+  convert_object_to_array: function (object) {
+    var array = [];
+    for (var key in object) {
+      array.push(object[key]);
+    }
+    return array;
+  },
+
 
   notify: function (text) {
     // TODO
@@ -13,8 +21,8 @@ mod.utils = {
 
 
   redirect_to: function (page) {
-    var url_base = 'http://127.0.0.1:8000/moderator/';
-    if (DEBUG) window.location.replace(url_base+page);
+    var url_base = (DEBUG) ? 'http://127.0.0.1:8000/moderator/' : '/';
+    window.location.replace(url_base+page);
   },
 
 
@@ -24,7 +32,7 @@ mod.utils = {
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
       /* TODO: use a real url */
       alert( (message) ? message : 'Must login' );
-      window.location.replace('http://127.0.0.1:8000/moderator/login.html');
+      mod.utils.redirect_to('login.html');
     }
 
   },

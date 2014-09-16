@@ -3,6 +3,25 @@ var mod = mod || {};
 
 mod.assignments = (function() {
 
+  var get_my_assignments = function (settings) {
+    // make the API call to get the Admin's assignments
+    $.getJSON(mod.URLS.get_my_assignments, function (response) {
+      if (response.success) {
+
+        mod.DATA.assignments = mod.utils.convert_object_to_array(response.assignments);
+        mod.utils.save();
+
+      } else {
+        console.log('something went wrong loading get_my_assignments');
+      }
+    }).done(function () {
+      if (settings.callback) settings.callback();
+    });
+  }
+
+
+
+
   // 'global' vars
   var questions = [],
       survey_answers = [],
@@ -18,25 +37,6 @@ mod.assignments = (function() {
       $post_btn;
 
 
-
-  var get_my_assignments = function (callback) {
-    // make the API call to get the Admin's assignments
-    $.getJSON(mod.URLS.get_my_assignments, function (response) {
-      if (response.success) {
-        // response.assignments is an object
-        var assignments = [];
-        for (var key in response.assignments) {
-          assignments.push(response.assignments[key]);
-        };
-        mod.DATA.assignments = assignments;
-        mod.utils.save();
-      } else {
-        console.log('something went wrong loading get_my_assignments');
-      }
-    }).done(function () {
-      if (callback) callback();
-    });
-  }
 
   var get_responses_for = function (assignment_id) {
 
@@ -126,29 +126,6 @@ mod.assignments = (function() {
 
   }
 
-
-
-  var render_active = function () {
-
-    var assignments = [];
-    for (var ass in mod.DATA.assignments) {
-      assignments.push(mod.DATA.assignments[ass]);
-      if (assignments.length > 4) break;
-    }
-
-    mod.utils.render_template({
-      template: '#active-assignment-template',
-      target: '#active-assignments-list',
-      context: {assignments: assignments }
-    });
-
-    // parse UTC dates with moment.js
-    var dates = document.querySelectorAll('.assignment-deadline');
-    for (var i = 0; i < dates.length; i++) {
-      dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-    };
-
-  }
 
 
 
@@ -425,8 +402,10 @@ mod.assignments = (function() {
           }).done(function () {
 
             // update our assignments
-            mod.assignments.get_my_assignments(function () {
-              mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+            mod.assignments.get_my_assignments({
+              callback: function () {
+                mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+              }
             });
 
           });
@@ -455,7 +434,6 @@ mod.assignments = (function() {
     post: post,
     save_draft: save_draft,
     language_feedback: language_feedback,
-    render_active: render_active,
     get_my_assignments: get_my_assignments,
     get_responses_for: get_responses_for
   }

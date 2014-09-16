@@ -71,37 +71,6 @@ mod.feed = (function() {
 
 
 
-    var render_latest_posts = function () {
-      // console.log('hello from: render');
-
-      mod.utils.render_template({
-        template: '#latest-posts-template',
-        target: '#latest-posts',
-        context: {
-          posts: mod.DATA.posts
-        }
-      });
-
-
-      // // set up the grid magic with packery
-      // var container = document.querySelector('#latest-posts');
-      // // var pckry = new Packery( container, {
-      // var packery = new Packery( container, {
-      //   itemSelector: '.gi',
-      //   columnWidth: container.querySelector('.grid-sizer'),
-      //   gutter: container.querySelector('.gutter-sizer'),
-      //   isResizeBound: true,
-      // });
-
-      // var delay_packery = setTimeout(function () {
-      //   packery.layout();
-
-      //   clearTimeout(delay_packery);
-      // }, 2000);
-
-    }
-
-
 
 
 
@@ -149,7 +118,6 @@ mod.feed = (function() {
 
 
     return {
-      render_latest_posts: render_latest_posts,
       show_collections_dropdown: show_collections_dropdown,
       hide_collections_dropdown: hide_collections_dropdown,
       toggle_collections_dropdown: toggle_collections_dropdown,

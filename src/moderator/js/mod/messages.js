@@ -114,38 +114,33 @@ mod.messages = {
   },
 
 
+  send_message: function (options) {
 
-  create_new_message: function (uid, subject) {
+    var data = {
+      subject: options.subject.value,
+      text: options.text.value,
+      to_client_id: options.to.value,
+    }
+    if (options.parent_message_id) data.parent_message_id = options.parent_message_id;
 
-    mod.utils.show_overlay({
-      template: '#send-message-template',
-      context: {
-        uid: uid,
-        subject: subject
+    $.ajax({
+      type: 'POST',
+      url: mod.URLS.create_message,
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        if (response.success) {
+          mod.utils.notify('Message sent!');
+        } else {
+          mod.utils.notify('Error sending message. Check the user ID.');
+        }
       }
+    }).done(function () {
+      if (options.callback) options.callback();
     });
 
-
-    $('#send-message-form .submit-btn').on('click', function (e) {
-      e.preventDefault();
-
-      $.ajax({
-        type: 'POST',
-        url: mod.URLS.create_message,
-        dataType: 'json',
-        data: $('#send-message-form').serialize(),
-        success: function (response) {
-          if (response.success) {
-            console.log('message sent');
-            mod.utils.clear_overlay();
-          } else {
-            alert('Error sending message. Check the user ID.');
-          }
-        }
-      })
-    })
 
   }
 
 
-}
+};

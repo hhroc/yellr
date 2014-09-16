@@ -1,3 +1,23 @@
+script#my-assignment-li(type="text/x-handlebars-template").
+  {{#if assignments}}
+    {{#each assignments}}
+    <li>
+      <h3 class="title"><a href="{{url}}">{{title}}</a></h3>
+      <div class="flex">
+        <p class="deadline flex-1">{{expire_datetime}}</p>
+        <p class="flex-1 tac"><a href="{{url}}" class="view btn">View</a></p>
+      </div>
+    </li>
+    {{/each}}
+  {{else}}
+  <li class="faded">
+    <h3 class="t3">No assignments created!</h3>
+    <p>Create one by clicking the button to the left!</p>
+  </li>
+  {{/if}}
+
+
+
 //- form for moderator to ask community a new question
 script#active-assignment-template(type="text/x-handlebars-template").
   {{#if assignments}}

@@ -56,7 +56,25 @@ mod.setup = {
       mod.assignments.view(assignment_id);
 
       // get replies to question
-      mod.assignments.get_responses_for(assignment_id);
+      mod.assignments.get_responses_for({
+        assignment_id: assignment_id,
+        callback: function (posts) {
+          var replies = mod.utils.convert_object_to_array(posts);
+
+          mod.utils.render_template({
+            template: '#assignment-response-li-template',
+            target: '#assignment-replies-list',
+            context: {replies: replies}
+          });
+
+          // parse UTC dates with moment.js
+          var deadline = document.querySelector('.assignment-deadline');
+              deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+          var published = document.querySelector('.assignment-published');
+              published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+
+        }
+      });
 
       // get assignment collection
       mod.collections.get_collection(assignment_id);

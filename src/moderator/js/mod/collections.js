@@ -21,10 +21,7 @@ mod.collections = (function() {
 
         // the posts response is an object that we turn into an array
         // ----------------------------
-        var posts = [];
-        for (var key in response.posts) {
-          posts.push(response.posts[key]);
-        }
+        var posts = mod.utils.convert_object_to_array(response.posts);
 
 
         // render the HTML to the list
@@ -102,6 +99,7 @@ mod.collections = (function() {
         // - hide the post from the responses list
         // - add it to the Collection list
         $('#post-id-'+postID).hide();
+        mod.collections.get_collection(collectionID)
       }
     });
 

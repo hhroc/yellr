@@ -38,7 +38,7 @@ mod.assignments = (function() {
 
 
 
-  var get_responses_for = function (assignment_id) {
+  var get_responses_for = function (settings) {
 
     // get our assignment respones
     // render them to HTML
@@ -46,35 +46,20 @@ mod.assignments = (function() {
 
     // get assignment responses
     $.ajax({
-      url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
+      url: mod.URLS.get_assignment_responses+'&assignment_id='+settings.assignment_id,
       type: 'POST',
       dataType: 'json',
       success: function (response) {
 
         if (response.success) {
-
-          var replies = [];
-          for (var key in response.posts) {
-            replies.push(response.posts[key]);
-          }
-
-          mod.utils.render_template({
-            template: '#assignment-response-li-template',
-            target: '#assignment-replies-list',
-            context: {replies: replies}
-          });
-
-          // parse UTC dates with moment.js
-          var deadline = document.querySelector('.assignment-deadline');
-              deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-          var published = document.querySelector('.assignment-published');
-              published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
-
+          if (settings.callback) settings.callback(response.posts);
         } else {
           console.log('lol Something went wrong loading assignment reponses');
         }
       }
     }).done(function () {
+
+      console.log('lol -sfsdfasf');
 
       // setup the action buttons for each resposne
       $('#assignment-replies-list').on('click', function (e) {

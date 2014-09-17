@@ -19,6 +19,89 @@ var yellr = yellr || {};
 yellr.utils = {
 
 
+  create_user: function (settings) {
+    // version #
+    yellr.VERSION = {
+      server_version: '0.0.1',
+      required_client_version: '0.0.1'
+    };
+
+    // create a new user ID
+    yellr.UUID = yellr.utils.guid();
+
+    // default settings
+    yellr.SETTINGS = {
+      // default to Rochester, NY
+      lat: 43.2,
+      lng: -77.6,
+      language: {
+        code: 'en',
+        name: 'English',
+        set: function(lang) {
+          // pass in a code from Cordova api
+          this.code = lang;
+
+          // decipher
+          if (lang === 'en') this.name = 'English';  // *
+          if (lang === 'es') this.name = 'Español';  // *
+          if (lang === 'fr') this.name = 'French';   // *
+
+          // * - from HTC Inspire (Android)
+        }
+      },
+      app: {
+        // to do
+        // phone specific settings
+      }
+    };
+
+    // set urls
+    yellr.URLS = yellr.utils.set_urls();
+
+  },
+
+
+
+  check_version: function () {
+    $.getJSON(yellr.URLS.server_info,
+      function (response) {
+        if (response.success) {
+          // some vars
+          var server_version_ok = true,
+              required_client_version_ok = true,
+              server_feedback = 'The server version associated with this app is out of date.',
+              client_feedback = 'This app is out of date and needs to updated.',
+              text = '';
+
+          // do the check, brah
+          if (yellr.VERSION.server_version !== response.server_version) {
+            server_version_ok = false;
+            text = server_feedback;
+          }
+          if (yellr.VERSION.required_client_version !== response.required_client_version) {
+            required_client_version_ok = false;
+            text = client_feedback;
+          }
+
+          // lat minute text things
+
+          if (!server_version_ok && !required_client_version_ok)
+          {
+            text = 'Both the app and server are out of date. Please update.';
+            yellr.utils.notify(text)
+          } else if (!server_version_ok || !required_client_version_ok)
+          {
+            yellr.utils.notify(text)
+          }
+
+        } else {
+          console.log('Could not verify software version.');
+        }
+      }
+    )
+  },
+
+
 
   load_localStorage: function () {
 
@@ -28,6 +111,7 @@ yellr.utils = {
     yellr.SETTINGS  = data.SETTINGS;
     yellr.UUID      = data.UUID;
     yellr.URLS      = data.URLS;
+    yellr.VERSION   = data.VERSION;
 
   },
 
@@ -70,6 +154,7 @@ yellr.utils = {
       SETTINGS: yellr.SETTINGS,
       URLS: yellr.URLS,
       UUID: yellr.UUID,
+      VERSION: yellr.VERSION
     }));
   },
 
@@ -92,7 +177,8 @@ yellr.utils = {
           stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
           profile:        base_url+'todo',
           upload:         base_url+'upload_media.json',
-          post:           base_url+'publish_post.json'
+          post:           base_url+'publish_post.json',
+          server_info:    base_url+'server_info.json'
         };
 
     // if in devevlopment, use local URLs

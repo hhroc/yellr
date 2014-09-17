@@ -4,12 +4,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{$title}</title>
-  <link rel="shortcut icon" href="img/favicon.ico">
-  <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
-  <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+  <link rel="apple-touch-icon" href="/static/img/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/static/img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/static/img/apple-touch-icon-114x114.png">
+  <script src="/static/js/libs/modernizr.js"></script>
+  <link rel="stylesheet" href="/static/style/style.min.css">
 </head>
 <body id="storefront" data-page="index"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -38,25 +38,8 @@
       </%block>
     </footer>
   </div>
-  <script id="story-li-template" type="text/x-handlebars-template">
-    {{#if stories}}
-      {{#each stories}}
-      <li>
-        <h3 class="t1"><a href="article.html">{{title}}</a></h3>
-        <p>{{top_text}}</p>
-        {{#if banner_media_file_name}}
-        <figure>
-          <!--<img src="http://127.0.0.1:8080/media/{{banner_media_file_name}}">-->
-        </figure>
-        {{/if}}
-      </li>
-      {{/each}}
-    {{else}}
-      <li class="faded">No stories yet!</li>
-    {{/if}}
-  </script>
-  <script src="js/libs/jquery.js"></script>
-  <script src="js/libs/handlebars.js"></script>
-  <script src="js/libs/moment.js"></script>
-  <script src="js/storefront.min.js"></script>
+  <script src="/static/js/libs/jquery.js"></script>
+  <script src="/static/js/libs/handlebars.js"></script>
+  <script src="/static/js/libs/moment.js"></script>
+  <script src="/static/js/storefront.min.js"></script>
 </body></html>

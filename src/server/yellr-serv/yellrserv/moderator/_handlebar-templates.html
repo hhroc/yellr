@@ -1,0 +1,471 @@
+
+<div id="handlebar-templates">
+  <script id="my-assignment-li" type="text/x-handlebars-template">
+    {{#if assignments}}
+      {{#each assignments}}
+      <li>
+        <h3 class="title"><a href="{{url}}">{{title}}</a></h3>
+        <div class="flex">
+          <p class="deadline flex-1">{{expire_datetime}}</p>
+          <p class="flex-1 tac"><a href="{{url}}" class="view btn">View</a></p>
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+    <li class="faded">
+      <h3 class="t3">No assignments created!</h3>
+      <p>Create one by clicking the button to the left!</p>
+    </li>
+    {{/if}}
+    
+    
+    
+  </script>
+  <script id="active-assignment-template" type="text/x-handlebars-template">
+    {{#if assignments}}
+      {{#each assignments}}
+      <li>
+        <h3>{{ questions.[0].question_text }}</h3>
+        <div class="flex assignment-meta">
+          <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
+          <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">No active assignments</li>
+    {{/if}}
+    
+    
+  </script>
+  <script id="new-assignment-template" type="text/x-handlebars-template">
+    <section id="new-assignment-section">
+      <h3 class="t2">New Assignment</h3>
+      <p id="question-text-preview">Please select a language...</p>
+      
+      <div id="assignment-form-wrapper" class="form">
+      
+        <div class="language-select-wrapper">
+          <label>
+            <span>Select language:</span>
+            <select id="language-select" name="language_code">
+              <option name="none" value="--">--</option>
+              <option name="english" value="en">English</option>
+              <option name="espanol" value="es">Espanol</option>
+            </select>
+          </label>
+        </div>
+        
+        <div id="questions-container"></div>
+        
+        <div id="extra-assignment-fields" class="flex">
+          <div class="languages-wrapper flex-3">
+            <p><small>Supported Languages</small></p>
+            <ul id="supported-languages" class="inline">
+            </ul>
+          </div>
+          <div class="flex-2">
+            <p><small>Duration</small></p>
+            <p class="inline-block">
+              <span>Due:</span>
+              <input type="number" id="lifetime" value="14">
+              <input type="hidden" name="life_time" value="">
+            </p>
+            <ul id="unit-of-time-list" class="inline-block">
+              <li>
+                <label>
+                  <input type="radio" name="unit-of-time" value="days" checked>
+                  <span>Days</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="unit-of-time" value="months">
+                  <span>Months</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="form-actions flex">
+          <div class="flex-2">
+            <span id="cancel-assignment-btn" class="action">Cancel</span>
+          </div>
+          <div class="flex-3">
+            <span id="save-assignment-btn" class="action">Save Draft</span>
+            <span id="post-assignment-btn">Post Assignment</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </script>
+  <script id="language-support-template" type="text/x-handlebars-template">
+    {{#each languages}}
+    <li>{{name}}</li>
+    {{/each}}
+    <li id="add-language-btn">+ Add Language</li>
+    
+    
+    
+    
+    
+  </script>
+  <script id="new-question-template" type="text/x-handlebars-template">
+    <form id="{{language}}-question-form" class="form">
+      <input type="hidden" name="language_code" value="{{language}}">
+      <ul class="form-fields-list">
+        <li>
+          <textarea id="question_textarea" rows="3" name="question_text" placeholder="Ask the community..."></textarea>
+        </li>
+        <li>
+          <textarea rows="2" name="description" placeholder="Add a description"></textarea>
+        </li>
+        <li class="flex extra-fields">
+          <div class="flex-3">
+            <p><small>Question Type</small></p>
+            <label>
+              <input type="radio" name="question_type" value="free_text" checked>
+              <span>Free Response</span>
+            </label>
+            <label>
+              <input type="radio" name="question_type" value="multiple_choice">
+              <span>Survey</span>
+            </label>
+          </div>
+          <div class="flex-2 add-photo-wrapper">
+            <p><small>Add a photo <em> * Optional</em></small></p>
+            <input type="file" name="question_image">
+          </div>
+        </li>
+        <li class="answers-input-wrapper flex">
+          <div class="flex-3">
+            <p><small>Answers</small></p>
+            <input class="question-answer-input" type="text" placeholder="Press [Enter] to add an answer">
+          </div>
+          <div class="flex-1">
+            <ul id="survey-answers-list"></ul>
+          </div>
+        </li>
+      </ul>
+    </form>
+    
+  </script>
+  <script id="new-survey-answer-template" type="text/x-handlebars-template">
+    <li>{{answer}}</li>
+    
+    
+  </script>
+  <script id="assignment-overview-template" type="text/x-handlebars-template">
+    <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
+    <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
+    <div class="flex">
+      <div class="flex-2">
+        <p>{{assignment.questions.[0].description}}</p>
+        <ul class="inline assignment-dates-list">
+          <li class="assignment-published">{{assignment.publish_datetime}}</li>
+          <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
+        </ul>
+      </div>
+      <div class="flex-1">
+        <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
+        <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+      </div>
+    </div>
+    <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>
+    
+    
+    
+    
+    
+  </script>
+  <script id="assignment-response-li-template" type="text/x-handlebars-template">
+    {{#if replies}}
+      {{#each replies}}
+      <li id="post-id-{{post_id}}">
+        <div class="gi">
+          <div class="story-item">
+            <p class="description">{{title}}</p>
+            {{#each media_objects }}
+            <div class="media-preview" data-type="{{ media_type }}">
+              {{#if file_name}}
+              <figure class="media-file-image">
+                <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+                <figcaption>{{ media_description }}</figcaption>
+              </figure>
+              {{else}}
+              <p class="media-text">{{ media_text }}</p>
+              {{/if}}
+              
+              {{#if caption}}
+              <p>{{ caption }}</p>
+              {{/if}}
+            </div>
+            {{/each }}
+          </div>
+          <div class="story-meta flex">
+            <p class="source flex3"><a href="#">{{client_id}}</a></p>
+            <ul class="options-list flex-1">
+              <li><i title="Add to collection" class="fa fa-plus"></i></li>
+              <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+              <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+              <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+            </ul>
+            <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+          </div>
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">
+        <h3 class="t2">No replies yet</h3>
+        <p>It might take a while for people to respond. Also be sure to check the regular feed just in case.</p>
+      </li>
+    {{/if}}
+  </script>
+  <script id="collections-gi-template" type="text/x-handlebars-template">
+    {{#if collections}}
+      {{#each collections}}
+      <div class="collections-gi">
+          <h3 class="title"><a href="{{url}}">{{name}}</a></h3>
+          <div class="flex">
+            <a href="{{url}}" class="view flex-1">View</a>
+            <p class="created flex-1">{{collection_datetime}}</p>
+          </div>
+      </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="collections-gi faded">
+          <h3 class="title">No collections! Create one by clicking the button above or creating a new assignment!</h3>
+      </div>
+      </div>
+    {{/if}}
+    
+    
+    
+    
+  </script>
+  <script id="collections-li-template" type="text/x-handlebars-template">
+    {{#if posts}}
+      {{#each posts}}
+      <li>
+        {{#each media_objects }}
+        <div class="media-preview" data-type="{{ media_type }}">
+          {{#if file_name}}
+          <figure class="media-file-image">
+            <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+            <figcaption>{{ media_description }}</figcaption>
+          </figure>
+          {{else}}
+          <p class="media-text">{{ media_text }}</p>
+          {{/if}}
+          
+          {{#if caption}}
+          <p>{{ caption }}</p>
+          {{/if}}
+        </div>
+        {{/each }}
+        <div class="assignment-collection-actions"><span class="remove-btn"><i class="fa fa-close">&nbsp;Remove</i></span></div>
+        <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">
+        <h3 class="t2">Collection is empty</h3>
+        <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+      </li>
+    {{/if}}
+    
+    
+  </script>
+  <script id="collections-li-template" type="text/x-handlebars-template">
+    {{#if collection}}
+      {{#each collection}}
+      <li>
+        <div class="collection-wrapper">
+          <h3 class="t2">{{ title }}</h3>
+          <p>{{ total_posts }}</p>
+          <input type="button" value="Export content">
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">
+        <h3 class="t2">No collections!</h3>
+        <p>Create one by clicking the button above</p>
+      </li>
+    {{/if}}
+    
+    
+  </script>
+  <script id="collections-form-template" type="text/x-handlebars-template">
+    <div class="overlay-container">
+      <h3 class="t2">New Collection</h3>
+      <form id="new-collections-form" class="form">
+        <input type="text" name="name" placeholder="Collections name">
+        <textarea name="description" rows="2" placeholder="Collection description (optional)"></textarea>
+        <input type="text" name="tags" placeholder="Collection tags (use commas to add multiple tags)">
+        <label class="submit-label">
+          <input type="submit" hidden>
+          <span class="submit-btn">Create</span>
+        </label>
+      </form>
+    </div>
+    
+  </script>
+  <script id="collections-dropdown-template" type="text/x-handlebars-template">
+    <ul class="collections-dropdown">
+      {{#each collections}}
+      <li>
+        <p data-collection-id="{{id}}">{{title}}</p>
+      </li>
+      {{/each}}
+    </ul>
+    
+    
+  </script>
+  <script id="collections-dropdown-templatesdffs" type="text/x-handlebars-template">
+    <li class="faded">
+      <h3 class="t2">No collection started</h3>
+      <p>
+        Collections are a great way to collect the best responess submitted on Yellr.
+        Create one by clicking the Folder icon one a feed item or clicking&nbsp;<span id="create-collection-btn">here</span>
+      </p>
+    </li>
+  </script>
+  <script id="view-message-template" type="text/x-handlebars-template">
+    <div id="view-message">
+      <div class="content">
+        <h3 class="subject">{{subject}}</h3>
+        <span class="date-sent">{{message_datetime}}</span>
+        <div>
+          <p>{{text}}</p>
+        </div>
+        <p class="from">{{from_first_name}} {{from_last_name}}</p>
+      </div>
+      <div id="message-reply-container">
+        <form id="reply-form" action="#" class="form">
+          <input type="hidden" name="email_id" value="{{message_id}}">
+          <h3 class="t2">Reply</h3>
+          <div>
+            <textarea rows="2" name="message_text" placeholder="Reply..."></textarea>
+          </div>
+          <div class="submit-div">
+            <label>
+              <span class="submit-btn">Submit</span>
+              <input type="submit" value="Send" hidden>
+            </label>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    
+    
+  </script>
+  <script id="send-message-template" type="text/x-handlebars-template">
+    <form id="send-message-form" action="#" class="form">
+      <h3 class="t2">New Message</h3>
+      <div>
+        <span>To</span>
+        {{#if uid}}
+        <input type="hidden" name="to_client_id" value="{{ uid }}">
+        <span>{{uid}}</span>
+        {{else}}
+        <input type="text" name="to_client_id" placeholder="User ID">
+        {{/if}}
+      </div>
+      <div>
+        <span class="block">Subject</span>
+        {{#if subject}}
+        <input type="hidden" name="subject" value="{{subject}}">
+        <span>{{subject}}</span>
+        {{else}}
+        <input type="text" name="subject">
+        {{/if}}
+      </div>
+      <div><span class="block">Message</span>
+        <textarea rows="2" name="text" placeholder="New message..."></textarea>
+      </div>
+      <div class="submit-div">
+        <label><span class="submit-btn">Submit</span>
+          <input type="submit" value="Send" hidden>
+        </label>
+      </div>
+    </form>
+    
+    
+    
+  </script>
+  <script id="reply-template" type="text/x-handlebars-template">
+    <form id="reply-form" action="#" class="form">
+      <input type="hidden" name="email_id" value="email-id">
+      <h3 class="t2">Reply</h3>
+      <div>
+        <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+      </div>
+      <div class="submit-div">
+        <label><span class="submit-btn">Submit</span>
+          <input type="submit" value="Send" hidden>
+        </label>
+      </div>
+    </form>
+    
+    
+    
+  </script>
+  <script id="inbox-li" type="text/x-handlebars-template">
+    {{#each messages}}
+    <li data-id="{{message_id}}">
+      <h3 class="sender">{{from_first_name}} {{from_last_name}}</h3>
+      <span class="subject">{{subject}}</span>
+      <span class="date">{{message_datetime}}</span>
+    </li>
+    {{/each}}
+  </script>
+  <script id="latest-posts-template" type="text/x-handlebars-template">
+    {{#if posts}}
+      {{#each posts}}
+      <div class="gi">
+        <div class="story-item">
+          <p class="description">{{ title }}</p>
+          {{#each media_objects }}
+          <div class="media-preview" data-type="{{ media_type }}">
+            {{#if file_name}}
+            <figure class="media-file-image">
+              <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+              <figcaption>{{ media_description }}</figcaption>
+            </figure>
+            {{else}}
+            <p class="media-text">{{ media_text }}</p>
+            {{/if}}
+            
+            {{#if caption}}
+            <p>{{ caption }}</p>
+            {{/if}}
+          </div>
+          {{/each }}
+        </div>
+        <div class="story-meta flex">
+          <p class="source flex-3"><a href="#">{{ client_id }}</a></p>
+          <ul class="options-list flex-1">
+            <li><i title="Add to collection" class="fa fa-folder"></i></li>
+            <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+            <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+          </ul>
+        </div>
+        <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="gi">
+        <div class="story-item faded">
+          <h3 class="t2">No posts yet!</h3>
+          <p class="description">Try creating an assignment to help generate some responses.</p>
+        </div>
+      </div>
+    {{/if}}
+  </script>
+</div>

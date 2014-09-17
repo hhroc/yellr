@@ -1,9 +1,9 @@
-<%inherit file="base.html"/>
+<%inherit file="base.mak"/>
 
 <div class="wrapper">
   <h2 class="t3">Latest Stories</h2>
   <ul id="stories-list" class="list-style-none">
-  % if stories:
+  % if latest_stories:
     % for story in latest_stories:
     <li>
       <h3 class="t1"><a href="article.html">${title}</a></h3>

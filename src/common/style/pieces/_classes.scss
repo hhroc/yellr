@@ -1,3 +1,15 @@
+.t1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem;
+}
+.t2 {
+
+}
+.t3 {
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
+}
+
 .no-margin-left {margin-left: 0 !important; }
 .no-margin-right {margin-right: 0 !important; }
 .list-style-none {list-style: none; }
@@ -16,36 +28,36 @@
 .inline-block {display: inline-block; }
 
 .full-screen {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	width: 100%;
-	z-index: 1;
-	.container {
-		height: 100%;
-	}
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  .container {
+    height: 100%;
+  }
 }
 .vertical-center-wrapper {
-	display: table;
-	height: 100%;
-	width: 100%;
+  display: table;
+  height: 100%;
+  width: 100%;
 }
 .vertical-center {
-	display: table-cell;
-	vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 
 .container {
-	position: relative;
+  position: relative;
 }
 
 // wrapper - 80% width, 1024px max
 .wrapper {
-	position: relative;
-	width: 90%;
-	max-width: 1024px;
-	margin: 0 auto;
+  position: relative;
+  width: 90%;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 
@@ -65,26 +77,26 @@
 
 // inline lists
 .inline li {
-	display: inline-block;
-	vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
 }
 
 // for screen-readers
 // based off of styles in wordpress theme twentyeleven
 .assistive-text {
-	position:absolute !important;
-	clip:rect(1px 1px 1px 1px);
-	clip:rect(1px, 1px, 1px, 1px);
+  position:absolute !important;
+  clip:rect(1px 1px 1px 1px);
+  clip:rect(1px, 1px, 1px, 1px);
 }
 .assistive-text:active,
 .assistive-text:focus {
-	background:#eee;
-	border-bottom:1px solid #ddd;
-	color:#1982d1;
-	clip:auto !important;
-	font-size:12px;
-	position:absolute;
-	text-decoration:underline;
-	top:0;
-	left:7.6%;
+  background:#eee;
+  border-bottom:1px solid #ddd;
+  color:#1982d1;
+  clip:auto !important;
+  font-size:12px;
+  position:absolute;
+  text-decoration:underline;
+  top:0;
+  left:7.6%;
 }

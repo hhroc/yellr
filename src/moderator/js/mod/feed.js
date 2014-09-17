@@ -24,12 +24,6 @@ mod.feed = (function() {
       // we are here --> <i class="fa fa-thing"></i>
       // we want the parent <li> to start
 
-      mod.DATA.collections = [
-        {title: 'Do you think that schools should move their start time to later?', id: 0 },
-        {title: 'We\'ve got to get something to eat and to drink yeah.', id: 1 },
-        {title: 'Let\'s go get a bottle', id: 2 }
-      ];
-
       $(target.parentNode).addClass('dropdown-container');
 
       mod.utils.render_template({
@@ -62,66 +56,13 @@ mod.feed = (function() {
     var add_post_to_collection = function (target) {
       console.log('add post to collection');
       // we're in pretty deep with the DOM, need to get out
-      // console.dir(target);
-      // console.log(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
-      // var $collection = $(target).data('collection-id');
-      // console.log($collection);
       var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
-      // console.log($gi);
 
-      console.log($(target).data('collection-id'));
-      console.log($(target));
-      console.log({
-        post_id: $gi.find('.meta-div').data('post-id'),
-        collection_id: $(target).data('collection-id')
-      });
-
-      $.post(mod.URLS.add_post_to_collection, {
-        post_id: $gi.find('.meta-div').data('post-id'),
-        collection_id: $(target).data('collection-id')
-      }, function (response) {
-        if (response.success) {
-          // mod.feed.hide_collections_dropdown();
-          console.log('added post to collection');
-        } else {
-          console.log('something went wrong adding the post to the collection');
-        }
-      })
+      mod.collections.add_post_to_collection($gi.find('.meta-div').data('post-id'), $(target).data('collection-id'));
 
     }
 
 
-
-
-    var render_latest_posts = function () {
-      // console.log('hello from: render');
-
-      mod.utils.render_template({
-        template: '#latest-posts-template',
-        target: '#latest-posts',
-        context: {
-          posts: mod.DATA.posts
-        }
-      });
-
-
-      // // set up the grid magic with packery
-      // var container = document.querySelector('#latest-posts');
-      // // var pckry = new Packery( container, {
-      // var packery = new Packery( container, {
-      //   itemSelector: '.gi',
-      //   columnWidth: container.querySelector('.grid-sizer'),
-      //   gutter: container.querySelector('.gutter-sizer'),
-      //   isResizeBound: true,
-      // });
-
-      // var delay_packery = setTimeout(function () {
-      //   packery.layout();
-
-      //   clearTimeout(delay_packery);
-      // }, 2000);
-
-    }
 
 
 
@@ -171,7 +112,6 @@ mod.feed = (function() {
 
 
     return {
-      render_latest_posts: render_latest_posts,
       show_collections_dropdown: show_collections_dropdown,
       hide_collections_dropdown: hide_collections_dropdown,
       toggle_collections_dropdown: toggle_collections_dropdown,

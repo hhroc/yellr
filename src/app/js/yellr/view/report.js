@@ -3,13 +3,6 @@ var yellr = yellr || {};
     yellr.view = yellr.view || {};
 
 
-/*
-  we have 3 submit form functions. no
- */
-
-
-
-
 yellr.view.report = (function() {
 
     /**
@@ -36,7 +29,9 @@ yellr.view.report = (function() {
       header = data.template.header;
       header.template = '#submit-header';
       render_template(header);
-      $('#submit-btn').on('tap', this.submit_form);
+      $('#submit-btn').on('tap', function (e) {
+        yellr.view.report.submit_form();
+      });
 
       yellr.utils.no_subnav();
 
@@ -131,8 +126,14 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
+      // so it has something to do with our forms var...
+      console.log(document.querySelector('#form-wrapper'));
+      // console.log(document.querySelectorAll('#form-wrapper form'));
+
+      var forms = document.querySelectorAll('#form-wrapper form');
       total_forms = forms.length;
+
+      console.log(forms);
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];

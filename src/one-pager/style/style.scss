@@ -7,9 +7,7 @@
 
 // yellr specific
 @import "../../common/style/theme/vars";
-@import "../../common/style/theme/classes";
 @import "../../common/style/theme/typography";
-@import "../../common/style/theme/forms";
 
 
 
@@ -19,7 +17,7 @@
 	text-align: center;
 	p {
 		font-size: 1rem;
-		margin: 0 auto; 
+		margin: 0 auto;
 	}
 }
 
@@ -71,7 +69,7 @@
 		&:hover {
 			background: darken($white, 10%);
 		}
-	}	
+	}
 }
 
 
@@ -144,7 +142,7 @@
 
 .flex-netbook {
 	@include mq(netbook){
-		@include flexbox(); 
+		@include flexbox();
 	}
 }
 .alt-layout {
@@ -178,7 +176,7 @@
 	font-size: 1.5rem;
 	margin-top: 0;
 	@include mq(netbook) {
-		font-size: 2.25rem;		
+		font-size: 2.25rem;
 	}
 }
 
@@ -217,7 +215,7 @@ figcaption {
 		z-index: -5;
 	}
 	&:before {
-		background: url(../img/IMG_2554.JPG); 
+		background: url(../img/IMG_2554.JPG);
 		background-size: cover;
 		background-position-x: 50%;
 		// background-position-y: -5rem;

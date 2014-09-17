@@ -23,28 +23,34 @@ body#moderator(data-page="collections")
             span.btn#new-collection-btn Create New
             span.btn#delete-collection-btn Delete
 
-          ul.collections-list
-            li.no-collections-li
-              h3 No collections created!
-              p Create one by clicking the button above or create a new assignment!
-            //- li
-              div.collection-wrapper
-                h3.t2 City School District
-                p 12 total
-                input(type="button", value="Export content")
-                div.grid
-                  div.gi
-                    div.story-item
-                      div.media-preview
-                        img(src="http://lorempixel.com/400/200/people")
-                      p.description Rhinos win, Rhinos win!
-                      ul.tags-list
-                        li muse
-                        li race
-                        li win
-                      p.source
-                        a(href="#") 131231412
-                      div.meta(data-source="anonymous", data-type="photo", data-uid="24012312")
+          div.collections-grid
+          //- div.collections-grid
+            div.collections-gi
+              h3.title
+                a(href="#") What are your thoughts on East High shutting down?
+              div.flex
+                a.view.flex-1(href="http://127.0.0.1:8000/moderator/view-assignment.html#1") View
+                p.created.flex-1 September 21, 2014
+            div.collections-gi
+              h3.title
+                a(href="#") Have you ever been to the Electric Boogaloo?
+              div.flex
+                a.view.flex-1(href="http://127.0.0.1:8000/moderator/view-assignment.html#2") View
+                p.created.flex-1 September 21, 2014
+            div.collections-gi
+              h3.title
+                a(href="#") Are you the Whitest Boy Alive?
+              div.flex
+                a.view.flex-1(href="http://127.0.0.1:8000/moderator/view-assignment.html#3") View
+                p.created.flex-1 September 21, 2014
+            div.collections-gi
+              h3.title
+                a(href="#") What? Did I just have an issue there?
+              div.flex
+                a.view.flex-1(href="http://127.0.0.1:8000/moderator/view-assignment.html#3") View
+                p.created.flex-1 September 25, 2014
+
+
 
   include _footer.jade
 </html>

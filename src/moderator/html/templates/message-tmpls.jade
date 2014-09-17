@@ -3,20 +3,22 @@ script#view-message-template(type="text/x-handlebars-template").
   <div id="view-message">
     <div class="content">
       <h3 class="subject">{{subject}}</h3>
-      <span class="date-sent">{{send_date}}</span>
+      <span class="date-sent">{{message_datetime}}</span>
       <div>
-        <p>{{content}}</p>
+        <p>{{text}}</p>
       </div>
+      <p class="from">{{from_first_name}} {{from_last_name}}</p>
     </div>
     <div id="message-reply-container">
       <form id="reply-form" action="#" class="form">
-        <input type="hidden" name="email_id" value="{{id}}">
+        <input type="hidden" name="email_id" value="{{message_id}}">
         <h3 class="t2">Reply</h3>
         <div>
-          <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+          <textarea rows="2" name="message_text" placeholder="Reply..."></textarea>
         </div>
         <div class="submit-div">
-          <label><span class="submit-btn">Submit</span>
+          <label>
+            <span class="submit-btn">Submit</span>
             <input type="submit" value="Send" hidden>
           </label>
         </div>
@@ -80,9 +82,9 @@ script#reply-template(type="text/x-handlebars-template").
 //- used to render our inbox items
 script#inbox-li(type="text/x-handlebars-template").
   {{#each messages}}
-  <li data-id="{{id}}">
-    <h3 class="sender">{{sender}}</h3>
+  <li data-id="{{message_id}}">
+    <h3 class="sender">{{from_first_name}} {{from_last_name}}</h3>
     <span class="subject">{{subject}}</span>
-    <span class="date">{{send_date}}</span>
+    <span class="date">{{message_datetime}}</span>
   </li>
   {{/each}}

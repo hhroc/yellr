@@ -82,29 +82,21 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    // two sets of URLS
-    var dev_urls = {
-          assignments:    'http://127.0.0.1:8080/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications:  'http://127.0.0.1:8080/get_notifications.json?client_id='+yellr.UUID,
-          messages:       'http://127.0.0.1:8080/get_messages.json?client_id='+yellr.UUID,
-          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
-          profile:        '',
-          upload:         'http://127.0.0.1:8080/upload_media.json',
-          post:           'http://127.0.0.1:8080/publish_post.json'
-        };
+    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
 
-    var live_urls = {
-          assignments:    'http://yellrdev.wxxi.org/get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications:  'http://yellrdev.wxxi.org/get_notifications.json?client_id='+yellr.UUID,
-          messages:       'http://yellrdev.wxxi.org/get_messages.json?client_id='+yellr.UUID,
-          stories:        'http://127.0.0.1:8080/get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
-          profile:        '',
-          upload:         'http://yellrdev.wxxi.org/upload_media.json',
-          post:           'http://yellrdev.wxxi.org/publish_post.json'
+    // two sets of URLS
+    var urls = {
+          assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+          notifications:  base_url+'get_notifications.json?client_id='+yellr.UUID,
+          messages:       base_url+'get_messages.json?client_id='+yellr.UUID,
+          stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+          profile:        base_url+'todo',
+          upload:         base_url+'upload_media.json',
+          post:           base_url+'publish_post.json'
         };
 
     // if in devevlopment, use local URLs
-    return (DEBUG) ? dev_urls : live_urls;
+    return urls;
 
   },
 
@@ -117,8 +109,7 @@ yellr.utils = {
      * settings = {
      *   template: '#script-id',
      *   target: '#query-string',
-     *   context: {},
-     *   events: func
+     *   context: {}
      * }
      */
 
@@ -138,12 +129,9 @@ yellr.utils = {
     // render it (check it we have a context)
     var html = template( settings.context ? settings.context : {} );
 
-    // replace html, or return HTML frag
-    if (settings.target) {
-      if (settings.append) $(settings.target).append(html);
-      else $(settings.target).html(html);
-    }
-    else return html;
+    if (settings.append) $(settings.target).append(html);
+    else if (settings.prepend) $(settings.target).prepend(html);
+    else $(settings.target).html(html);
 
   },
 

@@ -349,10 +349,10 @@ module.exports = function(grunt) {
 
     jade: {
       index:      {options: jadedebug, files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }] },
-      app:        {options: jadedebug, files: [{expand: true, cwd: './app/html/', src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }] },
-      moderator:  {options: jadedebug, files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }] },
-      onepager:   {options: jadedebug, files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }] },
-      storefront: {options: jadedebug, files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }] }
+      app:        {options: jadedebug, files: [{expand: true, cwd: app_folder+'html/',        src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }] },
+      moderator:  {options: jadedebug, files: [{expand: true, cwd: moderator_folder+'html/',  src: ['*.jade', '!_*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }] },
+      onepager:   {options: jadedebug, files: [{expand: true, cwd: onepager_folder+'html/',   src: ['*.jade', '!_*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }] },
+      storefront: {options: jadedebug, files: [{expand: true, cwd: storefront_folder+'html/', src: ['*.jade', '!_*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }] }
     },
 
 

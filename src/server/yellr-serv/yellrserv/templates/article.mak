@@ -1,4 +1,4 @@
-<%inherit file="base.html"/>
+<%inherit file="base.mak"/>
 
 <div class="wrapper">
   <article class="article">

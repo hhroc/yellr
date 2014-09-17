@@ -1,0 +1,83 @@
+doctype html
+head
+  include ../../common/html/_head/meta.jade
+
+  title Yellr - Storefront
+  meta(name="description", content="Yellr News")
+  include _header.jade
+
+
+body#storefront(data-page="index")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+    header#header
+      .wrapper.flex
+        h1.flex-4 Yellr - Rochester News
+        a.flex-1(href="about.html") Learn more about Yellr
+
+    div#main
+      .wrapper
+        h2.t3 Yellr is a citizen-engagement platform.
+        p Yellr allows the community to communicate and some other things
+
+        div.newsletter-form-wrapper
+          form(action="#", method="POST").form.newsletter-form
+            ul.form-list
+              li
+                label
+                  span Email
+                  input(type="email", name="email")
+              //- li
+                label
+                  span Things
+                  input(type="text", name="subscribe_datetime")
+              li
+                label
+                  span Name
+                  input(type="text", name="name", placeholder="(Optional)")
+              li
+                label
+                  span Organization
+                  input(type="text", name="organization", placeholder="(Optional)")
+              li
+                label
+                  span Profession
+                  input(type="text", name="profession", placeholder="(Optional)")
+              li
+                label
+                  input(type="checkbox", name="receive_updates", checked)
+                  span Receive periodic updates about Yellr
+              li
+                label
+                  input(type="checkbox", name="receive_version_announcement", checked)
+                  span Receive an email when a new version is announced
+              li
+                label
+                  input(type="checkbox", name="interested_in_partnering", checked)
+                  span Interested in partnering with the yellr team
+              li
+                label
+                  input(type="checkbox", name="wait_to_know_more", checked)
+                  span Request more in-depth information about Yellr
+              li
+                label
+                  span.submit-btn Submit
+                  input(type="submit", hidden)
+
+
+
+    footer#footer.header-footer
+      .wrapper
+        p Privacy policy
+        ul#footer-links.list-style-none
+          li
+            a(href="#") link
+          li
+            a(href="#") link
+          li
+            a(href="#") link
+
+  include _templates.jade
+  include _scripts.jade
+
+</html>

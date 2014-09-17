@@ -13,60 +13,22 @@ var DEBUG = true;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
   // localStorage.removeItem('yellr');
-
-  // check for a UUID,
-  // - if none create it
-  // - set default app settings
 
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) {
-
-    // create a new user ID
-    yellr.UUID = yellr.utils.guid();
-
-    // default settings
-    yellr.SETTINGS = {
-      // default to Rochester, NY
-      lat: 43.2,
-      lng: -77.6,
-      language: {
-        code: 'en',
-        name: 'English',
-        set: function(lang) {
-          // pass in a code from Cordova api
-          this.code = lang;
-
-          // decipher
-          if (lang === 'en') this.name = 'English';  // *
-          if (lang === 'es') this.name = 'Español';  // *
-          if (lang === 'fr') this.name = 'French';   // *
-
-          // * - from HTC Inspire (Android)
-        }
-      },
-      app: {
-        // to do
-        // phone specific settings
-      }
-    };
-
-    // // change settings to spanish
-    // yellr.SETTINGS.language.set('es');
-
-    // set our API urls
-    // ** TO EDIT API URLS GO TO utils.js and change the set_urls function **
-    yellr.URLS = yellr.utils.set_urls();
-
+    yellr.utils.create_user();
     yellr.utils.save();
-
   } else {
-
     // we ave existing local storage, load it
     yellr.utils.load_localStorage();
-
   }
+
+
+  // check version info
+  yellr.utils.check_version();
+
 
   // ping server for new data
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
@@ -84,7 +46,7 @@ window.onload = function() {
 
   document.addEventListener('deviceready', function() {
     // yellr.user.cordova();
-    alert('running deviceready');
+    // alert('running deviceready');
     // // yellr.setup.user();
     // // yellr.setup.app();
     // // hide splash screen

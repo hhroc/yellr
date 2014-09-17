@@ -50,23 +50,15 @@ yellr.view.profile = (function() {
 
 
     var add_eventlisteners = function() {
-      // refresh button
-      document.querySelector('#refresh-btn').onclick = function(e) {
-        console.log('load profile data');
-        console.log('spin the thing to show we\'re loading something');
-        yellr.data.load_profile(yellr.UUID, this.update);
-      }
-
 
       // generate new uid
       document.querySelector('#generate-new-uuid').onclick = function(e) {
-        console.log('old uuid: '+ yellr.UUID);
+        // get new GUID
         yellr.UUID = yellr.utils.guid();
-        console.log('new uuid: '+ yellr.UUID);
-
-        console.log('TO DO: CLEAR ALL DATA WITH NEW UUID');
-
         yellr.utils.save();
+        console.log('TO DO: CLEAR ALL DATA WITH NEW UUID');
+        // update text
+        document.querySelector('#username').innerHTML = yellr.UUID;
       }
       // change language
     }

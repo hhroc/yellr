@@ -8,13 +8,16 @@ module.exports = function(grunt) {
 
   // Folder vars
   // ===================================
-  var buildFolder       =   '../build/',
-      docsFolder        =   '../docs/',
-      common_folder     =   'common/',
-      app_folder        =   'app/',
-      moderator_folder  =   'moderator/',
-      onepager_folder   =   'one-pager/',
-      storefront_folder =   'storefront/';
+  var buildFolder           =   '../build/',
+      docsFolder            =   '../docs/',
+      common_folder         =   'common/',
+      app_folder            =   'app/',
+      moderator_folder      =   'moderator/',
+      onepager_folder       =   'one-pager/',
+      storefront_folder     =   'storefront/',
+      pyramid_folder        =   'server/yellr-serv/yellrserv/',
+      pyramid_static_folder =   pyramid_folder+'static/',
+      pyramid_templates_folder = pyramid_folder+'templates/';
 
 
 
@@ -207,19 +210,19 @@ module.exports = function(grunt) {
       // copy fonts
       fonts: {
         files: [
-          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+app_folder+'style/fonts'},
-          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+moderator_folder+'style/fonts'},
-          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+onepager_folder+'style/fonts'},
-          {expand: true, cwd: 'common/style/fonts', src:['**'], dest: buildFolder+storefront_folder+'style/fonts'},
+          {expand: true, cwd: common_folder+'style/fonts', src:['**'], dest: buildFolder+app_folder+'style/fonts'},
+          {expand: true, cwd: common_folder+'style/fonts', src:['**'], dest: buildFolder+moderator_folder+'style/fonts'},
+          {expand: true, cwd: common_folder+'style/fonts', src:['**'], dest: buildFolder+onepager_folder+'style/fonts'},
+          {expand: true, cwd: common_folder+'style/fonts', src:['**'], dest: buildFolder+storefront_folder+'style/fonts'},
         ]
       },
       // copy common images (logos and such)
       images: {
         files : [
-          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+app_folder+'img'},
-          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+moderator_folder+'img'},
-          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+onepager_folder+'img'},
-          {expand: true, cwd: 'common/img', src: ['**'], dest: buildFolder+storefront_folder+'img'},
+          {expand: true, cwd: common_folder+'img', src: ['**'], dest: buildFolder+app_folder+'img'},
+          {expand: true, cwd: common_folder+'img', src: ['**'], dest: buildFolder+moderator_folder+'img'},
+          {expand: true, cwd: common_folder+'img', src: ['**'], dest: buildFolder+onepager_folder+'img'},
+          {expand: true, cwd: common_folder+'img', src: ['**'], dest: buildFolder+storefront_folder+'img'},
         ]
       },
       // copy JS libs
@@ -240,6 +243,15 @@ module.exports = function(grunt) {
       // copy things to the actual application folder running cordova
       app:                {files: [{expand: true, cwd: buildFolder+app_folder, src: ['**'], dest: '../application/www'}] },
       config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: '../application'}] },
+
+      // pyramid things
+      storefront_assets_to_pyramid: {
+        files : [
+          {expand: true, cwd: buildFolder+storefront_folder+'style',  src: ['**'], dest: pyramid_static_folder+'style'},
+          {expand: true, cwd: buildFolder+storefront_folder+'js',     src: ['**'], dest: pyramid_static_folder+'js'},
+          {expand: true, cwd: buildFolder+storefront_folder+'img',    src: ['**'], dest: pyramid_static_folder+'img'},
+        ]
+      },
     },
 
 
@@ -247,7 +259,7 @@ module.exports = function(grunt) {
 
     csscomb: {
       options: {
-        config: 'common/style/.csscomb.json'
+        config: common_folder+'style/.csscomb.json'
       },
       app:          {expand: true, src: [buildFolder+app_folder+'style/style.css'], dest: './'},
       moderator:    {expand: true, src: [buildFolder+moderator_folder+'style/style.css'], dest: './'},
@@ -261,7 +273,7 @@ module.exports = function(grunt) {
 
     csslint: {
       options: {
-        csslintrc: 'common/style/.csslintrc'
+        csslintrc: common_folder+'style/.csslintrc'
       },
       app:        {src: [buildFolder+app_folder+'style/style.css'] },
       moderator:  {src: [buildFolder+moderator_folder+'style/style.css'] },
@@ -337,10 +349,10 @@ module.exports = function(grunt) {
 
     jade: {
       index:      {options: jadedebug, files: [{expand: true, cwd: './', src: ['*.jade'], dest: buildFolder, ext: '.html', flatten: true }] },
-      app:        {options: jadedebug, files: [{expand: true, cwd: './app/html/', src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }] },
-      moderator:  {options: jadedebug, files: [{expand: true, cwd: './moderator/html/', src: ['*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }] },
-      onepager:   {options: jadedebug, files: [{expand: true, cwd: './one-pager/html/', src: ['*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }] },
-      storefront: {options: jadedebug, files: [{expand: true, cwd: './storefront/html/', src: ['*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }] }
+      app:        {options: jadedebug, files: [{expand: true, cwd: app_folder+'html/',        src: ['index.jade'], dest: buildFolder+app_folder, ext: '.html', flatten: true }] },
+      moderator:  {options: jadedebug, files: [{expand: true, cwd: moderator_folder+'html/',  src: ['*.jade', '!_*.jade'], dest: buildFolder+moderator_folder, ext: '.html', flatten: true }] },
+      onepager:   {options: jadedebug, files: [{expand: true, cwd: onepager_folder+'html/',   src: ['*.jade', '!_*.jade'], dest: buildFolder+onepager_folder, ext: '.html', flatten: true }] },
+      storefront: {options: jadedebug, files: [{expand: true, cwd: storefront_folder+'html/', src: ['*.jade', '!_*.jade'], dest: buildFolder+storefront_folder, ext: '.html', flatten: true }] }
     },
 
 
@@ -349,7 +361,7 @@ module.exports = function(grunt) {
 
     jshint: {
       options: {
-        jshintrc: 'common/js/.jshintrc'
+        jshintrc: common_folder+'js/.jshintrc'
       },
       app: {
         src: [
@@ -543,6 +555,9 @@ module.exports = function(grunt) {
       // copy fonts and logos
       'copy:fonts',
       'copy:images',
+
+      // server front-end assets
+      'copy:storefront_assets_to_pyramid',
 
       // build project index stuff
       'jade:index',
@@ -812,6 +827,20 @@ module.exports = function(grunt) {
       // 'jsonlint:storefront'
     ]);
   });
+
+
+
+  // pyramid stuff
+  grunt.registerTask('export_static_to_pyramid', function() {
+    // we build the storefront with default settings,
+    // then just copy the assets to the right folder
+    grunt.task.run([
+      'build_storefront',
+      'copy:storefront_assets_to_pyramid'
+    ]);
+  });
+
+
 
 
 

@@ -1,17 +1,37 @@
+script#my-assignment-li(type="text/x-handlebars-template").
+  {{#if assignments}}
+    {{#each assignments}}
+    <li>
+      <h3 class="title"><a href="{{url}}">{{title}}</a></h3>
+      <div class="flex">
+        <p class="deadline flex-1">{{expire_datetime}}</p>
+        <p class="flex-1 tac"><a href="{{url}}" class="view btn">View</a></p>
+      </div>
+    </li>
+    {{/each}}
+  {{else}}
+  <li class="faded">
+    <h3 class="t3">No assignments created!</h3>
+    <p>Create one by clicking the button to the left!</p>
+  </li>
+  {{/if}}
+
+
+
 //- form for moderator to ask community a new question
 script#active-assignment-template(type="text/x-handlebars-template").
   {{#if assignments}}
     {{#each assignments}}
     <li>
-      <h3>{{question_text}}</h3>
+      <h3>{{ questions.[0].question_text }}</h3>
       <div class="flex assignment-meta">
-        <div class="flex-1"><a href="assignments.html/{{assignment_id}}">View</a></div>
+        <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
         <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
       </div>
     </li>
     {{/each}}
   {{else}}
-    <li>No active assignments</li>
+    <li class="faded">No active assignments</li>
   {{/if}}
 
 
@@ -133,10 +153,10 @@ script#new-survey-answer-template(type="text/x-handlebars-template").
 
 script#assignment-overview-template(type="text/x-handlebars-template").
   <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-  <h3 class="t1">{{assignment.question_text}}</h3>
+  <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
   <div class="flex">
     <div class="flex-2">
-      <p>{{assignment.description}}</p>
+      <p>{{assignment.questions.[0].description}}</p>
       <ul class="inline assignment-dates-list">
         <li class="assignment-published">{{assignment.publish_datetime}}</li>
         <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
@@ -144,7 +164,7 @@ script#assignment-overview-template(type="text/x-handlebars-template").
     </div>
     <div class="flex-1">
       <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-      <p class="write-article-btn-container"><span id="write-article-btn" class="btn">Write Article</span></p>
+      <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
     </div>
   </div>
   <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>
@@ -157,7 +177,7 @@ script#assignment-overview-template(type="text/x-handlebars-template").
 script#assignment-response-li-template(type="text/x-handlebars-template").
   {{#if replies}}
     {{#each replies}}
-    <li>
+    <li id="post-id-{{post_id}}">
       <div class="gi">
         <div class="story-item">
           <p class="description">{{title}}</p>

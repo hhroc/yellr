@@ -14,6 +14,7 @@ var DEBUG = true;
 window.onload = function() {
 
   // if (DEBUG) localStorage.removeItem('yellr');
+  // localStorage.removeItem('yellr');
 
   // check for a UUID,
   // - if none create it
@@ -51,8 +52,8 @@ window.onload = function() {
       }
     };
 
-    // change settings to spanish
-    yellr.SETTINGS.language.set('es');
+    // // change settings to spanish
+    // yellr.SETTINGS.language.set('es');
 
     // set our API urls
     // ** TO EDIT API URLS GO TO utils.js and change the set_urls function **
@@ -71,7 +72,7 @@ window.onload = function() {
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
   yellr.utils.load('notifications', yellr.utils.check_notifications);
   yellr.utils.load('messages', yellr.utils.check_messages);
-  yellr.utils.load('stories');
+  yellr.utils.load('stories', yellr.view.stories.render_feed);
 
 
   // set up routes

@@ -3,6 +3,25 @@ var mod = mod || {};
 
 mod.assignments = (function() {
 
+  var get_my_assignments = function (settings) {
+    // make the API call to get the Admin's assignments
+    $.getJSON(mod.URLS.get_my_assignments, function (response) {
+      if (response.success) {
+
+        mod.DATA.assignments = mod.utils.convert_object_to_array(response.assignments);
+        mod.utils.save();
+
+      } else {
+        console.log('something went wrong loading get_my_assignments');
+      }
+    }).done(function () {
+      if (settings.callback) settings.callback();
+    });
+  }
+
+
+
+
   // 'global' vars
   var questions = [],
       survey_answers = [],
@@ -19,104 +38,79 @@ mod.assignments = (function() {
 
 
 
+  var get_responses_for = function (settings) {
 
-  var view = function (assignment_id) {
-    // the URL hash is the assignment ID
+    // get our assignment respones
+    // render them to HTML
+    // this also sets up the event listeners
 
-      // avoid regular hash things
-      // load that assignment
-      var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
-        if (val.assignment_id === assignment_id) return true;
-      })[0];
+    // get assignment responses
+    $.ajax({
+      url: mod.URLS.get_assignment_responses+'&assignment_id='+settings.assignment_id,
+      type: 'POST',
+      dataType: 'json',
+      success: function (response) {
 
+        if (response.success) {
+          if (settings.callback) settings.callback(response.posts);
+        } else {
+          console.log('lol Something went wrong loading assignment reponses');
+        }
+      }
+    }).done(function () {
 
-      // console.log('render the assignment overview');
-      mod.utils.render_template({
-        template: '#assignment-overview-template',
-        target: '#view-assignment-section',
-        context: {assignment: assignment}
-      });
+      console.log('lol -sfsdfasf');
 
+      // setup the action buttons for each resposne
+      $('#assignment-replies-list').on('click', function (e) {
+        switch (e.target.className) {
+          case 'fa fa-plus':
+            // get the DOM references
+            var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
+                collectionNode = document.querySelector('#assignment-collection-list');
 
-      // console.log('get assignment responses');
-      $.ajax({
-        url: mod.URLS.get_assignment_responses+'&assignment_id='+assignment_id,
-        type: 'POST',
-        dataType: 'json',
-        success: function (response) {
-          // console.log(response);
-          if (response.success) {
+            // add post to collection
+            mod.collections.add_post_to_collection(postNode, collectionNode);
+            break;
 
-            var replies = [];
-            for (var key in response.posts) {
-              replies.push(response.posts[key]);
-            }
-
-            mod.utils.render_template({
-              template: '#assignment-response-li-template',
-              target: '#assignment-replies-list',
-              context: {replies: replies}
-            });
-
-            $('#assignment-replies-list').on('click', function (e) {
-              switch (e.target.className) {
-                case 'fa fa-plus':
-                  console.log('add to collection');
-                  mod.feed.add_post_to_collection(e.target);
-
-                  break;
-                case 'fa fa-comment':
-                  console.log('write a message');
-                  var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-                  mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-                  break;
-                case 'fa fa-flag':
-                  console.log('mark as ain appropriate');
-                  break;
-                case 'fa fa-trash':
-                  console.log('discard this reply');
-                  break;
-                default:
-                  break;
-              }
-            });
-          } else {
-            console.log('lol Something went wrong loading assignment reponses');
-          }
+          case 'fa fa-comment':
+            console.log('write a message');
+            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+            mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+            break;
+          case 'fa fa-flag':
+            console.log('mark as ain appropriate');
+            break;
+          case 'fa fa-trash':
+            console.log('discard this reply');
+            break;
+          default:
+            break;
         }
       });
 
-      console.log('get assignment collection');
-      console.log(mod.URLS.get_collection_posts);
-      console.log('if one doesn\'t exist, make it easy for them to create one');
-
-      // parse UTC dates with moment.js
-      var deadline = document.querySelector('.assignment-deadline');
-          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-      var published = document.querySelector('.assignment-published');
-          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
-
-  }
-
-
-
-  var render_active = function () {
-
-    mod.utils.render_template({
-      template: '#active-assignment-template',
-      target: '#active-assignments-list',
-      context: {
-        assignments: mod.DATA.assignments
-      }
     });
 
-    // parse UTC dates with moment.js
-    var dates = document.querySelectorAll('.assignment-deadline');
-    for (var i = 0; i < dates.length; i++) {
-      dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-    };
 
   }
+
+
+  var view = function (assignment_id) {
+
+    // load that assignment from localStorage
+    var assignment = mod.DATA.assignments.filter(function (val, i, arr) {
+      if (val.assignment_id === assignment_id) return true;
+    })[0];
+
+    // render the Handlebars template
+    mod.utils.render_template({
+      template: '#assignment-overview-template',
+      target: '#view-assignment-section',
+      context: {assignment: assignment}
+    });
+
+  }
+
 
 
 
@@ -341,7 +335,7 @@ mod.assignments = (function() {
 
 
   var save_draft = function () {
-    alert('save draft');
+    alert('save draft. NOT IMPLEMENTED. THIS DOES NOTHING LOL');
   }
 
 
@@ -379,44 +373,43 @@ mod.assignments = (function() {
             type: 'POST',
             dataType: 'json',
             data: {
-              name: '',
-              description: '',
-              tags: ''
+              name: 'Assignment #'+response.assignment_id+' Collection',
+              description: 'Collection for #'+response.assignment_id,
+              tags: 'some, example, collection tags'
             },
-            success: function (response) {
-              console.log(response);
-              if (response.success) {
-
-              } else {
-                console.log('something went wrong creating a collection for this assignment');
-              }
+            success: function (_response) {
+              if (_response.success) {
+                // clear array
+                questions = [];
+                mod.utils.clear_overlay();
+              } else console.log('something went wrong creating a collection for this assignment');
             }
+          }).done(function () {
+
+            // update our assignments
+            mod.assignments.get_my_assignments({
+              callback: function () {
+                mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
+              }
+            });
+
           });
+          // done creating collection for assignment
 
 
-
-          // clear array
-          questions = [];
-          mod.utils.clear_overlay();
-
-          // ----------------------------
-          // we won't need this soon, only temporaray
-          if (mod.DATA.assignments === undefined) mod.DATA.assignments = [];
-          mod.DATA.assignments.push({assignment_id: response.assignment_id})
-          mod.utils.save();
-          // ----------------------------
-
-          mod.utils.redirect_to('view-assignment.html#'+response.assignment_id);
         } else {
           alert('Something went wrong submitting an Assignment');
         }
-
       }
+
     });
 
   }
 
 
+  var redirect = function () {
+    console.log('hello from: ');
+  }
 
   return {
     view: view,
@@ -426,6 +419,7 @@ mod.assignments = (function() {
     post: post,
     save_draft: save_draft,
     language_feedback: language_feedback,
-    render_active: render_active
+    get_my_assignments: get_my_assignments,
+    get_responses_for: get_responses_for
   }
 })();

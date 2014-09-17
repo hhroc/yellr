@@ -3,7 +3,7 @@ script#news-feed-li(type="text/x-handlebars-template").
     {{#each stories}}
     <li>
       <h2 class="t1 news-title"><a href="#view-news/{{id}}">{{title}}</a></h2>
-      <div class="news-preview">{{{preview_text}}}</div>
+      <div class="news-preview">{{{top_text}}}</div>
       {{#if image}}
       <figure>
         <img src="{{image}}">
@@ -31,5 +31,5 @@ script#news-story-template(type="text/x-handlebars-template").
     {{/if}}
   </figure>
   {{/if}}
-  <div class="story-content">{{{full_text}}}</div>
+  <div class="story-content">{{{contents}}}</div>
 

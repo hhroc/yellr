@@ -3,13 +3,6 @@ var yellr = yellr || {};
     yellr.view = yellr.view || {};
 
 
-/*
-  we have 3 submit form functions. no
- */
-
-
-
-
 yellr.view.report = (function() {
 
     /**
@@ -36,7 +29,9 @@ yellr.view.report = (function() {
       header = data.template.header;
       header.template = '#submit-header';
       render_template(header);
-      $('#submit-btn').on('tap', this.submit_form);
+      $('#submit-btn').on('tap', function (e) {
+        yellr.view.report.submit_form();
+      });
 
       yellr.utils.no_subnav();
 
@@ -131,9 +126,14 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
+      // so it has something to do with our forms var...
+      console.log(document.querySelector('#form-wrapper'));
+      // console.log(document.querySelectorAll('#form-wrapper form'));
 
-      var forms = document.querySelector('#form-wrapper').querySelectorAll('form');
+      var forms = document.querySelectorAll('#form-wrapper form');
       total_forms = forms.length;
+
+      console.log(forms);
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];
@@ -144,15 +144,20 @@ yellr.view.report = (function() {
           url: yellr.URLS.upload,
           success: function (response) {
             if (response.success) {
-              yellr.view.report.publish_post(response);
+              // add the media_id to our local array
+              form_counter++;
+              media_objects.push(response.media_id);
+              console.log(media_objects);
+              yellr.view.report.publish_post();
+
             } else {
               yellr.utils.notify('Something went wrong with upload_media...');
               console.log(response);
             }
           }
         });
-      }
-
+        // end ajaxSubmit
+      };
     }
 
 
@@ -161,11 +166,9 @@ yellr.view.report = (function() {
 
     // this is used to a publish  post
 
-    var publish_post = function(server_response) {
+    var publish_post = function() {
 
-      form_counter++;
-      media_objects.push(server_response.media_id);
-      console.log(media_objects);
+      // make sure we submitted all the forms
 
       if (form_counter === total_forms) {
 
@@ -191,6 +194,7 @@ yellr.view.report = (function() {
           media_objects = [];
           form_counter = 0;
           total_forms = 0;
+        }).done(function () {
           console.log('post published');
         });
       }

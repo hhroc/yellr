@@ -1,3 +1,26 @@
+.my-assignments-list {
+  li {
+    background: #eee;
+    padding: 1rem;
+    margin: 0 0 1rem;
+    list-style: none;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .view.btn {
+    max-width: 14rem;
+    margin: 0 auto;
+    background: rgba($blue, 0.3);
+    // color: $white;
+    &:hover {
+      background: rgba($blue, 0.9);
+    }
+  }
+}
+
+
+
 #view-assignment-section {
   padding-bottom: 2.5rem;
   border-bottom: 1px solid #999;
@@ -53,6 +76,7 @@
     border-right: none;
     padding: 1rem;
     min-width: 15rem;
+    max-width: 20rem;
     &:last-child {
       border-right: 1px solid #888;
     }

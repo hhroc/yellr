@@ -45,7 +45,7 @@ def check_token(request):
         token = request.GET['token']
         valid, user = Users.validate_token(DBSession, token)
     except:
-        pass 
+        pass
     return valid, user
 
 @view_config(route_name='admin/get_access_token.json')
@@ -74,7 +74,7 @@ def admin_get_access_token(request):
             result['token'] = token
             result['first_name'] = user.first_name
             result['last_name'] = user.last_name
-            result['organization'] = user.organization 
+            result['organization'] = user.organization
             result['success'] = True
 
     except Exception, e:
@@ -133,8 +133,8 @@ def admin_get_posts(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    # try:
+    if True:
 
         token = None
         valid_token = False
@@ -149,7 +149,7 @@ def admin_get_posts(request):
         except:
             pass
 
-        count = 50
+        count = 0
         try:
             count = int(request.GET['count'])
         except:
@@ -168,6 +168,11 @@ def admin_get_posts(request):
             count = count,
         )
 
+        print "\n\n"
+        print total_post_count
+        print "\n\n"
+        print posts
+        print "\n\n"
         ret_posts = {}
         for post_id, assignment_id, user_id, title, post_datetime, reported, \
                 lat, lng, media_object_id, media_id, file_name, caption, \
@@ -212,8 +217,8 @@ def admin_get_posts(request):
 
         result['success'] = True
 
-    except:
-        pass
+    # except:
+        # pass
 
     return make_response(result)
 
@@ -250,7 +255,7 @@ question_text, description, question_type. \
             raise Exception('missing field')
 
 
-        # answers is a json array of strings 
+        # answers is a json array of strings
         answers = []
         try:
         #if True:
@@ -270,8 +275,8 @@ question_text, description, question_type. \
             question_type = question_type,
             answers = answers,
         )
- 
-        result['question_id'] = question.question_id 
+
+        result['question_id'] = question.question_id
         result['success'] = True
 
     except:
@@ -480,7 +485,7 @@ def admin_get_my_assignments(request):
 #One or more of the following fields is missing or invalid: assignment_id. \
 #"""
 #            raise Exception('invalid/missing field')
- 
+
         start=0
         try:
             start = int(request.GET['start'])
@@ -548,7 +553,7 @@ def admin_get_my_assignments(request):
                         'answer8': answer8,
                         'answer9': answer9,
                     }],
-                } 
+                }
 
         result['assignment_count'] = assignment_count
         result['assignments'] = ret_assignments
@@ -573,7 +578,7 @@ def admin_create_message(request):
         if valid == False:
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
- 
+
         try:
             to_client_id = request.POST['to_client_id']
             subject = request.POST['subject']
@@ -584,7 +589,7 @@ One or more of the following fields is missing or invalid: to_client_id, \
 subject, text.
 """
             raise Exception('invalid/missing field')
-        
+
         parent_message_id = None
         try:
             parent_message_id = request.POST['parent_message_id']
@@ -785,7 +790,7 @@ user_name, password, first_name, last_name, email, organization. \
             password = password,
             first_name = first_name,
             last_name = last_name,
-            email = email, 
+            email = email,
         )
 
         result['user_id'] = user.user_id
@@ -818,7 +823,7 @@ def admin_get_assignment_responses(request):
 One or more of the following fields is missing or invalid: assignment_id. \
 """
             raise Exception('invalid/missing field')
- 
+
         start=0
         try:
             start = int(request.GET['start'])
@@ -875,7 +880,7 @@ One or more of the following fields is missing or invalid: assignment_id. \
                         'media_type_name': media_type_name,
                         'media_type_description': media_type_description,
                     }],
-                } 
+                }
 
         result['post_count'] = post_count
         result['posts'] = ret_posts
@@ -982,7 +987,7 @@ bottom_right_lat, bottom_right_lng, language_code. \
             bottom_right_lng = bottom_right_lng,
             #use_fence = use_fense,
             language_code = language_code,
-        ) 
+        )
 
         result['story_unique_id'] = story.story_unique_id
         result['success'] = True
@@ -1199,7 +1204,7 @@ One or more of the following fields is missing or invalid: collection_id. \
             session = DBSession,
             collection_id = collection_id,
         )
-        
+
         result['collection_id'] = collection.collection_id
         result['disabled'] = True
         result['success'] = True
@@ -1231,7 +1236,7 @@ def admin_get_collection_posts(request):
 One or more of the following fields is missing or invalid: collection_id. \
 """
             raise Exception('invalid/missing field')
- 
+
         start=0
         try:
             start = int(request.GET['start'])
@@ -1292,7 +1297,7 @@ One or more of the following fields is missing or invalid: collection_id. \
                         'media_type_name': media_type_name,
                         'media_type_description': media_type_description,
                     }],
-                } 
+                }
 
         result['post_count'] = post_count
         result['collection_id'] = collection.collection_id
@@ -1340,7 +1345,7 @@ One or more of the following fields is missing or invalid: client_id. \
             count = int(request.GET['count'])
         except:
             pass
- 
+
         posts,post_count = Posts.get_all_from_client_id(
             session = DBSession,
             client_id = client_id,

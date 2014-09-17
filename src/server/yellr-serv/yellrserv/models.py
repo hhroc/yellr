@@ -574,7 +574,7 @@ class Questions(Base):
             session.add(question)
             transaction.commit()
         return question
- 
+
 
 class QuestionAssignments(Base):
 
@@ -752,17 +752,17 @@ class Posts(Base):
                 Languages.language_code,
                 Languages.name,
             ).join(
-                PostMediaObjects,
+                PostMediaObjects, #PostMediaObjects.media_object_id == MediaObjects.media_object_id,
             ).join(
-                MediaObjects,
+                MediaObjects, #MediaObjects.media_object_id == PostMediaObjects.media_object_id,
             ).join(
                 MediaTypes,
             ).join(
-                Users,Users.user_id == Posts.user_id,
+                Users, Users.user_id == Posts.user_id,
             ).join(
                 Languages,
             ).filter(
-                Posts.assignment_id == assignment_id,
+                # Posts.assignment_id == assignment_id,
             ).order_by(
                  desc(Posts.post_datetime),
             )
@@ -821,7 +821,7 @@ class Posts(Base):
         return posts, total_post_count
 
     @classmethod
-    def get_all_from_collection_id(cls, session, collection_id, 
+    def get_all_from_collection_id(cls, session, collection_id,
             start=0, count=0):
         with transaction.manager:
             posts_query = session.query(
@@ -873,7 +873,7 @@ class Posts(Base):
     def get_all_from_client_id(cls, session, client_id,
             start=0, count=0):
         with transaction.manager:
-            user,created = Users.get_from_client_id(session, client_id, 
+            user,created = Users.get_from_client_id(session, client_id,
                 create_if_not_exist=False)
             posts_query = session.query(
                 Posts.post_id,

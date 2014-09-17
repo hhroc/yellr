@@ -1,0 +1,26 @@
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+
+.#{$fa-css-prefix}-user:before { content: $fa-var-user; }
+.#{$fa-css-prefix}-bell-o:before { content: $fa-var-bell-o; }
+.#{$fa-css-prefix}-envelope-o:before { content: $fa-var-envelope-o; }
+.#{$fa-css-prefix}-envelope:before { content: $fa-var-envelope; }
+.#{$fa-css-prefix}-arrow-left:before { content: $fa-var-arrow-left; }
+.#{$fa-css-prefix}-arrow-right:before { content: $fa-var-arrow-right; }
+.#{$fa-css-prefix}-arrow-up:before { content: $fa-var-arrow-up; }
+.#{$fa-css-prefix}-arrow-down:before { content: $fa-var-arrow-down; }
+.#{$fa-css-prefix}-refresh:before { content: $fa-var-refresh; }
+.#{$fa-css-prefix}-check:before { content: $fa-var-check; }
+.#{$fa-css-prefix}-camera:before { content: $fa-var-camera; }
+.#{$fa-css-prefix}-video-camera:before { content: $fa-var-video-camera; }
+.#{$fa-css-prefix}-microphone:before { content: $fa-var-microphone; }
+.#{$fa-css-prefix}-pencil:before { content: $fa-var-pencil; }
+.#{$fa-css-prefix}-pencil-square-o:before { content: $fa-var-pencil-square-o; }
+.#{$fa-css-prefix}-map-marker:before { content: $fa-var-map-marker; }
+.#{$fa-css-prefix}-tags:before { content: $fa-var-tags; }
+.#{$fa-css-prefix}-location-arrow:before { content: $fa-var-location-arrow; }
+.#{$fa-css-prefix}-plus:before { content: $fa-var-plus; }
+.#{$fa-css-prefix}-trash:before { content: $fa-var-trash; }
+.#{$fa-css-prefix}-remove:before,
+.#{$fa-css-prefix}-close:before,
+.#{$fa-css-prefix}-times:before { content: $fa-var-times; }

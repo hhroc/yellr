@@ -9,8 +9,11 @@
 
 // yellr specific
 @import "../../common/style/theme/vars";
-@import "../../common/style/theme/classes";
 @import "../../common/style/theme/typography";
+
+.faded {
+  color: #999;
+}
 
 .t3 {
   text-transform: uppercase;
@@ -54,6 +57,9 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid #333;
     margin-bottom: 4rem;
+    &:last-child {
+      border: none;
+    }
   }
 }
 

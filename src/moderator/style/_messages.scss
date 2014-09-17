@@ -51,7 +51,7 @@
     @include flex(2);
   }
   .subject  {@include flex(5); }
-  .date     {@include flex(1); }
+  .date     {@include flex(2); }
   .sender, .subject, .date {padding: 0 0.75rem; }
 }
 

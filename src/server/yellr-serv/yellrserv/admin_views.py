@@ -34,6 +34,7 @@ from .models import (
     CollectionPosts,
     Messages,
     Notifications,
+    Subscribers,
     )
 
 def check_token(request):
@@ -1388,6 +1389,52 @@ One or more of the following fields is missing or invalid: client_id. \
         result['post_count'] = post_count
         result['posts'] = ret_posts
         result['client_id'] = client_id
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/get_subscriber_list.json')
+def admin_get_subscriber_list(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+        subscribers = Subscribers.get_all_subscribers(
+            session = DBSession,
+        )
+
+        print subscribers
+  
+        ret_subscribers = []
+        for email,subscribe_datetime,name,organization, \
+                profession,receive_updates,receive_version_announcement, \
+                interested_in_partnering,want_to_know_more in subscribers:
+            ret_subscribers.append({
+                'email': email,
+                'subscribe_datetime': str(subscribe_datetime),
+                'name': name,
+                'organization': organization,
+                'profession': profession,
+                'receieve_updates': receieve_updates,
+                'receieve_version_announcement': receieve_version_announcement,
+                'interested_in_partnering': interested_in_partnering,
+                'want_to_know_more': want_to_know_more,
+            })
+
+        result['subscribers'] = ret_subscribers
+        result['disabled'] = True
         result['success'] = True
 
     #except:

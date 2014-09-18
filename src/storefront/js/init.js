@@ -48,6 +48,15 @@ yellr.main = {
 
         break;
 
+      case 'about':
+        console.log('setup email signup form');
+        var $form = $('#newsletter-form');
+        $form.submit(function (e) {
+          e.preventDefault;
+          yellr.utils.email_signup($form.serealize());
+        })
+
+        break;
 
       default:
         console.log('lol ok');

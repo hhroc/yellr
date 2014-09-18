@@ -7,7 +7,7 @@ head
   include _header.jade
 
 
-body#storefront(data-page="index")
+body#storefront(data-page="about")
   a(href="#main", class="assistive-text") Skip to main content
   div.container
     header#header
@@ -21,8 +21,8 @@ body#storefront(data-page="index")
         p Yellr allows the community to communicate and some other things
 
         div.newsletter-form-wrapper
-          form(action="#", method="POST").form.newsletter-form
-            ul.form-list
+          form#newsletter-form(action="#", method="POST").form.newsletter-form.flex
+            ul.form-list.flex-1
               li
                 label
                   span Email
@@ -43,6 +43,7 @@ body#storefront(data-page="index")
                 label
                   span Profession
                   input(type="text", name="profession", placeholder="(Optional)")
+            ul.form-list.flex-1
               li
                 label
                   input(type="checkbox", name="receive_updates", checked)

@@ -26,7 +26,7 @@ init:
 	cd ./src; grunt; grunt deploy_app;
 
 	# feedback
-	clear; echo; echo Project build complete.; echo; echo Run \'make ios\' or \'make android\' to build an app.; echo Must have the SDKs for those devices installed.; echo;
+	clear; echo; echo Project build complete.; echo; echo Run \'make ios\', \'make android\', or \'make firefox\' to build an app.; echo Must have the SDKs for iOS and Android installed.; echo;
 
 
 
@@ -53,6 +53,12 @@ android:
 
 	# feddback
 	clear; echo; echo Android build complete. APK is in application/platforms/android/ant-build/; echo;
+
+
+firefox:
+	cd application; cordova platform add firefoxos;
+	cd application; cordova prepare;
+	clear; echo; echo Firefox OS build complete; echo Test it out using the App Manager: https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager; echo;
 
 
 server:

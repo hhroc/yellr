@@ -1,0 +1,17 @@
+{
+  "name": "Yellr",
+  "description": "Community engagement app",
+  "version":"0.0.1",
+  "developer": {
+    "name": "Hacks and Hacks Rochester [Luis Rosario, Tim Duffy]",
+    "url": "https://hhroc.github.io/projects/yellr/"
+  },
+  "launch_path":"/index.html",
+  "installs_allowed_from":["*"],
+  "pkgName":"com.hhroc.yellr",
+  "icons": {
+    "128": "/img/icon-128.png",
+    "512": "/img/icon-512.png"
+  },
+  "type": "privileged"
+}

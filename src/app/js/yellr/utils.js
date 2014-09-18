@@ -352,17 +352,33 @@ yellr.utils = {
     console.log('open camera');
 
     navigator.camera.getPicture(
-      function(imgData) {
+      function(imgURI) {
+        document.querySelector('#img-preview').src = imgURI;
 
-        // yellr.route('#submit-form');
-        document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
+        // do some memory cleanup
+        // "Removes intermediate image files that are kept in temporary
+        // storage after calling camera.getPicture"
+        navigator.camera.cleanup(function ()
+        {
+          console.log("Camera cleanup success.")
+        }, function (message)
+        {
+          console.log('Failed because: ' + message);
+        });
+
       },
       function(error) {
-        alert('Photo Capture fail: ' + error);
+        yellr.utils.redirect('#');
+        console.log('Photo Capture fail: ' + error);
       },
       {
         quality: 50,
-        destinationType: Camera.DestinationType.DATA_URL
+        sourceType: Camera.PictureSourceType.CAMERA,
+        destinationType: Camera.DestinationType.FILE_URI,
+        allowEdit : true,
+        encodingType: Camera.EncodingType.JPEG,
+        correctOrientation: true,
+        saveToPhotoAlbum: true
       }
     );
 

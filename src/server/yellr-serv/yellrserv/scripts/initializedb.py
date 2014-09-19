@@ -26,6 +26,7 @@ from ..models import (
     Questions,
     QuestionAssignments,
     QuestionTypes,
+    Subscribers,
     )
 
 
@@ -159,45 +160,14 @@ choice options',
 
         transaction.commit()
 
-#    with transaction.manager:
-#        language = Languages.get_from_code(DBSession,'en')
-#        question = Questions(
-#            language_id = language.language_id,
-#            question_text = 'How do you feel about broccoli?',
-#            question_type_id = question_type_free_text.question_type_id,
-#            answer0 = '',
-#            answer1 = '',
-#            answer2 = '',
-#            answer3 = '',
-#            answer4 = '',
-#            answer5 = '',
-#            answer6 = '',
-#            answer7 = '',
-#            answer8 = '',
-#            answer9 = '',
-#        )
-#        DBSession.add(question)
-#
-#        assignment = Assignments(
-#            user_id = 1,
-#            publish_datetime = datetime.datetime.now(),
-#            expire_datetime = \
-#                datetime.datetime.now() + datetime.timedelta(days=30),
-#
-#            # approximately monroe county, ny
-#            top_left_lat = 43.4,
-#            top_left_lng = -77.9,
-#            bottom_right_lat = 43,
-#            bottom_right_lng = -77.3,
-#
-#            use_fence = True,
-#        )
-#        DBSession.add(assignment)
-#
-#        questionassignment = QuestionAssignments(
-#            assignment_id = 1,
-#            question_id = 1,
-#        )
-#        DBSession.add(questionassignment)
-#
-#        transaction.commit()
+    subscriber = Subscribers.add_subscriber(
+        session = DBSession,
+        email = 'test_users@mahtests.net',
+        name = 'Frank Testuserian',
+        organization = 'WXXI',
+        profession = 'Elmo Stunt Double',
+        receive_updates = True,
+        receive_version_announcement = False,
+        interested_in_partnering = False,
+        want_to_know_more = True,
+    )

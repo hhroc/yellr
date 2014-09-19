@@ -21,10 +21,11 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     config.include('pyramid_chameleon')
 
-    config.add_renderer('jsonp', JSONP(param_name='callback'))
-    config.add_route('json_test', 'json_test')
+    #config.add_renderer('jsonp', JSONP(param_name='callback'))
+    #config.add_route('json_test', 'json_test')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view('moderator','moderator')
 
     if system_config['upload_dir'][0] == '/':
         media_path = system_config['upload_dir']
@@ -36,10 +37,10 @@ def main(global_config, **settings):
     
  
     # systme / debug views
-    config.add_route('index.html', '/')
-    config.add_route('status.json','status.json')
+    config.add_route('index', '/')
+    #config.add_route('status.json','status.json')
     #config.add_route('client_logs.json','client_logs.json')  
-    config.add_route('get_users.json','get_users.json')
+    #config.add_route('get_users.json','get_users.json')
     
     # admin views
     config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
@@ -67,9 +68,10 @@ def main(global_config, **settings):
     config.add_route('admin/disable_collection.json', 'admin/disable_collection.json')
     config.add_route('admin/get_collection_posts.json', 'admin/get_collection_posts.json')
     config.add_route('admin/get_user_posts.json','admin/get_user_posts.json')
-
+    config.add_route('admin/get_subscriber_list.json','admin/get_subscriber_list.json')
 
     # client views
+    config.add_route('server_info.json','server_info.json')
     config.add_route('create_response_message.json', \
         'create_response_message.json')
     config.add_route('get_assignments.json','get_assignments.json')

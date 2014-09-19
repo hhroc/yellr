@@ -55,6 +55,15 @@ yellr.main = {
 
         break;
 
+      case 'about':
+        console.log('setup email signup form');
+        var $form = $('#newsletter-form');
+        $form.submit(function (e) {
+          e.preventDefault;
+          yellr.utils.email_signup($form.serealize());
+        })
+
+        break;
 
       default:
         console.log('lol ok');
@@ -74,6 +83,22 @@ var yellr = yellr || {};
 
 // the things
 yellr.utils = {
+
+  email_signup: function (formData) {
+    console.log('hello from: email_signup');
+    console.log('missing url');
+
+    // $.ajax({
+    //   url: 'tbd',
+    //   type: 'POST',
+    //   dataType: 'json',
+    //   data: formData,
+    //   success: function (response) {
+    //     console.log(response);
+    //   }
+    // })
+  },
+
 
   render_template: function(settings) {
     /**

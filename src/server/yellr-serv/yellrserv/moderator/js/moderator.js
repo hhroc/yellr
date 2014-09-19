@@ -1,3 +1,10 @@
+/*!
+ * yellr v0.0.1 (http://hhroc.github.io/)
+ * Copyright 2014 hhroc - Hacks and Hackers Rochester
+ * Licensed under MIT (https://github.com/hhroc/yellr/blob/master/LICENSE)
+ */
+
+
 'use strict';
 var mod = mod || {};
 
@@ -382,7 +389,7 @@ mod.utils = {
 
 
   redirect_to: function (page) {
-    var url_base = '/moderator';
+    var url_base = '/admin/';
     window.location.replace(url_base+page);
   },
 
@@ -402,8 +409,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = '/moderator';
-        url += 'admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = 'admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({
@@ -542,7 +548,7 @@ mod.utils = {
   set_urls: function () {
 
     // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
-    var base_url = '/moderator';
+    var base_url = '/admin/';
 
     mod.URLS = {
       // get latest user posts

@@ -6,17 +6,18 @@
   % if latest_stories:
     % for story in latest_stories:
     <li>
-      <h3 class="t1"><a href="article.html">${title}</a></h3>
-      <p>${top_text}</p>
+      <h3 class="t1"><a href="article.html">${story['title']}</a></h3>
+      <p><i>${story['top_text']}</i></p>
       % if banner_media_file_name:
       <figure>
-        <img src="/media/${banner_media_file_name}">
+        <img src="/media/${story['banner_media_file_name']}">
       </figure>
       % endif
+      <p>${story['contents']}</p>
     </li>
     % endfor
-  % else:
-    <li class="faded">No stories yet!</li>
-  % endif
+   % else:
+       <li class="faded">No stories yet!</li>
+   % endif
   </ul>
 </div>

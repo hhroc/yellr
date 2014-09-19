@@ -37,44 +37,76 @@ from .models import (
 
 from config import system_config
 
+SERVER_VERSION = '0.0.1'
+REQUIRED_CLIENT_VERSION = '0.0.1'
+
 system_status = {
     'alive': True,
     'launchtime': str(strftime("%Y-%m-%d %H:%M:%S")),
 }
 
-#def make_response(resp_dict):
-#
-#    print "[DEBUG]"
-#    print resp_dict
-#    print '\n'
-#
-#    resp = Response(json.dumps(resp_dict), content_type='application/json', charset='utf8')
-#    resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
-#    return resp
-
-@view_config(route_name='index.html')
+@view_config(route_name='index', renderer='templates/index.mak')
 def index(request):
 
-    resp = """
-           Welcome to Yellr!<br><br>Head over to the github repo
-           <a href="https://github.com/hhroc/yellr">here</a>.
-           """
-    return Response(resp)
+    #try:
+    if True:
 
-@view_config(route_name='status.json')
-def status(request):
+        
 
-    """
-    This is used as a method to deturmine of the server is alive.
-    """
+        latest_stories = Stories.get_stories(
+            session = DBSession,
+            lat = 43.5,
+            lng = -77.3,
+            language_code = 'en',
+        )
 
-    resp = json.dumps(system_status)
-    return Response(resp,content_type="application/json")
+        ret_latest_stories = []
+        for story_unique_id, publish_datetime, edited_datetime, title, tags, \
+                top_text, contents, top_left_lat, top_left_lng, \
+                bottom_right_lat, bottom_right_lng, first_name, last_name, \
+                organization, email, media_file_name, media_id in ret_latest_stories:
+            ret_stories.append({
+                'story_unique_id': story_unique_id,
+                'publish_datetime': str(publish_datetime),
+                'edited_datetime': str(edited_datetime),
+                'title': title,
+                'tags': tags,
+                'top_text': top_text,
+                'contents': contents,
+                'top_left_lat': top_left_lat,
+                'top_left_lng': top_left_lng,
+                'bottom_right_lat': bottom_right_lat,
+                'bottom_right_lng': bottom_right_lng,
+                'author_first_name': first_name,
+                'author_last_name': last_name,
+                'author_organization': organization,
+                'author_email': email,
+                'banner_media_file_name': media_file_name,
+                'banner_media_id': media_id,
+            })
 
-@view_config(route_name='get_users.json')
+
+    #except:
+    #    pass
+    
+    return {'stories': True, 'latest_stories': ret_latest_stories}
+
+
+
+
+#@view_config(route_name='index.html')
+#def index(request):
+#
+#    resp = """
+#           Welcome to Yellr!<br><br>Head over to the github repo
+#           <a href="https://github.com/hhroc/yellr">here</a>.
+#           """
+#    return Response(resp)
+
+@view_config(route_name='server_info.json')
 def get_users(request):
 
-    """ This is for debug use only.
+    """ Allows clients to get version information about the server
     """
 
     result = {'success': False}
@@ -82,23 +114,8 @@ def get_users(request):
     try:
     #if True:
 
-        users = Users.get_all(DBSession)
-        ret_users = []
-        for user_id,verified,client_id,first_name,last_name, \
-                organization,email,user_type_name,user_type_description in users:
-            ret_users.append({
-                'user_id': user_id,
-                'verified': verified,
-                'client_id': client_id,
-                'first_name': first_name,
-                'last_name': last_name,
-                'organization': organization,
-                'email': email,
-                'user_type': user_type_name,
-                'user_type_description': user_type_description,
-            })
-
-        result['users'] = ret_users
+        result['server_version'] = SERVER_VERSION
+        result['required_client_version'] = REQUIRED_CLIENT_VERSION
         result['success'] = True
 
     except:
@@ -106,7 +123,6 @@ def get_users(request):
 
     resp = json.dumps(result)
     return Response(resp,content_type='application/json')
-
 
 @view_config(route_name='get_posts.json')
 def get_posts(request):

@@ -389,7 +389,7 @@ mod.utils = {
 
 
   redirect_to: function (page) {
-    var url_base = '/admin/';
+    var url_base = '/moderator/';
     window.location.replace(url_base+page);
   },
 
@@ -409,7 +409,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = 'admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({

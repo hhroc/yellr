@@ -349,22 +349,26 @@ yellr.utils = {
 
   open_camera: function () {
 
-    console.log('open camera');
 
     navigator.camera.getPicture(
       function(imgURI) {
-        document.querySelector('#img-preview').src = imgURI;
+
+        // setup report thing
+        yellr.utils.redirect('#report/image');
+
+        // show an image preview
+        document.querySelector('.img-preview').src = imgURI;
 
         // do some memory cleanup
         // "Removes intermediate image files that are kept in temporary
         // storage after calling camera.getPicture"
-        navigator.camera.cleanup(function ()
-        {
-          console.log("Camera cleanup success.")
-        }, function (message)
-        {
-          console.log('Failed because: ' + message);
-        });
+        // navigator.camera.cleanup(function ()
+        // {
+        //   console.log("Camera cleanup success.")
+        // }, function (message)
+        // {
+        //   console.log('Failed because: ' + message);
+        // });
 
       },
       function(error) {
@@ -375,7 +379,7 @@ yellr.utils = {
         quality: 50,
         sourceType: Camera.PictureSourceType.CAMERA,
         destinationType: Camera.DestinationType.FILE_URI,
-        allowEdit : true,
+        // allowEdit : true,
         encodingType: Camera.EncodingType.JPEG,
         correctOrientation: true,
         saveToPhotoAlbum: true

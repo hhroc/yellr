@@ -1588,3 +1588,51 @@ class DebugSubmissions(Base):
             ).all()
         return submissions
 
+class Subscribers(Base):
+
+    """ This holds information about the news letter subscribers
+    """
+
+    __tablename__ = 'subscribers'
+    subscriber_id = Column(Integer, primary_key=True)
+    email = Column(Text)
+    subscribe_datetime = Column(DateTime)
+    name = Column(Text, nullable = True)
+    organization = Column(Text, nullable = True)
+    profession = Column(Text, nullable = True)
+    receive_updates = Column(Boolean)
+    receive_version_announcement = Column(Boolean)
+    interested_in_partnering = Column(Boolean)
+    want_to_know_more = Column(Boolean)
+
+    @classmethod
+    def add_subscriber(cls, session, email, name=None, organization=None, \
+            profession=None, receive_updates=False, \
+            receive_version_announcement=False,
+            interested_in_partnering=False, want_to_know_more=False):
+        with transaction.manager:
+            subscriber = cls(
+                email = email,
+                subscribe_datetime = datetime.datetime.now(),
+                name = name,
+                organization = organization,
+                profession = profession,
+                receive_updates = receive_updates,
+                receive_version_announcement = receive_version_announcement,
+                interested_in_partnering = interested_in_partnering,
+                want_to_know_more = want_to_know_more,
+            )
+            session.add(subscriber)
+            transaction.commit()
+        return subscriber
+
+    @classmethod
+    def get_all_subscribers(cls, session):
+        with transaction.manager:
+            subscribers = session.query(
+                Subscribers,
+            ).filter(
+            ).all()
+        return subscribers
+    
+

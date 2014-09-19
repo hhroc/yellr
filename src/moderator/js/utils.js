@@ -41,7 +41,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = 'admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({
@@ -69,7 +69,7 @@ mod.utils = {
             }
           }).done(function () {
             console.log('done loading languages');
-            mod.utils.redirect_to('index.html');
+            mod.utils.redirect_to('moderator/index.html');
           });
 
         } else {

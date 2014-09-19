@@ -21,7 +21,7 @@ mod.utils = {
 
 
   redirect_to: function (page) {
-    var url_base = '/admin/';
+    var url_base = '/moderator/';
     window.location.replace(url_base+page);
   },
 
@@ -69,7 +69,7 @@ mod.utils = {
             }
           }).done(function () {
             console.log('done loading languages');
-            mod.utils.redirect_to('moderator/index.html');
+            mod.utils.redirect_to('index.html');
           });
 
         } else {

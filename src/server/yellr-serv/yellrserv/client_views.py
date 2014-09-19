@@ -53,19 +53,23 @@ def index(request):
 
         
 
-        latest_stories = Stories.get_stories(
+        latest_stories,dummy = Stories.get_stories(
             session = DBSession,
-            lat = 43.5,
-            lng = -77.3,
+            lat = 43.1,
+            lng = -77.5,
             language_code = 'en',
         )
+
+        print "\n\n"
+        print latest_stories
+        print "\n\n"
 
         ret_latest_stories = []
         for story_unique_id, publish_datetime, edited_datetime, title, tags, \
                 top_text, contents, top_left_lat, top_left_lng, \
                 bottom_right_lat, bottom_right_lng, first_name, last_name, \
-                organization, email, media_file_name, media_id in ret_latest_stories:
-            ret_stories.append({
+                organization, email, media_file_name, media_id in latest_stories:
+            ret_latest_stories.append({
                 'story_unique_id': story_unique_id,
                 'publish_datetime': str(publish_datetime),
                 'edited_datetime': str(edited_datetime),
@@ -85,6 +89,9 @@ def index(request):
                 'banner_media_id': media_id,
             })
 
+        print "\n\n"
+        print ret_latest_stories
+        print "\n\n"
 
     #except:
     #    pass

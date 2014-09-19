@@ -21,7 +21,7 @@ mod.utils = {
 
 
   redirect_to: function (page) {
-    var url_base = (DEBUG) ? 'http://127.0.0.1:8000/moderator/' : '/';
+    var url_base = '/moderator';
     window.location.replace(url_base+page);
   },
 
@@ -41,7 +41,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
+    var url = '/moderator';
         url += 'admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
@@ -180,7 +180,8 @@ mod.utils = {
 
   set_urls: function () {
 
-    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
+    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
+    var base_url = '/moderator';
 
     mod.URLS = {
       // get latest user posts

@@ -20,6 +20,13 @@ yellr.utils = {
 
 
   create_user: function (settings) {
+
+    /**
+     * creates a new user profile
+     *
+     * NOTE: MUST RUN yellr.utis.save() in order to save profile
+     */
+
     // version #
     yellr.VERSION = {
       server_version: '0.0.1',
@@ -31,7 +38,7 @@ yellr.utils = {
 
     // default settings
     yellr.SETTINGS = {
-      // default to Rochester, NY
+      // default to Rochester, NY :)
       lat: 43.2,
       lng: -77.6,
       language: {
@@ -313,6 +320,11 @@ yellr.utils = {
   },
 
 
+  redirect: function (hash_string) {
+    window.location.href=hash_string;
+  },
+
+
 
   no_subnav: function() {
     /**
@@ -337,22 +349,42 @@ yellr.utils = {
 
   open_camera: function () {
 
-    console.log('open camera');
 
-    // navigator.camera.getPicture(
-    //   function(imgData) {
+    navigator.camera.getPicture(
+      function(imgURI) {
 
-    //     // yellr.route('#submit-form');
-    //     document.querySelector('#img-preview').src = 'data:image/jpeg;base64,'+imgData;
-    //   },
-    //   function(error) {
-    //     alert('Photo Capture fail: ' + error);
-    //   },
-    //   {
-    //     quality: 50,
-    //     destinationType: Camera.DestinationType.DATA_URL
-    //   }
-    // );
+        // setup report thing
+        yellr.utils.redirect('#report/image');
+
+        // show an image preview
+        document.querySelector('.img-preview').src = imgURI;
+
+        // do some memory cleanup
+        // "Removes intermediate image files that are kept in temporary
+        // storage after calling camera.getPicture"
+        // navigator.camera.cleanup(function ()
+        // {
+        //   console.log("Camera cleanup success.")
+        // }, function (message)
+        // {
+        //   console.log('Failed because: ' + message);
+        // });
+
+      },
+      function(error) {
+        yellr.utils.redirect('#');
+        console.log('Photo Capture fail: ' + error);
+      },
+      {
+        quality: 50,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        destinationType: Camera.DestinationType.FILE_URI,
+        // allowEdit : true,
+        encodingType: Camera.EncodingType.JPEG,
+        correctOrientation: true,
+        saveToPhotoAlbum: true
+      }
+    );
 
   },
 
@@ -360,9 +392,10 @@ yellr.utils = {
 
   open_gallery: function () {
     console.log('hello from: open_gallery');
-    window.location.href='#report/image';
+    yellr.utils.redirect('#report/image');
 
   },
+
 
   show_overlay: function () {
 
@@ -382,6 +415,8 @@ yellr.utils = {
   hide_overlay: function () {
     $('#overlay-container').removeClass('show');
   },
+
+
 
   prompt: function (title, choices, setup) {
 
@@ -408,32 +443,6 @@ yellr.utils = {
       setup[1]();
     });
 
-    // // setup event listeners
-    // console.log(choices);
-    // console.log(choices.length);
-    // for (var i = 0; i < choices.length; i++) {
-    //   console.log('===================================');
-    //   console.log(i);
-    //   // console.log(choices[i].callback);
-
-    //   var node = '#prompt-'+i;
-    //   console.log(node);
-    //   var callback = choices[i].callback;
-    //   console.log(callback);
-    //   var thing = $(node);
-    //   console.log(thing);
-    //   // debugger;
-    //   document.querySelector(node).onclick = function (e) {
-    //     callback();
-    //   }
-
-    //   thing.on('tap', {callback: callback},function (e) {
-    //     callback();
-    //     // console.log('hahahahah');
-    //     // console.log(i);
-    //   });
-    // };
-
   },
 
 
@@ -442,7 +451,7 @@ yellr.utils = {
     // Media capture (audio, video, photo, text)
 
     $('#capture-image').on('tap', function(e) {
-      e.preventDefault();
+      // e.preventDefault();
 
       // show overlay, popup thing
       yellr.utils.prompt(

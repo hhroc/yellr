@@ -25,18 +25,6 @@
       ${self.body()}
     </div>
 
-    <footer id="footer" class="header-footer">
-      <%block name="footer">
-      <div class="wrapper">
-        <p>Privacy policy</p>
-        <ul id="footer-links" class="list-style-none">
-          <li><a href="#">link</a></li>
-          <li><a href="#">link</a></li>
-          <li><a href="#">link</a></li>
-        </ul>
-      </div>
-      </%block>
-    </footer>
   </div>
   <script src="/static/js/libs/jquery.js"></script>
   <script src="/static/js/libs/handlebars.js"></script>

@@ -9,7 +9,7 @@ var yellr = yellr || {};
 */
 
 // var DEBUG = true;
-// var DEBUG = false;
+var DEBUG = false;
 
 window.onload = function() {
 

@@ -11,6 +11,7 @@ Citizen Journalism Mobile App, Website, and Eco-System
 $ npm update npm -g         # make sure npm is installed/up to date
 $ gem update --system       # make sure RubyGems is installed/up to date
 $ npm install -g cordova    # make sure Cordova is installed
+$ npm install -g grunt-cli  # make sure Grunt CLI is installed
 ```
 
 

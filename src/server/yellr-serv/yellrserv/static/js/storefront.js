@@ -85,18 +85,18 @@ var yellr = yellr || {};
 yellr.utils = {
 
   email_signup: function (formData) {
-    console.log('hello from: email_signup');
-    console.log('missing url');
+    // console.log('hello from: email_signup');
+    // console.log('missing url');
 
-    // $.ajax({
-    //   url: 'tbd',
-    //   type: 'POST',
-    //   dataType: 'json',
-    //   data: formData,
-    //   success: function (response) {
-    //     console.log(response);
-    //   }
-    // })
+    $.ajax({
+      url: 'tbd',
+      type: 'POST',
+      dataType: 'json',
+      data: formData,
+      success: function (response) {
+        alert('Thanks for signing up!');
+      }
+    });
   },
 
 

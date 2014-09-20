@@ -8,13 +8,13 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
-// var DEBUG = true;
-var DEBUG = false;
+var DEBUG = true;
+// var DEBUG = false;
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
-  localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
+  // localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) {

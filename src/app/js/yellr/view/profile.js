@@ -59,7 +59,6 @@ yellr.view.profile = (function() {
         var target;
         if (e.target.nodeName === 'LI') {target = e.target.querySelector('input'); }
         else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SPAN') {target = e.target.parentNode.querySelector('input'); }
-        // console.log(target);
 
         // do the thing
         if (target !== undefined && target.checked === false) {

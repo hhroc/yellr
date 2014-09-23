@@ -8,7 +8,7 @@ script#assignments-li(type="text/x-handlebars-template").
         <a href="#view-assignment/{{ @index }}">{{ question_text }}</a>
       </h2>
       <div class="assignment-action">
-        <p class="view-assignment-details"><a href="#view-assignment/{{ @index }}">View assignment</a></p>
+        <p class="view-assignment-details"><a href="#view-assignment/{{ @index }}">{{view_assignment}}</a></p>
         <p class="assignment-organization">{{ organization }}</p>
       </div>
       <p class="assignment-deadline">{{ expire_datetime }}</p>

@@ -46,24 +46,6 @@ yellr.view.assignments = (function() {
 
 
 
-    var render_feed = function() {
-      render_template({
-        target: '#latest-assignments',
-        template: '#assignments-li',
-        context: {assignments: yellr.DATA.assignments }
-      });
-
-      // parse UTC dates with moment.js
-      var dates = document.querySelectorAll('.assignment-deadline');
-      for (var i = 0; i < dates.length; i++) {
-        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-      };
-
-    }
-
-
-
-
     var setup_feed = function() {
 
       // template settings
@@ -85,10 +67,38 @@ yellr.view.assignments = (function() {
         this.render_feed();
       }
 
-
     }
 
 
+
+
+
+
+    var render_feed = function() {
+
+      // loop through assignments
+      // prep language / parse with moment.js
+      var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
+        val.view_assignment = yellr.SCRIPT.view_assignment;
+        // val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+        return true;
+      });
+
+      // do the thing
+      render_template({
+        target: '#latest-assignments',
+        template: '#assignments-li',
+        context: {assignments: assignments }
+      });
+
+      // parse UTC dates with moment.js
+      // TODO: parse when we initially download the JSON
+      var dates = document.querySelectorAll('.assignment-deadline');
+      for (var i = 0; i < dates.length; i++) {
+        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
+      };
+
+    }
 
 
 

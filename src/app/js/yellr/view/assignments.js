@@ -27,11 +27,8 @@ yellr.view.assignments = (function() {
       header = data.template.header;
       footer = data.template.footer;
 
-      if (data.hash === '#view-assignment')
-        this.render_assignment(data.id);
-      else {
-        this.setup_feed();
-      }
+      if (data.hash === '#view-assignment') this.render_assignment(data.id);
+      else this.setup_feed();
 
       render_template(header);
       render_template(footer);

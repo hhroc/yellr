@@ -20,21 +20,22 @@ yellr.utils = {
 
 
   change_language: function (language) {
-    // console.log('change to: ', language);
+    var jsonFile = 'data/languages/'+language+'.json',
+        short_code = language.substr(0,2);
+
     yellr.utils.notify('Changing language to: ' + language);
-    yellr.SETTINGS.language.set(language.substr(0,2));
+
+    moment.locale(short_code);
+
+    yellr.SETTINGS.language.set(short_code);
     yellr.utils.set_urls();
 
-    // TODO - update moment.js with new lang
-
     // load the language
-    var jsonFile = 'data/languages/'+language+'.json';
     $.getJSON(jsonFile, function (response) {
       // set data to SCRIPT object
       yellr.SCRIPT = response;
       yellr.utils.save();
     }).done(function () {
-      console.log('load things');
       yellr.utils.load('stories');
       yellr.utils.load('assignments');
     });
@@ -237,8 +238,8 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
-    var base_url = 'http://yellrdev.wxxi.org/';
+    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
+    // var base_url = 'http://yellrdev.wxxi.org/';
 
     // two sets of URLS
     var urls = {

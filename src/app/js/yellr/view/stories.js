@@ -25,7 +25,11 @@ yellr.view.stories = (function() {
         // subnav
         render_template({
           target: '#app-subnav',
-          template: '#homepage-subnav'
+          template: '#homepage-subnav',
+          context: {
+            assignments: yellr.SCRIPT.assignments,
+            news_feed: yellr.SCRIPT.news_feed
+          }
         });
         document.querySelector('#news-feed-tab').className = 'current';
 

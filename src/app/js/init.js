@@ -42,7 +42,7 @@ window.onload = function() {
 
   // extras
   // FastClick.attach(document.body);
-
+  moment.locale(yellr.SETTINGS.language.code);
 
   document.addEventListener('deviceready', function() {
     // do cordova setup things

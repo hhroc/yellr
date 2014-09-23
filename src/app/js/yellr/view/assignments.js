@@ -54,7 +54,11 @@ yellr.view.assignments = (function() {
       // subnav
       render_template({
         target: '#app-subnav',
-        template: '#homepage-subnav'
+        template: '#homepage-subnav',
+        context: {
+          assignments: yellr.SCRIPT.assignments,
+          news_feed: yellr.SCRIPT.news_feed
+        }
       });
       document.querySelector('#assignments-tab').className = 'current';
 
@@ -88,7 +92,11 @@ yellr.view.assignments = (function() {
       render_template({
         target: '#latest-assignments',
         template: '#assignments-li',
-        context: {assignments: assignments }
+        context: {
+          assignments: assignments,
+          no_assignments_yet: yellr.SCRIPT.no_assignments_yet,
+          check_back_later_for_assignments: yellr.SCRIPT.check_back_later_for_assignments
+        }
       });
 
       // parse UTC dates with moment.js

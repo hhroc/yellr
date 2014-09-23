@@ -22,6 +22,10 @@ yellr.utils = {
   change_language: function (language) {
     // console.log('change to: ', language);
     yellr.utils.notify('Changing language to: ' + language);
+    yellr.SETTINGS.language.set(language.substr(0,2));
+    yellr.utils.set_urls();
+
+    // TODO - update moment.js with new lang
 
     // load the language
     var jsonFile = 'data/languages/'+language+'.json';
@@ -29,7 +33,10 @@ yellr.utils = {
       // set data to SCRIPT object
       yellr.SCRIPT = response;
       yellr.utils.save();
-      console.log(yellr.SCRIPT);
+    }).done(function () {
+      console.log('load things');
+      yellr.utils.load('stories');
+      yellr.utils.load('assignments');
     });
   },
 
@@ -78,7 +85,7 @@ yellr.utils = {
     };
 
     // set urls
-    yellr.URLS = yellr.utils.set_urls();
+    yellr.utils.set_urls();
 
     // get the "script"
     // we add this completely so that we don't wait on load time
@@ -246,7 +253,7 @@ yellr.utils = {
         };
 
     // if in devevlopment, use local URLs
-    return urls;
+    yellr.URLS = urls;
 
   },
 

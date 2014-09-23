@@ -16,8 +16,8 @@ script#assignments-li(type="text/x-handlebars-template").
     {{/each}}
   {{else}}
     <li class="no-assignments-li">
-      <h2 class="assignment-title">No assignments yet!</h2>
-      <p>Check back later to see if there's anything new!</p>
+      <h2 class="assignment-title">{{no_assignments_yet}}</h2>
+      <p>{{check_back_later_for_assignments}}</p>
     </li>
   {{/if}}
 

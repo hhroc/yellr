@@ -237,8 +237,8 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
-    // var base_url = 'http://yellrdev.wxxi.org/';
+    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
+    var base_url = 'http://yellrdev.wxxi.org/';
 
     // two sets of URLS
     var urls = {

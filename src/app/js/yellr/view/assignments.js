@@ -77,13 +77,37 @@ yellr.view.assignments = (function() {
 
     var render_feed = function() {
 
+      console.log('===================================');
+      console.log(yellr.DATA.assignments[0]);
+
       // loop through assignments
       // prep language / parse with moment.js
-      var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
-        val.view_assignment = yellr.SCRIPT.view_assignment;
-        // val.expire_datetime = moment(val.expire_datetime).fromNow(true);
-        return true;
-      });
+      var assignments = [];
+      for (var i = 0; i < yellr.DATA.assignments.length; i++) {
+        var assignment = yellr.DATA.assignments[i];
+        assignments.push();
+        assignments.view_assignment = yellr.SCRIPT.view_assignment;
+        assignments.deadline_text = yellr.SCRIPT.deadline;
+        assignments.expire_datetime = moment(assignments.expire_datetime).fromNow(true);
+      };
+      // yellr.DATA.assignments.filter(function (val, i, arr) {
+      //   val.view_assignment = yellr.SCRIPT.view_assignment;
+      //   val.deadline_text = yellr.SCRIPT.deadline;
+      //   val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+      //   return true;
+      // });
+
+      // var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
+      //   val.view_assignment = yellr.SCRIPT.view_assignment;
+      //   val.deadline_text = yellr.SCRIPT.deadline;
+      //   val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+      //   return true;
+      // });
+      console.log('----------------------------');
+      console.log('lol');
+      console.log(assignments[0]);
+      console.log(yellr.DATA.assignments[0]);
+      console.log('===================================');
 
       // do the thing
       render_template({
@@ -95,13 +119,6 @@ yellr.view.assignments = (function() {
           check_back_later_for_assignments: yellr.SCRIPT.check_back_later_for_assignments
         }
       });
-
-      // parse UTC dates with moment.js
-      // TODO: parse when we initially download the JSON
-      var dates = document.querySelectorAll('.assignment-deadline');
-      for (var i = 0; i < dates.length; i++) {
-        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-      };
 
     }
 
@@ -120,7 +137,7 @@ yellr.view.assignments = (function() {
 
       // template settings
       header.template = '#page-header';
-      header.context = {page: 'Assignment'};
+      header.context = {page: yellr.SCRIPT.assignment};
       yellr.utils.no_subnav();
       footer.template = '';
 
@@ -136,8 +153,9 @@ yellr.view.assignments = (function() {
         id: yellr.DATA.assignments[id].assignment_id,
         title: yellr.DATA.assignments[id].question_text,
         image: yellr.DATA.assignments[id].image,
-        description: (yellr.DATA.assignments[id].description) ? yellr.DATA.assignments[id].description : 'This is where a longer description would be for the assignment',
-        deadline: moment(yellr.DATA.assignments[id].expire_datetime).fromNow(true)
+        description: yellr.DATA.assignments[id].description,
+        deadline: moment(yellr.DATA.assignments[id].expire_datetime).fromNow(true),
+        contribute_text: yellr.SCRIPT.contribute
       }
 
       switch (yellr.DATA.assignments[id].question_type_id) {

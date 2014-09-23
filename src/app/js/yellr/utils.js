@@ -154,7 +154,6 @@ yellr.utils = {
           }
 
           // lat minute text things
-
           if (!server_version_ok && !required_client_version_ok)
           {
             text = 'Both the app and server are out of date. Please update.';

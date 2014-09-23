@@ -19,6 +19,21 @@ var yellr = yellr || {};
 yellr.utils = {
 
 
+  change_language: function (language) {
+    // console.log('change to: ', language);
+    yellr.utils.notify('Changing language to: ' + language);
+
+    // load the language
+    var jsonFile = 'data/languages/'+language+'.json';
+    $.getJSON(jsonFile, function (response) {
+      // set data to SCRIPT object
+      yellr.SCRIPT = response;
+      yellr.utils.save();
+      console.log(yellr.SCRIPT);
+    });
+  },
+
+
   create_user: function (settings) {
 
     /**
@@ -161,7 +176,8 @@ yellr.utils = {
       SETTINGS: yellr.SETTINGS,
       URLS: yellr.URLS,
       UUID: yellr.UUID,
-      VERSION: yellr.VERSION
+      VERSION: yellr.VERSION,
+      SCRIPT: yellr.SCRIPT
     }));
   },
 
@@ -174,8 +190,8 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
-    var base_url = 'http://yellrdev.wxxi.org/';
+    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
+    // var base_url = 'http://yellrdev.wxxi.org/';
 
     // two sets of URLS
     var urls = {

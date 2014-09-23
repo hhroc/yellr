@@ -26,13 +26,13 @@ yellr.view.profile = (function() {
       header.context = {page: 'Profile'};
 
       footer = data.template.footer;
-
+      // footer.template = '';
 
       render_template(header);
       render_template(footer);
       yellr.utils.no_subnav();
 
-      document.querySelector('#username').innerHTML = yellr.UUID;
+      document.querySelector('#unique-id').innerHTML = yellr.UUID;
 
       this.add_eventlisteners();
       yellr.utils.setup_report_bar();
@@ -51,6 +51,24 @@ yellr.view.profile = (function() {
 
     var add_eventlisteners = function() {
 
+      // change language
+      document.querySelector('.language-settings-list').onclick = function (e) {
+        e.preventDefault();
+
+        // target will be the <input>
+        var target;
+        if (e.target.nodeName === 'LI') {target = e.target.querySelector('input'); }
+        else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SPAN') {target = e.target.parentNode.querySelector('input'); }
+        // console.log(target);
+
+        // do the thing
+        if (target !== undefined && target.checked === false) {
+          target.checked = true;
+          yellr.utils.change_language(target.value);
+        }
+      }
+
+
       // generate new uid
       document.querySelector('#generate-new-uuid').onclick = function(e) {
         // get new GUID
@@ -58,7 +76,7 @@ yellr.view.profile = (function() {
         yellr.utils.save();
         console.log('TO DO: CLEAR ALL DATA WITH NEW UUID');
         // update text
-        document.querySelector('#username').innerHTML = yellr.UUID;
+        document.querySelector('#unique-id').innerHTML = yellr.UUID;
       }
       // change language
     }

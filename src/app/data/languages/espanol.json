@@ -1,5 +1,6 @@
 {
   "all_posts_are_anonymous": "Cada sumision es anonimo",
+  "anonymous": "Anonimo",
 
   "you_have_a_new_message": "Tienes un nuevo mensaje!",
   "alert": "Alert",
@@ -27,6 +28,8 @@
   "news_story": "Noticia",
 
   "messages": "Mensajes",
+  "view_message": "Mensaje",
+
   "no_news_in_your_area": "No hay noticias en tu area.",
   "get_your_voice_heard": "By submitting things imporant to you, you can get your voice heard!",
 
@@ -35,8 +38,11 @@
   "older": "Mas Viejo",
 
   "profile": "Perfil",
+  "language": "Idioma",
+  "account": "Cuenta",
+  "sign_in": "Entrar",
+  "create_account": "Registrar",
   "generate_new_uuid": "Genera nuevo ID",
-  "create_account": "Crear una cuenta",
 
   "settings": "Ajustes",
 

@@ -54,7 +54,7 @@ yellr.view.messages = (function() {
       // unread and read
       header.template = '#page-header';
       header.context = {
-        page: 'Messages',
+        page: yellr.SCRIPT.messages,
         refresh: true
       };
 
@@ -74,8 +74,10 @@ yellr.view.messages = (function() {
     var view_message = function(id) {
 
       header.template = '#page-header';
-      header.context = {page: 'View Message', hash: '#messages'};
-
+      header.context = {
+        page: yellr.SCRIPT.view_message,
+        hash: '#messages'
+      };
 
       current_msg = yellr.DATA.messages[parseInt(id)];
 
@@ -103,22 +105,7 @@ yellr.view.messages = (function() {
         }
       });
 
-      console.log($('#app-header').find('#submit-btn'));
-
-      // console.log('adding event listener to submit-btn');
-
-      // console.log($('#submit-btn'));
-      // document.querySelector('#submit-btn').onclick = function (e) {
-      //   console.log('lol');
-      // }
-      // console.log(this.send_reply);
-      // // $('#submit-btn').on('tap', this.send_reply);
-      // $('#submit-btn').on('tap', function (e) {
-      //   console.log('lol');
-      // });
-
-      console.log(document.querySelector('#submit-btn'));
-      console.dir(document.querySelector('#submit-btn'));
+      // TODO - reply
 
     }
 
@@ -127,14 +114,8 @@ yellr.view.messages = (function() {
     var send_reply = function (e) {
       e.preventDefault();
       var $form = $('#reply-message-form');
-      console.log($form.serialize());
-      console.log('send reply');
       var url = 'http://yellrdev.wxxi.org';
-      console.log(url + $form.serialize());
-      // $.ajax({
-      //   url: 'create_response_message?client_id='+yellr.UUID+'&subject=<subject>&text=<text>&parent_message_id=<parent_message_id>'
-      //   url: 'create_response_message?client_id='+yellr.UUID+'&subject=<subject>&text=<text>&parent_message_id=<parent_message_id>'
-      // })
+      // TODO - finish
     }
 
 

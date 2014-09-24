@@ -37,7 +37,9 @@ yellr.utils = {
       yellr.utils.save();
     }).done(function () {
       yellr.utils.load('stories');
-      yellr.utils.load('assignments');
+      yellr.utils.load('assignments', function () {
+        yellr.utils.redirect('#assignments');
+      });
     });
   },
 
@@ -91,39 +93,48 @@ yellr.utils = {
     // get the "script"
     // we add this completely so that we don't wait on load time
     yellr.SCRIPT = {
+      all_posts_are_anonymous: "All posts are anonymous.",
+      anonymous: "Anonymous",
       you_have_a_new_message: "You have a new message!",
       alert: "Alert",
       ready: "Ready",
       ok: "OK",
+      delete: "Delete",
       error_taking_video: "Error taking video",
       captured_x_files: "captured: [#] files",
+      use_camera: "Use camera",
+      open_gallery: "Open gallery",
+      assignment: "Assignment",
       assignments: "Assignments",
       view_assignment: "View Assignment",
-      news_feed: "News Feed",
       no_assignments_yet: "No assignments yet!",
       check_back_later_for_assignments: "Check back later to see if there's anything new!",
       contribute: "Contribute",
       deadline: "Deadline",
-      choose_image_source: "Choose Image Source",
-      use_camera: "Use camera",
-      open_gallery: "Open gallery",
-      all_posts_are_anonymous: "All posts are anonymous.",
+      tell_us_more: "Tell us more...",
+      whats_on_your_mind: "What's on your mind?",
+      tell_us_the_story: "Tell us the story...",
+      news_feed: "News Feed",
+      news_story: "News Story",
       messages: "Messages",
-      delete: "Delete",
+      view_message: "Mensaje",
       no_news_in_your_area: "No news stories yet in your area.",
       get_your_voice_heard: "By submitting things imporant to you, you can get your voice heard!",
       notifications: "Notifications",
       recent: "Recent",
       older: "Older",
       profile: "Profile",
+      language: "Language",
+      account: "Account",
+      sign_in: "Sign In",
+      create_account: "Create account",
       generate_new_uuid: "Generate new UUID",
-      create_account: "Create a verified account",
       settings: "Settings",
       submit_report: "Submit Report",
-      whats_on_your_mind: "What's on your mind?",
       add_image_description: "Add image description (optional)",
       add_video_description: "Add video description (optional)",
       add_audio_description: "Add audio description (optional)",
+      choose_image_source: "Choose Image Source",
       choose_files: "Choose Files",
       add_extra_media: "Add extra media:"
     };
@@ -217,11 +228,11 @@ yellr.utils = {
         yellr.DATA[dataType] = response[dataType];
         yellr.utils.save();
 
-        if (callback) callback();
-
       } else {
         yellr.utils.notify('Something went wrong loading '+dataType + ' from the server.');
       }
+    }).done(function () {
+      if (callback) callback();
     });
 
   },

@@ -23,29 +23,33 @@ yellr.view.profile = (function() {
 
       header = data.template.header;
       header.template = '#page-header';
-      header.context = {page: 'Profile'};
-
-      footer = data.template.footer;
-      // footer.template = '';
-
+      header.context = {page: yellr.SCRIPT.profile};
       render_template(header);
-      render_template(footer);
+
       yellr.utils.no_subnav();
 
+      footer = data.template.footer;
+      render_template(footer);
+
+      document.querySelector('.username').innerHTML = yellr.SCRIPT.anonymous;
       document.querySelector('#unique-id').innerHTML = yellr.UUID;
+
+      document.querySelector('.language-settings .t4').innerHTML = yellr.SCRIPT.language;
+      document.querySelector('.account-settings .t4').innerHTML = yellr.SCRIPT.account;
+
+      document.querySelector('#sign-in-btn').innerHTML = yellr.SCRIPT.sign_in;
+      document.querySelector('#create-account-btn').innerHTML = yellr.SCRIPT.create_account;
+      document.querySelector('#generate-new-uuid').innerHTML = yellr.SCRIPT.generate_new_uuid;
+
+      document.querySelector('.client-version').innerHTML = yellr.VERSION.required_client_version;
+      document.querySelector('.server-version').innerHTML = yellr.VERSION.server_version;
+
+
 
       this.add_eventlisteners();
       yellr.utils.setup_report_bar();
 
     }
-
-
-
-    var update = function() {
-      console.log('new data availble...');
-      console.log('...check if it is new/different');
-    }
-
 
 
 
@@ -83,7 +87,6 @@ yellr.view.profile = (function() {
 
     return {
       add_eventlisteners: add_eventlisteners,
-      render: render,
-      update: update
+      render: render
     }
 })();

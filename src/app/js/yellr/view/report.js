@@ -85,11 +85,8 @@ yellr.view.report = (function() {
       // add the language text (all of the things)
       form.context.add_description = yellr.SCRIPT['add_'+data.id+'_description'];
       form.context.tell_us_more = yellr.SCRIPT.tell_us_more;
-      console.log(yellr.SCRIPT.tell_us_more);
       form.context.whats_on_your_mind = yellr.SCRIPT.whats_on_your_mind;
-      console.log(yellr.SCRIPT.whats_on_your_mind);
       form.context.tell_us_the_story = yellr.SCRIPT.tell_us_the_story;
-      console.log(yellr.SCRIPT.tell_us_the_story);
 
       if (append) form.append = true;
 

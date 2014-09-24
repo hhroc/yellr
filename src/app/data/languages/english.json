@@ -1,5 +1,6 @@
 {
   "all_posts_are_anonymous": "All posts are anonymous.",
+  "anonymous": "Anonymous",
 
   "you_have_a_new_message": "You have a new message!",
   "alert": "Alert",
@@ -27,6 +28,8 @@
   "news_story": "News Story",
 
   "messages": "Messages",
+  "view_message": "View Message",
+
   "no_news_in_your_area": "No news stories yet in your area.",
   "get_your_voice_heard": "By submitting things imporant to you, you can get your voice heard!",
 
@@ -35,8 +38,11 @@
   "older": "Older",
 
   "profile": "Profile",
+  "language": "Language",
+  "account": "Account",
+  "sign_in": "Sign In",
+  "create_account": "Create account",
   "generate_new_uuid": "Generate new UUID",
-  "create_account": "Create a verified account",
 
   "settings": "Settings",
 

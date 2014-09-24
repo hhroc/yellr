@@ -103,13 +103,13 @@
 }
 
 #app-h1 {
-  width: 60%;
-  @include flex(4);
+  width: 55%;
+  @include flex(3);
   padding: $icon-padding;
 }
 
 #app-nav {
-  width: 38%;
+  width: 43%;
   @include flex(3);
   @include flexbox();
   .btn {

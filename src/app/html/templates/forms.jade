@@ -3,11 +3,10 @@ script#text-form(type="text/x-handlebars-template").
   <form class="text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="media_type" value="text">
-    <!--<input type="text" name="media_text" placeholder="Title (optional)">-->
     {{#if assignment_id}}
-    <textarea name="media_text" rows="2" columns="10" placeholder="Tell us more..."></textarea>
+    <textarea name="media_text" rows="2" columns="10" placeholder="{{tell_us_more}}"></textarea>
     {{else}}
-    <textarea name="media_text" rows="2" columns="10" placeholder="What's on your mind?"></textarea>
+    <textarea name="media_text" rows="2" columns="10" placeholder="{{whats_on_your_mind}}"></textarea>
     {{/if}}
   </form>
 
@@ -18,7 +17,7 @@ script#reply-text-form(type="text/x-handlebars-template").
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
     <input type="hidden" name="media_type" value="text">
-    <textarea name="media_text" rows="2" columns="10" placeholder="Tell us the story..."></textarea>
+    <textarea name="media_text" rows="2" columns="10" placeholder="{{tell_us_the_story}}"></textarea>
   </form>
 
 
@@ -32,7 +31,7 @@ script#image-form(type="text/x-handlebars-template").
     {{else}}
     <input type="hidden" name="assignment_id" value="">
     {{/if}}
-    <textarea name="media_caption" rows="2" columns="10" placeholder="Add image description (optional)"></textarea>
+    <textarea name="media_caption" rows="2" columns="10" placeholder="{{add_description}}"></textarea>
     <input type="file" name="media_file" size="30" multiple>
     <div class="media-submission-wrapper">
       <div class="media-preview">
@@ -48,7 +47,7 @@ script#video-form(type="text/x-handlebars-template").
   <form class="video-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="media_type" value="video">
-    <textarea name="media_caption" rows="2" columns="10" placeholder="Add video description (optional)"></textarea>
+    <textarea name="media_caption" rows="2" columns="10" placeholder="{{add_description}}"></textarea>
     <input type="file" name="media_file" size="30" multiple>
     <div class="media-submission-wrapper">
       <div class="media-preview">
@@ -63,7 +62,7 @@ script#audio-form(type="text/x-handlebars-template").
   <form class="audio-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="media_type" value="audio">
-    <textarea name="media_caption" rows="2" columns="10" placeholder="Add audio description (optional)"></textarea>
+    <textarea name="media_caption" rows="2" columns="10" placeholder="{{add_description}}"></textarea>
     <input type="file" name="media_file" size="30" multiple>
     <div class="media-submission-wrapper">
       <div class="media-preview">
@@ -93,3 +92,13 @@ script#reply-survey-form(type="text/x-handlebars-template").
     </ul>
   </form>
 
+//- extra media bar
+script#extra-media(type="text/x-handlebars-template").
+  <div id="add-extra-media" class="add-extra-media">
+    <p class="wrapper">{{add_extra_media}}</p>
+    <div class="flex">
+      <div class="add-image flex-1"><i class="fa fa-plus"></i><i class="fa fa-camera"></i></div>
+      <div class="add-video flex-1"><i class="fa fa-plus"></i><i class="fa fa-video-camera"></i></div>
+      <div class="add-audio flex-1"><i class="fa fa-plus"></i><i class="fa fa-microphone"></i></div>
+    </div>
+  </div>

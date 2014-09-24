@@ -28,10 +28,8 @@ yellr.view.report = (function() {
 
       header = data.template.header;
       header.template = '#submit-header';
+      header.context = {submit_report: yellr.SCRIPT.submit_report};
       render_template(header);
-      $('#submit-btn').on('tap', function (e) {
-        yellr.view.report.submit_form();
-      });
 
       yellr.utils.no_subnav();
 
@@ -39,6 +37,9 @@ yellr.view.report = (function() {
       footer.template = '';
       render_template(footer);
 
+      $('#submit-btn').on('tap', function (e) {
+        yellr.view.report.submit_form();
+      });
 
 
       // the assignment ID is in the URL
@@ -81,6 +82,14 @@ yellr.view.report = (function() {
       if (form.context === undefined) form.context = {};
       form.context.client_id = yellr.UUID;
 
+      // add the language text (all of the things)
+      form.context.add_description = yellr.SCRIPT['add_'+data.id+'_description'];
+      form.context.tell_us_more = yellr.SCRIPT.tell_us_more;
+      console.log(yellr.SCRIPT.tell_us_more);
+      form.context.whats_on_your_mind = yellr.SCRIPT.whats_on_your_mind;
+      console.log(yellr.SCRIPT.whats_on_your_mind);
+      form.context.tell_us_the_story = yellr.SCRIPT.tell_us_the_story;
+      console.log(yellr.SCRIPT.tell_us_the_story);
 
       if (append) form.append = true;
 
@@ -101,7 +110,10 @@ yellr.view.report = (function() {
       // add extra media bar
       render_template({
         template: '#extra-media',
-        target: '#extra-media-wrapper'
+        target: '#extra-media-wrapper',
+        context: {
+          add_extra_media: yellr.SCRIPT.add_extra_media
+        }
       });
 
 
@@ -126,19 +138,11 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      // so it has something to do with our forms var...
-      console.log(document.querySelector('#form-wrapper'));
-      // console.log(document.querySelectorAll('#form-wrapper form'));
-
       var forms = document.querySelectorAll('#form-wrapper form');
       total_forms = forms.length;
 
-      console.log(forms);
-
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];
-
-        console.log('submitting form #'+(i+1)+' of '+forms.length);
 
         $(form).ajaxSubmit({
           url: yellr.URLS.upload,
@@ -147,12 +151,10 @@ yellr.view.report = (function() {
               // add the media_id to our local array
               form_counter++;
               media_objects.push(response.media_id);
-              console.log(media_objects);
               yellr.view.report.publish_post();
 
             } else {
               yellr.utils.notify('Something went wrong with upload_media...');
-              console.log(response);
             }
           }
         });
@@ -171,8 +173,6 @@ yellr.view.report = (function() {
       // make sure we submitted all the forms
 
       if (form_counter === total_forms) {
-
-        console.log('all forms submitted');
 
         // title should be either a free response or
         // Reply to: Assignment ID

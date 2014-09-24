@@ -199,6 +199,21 @@ yellr.utils = {
     $.getJSON(yellr.URLS[dataType], function (response) {
       if (response.success) {
 
+        // parse UTC time
+        response[dataType] = response[dataType].filter(function (val, i, arr) {
+          if (val.expire_datetime) val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+          return true;
+        });
+
+        // add an ID to stories, we use it on the client-side only
+        if (dataType === 'stories') {
+          response[dataType] = response[dataType].filter(function (val, i, arr) {
+            val.id = i;
+            return true;
+          });
+
+        }
+
         yellr.DATA[dataType] = response[dataType];
         yellr.utils.save();
 

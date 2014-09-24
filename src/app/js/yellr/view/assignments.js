@@ -77,37 +77,11 @@ yellr.view.assignments = (function() {
 
     var render_feed = function() {
 
-      console.log('===================================');
-      console.log(yellr.DATA.assignments[0]);
-
-      // loop through assignments
-      // prep language / parse with moment.js
-      var assignments = [];
-      for (var i = 0; i < yellr.DATA.assignments.length; i++) {
-        var assignment = yellr.DATA.assignments[i];
-        assignments.push();
-        assignments.view_assignment = yellr.SCRIPT.view_assignment;
-        assignments.deadline_text = yellr.SCRIPT.deadline;
-        assignments.expire_datetime = moment(assignments.expire_datetime).fromNow(true);
-      };
-      // yellr.DATA.assignments.filter(function (val, i, arr) {
-      //   val.view_assignment = yellr.SCRIPT.view_assignment;
-      //   val.deadline_text = yellr.SCRIPT.deadline;
-      //   val.expire_datetime = moment(val.expire_datetime).fromNow(true);
-      //   return true;
-      // });
-
-      // var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
-      //   val.view_assignment = yellr.SCRIPT.view_assignment;
-      //   val.deadline_text = yellr.SCRIPT.deadline;
-      //   val.expire_datetime = moment(val.expire_datetime).fromNow(true);
-      //   return true;
-      // });
-      console.log('----------------------------');
-      console.log('lol');
-      console.log(assignments[0]);
-      console.log(yellr.DATA.assignments[0]);
-      console.log('===================================');
+      var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
+        val.view_assignment_text = yellr.SCRIPT.view_assignment;
+        val.deadline_text = yellr.SCRIPT.deadline;
+        return true;
+      });
 
       // do the thing
       render_template({
@@ -154,7 +128,7 @@ yellr.view.assignments = (function() {
         title: yellr.DATA.assignments[id].question_text,
         image: yellr.DATA.assignments[id].image,
         description: yellr.DATA.assignments[id].description,
-        deadline: moment(yellr.DATA.assignments[id].expire_datetime).fromNow(true),
+        deadline: yellr.DATA.assignments[id].expire_datetime,
         contribute_text: yellr.SCRIPT.contribute
       }
 

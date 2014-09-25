@@ -13,19 +13,25 @@ var DEBUG = false;
 
 window.onload = function() {
 
+  alert('WHAT');
+
   // if (DEBUG) localStorage.removeItem('yellr');
   localStorage.removeItem('yellr');
 
+  alert('removed localStorage');
+
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) {
+    alert('creating user');
     yellr.utils.create_user();
+    alert('save');
     yellr.utils.save();
   } else {
     // we ave existing local storage, load it
     yellr.utils.load_localStorage();
   }
 
-
+  alert('checking client/server version');
   // check version info
   yellr.utils.check_version();
 

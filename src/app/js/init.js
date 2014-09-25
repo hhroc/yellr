@@ -10,7 +10,7 @@ var yellr = yellr || {};
 
 // var DEBUG = true;
 var DEBUG = false;
-
+alert("WH WONT YOU WORK GODDAMIT");
 window.onload = function() {
 
   alert('WHAT');

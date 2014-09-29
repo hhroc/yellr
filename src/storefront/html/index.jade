@@ -4,33 +4,38 @@ head
 
   title Yellr - Storefront
   meta(name="description", content="Yellr News")
-  include _header.jade
+  include _head.jade
 
 
 body#storefront(data-page="index")
   a(href="#main", class="assistive-text") Skip to main content
   div.container
-    header#header
-      .wrapper.flex
-        h1.flex-4 Yellr - Rochester News
-        a.flex-1(href="about.html") Learn more about Yellr
+    include _header.jade
 
     div#main
       .wrapper
         h2.t3 Latest Stories
         ul#stories-list.list-style-none
+          li
+            h3.t1
+              a(href="article.html") After Fire, FAA Orders Review Of Contingency Plans, Security
+            p The chief of the Federal Aviation Administration has ordered the agency to review the contingency plans and security protocols of all its major facilities. The order from Administrator Michael P. Huerta came three days after a contractor set fire to an FAA air traffic facility in Aurora, Illinois.
+            figure
+              img(src="http://127.0.0.1:8080/media/e94ee654-59e5-40fa-8f43-1014a0720102.jpg")
+          li
+            h3.t1
+              a(href="article.html") California Enacts 'Yes Means Yes' Law, Defining Sexual Consent
+            p Gov. Jerry Brown has signed a bill into law that makes California the first in the nation to have a clear definition of when people agree to sex. The law goes further than the common "no means no" standard, which has been blamed for bringing ambiguity into investigations of sexual assault cases.
+            figure
+              img(src="http://127.0.0.1:8080/media/e94ee654-59e5-40fa-8f43-1014a0720102.jpg")
+          li
+            h3.t1
+              a(href="article.html") Afghanistan's New President: 'Hold Me Accountable'
+            p "Hold me accountable" is the message from Afghanistan's new president, Ashraf Ghani Ahmadzai, who took the oath of office today, succeeding Hamid Karzai, a leader many accused of lacking accountability.
+            figure
+              img(src="http://127.0.0.1:8080/media/e94ee654-59e5-40fa-8f43-1014a0720102.jpg")
+        //- ul#stories-list.list-style-none
 
-
-    //- footer#footer.header-footer
-      .wrapper
-        p Privacy policy
-        ul#footer-links.list-style-none
-          li
-            a(href="#") link
-          li
-            a(href="#") link
-          li
-            a(href="#") link
 
   include _templates.jade
   include _scripts.jade

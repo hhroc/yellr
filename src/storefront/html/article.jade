@@ -4,16 +4,13 @@ head
 
   title Yellr - Article
   meta(name="description", content="Yellr - Article")
-  include _header.jade
+  include _head.jade
 
 
 body#storefront(data-page="article")
   a(href="#main", class="assistive-text") Skip to main content
   div.container
-    header#header
-      .wrapper
-        h1
-          a(href="index.html") Yellr - Rochester News
+    include _header.jade
 
     div#main
       .wrapper

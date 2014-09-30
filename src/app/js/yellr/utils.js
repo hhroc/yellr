@@ -266,7 +266,7 @@ yellr.utils = {
     // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
     var base_url = 'http://127.0.0.1:8080/';
     // var base_url = 'http://yellrdev.wxxi.org/';
-    alert('BASE URL: ' + base_url);
+    // alert('BASE URL: ' + base_url);
     // two sets of URLS
     var urls = {
           assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,

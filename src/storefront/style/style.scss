@@ -5,7 +5,17 @@
 @import "../../common/style/pieces/base";
 
 // libraries
-// @import "../../common/style/libs/font-awesome/font-awesome";
+@import "../../common/style/libs/font-awesome/variables";
+@import "../../common/style/libs/font-awesome/mixins";
+@import "../../common/style/libs/font-awesome/path";
+@import "../../common/style/libs/font-awesome/core";
+@import "../../common/style/libs/font-awesome/fixed-width";
+@import "../../common/style/libs/font-awesome/list";
+@import "../../common/style/libs/font-awesome/spinning";
+@import "../../common/style/libs/font-awesome/rotated-flipped";
+@import "../../common/style/libs/font-awesome/stacked";
+@import "icons";
+
 
 // yellr specific
 @import "../../common/style/theme/vars";
@@ -18,53 +28,66 @@
 @import "forms";
 @import "footer";
 @import "article-styles";
+@import "index-styles";
 
 #main {
   padding: 2rem 0 4rem;
   margin-top: 3rem;
 }
-.download-btn {
-  background: $green;
-  color: $white;
-  padding: 0.5rem 1.5rem;
+
+
+.submit-preview {
+  padding: 1rem 0;
+  textarea {
+    margin-bottom: 0.75rem;
+  }
+}
+
+.media-submission-wrapper {
+  @include flexbox();
+  margin-bottom: 0.875rem;
+}
+
+.media-preview {
+  @include flex(3);
+}
+.media-options {
+  @include flex(1);
+  max-width: 3rem;
   text-align: center;
-  border-radius: 4px;
-  transition: background 0.3s ease-out;
-  margin-top: 2rem;
-  max-width: 14rem;
-  &:hover {
-    cursor: pointer;
-    background: darken($green, 10%);
-  }
-}
-.index-wrapper {
-  @extend %wrapper;
-  @include mq(netbook) {
-    @include flexbox();
+  .fa-plus {
+    color: #aaa;
   }
 }
 
-.latest-stories-wrapper {
-  // @extend %wrapper;
-  @include mq(netbook) {
-    @include flex(2);
-    margin-right: 2rem;
+.add-extra-media {
+  p {
+    color: #666;
+    font-style: italic;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
   }
-}
-.contribute-wrapper {
-  @include mq(netbook) {
-    @include flex(1);
+  .flex {
+    border: 1px solid #dfdfdf;
   }
-}
-.contribute-div {
-  background: #ddd;
-  padding: 2rem 1rem;
+  .flex-1 {
+    background: #ebebeb;
+    color: #aaa;
+    width: 33%;
+    text-align: center;
+    padding: 0.75rem 0;
+    border-right: 1px solid #dfdfdf;
+    &:last-child{border-right: none; }
+  }
+  .fa {
+    vertical-align: middle;
+  }
+  .fa-plus {
+    font-size: 0.75rem;
+    padding-right: 0.25rem;
+  }
+  .fa-camera,.fa-video-camera, .fa-microphone {
+    font-size: 1.25rem;
+  }
 }
 
-.load-more-btn {
-  margin-bottom: 1.5rem;
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}

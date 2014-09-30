@@ -1,6 +1,11 @@
 #header {
   background: $yellow;
   color: $black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .header-wrapper {
@@ -31,5 +36,10 @@
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
+  transition: background 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    background: lighten($blue, 10%);
+  }
 }
 

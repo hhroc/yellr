@@ -12,8 +12,8 @@ body#storefront(data-page="index")
   div.container
     include _header.jade
 
-    div#main
-      .wrapper
+    div#main.index-wrapper
+      div.latest-stories-wrapper
         h2.t3 Latest Stories
         ul#stories-list.list-style-none
           li
@@ -35,7 +35,17 @@ body#storefront(data-page="index")
             figure
               img(src="http://127.0.0.1:8080/media/e94ee654-59e5-40fa-8f43-1014a0720102.jpg")
         //- ul#stories-list.list-style-none
-
+        div.load-more-btn Load more
+      div.contribute-wrapper
+        div.contribute-div
+          h3.t4 Contribute to your community
+          p.
+            This site is powered by Yellr, a platform focused on giving people a voice.
+            You can submit any type of content that you think is important. Pictures, videos
+            audio recordings, or just plain text, anything.
+          p.
+            You can contribute by clicking the "Submit Tip" button above or by downloading the accompanying app!
+          div.download-btn Download Yellr
 
   include _templates.jade
   include _scripts.jade

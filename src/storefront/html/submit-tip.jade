@@ -14,72 +14,74 @@ body#storefront(data-page="submit-tip")
 
     div#main
       div.wrapper
-        h2.t2 Submit Tip
+        h2.t1 Submit Tip
 
-        //- text
-        form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-          input.client_id(type="hidden", name="client_id", value="")
-          input(type="hidden", name="media_type", value="text")
-          input(type="text", name="media_caption", placeholder="Title (optional)")
-          textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+        div.forms-wrapper
+          //- text
+          form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input.client_id(type="hidden", name="client_id", value="")
+            input(type="hidden", name="media_type", value="text")
+            input(type="text", name="media_caption", placeholder="Title (optional)")
+            textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
 
+          div.submit-btn Submit Content
 
-        //- image form
-        form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-          input.client_id(type="hidden", name="client_id", value="")
-          input(type="hidden", name="media_type", value="image")
-          textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
-          input(type="file", name="media_payload", multiple)
-          div.media-submission-wrapper
-            div.media-preview
-              i.fa.fa-close
-              img(src="")#img-preview
-              //- img(src="http://lorempixel.com/400/200")#img-preview
-            //- div.media-options
-              span.add-more-media.flex-1#add-more-media-btn
-                i.fa.fa-plus
-
-
-        //- video form
-        form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-          input.client_id(type="hidden", name="client_id", value="")
-          input(type="hidden", name="media_type", value="video")
-          div.submit-video
-            //- description
-            //- thumbnail preview
-            textarea(rows="2", columns="10", placeholder="Add description")
-            div.media-submission-wrapper
-              div.media-preview
-                i.fa.fa-close
-                i.fa.fa-video-camera
+        //- //- image form
+        //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+        //-   input.client_id(type="hidden", name="client_id", value="")
+        //-   input(type="hidden", name="media_type", value="image")
+        //-   textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+        //-   input(type="file", name="media_payload", multiple)
+        //-   div.media-submission-wrapper
+        //-     div.media-preview
+        //-       i.fa.fa-close
+        //-       img(src="")#img-preview
+        //-       //- img(src="http://lorempixel.com/400/200")#img-preview
+        //-     //- div.media-options
+        //-       span.add-more-media.flex-1#add-more-media-btn
+        //-         i.fa.fa-plus
 
 
-        //- audio
-        form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-          input.client_id(type="hidden", name="client_id", value="")
-          input(type="hidden", name="media_type", value="audio")
-          div.submit-audio
-            //- audio timeline preview?..
-            //- description / title
-            textarea(rows="2", columns="10", placeholder="Add description")
-            div.media-submission-wrapper
-              div.media-preview
-                i.fa.fa-close
-                i.fa.fa-microphone
+        //- //- video form
+        //- form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+        //-   input.client_id(type="hidden", name="client_id", value="")
+        //-   input(type="hidden", name="media_type", value="video")
+        //-   div.submit-video
+        //-     //- description
+        //-     //- thumbnail preview
+        //-     textarea(rows="2", columns="10", placeholder="Add description")
+        //-     div.media-submission-wrapper
+        //-       div.media-preview
+        //-         i.fa.fa-close
+        //-         i.fa.fa-video-camera
 
 
-        div#add-extra-media.add-extra-media
-          p.wrapper Add extra media:
-          div.flex
-            div.add-photo.flex-1
-              i.fa.fa-plus
-              i.fa.fa-camera
-            div.add-video.flex-1
-              i.fa.fa-plus
-              i.fa.fa-video-camera
-            div.add-autio.flex-1
-              i.fa.fa-plus
-              i.fa.fa-microphone
+        //- //- audio
+        //- form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+        //-   input.client_id(type="hidden", name="client_id", value="")
+        //-   input(type="hidden", name="media_type", value="audio")
+        //-   div.submit-audio
+        //-     //- audio timeline preview?..
+        //-     //- description / title
+        //-     textarea(rows="2", columns="10", placeholder="Add description")
+        //-     div.media-submission-wrapper
+        //-       div.media-preview
+        //-         i.fa.fa-close
+        //-         i.fa.fa-microphone
+
+
+        //- div#add-extra-media.add-extra-media
+        //-   p.wrapper Add extra media:
+        //-   div.flex
+        //-     div.add-photo.flex-1
+        //-       i.fa.fa-plus
+        //-       i.fa.fa-camera
+        //-     div.add-video.flex-1
+        //-       i.fa.fa-plus
+        //-       i.fa.fa-video-camera
+        //-     div.add-autio.flex-1
+        //-       i.fa.fa-plus
+        //-       i.fa.fa-microphone
 
 
   include _templates.jade

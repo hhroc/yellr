@@ -7,6 +7,17 @@ yellr.main = {
 
   init: function() {
 
+    // check for pre-existing data, if none, create it
+    if (localStorage.getItem('yellr-frontpage') === null) {
+      yellr.utils.create_user();
+      yellr.utils.save();
+    } else {
+      // we ave existing local storage, load it
+      yellr.utils.load_localStorage();
+    }
+    // ----------------------------
+
+
     // get data-page attribute
     yellr.PAGE = document.querySelector('#storefront').getAttribute('data-page');
 
@@ -16,12 +27,11 @@ yellr.main = {
 
       // homepage -> load latest stories
       case 'index':
-        var url = 'http://127.0.0.1:8080/get_stories.json?client_id=1234&lat=43.3&lng=-77.5&language_code=en';
 
-        $.getJSON(url, function (response) {
+        $.getJSON(yellr.URLS.stories, function (response) {
 
           if (response.success) {
-
+            console.log(response);
             // yellr.utils.render_template({
             //   template: '#story-li-template',
             //   target: '#stories-list',
@@ -33,23 +43,33 @@ yellr.main = {
           }
         });
         break;
-
+        // ----------------------------
 
       case 'article':
-        console.log('hello from article');
-
         document.querySelector('.published-datetime').innerHTML = moment(document.querySelector('.published-datetime').innerHTML, 'YYYY-MM-DD HH:mm:ss').format("MMM Do YYYY");
-
-
         break;
+        // ----------------------------
 
       case 'about':
-        console.log('setup email signup form');
         var $form = $('#newsletter-form');
         $form.submit(function (e) {
           e.preventDefault;
           yellr.utils.email_signup($form.serealize());
         })
+
+        break;
+        // ----------------------------
+
+      case 'submit-tip':
+
+        // hide the submit-tip-btn
+        document.querySelector('.submit-news-tip-btn').setAttribute('style','display:none;');
+
+        // hook up the submit button
+        document.querySelector('.submit-btn').onclick = function (e) {
+          e.preventDefault();
+          yellr.utils.submit_form();
+        }
 
         break;
 

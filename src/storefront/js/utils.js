@@ -88,9 +88,13 @@ yellr.utils = {
 
     for (var i = 0; i < forms.length; i++) {
       var form = forms[i];
+      // form.querySelector('.client_id').value=yellr.UUID;
 
       $(form).ajaxSubmit({
         url: yellr.URLS.upload,
+        data: {
+          client_id: yellr.UUID
+        },
         success: function (response) {
           if (response.success) {
             // add the media_id to our local array
@@ -103,7 +107,8 @@ yellr.utils = {
             console.log('Something went wrong with upload_media...');
             console.log(response);
           }
-        }
+        },
+        clearForm: true
       });
       // end ajaxSubmit
     };

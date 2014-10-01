@@ -18,28 +18,41 @@ body#storefront(data-page="submit-tip")
 
         div.forms-wrapper
           //- text
-          form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-            input.client_id(type="hidden", name="client_id", value="")
+          //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
             input(type="hidden", name="media_type", value="text")
             input(type="text", name="media_caption", placeholder="Title (optional)")
+            textarea(name="media_text", rows="2", columns="10", placeholder="What's going on?")
+
+          //- image form
+          form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input.client_id(type="hidden", name="client_id", value="")
+            input(type="hidden", name="media_type", value="image")
             textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+            input(type="file", name="media_payload", multiple)
+            div.media-submission-wrapper
+              div.media-preview
+                i.fa.fa-close
+                img(src="")#img-preview
 
-          div.submit-btn Submit Content
 
-        //- //- image form
-        //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-        //-   input.client_id(type="hidden", name="client_id", value="")
-        //-   input(type="hidden", name="media_type", value="image")
-        //-   textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
-        //-   input(type="file", name="media_payload", multiple)
-        //-   div.media-submission-wrapper
-        //-     div.media-preview
-        //-       i.fa.fa-close
-        //-       img(src="")#img-preview
-        //-       //- img(src="http://lorempixel.com/400/200")#img-preview
-        //-     //- div.media-options
-        //-       span.add-more-media.flex-1#add-more-media-btn
-        //-         i.fa.fa-plus
+
+          div#add-extra-media.add-extra-media
+            p Add extra media:
+            div.flex
+              div.add-photo.flex-1
+                i.fa.fa-plus
+                i.fa.fa-camera
+                span.block Add Photo
+              div.add-video.flex-1
+                i.fa.fa-plus
+                i.fa.fa-video-camera
+                span.block Add Video
+              div.add-audio.flex-1
+                i.fa.fa-plus
+                i.fa.fa-microphone
+                span.block Add Audio
+
+        div.submit-btn Submit Content
 
 
         //- //- video form
@@ -69,19 +82,6 @@ body#storefront(data-page="submit-tip")
         //-         i.fa.fa-close
         //-         i.fa.fa-microphone
 
-
-        //- div#add-extra-media.add-extra-media
-        //-   p.wrapper Add extra media:
-        //-   div.flex
-        //-     div.add-photo.flex-1
-        //-       i.fa.fa-plus
-        //-       i.fa.fa-camera
-        //-     div.add-video.flex-1
-        //-       i.fa.fa-plus
-        //-       i.fa.fa-video-camera
-        //-     div.add-autio.flex-1
-        //-       i.fa.fa-plus
-        //-       i.fa.fa-microphone
 
 
   include _templates.jade

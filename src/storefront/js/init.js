@@ -65,6 +65,18 @@ yellr.main = {
         // hide the submit-tip-btn
         document.querySelector('.submit-news-tip-btn').setAttribute('style','display:none;');
 
+        // add extra media
+        document.querySelector('#add-extra-media div.flex').onclick = function(e) {
+          console.log('lol');
+          if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
+            var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
+            // data.id = form_type.split('add-')[1].split(' ')[0];
+            // self.setup_form(data, true);
+            console.log(form_type.split('add-')[1].split(' ')[0]);
+          }
+        };
+
+
         // hook up the submit button
         document.querySelector('.submit-btn').onclick = function (e) {
           e.preventDefault();

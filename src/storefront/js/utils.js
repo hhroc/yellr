@@ -128,6 +128,9 @@ yellr.utils = {
       media_objects: JSON.stringify(media_objects)
     }, function(e) {
       console.log('post published');
+      // generate new UUID after every post to help protect anonymity
+      yellr.UUID = yellr.utils.guid();
+      yellr.utils.save();
     });
 
   },

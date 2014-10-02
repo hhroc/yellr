@@ -67,15 +67,19 @@ yellr.main = {
 
         // add extra media
         document.querySelector('#add-extra-media div.flex').onclick = function(e) {
-          console.log('lol');
           if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
-            var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
-            // data.id = form_type.split('add-')[1].split(' ')[0];
-            // self.setup_form(data, true);
-            console.log(form_type.split('add-')[1].split(' ')[0]);
+            // what type of media are we going to add?
+            var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className,
+                form_template = '#'+form_type.split('add-')[1].split(' ')[0] + '-form-template';
+
+            // add the form
+            yellr.utils.render_template({
+              template: form_template,
+              target: '.forms-wrapper',
+              append: true
+            });
           }
         };
-
 
         // hook up the submit button
         document.querySelector('.submit-btn').onclick = function (e) {
@@ -84,7 +88,7 @@ yellr.main = {
         }
 
         break;
-
+        // ----------------------------
       default:
         console.log('lol ok');
         break;

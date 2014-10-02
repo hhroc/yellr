@@ -14,5 +14,5 @@
     <access origin=".*" />  <!-- only during development -->
     <preference name="Orientation" value="portrait" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="10000" />
+    <preference name="SplashScreenDelay" value="5000" />
 </widget>

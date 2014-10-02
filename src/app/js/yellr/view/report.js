@@ -140,7 +140,6 @@ yellr.view.report = (function() {
       // if we don't, we're submitting a text post --? use regular AJAX
 
       if (yellr.TMP !== null) {
-        yellr.utils.notify('submitting form. TMP obj exists');
 
         // prep for upload
         var ft = new FileTransfer(),
@@ -169,6 +168,8 @@ yellr.view.report = (function() {
         ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
           function success(response) {
             yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
+            // clear tmp object
+            yellr.utils.clearTmp();
           },
           function fail(error) {
             console.log('hello from: fail');

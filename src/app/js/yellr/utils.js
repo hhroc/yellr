@@ -263,22 +263,20 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
-    var base_url = 'http://127.0.0.1:8080/';
-    // two sets of URLS
-    var urls = {
-          assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications:  base_url+'get_notifications.json?client_id='+yellr.UUID,
-          messages:       base_url+'get_messages.json?client_id='+yellr.UUID,
-          stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
-          profile:        base_url+'todo',
-          upload:         base_url+'upload_media.json',
-          post:           base_url+'publish_post.json',
-          server_info:    base_url+'server_info.json'
-        };
-
     // if in devevlopment, use local URLs
-    yellr.URLS = urls;
+    var base_url = 'http://yellrdev.wxxi.org/';
+    // var base_url = 'http://127.0.0.1:8080/';
+
+    yellr.URLS = {
+      assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+      notifications:  base_url+'get_notifications.json?client_id='+yellr.UUID,
+      messages:       base_url+'get_messages.json?client_id='+yellr.UUID,
+      stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+      profile:        base_url+'todo',
+      upload:         base_url+'upload_media.json',
+      post:           base_url+'publish_post.json',
+      server_info:    base_url+'server_info.json'
+    };
 
   },
 
@@ -435,6 +433,10 @@ yellr.utils = {
   },
 
 
+  clearTmp: function () {
+    yellr.TMP = null;
+  },
+
 
   open_camera: function () {
 
@@ -457,8 +459,6 @@ yellr.utils = {
 
         // show an image preview
         document.querySelector('.img-preview').src = imgURI;
-        yellr.utils.notify(imgURI);
-        yellr.utils.notify('Save imgURI to yellr.TMP object')
 
         // we save it to this TMP (temporaray) object
         // because we do don't submit things until people
@@ -469,19 +469,6 @@ yellr.utils = {
             uri: imgURI
           }
         };
-
-        yellr.utils.notify(yellr.TMP.file.uri);
-
-        // do some memory cleanup
-        // "Removes intermediate image files that are kept in temporary
-        // storage after calling camera.getPicture"
-        // navigator.camera.cleanup(function ()
-        // {
-        //   console.log("Camera cleanup success.")
-        // }, function (message)
-        // {
-        //   console.log('Failed because: ' + message);
-        // });
 
       },
       function(error) {
@@ -513,8 +500,6 @@ yellr.utils = {
 
         // show an image preview
         document.querySelector('.img-preview').src = imgURI;
-        yellr.utils.notify(imgURI);
-        yellr.utils.notify('Save imgURI to yellr.TMP object')
 
         // we save it to this TMP (temporaray) object
         // because we do don't submit things until people
@@ -526,23 +511,10 @@ yellr.utils = {
           }
         };
 
-        yellr.utils.notify(yellr.TMP.file.uri);
-
-        // do some memory cleanup
-        // "Removes intermediate image files that are kept in temporary
-        // storage after calling camera.getPicture"
-        // navigator.camera.cleanup(function ()
-        // {
-        //   console.log("Camera cleanup success.")
-        // }, function (message)
-        // {
-        //   console.log('Failed because: ' + message);
-        // });
-
       },
       function(error) {
         yellr.utils.redirect('#');
-        yellr.utils.notify('Photo Capture fail: ' + error);
+        yellr.utils.notify('Gallery fail: ' + error);
       },
       options
     );

@@ -135,28 +135,74 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      var forms = document.querySelectorAll('#form-wrapper form');
-      total_forms = forms.length;
+      // if we used the phone for anything
+      // we should have a yellr.TMP --> use FileTransfer
+      // if we don't, we're submitting a text post --? use regular AJAX
 
-      for (var i = 0; i < forms.length; i++) {
-        var form = forms[i];
+      if (yellr.TMP !== null) {
+        yellr.utils.notify('submitting form. TMP obj exists');
 
-        $(form).ajaxSubmit({
-          url: yellr.URLS.upload,
-          success: function (response) {
-            if (response.success) {
-              // add the media_id to our local array
-              form_counter++;
-              media_objects.push(response.media_id);
-              yellr.view.report.publish_post();
+        // prep for upload
+        var ft = new FileTransfer(),
+            options = new FileUploadOptions();
+            // options = new FileUploadOptions(),
+            // parameters = {
+            //   client_id: yellr.UUID,
+            //   media_type: yellr.TMP.file.type,
+            // };
 
-            } else {
-              yellr.utils.notify('Something went wrong with upload_media...');
-            }
+        // set the form. hard-coded for now
+        options.fileKey = '.'+yellr.TMP.file.type+'-form';
+
+
+        // setup user feedback
+        ft.onprogress = function uploadProgress(progress) {
+          if (progress.lengthComputable) {
+            console.log(progress.loaded / progress.total);
+            // loadingStatus.setPercentage(progress.loaded / progress.total);
+          } else {
+            // loadingStatus.increment();
           }
-        });
-        // end ajaxSubmit
+        };
+
+        // parameters: fileURI, server, succes, fail, options
+        ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
+          function success(response) {
+            yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
+          },
+          function fail(error) {
+            console.log('hello from: fail');
+            yellr.utils.notify(error.code + ' | ' + error.source + ' | ' + error.target);
+          },
+          options
+        );
+
+      } else {
+
+        var forms = document.querySelectorAll('#form-wrapper form');
+        total_forms = forms.length;
+
+        for (var i = 0; i < forms.length; i++) {
+          var form = forms[i];
+
+          $(form).ajaxSubmit({
+            url: yellr.URLS.upload,
+            success: function (response) {
+              if (response.success) {
+                // add the media_id to our local array
+                form_counter++;
+                media_objects.push(response.media_id);
+                yellr.view.report.publish_post();
+
+              } else {
+                yellr.utils.notify('Something went wrong with upload_media...');
+              }
+            }
+          });
+          // end ajaxSubmit
+        };
       };
+
     }
 
 

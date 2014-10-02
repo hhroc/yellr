@@ -4,7 +4,7 @@ var yellr = yellr || {};
 /**
  * utility functions
  * ===================================
- * load_localStorage - load localtorage
+ * load_localStorage - load localStorage
  * load - load data from server
  * save - save yellr object to local storage
  * set_urls - set API urls
@@ -265,8 +265,6 @@ yellr.utils = {
 
     // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
     var base_url = 'http://127.0.0.1:8080/';
-    // var base_url = 'http://yellrdev.wxxi.org/';
-    // alert('BASE URL: ' + base_url);
     // two sets of URLS
     var urls = {
           assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
@@ -440,6 +438,16 @@ yellr.utils = {
 
   open_camera: function () {
 
+    var options = {
+      quality: 50,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
+    };
+
 
     navigator.camera.getPicture(
       function(imgURI) {
@@ -449,6 +457,20 @@ yellr.utils = {
 
         // show an image preview
         document.querySelector('.img-preview').src = imgURI;
+        yellr.utils.notify(imgURI);
+        yellr.utils.notify('Save imgURI to yellr.TMP object')
+
+        // we save it to this TMP (temporaray) object
+        // because we do don't submit things until people
+        // press the [√] submit button
+        yellr.TMP = {
+          file: {
+            type: 'image',
+            uri: imgURI
+          }
+        };
+
+        yellr.utils.notify(yellr.TMP.file.uri);
 
         // do some memory cleanup
         // "Removes intermediate image files that are kept in temporary
@@ -464,17 +486,9 @@ yellr.utils = {
       },
       function(error) {
         yellr.utils.redirect('#');
-        console.log('Photo Capture fail: ' + error);
+        yellr.utils.notify('Photo Capture fail: ' + error);
       },
-      {
-        quality: 50,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        destinationType: Camera.DestinationType.FILE_URI,
-        // allowEdit : true,
-        encodingType: Camera.EncodingType.JPEG,
-        correctOrientation: true,
-        saveToPhotoAlbum: true
-      }
+      options
     );
 
   },
@@ -482,8 +496,56 @@ yellr.utils = {
 
 
   open_gallery: function () {
-    console.log('hello from: open_gallery');
-    yellr.utils.redirect('#report/image');
+
+    var options = {
+      quality: 50,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE
+    };
+
+    navigator.camera.getPicture(
+      function(imgURI) {
+
+        // setup report thing
+        yellr.utils.redirect('#report/image');
+
+        // show an image preview
+        document.querySelector('.img-preview').src = imgURI;
+        yellr.utils.notify(imgURI);
+        yellr.utils.notify('Save imgURI to yellr.TMP object')
+
+        // we save it to this TMP (temporaray) object
+        // because we do don't submit things until people
+        // press the [√] submit button
+        yellr.TMP = {
+          file: {
+            type: 'image',
+            uri: imgURI
+          }
+        };
+
+        yellr.utils.notify(yellr.TMP.file.uri);
+
+        // do some memory cleanup
+        // "Removes intermediate image files that are kept in temporary
+        // storage after calling camera.getPicture"
+        // navigator.camera.cleanup(function ()
+        // {
+        //   console.log("Camera cleanup success.")
+        // }, function (message)
+        // {
+        //   console.log('Failed because: ' + message);
+        // });
+
+      },
+      function(error) {
+        yellr.utils.redirect('#');
+        yellr.utils.notify('Photo Capture fail: ' + error);
+      },
+      options
+    );
 
   },
 

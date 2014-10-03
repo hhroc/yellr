@@ -762,7 +762,7 @@ def upload_media(request):
             # rename once we are valid
             os.rename(temp_file_path, file_path)
 
-            result['file_name'] = file_name
+            result['file_name'] = file_path
 
         #except:
             #result['error_text'] = 'Missing or invalid media_file contents.'

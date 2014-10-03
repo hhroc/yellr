@@ -154,6 +154,7 @@ yellr.view.report = (function() {
 
         // // set the form. hard-coded for now
         // options.fileKey = '.'+yellr.TMP.file.type+'-form';
+        options.fileKey = 'media_file';
         options.params = parameters;
 
         // setup user feedback

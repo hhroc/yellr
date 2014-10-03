@@ -175,9 +175,13 @@ yellr.view.report = (function() {
           function success(response) {
             yellr.utils.notify('success');
             yellr.utils.clearTmp();
-            yellr.utils.notify(response.response.media_id);
+            // yellr.utils.notify(typeof response.response);
+
+            var response_object = JSON.parse(response.response);
+            // yellr.utils.notify(response_object.media_id);
+
             // yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
-            media_objects.push(response.response.media_id);
+            media_objects.push(response_object.media_id);
             form_counter++;
             yellr.view.report.publish_post();
             // clear tmp object

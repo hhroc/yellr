@@ -3,6 +3,11 @@ import json
 from time import strftime
 import uuid
 import datetime
+import subprocess
+import magic
+import mutagen.mp3
+import mutagen.oggvorbis
+import mutagen.mp4
 
 from utils import make_response
 
@@ -14,6 +19,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
+
 
 from .models import (
     DBSession,
@@ -650,24 +656,13 @@ def upload_media(request):
             except:
                 result['error_text'] = 'Missing or invalid file field'
                 raise Exception('Invalid media_file field.')
-
-            # decode media type
-            if media_type == 'image':
-                media_extention  = 'jpg'
-            elif media_type == 'video':
-                media_extention = 'mpg'
-            elif media_type == 'audio':
-                media_extention = 'mp3'
-            elif media_type == 'text':
-                media_extention = 'txt'
-            else:
-                error_text = 'invalid media type'
-                raise Exception('')
         
+            media_extention="processing"
+
             # generate a unique file name to store the file to
             file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
             file_path = os.path.join(system_config['upload_dir'], file_name)
-
+            
             # write file to temp location, and then to disk
             temp_file_path = file_path + '~'
             output_file = open(temp_file_path, 'wb')
@@ -679,6 +674,102 @@ def upload_media(request):
                 if not data:
                     break
                 output_file.write(data)
+
+            #decode media type of written file
+            #more file types can be added, but these should cover most for now
+            #TODO: client side validation so they don't lose content when they upload incorrect files?
+            #TODO: better error messages
+            #TODO: delete / handle (in some way) files that do not validate?
+            mimetype = magic.from_file(temp_file_path, mime=True)
+            #process image files
+            if media_type == 'image':
+
+                #jpeg
+                if mimetype == "image/jpeg":
+                    media_extention  = 'jpg'
+                    print "media_Extension is: " + media_extention
+
+                #png
+                elif mimetype == "image/png":
+                    media_extention  = 'png'
+                    print "media_Extension is: " + media_extention
+
+                #not jpeg or png 
+                else:
+                    error_text = 'invalid image file'
+                    raise Exception('')
+
+                #strip metadata from images with ImageMagick's mogrify
+                #TODO: dynamically find mogrify (but I think it's usually /usr/bin)
+                try:
+                    subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+                except:
+                    error_text = "Mogrify is missing, or in an unexpected place."
+                    raise Exception('')
+
+            #process video files
+            elif media_type == 'video':
+                #I can't seem to find any evidence of PII in mpg metadata
+                if mimetype == "video/mpeg":
+                    media_extention = 'mpg'
+                elif mimetype == "video/mp4":
+                    media_extension = "mp4"
+                    #strip metadata
+                    try:
+                        mp4 = mutagen.mp4.MP4(temp_file_path)
+                        mp4.delete()
+                        mp4.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from mp4"
+                        raise Exception('')
+
+                else:
+                    error_text = 'invalid video file'
+                    raise Exception('')
+
+            #process audio files
+            elif media_type == 'audio':
+
+                #mp3 file
+                if mimetype == "audio/mpeg":
+                    media_extention = 'mp3'
+                    #strip metadata
+                    try:
+                        mp3 = mutagen.mp3.MP3(temp_file_path)
+                        mp3.delete()
+                        mp3.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from mp3"
+                        raise Exception('')
+
+                #ogg vorbis file
+                elif mimetype == "audio/ogg" or mimetype == "application/ogg":
+                    media_extention = 'ogg'
+                    try:
+                        ogg = mutagen.oggvorbis.Open(temp_file_path)
+                        ogg.delete()
+                        ogg.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from ogg vorbis"
+                        raise Exception('')
+
+                #not mp3 or ogg vorbis
+                else:
+                    error_text = 'invalid audio file'
+                    raise Exception('')
+
+            #I don't think the user has a way to upload files of this type besides typing in the box
+            #so it doesn't need as robust detection.
+            elif media_type == 'text':
+                media_extention = 'txt'
+
+            else:
+                error_text = 'invalid media type'
+                raise Exception('')
+
+            #the file has been validated and processed, so we adjust the file path
+            #to the mimetype-dictated file extension
+            file_path = file_path.replace("processing", media_extention)
 
             # rename once we are valid
             os.rename(temp_file_path, file_path)

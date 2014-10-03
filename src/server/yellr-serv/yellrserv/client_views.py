@@ -528,9 +528,11 @@ def publish_post(request):
 
     result = {'success': False}
 
-    try:
+    if True:
+    #try:
 
-        try:
+        if True:
+        #try:
             client_id = request.POST['client_id']
             assignment_id = request.POST['assignment_id']
             title = request.POST['title']
@@ -540,9 +542,9 @@ def publish_post(request):
             media_objects = json.loads(urllib.unquote(
                 request.POST['media_objects']).decode('utf8')
             )
-        except:
-            result['error_text'] = 'Missing or invalid field'
-            raise Exception('missing/invalid field')
+        #except:
+        #    result['error_text'] = 'Missing or invalid field'
+        #    raise Exception('missing/invalid field')
 
         post,created = Posts.create_from_http(
             session = DBSession,
@@ -585,8 +587,8 @@ def publish_post(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    except:
-       pass
+    #except:
+    #   pass
 
     #resp = json.dumps(result)
     #return Response(resp,content_type='application/json') 
@@ -630,12 +632,19 @@ def upload_media(request):
                 or media_type == 'audio':
 
     
-            try:
-                media_file_name = request.POST['media_file'].filename
-                input_file = request.POST['media_file'].file
-            except:
-                result['error_text'] = 'Missing or invalid file field'
-                raise Exception('Invalid media_file field.')
+            if True:
+            #try:
+                print "FILE TYPE: {0}".format(type(request.POST['media_file']))
+                print "FILE CONTENTS: {0}".format(request.POST['media_file'])
+                print "LIST OF FORM OBJECTS:"
+                print request.POST
+                #media_file_name = request.POST['media_file'].filename
+                media_file_name = request.POST['file'].filename
+                #input_file = request.POST['media_file'].file
+                input_file = request.POST['file'].file
+            #except:
+            #    result['error_text'] = 'Missing or invalid file field'
+            #    raise Exception('Invalid media_file field.')
         
             media_extention="processing"
 
@@ -681,11 +690,12 @@ def upload_media(request):
 
                 #strip metadata from images with ImageMagick's mogrify
                 #TODO: dynamically find mogrify (but I think it's usually /usr/bin)
-                try:
+                if True:
+                #try:
                     subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
-                except:
-                    error_text = "Mogrify is missing, or in an unexpected place."
-                    raise Exception('')
+                #except:
+                #    error_text = "Mogrify is missing, or in an unexpected place."
+                #    raise Exception('')
 
             #process video files
             elif media_type == 'video':
@@ -761,8 +771,9 @@ def upload_media(request):
             #raise Exception('missing/invalid media_file contents')
 
         media_caption = ''
+        #if True:
         try:
-            media_caption = requst.POST['caption']
+            media_caption = request.POST['caption']
         except:
             pass
 

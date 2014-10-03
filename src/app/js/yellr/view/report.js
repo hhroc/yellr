@@ -175,7 +175,8 @@ yellr.view.report = (function() {
           function success(response) {
             yellr.utils.notify('success');
             yellr.utils.clearTmp();
-            yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
+            yellr.utils.notify(response.response.media_id);
+            // yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
             media_objects.push(response.response.media_id);
             form_counter++;
             yellr.view.report.publish_post();
@@ -193,6 +194,7 @@ yellr.view.report = (function() {
 
         var forms = document.querySelectorAll('#form-wrapper form');
         total_forms = forms.length;
+        form_counter = 0;
 
         for (var i = 0; i < forms.length; i++) {
           var form = forms[i];

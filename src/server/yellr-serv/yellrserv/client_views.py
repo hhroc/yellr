@@ -60,10 +60,6 @@ def index(request):
             language_code = 'en',
         )
 
-        print "\n\n"
-        print latest_stories
-        print "\n\n"
-
         ret_latest_stories = []
         for story_unique_id, publish_datetime, edited_datetime, title, tags, \
                 top_text, contents, top_left_lat, top_left_lng, \
@@ -88,10 +84,6 @@ def index(request):
                 'banner_media_file_name': media_file_name,
                 'banner_media_id': media_id,
             })
-
-        print "\n\n"
-        print ret_latest_stories
-        print "\n\n"
 
     #except:
     #    pass
@@ -557,10 +549,6 @@ def publish_post(request):
             media_objects = media_objects, # array
         )
 
-        print "\nThis client_id was seen by the server:\n"
-        print client_id
-        print "\n\n"
-
         result['success'] = True
         result['post_id'] = post.post_id
         result['new_user'] = created
@@ -617,10 +605,6 @@ def upload_media(request):
 
     """
 
-    #print "\n"
-    #print request.POST
-    #print "\n"
-
     result = {'success': False}
 
     #error_text = ''
@@ -640,10 +624,6 @@ def upload_media(request):
                 or media_type == 'audio':
 
     
-            #print '\n[DEBUG] POST items:\n'
-            #print request.POST.items()
-            #print '\n\n'
-
             try:
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file

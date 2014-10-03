@@ -470,6 +470,8 @@ yellr.utils = {
           }
         };
 
+        yellr.utils.notify(imgURI);
+
       },
       function(error) {
         yellr.utils.redirect('#');

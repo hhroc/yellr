@@ -143,16 +143,18 @@ yellr.view.report = (function() {
 
         // prep for upload
         var ft = new FileTransfer(),
-            options = new FileUploadOptions();
-            // options = new FileUploadOptions(),
-            // parameters = {
-            //   client_id: yellr.UUID,
-            //   media_type: yellr.TMP.file.type,
-            // };
+            // options = new FileUploadOptions();
+            options = new FileUploadOptions(),
+            parameters = {
+              client_id: yellr.UUID,
+              media_type: yellr.TMP.file.type,
+              media_caption: document.querySelector('.'+yellr.TMP.file.type+'-form textarea').value,
+              media_file: yellr.TMP.file.uri
+            };
 
-        // set the form. hard-coded for now
-        options.fileKey = '.'+yellr.TMP.file.type+'-form';
-
+        // // set the form. hard-coded for now
+        // options.fileKey = '.'+yellr.TMP.file.type+'-form';
+        options.params = parameters;
 
         // setup user feedback
         ft.onprogress = function uploadProgress(progress) {
@@ -167,12 +169,14 @@ yellr.view.report = (function() {
         // parameters: fileURI, server, succes, fail, options
         ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
           function success(response) {
+            yellr.utils.notify('success');
             yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
             // clear tmp object
             yellr.utils.clearTmp();
           },
           function fail(error) {
-            console.log('hello from: fail');
+            // console.log('hello from: fail');
+            yellr.utils.notify('fail');
             yellr.utils.notify(error.code + ' | ' + error.source + ' | ' + error.target);
           },
           options

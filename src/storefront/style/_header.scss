@@ -1,0 +1,45 @@
+#header {
+  background: $yellow;
+  color: $black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.header-wrapper {
+  @extend %wrapper;
+  @include flexbox();
+  padding: 0.875rem 0;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.front-page-h1 {
+  margin: 0;
+  font-size: 1rem;
+  @include flex(1);
+}
+
+.submit-news-tip-wrapper {
+  @include flex(1);
+  text-align: right;
+  color: $white;
+}
+
+.submit-news-tip-btn {
+  background: $blue;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  transition: background 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    background: lighten($blue, 10%);
+  }
+}
+

@@ -24,7 +24,7 @@ yellr.view.notifications = (function() {
       header = data.template.header;
       header.template = '#page-header';
       header.context = {
-        page: 'Notifications',
+        page: yellr.SCRIPT.notifications,
         refresh: true
       };
       footer = data.template.footer;

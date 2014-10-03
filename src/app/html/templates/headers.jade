@@ -1,6 +1,6 @@
 //- main
 script#main-header(type="text/x-handlebars-template").
-  <h1 id="app-h1"><a href="#assignments">Yellr</h1>
+  <h1 id="app-h1"><a href="#assignments">Yellr</a></h1>
   <nav id="app-nav">
     <a href="#notifications" id="notifications-btn" class="btn"><i class="fa fa-bell-o"></i></a>
     <a href="#messages" id="messages-btn" class="btn"><i class="fa fa-envelope-o"></i></a>
@@ -32,7 +32,7 @@ script#submit-header(type="text/x-handlebars-template").
     {{/if}}
     <i class="fa fa-arrow-left"></i></a>
   </nav>
-  <h1 id="page-h1">Submit Report</h1>
+  <h1 id="page-h1">{{submit_report}}</h1>
   <a id="submit-btn" href="#"><i class="fa fa-check"></i></a>
 
 

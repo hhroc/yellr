@@ -28,10 +28,8 @@ yellr.view.report = (function() {
 
       header = data.template.header;
       header.template = '#submit-header';
+      header.context = {submit_report: yellr.SCRIPT.submit_report};
       render_template(header);
-      $('#submit-btn').on('tap', function (e) {
-        yellr.view.report.submit_form();
-      });
 
       yellr.utils.no_subnav();
 
@@ -39,6 +37,9 @@ yellr.view.report = (function() {
       footer.template = '';
       render_template(footer);
 
+      $('#submit-btn').on('tap', function (e) {
+        yellr.view.report.submit_form();
+      });
 
 
       // the assignment ID is in the URL
@@ -81,6 +82,11 @@ yellr.view.report = (function() {
       if (form.context === undefined) form.context = {};
       form.context.client_id = yellr.UUID;
 
+      // add the language text (all of the things)
+      form.context.add_description = yellr.SCRIPT['add_'+data.id+'_description'];
+      form.context.tell_us_more = yellr.SCRIPT.tell_us_more;
+      form.context.whats_on_your_mind = yellr.SCRIPT.whats_on_your_mind;
+      form.context.tell_us_the_story = yellr.SCRIPT.tell_us_the_story;
 
       if (append) form.append = true;
 
@@ -101,7 +107,10 @@ yellr.view.report = (function() {
       // add extra media bar
       render_template({
         template: '#extra-media',
-        target: '#extra-media-wrapper'
+        target: '#extra-media-wrapper',
+        context: {
+          add_extra_media: yellr.SCRIPT.add_extra_media
+        }
       });
 
 
@@ -126,38 +135,79 @@ yellr.view.report = (function() {
 
     var submit_form = function() {
 
-      // so it has something to do with our forms var...
-      console.log(document.querySelector('#form-wrapper'));
-      // console.log(document.querySelectorAll('#form-wrapper form'));
+      // if we used the phone for anything
+      // we should have a yellr.TMP --> use FileTransfer
+      // if we don't, we're submitting a text post --? use regular AJAX
 
-      var forms = document.querySelectorAll('#form-wrapper form');
-      total_forms = forms.length;
+      if (yellr.TMP !== null) {
 
-      console.log(forms);
+        // prep for upload
+        var ft = new FileTransfer(),
+            // options = new FileUploadOptions();
+            options = new FileUploadOptions(),
+            parameters = {
+              client_id: yellr.UUID,
+              media_type: yellr.TMP.file.type,
+              media_caption: document.querySelector('.'+yellr.TMP.file.type+'-form textarea').value,
+              media_file: yellr.TMP.file.uri
+            };
 
-      for (var i = 0; i < forms.length; i++) {
-        var form = forms[i];
+        // // set the form. hard-coded for now
+        // options.fileKey = '.'+yellr.TMP.file.type+'-form';
+        options.params = parameters;
 
-        console.log('submitting form #'+(i+1)+' of '+forms.length);
-
-        $(form).ajaxSubmit({
-          url: yellr.URLS.upload,
-          success: function (response) {
-            if (response.success) {
-              // add the media_id to our local array
-              form_counter++;
-              media_objects.push(response.media_id);
-              console.log(media_objects);
-              yellr.view.report.publish_post();
-
-            } else {
-              yellr.utils.notify('Something went wrong with upload_media...');
-              console.log(response);
-            }
+        // setup user feedback
+        ft.onprogress = function uploadProgress(progress) {
+          if (progress.lengthComputable) {
+            console.log(progress.loaded / progress.total);
+            // loadingStatus.setPercentage(progress.loaded / progress.total);
+          } else {
+            // loadingStatus.increment();
           }
-        });
-        // end ajaxSubmit
+        };
+
+        // parameters: fileURI, server, succes, fail, options
+        ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
+          function success(response) {
+            yellr.utils.notify('success');
+            yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
+            // clear tmp object
+            yellr.utils.clearTmp();
+          },
+          function fail(error) {
+            // console.log('hello from: fail');
+            yellr.utils.notify('fail');
+            yellr.utils.notify(error.code + ' | ' + error.source + ' | ' + error.target);
+          },
+          options
+        );
+
+      } else {
+
+        var forms = document.querySelectorAll('#form-wrapper form');
+        total_forms = forms.length;
+
+        for (var i = 0; i < forms.length; i++) {
+          var form = forms[i];
+
+          $(form).ajaxSubmit({
+            url: yellr.URLS.upload,
+            success: function (response) {
+              if (response.success) {
+                // add the media_id to our local array
+                form_counter++;
+                media_objects.push(response.media_id);
+                yellr.view.report.publish_post();
+
+              } else {
+                yellr.utils.notify('Something went wrong with upload_media...');
+              }
+            }
+          });
+          // end ajaxSubmit
+        };
       };
+
     }
 
 
@@ -171,8 +221,6 @@ yellr.view.report = (function() {
       // make sure we submitted all the forms
 
       if (form_counter === total_forms) {
-
-        console.log('all forms submitted');
 
         // title should be either a free response or
         // Reply to: Assignment ID

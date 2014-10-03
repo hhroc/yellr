@@ -27,11 +27,8 @@ yellr.view.assignments = (function() {
       header = data.template.header;
       footer = data.template.footer;
 
-      if (data.hash === '#view-assignment')
-        this.render_assignment(data.id);
-      else {
-        this.setup_feed();
-      }
+      if (data.hash === '#view-assignment') this.render_assignment(data.id);
+      else this.setup_feed();
 
       render_template(header);
       render_template(footer);
@@ -46,24 +43,6 @@ yellr.view.assignments = (function() {
 
 
 
-    var render_feed = function() {
-      render_template({
-        target: '#latest-assignments',
-        template: '#assignments-li',
-        context: {assignments: yellr.DATA.assignments }
-      });
-
-      // parse UTC dates with moment.js
-      var dates = document.querySelectorAll('.assignment-deadline');
-      for (var i = 0; i < dates.length; i++) {
-        dates[i].innerHTML = moment(dates[i].innerHTML).fromNow(true)
-      };
-
-    }
-
-
-
-
     var setup_feed = function() {
 
       // template settings
@@ -72,7 +51,11 @@ yellr.view.assignments = (function() {
       // subnav
       render_template({
         target: '#app-subnav',
-        template: '#homepage-subnav'
+        template: '#homepage-subnav',
+        context: {
+          assignments: yellr.SCRIPT.assignments,
+          news_feed: yellr.SCRIPT.news_feed
+        }
       });
       document.querySelector('#assignments-tab').className = 'current';
 
@@ -85,10 +68,33 @@ yellr.view.assignments = (function() {
         this.render_feed();
       }
 
-
     }
 
 
+
+
+
+
+    var render_feed = function() {
+
+      var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
+        val.view_assignment_text = yellr.SCRIPT.view_assignment;
+        val.deadline_text = yellr.SCRIPT.deadline;
+        return true;
+      });
+
+      // do the thing
+      render_template({
+        target: '#latest-assignments',
+        template: '#assignments-li',
+        context: {
+          assignments: assignments,
+          no_assignments_yet: yellr.SCRIPT.no_assignments_yet,
+          check_back_later_for_assignments: yellr.SCRIPT.check_back_later_for_assignments
+        }
+      });
+
+    }
 
 
 
@@ -105,7 +111,7 @@ yellr.view.assignments = (function() {
 
       // template settings
       header.template = '#page-header';
-      header.context = {page: 'Assignment'};
+      header.context = {page: yellr.SCRIPT.assignment};
       yellr.utils.no_subnav();
       footer.template = '';
 
@@ -121,8 +127,9 @@ yellr.view.assignments = (function() {
         id: yellr.DATA.assignments[id].assignment_id,
         title: yellr.DATA.assignments[id].question_text,
         image: yellr.DATA.assignments[id].image,
-        description: (yellr.DATA.assignments[id].description) ? yellr.DATA.assignments[id].description : 'This is where a longer description would be for the assignment',
-        deadline: moment(yellr.DATA.assignments[id].expire_datetime).fromNow(true)
+        description: yellr.DATA.assignments[id].description,
+        deadline: yellr.DATA.assignments[id].expire_datetime,
+        contribute_text: yellr.SCRIPT.contribute
       }
 
       switch (yellr.DATA.assignments[id].question_type_id) {

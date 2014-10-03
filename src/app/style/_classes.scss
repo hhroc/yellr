@@ -1,0 +1,109 @@
+.pt-perspective {
+  position: relative;
+}
+.pt-page {
+  display: none;
+  padding-bottom: 4rem;
+  &.with-secondary-nav {
+    margin-top: 3.5rem;
+  }
+  &.current {
+    display: block;
+  }
+}
+
+.no-border {
+  border: none;
+}
+
+.app-bar {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  ul {list-style: none; }
+}
+
+.templates {
+  display: none;
+}
+
+.form {
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    font-size: 1.125rem;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 0.125rem 0.25rem 0.25rem;
+    width: 100%;
+    max-width: 20rem;
+  }
+}
+
+.has-subnav {
+  margin-top: 3rem;
+}
+
+.t4 {
+  font-size: 1rem;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+
+
+// overlay styles assume you would want the sterotypical
+// vertically cernterned and black overlay
+
+#overlay-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(#111, 0.6);
+  display: none;
+  &.show {
+    z-index: 500;
+    display: block;
+  }
+}
+
+#overlay {
+  background: #ebebeb;
+  margin: 0 0.5rem 30%;
+  border-radius: 6px;
+  padding-top: 1rem;
+}
+
+// prompt styles
+.p1 {
+  font-size: 1.125rem;
+  border-bottom: 1px solid $blue;
+  padding: 0 0 0.6rem 0.75rem;
+  margin: 0;
+}
+
+
+
+.prompt-choices-vertical {
+  li {
+    padding: 1rem 0.75rem;
+    border-bottom: 2px solid #bbb;
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+.radio-list {
+  margin: 1rem 1rem 1.5rem;
+  li {
+    margin: 1rem 0;
+  }
+  input[type="radio"] {
+    margin-right: 0.75rem;
+    vertical-align: middle;
+  }
+}

@@ -831,6 +831,7 @@ module.exports = function(grunt) {
 
 
   // pyramid stuff
+  // ----------------------------
   grunt.registerTask('export_static_to_pyramid', function() {
     // we build the storefront with default settings,
     // then just copy the assets to the right folder
@@ -841,7 +842,11 @@ module.exports = function(grunt) {
   });
 
 
+  grunt.registerTask('deploy_moderator', function () {
 
+    // basically, copy the moderator thing to src/server/yellr-serv
+
+  });
 
 
 };

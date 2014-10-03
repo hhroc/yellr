@@ -23,16 +23,28 @@ yellr.view.profile = (function() {
 
       header = data.template.header;
       header.template = '#page-header';
-      header.context = {page: 'Profile'};
-
-      footer = data.template.footer;
-
-
+      header.context = {page: yellr.SCRIPT.profile};
       render_template(header);
-      render_template(footer);
+
       yellr.utils.no_subnav();
 
-      document.querySelector('#username').innerHTML = yellr.UUID;
+      footer = data.template.footer;
+      render_template(footer);
+
+      document.querySelector('.username').innerHTML = yellr.SCRIPT.anonymous;
+      document.querySelector('#unique-id').innerHTML = yellr.UUID;
+
+      document.querySelector('.language-settings .t4').innerHTML = yellr.SCRIPT.language;
+      document.querySelector('.account-settings .t4').innerHTML = yellr.SCRIPT.account;
+
+      document.querySelector('#sign-in-btn').innerHTML = yellr.SCRIPT.sign_in;
+      document.querySelector('#create-account-btn').innerHTML = yellr.SCRIPT.create_account;
+      document.querySelector('#generate-new-uuid').innerHTML = yellr.SCRIPT.generate_new_uuid;
+
+      document.querySelector('.client-version').innerHTML = yellr.VERSION.required_client_version;
+      document.querySelector('.server-version').innerHTML = yellr.VERSION.server_version;
+
+
 
       this.add_eventlisteners();
       yellr.utils.setup_report_bar();
@@ -41,15 +53,24 @@ yellr.view.profile = (function() {
 
 
 
-    var update = function() {
-      console.log('new data availble...');
-      console.log('...check if it is new/different');
-    }
-
-
-
-
     var add_eventlisteners = function() {
+
+      // change language
+      document.querySelector('.language-settings-list').onclick = function (e) {
+        e.preventDefault();
+
+        // target will be the <input>
+        var target;
+        if (e.target.nodeName === 'LI') {target = e.target.querySelector('input'); }
+        else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SPAN') {target = e.target.parentNode.querySelector('input'); }
+
+        // do the thing
+        if (target !== undefined && target.checked === false) {
+          target.checked = true;
+          yellr.utils.change_language(target.value);
+        }
+      }
+
 
       // generate new uid
       document.querySelector('#generate-new-uuid').onclick = function(e) {
@@ -58,7 +79,7 @@ yellr.view.profile = (function() {
         yellr.utils.save();
         console.log('TO DO: CLEAR ALL DATA WITH NEW UUID');
         // update text
-        document.querySelector('#username').innerHTML = yellr.UUID;
+        document.querySelector('#unique-id').innerHTML = yellr.UUID;
       }
       // change language
     }
@@ -66,7 +87,6 @@ yellr.view.profile = (function() {
 
     return {
       add_eventlisteners: add_eventlisteners,
-      render: render,
-      update: update
+      render: render
     }
 })();

@@ -25,7 +25,11 @@ yellr.view.stories = (function() {
         // subnav
         render_template({
           target: '#app-subnav',
-          template: '#homepage-subnav'
+          template: '#homepage-subnav',
+          context: {
+            assignments: yellr.SCRIPT.assignments,
+            news_feed: yellr.SCRIPT.news_feed
+          }
         });
         document.querySelector('#news-feed-tab').className = 'current';
 
@@ -48,7 +52,11 @@ yellr.view.stories = (function() {
       render_template({
         template: '#news-feed-li',
         target: '#latest-stories',
-        context: {stories: yellr.DATA.stories }
+        context: {
+          stories: yellr.DATA.stories,
+          no_news_in_your_area: yellr.SCRIPT.no_news_in_your_area,
+          get_your_voice_heard: yellr.SCRIPT.get_your_voice_heard
+        }
       });
 
     }
@@ -59,7 +67,10 @@ yellr.view.stories = (function() {
 
     var read_story = function(id) {
       header.template = '#page-header';
-      header.context = {page: 'Story Title', hash: '#news-feed'};
+      header.context = {
+        page: yellr.SCRIPT.news_story,
+        hash: '#news-feed'
+      };
       yellr.utils.no_subnav();
 
       var story = {
@@ -72,7 +83,7 @@ yellr.view.stories = (function() {
 
           story.context = {
             title: yellr.DATA.stories[i].title,
-            full_text: yellr.DATA.stories[i].full_text
+            contents: yellr.DATA.stories[i].contents
           }
 
           if (yellr.DATA.stories[i].image) {

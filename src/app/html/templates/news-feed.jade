@@ -16,8 +16,8 @@ script#news-feed-li(type="text/x-handlebars-template").
     {{/each}}
   {{else}}
     <li class="faded">
-      <h2 class="t1 news-title">No news stories yet in your area.</h2>
-      <div class="news-preview">By submitting things important to you, you can get your voice heard!</div>
+      <h2 class="t1 news-title">{{no_news_in_your_area}}</h2>
+      <div class="news-preview">{{get_your_voice_heard}}</div>
     </li>
   {{/if}}
 

@@ -1,0 +1,68 @@
+doctype html
+head
+  include ../../common/html/_head/meta.jade
+
+  title Submit Tip
+  meta(name="description", content="Yellr News")
+  include _head.jade
+
+
+body#storefront(data-page="submit-tip")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+    include _header.jade
+
+    div#main
+      div.wrapper
+        h2.t1 Submit Tip
+
+        div.forms-wrapper
+          //- text
+          form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input(type="hidden", name="media_type", value="text")
+            input(type="text", name="media_caption", placeholder="Title (optional)")
+            textarea(name="media_text", rows="2", columns="10", placeholder="What's going on?")
+
+          //- image form
+          //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input(type="hidden", name="media_type", value="image")
+            textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+            input(type="file", name="media_file", multiple)
+
+          //- video form
+          //- form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input(type="hidden", name="media_type", value="video")
+            textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+            input(type="file", name="media_file", multiple)
+
+
+          //- audio
+          //- form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
+            input(type="hidden", name="media_type", value="audio")
+            textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+            input(type="file", name="media_file", multiple)
+
+
+        div#add-extra-media.add-extra-media
+          p Add extra media:
+          div.flex
+            div.add-image.flex-1
+              i.fa.fa-plus
+              i.fa.fa-camera
+              span.block Add Image
+            div.add-video.flex-1
+              i.fa.fa-plus
+              i.fa.fa-video-camera
+              span.block Add Video
+            div.add-audio.flex-1
+              i.fa.fa-plus
+              i.fa.fa-microphone
+              span.block Add Audio
+
+        div.submit-btn Submit Content
+
+
+  include _templates.jade
+  include _scripts.jade
+
+</html>

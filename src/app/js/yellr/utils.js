@@ -4,7 +4,7 @@ var yellr = yellr || {};
 /**
  * utility functions
  * ===================================
- * load_localStorage - load localtorage
+ * load_localStorage - load localStorage
  * load - load data from server
  * save - save yellr object to local storage
  * set_urls - set API urls
@@ -17,6 +17,31 @@ var yellr = yellr || {};
 
 
 yellr.utils = {
+
+
+  change_language: function (language) {
+    var jsonFile = 'data/languages/'+language+'.json',
+        short_code = language.substr(0,2);
+
+    yellr.utils.notify('Changing language to: ' + language);
+
+    moment.locale(short_code);
+
+    yellr.SETTINGS.language.set(short_code);
+    yellr.utils.set_urls();
+
+    // load the language
+    $.getJSON(jsonFile, function (response) {
+      // set data to SCRIPT object
+      yellr.SCRIPT = response;
+      yellr.utils.save();
+    }).done(function () {
+      yellr.utils.load('stories');
+      yellr.utils.load('assignments', function () {
+        yellr.utils.redirect('#assignments');
+      });
+    });
+  },
 
 
   create_user: function (settings) {
@@ -63,7 +88,56 @@ yellr.utils = {
     };
 
     // set urls
-    yellr.URLS = yellr.utils.set_urls();
+    yellr.utils.set_urls();
+
+    // get the "script"
+    // we add this completely so that we don't wait on load time
+    yellr.SCRIPT = {
+      all_posts_are_anonymous: "All posts are anonymous.",
+      anonymous: "Anonymous",
+      you_have_a_new_message: "You have a new message!",
+      alert: "Alert",
+      ready: "Ready",
+      ok: "OK",
+      delete: "Delete",
+      error_taking_video: "Error taking video",
+      captured_x_files: "captured: [#] files",
+      use_camera: "Use camera",
+      open_gallery: "Open gallery",
+      assignment: "Assignment",
+      assignments: "Assignments",
+      view_assignment: "View Assignment",
+      no_assignments_yet: "No assignments yet!",
+      check_back_later_for_assignments: "Check back later to see if there's anything new!",
+      contribute: "Contribute",
+      deadline: "Deadline",
+      tell_us_more: "Tell us more...",
+      whats_on_your_mind: "What's on your mind?",
+      tell_us_the_story: "Tell us the story...",
+      news_feed: "News Feed",
+      news_story: "News Story",
+      messages: "Messages",
+      view_message: "Mensaje",
+      no_news_in_your_area: "No news stories yet in your area.",
+      get_your_voice_heard: "By submitting things imporant to you, you can get your voice heard!",
+      notifications: "Notifications",
+      recent: "Recent",
+      older: "Older",
+      profile: "Profile",
+      language: "Language",
+      account: "Account",
+      sign_in: "Sign In",
+      create_account: "Create account",
+      generate_new_uuid: "Generate new UUID",
+      settings: "Settings",
+      submit_report: "Submit Report",
+      add_image_description: "Add image description (optional)",
+      add_video_description: "Add video description (optional)",
+      add_audio_description: "Add audio description (optional)",
+      choose_image_source: "Choose Image Source",
+      choose_files: "Choose Files",
+      add_extra_media: "Add extra media:"
+    };
 
   },
 
@@ -91,7 +165,6 @@ yellr.utils = {
           }
 
           // lat minute text things
-
           if (!server_version_ok && !required_client_version_ok)
           {
             text = 'Both the app and server are out of date. Please update.';
@@ -137,14 +210,29 @@ yellr.utils = {
     $.getJSON(yellr.URLS[dataType], function (response) {
       if (response.success) {
 
+        // parse UTC time
+        response[dataType] = response[dataType].filter(function (val, i, arr) {
+          if (val.expire_datetime) val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+          return true;
+        });
+
+        // add an ID to stories, we use it on the client-side only
+        if (dataType === 'stories') {
+          response[dataType] = response[dataType].filter(function (val, i, arr) {
+            val.id = i;
+            return true;
+          });
+
+        }
+
         yellr.DATA[dataType] = response[dataType];
         yellr.utils.save();
-
-        if (callback) callback();
 
       } else {
         yellr.utils.notify('Something went wrong loading '+dataType + ' from the server.');
       }
+    }).done(function () {
+      if (callback) callback();
     });
 
   },
@@ -161,7 +249,8 @@ yellr.utils = {
       SETTINGS: yellr.SETTINGS,
       URLS: yellr.URLS,
       UUID: yellr.UUID,
-      VERSION: yellr.VERSION
+      VERSION: yellr.VERSION,
+      SCRIPT: yellr.SCRIPT
     }));
   },
 
@@ -174,23 +263,20 @@ yellr.utils = {
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
 
-    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/' : 'http://yellrdev.wxxi.org/';
-    var base_url = 'http://yellrdev.wxxi.org/';
-
-    // two sets of URLS
-    var urls = {
-          assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
-          notifications:  base_url+'get_notifications.json?client_id='+yellr.UUID,
-          messages:       base_url+'get_messages.json?client_id='+yellr.UUID,
-          stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
-          profile:        base_url+'todo',
-          upload:         base_url+'upload_media.json',
-          post:           base_url+'publish_post.json',
-          server_info:    base_url+'server_info.json'
-        };
-
     // if in devevlopment, use local URLs
-    return urls;
+    var base_url = 'http://yellrdev.wxxi.org/';
+    // var base_url = 'http://127.0.0.1:8080/';
+
+    yellr.URLS = {
+      assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
+      notifications:  base_url+'get_notifications.json?client_id='+yellr.UUID,
+      messages:       base_url+'get_messages.json?client_id='+yellr.UUID,
+      stories:        base_url+'get_stories.json?client_id='+yellr.UUID+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng+'&language_code='+yellr.SETTINGS.language.code,
+      profile:        base_url+'todo',
+      upload:         base_url+'upload_media.json',
+      post:           base_url+'publish_post.json',
+      server_info:    base_url+'server_info.json'
+    };
 
   },
 
@@ -347,8 +433,22 @@ yellr.utils = {
   },
 
 
+  clearTmp: function () {
+    yellr.TMP = null;
+  },
+
 
   open_camera: function () {
+
+    var options = {
+      quality: 50,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
+    };
 
 
     navigator.camera.getPicture(
@@ -360,31 +460,24 @@ yellr.utils = {
         // show an image preview
         document.querySelector('.img-preview').src = imgURI;
 
-        // do some memory cleanup
-        // "Removes intermediate image files that are kept in temporary
-        // storage after calling camera.getPicture"
-        // navigator.camera.cleanup(function ()
-        // {
-        //   console.log("Camera cleanup success.")
-        // }, function (message)
-        // {
-        //   console.log('Failed because: ' + message);
-        // });
+        // we save it to this TMP (temporaray) object
+        // because we do don't submit things until people
+        // press the [√] submit button
+        yellr.TMP = {
+          file: {
+            type: 'image',
+            uri: imgURI
+          }
+        };
+
+        yellr.utils.notify(imgURI);
 
       },
       function(error) {
         yellr.utils.redirect('#');
-        console.log('Photo Capture fail: ' + error);
+        yellr.utils.notify('Photo Capture fail: ' + error);
       },
-      {
-        quality: 50,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        destinationType: Camera.DestinationType.FILE_URI,
-        // allowEdit : true,
-        encodingType: Camera.EncodingType.JPEG,
-        correctOrientation: true,
-        saveToPhotoAlbum: true
-      }
+      options
     );
 
   },
@@ -392,8 +485,41 @@ yellr.utils = {
 
 
   open_gallery: function () {
-    console.log('hello from: open_gallery');
-    yellr.utils.redirect('#report/image');
+
+    var options = {
+      quality: 50,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: Camera.DestinationType.FILE_URI,
+      encodingType: Camera.EncodingType.JPEG,
+      mediaType: Camera.MediaType.PICTURE
+    };
+
+    navigator.camera.getPicture(
+      function(imgURI) {
+
+        // setup report thing
+        yellr.utils.redirect('#report/image');
+
+        // show an image preview
+        document.querySelector('.img-preview').src = imgURI;
+
+        // we save it to this TMP (temporaray) object
+        // because we do don't submit things until people
+        // press the [√] submit button
+        yellr.TMP = {
+          file: {
+            type: 'image',
+            uri: imgURI
+          }
+        };
+
+      },
+      function(error) {
+        yellr.utils.redirect('#');
+        yellr.utils.notify('Gallery fail: ' + error);
+      },
+      options
+    );
 
   },
 

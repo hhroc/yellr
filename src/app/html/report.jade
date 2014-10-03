@@ -3,7 +3,6 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- form#reply-survey-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     ul.list-style-none.radio-list
       li
         label
@@ -24,21 +23,13 @@ div#form-wrapper.form.wrapper.submit-preview
 
 
   //- form#reply-text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     //- input(type="hidden", name="media_type", value="text")
     textarea(name="media_text", rows="2", columns="10", placeholder="Tell us the story...")
 
 
-  //- form#imageUploadForm(name="imageupload", action="http://yellrdev.wxxi.org/upload_media.json", method="post")
-    input.client_id(type="hidden", name="client_id", value="123456789")
-    input(type="hidden", name="media_type", value="image")
-    input(type="file", name="media_file", size="30")
-    input(type="submit", name="upload", value="Upload")
-
 
   //- text
   //- form#text-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="text")
     input(type="text", name="media_caption", placeholder="Title (optional)")
     textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
@@ -47,7 +38,6 @@ div#form-wrapper.form.wrapper.submit-preview
 
   //- image form
   //- form#image-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="image")
     textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
     input(type="file", name="media_payload", multiple)
@@ -55,39 +45,21 @@ div#form-wrapper.form.wrapper.submit-preview
       div.media-preview
         i.fa.fa-close
         img(src="")#img-preview
-        //- img(src="http://lorempixel.com/400/200")#img-preview
-      //- div.media-options
-        span.add-more-media.flex-1#add-more-media-btn
-          i.fa.fa-plus
 
 
 
   //- video form
   //- form#video-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="video")
-    div.submit-video
-      //- description
-      //- thumbnail preview
-      textarea(rows="2", columns="10", placeholder="Add description")
-      div.media-submission-wrapper
-        div.media-preview
-          i.fa.fa-close
-          i.fa.fa-video-camera
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+    input(type="file", name="media_payload", multiple)
 
 
   //- audio
   //- form#audio-form.submit-form(method="post", accept-charset="utf-8", enctype="multipart/form-data")
-    input.client_id(type="hidden", name="client_id", value="")
     input(type="hidden", name="media_type", value="audio")
-    div.submit-audio
-      //- audio timeline preview?..
-      //- description / title
-      textarea(rows="2", columns="10", placeholder="Add description")
-      div.media-submission-wrapper
-        div.media-preview
-          i.fa.fa-close
-          i.fa.fa-microphone
+    textarea(name="media_text", rows="2", columns="10", placeholder="Add description")
+    input(type="file", name="media_payload", multiple)
 
 
 div#extra-media-wrapper

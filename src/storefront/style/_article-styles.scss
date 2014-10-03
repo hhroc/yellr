@@ -1,0 +1,38 @@
+// index/front-page (multiple)
+#stories-list {
+  li {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+    margin-bottom: 4rem;
+    &:last-child {
+      border: none;
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+// single view
+.by-line {
+  &:before {
+    content: "By ";
+  }
+}
+.published-datetime {
+  &:before {
+    content: "Published: ";
+  }
+}
+
+.article-content {
+  padding-bottom: 2rem;
+}
+
+.article-tags-list {
+  margin-bottom: 1.5rem;
+  li {
+    background: #ccc;
+    padding: 0.5rem 0.875rem;
+    // font-weight: bold;
+  }
+}

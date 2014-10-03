@@ -107,13 +107,25 @@ yellr.routes = (function() {
 
       // get the hash
       var hash_string = (window.location.hash === '' || window.location.hash === '#') ? '#assignments' : window.location.hash;  // ex. #assignments
-      // if (hash == '' || hash == '#') hash = '#assignments';
       hash_string = hash_string.split('/');
 
       // ex. #assignments/43132
       var hash = hash_string[0];  // #assignments
       var id   = hash_string[1];  // 43132
-      // console.log(hash, id);
+
+
+      // // the _default_template_settings object gets passed to every route
+      // var _default_template_settings = {
+      //   header: {target: '#app-header'},
+      //   footer: {
+      //     target: '#app-footer',
+      //     context: {all_posts_are_anonymous: yellr.SCRIPT.all_posts_are_anonymous }
+      //   }
+      // };
+
+      _default_template_settings.footer.context = {
+        all_posts_are_anonymous: yellr.SCRIPT.all_posts_are_anonymous
+      }
 
 
 

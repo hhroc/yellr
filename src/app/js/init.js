@@ -8,9 +8,8 @@ var yellr = yellr || {};
     2. deviceready()
 */
 
-// var DEBUG = true;
-var DEBUG = false;
-
+var DEBUG = true;
+// var DEBUG = false;
 window.onload = function() {
 
   // if (DEBUG) localStorage.removeItem('yellr');
@@ -24,7 +23,6 @@ window.onload = function() {
     // we ave existing local storage, load it
     yellr.utils.load_localStorage();
   }
-
 
   // check version info
   yellr.utils.check_version();
@@ -42,38 +40,10 @@ window.onload = function() {
 
   // extras
   // FastClick.attach(document.body);
-
+  moment.locale(yellr.SETTINGS.language.code);
 
   document.addEventListener('deviceready', function() {
-    // yellr.user.cordova();
-    // alert('running deviceready');
-    // // yellr.setup.user();
-    // // yellr.setup.app();
-    // // hide splash screen
-    // // navigator.splashscreen.hide();
-
-    // if (navigator.notification) { // Override default HTML alert with native dialog
-    //   window.alert = function (message) {
-    //     navigator.notification.alert(
-    //       message,    // message
-    //       null,       // callback
-    //       "Workshop", // title
-    //       'OK'        // buttonName
-    //     );
-    //   };
-    // }
-
-    // alert('this should look a little different?');
-
+    // do cordova setup things
   }, false);
 
 }
-
-// document.addEventListener('deviceready', function() {
-//   // yellr.setup.user();
-//   yellr.user.cordova();
-//   // yellr.setup.app();
-//   // hide splash screen
-//   // navigator.splashscreen.hide();
-
-// }, false);

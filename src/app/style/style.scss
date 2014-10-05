@@ -37,6 +37,13 @@
 
 html, body { height: 100%;}
 
+.loader-gif-wrapper {
+  text-align: center;
+  background: #e0e0e0;
+  padding: 0.5rem 0;
+  font-size: 1.5rem;
+}
+
 #main {
   position: absolute;
   top: 0;

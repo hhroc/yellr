@@ -9,7 +9,8 @@ var yellr = yellr || {};
 */
 
 var DEBUG = true;
-// var DEBUG = false;
+var BASE_URL = 'http://yellrdev.wxxi.org/';
+
 window.onload = function() {
 
   // if (DEBUG) localStorage.removeItem('yellr');

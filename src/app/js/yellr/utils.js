@@ -87,8 +87,8 @@ yellr.utils = {
       }
     };
 
-    // set urls
-    yellr.utils.set_urls();
+    // set urls || BASE_URL is set in init.js
+    yellr.utils.set_urls(BASE_URL);
 
     // get the "script"
     // we add this completely so that we don't wait on load time
@@ -256,16 +256,12 @@ yellr.utils = {
 
 
 
-  set_urls: function () {
+  set_urls: function (base_url) {
 
     /**
      * use development urls or production urls
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
-
-    // if in devevlopment, use local URLs
-    var base_url = 'http://yellrdev.wxxi.org/';
-    // var base_url = 'http://127.0.0.1:8080/';
 
     yellr.URLS = {
       assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
@@ -284,12 +280,14 @@ yellr.utils = {
 
   render_template: function(settings) {
     /**
-     * Dependencies: Handlebar.js, zepto.js (or jQuery.js)
+     * Dependencies: Handlebar.js, jQuery.js
      *
      * settings = {
      *   template: '#script-id',
      *   target: '#query-string',
-     *   context: {}
+     *   context: {},
+     *   append: boolean (optional),
+     *   prepend: boolean (optional)
      * }
      */
 

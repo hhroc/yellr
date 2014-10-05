@@ -60,6 +60,48 @@ yellr.view.assignments = (function() {
       document.querySelector('#assignments-tab').className = 'current';
 
 
+      // add "pull-down" to refresh
+      var $assignments = $('#latest-assignments'),
+          $assignments_container = $('#assignments'),
+          startY = 0,
+          endY = 0,
+          reload_boolean = false;
+
+      $assignments.on('touchstart', function(e){
+        if (window.pageYOffset < 10) reload_boolean = true;
+      });
+
+      $assignments.on('touchmove', function(e) {
+
+        if (reload_boolean) {
+          startY++;
+          console.log(startY);
+
+          $assignments_container.css('margin-top', (startY*20).toString()+'px');
+
+          if (startY > 3) {
+            startY = 0;
+            reload_boolean = false;
+            console.log('reload');
+            $assignments_container.css('margin-top', '0');
+            yellr.utils.load('assignments', function () {
+              yellr.view.assignments.render_feed();
+              yellr.utils.notify('Latest assignments loaded');
+            })
+          }
+        }
+
+      });
+
+      $assignments.on('touchend', function(e){
+        reload_boolean = false;
+        startY = 0;
+        $assignments_container.css('margin-top', '0');
+
+      });
+
+
+
       // make sure we have data
       if (yellr.DATA.assignments === undefined) {
         wait_for_data(yellr.view.assignments.render_feed, yellr.utils.load('assignments'));

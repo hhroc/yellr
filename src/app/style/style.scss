@@ -12,13 +12,7 @@
 @import "../../common/style/libs/font-awesome/mixins";
 @import "../../common/style/libs/font-awesome/path";
 @import "../../common/style/libs/font-awesome/core";
-@import "../../common/style/libs/font-awesome/larger";
-@import "../../common/style/libs/font-awesome/fixed-width";
-@import "../../common/style/libs/font-awesome/list";
-@import "../../common/style/libs/font-awesome/bordered-pulled";
 @import "../../common/style/libs/font-awesome/spinning";
-@import "../../common/style/libs/font-awesome/rotated-flipped";
-@import "../../common/style/libs/font-awesome/stacked";
 @import "icons";
 
 // yellr specific
@@ -36,13 +30,6 @@
 @import "stories";
 
 html, body { height: 100%;}
-
-.loader-gif-wrapper {
-  text-align: center;
-  background: #e0e0e0;
-  padding: 0.5rem 0;
-  font-size: 1.5rem;
-}
 
 #main {
   position: absolute;

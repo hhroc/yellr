@@ -28,7 +28,7 @@ yellr.utils = {
     moment.locale(short_code);
 
     yellr.SETTINGS.language.set(short_code);
-    yellr.utils.set_urls();
+    yellr.utils.set_urls(BASE_URL);
 
     // load the language
     $.getJSON(jsonFile, function (response) {
@@ -80,10 +80,6 @@ yellr.utils = {
 
           // * - from HTC Inspire (Android)
         }
-      },
-      app: {
-        // to do
-        // phone specific settings
       }
     };
 
@@ -313,6 +309,70 @@ yellr.utils = {
 
   },
 
+
+  pulldown_to_refresh: function (settings) {
+
+    /**
+     * first-run at pull-down to refresh thing
+     * (not really that smooth on older mobile browsers)
+     * BUG: fires when we go both up or down
+     *       should only fire if we pull down
+     *
+     * settings = {
+     *   target: '#id-string',
+     *   container: '#page-container'
+     *   callback:  function () {
+     *     // do things after the pulldown
+     *   }
+     * }
+     */
+
+    var $pulldown_target = $(settings.target),
+        $pulldown_container = $(settings.container),
+        startY = 0,
+        reload_boolean = false;
+
+    // .pull-down-container has a transition style on it
+    // to help make a nice animation
+    $pulldown_container.addClass('pull-down-container');
+
+    // remove eventListeners just in case
+    $pulldown_target.off('touchstart');
+    $pulldown_target.off('touchmove');
+    $pulldown_target.off('touchend');
+
+
+    // only refresh if we are at the top of the page
+    $pulldown_target.on('touchstart', function(e){
+      if (window.pageYOffset < 10) reload_boolean = true;
+    });
+
+    //
+    $pulldown_target.on('touchmove', function(e) {
+
+      if (reload_boolean) {
+        startY++;
+
+        $pulldown_container.css('margin-top', (startY*20).toString()+'px');
+
+        if (startY >= 3) {
+          startY = 0;
+          reload_boolean = false;
+          $pulldown_container.css('margin-top', '0');
+          // on pulldown --> run callback
+          if (settings.callback) settings.callback();
+        }
+      }
+
+    });
+
+    $pulldown_target.on('touchend', function(e){
+      reload_boolean = false;
+      startY = 0;
+      $pulldown_container.css('margin-top', '0');
+    });
+
+  },
 
 
   guid: function (len, radix) {
@@ -576,12 +636,11 @@ yellr.utils = {
     // Media capture (audio, video, photo, text)
 
     $('#capture-image').on('tap', function(e) {
-      // e.preventDefault();
 
       // show overlay, popup thing
       yellr.utils.prompt(
-        'Choose image source',
-        [{title: 'Use camera'}, {title: 'Open gallery'}],
+        yellr.SCRIPT.choose_image_source,
+        [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
         [yellr.utils.open_camera, yellr.utils.open_gallery ]
       );
     });
@@ -591,8 +650,6 @@ yellr.utils = {
 
     // audio
     $('#capture-audio').on('tap', function() {
-      // render template
-      // render_template(form);
 
       navigator.device.capture.captureAudio(
         function(audioFiles) {

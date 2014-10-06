@@ -41,8 +41,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password;
-    // var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({
@@ -180,8 +179,7 @@ mod.utils = {
 
   set_urls: function () {
 
-    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
-    // var base_url = '/admin/';
+    var base_url = BASE_URL+'admin/';
 
     mod.URLS = {
       // get latest user posts

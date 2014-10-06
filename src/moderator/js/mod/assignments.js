@@ -16,6 +16,8 @@ mod.assignments = (function() {
       }
     }).done(function () {
       if (settings.callback) settings.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
   }
 
@@ -89,6 +91,8 @@ mod.assignments = (function() {
         }
       });
 
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
 

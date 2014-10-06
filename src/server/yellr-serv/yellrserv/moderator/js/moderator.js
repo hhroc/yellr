@@ -1,14 +1,8 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under MIT (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var mod = mod || {};
 
 var DEBUG = true;
+var BASE_URL = 'http://127.0.0.1:8080/';
 
 window.onload = function () {
 
@@ -253,11 +247,9 @@ mod.setup = {
      * index.html
      */
 
-
     // get my assignments
     mod.assignments.get_my_assignments({
       callback: function () {
-
         // get 4 latest
         var latest_4_assignments = [];
         for (var i = 0; i < mod.DATA.assignments.length; i++) {
@@ -409,7 +401,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({
@@ -547,8 +539,7 @@ mod.utils = {
 
   set_urls: function () {
 
-    // var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
-    var base_url = '/admin/';
+    var base_url = BASE_URL+'admin/';
 
     mod.URLS = {
       // get latest user posts
@@ -678,6 +669,8 @@ mod.assignments = (function() {
       }
     }).done(function () {
       if (settings.callback) settings.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
   }
 
@@ -751,6 +744,8 @@ mod.assignments = (function() {
         }
       });
 
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
 
@@ -1136,6 +1131,8 @@ mod.collections = (function() {
       } else {
         console.log('something went wrong loading collection posts');
       }
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
   }
 
@@ -1153,6 +1150,8 @@ mod.collections = (function() {
       }
     }).done(function () {
       if (options.callback) options.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
   }
@@ -1600,6 +1599,8 @@ mod.messages = {
     }).done(function () {
       // do the callbacks
       if (options.callback) options.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
   },
@@ -1736,6 +1737,8 @@ mod.posts = {
 
     }).done(function () {
       if (options.callback) options.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
   }
 

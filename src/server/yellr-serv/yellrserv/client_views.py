@@ -51,7 +51,7 @@ def index(request):
     #try:
     if True:
 
-        
+
 
         latest_stories,dummy = Stories.get_stories(
             session = DBSession,
@@ -95,10 +95,14 @@ def index(request):
 
     #except:
     #    pass
-    
-    return {'stories': True, 'latest_stories': ret_latest_stories}
+
+    return {'title': 'Yellr - Frontpage', 'data_page': 'index','stories': True, 'latest_stories': ret_latest_stories}
 
 
+
+@view_config(route_name='submit-tip.html', renderer='templates/submit-tip.mak')
+def submit_tip(request):
+    return dict(title='Submit Tip', data_page='submit-tip')
 
 
 #@view_config(route_name='index.html')
@@ -164,7 +168,7 @@ def get_posts(request):
 
         if user_id != None:
             posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
-        else:    
+        else:
             posts = Posts.get_posts(DBSession, reported)
 
         ret_posts = []
@@ -186,7 +190,7 @@ def get_posts(request):
                 'title': title,
                 'post_datetime': str(post_datetime),
                 'reported': reported,
-                'lat': lat, 
+                'lat': lat,
                 'lng': lng,
                 'verified': verified,
                 'user_id': user_client_id,
@@ -228,7 +232,7 @@ def get_assignments(request):
 
     try:
     #if True:
-    
+
         #language_code = 'en'
         #if True:
         try:
@@ -264,18 +268,18 @@ def get_assignments(request):
                 'answer0': answer0,
                 'answer1': answer1,
                 'answer2': answer2,
-                'answer3': answer3, 
+                'answer3': answer3,
                 'answer4': answer4,
                 'answer5': answer5,
-                'answer6': answer6, 
-                'answer7': answer7, 
+                'answer6': answer6,
+                'answer7': answer7,
                 'answer8': answer8,
                 'answer9': answer9,
             })
 
         result['assignments'] = ret_assignments
         result['success'] = True
-    
+
     except:
         pass
 
@@ -595,7 +599,7 @@ def publish_post(request):
        pass
 
     #resp = json.dumps(result)
-    #return Response(resp,content_type='application/json') 
+    #return Response(resp,content_type='application/json')
 
     return make_response(result)
 
@@ -611,7 +615,7 @@ def upload_media(request):
         where valid mediatypes are: 'text', 'audio', 'video', 'image'
 
     optional fields:
-    
+
     media_text, type: text
     media_caption, type: text
 
@@ -639,7 +643,7 @@ def upload_media(request):
         if media_type == 'image' or media_type == 'video' \
                 or media_type == 'audio':
 
-    
+
             #print '\n[DEBUG] POST items:\n'
             #print request.POST.items()
             #print '\n\n'
@@ -663,7 +667,7 @@ def upload_media(request):
             else:
                 error_text = 'invalid media type'
                 raise Exception('')
-        
+
             # generate a unique file name to store the file to
             file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
             file_path = os.path.join(system_config['upload_dir'], file_name)
@@ -671,7 +675,7 @@ def upload_media(request):
             # write file to temp location, and then to disk
             temp_file_path = file_path + '~'
             output_file = open(temp_file_path, 'wb')
- 
+
             # Finally write the data to disk
             input_file.seek(0)
             while True:
@@ -695,7 +699,7 @@ def upload_media(request):
         except:
             pass
 
-        
+
         media_text = ''
         if media_type == 'text':
             try:
@@ -717,7 +721,7 @@ def upload_media(request):
         result['success'] = True
         result['new_user'] = created
         #result['media_text'] = media_text
-        result['error_text'] = '' 
+        result['error_text'] = ''
 
         # Debug/Logging
         #datetime = str(strftime("%Y-%m-%d %H:%M:%S"))
@@ -820,7 +824,7 @@ def get_profile(request):
                         'media_type_description': media_type_description,
                     }],
                 }
- 
+
         result['posts'] = ret_posts
         result['post_count'] = post_count
         result['first_name'] = user.first_name

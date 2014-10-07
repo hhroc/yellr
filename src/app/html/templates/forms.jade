@@ -3,11 +3,7 @@ script#text-form(type="text/x-handlebars-template").
   <form class="text-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="media_type" value="text">
-    {{#if assignment_id}}
-    <textarea name="media_text" rows="2" columns="10" placeholder="{{tell_us_more}}"></textarea>
-    {{else}}
     <textarea name="media_text" rows="2" columns="10" placeholder="{{whats_on_your_mind}}"></textarea>
-    {{/if}}
   </form>
 
 
@@ -75,7 +71,7 @@ script#audio-form(type="text/x-handlebars-template").
 
 //- reply to: survey
 script#reply-survey-form(type="text/x-handlebars-template").
-  <form method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
+  <form class="reply-survey-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
     <input type="hidden" name="client_id" value="{{ client_id }}">
     <input type="hidden" name="assignment_id" value="{{ assignment_id }}">
     <ul class="list-style-none radio-list">

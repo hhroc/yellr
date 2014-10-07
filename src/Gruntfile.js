@@ -728,10 +728,6 @@ module.exports = function(grunt) {
 
 
 
-
-
-
-
   grunt.registerTask('build_html', function() {
     grunt.task.run([
       'jade:index',
@@ -757,27 +753,6 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('autoprefix', function() {
-    grunt.task.run([
-      'autoprefixer:app',
-      'autoprefixer:moderator',
-      'autoprefixer:onepager',
-      'autoprefixer:storefront'
-    ]);
-  });
-
-
-
-  grunt.registerTask('lint_json', function() {
-    grunt.task.run([
-      'jsonlint:app',
-      'jsonlint:moderator'
-      // 'jsonlint:onepager',
-      // 'jsonlint:storefront'
-    ]);
-  });
-
-
 
   // pyramid stuff
   // ----------------------------
@@ -793,13 +768,6 @@ module.exports = function(grunt) {
       'storefront_css_to_pyramid',
       'storefront_img_to_pyramid'
     ]);
-  });
-
-
-  grunt.registerTask('deploy_moderator', function () {
-
-    // basically, copy the moderator thing to src/server/yellr-serv
-
   });
 
 

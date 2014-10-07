@@ -9,13 +9,10 @@ yellr.view.report = (function() {
      * the user report page for yellr
      */
 
-    var render_template = yellr.utils.render_template,
-        form_counter = 0,
+    var form_counter = 0,
         total_forms = 0,
         media_objects = [],
-        assignment_id,
-        header,
-        footer;
+        assignment_id;
 
 
 
@@ -26,16 +23,16 @@ yellr.view.report = (function() {
        */
 
 
-      header = data.template.header;
-      header.template = '#submit-header';
-      header.context = {submit_report: yellr.SCRIPT.submit_report};
-      render_template(header);
+      var header = data.template.header;
+          header.template = '#submit-header';
+          header.context = {submit_report: yellr.SCRIPT.submit_report};
+      yellr.utils.render_template(header);
 
       yellr.utils.no_subnav();
 
-      footer = data.template.footer;
-      footer.template = '';
-      render_template(footer);
+      var footer = data.template.footer;
+          footer.template = '';
+      yellr.utils.render_template(footer);
 
       $('#submit-btn').on('tap', function (e) {
         yellr.view.report.submit_form();
@@ -90,7 +87,7 @@ yellr.view.report = (function() {
 
       if (append) form.append = true;
 
-      render_template(form);
+      yellr.utils.render_template(form);
     }
 
 
@@ -102,10 +99,8 @@ yellr.view.report = (function() {
 
     var setup_extra_media = function (data) {
 
-      var self = this;
-
       // add extra media bar
-      render_template({
+      yellr.utils.render_template({
         template: '#extra-media',
         target: '#extra-media-wrapper',
         context: {
@@ -113,14 +108,13 @@ yellr.view.report = (function() {
         }
       });
 
-
       // on the submission forms we can add multiple files
       // this listener handles clicks
       $('#extra-media-wrapper div.flex').on('tap', function(e) {
         if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
           var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
           data.id = form_type.split('add-')[1].split(' ')[0];
-          self.setup_form(data, true);
+          yellr.view.report.setup_form(data, true);
         }
       });
 
@@ -139,73 +133,19 @@ yellr.view.report = (function() {
       // we should have a yellr.TMP --> use FileTransfer
       // if we don't, we're submitting a text post --? use regular AJAX
 
-      if (yellr.TMP !== null) {
+      var forms = document.querySelectorAll('#form-wrapper form');
+      total_forms = forms.length;
+      form_counter = 0;
 
-        // gonna need to change a lotta things
-        total_forms = 1;
-        form_counter = 0;
+      for (var i = 0; i < forms.length; i++) {
+        var form = forms[i];
 
-        // prep for upload
-        var ft = new FileTransfer(),
-            // options = new FileUploadOptions();
-            options = new FileUploadOptions(),
-            parameters = {
-              client_id: yellr.UUID,
-              media_type: yellr.TMP.file.type,
-              media_caption: document.querySelector('.'+yellr.TMP.file.type+'-form textarea').value,
-              media_file: yellr.TMP.file.uri
-            };
-
-        // setup the options
-        options.fileKey = 'media_file';
-        options.params = parameters;
-
-        // setup user feedback
-        ft.onprogress = function uploadProgress(progress) {
-          if (progress.lengthComputable) {
-            console.log(progress.loaded / progress.total);
-            // loadingStatus.setPercentage(progress.loaded / progress.total);
-          } else {
-            // loadingStatus.increment();
-          }
-        };
-
-        // parameters: fileURI, server, succes, fail, options
-        ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
-          function success(response) {
-            yellr.utils.notify('success');
-            yellr.utils.clearTmp();
-            // yellr.utils.notify(typeof response.response);
-
-            var response_object = JSON.parse(response.response);
-            // yellr.utils.notify(response_object.media_id);
-
-            // yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
-            media_objects.push(response_object.media_id);
-            form_counter++;
-            yellr.view.report.publish_post();
-            // clear tmp object
-          },
-          function fail(error) {
-            // console.log('hello from: fail');
-            yellr.utils.notify('fail');
-            yellr.utils.notify(error.code + ' | ' + error.source + ' | ' + error.target);
-          },
-          options
-        );
-
-      } else {
-
-        var forms = document.querySelectorAll('#form-wrapper form');
-        total_forms = forms.length;
-        form_counter = 0;
-
-        for (var i = 0; i < forms.length; i++) {
-          var form = forms[i];
-
+        if (form.className === 'text-form' || form.className === 'reply-text-form' || form.className === 'reply-survey-form') {
+          console.log('ajaxSubmit');
           $(form).ajaxSubmit({
             url: yellr.URLS.upload,
             success: function (response) {
+              console.log(response);
               if (response.success) {
                 // add the media_id to our local array
                 form_counter++;
@@ -218,8 +158,67 @@ yellr.view.report = (function() {
             }
           });
           // end ajaxSubmit
-        };
-      };
+        } else {
+
+          // prep for upload
+          var ft = new FileTransfer(),
+              options = new FileUploadOptions(),
+              parameters = {
+                client_id: yellr.UUID,
+                media_type: yellr.TMP.file.type,
+                media_caption: document.querySelector('.'+yellr.TMP.file.type+'-form textarea').value,
+                media_file: yellr.TMP.file.uri
+              };
+
+          // setup the options
+          options.fileKey = 'media_file';
+          options.params = parameters;
+
+          // setup user feedback
+          ft.onprogress = function uploadProgress(progress) {
+            if (progress.lengthComputable) {
+              console.log(progress.loaded / progress.total);
+              // loadingStatus.setPercentage(progress.loaded / progress.total);
+            } else {
+              // loadingStatus.increment();
+            }
+          };
+
+          // parameters: fileURI, server, succes, fail, options
+          ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
+            function success(response) {
+              yellr.utils.notify('success');
+              yellr.utils.clearTmp();
+
+              var response_object = JSON.parse(response.response);
+
+              media_objects.push(response_object.media_id);
+              form_counter++;
+              yellr.view.report.publish_post();
+              // clear tmp object
+            },
+            function fail(error) {
+              // console.log('hello from: fail');
+              yellr.utils.notify('fail');
+              yellr.utils.notify(error.code + ' | ' + error.source + ' | ' + error.target);
+            },
+            options
+          );
+
+        }
+
+
+// "client_id"
+// "media_type"
+// "media_file"
+// "media_text"
+// "media_caption"
+
+
+
+
+
+      }
 
     }
 

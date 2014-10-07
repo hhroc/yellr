@@ -13,7 +13,6 @@ var BASE_URL = 'http://yellrdev.wxxi.org/';
 
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
   localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it

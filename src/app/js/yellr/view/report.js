@@ -166,7 +166,7 @@ yellr.view.report = (function() {
               parameters = {
                 client_id: yellr.UUID,
                 media_type: yellr.TMP.file.type,
-                media_caption: document.querySelector('.'+yellr.TMP.file.type+'-form textarea').value,
+                media_caption: form.querySelector('textarea').value,
                 media_file: yellr.TMP.file.uri
               };
 
@@ -177,6 +177,7 @@ yellr.view.report = (function() {
           // setup user feedback
           ft.onprogress = function uploadProgress(progress) {
             if (progress.lengthComputable) {
+              // yellr.utils.notify(progress.loaded / progress.total);
               console.log(progress.loaded / progress.total);
               // loadingStatus.setPercentage(progress.loaded / progress.total);
             } else {
@@ -187,10 +188,13 @@ yellr.view.report = (function() {
           // parameters: fileURI, server, succes, fail, options
           ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
             function success(response) {
-              yellr.utils.notify('success');
               yellr.utils.clearTmp();
 
+              yellr.utils.notify(response)
+              yellr.utils.notify(response.response)
+
               var response_object = JSON.parse(response.response);
+              yellr.utils.notify('Successful upload. '+response_object.media_id);
 
               media_objects.push(response_object.media_id);
               form_counter++;

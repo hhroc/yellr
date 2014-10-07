@@ -58,6 +58,33 @@ yellr.view.messages = (function() {
         refresh: true
       };
 
+      // setup the refresh button
+      // add some delay so that #refresh-btn exists
+      setTimeout(function () {
+        var $refresh_btn = $('#refresh-btn');
+        $refresh_btn.on('tap', function (event) {
+
+          $refresh_btn.find('i').addClass('fa-spin');
+
+          yellr.utils.load('messages', function () {
+            // feedback
+            yellr.utils.notify('Messages loaded');
+            $refresh_btn.find('i').removeClass('fa-spin');
+
+            // render messages
+            render_template({
+              template: '#messages-li',
+              target: '#messages-list',
+              context: {messages: yellr.DATA.messages}
+            });
+          });
+
+        });
+        // finish onTap
+      }, 500);
+
+
+
       footer.template = '#messages-footer';
 
       render_template({
@@ -94,7 +121,36 @@ yellr.view.messages = (function() {
     var reply_message = function () {
 
       header.template = '#submit-header';
+      header.context = {
+        submit_report: yellr.SCRIPT.reply,
+        hash: '#messages'
+      }
       render_template(header);
+
+      // hook up the [Send] btn
+      setTimeout(function () {
+        $('#submit-btn').on('tap', function (event) {
+
+          yellr.utils.notify('Sending message...');
+
+          var subject = encodeURIComponent('RE: '+current_msg.subject),
+              text = encodeURIComponent(document.querySelector('#reply-message-form textarea').value);
+
+          console.log(yellr.URLS.send_message+'subject='+subject+'&text='+text+'&parent_message_id='+current_msg.message_id);
+
+          $.post(encodeURI(yellr.URLS.send_message+'subject='+subject+'&text='+text+'&parent_message_id='+current_msg.message_id),
+            function (response) {
+              if (response.success) {
+                yellr.utils.notify('Message sent!');
+                yellr.utils.redirect('#messages');
+              }
+              else yellr.utils.notify(response.error_text);
+            }
+          );
+
+        });
+      }, 500);
+
 
       render_template ({
         template: '#reply-message-template',
@@ -104,8 +160,6 @@ yellr.view.messages = (function() {
           og_msg: current_msg
         }
       });
-
-      // TODO - reply
 
     }
 

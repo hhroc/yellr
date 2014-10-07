@@ -113,7 +113,8 @@ yellr.utils = {
       news_feed: "News Feed",
       news_story: "News Story",
       messages: "Messages",
-      view_message: "Mensaje",
+      view_message: "View Message",
+      reply: "Reply",
       no_news_in_your_area: "No news stories yet in your area.",
       get_your_voice_heard: "By submitting things imporant to you, you can get your voice heard!",
       notifications: "Notifications",
@@ -188,6 +189,7 @@ yellr.utils = {
     yellr.UUID      = data.UUID;
     yellr.URLS      = data.URLS;
     yellr.VERSION   = data.VERSION;
+    yellr.SCRIPT    = data.SCRIPT;
 
   },
 
@@ -267,7 +269,8 @@ yellr.utils = {
       profile:        base_url+'todo',
       upload:         base_url+'upload_media.json',
       post:           base_url+'publish_post.json',
-      server_info:    base_url+'server_info.json'
+      server_info:    base_url+'server_info.json',
+      send_message:   base_url+'create_response_message.json?client_id='+yellr.UUID+'&'
     };
 
   },
@@ -653,7 +656,7 @@ yellr.utils = {
 
       navigator.device.capture.captureAudio(
         function(audioFiles) {
-          alert('captured: ' + audioFiles.length + ' files');
+          yellr.utils.notify('captured: ' + audioFiles.length + ' files');
           var html = '';
           for (var i = 0; i < audioFiles.length; i++) {
             var path = audioFiles[i].fullPath;
@@ -664,9 +667,9 @@ yellr.utils = {
         },
         function(error) {
           if (error.CAPTURE_NO_MEDIA_FILES) {
-            alert('nothing captured');
+            yellr.utils.notify('nothing captured');
           }
-          alert('closed without capturing audio');
+          yellr.utils.notify('closed without capturing audio');
         }
       );
     });
@@ -683,7 +686,7 @@ yellr.utils = {
 
       navigator.device.capture.captureVideo(
         function(videoFiles) {
-          alert('Captured ' + videoFiles.length + ' videos');
+          yellr.utils.notify('Captured ' + videoFiles.length + ' videos');
           var html = '';
 
           for (var i = 0; i < videoFiles.length; i++) {
@@ -694,7 +697,7 @@ yellr.utils = {
           document.querySelector('#cordova-video').innerHTML = html;
         },
         function(error) {
-          alert('error taking video');
+          yellr.utils.notify('error taking video');
         }
       );
     });

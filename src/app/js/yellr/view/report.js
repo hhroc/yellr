@@ -166,8 +166,7 @@ yellr.view.report = (function() {
               parameters = {
                 client_id: yellr.UUID,
                 media_type: yellr.TMP.file.type,
-                media_caption: form.querySelector('textarea').value,
-                media_file: yellr.TMP.file.uri
+                media_caption: form.querySelector('textarea').value
               };
 
           // setup the options

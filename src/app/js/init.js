@@ -43,7 +43,43 @@ window.onload = function() {
   moment.locale(yellr.SETTINGS.language.code);
 
   document.addEventListener('deviceready', function() {
+
     // do cordova setup things
+    // yellr.cordova.getLatitude();
+    // yellr.cordova.getLongitude();
+
+
+    // // Location API
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //   // success geting location
+
+    //   yellr.utils.notify('Latitude: ' + position.coords.latitude);
+    //   yellr.SETTINGS.lat = position.coords.latitude;
+
+    //   yellr.utils.notify('Longitude: ' + position.coords.longitude);
+    //   yellr.SETTINGS.lng = position.coords.longitude;
+
+
+    //   // document.querySelector('#cordova-position').innerHTML = '' +
+    //   //   'Latitude           |' + position.coords.latitude + '<br />' +
+    //   //   'Longitude          |' + position.coords.longitude + '<br />' +
+    //   //   'Altitude           |' + position.coords.altitude + '<br />' +
+    //   //   'Accuracy           |' + position.coords.accuracy + '<br />' +
+    //   //   'Altitude Accuracy  |' + position.coords.altitudeAccuracy + '<br />' +
+    //   //   'Heading            |' + position.coords.heading + '<br />' +
+    //   //   'Speed              |' + position.coords.speed + '<br />' +
+    //   //   'Timestamp          |' + position.timestamp + '<br />';
+    // }, function(error) {
+    //   // error getting location
+    //   yellr.utils.notify(error.message);
+    //   // document.querySelector('#cordova-position').innerHTML = '' +
+    //   //   'Error Code   |' + error.code + '<br/>' +
+    //   //   'Message      |' + error.message;
+    // });
+
+
+
+
   }, false);
 
 }

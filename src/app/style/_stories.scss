@@ -3,9 +3,12 @@
 }
 
 .news-story-view {
-  margin: 1rem 0 1.5rem;
+  margin: 1rem 0.5rem 1.5rem;
   figcaption {
     padding: 0.25rem 0.5rem;
+  }
+  .news-title {
+    font-size: 2rem;
   }
 }
 .news-title {
@@ -14,6 +17,9 @@
 }
 .story-content {
   padding: 0.25rem 0.5rem;
+  p {
+    font-size: 1.125rem;
+  }
 }
 
 .latest-stories-list {

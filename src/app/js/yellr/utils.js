@@ -218,6 +218,7 @@ yellr.utils = {
         if (dataType === 'stories') {
           response[dataType] = response[dataType].filter(function (val, i, arr) {
             val.id = i;
+            val.contents = marked(val.contents);
             return true;
           });
 

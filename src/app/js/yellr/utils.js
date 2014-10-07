@@ -270,7 +270,7 @@ yellr.utils = {
       upload:         base_url+'upload_media.json',
       post:           base_url+'publish_post.json',
       server_info:    base_url+'server_info.json',
-      send_message:   base_url+'create_response_message.json?client_id='+yellr.UUID+'&'
+      send_message:   base_url+'create_response_message.json'
     };
 
   },

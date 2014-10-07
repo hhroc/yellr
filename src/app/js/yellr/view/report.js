@@ -135,22 +135,25 @@ yellr.view.report = (function() {
 
       var forms = document.querySelectorAll('#form-wrapper form');
       total_forms = forms.length;
-      form_counter = 0;
+      // form_counter = 0;
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];
 
         if (form.className === 'text-form' || form.className === 'reply-text-form' || form.className === 'reply-survey-form') {
           console.log('ajaxSubmit');
+
           $(form).ajaxSubmit({
             url: yellr.URLS.upload,
             success: function (response) {
               console.log(response);
               if (response.success) {
                 // add the media_id to our local array
-                form_counter++;
+                // form_counter++;
                 media_objects.push(response.media_id);
-                yellr.view.report.publish_post();
+                if (media_objects.length === forms.length) {
+                  yellr.view.report.publish_post();
+                }
 
               } else {
                 yellr.utils.notify('Something went wrong with upload_media...');
@@ -189,15 +192,17 @@ yellr.view.report = (function() {
             function success(response) {
               yellr.utils.clearTmp();
 
-              yellr.utils.notify(response)
-              yellr.utils.notify(response.response)
+              // yellr.utils.notify(response)
+              // yellr.utils.notify(response.response)
 
               var response_object = JSON.parse(response.response);
               yellr.utils.notify('Successful upload. '+response_object.media_id);
 
               media_objects.push(response_object.media_id);
-              form_counter++;
-              yellr.view.report.publish_post();
+
+              if (media_objects.length === forms.length) {
+                yellr.view.report.publish_post();
+              }
               // clear tmp object
             },
             function fail(error) {
@@ -235,7 +240,7 @@ yellr.view.report = (function() {
 
       // make sure we submitted all the forms
 
-      if (form_counter === total_forms) {
+      // if (form_counter === total_forms) {
 
         // title should be either a free response or
         // Reply to: Assignment ID
@@ -260,7 +265,7 @@ yellr.view.report = (function() {
         }).done(function () {
           console.log('post published');
         });
-      }
+      // }
 
     }
 

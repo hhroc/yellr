@@ -136,9 +136,17 @@ yellr.view.messages = (function() {
           var subject = encodeURIComponent('RE: '+current_msg.subject),
               text = encodeURIComponent(document.querySelector('#reply-message-form textarea').value);
 
-          console.log(yellr.URLS.send_message+'subject='+subject+'&text='+text+'&parent_message_id='+current_msg.message_id);
+      // send_message:   base_url+'create_response_message.json?client_id='+yellr.UUID+'&'
 
-          $.post(encodeURI(yellr.URLS.send_message+'subject='+subject+'&text='+text+'&parent_message_id='+current_msg.message_id),
+          // console.log(yellr.URLS.send_message+'subject='+subject+'&text='+text+'&parent_message_id='+current_msg.message_id);
+
+          $.post(yellr.URLS.send_message,
+            {
+              client_id: yellr.UUID,
+              subject: subject,
+              text: text,
+              parent_message_id: current_msg.message_id
+            },
             function (response) {
               if (response.success) {
                 yellr.utils.notify('Message sent!');

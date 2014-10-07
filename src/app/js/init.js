@@ -10,6 +10,7 @@ var yellr = yellr || {};
 
 var DEBUG = true;
 var BASE_URL = 'http://yellrdev.wxxi.org/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
 
 window.onload = function() {
 

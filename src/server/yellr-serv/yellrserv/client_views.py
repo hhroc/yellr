@@ -616,18 +616,19 @@ def upload_media(request):
     result = {'success': False}
 
     #error_text = ''
-    try:
-    #if True:
+    #try:
+    if True:
 
-        #if True:
-        try:
+        if True:
+        #try:
             client_id = request.POST['client_id']
             media_type = request.POST['media_type']
-        except:
-            result['error_text'] = 'Missing or invalid field'
-            raise Exception('missing fields')
+        #except:
+        #    result['error_text'] = 'Missing or invalid field'
+        #    raise Exception('missing fields')
 
         file_name = ''
+        file_path = ''
         if media_type == 'image' or media_type == 'video' \
                 or media_type == 'audio':
 
@@ -762,7 +763,7 @@ def upload_media(request):
             # rename once we are valid
             os.rename(temp_file_path, file_path)
 
-            result['file_name'] = file_path
+            result['file_name'] = os.path.basename(file_path)
 
         #except:
             #result['error_text'] = 'Missing or invalid media_file contents.'
@@ -788,7 +789,7 @@ def upload_media(request):
             DBSession,
             client_id,
             media_type,
-            file_name,
+            os.path.basename(file_path),
             media_caption,
             media_text,
         )
@@ -807,7 +808,7 @@ def upload_media(request):
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
-            'file_name': file_name,
+            'file_name': os.path.basename(file_path),
             'media_caption': media_caption,
             'media_text': media_text,
             'success': result['success'],
@@ -826,8 +827,8 @@ def upload_media(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    except:
-        pass
+    #except:
+    #    pass
 
 
     #resp = json.dumps(result)

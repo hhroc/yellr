@@ -53,7 +53,7 @@ class UserTypes(Base):
 
     __tablename__ = 'usertypes'
     user_type_id = Column(Integer, primary_key=True)
-    name = Column(Integer)
+    name = Column(Text)
     description = Column(Text)
 
     @classmethod
@@ -253,8 +253,24 @@ class Users(Base):
                 #    Users.user_type_id == admin_user_type_id or \
                 #    Users.user_type_id == mod_user_type_id or \
                 #    Users.user_type_id == sub_user_type_id,
-                Users.user_name == user_name,
+                Users.user_name == str(user_name),
             ).first()
+
+            print "\n\n"
+            print user
+            print "\n\n"
+
+            the_user = session.query(Users).first()
+
+            print "\n\n"
+            print the_user.verified
+            print the_user.user_type_id
+            print user_user_type_id
+            print type(the_user.user_name)
+            print type(str(user_name))
+            print the_user.user_name == str(user_name)
+            print "\n\n"
+
             token = None
             if user != None:
                 pass_hash = hashlib.sha256('{0}{1}'.format(password, user.pass_salt)).hexdigest()

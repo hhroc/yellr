@@ -59,6 +59,9 @@ def admin_get_access_token(request):
         try:
             user_name = request.GET['user_name']
             password = request.GET['password']
+
+            print "{0}:{1}".format(user_name, password)
+
         except:
             result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')

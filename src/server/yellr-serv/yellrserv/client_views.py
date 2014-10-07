@@ -3,6 +3,11 @@ import json
 from time import strftime
 import uuid
 import datetime
+import subprocess
+import magic
+import mutagen.mp3
+import mutagen.oggvorbis
+import mutagen.mp4
 
 from utils import make_response
 
@@ -14,6 +19,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
+
 
 from .models import (
     DBSession,
@@ -60,10 +66,6 @@ def index(request):
             language_code = 'en',
         )
 
-        print "\n\n"
-        print latest_stories
-        print "\n\n"
-
         ret_latest_stories = []
         for story_unique_id, publish_datetime, edited_datetime, title, tags, \
                 top_text, contents, top_left_lat, top_left_lng, \
@@ -88,10 +90,6 @@ def index(request):
                 'banner_media_file_name': media_file_name,
                 'banner_media_id': media_id,
             })
-
-        print "\n\n"
-        print ret_latest_stories
-        print "\n\n"
 
     #except:
     #    pass
@@ -345,22 +343,22 @@ def create_response_message(request):
 
     result = {'success': False}
 
-    # try:
-    if True:
+    try:
+    #if True:
 
-        # try:
-        if True:
+        try:
+        #if True:
             client_id = request.POST['client_id']
             parent_message_id = request.POST['parent_message_id']
             subject = request.POST['subject']
             text = request.POST['text']
-        # except:
-            # result['error_text'] = 'Missing or invalid field'
+        except:
+            result['error_text'] = 'Missing or invalid field'
 #            result['error_text'] = """\
 #One or more of the following fields is missing or invalid: client_id, \
 #parent_message_id, subject, text.\
 #"""
-            # raise Exception("missing/invalid field")
+            raise Exception("missing/invalid field")
 
         message = Messages.create_response_message_from_http(
             session = DBSession,
@@ -376,8 +374,8 @@ def create_response_message(request):
         else:
             result['error_text'] = "Message already has posted response."
 
-    # except:
-        # pass
+    except:
+        pass
 
     return make_response(result)
 
@@ -534,9 +532,11 @@ def publish_post(request):
 
     result = {'success': False}
 
-    try:
+    if True:
+    #try:
 
-        try:
+        if True:
+        #try:
             client_id = request.POST['client_id']
             assignment_id = request.POST['assignment_id']
             title = request.POST['title']
@@ -546,9 +546,9 @@ def publish_post(request):
             media_objects = json.loads(urllib.unquote(
                 request.POST['media_objects']).decode('utf8')
             )
-        except:
-            result['error_text'] = 'Missing or invalid field'
-            raise Exception('missing/invalid field')
+        #except:
+        #    result['error_text'] = 'Missing or invalid field'
+        #    raise Exception('missing/invalid field')
 
         post,created = Posts.create_from_http(
             session = DBSession,
@@ -560,10 +560,6 @@ def publish_post(request):
             lng = lng,
             media_objects = media_objects, # array
         )
-
-        print "\nThis client_id was seen by the server:\n"
-        print client_id
-        print "\n\n"
 
         result['success'] = True
         result['post_id'] = post.post_id
@@ -595,8 +591,8 @@ def publish_post(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    except:
-       pass
+    #except:
+    #   pass
 
     #resp = json.dumps(result)
     #return Response(resp,content_type='application/json')
@@ -621,52 +617,39 @@ def upload_media(request):
 
     """
 
-    #print "\n"
-    #print request.POST
-    #print "\n"
-
     result = {'success': False}
 
     #error_text = ''
-    try:
-    #if True:
+    #try:
+    if True:
 
-        #if True:
-        try:
+        if True:
+        #try:
             client_id = request.POST['client_id']
             media_type = request.POST['media_type']
-        except:
-            result['error_text'] = 'Missing or invalid field'
-            raise Exception('missing fields')
+        #except:
+        #    result['error_text'] = 'Missing or invalid field'
+        #    raise Exception('missing fields')
 
         file_name = ''
+        file_path = ''
         if media_type == 'image' or media_type == 'video' \
                 or media_type == 'audio':
 
 
-            #print '\n[DEBUG] POST items:\n'
-            #print request.POST.items()
-            #print '\n\n'
-
+            #if True:
             try:
+                #print "FILE TYPE: {0}".format(type(request.POST['media_file']))
+                #print "FILE CONTENTS: {0}".format(request.POST['media_file'])
+                #print "LIST OF FORM OBJECTS:"
+                #print request.POST
                 media_file_name = request.POST['media_file'].filename
                 input_file = request.POST['media_file'].file
             except:
                 result['error_text'] = 'Missing or invalid file field'
                 raise Exception('Invalid media_file field.')
 
-            # decode media type
-            if media_type == 'image':
-                media_extention  = 'jpg'
-            elif media_type == 'video':
-                media_extention = 'mpg'
-            elif media_type == 'audio':
-                media_extention = 'mp3'
-            elif media_type == 'text':
-                media_extention = 'txt'
-            else:
-                error_text = 'invalid media type'
-                raise Exception('')
+            media_extention="processing"
 
             # generate a unique file name to store the file to
             file_name = '{0}.{1}'.format(uuid.uuid4(),media_extention)
@@ -684,18 +667,116 @@ def upload_media(request):
                     break
                 output_file.write(data)
 
+            #decode media type of written file
+            #more file types can be added, but these should cover most for now
+            #TODO: client side validation so they don't lose content when they upload incorrect files?
+            #TODO: better error messages
+            #TODO: delete / handle (in some way) files that do not validate?
+            mimetype = magic.from_file(temp_file_path, mime=True)
+            #process image files
+            if media_type == 'image':
+
+                #jpeg
+                if mimetype == "image/jpeg":
+                    media_extention  = 'jpg'
+                    print "media_Extension is: " + media_extention
+
+                #png
+                elif mimetype == "image/png":
+                    media_extention  = 'png'
+                    print "media_Extension is: " + media_extention
+
+                #not jpeg or png
+                else:
+                    error_text = 'invalid image file'
+                    raise Exception('')
+
+                #strip metadata from images with ImageMagick's mogrify
+                #TODO: dynamically find mogrify (but I think it's usually /usr/bin)
+                if True:
+                #try:
+                    subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+                #except:
+                #    error_text = "Mogrify is missing, or in an unexpected place."
+                #    raise Exception('')
+
+            #process video files
+            elif media_type == 'video':
+                #I can't seem to find any evidence of PII in mpg metadata
+                if mimetype == "video/mpeg":
+                    media_extention = 'mpg'
+                elif mimetype == "video/mp4":
+                    media_extension = "mp4"
+                    #strip metadata
+                    try:
+                        mp4 = mutagen.mp4.MP4(temp_file_path)
+                        mp4.delete()
+                        mp4.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from mp4"
+                        raise Exception('')
+
+                else:
+                    error_text = 'invalid video file'
+                    raise Exception('')
+
+            #process audio files
+            elif media_type == 'audio':
+
+                #mp3 file
+                if mimetype == "audio/mpeg":
+                    media_extention = 'mp3'
+                    #strip metadata
+                    try:
+                        mp3 = mutagen.mp3.MP3(temp_file_path)
+                        mp3.delete()
+                        mp3.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from mp3"
+                        raise Exception('')
+
+                #ogg vorbis file
+                elif mimetype == "audio/ogg" or mimetype == "application/ogg":
+                    media_extention = 'ogg'
+                    try:
+                        ogg = mutagen.oggvorbis.Open(temp_file_path)
+                        ogg.delete()
+                        ogg.save()
+                    except:
+                        error_text = "Something went wrong while stripping metadata from ogg vorbis"
+                        raise Exception('')
+
+                #not mp3 or ogg vorbis
+                else:
+                    error_text = 'invalid audio file'
+                    raise Exception('')
+
+            #I don't think the user has a way to upload files of this type besides typing in the box
+            #so it doesn't need as robust detection.
+            elif media_type == 'text':
+                media_extention = 'txt'
+
+            else:
+                error_text = 'invalid media type'
+                raise Exception('')
+
+            #the file has been validated and processed, so we adjust the file path
+            #to the mimetype-dictated file extension
+            file_path = file_path.replace("processing", media_extention)
+
             # rename once we are valid
             os.rename(temp_file_path, file_path)
 
-            result['file_name'] = file_name
+            result['file_name'] = os.path.basename(file_path)
 
         #except:
             #result['error_text'] = 'Missing or invalid media_file contents.'
             #raise Exception('missing/invalid media_file contents')
 
         media_caption = ''
+        #if True:
         try:
-            media_caption = requst.POST['caption']
+            media_caption = request.POST['caption']
         except:
             pass
 
@@ -712,7 +793,7 @@ def upload_media(request):
             DBSession,
             client_id,
             media_type,
-            file_name,
+            os.path.basename(file_path),
             media_caption,
             media_text,
         )
@@ -731,7 +812,7 @@ def upload_media(request):
             'event_datetime': str(datetime.datetime.now()),
             'client_id': client_id,
             'media_type': media_type,
-            'file_name': file_name,
+            'file_name': os.path.basename(file_path),
             'media_caption': media_caption,
             'media_text': media_text,
             'success': result['success'],
@@ -750,8 +831,8 @@ def upload_media(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    except:
-        pass
+    #except:
+    #    pass
 
 
     #resp = json.dumps(result)

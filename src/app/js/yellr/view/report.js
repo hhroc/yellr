@@ -196,7 +196,6 @@ yellr.view.report = (function() {
               // yellr.utils.notify(response.response)
 
               var response_object = JSON.parse(response.response);
-              yellr.utils.notify('Successful upload. '+response_object.media_id);
 
               media_objects.push(response_object.media_id);
 
@@ -264,6 +263,8 @@ yellr.view.report = (function() {
           total_forms = 0;
         }).done(function () {
           console.log('post published');
+          yellr.utils.notify('Post successful.');
+
         });
       // }
 

@@ -761,12 +761,13 @@ module.exports = function(grunt) {
     // then just copy the assets to the right folder
     grunt.task.run([
       'build_storefront',
-      'moderator_js_to_pyramid',
-      'moderator_css_to_pyramid',
-      'moderator_img_to_pyramid',
-      'storefront_js_to_pyramid',
-      'storefront_css_to_pyramid',
-      'storefront_img_to_pyramid'
+      'build_moderator',
+      'copy:moderator_js_to_pyramid',
+      'copy:moderator_css_to_pyramid',
+      'copy:moderator_img_to_pyramid',
+      'copy:storefront_js_to_pyramid',
+      'copy:storefront_css_to_pyramid',
+      'copy:storefront_img_to_pyramid'
     ]);
   });
 

@@ -1,3 +1,10 @@
+/*!
+ * yellr v0.0.1 (http://hhroc.github.io/)
+ * Copyright 2014 hhroc - Hacks and Hackers Rochester
+ * Licensed under MIT (https://github.com/hhroc/yellr/blob/master/LICENSE)
+ */
+
+
 'use strict';
 var mod = mod || {};
 

@@ -37,6 +37,7 @@
 .report-bar {
   background: $yellow;
   color: $black;
+  border-top: 1px solid $dark-yellow;
   .btn {
     border-right: 1px solid $dark-yellow;
     &:last-child {border-right: none;}

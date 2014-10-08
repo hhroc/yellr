@@ -21,13 +21,12 @@ window.onload = function() {
     yellr.utils.create_user();
     yellr.utils.save();
   } else {
-    // we ave existing local storage, load it
+    // we have existing local storage, load it
     yellr.utils.load_localStorage();
   }
 
   // check version info
   yellr.utils.check_version();
-
 
   // ping server for new data
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
@@ -50,33 +49,20 @@ window.onload = function() {
     // yellr.cordova.getLongitude();
 
 
-    // // Location API
-    // navigator.geolocation.getCurrentPosition(function(position) {
-    //   // success geting location
+    // Location API
+    navigator.geolocation.getCurrentPosition(function(position) {
+      // success geting location
 
-    //   yellr.utils.notify('Latitude: ' + position.coords.latitude);
-    //   yellr.SETTINGS.lat = position.coords.latitude;
+      yellr.utils.notify('Latitude: ' + position.coords.latitude);
+      yellr.SETTINGS.lat = position.coords.latitude;
 
-    //   yellr.utils.notify('Longitude: ' + position.coords.longitude);
-    //   yellr.SETTINGS.lng = position.coords.longitude;
+      yellr.utils.notify('Longitude: ' + position.coords.longitude);
+      yellr.SETTINGS.lng = position.coords.longitude;
 
-
-    //   // document.querySelector('#cordova-position').innerHTML = '' +
-    //   //   'Latitude           |' + position.coords.latitude + '<br />' +
-    //   //   'Longitude          |' + position.coords.longitude + '<br />' +
-    //   //   'Altitude           |' + position.coords.altitude + '<br />' +
-    //   //   'Accuracy           |' + position.coords.accuracy + '<br />' +
-    //   //   'Altitude Accuracy  |' + position.coords.altitudeAccuracy + '<br />' +
-    //   //   'Heading            |' + position.coords.heading + '<br />' +
-    //   //   'Speed              |' + position.coords.speed + '<br />' +
-    //   //   'Timestamp          |' + position.timestamp + '<br />';
-    // }, function(error) {
-    //   // error getting location
-    //   yellr.utils.notify(error.message);
-    //   // document.querySelector('#cordova-position').innerHTML = '' +
-    //   //   'Error Code   |' + error.code + '<br/>' +
-    //   //   'Message      |' + error.message;
-    // });
+    }, function(error) {
+      // error getting location
+      yellr.utils.notify(error.message);
+    });
 
 
 

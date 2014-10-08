@@ -13,7 +13,7 @@
   "open_gallery": "Abre la galeria",
 
   "assignment": "Asignacion",
-  "assignments": "Asignacions",
+  "assignments": "Asignaciones",
   "view_assignment": "Ver Asignacion",
   "no_assignments_yet": "No hay asignacions!",
   "check_back_later_for_assignments": "Regresa al rato.",
@@ -29,6 +29,7 @@
 
   "messages": "Mensajes",
   "view_message": "Mensaje",
+  "reply": "Responde",
 
   "no_news_in_your_area": "No hay noticias en tu area.",
   "get_your_voice_heard": "By submitting things imporant to you, you can get your voice heard!",
@@ -47,9 +48,9 @@
   "settings": "Ajustes",
 
   "submit_report": "Someter Reportaje",
-  "add_image_description": "Anadir descripcion del imagen (opcional)",
-  "add_video_description": "Anadir descripcion del video (opcional)",
-  "add_audio_description": "Anadir descripcion del audio (opcional)",
+  "add_image_description": "Anadir descripcion de imagen (opcional)",
+  "add_video_description": "Anadir descripcion de video (opcional)",
+  "add_audio_description": "Anadir descripcion de audio (opcional)",
   "choose_image_source": "Escoger origen de foto",
   "choose_files": "Escoger archivo",
   "add_extra_media": "Anadir media extra:"

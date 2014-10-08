@@ -48,6 +48,8 @@ mod.collections = (function() {
       } else {
         console.log('something went wrong loading collection posts');
       }
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
   }
 
@@ -65,6 +67,8 @@ mod.collections = (function() {
       }
     }).done(function () {
       if (options.callback) options.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
   }

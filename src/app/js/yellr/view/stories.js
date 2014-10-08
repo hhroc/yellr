@@ -31,7 +31,28 @@ yellr.view.stories = (function() {
             news_feed: yellr.SCRIPT.news_feed
           }
         });
+
         document.querySelector('#news-feed-tab').className = 'current';
+        $('#news-feed-tab').on('click', function (e) {
+          yellr.utils.load('stories', function () {
+            yellr.view.stories.render_feed();
+            yellr.utils.notify('Latest stories loaded');
+          });
+        });
+
+
+        // add "pull-down" to refresh
+        yellr.utils.pulldown_to_refresh({
+          target: '#latest-stories',
+          container: '#news-feed',
+          callback: function () {
+            yellr.utils.load('stories', function () {
+              yellr.view.stories.render_feed();
+              yellr.utils.notify('Latest stories loaded');
+            });
+          }
+        });
+
 
         this.render_feed();
       }

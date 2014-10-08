@@ -16,8 +16,7 @@ module.exports = function(grunt) {
       onepager_folder       =   'one-pager/',
       storefront_folder     =   'storefront/',
       pyramid_folder        =   'server/yellr-serv/yellrserv/',
-      pyramid_static_folder =   pyramid_folder+'static/',
-      pyramid_templates_folder = pyramid_folder+'templates/';
+      pyramid_static_folder =   pyramid_folder+'static/';
 
 
 
@@ -245,13 +244,12 @@ module.exports = function(grunt) {
       config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: '../application'}] },
 
       // pyramid things
-      storefront_assets_to_pyramid: {
-        files : [
-          {expand: true, cwd: buildFolder+storefront_folder+'style',  src: ['**'], dest: pyramid_static_folder+'style'},
-          {expand: true, cwd: buildFolder+storefront_folder+'js',     src: ['**'], dest: pyramid_static_folder+'js'},
-          {expand: true, cwd: buildFolder+storefront_folder+'img',    src: ['**'], dest: pyramid_static_folder+'img'},
-        ]
-      },
+      moderator_js_to_pyramid:  {files: [{expand: true, cwd: buildFolder+moderator_folder+'js', src: ['**'], dest: pyramid_folder+moderator_folder+'js'} ] },
+      moderator_css_to_pyramid: {files: [{expand: true, cwd: buildFolder+moderator_folder+'style', src: ['**'], dest: pyramid_folder+moderator_folder+'style'} ] },
+      moderator_img_to_pyramid: {files: [{expand: true, cwd: buildFolder+moderator_folder+'img', src: ['**'], dest: pyramid_folder+moderator_folder+'img'} ] },
+      storefront_js_to_pyramid: {files: [{expand: true, cwd: buildFolder+storefront_folder+'js', src: ['**'], dest: pyramid_static_folder+'js'} ] },
+      storefront_css_to_pyramid:{files: [{expand: true, cwd: buildFolder+storefront_folder+'style', src: ['**'], dest: pyramid_static_folder+'style'} ] },
+      storefront_img_to_pyramid:{files: [{expand: true, cwd: buildFolder+storefront_folder+'img', src: ['**'], dest: pyramid_static_folder+'img'} ] },
     },
 
 
@@ -454,17 +452,13 @@ module.exports = function(grunt) {
       // moderator folder
       moderator_data:   {files: [moderator_folder+'data/**'],   tasks: ['jsonlint:moderator', 'copy:moderator_data'] },
       moderator_jade:   {files: [moderator_folder+'html/**'],   tasks: ['jade:moderator'] },
-      moderator_js:     {files: [moderator_folder+'js/**'],     tasks: ['concat:moderator', 'uglify:moderator'] },
-      moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['compass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator'] },
-      // onepager: {
-      //   files: [onepager_folder+'**'],
-      //      tasks: ['onepager']
-      // },
+      moderator_js:     {files: [moderator_folder+'js/**'],     tasks: ['concat:moderator', 'uglify:moderator', 'copy:moderator_js_to_pyramid'] },
+      moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['compass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator', 'copy:moderator_css_to_pyramid'] },
       // storefront folder
       storefront_data:   {files: [storefront_folder+'data/**'],   tasks: ['jsonlint:storefront', 'copy:storefront_data'] },
       storefront_jade:   {files: [storefront_folder+'html/**'],   tasks: ['jade:storefront'] },
-      storefront_js:     {files: [storefront_folder+'js/**'],     tasks: ['concat:storefront', 'uglify:storefront'] },
-      storefront_style:  {files: [storefront_folder+'style/**'],  tasks: ['compass:storefront', 'autoprefixer:storefront', 'csscomb:storefront', 'cssmin:storefront'] },
+      storefront_js:     {files: [storefront_folder+'js/**'],     tasks: ['concat:storefront', 'uglify:storefront', 'copy:storefront_js_to_pyramid'] },
+      storefront_style:  {files: [storefront_folder+'style/**'],  tasks: ['compass:storefront', 'autoprefixer:storefront', 'csscomb:storefront', 'cssmin:storefront', 'copy:storefront_css_to_pyramid'] },
 
       // watch common assets
       common_jade:      {files: [common_folder+'html/**'],      tasks: ['build_html'] },
@@ -557,58 +551,13 @@ module.exports = function(grunt) {
       'copy:images',
 
       // server front-end assets
-      'copy:storefront_assets_to_pyramid',
+      'build_pyramid',
 
       // build project index stuff
       'jade:index',
       'compass:index'
     ]);
   });
-
-
-
-
-  // // grunt w:app
-  // grunt.registerTask('w', 'watch only certain src parts', function(module) {
-  //   // var target = grunt.option('target');
-  //   console.log(module);
-  //   switch (module) {
-  //     case 'app':
-  //       grunt.task.run([
-  //         'watch:app_data',
-  //         'watch:app_images',
-  //         'watch:app_jade',
-  //         'watch:app_js',
-  //         'watch:app_style',
-  //         'watch:app_config'
-  //       ]);
-  //       break;
-  //     case 'moderator':
-  //       grunt.task.run([
-  //         'watch:moderator_data',
-  //         'watch:moderator_jade',
-  //         'watch:moderator_js',
-  //         'watch:moderator_style'
-  //       ]);
-  //       break;
-  //     // case 'onepager':
-  //     //   break;
-  //     case 'storefront':
-  //       grunt.task.run([
-  //         'watch:storefront_data',
-  //         'watch:storefront_jade',
-  //         'watch:storefront_js',
-  //         'watch:storefront_style'
-  //       ]);
-  //       break;
-  //     default:
-  //       console.log('no module passed. watching everything. like the nsa');
-  //       grunt.task.run(['watch']);
-  //       break;
-  //   }
-
-  // });
-
 
 
 
@@ -779,10 +728,6 @@ module.exports = function(grunt) {
 
 
 
-
-
-
-
   grunt.registerTask('build_html', function() {
     grunt.task.run([
       'jade:index',
@@ -808,44 +753,22 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('autoprefix', function() {
-    grunt.task.run([
-      'autoprefixer:app',
-      'autoprefixer:moderator',
-      'autoprefixer:onepager',
-      'autoprefixer:storefront'
-    ]);
-  });
-
-
-
-  grunt.registerTask('lint_json', function() {
-    grunt.task.run([
-      'jsonlint:app',
-      'jsonlint:moderator'
-      // 'jsonlint:onepager',
-      // 'jsonlint:storefront'
-    ]);
-  });
-
-
 
   // pyramid stuff
   // ----------------------------
-  grunt.registerTask('export_static_to_pyramid', function() {
+  grunt.registerTask('build_pyramid', function() {
     // we build the storefront with default settings,
     // then just copy the assets to the right folder
     grunt.task.run([
       'build_storefront',
-      'copy:storefront_assets_to_pyramid'
+      'build_moderator',
+      'copy:moderator_js_to_pyramid',
+      'copy:moderator_css_to_pyramid',
+      'copy:moderator_img_to_pyramid',
+      'copy:storefront_js_to_pyramid',
+      'copy:storefront_css_to_pyramid',
+      'copy:storefront_img_to_pyramid'
     ]);
-  });
-
-
-  grunt.registerTask('deploy_moderator', function () {
-
-    // basically, copy the moderator thing to src/server/yellr-serv
-
   });
 
 

@@ -57,7 +57,27 @@ yellr.view.assignments = (function() {
           news_feed: yellr.SCRIPT.news_feed
         }
       });
+
       document.querySelector('#assignments-tab').className = 'current';
+      $('#assignments-tab').on('click', function (e) {
+        yellr.utils.load('assignments', function () {
+          yellr.view.assignments.render_feed();
+          yellr.utils.notify('Latest assignments loaded');
+        });
+      });
+
+
+      // add "pull-down" to refresh
+      yellr.utils.pulldown_to_refresh({
+        target: '#latest-assignments',
+        container: '#assignments',
+        callback: function () {
+          yellr.utils.load('assignments', function () {
+            yellr.view.assignments.render_feed();
+            yellr.utils.notify('Latest assignments loaded');
+          });
+        }
+      });
 
 
       // make sure we have data

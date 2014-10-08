@@ -34,14 +34,14 @@ def main(global_config, **settings):
 
     config.add_static_view(name='media', path=media_path)
 
-    
- 
+
+
     # systme / debug views
     config.add_route('index', '/')
     #config.add_route('status.json','status.json')
-    #config.add_route('client_logs.json','client_logs.json')  
+    #config.add_route('client_logs.json','client_logs.json')
     #config.add_route('get_users.json','get_users.json')
-    
+
     # admin views
     config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
 
@@ -83,6 +83,7 @@ def main(global_config, **settings):
     config.add_route('upload_test.json','upload_test.json')
     config.add_route('publish_post.json','publish_post.json')
     config.add_route('get_profile.json', 'get_profile.json')
+    config.add_route('submit-tip.html','submit-tip.html')
     #config.add_route('','')
 
     config.scan()

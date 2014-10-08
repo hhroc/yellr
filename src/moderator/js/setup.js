@@ -185,11 +185,9 @@ mod.setup = {
      * index.html
      */
 
-
     // get my assignments
     mod.assignments.get_my_assignments({
       callback: function () {
-
         // get 4 latest
         var latest_4_assignments = [];
         for (var i = 0; i < mod.DATA.assignments.length; i++) {

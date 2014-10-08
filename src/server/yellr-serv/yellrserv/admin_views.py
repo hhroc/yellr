@@ -59,6 +59,9 @@ def admin_get_access_token(request):
         try:
             user_name = request.GET['user_name']
             password = request.GET['password']
+
+            print "{0}:{1}".format(user_name, password)
+
         except:
             result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')
@@ -1421,7 +1424,7 @@ def admin_get_subscriber_list(request):
         )
 
         print subscribers
-  
+
         ret_subscribers = []
         for email,subscribe_datetime,name,organization, \
                 profession,receive_updates,receive_version_announcement, \

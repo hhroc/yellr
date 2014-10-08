@@ -25,6 +25,8 @@ mod.messages = {
     }).done(function () {
       // do the callbacks
       if (options.callback) options.callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
     });
 
   },

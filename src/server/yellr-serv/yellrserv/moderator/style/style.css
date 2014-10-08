@@ -397,9 +397,9 @@ figcaption {
 }
 
 .fa-spin {
-  -webkit-animation: fa-spin 2s infinite linear;
-       -o-animation: fa-spin 2s infinite linear;
-          animation: fa-spin 2s infinite linear;
+  -webkit-animation: fa-spin 1.25s infinite linear;
+       -o-animation: fa-spin 1.25s infinite linear;
+          animation: fa-spin 1.25s infinite linear;
 }
 
 @-webkit-keyframes fa-spin {

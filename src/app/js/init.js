@@ -9,12 +9,12 @@ var yellr = yellr || {};
 */
 
 var DEBUG = true;
-// var DEBUG = false;
+var BASE_URL = 'http://yellrdev.wxxi.org/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
 
 window.onload = function() {
 
-  if (DEBUG) localStorage.removeItem('yellr');
-  // localStorage.removeItem('yellr');
+  localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) {
@@ -24,7 +24,6 @@ window.onload = function() {
     // we ave existing local storage, load it
     yellr.utils.load_localStorage();
   }
-
 
   // check version info
   yellr.utils.check_version();
@@ -42,38 +41,46 @@ window.onload = function() {
 
   // extras
   // FastClick.attach(document.body);
-
+  moment.locale(yellr.SETTINGS.language.code);
 
   document.addEventListener('deviceready', function() {
-    // yellr.user.cordova();
-    // alert('running deviceready');
-    // // yellr.setup.user();
-    // // yellr.setup.app();
-    // // hide splash screen
-    // // navigator.splashscreen.hide();
 
-    // if (navigator.notification) { // Override default HTML alert with native dialog
-    //   window.alert = function (message) {
-    //     navigator.notification.alert(
-    //       message,    // message
-    //       null,       // callback
-    //       "Workshop", // title
-    //       'OK'        // buttonName
-    //     );
-    //   };
-    // }
+    // do cordova setup things
+    // yellr.cordova.getLatitude();
+    // yellr.cordova.getLongitude();
 
-    // alert('this should look a little different?');
+
+    // // Location API
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //   // success geting location
+
+    //   yellr.utils.notify('Latitude: ' + position.coords.latitude);
+    //   yellr.SETTINGS.lat = position.coords.latitude;
+
+    //   yellr.utils.notify('Longitude: ' + position.coords.longitude);
+    //   yellr.SETTINGS.lng = position.coords.longitude;
+
+
+    //   // document.querySelector('#cordova-position').innerHTML = '' +
+    //   //   'Latitude           |' + position.coords.latitude + '<br />' +
+    //   //   'Longitude          |' + position.coords.longitude + '<br />' +
+    //   //   'Altitude           |' + position.coords.altitude + '<br />' +
+    //   //   'Accuracy           |' + position.coords.accuracy + '<br />' +
+    //   //   'Altitude Accuracy  |' + position.coords.altitudeAccuracy + '<br />' +
+    //   //   'Heading            |' + position.coords.heading + '<br />' +
+    //   //   'Speed              |' + position.coords.speed + '<br />' +
+    //   //   'Timestamp          |' + position.timestamp + '<br />';
+    // }, function(error) {
+    //   // error getting location
+    //   yellr.utils.notify(error.message);
+    //   // document.querySelector('#cordova-position').innerHTML = '' +
+    //   //   'Error Code   |' + error.code + '<br/>' +
+    //   //   'Message      |' + error.message;
+    // });
+
+
+
 
   }, false);
 
 }
-
-// document.addEventListener('deviceready', function() {
-//   // yellr.setup.user();
-//   yellr.user.cordova();
-//   // yellr.setup.app();
-//   // hide splash screen
-//   // navigator.splashscreen.hide();
-
-// }, false);

@@ -42,7 +42,6 @@ mod.utils = {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
     var url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password;
-    // var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({

@@ -1,6 +1,7 @@
 init:
 	# install gems, grunt
-	cd ./src; bundle install; npm install;
+	# cd ./src; bundle install; npm install; TO REMOVE - gonna move off of Ruby and Compass to Stylus
+	cd ./src; npm install;
 	# build the corova app
 	cordova create application com.hhroc.yellr "Yellr";
 	# add all cordova plugins. check the docs for a detailed list

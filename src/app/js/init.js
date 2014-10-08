@@ -10,10 +10,11 @@ var yellr = yellr || {};
 
 var DEBUG = true;
 // var DEBUG = false;
+
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
-  localStorage.removeItem('yellr');
+  if (DEBUG) localStorage.removeItem('yellr');
+  // localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it
   if (localStorage.getItem('yellr') === null) {
@@ -23,6 +24,7 @@ window.onload = function() {
     // we ave existing local storage, load it
     yellr.utils.load_localStorage();
   }
+
 
   // check version info
   yellr.utils.check_version();
@@ -40,10 +42,38 @@ window.onload = function() {
 
   // extras
   // FastClick.attach(document.body);
-  moment.locale(yellr.SETTINGS.language.code);
+
 
   document.addEventListener('deviceready', function() {
-    // do cordova setup things
+    // yellr.user.cordova();
+    // alert('running deviceready');
+    // // yellr.setup.user();
+    // // yellr.setup.app();
+    // // hide splash screen
+    // // navigator.splashscreen.hide();
+
+    // if (navigator.notification) { // Override default HTML alert with native dialog
+    //   window.alert = function (message) {
+    //     navigator.notification.alert(
+    //       message,    // message
+    //       null,       // callback
+    //       "Workshop", // title
+    //       'OK'        // buttonName
+    //     );
+    //   };
+    // }
+
+    // alert('this should look a little different?');
+
   }, false);
 
 }
+
+// document.addEventListener('deviceready', function() {
+//   // yellr.setup.user();
+//   yellr.user.cordova();
+//   // yellr.setup.app();
+//   // hide splash screen
+//   // navigator.splashscreen.hide();
+
+// }, false);

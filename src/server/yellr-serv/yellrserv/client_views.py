@@ -632,17 +632,19 @@ def upload_media(request):
                 or media_type == 'audio':
 
     
-            #if True:
-            try:
-                #print "FILE TYPE: {0}".format(type(request.POST['media_file']))
-                #print "FILE CONTENTS: {0}".format(request.POST['media_file'])
-                #print "LIST OF FORM OBJECTS:"
-                #print request.POST
-                media_file_name = request.POST['media_file'].filename
-                input_file = request.POST['media_file'].file
-            except:
-                result['error_text'] = 'Missing or invalid file field'
-                raise Exception('Invalid media_file field.')
+            if True:
+            #try:
+                print "FILE TYPE: {0}".format(type(request.POST['media_file']))
+                print "FILE CONTENTS: {0}".format(request.POST['media_file'])
+                print "LIST OF FORM OBJECTS:"
+                print request.POST
+                #media_file_name = request.POST['media_file'].filename
+                media_file_name = request.POST['file'].filename
+                #input_file = request.POST['media_file'].file
+                input_file = request.POST['file'].file
+            #except:
+            #    result['error_text'] = 'Missing or invalid file field'
+            #    raise Exception('Invalid media_file field.')
         
             media_extention="processing"
 
@@ -762,7 +764,7 @@ def upload_media(request):
             # rename once we are valid
             os.rename(temp_file_path, file_path)
 
-            result['file_name'] = file_path
+            result['file_name'] = file_name
 
         #except:
             #result['error_text'] = 'Missing or invalid media_file contents.'

@@ -9,7 +9,7 @@
     "url": "https://github.com/hhroc/yellr"
   },
   "license": {
-    "type": "MIT",
+    "type": "AGPLv3",
     "url": "https://github.com/hhroc/yellr/blob/master/LICENSE"
   },
   "devDependencies" : {

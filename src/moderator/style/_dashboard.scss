@@ -12,7 +12,19 @@
 #right {position: relative; }
 
 
-
+#refresh-posts {
+  color: #eee;
+  background: lighten($blue, 15%);
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5rem;
+  transition: background 0.3s ease-out;
+  font-weight: normal;
+  &:hover {
+    cursor: pointer;
+    background: $blue;
+  }
+}
 
 
 

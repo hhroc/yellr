@@ -353,7 +353,8 @@ mod.setup = {
 
     });
 
-
+    // refresh posts every 10 seconds
+    mod.utils.load_latest_posts();
   }
 }
 
@@ -376,6 +377,24 @@ mod.utils = {
     console.log(text);
   },
 
+
+  load_latest_posts: function () {
+    setTimeout(function () {
+      console.log('loading latest posts...');
+      mod.posts.get_posts({
+        callback: function () {
+          mod.utils.render_template({
+            template: '#latest-posts-template',
+            target: '#latest-posts',
+            context: {posts: mod.DATA.posts}
+          });
+        }
+      });
+
+      // loop
+      mod.utils.load_latest_posts();
+    }, 10000);
+  },
 
 
 

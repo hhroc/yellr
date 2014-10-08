@@ -1,19 +1,11 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under MIT (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var mod = mod || {};
 
 var DEBUG = true;
-var BASE_URL = 'http://127.0.0.1:8080/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
+var BASE_URL = '/';
 
 window.onload = function () {
-
-    // if (DEBUG) localStorage.removeItem('yellr-mod');
 
     // Handlebars check
     // -----------------------------

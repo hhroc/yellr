@@ -1,6 +1,7 @@
 'use strict';
 var yellr = yellr || {};
 
+var BASE_URL = '/';
 
 // the things
 yellr.main = {

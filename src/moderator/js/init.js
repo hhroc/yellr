@@ -2,11 +2,10 @@
 var mod = mod || {};
 
 var DEBUG = true;
-var BASE_URL = 'http://127.0.0.1:8080/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
+var BASE_URL = '/';
 
 window.onload = function () {
-
-    // if (DEBUG) localStorage.removeItem('yellr-mod');
 
     // Handlebars check
     // -----------------------------

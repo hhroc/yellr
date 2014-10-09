@@ -1,19 +1,11 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under MIT (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var mod = mod || {};
 
 var DEBUG = true;
-var BASE_URL = 'http://127.0.0.1:8080/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
+var BASE_URL = '/';
 
 window.onload = function () {
-
-    // if (DEBUG) localStorage.removeItem('yellr-mod');
 
     // Handlebars check
     // -----------------------------
@@ -361,7 +353,8 @@ mod.setup = {
 
     });
 
-
+    // refresh posts every 10 seconds
+    mod.utils.load_latest_posts();
   }
 }
 
@@ -384,6 +377,24 @@ mod.utils = {
     console.log(text);
   },
 
+
+  load_latest_posts: function () {
+    setTimeout(function () {
+      console.log('loading latest posts...');
+      mod.posts.get_posts({
+        callback: function () {
+          mod.utils.render_template({
+            template: '#latest-posts-template',
+            target: '#latest-posts',
+            context: {posts: mod.DATA.posts}
+          });
+        }
+      });
+
+      // loop
+      mod.utils.load_latest_posts();
+    }, 10000);
+  },
 
 
 

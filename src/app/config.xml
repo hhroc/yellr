@@ -9,9 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <access origin="http://127.0.0.1*" />
     <access origin="http://yellrdev.wxxi.org" subdomains="true" />
-    <access origin=".*" />  <!-- only during development -->
     <preference name="Orientation" value="portrait" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="5000" />

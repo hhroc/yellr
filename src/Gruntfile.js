@@ -244,6 +244,7 @@ module.exports = function(grunt) {
       config_xml:         {files: [{expand: true, cwd: app_folder, src: ['config.xml'], dest: '../application'}] },
 
       // pyramid things
+      moderator_html_to_pyramid:{files: [{expand: true, cwd: buildFolder+moderator_folder, src: ['*.html'], dest: pyramid_folder+moderator_folder} ] },
       moderator_js_to_pyramid:  {files: [{expand: true, cwd: buildFolder+moderator_folder+'js', src: ['**'], dest: pyramid_folder+moderator_folder+'js'} ] },
       moderator_css_to_pyramid: {files: [{expand: true, cwd: buildFolder+moderator_folder+'style', src: ['**'], dest: pyramid_folder+moderator_folder+'style'} ] },
       moderator_img_to_pyramid: {files: [{expand: true, cwd: buildFolder+moderator_folder+'img', src: ['**'], dest: pyramid_folder+moderator_folder+'img'} ] },
@@ -451,7 +452,7 @@ module.exports = function(grunt) {
       app_config:       {files: [app_folder+'config.xml'],      tasks: ['copy:config_xml'] },
       // moderator folder
       moderator_data:   {files: [moderator_folder+'data/**'],   tasks: ['jsonlint:moderator', 'copy:moderator_data'] },
-      moderator_jade:   {files: [moderator_folder+'html/**'],   tasks: ['jade:moderator'] },
+      moderator_jade:   {files: [moderator_folder+'html/**'],   tasks: ['jade:moderator', 'copy:moderator_html_to_pyramid'] },
       moderator_js:     {files: [moderator_folder+'js/**'],     tasks: ['concat:moderator', 'uglify:moderator', 'copy:moderator_js_to_pyramid'] },
       moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['compass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator', 'copy:moderator_css_to_pyramid'] },
       // storefront folder
@@ -762,6 +763,7 @@ module.exports = function(grunt) {
     grunt.task.run([
       'build_storefront',
       'build_moderator',
+      'copy:moderator_html_to_pyramid',
       'copy:moderator_js_to_pyramid',
       'copy:moderator_css_to_pyramid',
       'copy:moderator_img_to_pyramid',

@@ -28,7 +28,7 @@ div.templates
   script#image-form-template(type="text/x-handlebars-template").
     <form id="image-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
       <input type="hidden" name="media_type" value="image">
-      <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+      <textarea name="media_text" rows="2" columns="10" placeholder="Add description (optional)"></textarea>
       <input type="file" name="media_file" multiple>
     </form>
 
@@ -36,7 +36,7 @@ div.templates
   script#video-form-template(type="text/x-handlebars-template").
     <form id="video-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
       <input type="hidden" name="media_type" value="video">
-      <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+      <textarea name="media_text" rows="2" columns="10" placeholder="Add description (optional)"></textarea>
       <input type="file" name="media_file" multiple>
     </form>
 
@@ -44,7 +44,7 @@ div.templates
   script#audio-form-template(type="text/x-handlebars-template").
     <form id="audio-form" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="submit-form">
       <input type="hidden" name="media_type" value="audio">
-      <textarea name="media_text" rows="2" columns="10" placeholder="Add description"></textarea>
+      <textarea name="media_text" rows="2" columns="10" placeholder="Add description (optional)"></textarea>
       <input type="file" name="media_file" multiple>
     </form>
 

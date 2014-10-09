@@ -3,11 +3,6 @@ var yellr = yellr || {};
 
 yellr.view.stories = (function() {
 
-    var render_template = yellr.utils.render_template;
-    var header, footer;
-
-
-
     var render = function(data) {
 
       /**
@@ -15,15 +10,35 @@ yellr.view.stories = (function() {
        */
 
 
-      header = data.template.header;
-      footer = data.template.footer;
+      var header = data.template.header,
+          footer = data.template.footer;
 
-      if (data.hash === '#view-news')
+      if (data.hash === '#view-news') {
+
+        // usual setup of things
+        header.template = '#page-header';
+        header.context = {
+          page: yellr.SCRIPT.news_story,
+          hash: '#news-feed'
+        };
+
+        yellr.utils.no_subnav();
+
+        footer.template = '';
+
+        yellr.utils.render_template(header);
+        yellr.utils.render_template(footer);
+
+
+        // render the story
         this.read_story(data.id);
-      else {
+
+      } else {
+
         header.template = '#main-header';
+
         // subnav
-        render_template({
+        yellr.utils.render_template({
           target: '#app-subnav',
           template: '#homepage-subnav',
           context: {
@@ -31,6 +46,10 @@ yellr.view.stories = (function() {
             news_feed: yellr.SCRIPT.news_feed
           }
         });
+
+        yellr.utils.render_template(header);
+        yellr.utils.render_template(footer);
+
 
         document.querySelector('#news-feed-tab').className = 'current';
         $('#news-feed-tab').on('click', function (e) {
@@ -53,13 +72,10 @@ yellr.view.stories = (function() {
           }
         });
 
+        yellr.utils.setup_report_bar();
 
         this.render_feed();
       }
-
-      render_template(header);
-      render_template(footer);
-      yellr.utils.setup_report_bar();
 
     }
 
@@ -70,7 +86,7 @@ yellr.view.stories = (function() {
     var render_feed = function() {
 
       // render the content
-      render_template({
+      yellr.utils.render_template({
         template: '#news-feed-li',
         target: '#latest-stories',
         context: {
@@ -87,12 +103,6 @@ yellr.view.stories = (function() {
 
 
     var read_story = function(id) {
-      header.template = '#page-header';
-      header.context = {
-        page: yellr.SCRIPT.news_story,
-        hash: '#news-feed'
-      };
-      yellr.utils.no_subnav();
 
       var story = {
         template: '#news-story-template',
@@ -116,7 +126,7 @@ yellr.view.stories = (function() {
         }
       }
 
-      render_template(story);
+      yellr.utils.render_template(story);
 
     }
 

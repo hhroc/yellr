@@ -695,7 +695,10 @@ def upload_media(request):
                 #TODO: dynamically find mogrify (but I think it's usually /usr/bin)
                 if True:
                 #try:
-                    subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+
+                    subprocess.call(['mogrify', '-strip', temp_file_path])
+                    # subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+                    # subprocess.call(['/usr/local/bin/mogrify', '-strip', temp_file_path])
                 #except:
                 #    error_text = "Mogrify is missing, or in an unexpected place."
                 #    raise Exception('')

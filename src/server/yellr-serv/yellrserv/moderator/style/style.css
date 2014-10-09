@@ -2528,6 +2528,10 @@ figcaption {
   color: #2980b9;
 }
 
+#preview-assignment-btn {
+  color: #1abc9c;
+}
+
 #post-assignment-btn {
   display: inline-block;
   padding: .5rem 1.75rem;
@@ -2635,6 +2639,9 @@ figcaption {
 .add-photo-wrapper {
   padding-left: 1rem;
   border-left: 1px solid #ccc;
+}
+.add-photo-wrapper input[type="file"] {
+  max-width: 100%;
 }
 
 .extra-fields {

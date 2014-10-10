@@ -150,7 +150,7 @@ mod.setup = {
 
 
 
-  assignment_overview: function () {
+  single_assignment_view: function () {
 
     var assignment_id = parseInt(window.location.hash.split('#')[1]);
 
@@ -180,7 +180,15 @@ mod.setup = {
       });
 
       // get assignment collection
-      mod.collections.get_collection(assignment_id);
+      mod.collections.get_collection(assignment_id, function (response) {
+        mod.utils.render_template({
+          template: '#collections-li-template',
+          target: '#assignment-collection-list',
+          context: {
+            collection: response.collection
+          }
+        })
+      });
       // set the collection_id attribute to the #assignment-collections-list
       document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
 

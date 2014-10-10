@@ -39,7 +39,7 @@ window.onload = function () {
         mod.setup.assignments_page();
         break;
       case 'single-assignment':
-        mod.setup.assignment_overview();
+        mod.setup.single_assignment_view();
         break;
       case 'editor':
         mod.editor.init();
@@ -214,7 +214,7 @@ mod.setup = {
 
 
 
-  assignment_overview: function () {
+  single_assignment_view: function () {
 
     var assignment_id = parseInt(window.location.hash.split('#')[1]);
 
@@ -244,7 +244,15 @@ mod.setup = {
       });
 
       // get assignment collection
-      mod.collections.get_collection(assignment_id);
+      mod.collections.get_collection(assignment_id, function (response) {
+        mod.utils.render_template({
+          template: '#collections-li-template',
+          target: '#assignment-collection-list',
+          context: {
+            collection: response.collection
+          }
+        })
+      });
       // set the collection_id attribute to the #assignment-collections-list
       document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
 
@@ -517,8 +525,7 @@ mod.utils = {
   redirect_to_login: function (message) {
 
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      /* TODO: use a real url */
-      alert( (message) ? message : 'Must login' );
+      if (message) alert(message);
       mod.utils.redirect_to('login.html');
     }
 
@@ -842,8 +849,6 @@ mod.assignments = (function() {
         }
       }
     }).done(function () {
-
-      console.log('lol -sfsdfasf');
 
       // setup the action buttons for each resposne
       $('#assignment-replies-list').on('click', function (e) {
@@ -1385,17 +1390,16 @@ mod.editor = (function() {
 
   var init = function () {
     // get the collection for the assignment
-    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (collection) {      console.log('hello from: ');
+    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
 
       // render the assignment's collection for the editor
       mod.utils.render_template({
         template: '#collections-li-template',
         target: '#editor-collections-list',
         context: {
-          collection: collection
+          collection: response.collection
         }
       });
-
 
     });
 

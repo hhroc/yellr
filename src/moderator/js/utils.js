@@ -48,8 +48,7 @@ mod.utils = {
   redirect_to_login: function (message) {
 
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      /* TODO: use a real url */
-      alert( (message) ? message : 'Must login' );
+      if (message) alert(message);
       mod.utils.redirect_to('login.html');
     }
 

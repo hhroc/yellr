@@ -62,8 +62,6 @@ mod.assignments = (function() {
       }
     }).done(function () {
 
-      console.log('lol -sfsdfasf');
-
       // setup the action buttons for each resposne
       $('#assignment-replies-list').on('click', function (e) {
         switch (e.target.className) {

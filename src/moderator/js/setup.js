@@ -24,16 +24,41 @@ mod.setup = {
 
     // get the URL hash --> load the correct collection
     collection_id = parseInt(window.location.hash.split('#')[1]);
-    console.log('Collection ID:' + collection_id);
+
     // ping the server for that collection
-    mod.collections.get_collection(collection_id, {
-      template: '#view-collection-gi-template',
-      target: '#editor-collections-list'
+    mod.collections.get_collection(collection_id, function (response) {
+
+      // show collection name
+      document.querySelector('.t1').innerHTML = response.collection_name;
+
+      // render the collection items
+      mod.utils.render_template({
+        template: '#view-collection-gi-template',
+        target: '#collection-wrapper',
+        context: {
+          collection: response.collection
+        },
+        append: true
+      });
+
+      // setup grid
+      items = document.querySelectorAll('.collection-gi');
+
+      // delay packery so browser has time to render the new HTML
+      setTimeout(function () {
+        pckry = new Packery(grid, {
+          itemSelector: '.collection-gi',
+          // columnWidth: 60,
+          columnWidth: '.collection-grid-sizer',
+          gutter: '.gutter-sizer'
+        });
+      }, 500);
+
     });
 
 
-    // setup grid
-    items = document.querySelectorAll('.collection-gi');
+
+    // send user a message / remove post from collection
     grid = document.querySelector('#collection-wrapper');
     grid.onclick = function (event) {
       if (event.target.className === 'fa fa-comment') {
@@ -43,12 +68,6 @@ mod.setup = {
       }
     }
 
-    pckry = new Packery(grid, {
-      itemSelector: '.collection-gi',
-      // columnWidth: 60,
-      columnWidth: '.collection-grid-sizer',
-      gutter: '.gutter-sizer'
-    })
 
 
     // download .zip file of media collection

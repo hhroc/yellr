@@ -5,7 +5,19 @@ mod.editor = (function() {
 
   var init = function () {
     // get the collection for the assignment
-    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), {target: '#editor-collections-list'});
+    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (collection) {      console.log('hello from: ');
+
+      // render the assignment's collection for the editor
+      mod.utils.render_template({
+        template: '#collections-li-template',
+        target: '#editor-collections-list',
+        context: {
+          collection: collection
+        }
+      });
+
+
+    });
 
 
     function Editor(input, preview) {

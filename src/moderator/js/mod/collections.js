@@ -4,7 +4,8 @@ var mod = mod || {};
 mod.collections = {
 
 
-  get_collection: function (collectionID, render_settings) {
+  get_collection: function (collectionID, callback) {
+  // get_collection: function (collectionID, render_settings) {
 
     /**
      * get_collection - for Assignments overview page
@@ -12,53 +13,33 @@ mod.collections = {
      * (for now) we always render
      */
 
-     var collection = [];
+    var collection_name = '',
+        collection = [],
+        result = false;
 
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
+      // set return values
       if (response.success) {
+        result = true;
+        collection = mod.utils.convert_object_to_array(response.posts);
+        collection_name = response.collection_name;
+      }
 
-        // the posts response is an object that we turn into an array
-        // ----------------------------
-        var posts = mod.utils.convert_object_to_array(response.posts);
+    }).done(function () {
 
-
-        // render the HTML to the list
-        // ----------------------------
-        // ** this got a little messy **
-        // no. this is completely fucked... sorry
-        // it should return an aray so that you can what you want with it
-        var settings = {};
-        if (render_settings) {
-          // we have ternary operators here to check if we passed in a setting
-          // if we didn't we fall back to defaults
-          settings.template = (render_settings.template) ? render_settings.template : '#collections-li-template';
-          settings.target = (render_settings.target) ? render_settings.target : '#assignment-collection-list';
-          settings.append = (render_settings.append) ? render_settings.append : null;
-        }
-        else {
-          // DEFAULT SETTINGS
-          settings.template = '#collections-li-template';
-          settings.target = '#assignment-collection-list';
-        }
-        // add the context
-        settings.context = {posts: posts};
-
-        // DO IT
-        mod.utils.render_template(settings);
-
-
-        // how it should be...
-        // ----------------------------
-        collection = posts;
-        console.log('return collection..', collection);
-        return collection;
-
+      if (result) {
+        // execute callback
+        if (callback) callback({
+          collection: collection,
+          collection_name: collection_name
+        });
       } else {
         console.log('something went wrong loading collection posts');
       }
+
     }).fail(function () {
       mod.utils.redirect_to_login();
     });

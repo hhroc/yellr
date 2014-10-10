@@ -305,35 +305,45 @@
       
     </script>
     <script id="view-collection-gi-template" type="text/x-handlebars-template">
-      <div class="collection-gi">
-        <div class="story-item">
-          <div data-type="{{media_type}}" class="media-preview">
-            {{#if file_name}}
-            <figure class="media-file-image">
-              <img src="/media/{{file_name}}" alt="{{ media_description }}">
-              <figcaption>{{ media_description }}</figcaption>
-            </figure>
-            {{else}}
-            <p class="media-text">{{ media_text }}</p>
-            {{/if}}
+      {{#if collection}}
+        {{#each collection}}
+        <div class="collection-gi">
+          <div class="story-item">
+            {{#each media_objects }}
+            <div data-type="{{media_type}}" class="media-preview">
+              {{#if file_name}}
+              <figure class="media-file-image">
+                <img src="/media/{{file_name}}" alt="{{ media_type_description }}">
+                <figcaption>{{ media_type_description }}</figcaption>
+              </figure>
+              {{else}}
+              <p class="media-text">{{ media_text }}</p>
+              {{/if}}
+            </div>
+            {{/each }}
+            <p class="item-source"><a href="#">{{client_id}}</a></p>
           </div>
-          <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
+          <div class="story-meta flex">
+            <div class="flex-2">&nbsp;</div>
+            <ul class="options-list flex-1">
+              <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+              <li><i title="Remove from collection" class="fa fa-close"></i></li>
+            </ul>
+          </div>
         </div>
-        <div class="story-meta flex">
-          <div class="flex-2">&nbsp;</div>
-          <ul class="options-list flex-1">
-            <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-            <li><i title="Remove from collection" class="fa fa-close"></i></li>
-          </ul>
+        {{/each}}
+      {{else}}
+        <div class="faded">
+          <h3 class="t2">Collection is empty</h3>
+          <p>Check the main feed for latest user submissions.</p>
         </div>
-      </div>
-      
+      {{/if}}
       
       
     </script>
     <script id="collections-li-template" type="text/x-handlebars-template">
-      {{#if posts}}
-        {{#each posts}}
+      {{#if collection}}
+        {{#each collection}}
         <li>
           {{#each media_objects }}
           <div class="media-preview" data-type="{{ media_type }}">

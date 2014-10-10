@@ -88,16 +88,41 @@ mod.setup = {
 
     // get the URL hash --> load the correct collection
     collection_id = parseInt(window.location.hash.split('#')[1]);
-    console.log('Collection ID:' + collection_id);
+
     // ping the server for that collection
-    mod.collections.get_collection(collection_id, {
-      template: '#view-collection-gi-template',
-      target: '#editor-collections-list'
+    mod.collections.get_collection(collection_id, function (response) {
+
+      // show collection name
+      document.querySelector('.t1').innerHTML = response.collection_name;
+
+      // render the collection items
+      mod.utils.render_template({
+        template: '#view-collection-gi-template',
+        target: '#collection-wrapper',
+        context: {
+          collection: response.collection
+        },
+        append: true
+      });
+
+      // setup grid
+      items = document.querySelectorAll('.collection-gi');
+
+      // delay packery so browser has time to render the new HTML
+      setTimeout(function () {
+        pckry = new Packery(grid, {
+          itemSelector: '.collection-gi',
+          // columnWidth: 60,
+          columnWidth: '.collection-grid-sizer',
+          gutter: '.gutter-sizer'
+        });
+      }, 500);
+
     });
 
 
-    // setup grid
-    items = document.querySelectorAll('.collection-gi');
+
+    // send user a message / remove post from collection
     grid = document.querySelector('#collection-wrapper');
     grid.onclick = function (event) {
       if (event.target.className === 'fa fa-comment') {
@@ -107,12 +132,6 @@ mod.setup = {
       }
     }
 
-    pckry = new Packery(grid, {
-      itemSelector: '.collection-gi',
-      // columnWidth: 60,
-      columnWidth: '.collection-grid-sizer',
-      gutter: '.gutter-sizer'
-    })
 
 
     // download .zip file of media collection
@@ -1212,10 +1231,6 @@ mod.assignments = (function() {
   }
 
 
-  var redirect = function () {
-    console.log('hello from: ');
-  }
-
   return {
     view: view,
     setup_form: setup_form,
@@ -1236,7 +1251,8 @@ var mod = mod || {};
 mod.collections = {
 
 
-  get_collection: function (collectionID, render_settings) {
+  get_collection: function (collectionID, callback) {
+  // get_collection: function (collectionID, render_settings) {
 
     /**
      * get_collection - for Assignments overview page
@@ -1244,53 +1260,33 @@ mod.collections = {
      * (for now) we always render
      */
 
-     var collection = [];
+    var collection_name = '',
+        collection = [],
+        result = false;
 
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
+      // set return values
       if (response.success) {
+        result = true;
+        collection = mod.utils.convert_object_to_array(response.posts);
+        collection_name = response.collection_name;
+      }
 
-        // the posts response is an object that we turn into an array
-        // ----------------------------
-        var posts = mod.utils.convert_object_to_array(response.posts);
+    }).done(function () {
 
-
-        // render the HTML to the list
-        // ----------------------------
-        // ** this got a little messy **
-        // no. this is completely fucked... sorry
-        // it should return an aray so that you can what you want with it
-        var settings = {};
-        if (render_settings) {
-          // we have ternary operators here to check if we passed in a setting
-          // if we didn't we fall back to defaults
-          settings.template = (render_settings.template) ? render_settings.template : '#collections-li-template';
-          settings.target = (render_settings.target) ? render_settings.target : '#assignment-collection-list';
-          settings.append = (render_settings.append) ? render_settings.append : null;
-        }
-        else {
-          // DEFAULT SETTINGS
-          settings.template = '#collections-li-template';
-          settings.target = '#assignment-collection-list';
-        }
-        // add the context
-        settings.context = {posts: posts};
-
-        // DO IT
-        mod.utils.render_template(settings);
-
-
-        // how it should be...
-        // ----------------------------
-        collection = posts;
-        console.log('return collection..', collection);
-        return collection;
-
+      if (result) {
+        // execute callback
+        if (callback) callback({
+          collection: collection,
+          collection_name: collection_name
+        });
       } else {
         console.log('something went wrong loading collection posts');
       }
+
     }).fail(function () {
       mod.utils.redirect_to_login();
     });
@@ -1389,7 +1385,19 @@ mod.editor = (function() {
 
   var init = function () {
     // get the collection for the assignment
-    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), {target: '#editor-collections-list'});
+    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (collection) {      console.log('hello from: ');
+
+      // render the assignment's collection for the editor
+      mod.utils.render_template({
+        template: '#collections-li-template',
+        target: '#editor-collections-list',
+        context: {
+          collection: collection
+        }
+      });
+
+
+    });
 
 
     function Editor(input, preview) {

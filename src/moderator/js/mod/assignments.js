@@ -450,10 +450,6 @@ mod.assignments = (function() {
   }
 
 
-  var redirect = function () {
-    console.log('hello from: ');
-  }
-
   return {
     view: view,
     setup_form: setup_form,

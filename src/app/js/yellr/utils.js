@@ -85,6 +85,7 @@ yellr.utils = {
 
     // set urls || BASE_URL is set in init.js
     yellr.utils.set_urls(BASE_URL);
+    // yellr.URLS
 
     // get the "script"
     // we add this completely so that we don't wait on load time
@@ -194,6 +195,7 @@ yellr.utils = {
   },
 
 
+  yellr.utils.load('assignments', yellr.view.assignments.render_feed);
 
   load: function (dataType, callback) {
 
@@ -224,6 +226,7 @@ yellr.utils = {
 
         }
 
+        // set the new data to the DATA object
         yellr.DATA[dataType] = response[dataType];
         yellr.utils.save();
 
@@ -516,8 +519,6 @@ yellr.utils = {
     navigator.camera.getPicture(
       function(imgURI) {
 
-        yellr.utils.notify(imgURI);
-
         if (callback) {
           callback(imgURI);
         }
@@ -547,8 +548,6 @@ yellr.utils = {
 
     navigator.camera.getPicture(
       function(imgURI) {
-
-        yellr.utils.notify(imgURI);
 
         if (callback) callback(imgURI);
 

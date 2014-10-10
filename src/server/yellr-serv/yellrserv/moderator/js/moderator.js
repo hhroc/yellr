@@ -47,6 +47,9 @@ window.onload = function () {
       case 'collections':
         mod.setup.collections_page();
         break;
+      case 'single-collection':
+        mod.setup.single_collection_view();
+        break;
       case 'messages':
         mod.setup.inbox();
         break;
@@ -66,6 +69,78 @@ var mod = mod || {};
 // the rest of the JS files try to remain as agnostic as possible
 
 mod.setup = {
+
+
+  single_collection_view: function () {
+
+    // local vars
+    // ----------------------------
+    var items = [],
+        // DOM references
+        view_controls,
+        export_btn,
+        grid,
+        // packery.js object
+        pckry;
+
+
+    // setup grid
+    items = document.querySelectorAll('.collection-gi');
+    grid = document.querySelector('#collection-wrapper');
+    grid.onclick = function (event) {
+      if (event.target.className === 'fa fa-comment') {
+        alert('Send message');
+      } else if (event.target.className === 'fa fa-close') {
+        alert('Remove item from collection');
+      }
+    }
+
+    pckry = new Packery(grid, {
+      itemSelector: '.collection-gi',
+      // columnWidth: 60,
+      columnWidth: '.collection-grid-sizer',
+      gutter: '.gutter-sizer'
+    })
+
+
+    // download .zip file of media collection
+    export_btn = document.querySelector('#export-content-btn');
+    export_btn.onclick = function (event) {
+      alert('TODO: Download zip file of media collection');
+    }
+
+
+    // [X] grid  or  [ ] list
+    view_controls = document.querySelector('.collection-view-controls');
+    // click to change view
+    view_controls.onclick = function (event) {
+
+      // for each case we either:
+      //    1. reinitilize the packery grid, or
+      //    2. destroy the packery grid
+      // there are specific styles attached to each
+      // so we loops through the grid items and change classNames
+
+      if (event.target.checked) {
+        if (event.target.defaultValue === 'list') {
+          pckry.destroy();
+          // change all classnames to '.gi'
+          for (var i = 0; i < items.length; i++) items[i].className = 'gi';
+        } else {
+          // make sure items have class of '.collections-gi'
+          for (var i = 0; i < items.length; i++) items[i].className = 'collection-gi';
+          // reinitialize packery
+          pckry = new Packery(grid, {
+            itemSelector: '.collection-gi',
+            // columnWidth: 60,
+            columnWidth: '.collection-grid-sizer',
+            gutter: '.gutter-sizer'
+          });
+        }
+      }
+    }
+
+  },
 
 
   login: function () {

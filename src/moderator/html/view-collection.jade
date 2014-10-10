@@ -1,0 +1,179 @@
+doctype html
+head
+  title Yellr - Moderator backend
+  meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+  include _head.jade
+
+body#moderator(data-page="single-collection")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+
+    div#main.flex
+      div#left.flex-1
+        include _sidebar.jade
+
+      div#right.flex-4.right-wrapper
+
+        section#view-collection-overview
+          h2.t1 Collection 1
+          p.collection-description Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          span#export-content-btn.btn Export Content
+
+          //- collection view controls
+          div.collection-view-controls-container
+            span.t2 View
+            ul.collection-view-controls
+              li
+                label
+                  input(type="radio", name="view", value="grid", checked)
+                  span Grid
+              li
+                label
+                  input(type="radio", name="view", value="list")
+                  span List
+
+        //- the grid
+        div#collection-wrapper.grid
+          //- CSS rules accompany these
+          //- used for packery.js
+          div.collection-grid-sizer
+          div.gutter-sizer
+
+          div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                p.media-text  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+              p.item-source
+                a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/0dcf8b22-a934-4d51-ba46-f6e7d8a90004.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/3b5ecafc-c563-4f6a-ba95-5759ca6ee9c3.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/6ecb821f-eaf6-47f0-a877-b4adf35fcd26.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/c3d98665-7ef8-46fb-b227-74f5178cbafc.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/d8a8a5a6-0950-4812-9df9-8149c078f787.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+          //- div.collection-gi
+            div.story-item
+              div.media-preview(data-type="{{media_type}}")
+                figure.media-file-image
+                  img(src="/media/e007a064-bfb0-4daa-a0cb-02b82deec585.jpg")
+                  figcaption media_description
+                p.item-source
+                  a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+            div.story-meta.flex
+              div.flex-2 &nbsp;
+              ul.options-list.flex-1
+                li
+                  i.fa.fa-comment(title="Leave feedback")
+                li
+                  i.fa.fa-close(title="Remove from collection")
+            div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+
+
+
+  include _footer.jade
+</html>

@@ -47,6 +47,9 @@ window.onload = function () {
       case 'collections':
         mod.setup.collections_page();
         break;
+      case 'single-collection':
+        mod.setup.single_collection_view();
+        break;
       case 'messages':
         mod.setup.inbox();
         break;

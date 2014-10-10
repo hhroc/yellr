@@ -500,7 +500,7 @@ yellr.utils = {
   },
 
 
-  open_camera: function () {
+  open_camera: function (callback) {
 
     var options = {
       quality: 50,
@@ -516,23 +516,12 @@ yellr.utils = {
     navigator.camera.getPicture(
       function(imgURI) {
 
-        // setup report thing
-        yellr.utils.redirect('#report/image');
-
-        // show an image preview
-        document.querySelector('.img-preview').src = imgURI;
-
-        // we save it to this TMP (temporaray) object
-        // because we do don't submit things until people
-        // press the [√] submit button
-        yellr.TMP = {
-          file: {
-            type: 'image',
-            uri: imgURI
-          }
-        };
-
         yellr.utils.notify(imgURI);
+
+        if (callback) {
+          callback(imgURI);
+        }
+
 
       },
       function(error) {
@@ -546,7 +535,7 @@ yellr.utils = {
 
 
 
-  open_gallery: function () {
+  open_gallery: function (callback) {
 
     var options = {
       quality: 50,
@@ -559,21 +548,9 @@ yellr.utils = {
     navigator.camera.getPicture(
       function(imgURI) {
 
-        // setup report thing
-        yellr.utils.redirect('#report/image');
+        yellr.utils.notify(imgURI);
 
-        // show an image preview
-        document.querySelector('.img-preview').src = imgURI;
-
-        // we save it to this TMP (temporaray) object
-        // because we do don't submit things until people
-        // press the [√] submit button
-        yellr.TMP = {
-          file: {
-            type: 'image',
-            uri: imgURI
-          }
-        };
+        if (callback) callback(imgURI);
 
       },
       function(error) {
@@ -644,8 +621,58 @@ yellr.utils = {
       // show overlay, popup thing
       yellr.utils.prompt(
         yellr.SCRIPT.choose_image_source,
+
         [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
-        [yellr.utils.open_camera, yellr.utils.open_gallery ]
+        // callback funcions.. maybe?
+        [function () {
+          yellr.utils.open_camera(function (imgURI) {
+
+            // setup report thing
+            yellr.utils.redirect('#report/image');
+
+            setTimeout(function () {
+              // show an image preview
+              document.querySelector('.img-preview').src = imgURI;
+
+              // we save it to this TMP (temporaray) object
+              // because we do don't submit things until people
+              // press the [√] submit button
+              yellr.TMP = {
+                file: {
+                  type: 'image',
+                  uri: imgURI
+                }
+              };
+            }, 1000);
+
+          });
+          // end open_camera
+        },
+        function () {
+          yellr.utils.open_gallery(function (imgURI) {
+
+            // setup report thing
+            yellr.utils.redirect('#report/image');
+
+            setTimeout(function () {
+              // show an image preview
+              document.querySelector('.img-preview').src = imgURI;
+
+              // we save it to this TMP (temporaray) object
+              // because we do don't submit things until people
+              // press the [√] submit button
+              yellr.TMP = {
+                file: {
+                  type: 'image',
+                  uri: imgURI
+                }
+              };
+            }, 1000);
+
+
+          });
+          // end open_gallery
+        }]
       );
     });
 

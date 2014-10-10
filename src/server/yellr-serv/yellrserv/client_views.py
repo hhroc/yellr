@@ -772,7 +772,7 @@ def upload_media(request):
         media_caption = ''
         #if True:
         try:
-            media_caption = request.POST['caption']
+            media_caption = request.POST['media_caption']
         except:
             pass
 

@@ -27,6 +27,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_static_view('moderator','moderator')
 
+    # decode upload dir based on relative path or not
     if system_config['upload_dir'][0] == '/':
         media_path = system_config['upload_dir']
     else:

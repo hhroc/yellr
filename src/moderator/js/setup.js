@@ -12,12 +12,24 @@ mod.setup = {
     // local vars
     // ----------------------------
     var items = [],
+        // collection_id (from URL hash)
+        collection_id = 0,
         // DOM references
         view_controls,
         export_btn,
         grid,
         // packery.js object
         pckry;
+
+
+    // get the URL hash --> load the correct collection
+    collection_id = parseInt(window.location.hash.split('#')[1]);
+    console.log('Collection ID:' + collection_id);
+    // ping the server for that collection
+    mod.collections.get_collection(collection_id, {
+      template: '#view-collection-gi-template',
+      target: '#editor-collections-list'
+    });
 
 
     // setup grid
@@ -300,11 +312,14 @@ mod.setup = {
     // - flag inappropriate content
     document.querySelector('.submissions-grid').onclick = function(e) {
       switch (e.target.className) {
+
         // add post to a collection
         case 'fa fa-folder':
-          console.log('toggle_collections_dropdown');
-          // mod.feed.toggle_collections_dropdown(e.target);
+          // show a list of collections via a dropdown
+          // pass in the DOM element
+          mod.feed.toggle_collections_dropdown(e.target);
           break;
+
         // send user a message
         case 'fa fa-comment':
 
@@ -364,7 +379,7 @@ mod.setup = {
 
     });
 
-    // refresh posts every 10 seconds
-    mod.utils.load_latest_posts();
+    // // refresh posts every 10 seconds
+    // mod.utils.load_latest_posts();
   }
 }

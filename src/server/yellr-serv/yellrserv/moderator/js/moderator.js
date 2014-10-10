@@ -76,12 +76,24 @@ mod.setup = {
     // local vars
     // ----------------------------
     var items = [],
+        // collection_id (from URL hash)
+        collection_id = 0,
         // DOM references
         view_controls,
         export_btn,
         grid,
         // packery.js object
         pckry;
+
+
+    // get the URL hash --> load the correct collection
+    collection_id = parseInt(window.location.hash.split('#')[1]);
+    console.log('Collection ID:' + collection_id);
+    // ping the server for that collection
+    mod.collections.get_collection(collection_id, {
+      template: '#view-collection-gi-template',
+      target: '#editor-collections-list'
+    });
 
 
     // setup grid
@@ -364,11 +376,14 @@ mod.setup = {
     // - flag inappropriate content
     document.querySelector('.submissions-grid').onclick = function(e) {
       switch (e.target.className) {
+
         // add post to a collection
         case 'fa fa-folder':
-          console.log('toggle_collections_dropdown');
-          // mod.feed.toggle_collections_dropdown(e.target);
+          // show a list of collections via a dropdown
+          // pass in the DOM element
+          mod.feed.toggle_collections_dropdown(e.target);
           break;
+
         // send user a message
         case 'fa fa-comment':
 
@@ -428,8 +443,8 @@ mod.setup = {
 
     });
 
-    // refresh posts every 10 seconds
-    mod.utils.load_latest_posts();
+    // // refresh posts every 10 seconds
+    // mod.utils.load_latest_posts();
   }
 }
 
@@ -1218,10 +1233,10 @@ mod.assignments = (function() {
 'use strict';
 var mod = mod || {};
 
-mod.collections = (function() {
+mod.collections = {
 
 
-  var get_collection = function (collectionID, render_settings) {
+  get_collection: function (collectionID, render_settings) {
 
     /**
      * get_collection - for Assignments overview page
@@ -1229,6 +1244,7 @@ mod.collections = (function() {
      * (for now) we always render
      */
 
+     var collection = [];
 
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
@@ -1244,12 +1260,15 @@ mod.collections = (function() {
         // render the HTML to the list
         // ----------------------------
         // ** this got a little messy **
+        // no. this is completely fucked... sorry
+        // it should return an aray so that you can what you want with it
         var settings = {};
         if (render_settings) {
           // we have ternary operators here to check if we passed in a setting
           // if we didn't we fall back to defaults
           settings.template = (render_settings.template) ? render_settings.template : '#collections-li-template';
           settings.target = (render_settings.target) ? render_settings.target : '#assignment-collection-list';
+          settings.append = (render_settings.append) ? render_settings.append : null;
         }
         else {
           // DEFAULT SETTINGS
@@ -1262,17 +1281,24 @@ mod.collections = (function() {
         // DO IT
         mod.utils.render_template(settings);
 
+
+        // how it should be...
+        // ----------------------------
+        collection = posts;
+        console.log('return collection..', collection);
+        return collection;
+
       } else {
         console.log('something went wrong loading collection posts');
       }
     }).fail(function () {
       mod.utils.redirect_to_login();
     });
-  }
+  },
 
 
 
-  var get_my_collections = function (options) {
+  get_my_collections: function (options) {
 
     $.getJSON(mod.URLS.get_my_collections, function (response) {
       if (response.success) {
@@ -1288,71 +1314,52 @@ mod.collections = (function() {
       mod.utils.redirect_to_login();
     });
 
-  }
+  },
 
 
-  var add_post_to_collection = function (postNode, collectionNode) {
+  add_post_to_collection: function (post_id, collection_id, callback) {
 
-    /**
-     * pass in a string or DOM reference (DOM must have a data-attribute on it)
-     */
+    // post_id = int
+    // collection_id = int
+    // callback = function (boolean)
+    // ----------------------------
+    var result = false;
 
-    // if a DOM, get the attribute, otherwise assume they are the IDs
-    var postID = (typeof postNode === 'object') ? postNode.getAttribute('data-post-id') : postNode,
-        collectionID = (typeof collectionNode === 'object') ? collectionNode.getAttribute('data-collection-id') : collectionNode,
-        success = false;
+    // post to server
+    $.post(mod.URLS.add_post_to_collection,
+    {
+      post_id: post_id,
+      collection_id: collection_id
+    },
+    function (response) {
+      if (response.success) result = true;
+    }).done(function () {
+      // provide feedback
+      if (result) console.log('added post to collection');
+      else console.log('something went wrong adding the post to the collection');
 
+      // execute callback
+      if (callback) callback(result);
 
-    $.post(mod.URLS.add_post_to_collection, {
-        post_id: postID,
-        collection_id: collectionID
-      }, function (response) {
-        if (response.success) {
-          success = true;
-          console.log('added post to collection');
-        } else {
-          console.log('something went wrong adding the post to the collection');
-        }
-      }
-    ).done(function () {
-      if (success && typeof postNode === 'object' && typeof collectionNode === 'object') {
-        // do the nice visual cue where we:
-        // - hide the post from the responses list
-        // - add it to the Collection list
-        $('#post-id-'+postID).hide();
-        mod.collections.get_collection(collectionID)
-      }
+    }).fail(function () {
+      console.log('something went wrong adding the post to the collection');
+      return result;
     });
 
-  }
+  },
 
 
-  var init = function () {
-    console.log('hello from: collections.init');
-  }
-
-
-  var view = function () {
-    console.log('hello from: collections.view');
-  }
-
-
-  var setup_form = function () {
+  setup_form: function () {
     console.log('hello from: setup_form');
-    // $('#new-collections-form').submit(function (e) {
-    //   e.preventDefault();
-    //   console.log('hello from: submit');
-    //   mod.collections.submit_form();
-    // });
 
     $('#new-collections-form').find('.submit-btn').on('click', function () {
       console.log('submit the form');
       mod.collections.submit_form();
     })
-  }
+  },
 
 
-  var submit_form = function () {
+  submit_form: function () {
     console.log('hello from: submit_form');
     console.log('url: ' + mod.URLS.create_collection);
 
@@ -1373,18 +1380,7 @@ mod.collections = (function() {
     })
   }
 
-
-
-  return {
-    init: init,
-    view: view,
-    setup_form: setup_form,
-    submit_form: submit_form,
-    add_post_to_collection: add_post_to_collection,
-    get_my_collections: get_my_collections,
-    get_collection: get_collection
-  }
-})();
+};
 
 'use strict';
 var mod = mod || {};
@@ -1457,66 +1453,68 @@ mod.editor = (function() {
 'use strict';
 var mod = mod || {};
 
-mod.feed = (function() {
+mod.feed =  {
 
-    /**
-     * This object renders the Posts feed
-     * ie all the posts that users have submitted
-     */
+  toggle_collections_dropdown: function (target) {
 
+    if ($(target.parentNode).hasClass('dropdown-container'))
+      mod.feed.hide_collections_dropdown(target);
+    else mod.feed.show_collections_dropdown(target);
 
-
-    var toggle_collections_dropdown = function (target) {
-
-      if ($(target.parentNode).hasClass('dropdown-container'))
-        mod.feed.hide_collections_dropdown(target);
-      else mod.feed.show_collections_dropdown(target);
-
-    }
+  },
 
 
 
-    var show_collections_dropdown = function (target) {
-      // we are here --> <i class="fa fa-thing"></i>
-      // we want the parent <li> to start
-
-      $(target.parentNode).addClass('dropdown-container');
-
-      mod.utils.render_template({
-        template: '#collections-dropdown-template',
-        target: target.parentNode,
-        context: {collections: mod.DATA.collections},
-        append: true
-      });
-
-      $(target.parentNode).find('.collections-dropdown').on('click', function (e) {
-        console.log(e);
-        mod.feed.add_post_to_collection(e.target)
-      })
-    }
+  show_collections_dropdown: function (target) {
+    // we are here --> <i class="fa fa-thing"></i>
+    // we want the parent <li> to start
 
 
+    $(target.parentNode).addClass('dropdown-container');
 
-    var hide_collections_dropdown = function (target) {
+    mod.utils.render_template({
+      template: '#collections-dropdown-template',
+      target: target.parentNode,
+      context: {collections: mod.DATA.collections},
+      append: true
+    });
 
-      $(target.parentNode).removeClass('dropdown-container');
-
-      mod.utils.render_template({
-        template: '',
-        target: $(target.parentNode).find('.collections-dropdown')
-      });
-    }
+    $(target.parentNode).find('.collections-dropdown').on('click', function (e) {
+      mod.feed.add_post_to_collection_from_feed(e.target)
+    })
+  },
 
 
 
-    var add_post_to_collection = function (target) {
-      console.log('add post to collection');
-      // we're in pretty deep with the DOM, need to get out
-      var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode);
+  hide_collections_dropdown: function (target) {
 
-      mod.collections.add_post_to_collection($gi.find('.meta-div').data('post-id'), $(target).data('collection-id'));
+    $(target.parentNode).removeClass('dropdown-container');
 
-    }
+    mod.utils.render_template({
+      template: '',
+      target: $(target.parentNode).find('.collections-dropdown')
+    });
+  },
+
+
+
+  add_post_to_collection_from_feed: function (target) {
+
+    // we're in pretty deep with the DOM, need to get out
+    var $gi = $(target.offsetParent.offsetParent.parentNode.parentNode.parentNode),
+        post_id = $gi.find('.meta-div').data('post-id'),
+        collection_id = $(target).data('collection-id');
+
+    mod.collections.add_post_to_collection(post_id, collection_id, function (result) {
+      if (result) {
+        // this is a quick hack
+        // should use a CSS class instead
+        target.parentNode.style.opacity = '0.3';
+        // target.parentNode.className = 'faded';
+      };
+    });
+
+  }
 
 
 
@@ -1564,16 +1562,7 @@ mod.feed = (function() {
     //   console.log('story id: ', e.dataTransfer.getData('story_id'));
     // }
 
-
-
-
-    return {
-      show_collections_dropdown: show_collections_dropdown,
-      hide_collections_dropdown: hide_collections_dropdown,
-      toggle_collections_dropdown: toggle_collections_dropdown,
-      add_post_to_collection: add_post_to_collection
-    }
-})();
+};
 
 moderator.filter = {
 

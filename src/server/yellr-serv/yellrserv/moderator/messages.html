@@ -309,6 +309,32 @@
       
       
       
+    </script>
+    <script id="view-collection-gi-template" type="text/x-handlebars-template">
+      <div class="collection-gi">
+        <div class="story-item">
+          <div data-type="{{media_type}}" class="media-preview">
+            {{#if file_name}}
+            <figure class="media-file-image">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
+              <figcaption>{{ media_description }}</figcaption>
+            </figure>
+            {{else}}
+            <p class="media-text">{{ media_text }}</p>
+            {{/if}}
+          </div>
+          <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
+        </div>
+        <div class="story-meta flex">
+          <div class="flex-2">&nbsp;</div>
+          <ul class="options-list flex-1">
+            <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+            <li><i title="Remove from collection" class="fa fa-close"></i></li>
+          </ul>
+        </div>
+      </div>
+      
+      
       
     </script>
     <script id="collections-li-template" type="text/x-handlebars-template">
@@ -319,7 +345,7 @@
           <div class="media-preview" data-type="{{ media_type }}">
             {{#if file_name}}
             <figure class="media-file-image">
-              <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
               <figcaption>{{ media_description }}</figcaption>
             </figure>
             {{else}}
@@ -343,25 +369,6 @@
       {{/if}}
       
       
-    </script>
-    <script id="collections-li-template" type="text/x-handlebars-template">
-      {{#if collection}}
-        {{#each collection}}
-        <li>
-          <div class="collection-wrapper">
-            <h3 class="t2">{{ title }}</h3>
-            <p>{{ total_posts }}</p>
-            <input type="button" value="Export content">
-          </div>
-        </li>
-        {{/each}}
-      {{else}}
-        <li class="faded">
-          <h3 class="t2">No collections!</h3>
-          <p>Create one by clicking the button above</p>
-        </li>
-      {{/if}}
-      
       
     </script>
     <script id="collections-form-template" type="text/x-handlebars-template">
@@ -378,26 +385,17 @@
         </form>
       </div>
       
+      
+      
     </script>
     <script id="collections-dropdown-template" type="text/x-handlebars-template">
       <ul class="collections-dropdown">
         {{#each collections}}
         <li>
-          <p data-collection-id="{{id}}">{{title}}</p>
+          <p data-collection-id="{{collection_id}}">{{name}}</p>
         </li>
         {{/each}}
       </ul>
-      
-      
-    </script>
-    <script id="collections-dropdown-templatesdffs" type="text/x-handlebars-template">
-      <li class="faded">
-        <h3 class="t2">No collection started</h3>
-        <p>
-          Collections are a great way to collect the best responess submitted on Yellr.
-          Create one by clicking the Folder icon one a feed item or clicking&nbsp;<span id="create-collection-btn">here</span>
-        </p>
-      </li>
     </script>
     <script id="view-message-template" type="text/x-handlebars-template">
       <div id="view-message">

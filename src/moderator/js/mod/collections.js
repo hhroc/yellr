@@ -1,10 +1,10 @@
 'use strict';
 var mod = mod || {};
 
-mod.collections = (function() {
+mod.collections = {
 
 
-  var get_collection = function (collectionID, render_settings) {
+  get_collection: function (collectionID, render_settings) {
 
     /**
      * get_collection - for Assignments overview page
@@ -12,6 +12,7 @@ mod.collections = (function() {
      * (for now) we always render
      */
 
+     var collection = [];
 
     $.getJSON(mod.URLS.get_collection_posts, {
       collection_id: collectionID
@@ -27,12 +28,15 @@ mod.collections = (function() {
         // render the HTML to the list
         // ----------------------------
         // ** this got a little messy **
+        // no. this is completely fucked... sorry
+        // it should return an aray so that you can what you want with it
         var settings = {};
         if (render_settings) {
           // we have ternary operators here to check if we passed in a setting
           // if we didn't we fall back to defaults
           settings.template = (render_settings.template) ? render_settings.template : '#collections-li-template';
           settings.target = (render_settings.target) ? render_settings.target : '#assignment-collection-list';
+          settings.append = (render_settings.append) ? render_settings.append : null;
         }
         else {
           // DEFAULT SETTINGS
@@ -45,17 +49,24 @@ mod.collections = (function() {
         // DO IT
         mod.utils.render_template(settings);
 
+
+        // how it should be...
+        // ----------------------------
+        collection = posts;
+        console.log('return collection..', collection);
+        return collection;
+
       } else {
         console.log('something went wrong loading collection posts');
       }
     }).fail(function () {
       mod.utils.redirect_to_login();
     });
-  }
+  },
 
 
 
-  var get_my_collections = function (options) {
+  get_my_collections: function (options) {
 
     $.getJSON(mod.URLS.get_my_collections, function (response) {
       if (response.success) {
@@ -71,71 +82,52 @@ mod.collections = (function() {
       mod.utils.redirect_to_login();
     });
 
-  }
+  },
 
 
-  var add_post_to_collection = function (postNode, collectionNode) {
+  add_post_to_collection: function (post_id, collection_id, callback) {
 
-    /**
-     * pass in a string or DOM reference (DOM must have a data-attribute on it)
-     */
+    // post_id = int
+    // collection_id = int
+    // callback = function (boolean)
+    // ----------------------------
+    var result = false;
 
-    // if a DOM, get the attribute, otherwise assume they are the IDs
-    var postID = (typeof postNode === 'object') ? postNode.getAttribute('data-post-id') : postNode,
-        collectionID = (typeof collectionNode === 'object') ? collectionNode.getAttribute('data-collection-id') : collectionNode,
-        success = false;
+    // post to server
+    $.post(mod.URLS.add_post_to_collection,
+    {
+      post_id: post_id,
+      collection_id: collection_id
+    },
+    function (response) {
+      if (response.success) result = true;
+    }).done(function () {
+      // provide feedback
+      if (result) console.log('added post to collection');
+      else console.log('something went wrong adding the post to the collection');
 
+      // execute callback
+      if (callback) callback(result);
 
-    $.post(mod.URLS.add_post_to_collection, {
-        post_id: postID,
-        collection_id: collectionID
-      }, function (response) {
-        if (response.success) {
-          success = true;
-          console.log('added post to collection');
-        } else {
-          console.log('something went wrong adding the post to the collection');
-        }
-      }
-    ).done(function () {
-      if (success && typeof postNode === 'object' && typeof collectionNode === 'object') {
-        // do the nice visual cue where we:
-        // - hide the post from the responses list
-        // - add it to the Collection list
-        $('#post-id-'+postID).hide();
-        mod.collections.get_collection(collectionID)
-      }
+    }).fail(function () {
+      console.log('something went wrong adding the post to the collection');
+      return result;
     });
 
-  }
+  },
 
 
-  var init = function () {
-    console.log('hello from: collections.init');
-  }
-
-
-  var view = function () {
-    console.log('hello from: collections.view');
-  }
-
-
-  var setup_form = function () {
+  setup_form: function () {
     console.log('hello from: setup_form');
-    // $('#new-collections-form').submit(function (e) {
-    //   e.preventDefault();
-    //   console.log('hello from: submit');
-    //   mod.collections.submit_form();
-    // });
 
     $('#new-collections-form').find('.submit-btn').on('click', function () {
       console.log('submit the form');
       mod.collections.submit_form();
     })
-  }
+  },
 
 
-  var submit_form = function () {
+  submit_form: function () {
     console.log('hello from: submit_form');
     console.log('url: ' + mod.URLS.create_collection);
 
@@ -156,15 +148,4 @@ mod.collections = (function() {
     })
   }
 
-
-
-  return {
-    init: init,
-    view: view,
-    setup_form: setup_form,
-    submit_form: submit_form,
-    add_post_to_collection: add_post_to_collection,
-    get_my_collections: get_my_collections,
-    get_collection: get_collection
-  }
-})();
+};

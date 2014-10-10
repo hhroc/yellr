@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yellr - Moderator backend</title>
   <meta name="description" content="Yellr backend moderation - Citizen engagement and journalism app">
   <link rel="shortcut icon" href="img/favicon.ico">
@@ -12,7 +9,7 @@
   <script src="js/libs/modernizr.js"></script>
   <link rel="stylesheet" href="style/style.min.css">
 </head>
-<body id="moderator" data-page="editor"><a href="#main" class="assistive-text">Skip to main content</a>
+<body id="moderator" data-page="single-collection"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
     <div id="main" class="flex">
       <div id="left" class="flex-1">
@@ -46,31 +43,28 @@
           </nav>
         </section>
       </div>
-      <div id="right" class="flex-4">
-        <div class="right-wrapper">
-          <h2 class="t1">Editor</h2>
-          <p><span id="preview-btn" class="btn">Preview</span></p>
-        </div>
-        <div id="editor-workspace" class="right-wrapper flex">
-          <div class="editor-container flex-3">
-            <div id="editor-input" class="form editor-tab active">
-              <p>Title</p>
-              <input id="article-title" type="text" name="title" placeholder="Article title...">
-              <p>Top Text</p>
-              <textarea id="top-text" rows="5" name="top-text" placeholder="Enter top text"></textarea>
-              <p>Content<small><strong>&nbsp;Markdown is used</strong></small></p>
-              <textarea id="markdown-editor" oninput="this.editor.update()" rows="15" name="content" placeholder="Enter text here"></textarea>
-              <div id="editor-controls"><span class="submit-btn">Publish</span></div>
-            </div>
-            <div id="editor-preview-container" class="editor-tab inactive">
-              <h3 class="t3">Preview</h3>
-              <div id="editor-preview"></div>
-            </div>
+      <div id="right" class="flex-4 right-wrapper">
+        <section id="view-collection-overview">
+          <h2 class="t1"></h2>
+          <p class="collection-description"></p><span id="export-content-btn" class="btn">Export Content</span>
+          <div class="collection-view-controls-container"><span class="t2">View</span>
+            <ul class="collection-view-controls">
+              <li>
+                <label>
+                  <input type="radio" name="view" value="grid" checked><span>Grid</span>
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="radio" name="view" value="list"><span>List</span>
+                </label>
+              </li>
+            </ul>
           </div>
-          <div class="collections-container flex-1">
-            <h3 class="t2">Collection</h3>
-            <ul id="editor-collections-list"></ul>
-          </div>
+        </section>
+        <div id="collection-wrapper" class="grid">
+          <div class="collection-grid-sizer"></div>
+          <div class="gutter-sizer"></div>
         </div>
       </div>
     </div>
@@ -562,5 +556,4 @@
   <script src="js/libs/moment.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/moderator.js"></script>
-  <script src="js/libs/markdown.js"></script>
 </body></html>

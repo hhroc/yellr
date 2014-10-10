@@ -28,7 +28,7 @@ yellr.utils = {
     moment.locale(short_code);
 
     yellr.SETTINGS.language.set(short_code);
-    yellr.utils.set_urls();
+    yellr.utils.set_urls(BASE_URL);
 
     // load the language
     $.getJSON(jsonFile, function (response) {
@@ -80,15 +80,11 @@ yellr.utils = {
 
           // * - from HTC Inspire (Android)
         }
-      },
-      app: {
-        // to do
-        // phone specific settings
       }
     };
 
-    // set urls
-    yellr.utils.set_urls();
+    // set urls || BASE_URL is set in init.js
+    yellr.utils.set_urls(BASE_URL);
 
     // get the "script"
     // we add this completely so that we don't wait on load time
@@ -117,7 +113,8 @@ yellr.utils = {
       news_feed: "News Feed",
       news_story: "News Story",
       messages: "Messages",
-      view_message: "Mensaje",
+      view_message: "View Message",
+      reply: "Reply",
       no_news_in_your_area: "No news stories yet in your area.",
       get_your_voice_heard: "By submitting things imporant to you, you can get your voice heard!",
       notifications: "Notifications",
@@ -192,6 +189,7 @@ yellr.utils = {
     yellr.UUID      = data.UUID;
     yellr.URLS      = data.URLS;
     yellr.VERSION   = data.VERSION;
+    yellr.SCRIPT    = data.SCRIPT;
 
   },
 
@@ -220,6 +218,7 @@ yellr.utils = {
         if (dataType === 'stories') {
           response[dataType] = response[dataType].filter(function (val, i, arr) {
             val.id = i;
+            val.contents = marked(val.contents);
             return true;
           });
 
@@ -256,16 +255,12 @@ yellr.utils = {
 
 
 
-  set_urls: function () {
+  set_urls: function (base_url) {
 
     /**
      * use development urls or production urls
      * if a user creates a new UUID, we have to change our API calls accordingly
      */
-
-    // if in devevlopment, use local URLs
-    var base_url = 'http://yellrdev.wxxi.org/';
-    // var base_url = 'http://127.0.0.1:8080/';
 
     yellr.URLS = {
       assignments:    base_url+'get_assignments.json?client_id='+yellr.UUID+'&language_code='+yellr.SETTINGS.language.code+'&lat='+yellr.SETTINGS.lat+'&lng='+yellr.SETTINGS.lng,
@@ -275,7 +270,8 @@ yellr.utils = {
       profile:        base_url+'todo',
       upload:         base_url+'upload_media.json',
       post:           base_url+'publish_post.json',
-      server_info:    base_url+'server_info.json'
+      server_info:    base_url+'server_info.json',
+      send_message:   base_url+'create_response_message.json'
     };
 
   },
@@ -284,12 +280,14 @@ yellr.utils = {
 
   render_template: function(settings) {
     /**
-     * Dependencies: Handlebar.js, zepto.js (or jQuery.js)
+     * Dependencies: Handlebar.js, jQuery.js
      *
      * settings = {
      *   template: '#script-id',
      *   target: '#query-string',
-     *   context: {}
+     *   context: {},
+     *   append: boolean (optional),
+     *   prepend: boolean (optional)
      * }
      */
 
@@ -315,6 +313,70 @@ yellr.utils = {
 
   },
 
+
+  pulldown_to_refresh: function (settings) {
+
+    /**
+     * first-run at pull-down to refresh thing
+     * (not really that smooth on older mobile browsers)
+     * BUG: fires when we go both up or down
+     *       should only fire if we pull down
+     *
+     * settings = {
+     *   target: '#id-string',
+     *   container: '#page-container'
+     *   callback:  function () {
+     *     // do things after the pulldown
+     *   }
+     * }
+     */
+
+    var $pulldown_target = $(settings.target),
+        $pulldown_container = $(settings.container),
+        startY = 0,
+        reload_boolean = false;
+
+    // .pull-down-container has a transition style on it
+    // to help make a nice animation
+    $pulldown_container.addClass('pull-down-container');
+
+    // remove eventListeners just in case
+    $pulldown_target.off('touchstart');
+    $pulldown_target.off('touchmove');
+    $pulldown_target.off('touchend');
+
+
+    // only refresh if we are at the top of the page
+    $pulldown_target.on('touchstart', function(e){
+      if (window.pageYOffset < 10) reload_boolean = true;
+    });
+
+    //
+    $pulldown_target.on('touchmove', function(e) {
+
+      if (reload_boolean) {
+        startY++;
+
+        $pulldown_container.css('margin-top', (startY*20).toString()+'px');
+
+        if (startY >= 3) {
+          startY = 0;
+          reload_boolean = false;
+          $pulldown_container.css('margin-top', '0');
+          // on pulldown --> run callback
+          if (settings.callback) settings.callback();
+        }
+      }
+
+    });
+
+    $pulldown_target.on('touchend', function(e){
+      reload_boolean = false;
+      startY = 0;
+      $pulldown_container.css('margin-top', '0');
+    });
+
+  },
 
 
   guid: function (len, radix) {
@@ -578,12 +640,11 @@ yellr.utils = {
     // Media capture (audio, video, photo, text)
 
     $('#capture-image').on('tap', function(e) {
-      // e.preventDefault();
 
       // show overlay, popup thing
       yellr.utils.prompt(
-        'Choose image source',
-        [{title: 'Use camera'}, {title: 'Open gallery'}],
+        yellr.SCRIPT.choose_image_source,
+        [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
         [yellr.utils.open_camera, yellr.utils.open_gallery ]
       );
     });
@@ -593,12 +654,10 @@ yellr.utils = {
 
     // audio
     $('#capture-audio').on('tap', function() {
-      // render template
-      // render_template(form);
 
       navigator.device.capture.captureAudio(
         function(audioFiles) {
-          alert('captured: ' + audioFiles.length + ' files');
+          yellr.utils.notify('captured: ' + audioFiles.length + ' files');
           var html = '';
           for (var i = 0; i < audioFiles.length; i++) {
             var path = audioFiles[i].fullPath;
@@ -609,9 +668,9 @@ yellr.utils = {
         },
         function(error) {
           if (error.CAPTURE_NO_MEDIA_FILES) {
-            alert('nothing captured');
+            yellr.utils.notify('nothing captured');
           }
-          alert('closed without capturing audio');
+          yellr.utils.notify('closed without capturing audio');
         }
       );
     });
@@ -628,7 +687,7 @@ yellr.utils = {
 
       navigator.device.capture.captureVideo(
         function(videoFiles) {
-          alert('Captured ' + videoFiles.length + ' videos');
+          yellr.utils.notify('Captured ' + videoFiles.length + ' videos');
           var html = '';
 
           for (var i = 0; i < videoFiles.length; i++) {
@@ -639,7 +698,7 @@ yellr.utils = {
           document.querySelector('#cordova-video').innerHTML = html;
         },
         function(error) {
-          alert('error taking video');
+          yellr.utils.notify('error taking video');
         }
       );
     });

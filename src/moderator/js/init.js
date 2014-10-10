@@ -2,10 +2,10 @@
 var mod = mod || {};
 
 var DEBUG = true;
+// var BASE_URL = 'http://127.0.0.1:8080/';
+var BASE_URL = '/';
 
 window.onload = function () {
-
-    // if (DEBUG) localStorage.removeItem('yellr-mod');
 
     // Handlebars check
     // -----------------------------
@@ -39,13 +39,16 @@ window.onload = function () {
         mod.setup.assignments_page();
         break;
       case 'single-assignment':
-        mod.setup.assignment_overview();
+        mod.setup.single_assignment_view();
         break;
       case 'editor':
         mod.editor.init();
         break;
       case 'collections':
         mod.setup.collections_page();
+        break;
+      case 'single-collection':
+        mod.setup.single_collection_view();
         break;
       case 'messages':
         mod.setup.inbox();

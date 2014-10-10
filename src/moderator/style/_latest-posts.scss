@@ -9,7 +9,7 @@
   bottom: 2rem;
   right: 0;
   width: 20rem;
-  background: $yellow;
+  background: #bbb;
   p {
     color: $black;
     text-align: left;
@@ -18,9 +18,8 @@
   }
   li {
     border-bottom: 1px solid #ccc;
-    &:last-child {
-      border: none;
-    }
+    &:hover {background: $yellow !important; }
+    &:last-child {border: none; }
   }
 }
 
@@ -58,6 +57,7 @@
   background: #222;
   img {
     display: block;
+    max-height: 46.875rem; /* 750px */
   }
   figcaption {
     background: #fff;
@@ -76,6 +76,9 @@
     input[type="radio"], input[type="checkbox"] {
       margin-right: 0.5rem;
     }
+  }
+  input[type="text"] {
+    max-width: 100%;
   }
 }
 

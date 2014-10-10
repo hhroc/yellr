@@ -1,3 +1,6 @@
+//- template for Collections overview
+//- ===================================
+//- used on: collections.html
 script#collections-gi-template(type="text/x-handlebars-template").
   {{#if collections}}
     {{#each collections}}
@@ -19,16 +22,58 @@ script#collections-gi-template(type="text/x-handlebars-template").
 
 
 
+//- template for viewing a single collection
+//- ===================================
+//- used on: view-collection.html
+script#view-collection-gi-template(type="text/x-handlebars-template").
+  {{#if collection}}
+    {{#each collection}}
+    <div class="collection-gi">
+      <div class="story-item">
+        {{#each media_objects }}
+        <div data-type="{{media_type}}" class="media-preview">
+          {{#if file_name}}
+          <figure class="media-file-image">
+            <img src="/media/{{file_name}}" alt="{{ media_type_description }}">
+            <figcaption>{{ media_type_description }}</figcaption>
+          </figure>
+          {{else}}
+          <p class="media-text">{{ media_text }}</p>
+          {{/if}}
+        </div>
+        {{/each }}
+        <p class="item-source"><a href="#">{{client_id}}</a></p>
+      </div>
+      <div class="story-meta flex">
+        <div class="flex-2">&nbsp;</div>
+        <ul class="options-list flex-1">
+          <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+          <li><i title="Remove from collection" class="fa fa-close"></i></li>
+        </ul>
+      </div>
+    </div>
+    {{/each}}
+  {{else}}
+    <div class="faded">
+      <h3 class="t2">Collection is empty</h3>
+      <p>Check the main feed for latest user submissions.</p>
+    </div>
+  {{/if}}
 
+
+//- template used while writing article
+//- where we have the collection on the side
+//- ===================================
+//- used on: editor.html
 script#collections-li-template(type="text/x-handlebars-template").
-  {{#if posts}}
-    {{#each posts}}
+  {{#if collection}}
+    {{#each collection}}
     <li>
       {{#each media_objects }}
       <div class="media-preview" data-type="{{ media_type }}">
         {{#if file_name}}
         <figure class="media-file-image">
-          <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+          <img src="/media/{{file_name}}" alt="{{ media_description }}">
           <figcaption>{{ media_description }}</figcaption>
         </figure>
         {{else}}
@@ -52,25 +97,10 @@ script#collections-li-template(type="text/x-handlebars-template").
   {{/if}}
 
 
-script#collections-li-template(type="text/x-handlebars-template").
-  {{#if collection}}
-    {{#each collection}}
-    <li>
-      <div class="collection-wrapper">
-        <h3 class="t2">{{ title }}</h3>
-        <p>{{ total_posts }}</p>
-        <input type="button" value="Export content">
-      </div>
-    </li>
-    {{/each}}
-  {{else}}
-    <li class="faded">
-      <h3 class="t2">No collections!</h3>
-      <p>Create one by clicking the button above</p>
-    </li>
-  {{/if}}
 
-
+//- template for creating a new collection
+//- ===================================
+//- used on: collection.html
 script#collections-form-template(type="text/x-handlebars-template").
   <div class="overlay-container">
     <h3 class="t2">New Collection</h3>
@@ -85,21 +115,18 @@ script#collections-form-template(type="text/x-handlebars-template").
     </form>
   </div>
 
+
+
+//- template for creating the collections dropdown
+//- which allows users to add items to collection
+//- from the raw feed
+//- ===================================
+//- used on: index.html
 script#collections-dropdown-template(type="text/x-handlebars-template").
   <ul class="collections-dropdown">
     {{#each collections}}
     <li>
-      <p data-collection-id="{{id}}">{{title}}</p>
+      <p data-collection-id="{{collection_id}}">{{name}}</p>
     </li>
     {{/each}}
   </ul>
-
-
-script#collections-dropdown-templatesdffs(type="text/x-handlebars-template").
-  <li class="faded">
-    <h3 class="t2">No collection started</h3>
-    <p>
-      Collections are a great way to collect the best responess submitted on Yellr.
-      Create one by clicking the Folder icon one a feed item or clicking&nbsp;<span id="create-collection-btn">here</span>
-    </p>
-  </li>

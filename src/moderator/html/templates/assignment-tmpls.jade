@@ -87,11 +87,12 @@ script#new-assignment-template(type="text/x-handlebars-template").
       </div>
 
       <div class="form-actions flex">
-        <div class="flex-2">
+        <div class="flex-1">
           <span id="cancel-assignment-btn" class="action">Cancel</span>
         </div>
         <div class="flex-3">
           <span id="save-assignment-btn" class="action">Save Draft</span>
+          <span id="preview-assignment-btn" class="action">Preview</span>
           <span id="post-assignment-btn">Post Assignment</span>
         </div>
       </div>
@@ -132,7 +133,7 @@ script#new-question-template(type="text/x-handlebars-template").
         </div>
         <div class="flex-2 add-photo-wrapper">
           <p><small>Add a photo <em> * Optional</em></small></p>
-          <input type="file" name="question_image">
+          <input type="file" name="media_file">
         </div>
       </li>
       <li class="answers-input-wrapper flex">

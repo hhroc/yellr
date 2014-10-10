@@ -1650,5 +1650,5 @@ class Subscribers(Base):
             ).filter(
             ).all()
         return subscribers
-    
+
 

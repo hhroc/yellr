@@ -1424,7 +1424,7 @@ def admin_get_subscriber_list(request):
         )
 
         print subscribers
-  
+
         ret_subscribers = []
         for email,subscribe_datetime,name,organization, \
                 profession,receive_updates,receive_version_announcement, \

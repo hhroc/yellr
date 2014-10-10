@@ -170,36 +170,6 @@ yellr.view.debug = (function() {
       });
 
 
-
-
-      // // lowly ol' text
-      // $('#capture-text').on('tap', function() {
-     //    yellr.pageManager.nextPage('#submit-form', 19);
-      // });
-
-
-
-      // Upload files to server
-      // function uploadFile(mediaFile) {
-      //   var ft = new FileTransfer(),
-      //       path = mediaFile.fullPath,
-      //       name = mediaFile.name;
-
-      //   ft.upload(path,
-      //     "http://my.domain.com/upload.php",
-      //     function(result) {
-      //       console.log('Upload success: ' + result.responseCode);
-      //       console.log(result.bytesSent + ' bytes sent');
-      //     },
-      //     function(error) {
-      //       console.log('Error uploading file ' + path + ': ' + error.code);
-      //     },
-      //     { fileName: name }
-      //    );
-      // }
-
-
-
     }
 
     return {

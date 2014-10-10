@@ -150,13 +150,9 @@
 }
 
 
-#cancel-assignment-btn {
-  color: $red;
-}
-
-#save-assignment-btn {
-  color: $blue;
-}
+#cancel-assignment-btn { color: $red; }
+#save-assignment-btn { color: $blue; }
+#preview-assignment-btn { color: $green; }
 
 #post-assignment-btn {
   background: $blue;
@@ -275,6 +271,9 @@
 .add-photo-wrapper {
   border-left: 1px solid #ccc;
   padding-left: 1rem;
+  input[type="file"] {
+    max-width: 100%;
+  }
 }
 
 .extra-fields {

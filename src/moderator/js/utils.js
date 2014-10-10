@@ -18,6 +18,24 @@ mod.utils = {
   },
 
 
+  load_latest_posts: function () {
+    setTimeout(function () {
+      console.log('loading latest posts...');
+      mod.posts.get_posts({
+        callback: function () {
+          mod.utils.render_template({
+            template: '#latest-posts-template',
+            target: '#latest-posts',
+            context: {posts: mod.DATA.posts}
+          });
+        }
+      });
+
+      // loop
+      mod.utils.load_latest_posts();
+    }, 10000);
+  },
+
 
 
   redirect_to: function (page) {
@@ -30,8 +48,7 @@ mod.utils = {
   redirect_to_login: function (message) {
 
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      /* TODO: use a real url */
-      alert( (message) ? message : 'Must login' );
+      if (message) alert(message);
       mod.utils.redirect_to('login.html');
     }
 
@@ -41,8 +58,7 @@ mod.utils = {
   login: function (username, password) {
 
     // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = 'http://127.0.0.1:8080/admin/get_access_token.json?user_name='+username+'&password='+password;
-    // var url = '/admin/get_access_token.json?user_name='+username+'&password='+password;
+    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
 
     // $form
     $.ajax({
@@ -180,8 +196,7 @@ mod.utils = {
 
   set_urls: function () {
 
-    var base_url = (DEBUG) ? 'http://127.0.0.1:8080/admin/' : 'http://yellrdev.wxxi.org/admin/';
-    // var base_url = '/admin/';
+    var base_url = BASE_URL+'admin/';
 
     mod.URLS = {
       // get latest user posts
@@ -207,7 +222,8 @@ mod.utils = {
       get_question_types:           base_url+'get_question_types.json?token='+mod.TOKEN,
       create_user:                  base_url+'create_user.json?token='+mod.TOKEN,
       // publish
-      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN
+      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN,
+      upload:                       BASE_URL+'upload_media.json'
     }
 
     // save new urls

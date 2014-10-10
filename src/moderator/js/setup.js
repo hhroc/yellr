@@ -7,6 +7,109 @@ var mod = mod || {};
 mod.setup = {
 
 
+  single_collection_view: function () {
+
+    // local vars
+    // ----------------------------
+    var items = [],
+        // collection_id (from URL hash)
+        collection_id = 0,
+        // DOM references
+        view_controls,
+        export_btn,
+        grid,
+        // packery.js object
+        pckry;
+
+
+    // get the URL hash --> load the correct collection
+    collection_id = parseInt(window.location.hash.split('#')[1]);
+
+    // ping the server for that collection
+    mod.collections.get_collection(collection_id, function (response) {
+
+      // show collection name
+      document.querySelector('.t1').innerHTML = response.collection_name;
+
+      // render the collection items
+      mod.utils.render_template({
+        template: '#view-collection-gi-template',
+        target: '#collection-wrapper',
+        context: {
+          collection: response.collection
+        },
+        append: true
+      });
+
+      // setup grid
+      items = document.querySelectorAll('.collection-gi');
+
+      // delay packery so browser has time to render the new HTML
+      setTimeout(function () {
+        pckry = new Packery(grid, {
+          itemSelector: '.collection-gi',
+          // columnWidth: 60,
+          columnWidth: '.collection-grid-sizer',
+          gutter: '.gutter-sizer'
+        });
+      }, 500);
+
+    });
+
+
+
+    // send user a message / remove post from collection
+    grid = document.querySelector('#collection-wrapper');
+    grid.onclick = function (event) {
+      if (event.target.className === 'fa fa-comment') {
+        alert('Send message');
+      } else if (event.target.className === 'fa fa-close') {
+        alert('Remove item from collection');
+      }
+    }
+
+
+
+    // download .zip file of media collection
+    export_btn = document.querySelector('#export-content-btn');
+    export_btn.onclick = function (event) {
+      alert('TODO: Download zip file of media collection');
+    }
+
+
+    // [X] grid  or  [ ] list
+    view_controls = document.querySelector('.collection-view-controls');
+    // click to change view
+    view_controls.onclick = function (event) {
+
+      // for each case we either:
+      //    1. reinitilize the packery grid, or
+      //    2. destroy the packery grid
+      // there are specific styles attached to each
+      // so we loops through the grid items and change classNames
+
+      if (event.target.checked) {
+        if (event.target.defaultValue === 'list') {
+          pckry.destroy();
+          // change all classnames to '.gi'
+          for (var i = 0; i < items.length; i++) items[i].className = 'gi';
+        } else {
+          // make sure items have class of '.collections-gi'
+          for (var i = 0; i < items.length; i++) items[i].className = 'collection-gi';
+          // reinitialize packery
+          pckry = new Packery(grid, {
+            itemSelector: '.collection-gi',
+            // columnWidth: 60,
+            columnWidth: '.collection-grid-sizer',
+            gutter: '.gutter-sizer'
+          });
+        }
+      }
+    }
+
+  },
+
+
   login: function () {
 
     var $form = $('#mod-login');
@@ -47,7 +150,7 @@ mod.setup = {
 
 
 
-  assignment_overview: function () {
+  single_assignment_view: function () {
 
     var assignment_id = parseInt(window.location.hash.split('#')[1]);
 
@@ -77,7 +180,15 @@ mod.setup = {
       });
 
       // get assignment collection
-      mod.collections.get_collection(assignment_id);
+      mod.collections.get_collection(assignment_id, function (response) {
+        mod.utils.render_template({
+          template: '#collections-li-template',
+          target: '#assignment-collection-list',
+          context: {
+            collection: response.collection
+          }
+        })
+      });
       // set the collection_id attribute to the #assignment-collections-list
       document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
 
@@ -185,11 +296,9 @@ mod.setup = {
      * index.html
      */
 
-
     // get my assignments
     mod.assignments.get_my_assignments({
       callback: function () {
-
         // get 4 latest
         var latest_4_assignments = [];
         for (var i = 0; i < mod.DATA.assignments.length; i++) {
@@ -230,11 +339,14 @@ mod.setup = {
     // - flag inappropriate content
     document.querySelector('.submissions-grid').onclick = function(e) {
       switch (e.target.className) {
+
         // add post to a collection
         case 'fa fa-folder':
-          console.log('toggle_collections_dropdown');
-          // mod.feed.toggle_collections_dropdown(e.target);
+          // show a list of collections via a dropdown
+          // pass in the DOM element
+          mod.feed.toggle_collections_dropdown(e.target);
           break;
+
         // send user a message
         case 'fa fa-comment':
 
@@ -294,6 +406,7 @@ mod.setup = {
 
     });
 
-
+    // // refresh posts every 10 seconds
+    // mod.utils.load_latest_posts();
   }
 }

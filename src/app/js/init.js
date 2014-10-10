@@ -9,10 +9,11 @@ var yellr = yellr || {};
 */
 
 var DEBUG = true;
-// var DEBUG = false;
+var BASE_URL = 'http://yellrdev.wxxi.org/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
+
 window.onload = function() {
 
-  // if (DEBUG) localStorage.removeItem('yellr');
   localStorage.removeItem('yellr');
 
   // check for pre-existing data, if none, create it
@@ -20,13 +21,12 @@ window.onload = function() {
     yellr.utils.create_user();
     yellr.utils.save();
   } else {
-    // we ave existing local storage, load it
+    // we have existing local storage, load it
     yellr.utils.load_localStorage();
   }
 
   // check version info
   yellr.utils.check_version();
-
 
   // ping server for new data
   yellr.utils.load('assignments', yellr.view.assignments.render_feed);
@@ -43,7 +43,30 @@ window.onload = function() {
   moment.locale(yellr.SETTINGS.language.code);
 
   document.addEventListener('deviceready', function() {
+
     // do cordova setup things
+    // yellr.cordova.getLatitude();
+    // yellr.cordova.getLongitude();
+
+
+    // Location API
+    navigator.geolocation.getCurrentPosition(function(position) {
+      // success geting location
+
+      yellr.utils.notify('Latitude: ' + position.coords.latitude);
+      yellr.SETTINGS.lat = position.coords.latitude;
+
+      yellr.utils.notify('Longitude: ' + position.coords.longitude);
+      yellr.SETTINGS.lng = position.coords.longitude;
+
+    }, function(error) {
+      // error getting location
+      yellr.utils.notify(error.message);
+    });
+
+
+
+
   }, false);
 
 }

@@ -9,9 +9,7 @@ yellr.view.report = (function() {
      * the user report page for yellr
      */
 
-    var form_counter = 0,
-        total_forms = 0,
-        media_objects = [],
+    var media_objects = [],
         assignment_id;
 
 
@@ -114,7 +112,70 @@ yellr.view.report = (function() {
         if (e.target.nodeName === 'I' || e.target.nodeName === 'DIV') {
           var form_type = (e.target.nodeName === 'I') ? e.target.parentNode.className : e.target.className;
           data.id = form_type.split('add-')[1].split(' ')[0];
-          yellr.view.report.setup_form(data, true);
+          // data.id = 'image', 'video', 'audio'
+
+          // show prompt
+          if (data.id === 'image') {
+
+            // show overlay, popup thing
+            yellr.utils.prompt(
+              yellr.SCRIPT.choose_image_source,
+
+              [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
+              // callback funcions.. maybe?
+              [function () {
+                yellr.utils.open_camera(function (imgURI) {
+
+                  yellr.view.report.setup_form(data, true);
+
+                  setTimeout(function () {
+
+                    // show an image preview
+                    document.querySelectorAll('.img-preview')[0].src = imgURI;
+
+                    // we save it to this TMP (temporaray) object
+                    // because we do don't submit things until people
+                    // press the [√] submit button
+                    yellr.TMP = {
+                      file: {
+                        type: 'image',
+                        uri: imgURI
+                      }
+                    };
+                  }, 1000);
+
+                });
+                // end open_camera
+              },
+              function () {
+                yellr.utils.open_gallery(function (imgURI) {
+
+                  yellr.view.report.setup_form(data, true);
+
+                  setTimeout(function () {
+
+                    // show an image preview
+                    document.querySelectorAll('.img-preview')[0].src = imgURI;
+
+                    // we save it to this TMP (temporaray) object
+                    // because we do don't submit things until people
+                    // press the [√] submit button
+                    yellr.TMP = {
+                      file: {
+                        type: 'image',
+                        uri: imgURI
+                      }
+                    };
+                  }, 1000);
+
+                });
+                // end open_gallery
+              }]
+            );
+
+          }
+
+          // yellr.view.report.setup_form(data, true);
         }
       });
 
@@ -134,8 +195,6 @@ yellr.view.report = (function() {
       // if we don't, we're submitting a text post --? use regular AJAX
 
       var forms = document.querySelectorAll('#form-wrapper form');
-      total_forms = forms.length;
-      // form_counter = 0;
 
       for (var i = 0; i < forms.length; i++) {
         var form = forms[i];
@@ -149,7 +208,6 @@ yellr.view.report = (function() {
               console.log(response);
               if (response.success) {
                 // add the media_id to our local array
-                // form_counter++;
                 media_objects.push(response.media_id);
                 if (media_objects.length === forms.length) {
                   yellr.view.report.publish_post();
@@ -239,7 +297,6 @@ yellr.view.report = (function() {
 
       // make sure we submitted all the forms
 
-      // if (form_counter === total_forms) {
 
         // title should be either a free response or
         // Reply to: Assignment ID
@@ -259,8 +316,6 @@ yellr.view.report = (function() {
 
         $.post(yellr.URLS.post, our_data, function(e) {
           media_objects = [];
-          form_counter = 0;
-          total_forms = 0;
         }).done(function () {
           console.log('post published');
           yellr.utils.notify('Post successful.');

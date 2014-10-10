@@ -195,7 +195,6 @@ yellr.utils = {
   },
 
 
-  yellr.utils.load('assignments', yellr.view.assignments.render_feed);
 
   load: function (dataType, callback) {
 

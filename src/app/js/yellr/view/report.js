@@ -141,6 +141,10 @@ yellr.view.report = (function() {
 
       if (yellr.TMP !== null) {
 
+        // gonna need to change a lotta things
+        total_forms = 1;
+        form_counter = 0;
+
         // prep for upload
         var ft = new FileTransfer(),
             // options = new FileUploadOptions();
@@ -152,8 +156,8 @@ yellr.view.report = (function() {
               media_file: yellr.TMP.file.uri
             };
 
-        // // set the form. hard-coded for now
-        // options.fileKey = '.'+yellr.TMP.file.type+'-form';
+        // setup the options
+        options.fileKey = 'media_file';
         options.params = parameters;
 
         // setup user feedback
@@ -170,9 +174,17 @@ yellr.view.report = (function() {
         ft.upload(yellr.TMP.file.uri, encodeURI(yellr.URLS.upload),
           function success(response) {
             yellr.utils.notify('success');
-            yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
-            // clear tmp object
             yellr.utils.clearTmp();
+            // yellr.utils.notify(typeof response.response);
+
+            var response_object = JSON.parse(response.response);
+            // yellr.utils.notify(response_object.media_id);
+
+            // yellr.utils.notify(response.responseCode + ' | ' + response.response + ' | ' + response.bytesSent);
+            media_objects.push(response_object.media_id);
+            form_counter++;
+            yellr.view.report.publish_post();
+            // clear tmp object
           },
           function fail(error) {
             // console.log('hello from: fail');
@@ -186,6 +198,7 @@ yellr.view.report = (function() {
 
         var forms = document.querySelectorAll('#form-wrapper form');
         total_forms = forms.length;
+        form_counter = 0;
 
         for (var i = 0; i < forms.length; i++) {
           var form = forms[i];

@@ -117,67 +117,32 @@ yellr.view.report = (function() {
           // show prompt
           if (data.id === 'image') {
 
-            // show overlay, popup thing
-            yellr.utils.prompt(
-              yellr.SCRIPT.choose_image_source,
+            yellr.utils.choose_image_source(function (imgURI) {
 
-              [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
-              // callback funcions.. maybe?
-              [function () {
-                yellr.utils.open_camera(function (imgURI) {
+              yellr.view.report.setup_form(data, true);
 
-                  yellr.view.report.setup_form(data, true);
+              setTimeout(function () {
 
-                  setTimeout(function () {
+                // show an image preview
+                document.querySelectorAll('.img-preview')[0].src = imgURI;
 
-                    // show an image preview
-                    document.querySelectorAll('.img-preview')[0].src = imgURI;
+                // we save it to this TMP (temporaray) object
+                // because we do don't submit things until people
+                // press the [√] submit button
+                yellr.TMP = {
+                  file: {
+                    type: 'image',
+                    uri: imgURI
+                  }
+                };
+              }, 1000);
 
-                    // we save it to this TMP (temporaray) object
-                    // because we do don't submit things until people
-                    // press the [√] submit button
-                    yellr.TMP = {
-                      file: {
-                        type: 'image',
-                        uri: imgURI
-                      }
-                    };
-                  }, 1000);
-
-                });
-                // end open_camera
-              },
-              function () {
-                yellr.utils.open_gallery(function (imgURI) {
-
-                  yellr.view.report.setup_form(data, true);
-
-                  setTimeout(function () {
-
-                    // show an image preview
-                    document.querySelectorAll('.img-preview')[0].src = imgURI;
-
-                    // we save it to this TMP (temporaray) object
-                    // because we do don't submit things until people
-                    // press the [√] submit button
-                    yellr.TMP = {
-                      file: {
-                        type: 'image',
-                        uri: imgURI
-                      }
-                    };
-                  }, 1000);
-
-                });
-                // end open_gallery
-              }]
-            );
+            });
 
           }
-
-          // yellr.view.report.setup_form(data, true);
         }
       });
+      // ----------------------------
 
     }
 

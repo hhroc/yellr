@@ -668,7 +668,14 @@ module.exports = function(grunt) {
       // IMAGES
       'copy:moderator_images',
       // details
-      'usebanner:moderator'
+      'usebanner:moderator',
+
+      // deploy it
+      'copy:moderator_html_to_pyramid',
+      'copy:moderator_js_to_pyramid',
+      'copy:moderator_css_to_pyramid',
+      'copy:moderator_img_to_pyramid'
+
     ]);
   });
 
@@ -696,7 +703,12 @@ module.exports = function(grunt) {
       // IMAGES
       'copy:storefront_images',
       // details
-      'usebanner:storefront'
+      'usebanner:storefront',
+
+      // deploy
+      'copy:storefront_js_to_pyramid',
+      'copy:storefront_css_to_pyramid',
+      'copy:storefront_img_to_pyramid'
     ]);
   });
 

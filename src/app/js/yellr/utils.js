@@ -195,7 +195,6 @@ yellr.utils = {
   },
 
 
-  yellr.utils.load('assignments', yellr.view.assignments.render_feed);
 
   load: function (dataType, callback) {
 
@@ -617,62 +616,28 @@ yellr.utils = {
 
     $('#capture-image').on('tap', function(e) {
 
-      // show overlay, popup thing
-      yellr.utils.prompt(
-        yellr.SCRIPT.choose_image_source,
+      yellr.utils.choose_image_source(function (imgURI) {
 
-        [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
-        // callback funcions.. maybe?
-        [function () {
-          yellr.utils.open_camera(function (imgURI) {
+        // setup report thing
+        yellr.utils.redirect('#report/image');
 
-            // setup report thing
-            yellr.utils.redirect('#report/image');
+        setTimeout(function () {
+          // show an image preview
+          document.querySelector('.img-preview').src = imgURI;
 
-            setTimeout(function () {
-              // show an image preview
-              document.querySelector('.img-preview').src = imgURI;
+          // we save it to this TMP (temporaray) object
+          // because we do don't submit things until people
+          // press the [√] submit button
+          yellr.TMP = {
+            file: {
+              type: 'image',
+              uri: imgURI
+            }
+          };
+        }, 1000);
 
-              // we save it to this TMP (temporaray) object
-              // because we do don't submit things until people
-              // press the [√] submit button
-              yellr.TMP = {
-                file: {
-                  type: 'image',
-                  uri: imgURI
-                }
-              };
-            }, 1000);
+      });
 
-          });
-          // end open_camera
-        },
-        function () {
-          yellr.utils.open_gallery(function (imgURI) {
-
-            // setup report thing
-            yellr.utils.redirect('#report/image');
-
-            setTimeout(function () {
-              // show an image preview
-              document.querySelector('.img-preview').src = imgURI;
-
-              // we save it to this TMP (temporaray) object
-              // because we do don't submit things until people
-              // press the [√] submit button
-              yellr.TMP = {
-                file: {
-                  type: 'image',
-                  uri: imgURI
-                }
-              };
-            }, 1000);
-
-
-          });
-          // end open_gallery
-        }]
-      );
     });
 
 
@@ -728,6 +693,30 @@ yellr.utils = {
         }
       );
     });
+
+  },
+
+
+  choose_image_source: function (callback) {
+
+      yellr.utils.prompt(
+        yellr.SCRIPT.choose_image_source,
+
+        [{title: yellr.SCRIPT.use_camera}, {title: yellr.SCRIPT.open_gallery}],
+        // callback funcions.. maybe?
+        [function () {
+          yellr.utils.open_camera(function (imgURI) {
+            callback(imgURI);
+          });
+          // end open_camera
+        },
+        function () {
+          yellr.utils.open_gallery(function (imgURI) {
+            callback(imgURI);
+          });
+          // end open_gallery
+        }]
+      );
 
   }
 

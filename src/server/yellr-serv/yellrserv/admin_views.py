@@ -60,13 +60,13 @@ def admin_get_access_token(request):
             user_name = request.GET['user_name']
             password = request.GET['password']
 
-            print "{0}:{1}".format(user_name, password)
+            #print "{0}:{1}".format(user_name, password)
 
         except:
             result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')
 
-        print "working on u: '{0}', p: '{1}'".format(user_name, password)
+        #print "working on u: '{0}', p: '{1}'".format(user_name, password)
 
         user, token = Users.authenticate(DBSession, user_name, password)
 
@@ -171,11 +171,6 @@ def admin_get_posts(request):
             count = count,
         )
 
-        print "\n\n"
-        print total_post_count
-        print "\n\n"
-        print posts
-        print "\n\n"
         ret_posts = {}
         for post_id, assignment_id, user_id, title, post_datetime, reported, \
                 lat, lng, media_object_id, media_id, file_name, caption, \
@@ -239,10 +234,6 @@ def admin_create_question(request):
         if valid == False:
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
-
-        print ""
-        print request.POST
-        print ""
 
         #if True:
         try:
@@ -1422,8 +1413,6 @@ def admin_get_subscriber_list(request):
         subscribers = Subscribers.get_all_subscribers(
             session = DBSession,
         )
-
-        print subscribers
 
         ret_subscribers = []
         for email,subscribe_datetime,name,organization, \

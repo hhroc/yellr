@@ -1,3 +1,10 @@
+/*!
+ * yellr v0.0.1 (http://hhroc.github.io/)
+ * Copyright 2014 hhroc - Hacks and Hackers Rochester
+ * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
+ */
+
+
 'use strict';
 var mod = mod || {};
 
@@ -470,8 +477,8 @@ mod.setup = {
 
     });
 
-    // // refresh posts every 10 seconds
-    // mod.utils.load_latest_posts();
+    // refresh posts every 10 seconds
+    mod.utils.load_latest_posts();
   }
 }
 

@@ -406,7 +406,7 @@ mod.setup = {
 
     });
 
-    // // refresh posts every 10 seconds
-    // mod.utils.load_latest_posts();
+    // refresh posts every 10 seconds
+    mod.utils.load_latest_posts();
   }
 }

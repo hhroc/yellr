@@ -34,6 +34,7 @@ mod.assignments = (function() {
       $question_form,
       $question_textarea,
       $extra_fields,
+      $preview_btn,
       $cancel_btn,
       $save_btn,
       $post_btn;
@@ -60,8 +61,6 @@ mod.assignments = (function() {
         }
       }
     }).done(function () {
-
-      console.log('lol -sfsdfasf');
 
       // setup the action buttons for each resposne
       $('#assignment-replies-list').on('click', function (e) {
@@ -135,15 +134,16 @@ mod.assignments = (function() {
 
     // action buttons
     $cancel_btn   = $form.find('#cancel-assignment-btn'),
+    $preview_btn = $form.find('#preview-assignment-btn'),
     $save_btn     = $form.find('#save-assignment-btn'),
-    $post_btn     = $form.find('#post-assignment-btn');
-
+    $post_btn     = $form.find('#post-assignment-btn'),
     $preview_text = $('#question-text-preview');
 
 
     // hide things
     $form.find('.form-fields-list').hide();
     $extra_fields.hide();
+    $preview_btn.hide();
     $save_btn.hide();
     $post_btn.hide();
 
@@ -152,6 +152,7 @@ mod.assignments = (function() {
     // 1. close/cancel post
     // 2. onchange of language, show form
     // 3. save draft btn
+    // 4. preview the full assignment
 
 
     // 1.
@@ -170,6 +171,13 @@ mod.assignments = (function() {
     $save_btn.on('click', function (e) {
       mod.assignments.save_draft();
     });
+
+    // 4.
+    $preview_btn.on('click', function (event) {
+      console.log('preview assignment');
+      mod.assignments.preview_assignment();
+    });
+
 
   }
 
@@ -198,6 +206,30 @@ mod.assignments = (function() {
 
     // add event listeners
     // ----------------------------
+
+    // // add an image to the question
+    // var $image_input = $question_form.find('.add-photo-wrapper input[type="file"]');
+
+    // $image_input.on('change', function (event) {
+    //   console.log('upload image');
+
+    //   $image_input.ajaxSubmit({
+    //     url: mod.URLS.upload,
+    //     data: {
+    //       client_id: mod.TOKEN,
+    //       media_type: 'image'
+    //     },
+    //     success: function (response) {
+    //       console.log(response);
+    //       if (response.success) {
+    //         console.log('photo uploaded');
+    //       } else {
+    //         console.log('something went wrong');
+    //       }
+    //     }
+    //   });
+    // });
+
 
     // choose between a Free Response or Survey
     $question_form.find('input[type="radio"]').on('change', function (e) {
@@ -288,6 +320,7 @@ mod.assignments = (function() {
     $form.find('.language-select-wrapper').hide();
 
     $save_btn.show();
+    $preview_btn.show();
 
     $post_btn.html('Post Assignment');
     $post_btn.off('click');
@@ -335,6 +368,10 @@ mod.assignments = (function() {
   }
 
 
+
+  var preview_assignment = function () {
+    console.log('do some css things to hide this and show that');
+  }
 
 
 
@@ -411,10 +448,6 @@ mod.assignments = (function() {
   }
 
 
-  var redirect = function () {
-    console.log('hello from: ');
-  }
-
   return {
     view: view,
     setup_form: setup_form,
@@ -422,6 +455,7 @@ mod.assignments = (function() {
     successful_question_post: successful_question_post,
     post: post,
     save_draft: save_draft,
+    preview_assignment: preview_assignment,
     language_feedback: language_feedback,
     get_my_assignments: get_my_assignments,
     get_responses_for: get_responses_for

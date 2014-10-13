@@ -225,11 +225,12 @@
           </div>
           
           <div class="form-actions flex">
-            <div class="flex-2">
+            <div class="flex-1">
               <span id="cancel-assignment-btn" class="action">Cancel</span>
             </div>
             <div class="flex-3">
               <span id="save-assignment-btn" class="action">Save Draft</span>
+              <span id="preview-assignment-btn" class="action">Preview</span>
               <span id="post-assignment-btn">Post Assignment</span>
             </div>
           </div>
@@ -272,7 +273,7 @@
             </div>
             <div class="flex-2 add-photo-wrapper">
               <p><small>Add a photo <em> * Optional</em></small></p>
-              <input type="file" name="question_image">
+              <input type="file" name="media_file">
             </div>
           </li>
           <li class="answers-input-wrapper flex">
@@ -381,17 +382,53 @@
       
       
       
+    </script>
+    <script id="view-collection-gi-template" type="text/x-handlebars-template">
+      {{#if collection}}
+        {{#each collection}}
+        <div class="collection-gi">
+          <div class="story-item">
+            {{#each media_objects }}
+            <div data-type="{{media_type}}" class="media-preview">
+              {{#if file_name}}
+              <figure class="media-file-image">
+                <img src="/media/{{file_name}}" alt="{{ media_type_description }}">
+                <figcaption>{{ media_type_description }}</figcaption>
+              </figure>
+              {{else}}
+              <p class="media-text">{{ media_text }}</p>
+              {{/if}}
+            </div>
+            {{/each }}
+            <p class="item-source"><a href="#">{{client_id}}</a></p>
+          </div>
+          <div class="story-meta flex">
+            <div class="flex-2">&nbsp;</div>
+            <ul class="options-list flex-1">
+              <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+              <li><i title="Remove from collection" class="fa fa-close"></i></li>
+            </ul>
+          </div>
+        </div>
+        {{/each}}
+      {{else}}
+        <div class="faded">
+          <h3 class="t2">Collection is empty</h3>
+          <p>Check the main feed for latest user submissions.</p>
+        </div>
+      {{/if}}
+      
       
     </script>
     <script id="collections-li-template" type="text/x-handlebars-template">
-      {{#if posts}}
-        {{#each posts}}
+      {{#if collection}}
+        {{#each collection}}
         <li>
           {{#each media_objects }}
           <div class="media-preview" data-type="{{ media_type }}">
             {{#if file_name}}
             <figure class="media-file-image">
-              <img src="http://127.0.0.1:8080/media/{{file_name}}" alt="{{ media_description }}">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
               <figcaption>{{ media_description }}</figcaption>
             </figure>
             {{else}}
@@ -415,25 +452,6 @@
       {{/if}}
       
       
-    </script>
-    <script id="collections-li-template" type="text/x-handlebars-template">
-      {{#if collection}}
-        {{#each collection}}
-        <li>
-          <div class="collection-wrapper">
-            <h3 class="t2">{{ title }}</h3>
-            <p>{{ total_posts }}</p>
-            <input type="button" value="Export content">
-          </div>
-        </li>
-        {{/each}}
-      {{else}}
-        <li class="faded">
-          <h3 class="t2">No collections!</h3>
-          <p>Create one by clicking the button above</p>
-        </li>
-      {{/if}}
-      
       
     </script>
     <script id="collections-form-template" type="text/x-handlebars-template">
@@ -450,26 +468,17 @@
         </form>
       </div>
       
+      
+      
     </script>
     <script id="collections-dropdown-template" type="text/x-handlebars-template">
       <ul class="collections-dropdown">
         {{#each collections}}
         <li>
-          <p data-collection-id="{{id}}">{{title}}</p>
+          <p data-collection-id="{{collection_id}}">{{name}}</p>
         </li>
         {{/each}}
       </ul>
-      
-      
-    </script>
-    <script id="collections-dropdown-templatesdffs" type="text/x-handlebars-template">
-      <li class="faded">
-        <h3 class="t2">No collection started</h3>
-        <p>
-          Collections are a great way to collect the best responess submitted on Yellr.
-          Create one by clicking the Folder icon one a feed item or clicking&nbsp;<span id="create-collection-btn">here</span>
-        </p>
-      </li>
     </script>
     <script id="view-message-template" type="text/x-handlebars-template">
       <div id="view-message">
@@ -606,6 +615,7 @@
     </script>
   </div>
   <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/jquery.form.min.js"></script>
   <script src="js/libs/packery.js"></script>
   <script src="js/libs/moment.js"></script>
   <script src="js/libs/handlebars.js"></script>

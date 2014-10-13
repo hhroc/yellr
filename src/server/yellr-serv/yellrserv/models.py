@@ -335,6 +335,23 @@ class Assignments(Base):
         return (assignment,question)
 
     @classmethod
+    def get_all_open_response_count(cls, session, lat, lng):
+        with transaction.manager:
+           counts = session.query(
+               Assignments.assignment_id,
+               Posts.post_id,
+           ).join(
+               Poists,Post.assignment_id == Assignments.assignment_id
+           ).filter(
+                # we add offsets so we can do simple comparisons
+                Assignments.top_left_lat + 90 > lat + 90,
+                Assignments.top_left_lng + 180 < lng + 180,
+                Assignments.bottom_right_lat + 90 < lat + 90,
+                Assignments.bottom_right_lng + 180 > lng + 180,
+            ).count()
+        return counts
+
+    @classmethod
     def get_all_with_questions_from_token(cls, session, token, \
             start=0, count=0):
         with transaction.manager:
@@ -361,7 +378,7 @@ class Assignments(Base):
                 Questions.answer6,
                 Questions.answer7,
                 Questions.answer8,
-                Questions.answer9,
+                Questions.answer9, 
             ).join(
                 Users
             ).join(

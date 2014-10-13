@@ -1,3 +1,74 @@
+// single collection view
+// ===================================
+#view-collection-overview {
+  border-bottom: 1px solid #888;
+  padding-bottom: 1.5rem;
+  margin-bottom: 4.5rem;
+  .t1 {
+    margin-bottom: 1rem;
+  }
+}
+
+#export-content-btn {
+  color: #eee;
+  background: rgba($blue, 0.7);
+  margin-left: 0; /* override margin styles from .btn */
+  &:hover {
+    background: $blue;
+  }
+}
+
+.collection-view-controls-container {
+  display: inline-block;
+  .t2 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    padding-right: 0.75rem;
+    border-right: 1px solid #333;
+    margin-right: 1rem;
+  }
+}
+.collection-view-controls {
+  display: inline-block;
+  font-size: 0.875rem;
+  li {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1rem;
+  }
+  input[type="radio"] {
+    margin-right: 0.5rem;
+  }
+}
+
+#collection-wrapper {
+  margin-bottom: 2rem;
+}
+
+.collection-grid-sizer,
+.collection-gi {
+  width: 32%;
+}
+.item-source {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  color: #aaa;
+  &:before {
+    content: "Source: ";
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
+
+// Collections Overview (all of them)
+// ===================================
 .collections-grid {
   @include cf();
 }
@@ -42,17 +113,6 @@
 
 
 
-.overlay-container {
-  max-width: 30rem;
-  padding: 1rem 1rem 1.75rem;
-  margin: 0 auto;
-  background: #ebebeb;
-  .t2 {
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 1rem;
-  }
-}
 
 .page-controls {
   margin-bottom: 3rem;

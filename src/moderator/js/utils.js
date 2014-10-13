@@ -48,8 +48,7 @@ mod.utils = {
   redirect_to_login: function (message) {
 
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      /* TODO: use a real url */
-      alert( (message) ? message : 'Must login' );
+      if (message) alert(message);
       mod.utils.redirect_to('login.html');
     }
 
@@ -223,7 +222,8 @@ mod.utils = {
       get_question_types:           base_url+'get_question_types.json?token='+mod.TOKEN,
       create_user:                  base_url+'create_user.json?token='+mod.TOKEN,
       // publish
-      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN
+      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN,
+      upload:                       BASE_URL+'upload_media.json'
     }
 
     // save new urls

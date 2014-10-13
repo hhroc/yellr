@@ -245,6 +245,14 @@ def get_assignments(request):
         assignments = Assignments.get_all_open_with_questions(DBSession, \
             language_code, lat, lng)
 
+        counts = Assignments.get_all_open_response_count(
+            session = DBSession,
+            lat = lat,
+            lng = lng,
+        )
+
+        print counts
+
         ret_assignments = []
         for assignment_id, publish_datetime, expire_datetime, top_left_lat, \
                 top_left_lng, bottom_right_lat, bottom_right_lng, use_fence, \
@@ -695,7 +703,10 @@ def upload_media(request):
                 #TODO: dynamically find mogrify (but I think it's usually /usr/bin)
                 if True:
                 #try:
-                    subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+
+                    subprocess.call(['mogrify', '-strip', temp_file_path])
+                    # subprocess.call(['/usr/bin/mogrify', '-strip', temp_file_path])
+                    # subprocess.call(['/usr/local/bin/mogrify', '-strip', temp_file_path])
                 #except:
                 #    error_text = "Mogrify is missing, or in an unexpected place."
                 #    raise Exception('')
@@ -776,7 +787,7 @@ def upload_media(request):
         media_caption = ''
         #if True:
         try:
-            media_caption = request.POST['caption']
+            media_caption = request.POST['media_caption']
         except:
             pass
 

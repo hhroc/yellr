@@ -256,20 +256,7 @@ class Users(Base):
                 Users.user_name == str(user_name),
             ).first()
 
-            print "\n\n"
-            print user
-            print "\n\n"
-
             the_user = session.query(Users).first()
-
-            print "\n\n"
-            print the_user.verified
-            print the_user.user_type_id
-            print user_user_type_id
-            print type(the_user.user_name)
-            print type(str(user_name))
-            print the_user.user_name == str(user_name)
-            print "\n\n"
 
             token = None
             if user != None:

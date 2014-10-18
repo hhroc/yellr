@@ -1,0 +1,204 @@
+section#all-submissions.right-wrapper
+  //- h2.t4 Active Assignments
+  //- div.active-assignments-wrapper
+    ul#active-assignments-list
+    //- //- original markup
+    //- //- ===================================
+    //- ul#active-assignments-list
+    //-   li No active assignments
+    //-   li
+    //-     h3 Do you think that schools should move their start time to later?
+    //-     div.flex.assignment-meta
+    //-       div.flex-1
+    //-         a(href="#") View
+    //-       p.flex-2.assignment-deadline 2 weeks
+    //-   li
+    //-     h3 Life's love is my breath, yet I'm short of breat
+    //-     div.flex.assignment-meta
+    //-       div.flex-1
+    //-         a(href="#") View
+    //-       p.flex-2.assignment-deadline 2 weeks
+    //-   li
+    //-     h3 How could you let this happen? Where were you?
+    //-     div.flex.assignment-meta
+    //-       div.flex-1
+    //-         a(href="#") View
+    //-       p.flex-2.assignment-deadline 2 weeks
+
+
+
+  header.raw-feed-header
+    h2.h1 Raw Feed
+    label#auto-update
+      input(type="checkbox", checked)
+      span Auto Update
+
+  div.raw-feed-container
+    div.feed-filter-div
+      p.h2 Filter
+      div.filter-control
+        span.filter-type View
+        label
+          input(type="radio", name="view", value="grid", checked)
+          span Grid
+        label
+          input(type="radio", name="view", value="list")
+          span List
+      div.filter-control
+        span.filter-type Content Type
+        label
+          input(type="checkbox", name="type", checked, value="image")
+          span Image
+        label
+          input(type="checkbox", name="type", checked, value="video")
+          span Video
+        label
+          input(type="checkbox", name="type", checked, value="audio")
+          span Audio
+        label
+          input(type="checkbox", name="type", checked, value="text")
+          span Text
+      div.filter-control
+        span.filter-type Submission Type
+        label
+          input(type="radio", name="submission", value="all", checked)
+          span All
+        label
+          input(type="radio", name="submission", value="anonymous")
+          span Anonymous
+        label
+          input(type="radio", name="submission", value="validated")
+          span Validated
+
+    div#raw-feed.grid
+      //- CSS rules accompany these
+      //- used for packery.js
+      div.feed-sizer
+      div.feed-gutter
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+          p.item-source
+            a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+          p.item-source
+            a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            figure.media-file-image
+              img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
+              figcaption media_description
+            p.item-source
+              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+          p.item-source
+            a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            figure.media-file-image
+              img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
+              figcaption media_description
+            p.item-source
+              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+          p.item-source
+            a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            figure.media-file-image
+              img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
+              figcaption media_description
+            p.item-source
+              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+      div.feed-gi
+        div.story-item
+          div.media-preview(data-type="{{media_type}}")
+            p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+          p.item-source
+            a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+        div.story-meta.flex
+          div.flex-2 &nbsp;
+          ul.options-list.flex-1
+            li
+              i.fa.fa-comment(title="Leave feedback")
+            li
+              i.fa.fa-close(title="Remove from collection")
+
+
+  footer.raw-feed-footer Last updated: a few seconds ago

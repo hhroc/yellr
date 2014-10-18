@@ -1,9 +1,9 @@
 'use strict';
 var mod = mod || {};
 
-var DEBUG = true;
-// var BASE_URL = 'http://127.0.0.1:8080/';
-var BASE_URL = '/';
+var BASE_URL = '/',
+    AUTO_REFRESH = true;
+
 
 window.onload = function () {
 

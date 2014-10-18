@@ -1,16 +1,9 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var mod = mod || {};
 
-var DEBUG = true;
-// var BASE_URL = 'http://127.0.0.1:8080/';
-var BASE_URL = '/';
+var BASE_URL = '/',
+    AUTO_REFRESH = true;
+
 
 window.onload = function () {
 
@@ -367,6 +360,8 @@ mod.setup = {
      * index.html
      */
 
+    var pckry, grid;
+
     // get my assignments
     mod.assignments.get_my_assignments({
       callback: function () {
@@ -404,11 +399,43 @@ mod.setup = {
       }
     });
 
+
+
+    // setup the grid and filter things
+    // ----------------------------
+    // ----------------------------
+
+    // auto-update
+    document.querySelector('#auto-update').onclick = function (event) {
+      // set auto-refresh to true
+      if (event.target.checked === true) {
+        AUTO_REFRESH = true;
+        mod.utils.load_latest_posts();
+      } else {
+        // auto-refresh = false
+        AUTO_REFRESH = false;
+      }
+    }
+
+    // setup the filter
+    document.querySelector('.feed-filter-div').onclick = function (event) {
+      console.log('hello from: ');
+    }
+
+
+    // setup packery
+    grid = document.querySelector('#raw-feed');
+    pckry = new Packery(grid, {
+      itemSelector: '.feed-gi',
+      columnWidth: '.feed-sizer',
+      gutter: '.feed-gutter'
+    });
+
     // event listeners:
     // - send a message to a user who submitted content
     // - add post to a collection
     // - flag inappropriate content
-    document.querySelector('.submissions-grid').onclick = function(e) {
+    grid.onclick = function(e) {
       switch (e.target.className) {
 
         // add post to a collection
@@ -461,21 +488,21 @@ mod.setup = {
     };
 
 
-    // refresh the feed
-    $('#refresh-posts').on('click', function (e) {
+    // // refresh the feed
+    // $('#refresh-posts').on('click', function (e) {
 
-      // get latest posts
-      mod.posts.get_posts({
-        callback: function () {
-          mod.utils.render_template({
-            template: '#latest-posts-template',
-            target: '#latest-posts',
-            context: {posts: mod.DATA.posts}
-          });
-        }
-      });
+    //   // get latest posts
+    //   mod.posts.get_posts({
+    //     callback: function () {
+    //       mod.utils.render_template({
+    //         template: '#latest-posts-template',
+    //         target: '#latest-posts',
+    //         context: {posts: mod.DATA.posts}
+    //       });
+    //     }
+    //   });
 
-    });
+    // });
 
     // refresh posts every 10 seconds
     mod.utils.load_latest_posts();
@@ -503,21 +530,25 @@ mod.utils = {
 
 
   load_latest_posts: function () {
-    setTimeout(function () {
-      console.log('loading latest posts...');
-      mod.posts.get_posts({
-        callback: function () {
-          mod.utils.render_template({
-            template: '#latest-posts-template',
-            target: '#latest-posts',
-            context: {posts: mod.DATA.posts}
-          });
-        }
-      });
+    if (AUTO_REFRESH) {
+      setTimeout(function () {
+        console.log('loading latest posts...');
+        mod.posts.get_posts({
+          callback: function () {
+            mod.utils.render_template({
+              template: '#latest-posts-template',
+              target: '#latest-posts',
+              context: {posts: mod.DATA.posts}
+            });
+          }
+        });
 
-      // loop
-      mod.utils.load_latest_posts();
-    }, 10000);
+        // loop
+        mod.utils.load_latest_posts();
+      }, 10000);
+    } else {
+      return;
+    }
   },
 
 

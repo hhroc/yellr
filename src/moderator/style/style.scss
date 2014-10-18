@@ -4,6 +4,10 @@
 @import "../../common/style/pieces/base";
 @import "../../common/style/pieces/classes";
 
+body {
+  font-family: "Arial", sans-serif;
+}
+
 // libraries
 @import "../../common/style/libs/font-awesome/font-awesome";
 

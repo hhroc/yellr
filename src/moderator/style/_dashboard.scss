@@ -1,6 +1,77 @@
 // these are styles that apply to the entire dashboard
 // where they simply can't be categorized as belonging to a single page
 
+.h1 {
+  font-size: 3rem;
+  font-weight: normal;
+}
+.h2 {
+  font-weight: bold;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid;
+}
+.raw-feed-header {
+  margin-bottom: 2rem;
+  .h1 {
+    display: inline-block;
+    margin-right: 1.75rem;
+    margin: 0 1.75rem 0 0;
+  }
+}
+
+#auto-update {
+  display: inline-block;
+  span {
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
+  input {
+    margin: 0 0.75em 0 0;
+  }
+}
+
+
+.feed-filter-div {
+  display: inline-block;
+  background: #eee;
+  padding: 1.5rem 2rem 1rem;
+  margin-bottom: 1.5rem;
+  .h2 {
+    color: #555;
+    max-width: none;
+    border-color: #aaa;
+    margin-bottom: 1.75rem;
+  }
+}
+
+.filter-control {
+  display: inline-block;
+  vertical-align: bottom;
+  padding-right: 3rem;
+  &:last-child{padding-right: 0;}
+  label {padding-right: 0.75rem; }
+  input {margin-right: 0.35rem; }
+}
+
+.filter-type {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+
+.feed-sizer {
+  width: 10%;
+}
+.feed-gutter {
+  width: 1.5%;
+}
+
+
+
 #left {
   max-width: 12.25rem; // 196px
   min-width: 11.5rem; // 184px
@@ -10,21 +81,6 @@
 
 
 #right {position: relative; }
-
-
-#refresh-posts {
-  color: #eee;
-  background: lighten($blue, 15%);
-  text-align: center;
-  border-radius: 6px;
-  padding: 0.5rem;
-  transition: background 0.3s ease-out;
-  font-weight: normal;
-  &:hover {
-    cursor: pointer;
-    background: $blue;
-  }
-}
 
 
 

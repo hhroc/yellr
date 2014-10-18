@@ -68,6 +68,23 @@
     margin-right: 0;
   }
 }
+.primary-btn {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  background: #ebebeb;
+  color: $black;
+  width: 80%;
+  max-width: 10rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0 auto;
+  transition: background 0.3s ease-out;
+  &:hover {
+    background: $yellow;
+    cursor: pointer;
+  }
+}
 
 
 .form {

@@ -425,7 +425,7 @@ mod.setup = {
 
     // setup packery
     grid = document.querySelector('#raw-feed');
-    pckry = new Packery(grid, {
+    var pckry2 = new Packery(grid, {
       itemSelector: '.feed-gi',
       columnWidth: '.feed-sizer',
       gutter: '.feed-gutter'
@@ -436,6 +436,7 @@ mod.setup = {
     // - add post to a collection
     // - flag inappropriate content
     grid.onclick = function(e) {
+      console.log('lol');
       switch (e.target.className) {
 
         // add post to a collection

@@ -12,8 +12,72 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid;
 }
+
+
+
+
+
+// $1 Active Assignments
+// ===================================
+
+#active-assignments-container {
+  background: #f5f5f5;
+  padding: 2rem 2rem 0;
+  .h3 {
+    margin: 0 1em 1em 0;
+    font-size: 1.25rem;
+    display: inline-block;
+  }
+}
+.view-all-assignments {
+  color: #aaa;
+  font-size: 0.875rem;
+}
+
+#active-assignments-list {
+  display: flex;
+  overflow: overlay;
+  color: #aaa;
+  li {
+    $spacing: 2em;
+    flex: 1;
+    list-style: none;
+    min-width: 35%;
+    padding: $spacing/2+$spacing/4 $spacing $spacing 0;
+    border-right: 1px solid #ddd;
+    margin-right: $spacing;
+    // max-width: 20rem;
+    // &:last-child {
+    //   border-right: 1px solid #888;
+    // }
+  }
+  h3 {
+    font-size: 1.4rem;
+    font-weight: normal;
+    letter-spacing: 0.4px;
+    padding-bottom: 1em;
+    margin: 0;
+    a {text-transform: none;}
+  }
+  a {
+    color: #aaa;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+
+
+
+
+
+// $2 Raw Feed
+// ===================================
+
 .raw-feed-header {
-  margin-bottom: 2rem;
+  margin: 3rem 0 2rem;
   .h1 {
     display: inline-block;
     margin-right: 1.75rem;
@@ -87,7 +151,7 @@
 
 
 #overlay-div-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   width: 0;

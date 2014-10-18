@@ -98,7 +98,7 @@
       {{#if assignments}}
         {{#each assignments}}
         <li>
-          <h3>{{ questions.[0].question_text }}</h3>
+          <h3><a href="view-assignment.html# {{ assignment_id}}">{{ questions.[0].question_text }}</a></h3>
           <div class="flex assignment-meta">
             <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
             <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>

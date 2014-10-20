@@ -1,5 +1,5 @@
 'use strict';
-var mod = mod || {};
+var yellr = yellr || {};
 
 var BASE_URL = '/',
     AUTO_REFRESH = true;
@@ -10,7 +10,7 @@ window.onload = function () {
     // Handlebars check
     // -----------------------------
     if (!Handlebars || !$) {
-      console.log('missing dependencies for mod.utils.render_template');
+      console.log('missing dependencies for yellr.utils.render_template');
       return;
     }
     // ----------------------------
@@ -18,46 +18,47 @@ window.onload = function () {
 
 
     // check for pre-existing data, if none, create it
-    if (localStorage.getItem('yellr-mod') === null) mod.utils.redirect_to_login('Missing authentication token. Please login to continue');
-    else mod.utils.load_localStorage();
+    if (localStorage.getItem('yellr-mod') === null) yellr.utils.redirect_to_login();
+    else yellr.utils.load_localStorage();
 
     // make sure we have our DATA object setup
-    if (mod.DATA === undefined) mod.DATA = {};
+    if (yellr.DATA === undefined) yellr.DATA = {};
 
     // get our current page
-    mod.PAGE = document.querySelector('body').getAttribute('data-page');
+    var page = document.querySelector('body').getAttribute('data-page');
 
     // do specfic things for each page
-    switch (mod.PAGE) {
+    switch (page) {
       case 'index':
-        mod.setup.dashboard();
+        // the dashboard
+        yellr.view.index();
         break;
       case 'login':
-        mod.setup.login();
+        yellr.view.login();
         break;
       case 'assignments':
-        mod.setup.assignments_page();
+        yellr.view.assignments_page();
         break;
       case 'single-assignment':
-        mod.setup.single_assignment_view();
+        yellr.view.single_assignment_view();
         break;
       case 'editor':
-        mod.editor.init();
+        yellr.editor.init();
         break;
       case 'collections':
-        mod.setup.collections_page();
+        yellr.view.collections_page();
         break;
       case 'single-collection':
-        mod.setup.single_collection_view();
+        yellr.view.single_collection_view();
         break;
       case 'messages':
-        mod.setup.inbox();
+        yellr.view.inbox();
         break;
       default:
         console.log('lol ok');
         break;
     }
 
-    if (document.querySelector('#sidebar')) mod.utils.setup_sidebar();
+    if (document.querySelector('#sidebar')) yellr.utils.setup_sidebar();
 
 }

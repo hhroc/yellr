@@ -3,27 +3,6 @@ var mod = mod || {};
 
 mod.assignments = (function() {
 
-  var get_my_assignments = function (settings) {
-    // make the API call to get the Admin's assignments
-    $.getJSON(mod.URLS.get_my_assignments, function (response) {
-      if (response.success) {
-
-        mod.DATA.assignments = mod.utils.convert_object_to_array(response.assignments);
-        mod.utils.save();
-
-      } else {
-        console.log('something went wrong loading get_my_assignments');
-      }
-    }).done(function () {
-      if (settings.callback) settings.callback();
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
-  }
-
-
-
-
   // 'global' vars
   var questions = [],
       survey_answers = [],
@@ -40,62 +19,35 @@ mod.assignments = (function() {
       $post_btn;
 
 
+      // // setup the action buttons for each resposne
+      // $('#assignment-replies-list').on('click', function (e) {
+      //   switch (e.target.className) {
+      //     case 'fa fa-plus':
+      //       // get the DOM references
+      //       var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
+      //           collectionNode = document.querySelector('#assignment-collection-list');
 
-  var get_responses_for = function (settings) {
+      //       // add post to collection
+      //       mod.collections.add_post_to_collection(postNode, collectionNode);
+      //       break;
 
-    // get our assignment respones
-    // render them to HTML
-    // this also sets up the event listeners
-
-    // get assignment responses
-    $.ajax({
-      url: mod.URLS.get_assignment_responses+'&assignment_id='+settings.assignment_id,
-      type: 'POST',
-      dataType: 'json',
-      success: function (response) {
-
-        if (response.success) {
-          if (settings.callback) settings.callback(response.posts);
-        } else {
-          console.log('lol Something went wrong loading assignment reponses');
-        }
-      }
-    }).done(function () {
-
-      // setup the action buttons for each resposne
-      $('#assignment-replies-list').on('click', function (e) {
-        switch (e.target.className) {
-          case 'fa fa-plus':
-            // get the DOM references
-            var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
-                collectionNode = document.querySelector('#assignment-collection-list');
-
-            // add post to collection
-            mod.collections.add_post_to_collection(postNode, collectionNode);
-            break;
-
-          case 'fa fa-comment':
-            console.log('write a message');
-            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-            mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-            break;
-          case 'fa fa-flag':
-            console.log('mark as ain appropriate');
-            break;
-          case 'fa fa-trash':
-            console.log('discard this reply');
-            break;
-          default:
-            break;
-        }
-      });
-
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
+      //     case 'fa fa-comment':
+      //       console.log('write a message');
+      //       var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+      //       mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+      //       break;
+      //     case 'fa fa-flag':
+      //       console.log('mark as ain appropriate');
+      //       break;
+      //     case 'fa fa-trash':
+      //       console.log('discard this reply');
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // });
 
 
-  }
 
 
   var view = function (assignment_id) {
@@ -456,8 +408,6 @@ mod.assignments = (function() {
     post: post,
     save_draft: save_draft,
     preview_assignment: preview_assignment,
-    language_feedback: language_feedback,
-    get_my_assignments: get_my_assignments,
-    get_responses_for: get_responses_for
+    language_feedback: language_feedback
   }
 })();

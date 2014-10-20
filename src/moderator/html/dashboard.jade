@@ -30,7 +30,7 @@ section#dashboard
   div#raw-feed-container.right-wrapper
     header.raw-feed-header
       h2.h1 Raw Feed
-      div.filter-control
+      div#feed-view.filter-control
         span.filter-type View
         label
           input(type="radio", name="view", value="grid", checked)
@@ -41,7 +41,7 @@ section#dashboard
       label#auto-update
         input(type="checkbox", checked)
         span Auto Update
-
+        p.feed-updated-feedback Last updated: a few seconds ago
 
     div.raw-feed-container
       div.feed-filter-div
@@ -78,37 +78,8 @@ section#dashboard
         div.feed-sizer
         div.feed-gutter
 
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
-            p.item-source
-              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
 
-
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
-            p.item-source
-              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
-
-
-        div.feed-gi
+        //- div.feed-gi
           div.story-item
             div.media-preview(data-type="{{media_type}}")
               figure.media-file-image
@@ -125,7 +96,7 @@ section#dashboard
                 i.fa.fa-close(title="Remove from collection")
 
 
-        div.feed-gi
+        //- div.feed-gi
           div.story-item
             div.media-preview(data-type="{{media_type}}")
               p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
@@ -138,69 +109,3 @@ section#dashboard
                 i.fa.fa-comment(title="Leave feedback")
               li
                 i.fa.fa-close(title="Remove from collection")
-
-
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              figure.media-file-image
-                img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
-                figcaption media_description
-              p.item-source
-                a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
-
-
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
-            p.item-source
-              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
-
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              figure.media-file-image
-                img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
-                figcaption media_description
-              p.item-source
-                a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
-
-
-        div.feed-gi
-          div.story-item
-            div.media-preview(data-type="{{media_type}}")
-              p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
-            p.item-source
-              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
-          div.story-meta.flex
-            div.flex-2 &nbsp;
-            ul.options-list.flex-1
-              li
-                i.fa.fa-comment(title="Leave feedback")
-              li
-                i.fa.fa-close(title="Remove from collection")
-
-
-    footer.raw-feed-footer Last updated: a few seconds ago

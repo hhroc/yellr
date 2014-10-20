@@ -56,7 +56,7 @@
           <div id="raw-feed-container" class="right-wrapper">
             <header class="raw-feed-header">
               <h2 class="h1">Raw Feed</h2>
-              <div class="filter-control"><span class="filter-type">View</span>
+              <div id="feed-view" class="filter-control"><span class="filter-type">View</span>
                 <label>
                   <input type="radio" name="view" value="grid" checked><span>Grid</span>
                 </label>
@@ -66,6 +66,7 @@
               </div>
               <label id="auto-update">
                 <input type="checkbox" checked><span>Auto Update</span>
+                <p class="feed-updated-feedback">Last updated: a few seconds ago</p>
               </label>
             </header>
             <div class="raw-feed-container">
@@ -100,135 +101,8 @@
               <div id="raw-feed" class="grid">
                 <div class="feed-sizer"></div>
                 <div class="feed-gutter"></div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <figure class="media-file-image"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg">
-                        <figcaption>media_description</figcaption>
-                      </figure>
-                      <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                    </div>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <figure class="media-file-image"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg">
-                        <figcaption>media_description</figcaption>
-                      </figure>
-                      <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                    </div>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <figure class="media-file-image"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg">
-                        <figcaption>media_description</figcaption>
-                      </figure>
-                      <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                    </div>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="feed-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
-                  </div>
-                </div>
               </div>
             </div>
-            <footer class="raw-feed-footer">Last updated: a few seconds ago</footer>
           </div>
         </section>
       </div>
@@ -671,10 +545,10 @@
       </li>
       {{/each}}
     </script>
-    <script id="latest-posts-template" type="text/x-handlebars-template">
+    <script id="raw-feed-item" type="text/x-handlebars-template">
       {{#if posts}}
         {{#each posts}}
-        <div class="gi">
+        <div class="feed-gi">
           <div class="story-item">
             <p class="description">{{ title }}</p>
             {{#each media_objects }}

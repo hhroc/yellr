@@ -2194,6 +2194,13 @@ body {
   color: #ebebeb;
 }
 
+.feed-updated-feedback {
+  margin-top: .35rem;
+  margin-bottom: 0;
+  font-size: .875rem;
+  color: #999;
+}
+
 .dropdown-container {
   position: relative;
   border-top: 1px solid #ebebeb;
@@ -2270,6 +2277,9 @@ body {
 }
 
 .media-text {
+  font-size: 1.125rem;
+}
+.media-text.large {
   font-size: 2.5rem;
   line-height: 1.2;
 }
@@ -2766,12 +2776,18 @@ body {
 
 .feed-gi,
 .feed-sizer {
-  width: 32%;
+  width: 46%;
 }
 @media only screen and (min-width: 768px) {
   .feed-gi,
   .feed-sizer {
-    width: 25%;
+    width: 32%;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .feed-gi,
+  .feed-sizer {
+    width: 22%;
   }
 }
 

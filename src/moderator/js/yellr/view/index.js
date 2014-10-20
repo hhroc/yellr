@@ -4,7 +4,7 @@ var yellr = yellr || {};
 
 // index.html
 
-yellr.view.dashboard: function () {
+yellr.view.index = function () {
 
     /**
      * setup the Yellr Admin dashboard
@@ -39,13 +39,13 @@ yellr.view.dashboard: function () {
       });
 
       // render html
-     yellr.utils.render_template({
+      yellr.utils.render_template({
         template: '#active-assignment-template',
         target: '#active-assignments-list',
         context: {assignments: latest_4_assignments }
       });
 
-    );
+    });
 
 
     // get latest posts
@@ -196,22 +196,6 @@ yellr.view.dashboard: function () {
     };
 
 
-    // // refresh the feed
-    // $('#refresh-posts').on('click', function (e) {
-
-    //   // get latest posts
-    //   yellr.posts.get_posts({
-    //     callback: function () {
-    //       yellr.utils.render_template({
-    //         template: '#latest-posts-template',
-    //         target: '#latest-posts',
-    //         context: {posts: yellr.DATA.posts}
-    //       });
-    //     }
-    //   });
-
-    // });
-
     // refresh posts every 10 seconds
     yellr.utils.load_latest_posts();
-  }
+}

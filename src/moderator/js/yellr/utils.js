@@ -22,14 +22,12 @@ yellr.utils = {
     if (AUTO_REFRESH) {
       setTimeout(function () {
         console.log('loading latest posts...');
-        yellr.posts.get_posts({
-          callback: function () {
-            yellr.utils.render_template({
-              template: '#latest-posts-template',
-              target: '#latest-posts',
-              context: {posts: yellr.DATA.posts}
-            });
-          }
+        yellr.server.get_posts(function () {
+          yellr.utils.render_template({
+            template: '#raw-feed-item',
+            target: '#raw-feed',
+            context: {posts: yellr.DATA.posts}
+          });
         });
 
         // loop
@@ -49,10 +47,8 @@ yellr.utils = {
 
 
 
-  redirect_to_login: function (message) {
-
+  redirect_to_login: function () {
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      if (message) alert(message);
       yellr.utils.redirect_to('login.html');
     }
 
@@ -306,7 +302,7 @@ yellr.utils = {
   setup_sidebar: function () {
     // set up the Post question form
     // it is ony evry page
-    document.querySelector('#post-question-btn').onclick = yellr.assignments.setup_form;
+    // document.querySelector('#post-question-btn').onclick = yellr.assignments.setup_form;
     document.querySelector('#logout-btn').onclick = yellr.utils.logout;
   }
 

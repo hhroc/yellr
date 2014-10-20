@@ -1,5 +1,5 @@
 'use strict';
-var mod = mod || {};
+var yellr = yellr || {};
 
 var BASE_URL = '/',
     AUTO_REFRESH = true;
@@ -10,7 +10,7 @@ window.onload = function () {
     // Handlebars check
     // -----------------------------
     if (!Handlebars || !$) {
-      console.log('missing dependencies for mod.utils.render_template');
+      console.log('missing dependencies for yellr.utils.render_template');
       return;
     }
     // ----------------------------
@@ -18,838 +18,55 @@ window.onload = function () {
 
 
     // check for pre-existing data, if none, create it
-    if (localStorage.getItem('yellr-mod') === null) mod.utils.redirect_to_login('Missing authentication token. Please login to continue');
-    else mod.utils.load_localStorage();
+    if (localStorage.getItem('yellr-mod') === null) yellr.utils.redirect_to_login();
+    else yellr.utils.load_localStorage();
 
     // make sure we have our DATA object setup
-    if (mod.DATA === undefined) mod.DATA = {};
+    if (yellr.DATA === undefined) yellr.DATA = {};
 
     // get our current page
-    mod.PAGE = document.querySelector('body').getAttribute('data-page');
+    var page = document.querySelector('body').getAttribute('data-page');
 
     // do specfic things for each page
-    switch (mod.PAGE) {
+    switch (page) {
       case 'index':
-        mod.setup.dashboard();
+        // the dashboard
+        yellr.view.index();
         break;
       case 'login':
-        mod.setup.login();
+        yellr.view.login();
         break;
       case 'assignments':
-        mod.setup.assignments_page();
+        yellr.view.assignments_page();
         break;
       case 'single-assignment':
-        mod.setup.single_assignment_view();
+        yellr.view.single_assignment_view();
         break;
       case 'editor':
-        mod.editor.init();
+        yellr.editor.init();
         break;
       case 'collections':
-        mod.setup.collections_page();
+        yellr.view.collections_page();
         break;
       case 'single-collection':
-        mod.setup.single_collection_view();
+        yellr.view.single_collection_view();
         break;
       case 'messages':
-        mod.setup.inbox();
+        yellr.view.inbox();
         break;
       default:
         console.log('lol ok');
         break;
     }
 
-    if (document.querySelector('#sidebar')) mod.utils.setup_sidebar();
+    if (document.querySelector('#sidebar')) yellr.utils.setup_sidebar();
 
 }
-
-'use strict';
-var mod = mod || {};
-
-// this contains very specific DOM refernces based on each page
-// the rest of the JS files try to remain as agnostic as possible
-
-mod.setup = {
-
-
-  single_collection_view: function () {
-
-    // local vars
-    // ----------------------------
-    var items = [],
-        // collection_id (from URL hash)
-        collection_id = 0,
-        // DOM references
-        view_controls,
-        export_btn,
-        grid,
-        // packery.js object
-        pckry;
-
-
-    // get the URL hash --> load the correct collection
-    collection_id = parseInt(window.location.hash.split('#')[1]);
-
-    // ping the server for that collection
-    mod.collections.get_collection(collection_id, function (response) {
-
-      // show collection name
-      document.querySelector('.t1').innerHTML = response.collection_name;
-
-      // render the collection items
-      mod.utils.render_template({
-        template: '#view-collection-gi-template',
-        target: '#collection-wrapper',
-        context: {
-          collection: response.collection
-        },
-        append: true
-      });
-
-      // setup grid
-      items = document.querySelectorAll('.collection-gi');
-
-      // delay packery so browser has time to render the new HTML
-      setTimeout(function () {
-        pckry = new Packery(grid, {
-          itemSelector: '.collection-gi',
-          // columnWidth: 60,
-          columnWidth: '.collection-grid-sizer',
-          gutter: '.gutter-sizer'
-        });
-      }, 500);
-
-    });
-
-
-
-    // send user a message / remove post from collection
-    grid = document.querySelector('#collection-wrapper');
-    grid.onclick = function (event) {
-      if (event.target.className === 'fa fa-comment') {
-        alert('Send message');
-      } else if (event.target.className === 'fa fa-close') {
-        alert('Remove item from collection');
-      }
-    }
-
-
-
-    // download .zip file of media collection
-    export_btn = document.querySelector('#export-content-btn');
-    export_btn.onclick = function (event) {
-      alert('TODO: Download zip file of media collection');
-    }
-
-
-    // [X] grid  or  [ ] list
-    view_controls = document.querySelector('.collection-view-controls');
-    // click to change view
-    view_controls.onclick = function (event) {
-
-      // for each case we either:
-      //    1. reinitilize the packery grid, or
-      //    2. destroy the packery grid
-      // there are specific styles attached to each
-      // so we loops through the grid items and change classNames
-
-      if (event.target.checked) {
-        if (event.target.defaultValue === 'list') {
-          pckry.destroy();
-          // change all classnames to '.gi'
-          for (var i = 0; i < items.length; i++) items[i].className = 'gi';
-        } else {
-          // make sure items have class of '.collections-gi'
-          for (var i = 0; i < items.length; i++) items[i].className = 'collection-gi';
-          // reinitialize packery
-          pckry = new Packery(grid, {
-            itemSelector: '.collection-gi',
-            // columnWidth: 60,
-            columnWidth: '.collection-grid-sizer',
-            gutter: '.gutter-sizer'
-          });
-        }
-      }
-    }
-
-  },
-
-
-  login: function () {
-
-    var $form = $('#mod-login');
-
-    $form.submit(function (e) {
-      e.preventDefault();
-      var fields = $form.serializeArray();
-
-      mod.utils.login(fields[0].value, fields[1].value);
-    });
-  },
-
-
-
-  assignments_page: function () {
-    mod.assignments.get_my_assignments({
-      callback: function () {
-        console.log(mod.DATA.assignments);
-
-        // prep our assignments context
-        var assignments = mod.DATA.assignments.filter(function (val, i, arr) {
-          val.title = val.questions[0].question_text;
-          val.expire_datetime = moment(val.expire_datetime).format('MMM Do YYYY');
-          val.url = 'view-assignment.html#'+val.assignment_id;
-          return true;
-        })
-
-        // render html
-        mod.utils.render_template({
-          template: '#my-assignment-li',
-          target: '.my-assignments-list',
-          context: {assignments: assignments}
-        });
-      }
-    });
-
-  },
-
-
-
-  single_assignment_view: function () {
-
-    var assignment_id = parseInt(window.location.hash.split('#')[1]);
-
-    if (assignment_id !== NaN) {
-      // render the question text and things
-      mod.assignments.view(assignment_id);
-
-      // get replies to question
-      mod.assignments.get_responses_for({
-        assignment_id: assignment_id,
-        callback: function (posts) {
-          var replies = mod.utils.convert_object_to_array(posts);
-
-          mod.utils.render_template({
-            template: '#assignment-response-li-template',
-            target: '#assignment-replies-list',
-            context: {replies: replies}
-          });
-
-          // parse UTC dates with moment.js
-          var deadline = document.querySelector('.assignment-deadline');
-              deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-          var published = document.querySelector('.assignment-published');
-              published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
-
-        }
-      });
-
-      // get assignment collection
-      mod.collections.get_collection(assignment_id, function (response) {
-        mod.utils.render_template({
-          template: '#collections-li-template',
-          target: '#assignment-collection-list',
-          context: {
-            collection: response.collection
-          }
-        })
-      });
-      // set the collection_id attribute to the #assignment-collections-list
-      document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
-
-    }
-
-
-  },
-
-
-  collections_page: function () {
-
-    // get my collections
-    mod.collections.get_my_collections({
-      callback: function () {
-
-        // parse datetime with moment.js
-        // add url attribute for Handlebar template peace of mind
-        var collections = mod.DATA.collections.filter(function (val, i ,arr) {
-          val.collection_datetime = moment(val.collection_datetime).format('MMM Do YYYY');
-          val.url = 'view-collection.html#'+val.collection_id;
-          return true;
-        });
-
-        // render html
-        mod.utils.render_template({
-          template: '#collections-gi-template',
-          target: '.collections-grid',
-          context: {collections: collections}
-        });
-      }
-    });
-
-
-    // hook up the buttons
-    document.querySelector('#new-collection-btn').onclick = function (e) {
-
-      mod.utils.show_overlay({template: '#collections-form-template'});
-      mod.collections.setup_form();
-
-    }
-    document.querySelector('#delete-collection-btn').onclick = function (e) {
-      console.log('delete collection');
-    }
-
-
-
-  },
-
-
-  inbox: function () {
-
-    // check for new messages
-    // (alert user of this action)
-    mod.messages.get_messages({
-      feedback: true,
-      callback: function () {
-
-        var filtered_messages = mod.messages.filter_messages();
-
-        // render messages
-        mod.utils.render_template({
-          template: '#inbox-li',
-          target: '#unread-mail-list',
-          context: {messages: filtered_messages.unread}
-        });
-
-        mod.utils.render_template({
-          template: '#inbox-li',
-          target: '#read-mail-list',
-          context: {messages: filtered_messages.read}
-        });
-      }
-    });
-
-
-
-    // view a message
-    document.querySelector('#inbox').onclick = function view_message(e) {
-
-      // read the data-id attribute of the right node
-      var message_id = (e.target.nodeName === 'LI') ? e.target.getAttribute('data-id') : e.target.parentNode.getAttribute('data-id'),
-          message = mod.DATA.messages.filter(function (val, i, arr) {
-            if (val.message_id === parseInt(message_id)) return true;
-          })[0];
-
-      mod.utils.show_overlay({
-        template: '#view-message-template',
-        context: message
-      });
-
-    };
-
-
-    // create a new message
-    document.querySelector('#new-message-btn').onclick = function() {
-      mod.messages.create_new_message();
-    }
-  },
-
-
-  dashboard: function () {
-
-    /**
-     * setup the Yellr Admin dashboard
-     * index.html
-     */
-
-    var pckry, grid;
-
-    // get my assignments
-    mod.assignments.get_my_assignments({
-      callback: function () {
-        // get 4 latest
-        var latest_4_assignments = [];
-        for (var i = 0; i < mod.DATA.assignments.length; i++) {
-          latest_4_assignments.push(mod.DATA.assignments[i]);
-          if (latest_4_assignments.length >= 4) break;
-        };
-
-        // use moment.js
-        latest_4_assignments.filter(function (val) {
-          val.expire_datetime = moment(val.expire_datetime).fromNow(true);
-        });
-
-        // render html
-        mod.utils.render_template({
-          template: '#active-assignment-template',
-          target: '#active-assignments-list',
-          context: {assignments: latest_4_assignments }
-        });
-
-      }
-    });
-
-
-    // get latest posts
-    mod.posts.get_posts({
-      callback: function () {
-        mod.utils.render_template({
-          template: '#latest-posts-template',
-          target: '#latest-posts',
-          context: {posts: mod.DATA.posts}
-        });
-      }
-    });
-
-
-
-    // setup the grid and filter things
-    // ----------------------------
-    // ----------------------------
-
-    // auto-update
-    document.querySelector('#auto-update').onclick = function (event) {
-      // set auto-refresh to true
-      if (event.target.checked === true) {
-        AUTO_REFRESH = true;
-        mod.utils.load_latest_posts();
-      } else {
-        // auto-refresh = false
-        AUTO_REFRESH = false;
-      }
-    }
-
-    // setup the filter
-    document.querySelector('.feed-filter-div').onclick = function (event) {
-      console.log('hello from: ');
-    }
-
-
-    // setup packery
-    grid = document.querySelector('#raw-feed');
-    var pckry2 = new Packery(grid, {
-      itemSelector: '.feed-gi',
-      columnWidth: '.feed-sizer',
-      gutter: '.feed-gutter'
-    });
-
-    // event listeners:
-    // - send a message to a user who submitted content
-    // - add post to a collection
-    // - flag inappropriate content
-    grid.onclick = function(e) {
-      console.log('lol');
-      switch (e.target.className) {
-
-        // add post to a collection
-        case 'fa fa-folder':
-          // show a list of collections via a dropdown
-          // pass in the DOM element
-          mod.feed.toggle_collections_dropdown(e.target);
-          break;
-
-        // send user a message
-        case 'fa fa-comment':
-
-          var domNode = e.target.offsetParent.querySelector('.meta-div'),
-              postID = parseInt(domNode.getAttribute('data-post-id')),
-              data = mod.DATA.posts.filter(function (val, i, arr) {
-                if (val.post_id === postID) return true;
-              })[0];
-
-          mod.utils.show_overlay({
-            template: '#send-message-template',
-            context: {
-              uid: data.client_id,
-              subject: 'RE: '+data.title
-            }
-          });
-
-          var $form = $('#send-message-form');
-          $form.submit(function (e) {
-            e.preventDefault();
-            var array = $form.serializeArray();
-
-            mod.messages.send_message({
-              to: array[0],
-              subject: array[1],
-              text: array[2],
-              callback: function () {
-                mod.utils.clear_overlay();
-              }
-            });
-          });
-
-          break;
-        // flag as inappropriate
-        case 'fa fa-flag':
-          console.log('report the motherfucker');
-          break;
-        default:
-          break;
-      }
-    };
-
-
-    // // refresh the feed
-    // $('#refresh-posts').on('click', function (e) {
-
-    //   // get latest posts
-    //   mod.posts.get_posts({
-    //     callback: function () {
-    //       mod.utils.render_template({
-    //         template: '#latest-posts-template',
-    //         target: '#latest-posts',
-    //         context: {posts: mod.DATA.posts}
-    //       });
-    //     }
-    //   });
-
-    // });
-
-    // refresh posts every 10 seconds
-    mod.utils.load_latest_posts();
-  }
-}
-
-'use strict';
-var mod = mod || {};
-
-mod.utils = {
-
-  convert_object_to_array: function (object) {
-    var array = [];
-    for (var key in object) {
-      array.push(object[key]);
-    }
-    return array;
-  },
-
-
-  notify: function (text) {
-    // TODO
-    console.log(text);
-  },
-
-
-  load_latest_posts: function () {
-    if (AUTO_REFRESH) {
-      setTimeout(function () {
-        console.log('loading latest posts...');
-        mod.posts.get_posts({
-          callback: function () {
-            mod.utils.render_template({
-              template: '#latest-posts-template',
-              target: '#latest-posts',
-              context: {posts: mod.DATA.posts}
-            });
-          }
-        });
-
-        // loop
-        mod.utils.load_latest_posts();
-      }, 10000);
-    } else {
-      return;
-    }
-  },
-
-
-
-  redirect_to: function (page) {
-    var url_base = '/moderator/';
-    window.location.replace(url_base+page);
-  },
-
-
-
-  redirect_to_login: function (message) {
-
-    if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      if (message) alert(message);
-      mod.utils.redirect_to('login.html');
-    }
-
-  },
-
-
-  login: function (username, password) {
-
-    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
-
-    // $form
-    $.ajax({
-      type: 'POST',
-      url: url,
-      dataType: 'json',
-      success: function (data) {
-        if (data.success) {
-          mod.TOKEN = data.token;
-          mod.utils.save();
-          mod.utils.set_urls();
-
-          // load languages
-          $.ajax({
-            url: mod.URLS.get_languages,
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-              if (response.success) {
-                mod.DATA.languages = response.languages;
-                mod.utils.save();
-              } else {
-                alert('Something went wrong loading Languages. Things might get weird from here...');
-              }
-            }
-          }).done(function () {
-            console.log('done loading languages');
-            mod.utils.redirect_to('index.html');
-          });
-
-        } else {
-          document.querySelector('#login-feedback').innerHTML = data.error_text;
-        }
-      }
-    });
-
-  },
-
-
-  logout: function () {
-    localStorage.removeItem('yellr-mod');
-    mod.utils.redirect_to_login('You have been logged out');
-  },
-
-
-  load_localStorage: function () {
-
-    // get auth token
-    var local = JSON.parse(localStorage.getItem('yellr-mod'));
-    mod.DATA        = local.DATA;
-    mod.SETTINGS    = local.SETTINGS;
-    mod.TOKEN       = local.TOKEN;
-    mod.URLS        = local.URLS;
-
-  },
-
-
-  load: function (settings) {
-
-    /**
-     * settings = {
-     *   data - is the object name of the data we want
-     *   saveAs - save the reponse the the DATA object as this parameter
-     *     * only works if saveAs is the same as the response, else use callback to handle it
-     *   callback - do things with the server response
-     * }
-     */
-
-    // setup our data object
-    if (mod.DATA === undefined) mod.DATA = {};
-
-    // do te things
-    $.getJSON(mod.URLS[settings.data], function(response) {
-
-      if (response.success) {
-
-        // save the JSON data directly
-        if (settings.saveAs) {
-
-          // sometimes what we get back is an object
-          // we iterate through the objects keys to generate an array we can use
-          if (Array.isArray(response[settings.saveAs]) === false) {
-
-            var array = [];
-            for (var key in response.posts) {
-              array.push(response.posts[key]);
-            }
-            mod.DATA[settings.saveAs] = array;
-
-          } else {
-            // if it's already an array, just set it
-            mod.DATA[settings.saveAs] = response[settings.saveAs];
-          }
-
-          if (settings.saveAs === 'posts') {
-
-            mod.DATA.posts.reverse();
-          }
-
-          // save the data
-          mod.utils.save();
-        }
-        // or do stuff with it
-        if (settings.callback) settings.callback(response);
-      } else {
-
-        console.log(response);
-        console.log(mod.URLS[settings.data]);
-        console.log(''+
-          'Something went wrong loading: '+ settings.data+'\n'+
-          'This could be because your previous session has expired. Please log back in');
-        // mod.utils.redirect_to_login(''+
-        //   'Something went wrong loading: '+ settings.data+'\n'+
-        //   'This could be because your previous session has expired. Please log back in');
-
-
-      }
-    });
-    // /end getJSON
-
-  },
-
-
-  save: function() {
-
-    localStorage.setItem('yellr-mod', JSON.stringify({
-      DATA      : mod.DATA,
-      SETTINGS  : mod.SETTINGS,
-      TOKEN     : mod.TOKEN,
-      URLS      : mod.URLS
-    }));
-
-  },
-
-
-  set_urls: function () {
-
-    var base_url = BASE_URL+'admin/';
-
-    mod.URLS = {
-      // get latest user posts
-      get_posts:                    base_url+'get_posts.json?token='+mod.TOKEN,
-      // messaging
-      get_my_messages:              base_url+'get_my_messages.json?token='+mod.TOKEN,
-      create_message:               base_url+'create_message.json?token='+mod.TOKEN,
-      // questions/assignments
-      create_question:              base_url+'create_question.json?token='+mod.TOKEN,
-      get_my_assignments:           base_url+'get_my_assignments.json?token='+mod.TOKEN,
-      publish_assignment:           base_url+'publish_assignment.json?token='+mod.TOKEN,
-      update_assignment:            base_url+'update_assignment.json?token='+mod.TOKEN,
-      get_assignment_responses:     base_url+'get_assignment_responses.json?token='+mod.TOKEN,
-      // collections
-      create_collection:            base_url+'create_collection.json?token='+mod.TOKEN,
-      get_my_collections:           base_url+'get_my_collections.json?token='+mod.TOKEN,
-      disable_collection:           base_url+'disable_collection.json?token='+mod.TOKEN,
-      add_post_to_collection:       base_url+'add_post_to_collection.json?token='+mod.TOKEN,
-      remove_post_from_collection:  base_url+'remove_post_from_collection.json?token='+mod.TOKEN,
-      get_collection_posts:         base_url+'get_collection_posts.json?token='+mod.TOKEN,
-      // meta
-      get_languages:                base_url+'get_languages.json?token='+mod.TOKEN,
-      get_question_types:           base_url+'get_question_types.json?token='+mod.TOKEN,
-      create_user:                  base_url+'create_user.json?token='+mod.TOKEN,
-      // publish
-      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN,
-      upload:                       BASE_URL+'upload_media.json'
-    }
-
-    // save new urls
-    mod.utils.save();
-
-  },
-
-
-
-  show_overlay: function (args) {
-
-    var overlay = document.querySelector('#overlay-div-container');
-    overlay.className = 'active';
-
-    // listen for a close event
-    overlay.onclick = mod.utils.clear_overlay;
-
-
-    if (args) {
-      this.render_template({
-        template: args.template,
-        context: args.context,
-        target: overlay
-      })
-    }
-
-  },
-
-
-
-  clear_overlay: function (e) {
-    if (e === undefined || e.target.id === 'overlay-div-container') {
-      var overlay = document.querySelector('#overlay-div-container');
-      overlay.className = '';
-      overlay.removeEventListener('click', mod.utils.clear_overlay,false);
-      return;
-    }
-  },
-
-
-
-
-  render_template: function(settings) {
-    /**
-     * Dependencies: Handlebar.js, zepto.js (or jQuery.js)
-     *
-     * settings = {
-     *   template: '#script-id',
-     *   target: '#query-string',
-     *   context: {},
-     *   events: func
-     * }
-     */
-
-
-    // get Handlebar template
-    if (!settings.template || settings.template ==='') {
-      $(settings.target).html(''); // if template is empty, clear HTML of target
-      return;
-    };
-    var template = Handlebars.compile($(settings.template).html());
-
-    // render it (check it we have a context)
-    var html = template( settings.context ? settings.context : {} );
-
-    // replace html, or return HTML frag
-    if (settings.append) $(settings.target).append(html);
-    else if (settings.prepend) $(settings.target).prepend(html);
-    else $(settings.target).html(html);
-
-  },
-
-
-
-
-  setup_sidebar: function () {
-    // set up the Post question form
-    // it is ony evry page
-    document.querySelector('#post-question-btn').onclick = mod.assignments.setup_form;
-    document.querySelector('#logout-btn').onclick = mod.utils.logout;
-  }
-
-
-};
 
 'use strict';
 var mod = mod || {};
 
 mod.assignments = (function() {
-
-  var get_my_assignments = function (settings) {
-    // make the API call to get the Admin's assignments
-    $.getJSON(mod.URLS.get_my_assignments, function (response) {
-      if (response.success) {
-
-        mod.DATA.assignments = mod.utils.convert_object_to_array(response.assignments);
-        mod.utils.save();
-
-      } else {
-        console.log('something went wrong loading get_my_assignments');
-      }
-    }).done(function () {
-      if (settings.callback) settings.callback();
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
-  }
-
-
-
 
   // 'global' vars
   var questions = [],
@@ -867,62 +84,35 @@ mod.assignments = (function() {
       $post_btn;
 
 
+      // // setup the action buttons for each resposne
+      // $('#assignment-replies-list').on('click', function (e) {
+      //   switch (e.target.className) {
+      //     case 'fa fa-plus':
+      //       // get the DOM references
+      //       var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
+      //           collectionNode = document.querySelector('#assignment-collection-list');
 
-  var get_responses_for = function (settings) {
+      //       // add post to collection
+      //       mod.collections.add_post_to_collection(postNode, collectionNode);
+      //       break;
 
-    // get our assignment respones
-    // render them to HTML
-    // this also sets up the event listeners
-
-    // get assignment responses
-    $.ajax({
-      url: mod.URLS.get_assignment_responses+'&assignment_id='+settings.assignment_id,
-      type: 'POST',
-      dataType: 'json',
-      success: function (response) {
-
-        if (response.success) {
-          if (settings.callback) settings.callback(response.posts);
-        } else {
-          console.log('lol Something went wrong loading assignment reponses');
-        }
-      }
-    }).done(function () {
-
-      // setup the action buttons for each resposne
-      $('#assignment-replies-list').on('click', function (e) {
-        switch (e.target.className) {
-          case 'fa fa-plus':
-            // get the DOM references
-            var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
-                collectionNode = document.querySelector('#assignment-collection-list');
-
-            // add post to collection
-            mod.collections.add_post_to_collection(postNode, collectionNode);
-            break;
-
-          case 'fa fa-comment':
-            console.log('write a message');
-            var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-            mod.messages.create_message(uid, 'RE: Recent post on Yellr');
-            break;
-          case 'fa fa-flag':
-            console.log('mark as ain appropriate');
-            break;
-          case 'fa fa-trash':
-            console.log('discard this reply');
-            break;
-          default:
-            break;
-        }
-      });
-
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
+      //     case 'fa fa-comment':
+      //       console.log('write a message');
+      //       var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
+      //       mod.messages.create_message(uid, 'RE: Recent post on Yellr');
+      //       break;
+      //     case 'fa fa-flag':
+      //       console.log('mark as ain appropriate');
+      //       break;
+      //     case 'fa fa-trash':
+      //       console.log('discard this reply');
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // });
 
 
-  }
 
 
   var view = function (assignment_id) {
@@ -1283,9 +473,7 @@ mod.assignments = (function() {
     post: post,
     save_draft: save_draft,
     preview_assignment: preview_assignment,
-    language_feedback: language_feedback,
-    get_my_assignments: get_my_assignments,
-    get_responses_for: get_responses_for
+    language_feedback: language_feedback
   }
 })();
 
@@ -1293,100 +481,6 @@ mod.assignments = (function() {
 var mod = mod || {};
 
 mod.collections = {
-
-
-  get_collection: function (collectionID, callback) {
-  // get_collection: function (collectionID, render_settings) {
-
-    /**
-     * get_collection - for Assignments overview page
-     * make API post to server, get a collection back (array of posts)
-     * (for now) we always render
-     */
-
-    var collection_name = '',
-        collection = [],
-        result = false;
-
-    $.getJSON(mod.URLS.get_collection_posts, {
-      collection_id: collectionID
-    }, function (response) {
-
-      // set return values
-      if (response.success) {
-        result = true;
-        collection = mod.utils.convert_object_to_array(response.posts);
-        collection_name = response.collection_name;
-      }
-
-    }).done(function () {
-
-      if (result) {
-        // execute callback
-        if (callback) callback({
-          collection: collection,
-          collection_name: collection_name
-        });
-      } else {
-        console.log('something went wrong loading collection posts');
-      }
-
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
-  },
-
-
-
-  get_my_collections: function (options) {
-
-    $.getJSON(mod.URLS.get_my_collections, function (response) {
-      if (response.success) {
-        // save our collections
-        mod.DATA.collections = response.collections;
-        mod.utils.save();
-      } else {
-        console.log('something went wrong getting your collections');
-      }
-    }).done(function () {
-      if (options.callback) options.callback();
-    }).fail(function () {
-      mod.utils.redirect_to_login();
-    });
-
-  },
-
-
-  add_post_to_collection: function (post_id, collection_id, callback) {
-
-    // post_id = int
-    // collection_id = int
-    // callback = function (boolean)
-    // ----------------------------
-    var result = false;
-
-    // post to server
-    $.post(mod.URLS.add_post_to_collection,
-    {
-      post_id: post_id,
-      collection_id: collection_id
-    },
-    function (response) {
-      if (response.success) result = true;
-    }).done(function () {
-      // provide feedback
-      if (result) console.log('added post to collection');
-      else console.log('something went wrong adding the post to the collection');
-
-      // execute callback
-      if (callback) callback(result);
-
-    }).fail(function () {
-      console.log('something went wrong adding the post to the collection');
-      return result;
-    });
-
-  },
 
 
   setup_form: function () {
@@ -1747,11 +841,188 @@ moderator.filter = {
 }
 
 'use strict';
-var mod = mod || {};
+var yellr = yellr || {};
 
-mod.messages = {
+// This holds all the server calls for the Moderator side
+// ===================================
 
-  get_messages: function (options) {
+yellr.server = {
+
+  // get the latest Yellr posts
+  // ----------------------------
+  get_posts: function (callback) {
+
+    var success = false,
+        posts = [];
+
+    $.getJSON(yellr.URLS.get_posts, function (response) {
+      if (response.success) {
+        success = true;
+        posts = yellr.utils.convert_object_to_array(response.posts);
+        yellr.DATA.posts = posts;
+        yellr.utils.save();
+      } else {
+        yellr.utils.notify('Something went wrong loading posts.');
+      }
+
+    }).done(function () {
+      if (success) callback(posts);
+    }).fail(function () {
+      yellr.utils.redirect_to_login();
+    });
+
+  },
+
+
+
+  // get the user's assignments
+  // ----------------------------
+  get_my_assignments: function (callback) {
+
+    var success = false,
+        assignments;
+
+    $.getJSON(yellr.URLS.get_my_assignments, function (response) {
+      if (response.success) {
+        success = true;
+        assignments = yellr.utils.convert_object_to_array(response.assignments);
+        yellr.DATA.assignments = assignments;
+        yellr.utils.save();
+      } else {
+        console.log('something went wrong loading get_my_assignments');
+      }
+    }).done(function () {
+      if (success) callback(assignments);
+    }).fail(function () {
+      yellr.utils.redirect_to_login();
+    });
+
+  },
+
+
+
+  get_responses_for: function (assignment_id, callback) {
+
+    // get our assignment responses
+    var success = false,
+        posts;
+
+    // get assignment responses
+    $.ajax({
+      url: yellr.URLS.get_assignment_responses+'&assignment_id='+assignment_id.toString(),
+      type: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        if (response.success) {
+          success = true;
+          posts = response.posts;
+        }
+      }
+    }).done(function () {
+        if (success) callback(posts);
+    }).fail(function () {
+      yellr.utils.redirect_to_login();
+    });
+
+  },
+
+
+  get_collection: function (collectionID, callback) {
+  // get_collection: function (collectionID, render_settings) {
+
+    /**
+     * get_collection - for Assignments overview page
+     * make API post to server, get a collection back (array of posts)
+     * (for now) we always render
+     */
+
+    var collection_name = '',
+        collection = [],
+        result = false;
+
+    $.getJSON(mod.URLS.get_collection_posts, {
+      collection_id: collectionID
+    }, function (response) {
+
+      // set return values
+      if (response.success) {
+        result = true;
+        collection = mod.utils.convert_object_to_array(response.posts);
+        collection_name = response.collection_name;
+      }
+
+    }).done(function () {
+
+      if (result) {
+        // execute callback
+        if (callback) callback({
+          collection: collection,
+          collection_name: collection_name
+        });
+      } else {
+        console.log('something went wrong loading collection posts');
+      }
+
+    }).fail(function () {
+      mod.utils.redirect_to_login();
+    });
+  },
+
+
+
+  get_my_collections: function (callback) {
+
+    $.getJSON(mod.URLS.get_my_collections, function (response) {
+      if (response.success) {
+        // save our collections
+        mod.DATA.collections = response.collections;
+        mod.utils.save();
+      } else {
+        console.log('something went wrong getting your collections');
+      }
+    }).done(function () {
+      if (callback) callback();
+    }).fail(function () {
+      mod.utils.redirect_to_login();
+    });
+
+  },
+
+
+  add_post_to_collection: function (post_id, collection_id, callback) {
+
+    // post_id = int
+    // collection_id = int
+    // callback = function (boolean)
+    // ----------------------------
+    var result = false;
+
+    // post to server
+    $.post(mod.URLS.add_post_to_collection,
+    {
+      post_id: post_id,
+      collection_id: collection_id
+    },
+    function (response) {
+      if (response.success) result = true;
+    }).done(function () {
+      // provide feedback
+      if (result) console.log('added post to collection');
+      else console.log('something went wrong adding the post to the collection');
+
+      // execute callback
+      if (callback) callback(result);
+
+    }).fail(function () {
+      console.log('something went wrong adding the post to the collection');
+      return result;
+    });
+
+  },
+
+
+
+  get_messages: function (callback) {
 
     /**
      * by default this function will make an API call,
@@ -1772,7 +1043,7 @@ mod.messages = {
 
     }).done(function () {
       // do the callbacks
-      if (options.callback) options.callback();
+      if (callback) callback();
     }).fail(function () {
       mod.utils.redirect_to_login();
     });
@@ -1780,98 +1051,15 @@ mod.messages = {
   },
 
 
-  filter_messages: function () {
 
-    /**
-     * filter mod.DATA.messages, returns an object
-     *
-     * reseults: {
-     *   read: [array],
-     *   unread: [array]
-     * }
-     */
-
-    var read = [];
-    var unread = mod.DATA.messages.filter(function (val, i, arr) {
-
-      // convert message_datetime to readable format here
-      val.message_datetime = moment(val.message_datetime).format('MMM Do, h:mm a');
-
-      if (parseInt(val.was_read) === 0) return true;
-      else read.push(arr[i]);
-    });
-
-    return {
-      read: read,
-      unread: unread
-    };
-
-  },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // ===================================
-  // ===================================
-
-
-  init: function (args) {
-    self = this;
-    template = Handlebars.compile($(args.template).html());
-    container = args.container;
-    read_target = args.read_target;
-    unread_target = args.unread_target;
-
-
-    // load messages json
-    $.getJSON(args.data_url, function (data) {
-      raw_data = data.messages;
-      self.render();
-    });
-
-  },
-
-
-  render: function () {
-
-    // FIXME
-    // the raw data should be parsed
-    // there should be objects to hold data for:
-    // READ and UNREAD data
-
-    var html = template({messages: raw_data});
-
-    $(unread_target).html(html);
-    $(read_target).html(html);
-  },
-
-
-  send_message: function (options) {
+  send_message: function (subject, text, to, callback, parent_message_id) {
 
     var data = {
-      subject: options.subject.value,
-      text: options.text.value,
-      to_client_id: options.to.value,
+      subject: subject,
+      text: text,
+      to_client_id: to,
     }
-    if (options.parent_message_id) data.parent_message_id = options.parent_message_id;
+    if (parent_message_id) data.parent_message_id = parent_message_id;
 
     $.ajax({
       type: 'POST',
@@ -1886,34 +1074,875 @@ mod.messages = {
         }
       }
     }).done(function () {
-      if (options.callback) options.callback();
+      if (callback) callback();
     });
 
 
+  }
+
+
+
+}
+
+'use strict';
+var yellr = yellr || {};
+
+yellr.utils = {
+
+  convert_object_to_array: function (object) {
+    var array = [];
+    for (var key in object) {
+      array.push(object[key]);
+    }
+    return array;
+  },
+
+
+  notify: function (text) {
+    // TODO
+    console.log(text);
+  },
+
+
+  load_latest_posts: function () {
+    if (AUTO_REFRESH) {
+      setTimeout(function () {
+        console.log('loading latest posts...');
+        yellr.server.get_posts(function () {
+          yellr.utils.render_template({
+            template: '#raw-feed-item',
+            target: '#raw-feed',
+            context: {posts: yellr.DATA.posts}
+          });
+        });
+
+        // loop
+        yellr.utils.load_latest_posts();
+      }, 10000);
+    } else {
+      return;
+    }
+  },
+
+
+
+  redirect_to: function (page) {
+    var url_base = '/moderator/';
+    window.location.replace(url_base+page);
+  },
+
+
+
+  redirect_to_login: function () {
+    if (document.querySelector('body').getAttribute('data-page') !== 'login') {
+      yellr.utils.redirect_to('login.html');
+    }
+
+  },
+
+
+  login: function (username, password) {
+
+    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
+    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
+
+    // $form
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType: 'json',
+      success: function (data) {
+        if (data.success) {
+          yellr.TOKEN = data.token;
+          yellr.utils.save();
+          yellr.utils.set_urls();
+
+          // load languages
+          $.ajax({
+            url: yellr.URLS.get_languages,
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+                yellr.DATA.languages = response.languages;
+                yellr.utils.save();
+              } else {
+                alert('Something went wrong loading Languages. Things might get weird from here...');
+              }
+            }
+          }).done(function () {
+            console.log('done loading languages');
+            yellr.utils.redirect_to('index.html');
+          });
+
+        } else {
+          document.querySelector('#login-feedback').innerHTML = data.error_text;
+        }
+      }
+    });
+
+  },
+
+
+  logout: function () {
+    localStorage.removeItem('yellr-mod');
+    yellr.utils.redirect_to_login('You have been logged out');
+  },
+
+
+  load_localStorage: function () {
+
+    // get auth token
+    var local = JSON.parse(localStorage.getItem('yellr-mod'));
+    yellr.DATA        = local.DATA;
+    yellr.SETTINGS    = local.SETTINGS;
+    yellr.TOKEN       = local.TOKEN;
+    yellr.URLS        = local.URLS;
+
+  },
+
+
+  load: function (settings) {
+
+    /**
+     * settings = {
+     *   data - is the object name of the data we want
+     *   saveAs - save the reponse the the DATA object as this parameter
+     *     * only works if saveAs is the same as the response, else use callback to handle it
+     *   callback - do things with the server response
+     * }
+     */
+
+    // setup our data object
+    if (yellr.DATA === undefined) yellr.DATA = {};
+
+    // do te things
+    $.getJSON(yellr.URLS[settings.data], function(response) {
+
+      if (response.success) {
+
+        // save the JSON data directly
+        if (settings.saveAs) {
+
+          // sometimes what we get back is an object
+          // we iterate through the objects keys to generate an array we can use
+          if (Array.isArray(response[settings.saveAs]) === false) {
+
+            var array = [];
+            for (var key in response.posts) {
+              array.push(response.posts[key]);
+            }
+            yellr.DATA[settings.saveAs] = array;
+
+          } else {
+            // if it's already an array, just set it
+            yellr.DATA[settings.saveAs] = response[settings.saveAs];
+          }
+
+          if (settings.saveAs === 'posts') {
+
+            yellr.DATA.posts.reverse();
+          }
+
+          // save the data
+          yellr.utils.save();
+        }
+        // or do stuff with it
+        if (settings.callback) settings.callback(response);
+      } else {
+
+        console.log(response);
+        console.log(yellr.URLS[settings.data]);
+        console.log(''+
+          'Something went wrong loading: '+ settings.data+'\n'+
+          'This could be because your previous session has expired. Please log back in');
+        // yellr.utils.redirect_to_login(''+
+        //   'Something went wrong loading: '+ settings.data+'\n'+
+        //   'This could be because your previous session has expired. Please log back in');
+
+
+      }
+    });
+    // /end getJSON
+
+  },
+
+
+  save: function() {
+
+    localStorage.setItem('yellr-mod', JSON.stringify({
+      DATA      : yellr.DATA,
+      SETTINGS  : yellr.SETTINGS,
+      TOKEN     : yellr.TOKEN,
+      URLS      : yellr.URLS
+    }));
+
+  },
+
+
+  set_urls: function () {
+
+    var base_url = BASE_URL+'admin/';
+
+    yellr.URLS = {
+      // get latest user posts
+      get_posts:                    base_url+'get_posts.json?token='+yellr.TOKEN,
+      // messaging
+      get_my_messages:              base_url+'get_my_messages.json?token='+yellr.TOKEN,
+      create_message:               base_url+'create_message.json?token='+yellr.TOKEN,
+      // questions/assignments
+      create_question:              base_url+'create_question.json?token='+yellr.TOKEN,
+      get_my_assignments:           base_url+'get_my_assignments.json?token='+yellr.TOKEN,
+      publish_assignment:           base_url+'publish_assignment.json?token='+yellr.TOKEN,
+      update_assignment:            base_url+'update_assignment.json?token='+yellr.TOKEN,
+      get_assignment_responses:     base_url+'get_assignment_responses.json?token='+yellr.TOKEN,
+      // collections
+      create_collection:            base_url+'create_collection.json?token='+yellr.TOKEN,
+      get_my_collections:           base_url+'get_my_collections.json?token='+yellr.TOKEN,
+      disable_collection:           base_url+'disable_collection.json?token='+yellr.TOKEN,
+      add_post_to_collection:       base_url+'add_post_to_collection.json?token='+yellr.TOKEN,
+      remove_post_from_collection:  base_url+'remove_post_from_collection.json?token='+yellr.TOKEN,
+      get_collection_posts:         base_url+'get_collection_posts.json?token='+yellr.TOKEN,
+      // meta
+      get_languages:                base_url+'get_languages.json?token='+yellr.TOKEN,
+      get_question_types:           base_url+'get_question_types.json?token='+yellr.TOKEN,
+      create_user:                  base_url+'create_user.json?token='+yellr.TOKEN,
+      // publish
+      publish_story:                base_url+'publish_story.json?token='+yellr.TOKEN,
+      upload:                       BASE_URL+'upload_media.json'
+    }
+
+    // save new urls
+    yellr.utils.save();
+
+  },
+
+
+
+  show_overlay: function (args) {
+
+    var overlay = document.querySelector('#overlay-div-container');
+    overlay.className = 'active';
+
+    // listen for a close event
+    overlay.onclick = yellr.utils.clear_overlay;
+
+
+    if (args) {
+      this.render_template({
+        template: args.template,
+        context: args.context,
+        target: overlay
+      })
+    }
+
+  },
+
+
+
+  clear_overlay: function (e) {
+    if (e === undefined || e.target.id === 'overlay-div-container') {
+      var overlay = document.querySelector('#overlay-div-container');
+      overlay.className = '';
+      overlay.removeEventListener('click', yellr.utils.clear_overlay,false);
+      return;
+    }
+  },
+
+
+
+
+  render_template: function(settings) {
+    /**
+     * Dependencies: Handlebar.js, zepto.js (or jQuery.js)
+     *
+     * settings = {
+     *   template: '#script-id',
+     *   target: '#query-string',
+     *   context: {},
+     *   events: func
+     * }
+     */
+
+
+    // get Handlebar template
+    if (!settings.template || settings.template ==='') {
+      $(settings.target).html(''); // if template is empty, clear HTML of target
+      return;
+    };
+    var template = Handlebars.compile($(settings.template).html());
+
+    // render it (check it we have a context)
+    var html = template( settings.context ? settings.context : {} );
+
+    // replace html, or return HTML frag
+    if (settings.append) $(settings.target).append(html);
+    else if (settings.prepend) $(settings.target).prepend(html);
+    else $(settings.target).html(html);
+
+  },
+
+
+
+
+  setup_sidebar: function () {
+    // set up the Post question form
+    // it is ony evry page
+    // document.querySelector('#post-question-btn').onclick = yellr.assignments.setup_form;
+    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
   }
 
 
 };
 
 'use strict';
-var mod = mod || {};
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
 
-mod.posts = {
 
-  get_posts: function get_posts(options) {
-    $.getJSON(mod.URLS.get_posts, function get_posts_callback(response) {
-      if (response.success) {
-        mod.DATA.posts = mod.utils.convert_object_to_array(response.posts).reverse();
-        mod.utils.save();
-      } else {
-        mod.utils.notify('Something went wrong loading posts.');
-      }
+yellr.view.all_assignments = function () {
 
-    }).done(function () {
-      if (options.callback) options.callback();
-    }).fail(function () {
-      mod.utils.redirect_to_login();
+  yellr.server.get_my_assignments(function () {
+    console.log(mod.DATA.assignments);
+
+    // prep our assignments context
+    var assignments = mod.DATA.assignments.filter(function (val, i, arr) {
+      val.title = val.questions[0].question_text;
+      val.expire_datetime = moment(val.expire_datetime).format('MMM Do YYYY');
+      val.url = 'view-assignment.html#'+val.assignment_id;
+      return true;
+    })
+
+    // render html
+    mod.utils.render_template({
+      template: '#my-assignment-li',
+      target: '.my-assignments-list',
+      context: {assignments: assignments}
     });
+  });
+
+}
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+// index.html
+
+yellr.view.all_collections = function () {
+
+  // get my collections
+  yellr.server.get_my_collections(function () {
+
+    // parse datetime with moment.js
+    // add url attribute for Handlebar template peace of mind
+    var collections = yellr.DATA.collections.filter(function (val, i ,arr) {
+      val.collection_datetime = moment(val.collection_datetime).format('MMM Do YYYY');
+      val.url = 'view-collection.html#'+val.collection_id;
+      return true;
+    });
+
+    // render html
+    yellr.utils.render_template({
+      template: '#collections-gi-template',
+      target: '.collections-grid',
+      context: {collections: collections}
+    });
+  });
+
+
+  // hook up the buttons
+  document.querySelector('#new-collection-btn').onclick = function (e) {
+
+    yellr.utils.show_overlay({template: '#collections-form-template'});
+    yellr.collections.setup_form();
+
+  }
+  document.querySelector('#delete-collection-btn').onclick = function (e) {
+    console.log('delete collection');
   }
 
-};
+}
+
+'use strict';
+var yellr =  yellr || {};
+    yellr.view = yellr.view || {};
+
+yellr.view.create_assignment = function () {
+  console.log('hello from: create_assignment');
+}
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+
+yellr.view.inbox = function () {
+
+
+    // load messages json
+    $.getJSON(args.data_url, function (data) {
+      raw_data = data.messages;
+      self.render();
+    });
+
+
+    var html = template({messages: raw_data});
+
+    $(unread_target).html(html);
+    $(read_target).html(html);
+
+    // check for new messages
+    // (alert user of this action)
+   yellr.server.get_messages(function () {
+
+      // var filtered_messages = yellr.messages.filter_messages();
+
+      // // render messages
+      // yellr.utils.render_template({
+      //   template: '#inbox-li',
+      //   target: '#unread-mail-list',
+      //   context: {messages: filtered_messages.unread}
+      // });
+
+      // yellr.utils.render_template({
+      //   template: '#inbox-li',
+      //   target: '#read-mail-list',
+      //   context: {messages: filtered_messages.read}
+      // });
+    });
+
+
+
+
+
+    // view a message
+    document.querySelector('#inbox').onclick = function view_message(e) {
+
+      // read the data-id attribute of the right node
+      var message_id = (e.target.nodeName === 'LI') ? e.target.getAttribute('data-id') : e.target.parentNode.getAttribute('data-id'),
+          message = yellr.DATA.messages.filter(function (val, i, arr) {
+            if (val.message_id === parseInt(message_id)) return true;
+          })[0];
+
+      yellr.utils.show_overlay({
+        template: '#view-message-template',
+        context: message
+      });
+
+    };
+
+
+    // // create a new message
+    // document.querySelector('#new-message-btn').onclick = function() {
+    //   yellr.messages.create_new_message();
+    // }
+
+
+
+  // filter_messages: function () {
+
+  //   /**
+  //    * filter yellr.DATA.messages, returns an object
+  //    *
+  //    * reseults: {
+  //    *   read: [array],
+  //    *   unread: [array]
+  //    * }
+  //    */
+
+  //   var read = [];
+  //   var unread = yellr.DATA.messages.filter(function (val, i, arr) {
+
+  //     // convert message_datetime to readable format here
+  //     val.message_datetime = moment(val.message_datetime).format('MMM Do, h:mm a');
+
+  //     if (parseInt(val.was_read) === 0) return true;
+  //     else read.push(arr[i]);
+  //   });
+
+  //   return {
+  //     read: read,
+  //     unread: unread
+  //   };
+
+  // }
+
+}
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+// index.html
+
+yellr.view.index = function () {
+
+    /**
+     * setup the Yellr Admin dashboard
+     * index.html
+     *
+     * - get user assignments
+     * - get latest Yellr posts
+     * - toggle grid/list view
+     * - toggle auto-update
+     * - setup feed filter
+     *
+     */
+
+    var pckry,
+        grid = document.querySelector('#raw-feed');
+
+
+    // get my assignments
+    // ----------------------------
+    // ----------------------------
+    yellr.server.get_my_assignments(function (assignments) {
+      // get 4 latest
+      var latest_4_assignments = [];
+      for (var i = 0; i < assignments.length; i++) {
+        latest_4_assignments.push(assignments[i]);
+        if (latest_4_assignments.length >= 4) break;
+      };
+
+      // use moment.js
+      latest_4_assignments.filter(function (val) {
+        val.expire_datetime = moment(val.expire_datetime).fromNow(true);
+      });
+
+      // render html
+      yellr.utils.render_template({
+        template: '#active-assignment-template',
+        target: '#active-assignments-list',
+        context: {assignments: latest_4_assignments }
+      });
+
+    });
+
+
+    // get latest posts
+    // setup the grid
+    // ----------------------------
+    yellr.server.get_posts(function () {
+      yellr.utils.render_template({
+        template: '#raw-feed-item',
+        target: '#raw-feed',
+        context: {posts: yellr.DATA.posts},
+        append: true
+      });
+
+      setTimeout(function () {
+        // setup packery
+        pckry = new Packery(grid, {
+          itemSelector: '.feed-gi',
+          columnWidth: '.feed-sizer',
+          gutter: '.feed-gutter'
+        });
+      }, 1000);
+    });
+
+
+
+    // view, and filter things
+    // ----------------------------
+    // ----------------------------
+
+
+
+
+    // toggle grid/list view
+    // ----------------------------
+    document.querySelector('#feed-view').onclick = function (event) {
+
+      var view, grid_items;
+
+      if (event.target.checked) {
+
+        view = event.target.value;
+
+        // what are we doing?
+        if (view === 'list') {
+
+          // change li class
+          grid_items = grid.querySelectorAll('.feed-gi');
+          for (var i = 0; i < grid_items.length; i++) {
+            grid_items[i].className = 'gi';
+          };
+
+          // destroy pakcry
+          pckry.destroy();
+        } else {
+          grid_items = grid.querySelectorAll('.gi');
+          for (var i = 0; i < grid_items.length; i++) {
+            grid_items[i].className = 'feed-gi';
+          };
+
+          // redo packry
+          pckry = new Packery(grid, {
+            itemSelector: '.feed-gi',
+            columnWidth: '.feed-sizer',
+            gutter: '.feed-gutter'
+          });
+        }
+      } // /if input.checked
+    }
+    // ----------------------------
+
+
+
+    // auto-update
+    // ----------------------------
+    document.querySelector('#auto-update').onclick = function (event) {
+      // set auto-refresh to true
+      if (event.target.checked === true) {
+        AUTO_REFRESH = true;
+        yellr.utils.load_latest_posts();
+      } else {
+        // auto-refresh = false
+        AUTO_REFRESH = false;
+      }
+    }
+
+    // setup the filter
+    // ----------------------------
+    document.querySelector('.feed-filter-div').onclick = function (event) {
+      console.log('hello from: ');
+    }
+
+
+    // event listeners:
+    // - send a message to a user who submitted content
+    // - add post to a collection
+    // - flag inappropriate content
+    grid.onclick = function(e) {
+      console.log('lol');
+      switch (e.target.className) {
+
+        // add post to a collection
+        case 'fa fa-folder':
+          // show a list of collections via a dropdown
+          // pass in the DOM element
+          yellr.feed.toggle_collections_dropdown(e.target);
+          break;
+
+        // send user a message
+        case 'fa fa-comment':
+
+          var domNode = e.target.offsetParent.querySelector('.meta-div'),
+              postID = parseInt(domNode.getAttribute('data-post-id')),
+              data = yellr.DATA.posts.filter(function (val, i, arr) {
+                if (val.post_id === postID) return true;
+              })[0];
+
+          yellr.utils.show_overlay({
+            template: '#send-message-template',
+            context: {
+              uid: data.client_id,
+              subject: 'RE: '+data.title
+            }
+          });
+
+          var $form = $('#send-message-form');
+          $form.submit(function (e) {
+            e.preventDefault();
+            var array = $form.serializeArray();
+
+            yellr.messages.send_message({
+              to: array[0],
+              subject: array[1],
+              text: array[2],
+              callback: function () {
+                yellr.utils.clear_overlay();
+              }
+            });
+          });
+
+          break;
+        // flag as inappropriate
+        case 'fa fa-flag':
+          console.log('report the motherfucker');
+          break;
+        default:
+          break;
+      }
+    };
+
+
+    // refresh posts every 10 seconds
+    yellr.utils.load_latest_posts();
+}
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+// index.html
+
+yellr.view.login = function () {
+  var $form = $('#mod-login');
+
+  $form.submit(function (e) {
+    e.preventDefault();
+    var fields = $form.serializeArray();
+    yellr.utils.login(fields[0].value, fields[1].value);
+  });
+
+}
+
+'use strict';
+var yellr =  yellr || {};
+    yellr.view = yellr.view || {};
+
+yellr.view.view_assignment = function () {
+
+  var assignment_id = parseInt(window.location.hash.split('#')[1]);
+
+  if (assignment_id !== NaN) {
+    // render the question text and things
+    yellr.assignments.view(assignment_id);
+
+    // get replies to question
+    yellr.assignments.get_responses_for({
+      assignment_id: assignment_id,
+      callback: function (posts) {
+        var replies = yellr.utils.convert_object_to_array(posts);
+
+        yellr.utils.render_template({
+          template: '#assignment-response-li-template',
+          target: '#assignment-replies-list',
+          context: {replies: replies}
+        });
+
+        // parse UTC dates with moment.js
+        var deadline = document.querySelector('.assignment-deadline');
+            deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+        var published = document.querySelector('.assignment-published');
+            published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+
+      }
+    });
+
+    // get assignment collection
+    yellr.collections.get_collection(assignment_id, function (response) {
+      yellr.utils.render_template({
+        template: '#collections-li-template',
+        target: '#assignment-collection-list',
+        context: {
+          collection: response.collection
+        }
+      })
+    });
+    // set the collection_id attribute to the #assignment-collections-list
+    document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
+
+  }
+
+}
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+
+yellr.view.view_collection = function () {
+
+  // local vars
+  // ----------------------------
+  var items = [],
+      // collection_id (from URL hash)
+      collection_id = 0,
+      // DOM references
+      view_controls,
+      export_btn,
+      grid,
+      // packery.js object
+      pckry;
+
+
+  // get the URL hash --> load the correct collection
+  collection_id = parseInt(window.location.hash.split('#')[1]);
+
+  // ping the server for that collection
+  mod.collections.get_collection(collection_id, function (response) {
+
+    // show collection name
+    document.querySelector('.t1').innerHTML = response.collection_name;
+
+    // render the collection items
+    mod.utils.render_template({
+      template: '#view-collection-gi-template',
+      target: '#collection-wrapper',
+      context: {
+        collection: response.collection
+      },
+      append: true
+    });
+
+    // setup grid
+    items = document.querySelectorAll('.collection-gi');
+
+    // delay packery so browser has time to render the new HTML
+    setTimeout(function () {
+      pckry = new Packery(grid, {
+        itemSelector: '.collection-gi',
+        // columnWidth: 60,
+        columnWidth: '.collection-grid-sizer',
+        gutter: '.gutter-sizer'
+      });
+    }, 500);
+
+  });
+
+
+
+  // send user a message / remove post from collection
+  grid = document.querySelector('#collection-wrapper');
+  grid.onclick = function (event) {
+    if (event.target.className === 'fa fa-comment') {
+      alert('Send message');
+    } else if (event.target.className === 'fa fa-close') {
+      alert('Remove item from collection');
+    }
+  }
+
+
+
+  // download .zip file of media collection
+  export_btn = document.querySelector('#export-content-btn');
+  export_btn.onclick = function (event) {
+    alert('TODO: Download zip file of media collection');
+  }
+
+
+  // [X] grid  or  [ ] list
+  view_controls = document.querySelector('.collection-view-controls');
+  // click to change view
+  view_controls.onclick = function (event) {
+
+    // for each case we either:
+    //    1. reinitilize the packery grid, or
+    //    2. destroy the packery grid
+    // there are specific styles attached to each
+    // so we loops through the grid items and change classNames
+
+    if (event.target.checked) {
+      if (event.target.defaultValue === 'list') {
+        pckry.destroy();
+        // change all classnames to '.gi'
+        for (var i = 0; i < items.length; i++) items[i].className = 'gi';
+      } else {
+        // make sure items have class of '.collections-gi'
+        for (var i = 0; i < items.length; i++) items[i].className = 'collection-gi';
+        // reinitialize packery
+        pckry = new Packery(grid, {
+          itemSelector: '.collection-gi',
+          // columnWidth: 60,
+          columnWidth: '.collection-grid-sizer',
+          gutter: '.gutter-sizer'
+        });
+      }
+    }
+  }
+
+
+}

@@ -493,10 +493,10 @@
       </li>
       {{/each}}
     </script>
-    <script id="latest-posts-template" type="text/x-handlebars-template">
+    <script id="raw-feed-item" type="text/x-handlebars-template">
       {{#if posts}}
         {{#each posts}}
-        <div class="gi">
+        <div class="feed-gi">
           <div class="story-item">
             <p class="description">{{ title }}</p>
             {{#each media_objects }}

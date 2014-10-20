@@ -190,14 +190,15 @@ module.exports = function(grunt) {
       moderator: {
         src: [
           moderator_folder+'js/*.js',
-          moderator_folder+'js/mod/*.js'
+          moderator_folder+'js/yellr/**.js',
+          moderator_folder+'js/yellr/view/**.js'
         ],
         dest: buildFolder+moderator_folder+'js/moderator.js'
       },
       storefront: {
         src: [
           storefront_folder+'js/*.js',
-          storefront_folder+'js/mod/*.js'
+          storefront_folder+'js/yellr/*.js'
         ],
         dest: buildFolder+storefront_folder+'js/storefront.js'
       }
@@ -374,7 +375,8 @@ module.exports = function(grunt) {
       moderator: {
         src: [
           moderator_folder+'js/*.js',
-          moderator_folder+'js/mod/*.js',
+          moderator_folder+'js/yellr/*.js',
+          moderator_folder+'js/yellr/view/*.js',
         ]
       }
     },

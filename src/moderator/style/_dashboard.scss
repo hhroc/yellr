@@ -126,9 +126,12 @@
   margin-bottom: 0.5rem;
 }
 
-
+.feed-gi,
 .feed-sizer {
-  width: 10%;
+  width: 32%;
+  @include mq(netbook) {
+    width: 25%;
+  }
 }
 .feed-gutter {
   width: 1.5%;

@@ -48,7 +48,7 @@ window.onload = function () {
         yellr.view.create_assignment();
         break;
       case 'assignments':
-        yellr.view.assignments_page();
+        yellr.view.all_assignments();
         break;
       case 'single-assignment':
         yellr.view.single_assignment_view();
@@ -57,7 +57,7 @@ window.onload = function () {
         yellr.editor.init();
         break;
       case 'collections':
-        yellr.view.collections_page();
+        yellr.view.all_collections();
         break;
       case 'single-collection':
         yellr.view.single_collection_view();
@@ -887,6 +887,8 @@ yellr.server = {
 
   publish_assignment: function (data, callback) {
 
+    // NOT WORKING
+
     // data: {
     //   'life_time': total,
     //   'questions': questions (array),
@@ -1488,10 +1490,9 @@ var yellr = yellr || {};
 yellr.view.all_assignments = function () {
 
   yellr.server.get_my_assignments(function () {
-    console.log(mod.DATA.assignments);
 
     // prep our assignments context
-    var assignments = mod.DATA.assignments.filter(function (val, i, arr) {
+    var assignments = yellr.DATA.assignments.filter(function (val, i, arr) {
       val.title = val.questions[0].question_text;
       val.expire_datetime = moment(val.expire_datetime).format('MMM Do YYYY');
       val.url = 'view-assignment.html#'+val.assignment_id;
@@ -1499,7 +1500,7 @@ yellr.view.all_assignments = function () {
     })
 
     // render html
-    mod.utils.render_template({
+    yellr.utils.render_template({
       template: '#my-assignment-li',
       target: '.my-assignments-list',
       context: {assignments: assignments}

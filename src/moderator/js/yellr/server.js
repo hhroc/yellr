@@ -36,6 +36,8 @@ yellr.server = {
 
   publish_assignment: function (data, callback) {
 
+    // NOT WORKING
+
     // data: {
     //   'life_time': total,
     //   'questions': questions (array),

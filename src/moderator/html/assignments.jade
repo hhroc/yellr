@@ -54,6 +54,42 @@ body#moderator(data-page="assignments")
                 p.flex-1.tac
                   a.view.btn(href="http://127.0.0.1:8000/moderator/view-assignment.html#1") View
 
+  div#templates
+    script#my-assignment-li(type="text/x-handlebars-template").
+      {{#if assignments}}
+        {{#each assignments}}
+        <li>
+          <h3 class="title"><a href="{{url}}">{{title}}</a></h3>
+          <div class="flex">
+            <p class="deadline flex-1">{{expire_datetime}}</p>
+            <p class="flex-1 tac"><a href="{{url}}" class="view btn">View</a></p>
+          </div>
+        </li>
+        {{/each}}
+      {{else}}
+      <li class="faded">
+        <h3 class="t3">No assignments created!</h3>
+        <p>Create one by clicking the button to the left!</p>
+      </li>
+      {{/if}}
+
+
+    //- template for creating a new collection
+    script#collections-form-template(type="text/x-handlebars-template").
+      <div class="overlay-container">
+        <h3 class="t2">New Collection</h3>
+        <form id="new-collections-form" class="form">
+          <input type="text" name="name" placeholder="Collections name">
+          <textarea name="description" rows="2" placeholder="Collection description (optional)"></textarea>
+          <input type="text" name="tags" placeholder="Collection tags (use commas to add multiple tags)">
+          <label class="submit-label">
+            <input type="submit" hidden>
+            <span class="submit-btn">Create</span>
+          </label>
+        </form>
+      </div>
+
+
 
   include _footer.jade
 </html>

@@ -48,7 +48,7 @@ window.onload = function () {
         yellr.view.create_assignment();
         break;
       case 'assignments':
-        yellr.view.assignments_page();
+        yellr.view.all_assignments();
         break;
       case 'single-assignment':
         yellr.view.single_assignment_view();
@@ -57,7 +57,7 @@ window.onload = function () {
         yellr.editor.init();
         break;
       case 'collections':
-        yellr.view.collections_page();
+        yellr.view.all_collections();
         break;
       case 'single-collection':
         yellr.view.single_collection_view();

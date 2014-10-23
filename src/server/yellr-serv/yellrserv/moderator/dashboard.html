@@ -56,3 +56,75 @@
     </div>
   </div>
 </section>
+<div id="templates">
+  <script id="raw-feed-item" type="text/x-handlebars-template">
+    {{#if posts}}
+      {{#each posts}}
+      <div class="feed-gi">
+        <div class="story-item">
+          <p class="description">{{ title }}</p>
+          {{#each media_objects }}
+          <div class="media-preview" data-type="{{ media_type }}">
+            {{#if file_name}}
+            <figure class="media-file-image">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
+              <figcaption>{{ media_description }}</figcaption>
+            </figure>
+            {{else}}
+            <p class="media-text">{{ media_text }}</p>
+            {{/if}}
+            
+            {{#if caption}}
+            <p>{{ caption }}</p>
+            {{/if}}
+          </div>
+          {{/each }}
+        </div>
+        <div class="story-meta flex">
+          <p class="source flex-3"><a href="#">{{ client_id }}</a></p>
+          <ul class="options-list flex-1">
+            <li><i title="Add to collection" class="fa fa-folder"></i></li>
+            <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+            <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+          </ul>
+        </div>
+        <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="gi">
+        <div class="story-item faded">
+          <h3 class="t2">No posts yet!</h3>
+          <p class="description">Try creating an assignment to help generate some responses.</p>
+        </div>
+      </div>
+    {{/if}}
+    
+    
+  </script>
+  <script id="active-assignment-template" type="text/x-handlebars-template">
+    {{#if assignments}}
+      {{#each assignments}}
+      <li>
+        <h3><a href="view-assignment.html# {{ assignment_id}}">{{ questions.[0].question_text }}</a></h3>
+        <div class="flex assignment-meta">
+          <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
+          <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">No active assignments</li>
+    {{/if}}
+    
+  </script>
+  <script id="collections-dropdown-template" type="text/x-handlebars-template">
+    <ul class="collections-dropdown">
+      {{#each collections}}
+      <li>
+        <p data-collection-id="{{collection_id}}">{{name}}</p>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+</div>

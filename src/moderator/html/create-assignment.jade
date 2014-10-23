@@ -34,21 +34,41 @@ body#moderator(data-page="create-assignment")
             label
               input(type="radio", name="question_type", value="survey")
               span Survey
-          div.flex#tabs-container
-            div#tabs-content.flex-3
-              div#questions-container
+
+
+          div#tabs-container.flex
+            //- inspired by:
+            //- http://codepen.io/JustAnotherCoder/pen/gIqtp
+            input#tab-1.tab-input.tab-1(type="radio", name="assignment_view", value="text", checked)
+            input#tab-2.tab-input.tab-2(type="radio", name="assignment_view", value="choices")
+            input#tab-3.tab-input.tab-3(type="radio", name="assignment_view", value="deadline")
+            input#tab-4.tab-input.tab-4(type="radio", name="assignment_view", value="geo-fence")
+            input#tab-5.tab-input.tab-5(type="radio", name="assignment_view", value="add-image")
+
+
+            ul#tabs-content.flex-3
+              li#questions-container.tab-content.tab-1
                 div#head.question-container(data-language="english")
                   textarea.question_text(rows="3", name="question_text", placeholder="Ask the community...")
                   textarea.question_description(rows="2", name="question_description", placeholder="Add an assignment description...")
 
                 span.block.h4#add-language + Add language
+              li#choices-container.tab-content.tab-2
+                input(type="text", placeholder="Choice...")
+              li#deadline-container.tab-content.tab-3
+                p Deadline: October 31, 2014 (8 days)
+              li#geo-fence-container.tab-content.tab-4
+                p Select area to ask. Click and drag
+              li#add-image-container.tab-content.tab-5
+                p Select an image to add to the assignment
 
             nav#assignment-tabs.flex-1
-              span.h4.current Text
-              span.h4.faded Choices
-              span.h4 Deadline
-              span.h4 Geo-fence
-              span.h4 + Add image
+              label.tab-label.tab(for="tab-1") Text
+              label.tab-label.tab(for="tab-2").faded Choices
+              label.tab-label.tab(for="tab-3") Deadline
+              label.tab-label.tab(for="tab-4") Geo-fence
+              label.tab-label.tab(for="tab-5") + Add image
+
 
   include _footer.jade
 </html>

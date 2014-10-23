@@ -1827,7 +1827,6 @@ body {
 }
 
 .h4 {
-  display: block;
   font-size: 1.25rem;
   color: #666;
 }
@@ -2778,30 +2777,74 @@ body {
   font-size: 1.5rem;
 }
 
-#add-language, #assignment-tabs .h4 {
+#add-language, #assignment-tabs .tab {
   padding: .75rem .5rem;
   margin-bottom: 1.25rem;
   -webkit-transition: color 1.3s ease-out;
        -o-transition: color 1.3s ease-out;
           transition: color 1.3s ease-out;
 }
-#add-language:hover, #assignment-tabs .h4:hover {
+#add-language:hover, #assignment-tabs .tab:hover {
   color: #111;
   cursor: pointer;
 }
 
-#tabs-content {
-  border-right: 1px solid #ccc;
+.tab-input {
+  display: none;
 }
 
-#assignment-tabs .h4 {
+#assignment-tabs .tab {
+  display: block;
   border: 1px solid #fff;
 }
-#assignment-tabs .h4.current {
+#assignment-tabs .tab.current {
   position: relative;
   left: -1px;
   border-color: #aaa;
   border-left: 2px solid #fff;
+}
+
+.tab-1:checked ~ ul > .tab-1,
+.tab-2:checked ~ ul > .tab-2,
+.tab-3:checked ~ ul > .tab-3,
+.tab-4:checked ~ ul > .tab-4,
+.tab-5:checked ~ ul > .tab-5 {
+  position: relative;
+  visibility: visible;
+  opacity: 1;
+  /* Default - fade effect */
+  -webkit-transform: none;
+      -ms-transform: none;
+       -o-transform: none;
+          transform: none;
+}
+
+#tabs-content {
+  position: relative;
+  display: block;
+  list-style: none;
+  border-right: 1px solid #ccc;
+}
+
+.tab-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all .5s;
+       -o-transition: all .5s;
+          transition: all .5s;
+  -webkit-transform: translateX(30px);
+      -ms-transform: translateX(30px);
+       -o-transform: translateX(30px);
+          transform: translateX(30px);
+  -webkit-transform-origin: 0 0;
+      -ms-transform-origin: 0 0;
+       -o-transform-origin: 0 0;
+          transform-origin: 0 0;
 }
 
 #active-assignments-container {

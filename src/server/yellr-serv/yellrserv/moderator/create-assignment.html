@@ -64,15 +64,38 @@
             </label>
           </div>
           <div id="tabs-container" class="flex">
-            <div id="tabs-content" class="flex-3">
-              <div id="questions-container">
+            <input id="tab-1" type="radio" name="assignment_view" value="text" checked class="tab-input tab-1">
+            <input id="tab-2" type="radio" name="assignment_view" value="choices" class="tab-input tab-2">
+            <input id="tab-3" type="radio" name="assignment_view" value="deadline" class="tab-input tab-3">
+            <input id="tab-4" type="radio" name="assignment_view" value="geo-fence" class="tab-input tab-4">
+            <input id="tab-5" type="radio" name="assignment_view" value="add-image" class="tab-input tab-5">
+            <ul id="tabs-content" class="flex-3">
+              <li id="questions-container" class="tab-content tab-1">
                 <div id="head" data-language="english" class="question-container">
                   <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
                   <textarea rows="2" name="question_description" placeholder="Add an assignment description..." class="question_description"></textarea>
                 </div><span id="add-language" class="block h4">+ Add language</span>
-              </div>
-            </div>
-            <nav id="assignment-tabs" class="flex-1"><span class="h4 current">Text</span><span class="h4 faded">Choices</span><span class="h4">Deadline</span><span class="h4">Geo-fence</span><span class="h4">+ Add image</span></nav>
+              </li>
+              <li id="choices-container" class="tab-content tab-2">
+                <input type="text" placeholder="Choice...">
+              </li>
+              <li id="deadline-container" class="tab-content tab-3">
+                <p>Deadline: October 31, 2014 (8 days)</p>
+              </li>
+              <li id="geo-fence-container" class="tab-content tab-4">
+                <p>Select area to ask. Click and drag</p>
+              </li>
+              <li id="add-image-container" class="tab-content tab-5">
+                <p>Select an image to add to the assignment</p>
+              </li>
+            </ul>
+            <nav id="assignment-tabs" class="flex-1">
+              <label for="tab-1" class="tab-label tab">Text</label>
+              <label for="tab-2" class="tab-label tab faded">Choices</label>
+              <label for="tab-3" class="tab-label tab">Deadline</label>
+              <label for="tab-4" class="tab-label tab">Geo-fence</label>
+              <label for="tab-5" class="tab-label tab">+ Add image</label>
+            </nav>
           </div>
         </div>
       </div>

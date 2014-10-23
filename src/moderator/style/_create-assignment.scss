@@ -45,11 +45,13 @@
   }
 }
 
-#tabs-content {
-  border-right: 1px solid #ccc;
+.tab-input {
+  display: none;
 }
+
 #assignment-tabs {
-  .h4 {
+  .tab {
+    display: block;
     @extend #add-language;
     border: 1px solid #fff;
     &.current {
@@ -60,4 +62,40 @@
       left: -1px;
     }
   }
+}
+// connect by classes
+.tab-1:checked ~ ul > .tab-1,
+.tab-2:checked ~ ul > .tab-2,
+.tab-3:checked ~ ul > .tab-3,
+.tab-4:checked ~ ul > .tab-4,
+.tab-5:checked ~ ul > .tab-5 {
+  position: relative;
+  visibility: visible;
+  opacity: 1;  /* Default - fade effect */
+  transform: none
+}
+
+
+#tabs-content {
+  list-style: none;
+  position: relative;
+  border-right: 1px solid #ccc;
+  display: block;
+}
+
+
+.tab-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+  // background: #404040;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .5s;
+  transform-origin: 0 0;
+  transform: translateX(30px)
+
+
 }

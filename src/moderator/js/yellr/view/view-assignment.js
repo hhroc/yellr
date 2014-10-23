@@ -8,31 +8,39 @@ yellr.view.view_assignment = function () {
 
   if (assignment_id !== NaN) {
     // render the question text and things
-    yellr.assignments.view(assignment_id);
+    var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
+      if (val.assignment_id === assignment_id) return true;
+    })[0];
+
+    // render the Handlebars template
+    yellr.utils.render_template({
+      template: '#assignment-overview-template',
+      target: '#view-assignment-section',
+      context: {assignment: assignment}
+    });
+
+
+
 
     // get replies to question
-    yellr.assignments.get_responses_for({
-      assignment_id: assignment_id,
-      callback: function (posts) {
-        var replies = yellr.utils.convert_object_to_array(posts);
+    yellr.server.get_responses_for(assignment_id, function (posts) {
+      var replies = yellr.utils.convert_object_to_array(posts);
 
-        yellr.utils.render_template({
-          template: '#assignment-response-li-template',
-          target: '#assignment-replies-list',
-          context: {replies: replies}
-        });
+      yellr.utils.render_template({
+        template: '#assignment-response-li-template',
+        target: '#assignment-replies-list',
+        context: {replies: replies}
+      });
 
-        // parse UTC dates with moment.js
-        var deadline = document.querySelector('.assignment-deadline');
-            deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-        var published = document.querySelector('.assignment-published');
-            published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
-
-      }
+      // parse UTC dates with moment.js
+      var deadline = document.querySelector('.assignment-deadline');
+          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+      var published = document.querySelector('.assignment-published');
+          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
     });
 
     // get assignment collection
-    yellr.collections.get_collection(assignment_id, function (response) {
+    yellr.server.get_collection(assignment_id, function (response) {
       yellr.utils.render_template({
         template: '#collections-li-template',
         target: '#assignment-collection-list',

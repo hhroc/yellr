@@ -72,6 +72,44 @@
       </div>
     </div>
   </div>
+  <div id="templates">
+    <script id="view-collection-gi-template" type="text/x-handlebars-template">
+      {{#if collection}}
+        {{#each collection}}
+        <div class="collection-gi">
+          <div class="story-item">
+            {{#each media_objects }}
+            <div data-type="{{media_type}}" class="media-preview">
+              {{#if file_name}}
+              <figure class="media-file-image">
+                <img src="/media/{{file_name}}" alt="{{ media_type_description }}">
+                <figcaption>{{ media_type_description }}</figcaption>
+              </figure>
+              {{else}}
+              <p class="media-text">{{ media_text }}</p>
+              {{/if}}
+            </div>
+            {{/each }}
+            <p class="item-source"><a href="#">{{client_id}}</a></p>
+          </div>
+          <div class="story-meta flex">
+            <div class="flex-2">&nbsp;</div>
+            <ul class="options-list flex-1">
+              <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+              <li><i title="Remove from collection" class="fa fa-close"></i></li>
+            </ul>
+          </div>
+        </div>
+        {{/each}}
+      {{else}}
+        <div class="faded">
+          <h3 class="t2">Collection is empty</h3>
+          <p>Check the main feed for latest user submissions.</p>
+        </div>
+      {{/if}}
+      
+    </script>
+  </div>
   <div id="overlay-div-container">
   </div>
   <script src="js/libs/jquery.js"></script>

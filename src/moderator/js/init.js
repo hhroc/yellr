@@ -51,7 +51,7 @@ window.onload = function () {
         yellr.view.all_assignments();
         break;
       case 'single-assignment':
-        yellr.view.single_assignment_view();
+        yellr.view.view_assignment();
         break;
       case 'editor':
         yellr.editor.init();
@@ -60,7 +60,7 @@ window.onload = function () {
         yellr.view.all_collections();
         break;
       case 'single-collection':
-        yellr.view.single_collection_view();
+        yellr.view.view_collection();
         break;
       case 'messages':
         yellr.view.inbox();

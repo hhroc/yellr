@@ -1821,6 +1821,17 @@ body {
   border-bottom: 1px solid;
 }
 
+.h3 {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.h4 {
+  display: block;
+  font-size: 1.25rem;
+  color: #666;
+}
+
 .header-with-controls {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1853,6 +1864,10 @@ body {
   padding: .25rem .5rem;
   margin-right: .5rem;
   font-size: .875rem;
+  letter-spacing: 1px;
+}
+.header-with-controls nav span:hover {
+  cursor: pointer;
 }
 
 .overlay-container {
@@ -2724,6 +2739,69 @@ body {
 }
 .extra-fields label {
   margin-right: .8rem;
+}
+
+#assignment-question-type {
+  margin-bottom: 1.5rem;
+}
+#assignment-question-type .h3 {
+  display: inline-block;
+}
+#assignment-question-type input[type="radio"] {
+  margin: 0 .5rem;
+}
+
+#tabs-content {
+  padding-right: 3rem;
+}
+
+.question-container textarea {
+  display: block;
+  width: 100%;
+  padding: .5rem;
+  margin-bottom: 2rem;
+  background: #ececec;
+  border: none;
+  -webkit-transition: background .3s ease-out;
+       -o-transition: background .3s ease-out;
+          transition: background .3s ease-out;
+}
+.question-container textarea:focus {
+  background: #fff;
+}
+
+.question_text {
+  font-size: 2.25rem;
+}
+
+.question_description {
+  font-size: 1.5rem;
+}
+
+#add-language, #assignment-tabs .h4 {
+  padding: .75rem .5rem;
+  margin-bottom: 1.25rem;
+  -webkit-transition: color 1.3s ease-out;
+       -o-transition: color 1.3s ease-out;
+          transition: color 1.3s ease-out;
+}
+#add-language:hover, #assignment-tabs .h4:hover {
+  color: #111;
+  cursor: pointer;
+}
+
+#tabs-content {
+  border-right: 1px solid #ccc;
+}
+
+#assignment-tabs .h4 {
+  border: 1px solid #fff;
+}
+#assignment-tabs .h4.current {
+  position: relative;
+  left: -1px;
+  border-color: #aaa;
+  border-left: 2px solid #fff;
 }
 
 #active-assignments-container {

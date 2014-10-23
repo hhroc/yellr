@@ -13,6 +13,17 @@
   margin: 0;
 }
 
+.h3 {
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+.h4 {
+  font-size: 1.25rem;
+  color: #666;
+  display: block;
+}
+
+
 
 .header-with-controls {
   display: flex;
@@ -28,6 +39,10 @@
       font-size: 0.875rem;
       margin-right: 0.5rem;
       padding: 0.25rem 0.5rem;
+      letter-spacing: 1px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

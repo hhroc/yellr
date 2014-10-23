@@ -28,7 +28,7 @@
           </header>
           <nav id="dash-nav">
             <ul class="nav-list primary-list">
-              <li><a href="create-assignment.html" class="primary-btn new-assignment-btn">New Assignment</a>
+              <li><a href="create-assignment.html" class="primary-btn new-assignment-btn">Create Assignment</a>
               </li>
               <li><a href="write-article.html" class="primary-btn write-article-btn">Write Article</a>
               </li>
@@ -54,15 +54,27 @@
           <h2 class="h1">Create Assignment</h2>
           <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
         </header>
-        <p>Question Type</p>
-        <p>Add language</p>
-        <p>Preview</p>
-        <p>Save Draft</p>
-        <p>Post</p>
-        <p>Deadline</p>
-        <p>Geo-fence</p>
-        <p>Question text</p>
-        <p>Upload image</p>
+        <div class="assignment-wrapper">
+          <div id="assignment-question-type"><span class="h3">Question Type:</span>
+            <label>
+              <input type="radio" name="question_type" value="free-response" checked><span>Free Response</span>
+            </label>
+            <label>
+              <input type="radio" name="question_type" value="survey"><span>Survey</span>
+            </label>
+          </div>
+          <div id="tabs-container" class="flex">
+            <div id="tabs-content" class="flex-3">
+              <div id="questions-container">
+                <div id="head" data-language="english" class="question-container">
+                  <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+                  <textarea rows="2" name="question_description" placeholder="Add an assignment description..." class="question_description"></textarea>
+                </div><span id="add-language" class="block h4">+ Add language</span>
+              </div>
+            </div>
+            <nav id="assignment-tabs" class="flex-1"><span class="h4 current">Text</span><span class="h4 faded">Choices</span><span class="h4">Deadline</span><span class="h4">Geo-fence</span><span class="h4">+ Add image</span></nav>
+          </div>
+        </div>
       </div>
     </div>
   </div>

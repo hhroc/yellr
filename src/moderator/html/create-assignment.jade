@@ -25,15 +25,30 @@ body#moderator(data-page="create-assignment")
             span#post-btn Post
 
 
-        p Question Type
-        p Add language
-        p Preview
-        p Save Draft
-        p Post
-        p Deadline
-        p Geo-fence
-        p Question text
-        p Upload image
+        div.assignment-wrapper
+          div#assignment-question-type
+            span.h3 Question Type:
+            label
+              input(type="radio", name="question_type", value="free-response", checked)
+              span Free Response
+            label
+              input(type="radio", name="question_type", value="survey")
+              span Survey
+          div.flex#tabs-container
+            div#tabs-content.flex-3
+              div#questions-container
+                div#head.question-container(data-language="english")
+                  textarea.question_text(rows="3", name="question_text", placeholder="Ask the community...")
+                  textarea.question_description(rows="2", name="question_description", placeholder="Add an assignment description...")
+
+                span.block.h4#add-language + Add language
+
+            nav#assignment-tabs.flex-1
+              span.h4.current Text
+              span.h4.faded Choices
+              span.h4 Deadline
+              span.h4 Geo-fence
+              span.h4 + Add image
 
   include _footer.jade
 </html>

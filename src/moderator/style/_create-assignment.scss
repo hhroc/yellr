@@ -1,0 +1,63 @@
+#assignment-question-type {
+  margin-bottom: 1.5rem;
+  .h3 {
+    display: inline-block;
+  }
+  input[type="radio"] {
+    margin: 0 0.5rem;
+  }
+}
+
+#tabs-content {
+  padding-right: 3rem;
+}
+
+.question-container {
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    border: none;
+    background: #ececec;
+    transition: background 0.3s ease-out;
+    &:focus {
+      background: #fff;
+    }
+  }
+}
+
+.question_text {
+  font-size: 2.25rem;
+}
+
+.question_description {
+  font-size: 1.5rem;
+}
+
+#add-language {
+  padding: 0.75rem 0.5rem;
+  margin-bottom: 1.25rem;
+  transition: color 1.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    color: #111;
+  }
+}
+
+#tabs-content {
+  border-right: 1px solid #ccc;
+}
+#assignment-tabs {
+  .h4 {
+    @extend #add-language;
+    border: 1px solid #fff;
+    &.current {
+      border-color: #aaa;
+      // border: 1px solid #aaa;
+      border-left: 2px solid #fff;
+      position: relative;
+      left: -1px;
+    }
+  }
+}

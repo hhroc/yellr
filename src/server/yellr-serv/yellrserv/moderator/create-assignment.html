@@ -57,10 +57,10 @@
         <div class="assignment-wrapper">
           <div id="assignment-question-type"><span class="h3">Question Type:</span>
             <label>
-              <input type="radio" name="question_type" value="free-response" checked><span>Free Response</span>
+              <input type="radio" name="question_type" value="free_text" checked><span>Free Response</span>
             </label>
             <label>
-              <input type="radio" name="question_type" value="survey"><span>Survey</span>
+              <input type="radio" name="question_type" value="multiple_choice"><span>Survey</span>
             </label>
           </div>
           <div id="tabs-container" class="flex">
@@ -71,27 +71,57 @@
             <input id="tab-5" type="radio" name="assignment_view" value="add-image" class="tab-input tab-5">
             <ul id="tabs-content" class="flex-3">
               <li id="questions-container" class="tab-content tab-1">
-                <div id="head" data-language="english" class="question-container">
-                  <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
-                  <textarea rows="2" name="question_description" placeholder="Add an assignment description..." class="question_description"></textarea>
-                </div><span id="add-language" class="block h4">+ Add language</span>
+                <div class="question-container">
+                  <form>
+                    <input type="hidden" name="language_code" value="en">
+                    <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+                    <textarea rows="2" name="description" placeholder="Add an assignment description..." class="question_description"></textarea>
+                  </form>
+                </div>
+                <div class="language-select-wrapper">
+                  <label><span id="add-language" class="h4">+ Add language</span>
+                    <select id="language-select" name="language_code">
+                      <option name="none" value="--">--</option>
+                      <option name="espanol" value="Espanol">Espanol</option>
+                    </select>
+                  </label>
+                </div>
               </li>
-              <li id="choices-container" class="tab-content tab-2">
+              <li id="choices-container" class="tab-content tab-2"><span class="h4">Survey Answers</span>
                 <input type="text" placeholder="Choice...">
+                <ul id="survey-answers-list"></ul>
               </li>
               <li id="deadline-container" class="tab-content tab-3">
                 <p>Deadline: October 31, 2014 (8 days)</p>
+                <p><small>Duration</small></p>
+                <p class="inline-block"><span>Due:</span>
+                  <input type="number" id="lifetime" value="14">
+                  <input type="hidden" name="life_time" value="">
+                </p>
+                <ul id="unit-of-time-list" class="inline-block">
+                  <li>
+                    <label>
+                      <input type="radio" name="unit-of-time" value="days" checked><span>Days</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="unit-of-time" value="months"><span>Months</span>
+                    </label>
+                  </li>
+                </ul>
               </li>
               <li id="geo-fence-container" class="tab-content tab-4">
                 <p>Select area to ask. Click and drag</p>
               </li>
               <li id="add-image-container" class="tab-content tab-5">
                 <p>Select an image to add to the assignment</p>
+                <input type="file" name="media_file">
               </li>
             </ul>
             <nav id="assignment-tabs" class="flex-1">
               <label for="tab-1" class="tab-label tab">Text</label>
-              <label for="tab-2" class="tab-label tab faded">Choices</label>
+              <label for="tab-2" class="tab-label tab choices-tab faded">Choices</label>
               <label for="tab-3" class="tab-label tab">Deadline</label>
               <label for="tab-4" class="tab-label tab">Geo-fence</label>
               <label for="tab-5" class="tab-label tab">+ Add image</label>
@@ -100,6 +130,16 @@
         </div>
       </div>
     </div>
+  </div>
+  <div id="templates">
+    <script id="question-form-template" type="text/x-handlebars-template">
+      <form>
+        <h3>{{language}}</h3>
+        <input type="hidden" name="language_code" value="{{language_code}}">
+        <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+        <textarea rows="2" name="description" placeholder="Add an assignment description..." class="question_description"></textarea>
+      </form>
+    </script>
   </div>
   <div id="overlay-div-container">
   </div>

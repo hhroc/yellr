@@ -24,6 +24,14 @@ window.onload = function () {
     // make sure we have our DATA object setup
     if (yellr.DATA === undefined) yellr.DATA = {};
 
+
+    // logout button
+    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
+    // cosmetic things
+    document.querySelector('#sidebar').setAttribute('style', 'min-height: '+document.querySelector('body').scrollHeight+'px');
+
+
+
     // get our current page
     var page = document.querySelector('body').getAttribute('data-page');
 
@@ -35,6 +43,9 @@ window.onload = function () {
         break;
       case 'login':
         yellr.view.login();
+        break;
+      case 'create-assignment':
+        yellr.view.create_assignment();
         break;
       case 'assignments':
         yellr.view.assignments_page();
@@ -58,8 +69,6 @@ window.onload = function () {
         console.log('lol ok');
         break;
     }
-
-    if (document.querySelector('#sidebar')) yellr.utils.setup_sidebar();
 
 }
 
@@ -848,6 +857,93 @@ var yellr = yellr || {};
 
 yellr.server = {
 
+
+  // language_code
+  // question_text
+  // description
+  // question_type
+  // answers
+  create_question: function (data, callback) {
+
+    // stringify some things
+    if (data.answers) data.answers = JSON.stringify(data.answers);
+
+    // post
+    $.ajax({
+      type: 'POST',
+      url: yellr.URLS.create_question,
+      data: data,
+      // data: $question_form.serialize()+'&answers='+JSON.stringify(survey_answers),
+      dataType: 'json',
+      success: function (response) {
+        if (response.success) {
+          if (callback) callback(response);
+        }
+      }
+    });
+
+  },
+
+
+  publish_assignment: function (data, callback) {
+
+    // data: {
+    //   'life_time': total,
+    //   'questions': questions (array),
+    //   'top_left_lat': 43.4,
+    //   'top_left_lng': -77.9,
+    //   'bottom_right_lat': 43.0,
+    //   'bottom_right_lng': -77.3
+    // },
+    // console.log('server.publish_assignment');
+    data.questions =JSON.stringify(data.questions);
+    // console.log(data);
+    $.ajax({
+      type: 'POST',
+      yellr: yellr.URLS.publish_assignment,
+      data: data,
+      dataType: 'json',
+      success: function (response) {
+        console.log(response);
+        if (response.success) {
+          if (callback) callback(response);
+        } else {
+          alert('Something went wrong submitting an Assignment');
+        }
+      }
+
+    });
+
+  },
+
+
+
+
+  create_collection: function (data, callback) {
+
+    // {
+    //   name: 'Assignment #'+response.assignment_id+' Collection',
+    //   description: 'Collection for #'+response.assignment_id,
+    //   tags: 'some, example, collection tags'
+    // }
+
+    $.ajax({
+      url: yellr.URLS.create_collection,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        if (response.success) {
+          if (callback) callback();
+          // clear array
+        } else console.log('something went wrong creating a collection for this assignment');
+      }
+    });
+
+  },
+
+
+
   // get the latest Yellr posts
   // ----------------------------
   get_posts: function (callback) {
@@ -940,14 +1036,14 @@ yellr.server = {
         collection = [],
         result = false;
 
-    $.getJSON(mod.URLS.get_collection_posts, {
+    $.getJSON(yellr.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
       // set return values
       if (response.success) {
         result = true;
-        collection = mod.utils.convert_object_to_array(response.posts);
+        collection = yellr.utils.convert_object_to_array(response.posts);
         collection_name = response.collection_name;
       }
 
@@ -964,7 +1060,7 @@ yellr.server = {
       }
 
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
   },
 
@@ -972,18 +1068,18 @@ yellr.server = {
 
   get_my_collections: function (callback) {
 
-    $.getJSON(mod.URLS.get_my_collections, function (response) {
+    $.getJSON(yellr.URLS.get_my_collections, function (response) {
       if (response.success) {
         // save our collections
-        mod.DATA.collections = response.collections;
-        mod.utils.save();
+        yellr.DATA.collections = response.collections;
+        yellr.utils.save();
       } else {
         console.log('something went wrong getting your collections');
       }
     }).done(function () {
       if (callback) callback();
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
 
   },
@@ -998,7 +1094,7 @@ yellr.server = {
     var result = false;
 
     // post to server
-    $.post(mod.URLS.add_post_to_collection,
+    $.post(yellr.URLS.add_post_to_collection,
     {
       post_id: post_id,
       collection_id: collection_id
@@ -1031,21 +1127,21 @@ yellr.server = {
      * options: {
      *   callback: function() {console.log('will be called in .done()')},
      *   feedback: boolean [2do]
-     *   feedbackText: 'optional string to send to mod.utils.notify()' [2do]
+     *   feedbackText: 'optional string to send to yellr.utils.notify()' [2do]
      * }
      */
 
-    $.getJSON(mod.URLS.get_my_messages, function (response) {
+    $.getJSON(yellr.URLS.get_my_messages, function (response) {
 
       // save messages to localStorage
-      if (response.success) mod.DATA.messages = response.messages;
-      else mod.utils.notify('Could not load new messages.');
+      if (response.success) yellr.DATA.messages = response.messages;
+      else yellr.utils.notify('Could not load new messages.');
 
     }).done(function () {
       // do the callbacks
       if (callback) callback();
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
 
   },
@@ -1063,14 +1159,14 @@ yellr.server = {
 
     $.ajax({
       type: 'POST',
-      url: mod.URLS.create_message,
+      url: yellr.URLS.create_message,
       dataType: 'json',
       data: data,
       success: function (response) {
         if (response.success) {
-          mod.utils.notify('Message sent!');
+          yellr.utils.notify('Message sent!');
         } else {
-          mod.utils.notify('Error sending message. Check the user ID.');
+          yellr.utils.notify('Error sending message. Check the user ID.');
         }
       }
     }).done(function () {
@@ -1380,18 +1476,7 @@ yellr.utils = {
     else if (settings.prepend) $(settings.target).prepend(html);
     else $(settings.target).html(html);
 
-  },
-
-
-
-
-  setup_sidebar: function () {
-    // set up the Post question form
-    // it is ony evry page
-    // document.querySelector('#post-question-btn').onclick = yellr.assignments.setup_form;
-    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
   }
-
 
 };
 
@@ -1469,7 +1554,216 @@ var yellr =  yellr || {};
     yellr.view = yellr.view || {};
 
 yellr.view.create_assignment = function () {
-  console.log('hello from: create_assignment');
+
+
+  // do the thing
+  document.querySelector('#post-btn').onclick = function (event) {
+    // do everything
+
+    var forms = document.querySelectorAll('.question-container form'),
+        type = document.querySelectorAll('#assignment-question-type input'),
+        answers_list = document.querySelectorAll('#survey-answers-list li'),
+        amt = document.querySelector('#lifetime').value,
+        unit_type = document.querySelector('#unit-of-time-list input:checked').value,
+        questions = [],
+        answers = [],
+        assignment_data = {},
+        unit = (unit_type === 'days') ? 24 : 720;
+
+
+    // publish every type of language form
+    // ----------------------------
+    // ----------------------------
+    for (var i = 0; i < forms.length; i++) {
+
+      // the basics
+      var form_data = {
+        language_code: forms[i].querySelector('input').value,
+        question_text: forms[i].querySelector('.question_text').value,
+        description: forms[i].querySelector('.question_description').value
+      }
+
+      // question type
+      for (var k = 0; k < type.length; k++) {
+        if (type[k].checked) form_data.question_type = type[k].value;
+      };
+
+      // get answers if needed
+      if (form_data.question_type === 'multiple_choice') {
+        // get all choices
+        for (var j = 0; j < answers_list.length; j++) {
+          answers.push(answers_list[j]);
+        };
+
+        form_data.answers = answers;
+      }
+
+
+      // post question to server
+      // ----------------------------
+      // ----------------------------
+      yellr.server.create_question(form_data, function (question_response) {
+        questions.push(question_response.question_id);
+
+        if (questions.length === forms.length) {
+
+          // we have to pass in hours
+          // if days: X * 24
+          // if months: x * 720 (24*30)
+          assignment_data.life_time = amt * unit;
+          assignment_data.questions = questions;
+
+          // GET GEO-FENCE DATA
+          // ----------------------------
+          assignment_data.top_left_lat = 43.4;
+          assignment_data.top_left_lng = -77.9;
+          assignment_data.bottom_right_lat = 43.0;
+          assignment_data.bottom_right_lng = -77.3;
+
+          console.log('publishing assignment');
+          yellr.server.publish_assignment(assignment_data, function (assignment_response) {
+            console.log('assignment published');
+            // create collection for the new assignment
+            yellr.server.create_collection({
+              name: 'Assignment #'+assignment_response.assignment_id+' Collection',
+              description: 'Collection for #'+assignment_response.assignment_id,
+              tags: 'some, example, collection tags'
+            },function (collection_response) {
+
+              console.log('collection created');
+              // update our assignments
+              yellr.server.get_my_assignments(function () {
+                yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);
+              });
+
+            });
+            // done creating collection for assignment
+
+          })
+
+        }
+      })
+    };
+
+
+
+
+
+  }
+
+
+
+  // survey or free-text?
+  // ----------------------------
+  document.querySelector('#assignment-question-type').onclick = function (event) {
+    if (event.target.checked) {
+      var tab = document.querySelector('.choices-tab');
+      // toggle choices tab
+      if (event.target.value === 'multiple_choice') {
+        tab.className = tab.className.replace('faded', '');
+      } else {
+        // add .faded
+        tab.className+= ' faded';
+      }
+    }
+  }
+
+
+
+  // multi-lingual assignments
+  // ----------------------------
+  document.querySelector('#language-select').onchange = function (event) {
+    if (this.value !== '--') {
+      // create another form
+      yellr.utils.render_template({
+        template: '#question-form-template',
+        target: '.question-container',
+        context: {
+          language: this.value,
+          language_code: this.value.toLowerCase().substring(0,2)
+        },
+        append: true
+      });
+
+      // update the <selectt>
+      // remove node if down to last one
+      for (var i = 0; i < this.options.length; i++) {
+        if(this.options[i].value === this.value) {
+          this.removeChild(this.options[i]);
+          if (this.options.length === 1 ) {
+            document.querySelector('#questions-container').removeChild(document.querySelector('.language-select-wrapper'));
+          }
+        }
+      };
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // add event listeners
+  // ----------------------------
+
+  // // add an image to the question
+  // var $image_input = $question_form.find('.add-photo-wrapper input[type="file"]');
+
+  // $image_input.on('change', function (event) {
+  //   console.log('upload image');
+
+  //   $image_input.ajaxSubmit({
+  //     url: yellr.URLS.upload,
+  //     data: {
+  //       client_id: yellr.TOKEN,
+  //       media_type: 'image'
+  //     },
+  //     success: function (response) {
+  //       console.log(response);
+  //       if (response.success) {
+  //         console.log('photo uploaded');
+  //       } else {
+  //         console.log('something went wrong');
+  //       }
+  //     }
+  //   });
+  // });
+
+
+  // // when the user presses Enter, update the Survey answers list
+  // $question_form.find('.question-answer-input').keypress(function (e) {
+
+  //   if (e.which === 13) {
+  //     e.preventDefault();
+  //     // push the input to the array
+  //     survey_answers.push($question_form.find('.question-answer-input').val());
+
+  //     // update the HTML
+  //     yellr.utils.render_template({
+  //       template: '#new-survey-answer-template',
+  //       target: '#survey-answers-list',
+  //       context: {answer: $question_form.find('.question-answer-input').val() },
+  //       append: true
+  //     })
+
+  //     // reset the form
+  //     $question_form.find('.question-answer-input').val('');
+  //     console.log(survey_answers);
+  //   };
+  // });
+
+
+
+  // });
+
+
 }
 
 'use strict';

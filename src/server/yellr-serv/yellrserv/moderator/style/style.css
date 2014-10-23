@@ -2754,6 +2754,15 @@ body {
   padding-right: 3rem;
 }
 
+.question-container form {
+  padding-top: 1.5rem;
+  margin-bottom: 3rem;
+  border-top: 1px solid #aaa;
+}
+.question-container form:first-child {
+  padding-top: 0;
+  border: none;
+}
 .question-container textarea {
   display: block;
   width: 100%;
@@ -2778,6 +2787,7 @@ body {
 }
 
 #add-language, #assignment-tabs .tab {
+  display: inline-block;
   padding: .75rem .5rem;
   margin-bottom: 1.25rem;
   -webkit-transition: color 1.3s ease-out;
@@ -2796,12 +2806,6 @@ body {
 #assignment-tabs .tab {
   display: block;
   border: 1px solid #fff;
-}
-#assignment-tabs .tab.current {
-  position: relative;
-  left: -1px;
-  border-color: #aaa;
-  border-left: 2px solid #fff;
 }
 
 .tab-1:checked ~ ul > .tab-1,

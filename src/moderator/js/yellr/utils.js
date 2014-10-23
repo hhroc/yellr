@@ -294,17 +294,6 @@ yellr.utils = {
     else if (settings.prepend) $(settings.target).prepend(html);
     else $(settings.target).html(html);
 
-  },
-
-
-
-
-  setup_sidebar: function () {
-    // set up the Post question form
-    // it is ony evry page
-    // document.querySelector('#post-question-btn').onclick = yellr.assignments.setup_form;
-    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
   }
-
 
 };

@@ -13,6 +13,15 @@
 }
 
 .question-container {
+  form {
+    padding-top: 1.5rem;
+    border-top: 1px solid #aaa;
+    margin-bottom: 3rem;
+    &:first-child {
+      padding-top: 0;
+      border: none;
+    }
+  }
   textarea {
     display: block;
     width: 100%;
@@ -36,6 +45,7 @@
 }
 
 #add-language {
+  display: inline-block;
   padding: 0.75rem 0.5rem;
   margin-bottom: 1.25rem;
   transition: color 1.3s ease-out;
@@ -54,14 +64,14 @@
     display: block;
     @extend #add-language;
     border: 1px solid #fff;
-    &.current {
-      border-color: #aaa;
-      // border: 1px solid #aaa;
-      border-left: 2px solid #fff;
-      position: relative;
-      left: -1px;
-    }
   }
+  // .tab-input:checked {
+  //   border-color: #aaa;
+  //   // border: 1px solid #aaa;
+  //   border-left: 2px solid #fff;
+  //   position: relative;
+  //   left: -1px;
+  // }
 }
 // connect by classes
 .tab-1:checked ~ ul > .tab-1,

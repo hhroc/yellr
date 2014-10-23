@@ -6,6 +6,93 @@ var yellr = yellr || {};
 
 yellr.server = {
 
+
+  // language_code
+  // question_text
+  // description
+  // question_type
+  // answers
+  create_question: function (data, callback) {
+
+    // stringify some things
+    if (data.answers) data.answers = JSON.stringify(data.answers);
+
+    // post
+    $.ajax({
+      type: 'POST',
+      url: yellr.URLS.create_question,
+      data: data,
+      // data: $question_form.serialize()+'&answers='+JSON.stringify(survey_answers),
+      dataType: 'json',
+      success: function (response) {
+        if (response.success) {
+          if (callback) callback(response);
+        }
+      }
+    });
+
+  },
+
+
+  publish_assignment: function (data, callback) {
+
+    // data: {
+    //   'life_time': total,
+    //   'questions': questions (array),
+    //   'top_left_lat': 43.4,
+    //   'top_left_lng': -77.9,
+    //   'bottom_right_lat': 43.0,
+    //   'bottom_right_lng': -77.3
+    // },
+    // console.log('server.publish_assignment');
+    data.questions =JSON.stringify(data.questions);
+    // console.log(data);
+    $.ajax({
+      type: 'POST',
+      yellr: yellr.URLS.publish_assignment,
+      data: data,
+      dataType: 'json',
+      success: function (response) {
+        console.log(response);
+        if (response.success) {
+          if (callback) callback(response);
+        } else {
+          alert('Something went wrong submitting an Assignment');
+        }
+      }
+
+    });
+
+  },
+
+
+
+
+  create_collection: function (data, callback) {
+
+    // {
+    //   name: 'Assignment #'+response.assignment_id+' Collection',
+    //   description: 'Collection for #'+response.assignment_id,
+    //   tags: 'some, example, collection tags'
+    // }
+
+    $.ajax({
+      url: yellr.URLS.create_collection,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        if (response.success) {
+          if (callback) callback();
+          // clear array
+        } else console.log('something went wrong creating a collection for this assignment');
+      }
+    });
+
+  },
+
+
+
   // get the latest Yellr posts
   // ----------------------------
   get_posts: function (callback) {
@@ -98,14 +185,14 @@ yellr.server = {
         collection = [],
         result = false;
 
-    $.getJSON(mod.URLS.get_collection_posts, {
+    $.getJSON(yellr.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
       // set return values
       if (response.success) {
         result = true;
-        collection = mod.utils.convert_object_to_array(response.posts);
+        collection = yellr.utils.convert_object_to_array(response.posts);
         collection_name = response.collection_name;
       }
 
@@ -122,7 +209,7 @@ yellr.server = {
       }
 
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
   },
 
@@ -130,18 +217,18 @@ yellr.server = {
 
   get_my_collections: function (callback) {
 
-    $.getJSON(mod.URLS.get_my_collections, function (response) {
+    $.getJSON(yellr.URLS.get_my_collections, function (response) {
       if (response.success) {
         // save our collections
-        mod.DATA.collections = response.collections;
-        mod.utils.save();
+        yellr.DATA.collections = response.collections;
+        yellr.utils.save();
       } else {
         console.log('something went wrong getting your collections');
       }
     }).done(function () {
       if (callback) callback();
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
 
   },
@@ -156,7 +243,7 @@ yellr.server = {
     var result = false;
 
     // post to server
-    $.post(mod.URLS.add_post_to_collection,
+    $.post(yellr.URLS.add_post_to_collection,
     {
       post_id: post_id,
       collection_id: collection_id
@@ -189,21 +276,21 @@ yellr.server = {
      * options: {
      *   callback: function() {console.log('will be called in .done()')},
      *   feedback: boolean [2do]
-     *   feedbackText: 'optional string to send to mod.utils.notify()' [2do]
+     *   feedbackText: 'optional string to send to yellr.utils.notify()' [2do]
      * }
      */
 
-    $.getJSON(mod.URLS.get_my_messages, function (response) {
+    $.getJSON(yellr.URLS.get_my_messages, function (response) {
 
       // save messages to localStorage
-      if (response.success) mod.DATA.messages = response.messages;
-      else mod.utils.notify('Could not load new messages.');
+      if (response.success) yellr.DATA.messages = response.messages;
+      else yellr.utils.notify('Could not load new messages.');
 
     }).done(function () {
       // do the callbacks
       if (callback) callback();
     }).fail(function () {
-      mod.utils.redirect_to_login();
+      yellr.utils.redirect_to_login();
     });
 
   },
@@ -221,14 +308,14 @@ yellr.server = {
 
     $.ajax({
       type: 'POST',
-      url: mod.URLS.create_message,
+      url: yellr.URLS.create_message,
       dataType: 'json',
       data: data,
       success: function (response) {
         if (response.success) {
-          mod.utils.notify('Message sent!');
+          yellr.utils.notify('Message sent!');
         } else {
-          mod.utils.notify('Error sending message. Check the user ID.');
+          yellr.utils.notify('Error sending message. Check the user ID.');
         }
       }
     }).done(function () {

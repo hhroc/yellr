@@ -24,6 +24,14 @@ window.onload = function () {
     // make sure we have our DATA object setup
     if (yellr.DATA === undefined) yellr.DATA = {};
 
+
+    // logout button
+    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
+    // cosmetic things
+    document.querySelector('#sidebar').setAttribute('style', 'min-height: '+document.querySelector('body').scrollHeight+'px');
+
+
+
     // get our current page
     var page = document.querySelector('body').getAttribute('data-page');
 
@@ -35,6 +43,9 @@ window.onload = function () {
         break;
       case 'login':
         yellr.view.login();
+        break;
+      case 'create-assignment':
+        yellr.view.create_assignment();
         break;
       case 'assignments':
         yellr.view.assignments_page();
@@ -58,7 +69,5 @@ window.onload = function () {
         console.log('lol ok');
         break;
     }
-
-    if (document.querySelector('#sidebar')) yellr.utils.setup_sidebar();
 
 }

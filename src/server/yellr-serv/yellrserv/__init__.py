@@ -37,11 +37,9 @@ def main(global_config, **settings):
 
 
 
-    # systme / debug views
+    # template views
     config.add_route('index', '/')
-    #config.add_route('status.json','status.json')
-    #config.add_route('client_logs.json','client_logs.json')
-    #config.add_route('get_users.json','get_users.json')
+    config.add_route('submit-tip.html','submit-tip.html')
 
     # admin views
     config.add_route('admin/get_access_token.json', 'admin/get_access_token.json')
@@ -70,22 +68,21 @@ def main(global_config, **settings):
     config.add_route('admin/get_collection_posts.json', 'admin/get_collection_posts.json')
     config.add_route('admin/get_user_posts.json','admin/get_user_posts.json')
     config.add_route('admin/get_subscriber_list.json','admin/get_subscriber_list.json')
+    config.add_route('admin/creae_user.json','admin/create_user.json')
 
     # client views
-    config.add_route('server_info.json','server_info.json')
+    #config.add_route('server_info.json','server_info.json')
     config.add_route('create_response_message.json', \
         'create_response_message.json')
     config.add_route('get_assignments.json','get_assignments.json')
     config.add_route('get_messages.json','get_messages.json')
     config.add_route('get_notifications.json','get_notifications.json')
-    config.add_route('get_posts.json','get_posts.json')
+    #config.add_route('get_posts.json','get_posts.json')
     config.add_route('get_stories.json', 'get_stories.json')
     config.add_route('upload_media.json','upload_media.json')
     config.add_route('upload_test.json','upload_test.json')
     config.add_route('publish_post.json','publish_post.json')
     config.add_route('get_profile.json', 'get_profile.json')
-    config.add_route('submit-tip.html','submit-tip.html')
-    #config.add_route('','')
-
+    
     config.scan()
     return config.make_wsgi_app()

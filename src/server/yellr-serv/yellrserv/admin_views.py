@@ -506,7 +506,7 @@ def admin_get_my_assignments(request):
                 bottom_right_lng, use_fence, organization, question_text, \
                 question_type_id, answer0, answer1, answer2, answer3, \
                 answer4, answer5, answer6, answer7, answer8, \
-                answer9 in assignments:
+                answer9, post_count in assignments:
             if assignment_id in ret_assignments:
                 ret_assignments[assignment_id]['questions'].append({
                     'question_text': question_text,
@@ -547,6 +547,7 @@ def admin_get_my_assignments(request):
                         'answer8': answer8,
                         'answer9': answer9,
                     }],
+                    'post_count': post_count,
                 }
 
         result['assignment_count'] = assignment_count
@@ -1431,6 +1432,69 @@ def admin_get_subscriber_list(request):
             })
 
         result['subscribers'] = ret_subscribers
+        result['success'] = True
+
+    #except:
+    #    pass
+
+    return make_response(result)
+
+@view_config(route_name='admin/create_user.json')
+def admin_create_user(request):
+
+    result = {'success': False}
+
+    #try:
+    if True:
+
+        token = None
+        valid_token = False
+        valid, user = check_token(request)
+        if valid == False:
+            result['error_text'] = "Missing or invalid 'token' field in request."
+            raise Exception('invalid/missing token')
+
+        try:
+        #if True:
+            user_type_id = request.POST['user_type_id']
+            client_id = request.POST['client_id']
+            user_name = request.POST['username']
+            password = request.POST['password']
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
+            organization = request.POST['organization']
+        except:
+            result['error_text'] = """\
+One or more of the following fields is missing or invalid: client_id. \
+"""
+            raise Exception('Missing or invalid field.')
+ 
+        # we need to make sure that the user trying to create the 
+        # new user has the right access level
+        system_user_type = UserTypes.get_from_name(
+            session = DBSession,
+            name = 'system',
+        )
+        admin_user_type = UserTypes.get_from_name(
+            session = DBSession,
+            name = 'admin',
+        )
+        moderator_user_type = UserTypes.get_from_name(
+            session = DBSession,
+            name = 'moderator',
+        )
+
+        if user.user_type_id == system_user_type.user_type_id or \
+                user.user_type_id == admin_user_type.user_type_id or \
+                user.user_type_id == moderator_user_type.user_type_id:
+            
+            new_user = Users.create_new_user(
+                session = DBSession,
+                user_type_id = user_type_id,
+            )
+
+        result['subscribers'] = new_user 
         result['disabled'] = True
         result['success'] = True
 
@@ -1438,4 +1502,5 @@ def admin_get_subscriber_list(request):
     #    pass
 
     return make_response(result)
+
 

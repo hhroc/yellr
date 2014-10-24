@@ -21,7 +21,7 @@ from sqlalchemy import (
 
 from sqlalchemy import ForeignKey
 
-from sqlalchemy import update, desc
+from sqlalchemy import update, desc, func
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -326,16 +326,18 @@ class Assignments(Base):
         with transaction.manager:
            counts = session.query(
                Assignments.assignment_id,
-               Posts.post_id,
+               func.count(Posts.post_id),
            ).join(
-               Poists,Post.assignment_id == Assignments.assignment_id
+               Posts,Posts.assignment_id == Assignments.assignment_id,
            ).filter(
                 # we add offsets so we can do simple comparisons
                 Assignments.top_left_lat + 90 > lat + 90,
                 Assignments.top_left_lng + 180 < lng + 180,
                 Assignments.bottom_right_lat + 90 < lat + 90,
                 Assignments.bottom_right_lng + 180 > lng + 180,
-            ).count()
+            ).group_by(
+                Assignments.assignment_id
+            ).all()
         return counts
 
     @classmethod
@@ -365,15 +367,20 @@ class Assignments(Base):
                 Questions.answer6,
                 Questions.answer7,
                 Questions.answer8,
-                Questions.answer9, 
+                Questions.answer9,
+                func.count(Posts.post_id), 
             ).join(
                 Users
             ).join(
                 QuestionAssignments,
             ).join(
                 Questions,
+            ).join(
+                Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 Assignments.user_id == user.user_id,
+            ).group_by(
+                Assignments.assignment_id,
             ).order_by(
                 desc(Assignments.publish_datetime),
             )
@@ -412,12 +419,15 @@ class Assignments(Base):
                 Questions.answer7,
                 Questions.answer8,
                 Questions.answer9,
+                func.count(Posts.post_id),
             ).join(
                 Users
             ).join(
                 QuestionAssignments,
             ).join(
                 Questions,
+            ).join(
+                Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 # we add offsets so we can do simple comparisons
                 Assignments.top_left_lat + 90 > lat + 90,
@@ -426,6 +436,8 @@ class Assignments(Base):
                 Assignments.bottom_right_lng + 180 > lng + 180,
                 Questions.language_id == language.language_id,
                 Assignments.expire_datetime > Assignments.publish_datetime,
+            ).group_by(
+                Assignments.assignment_id,
             ).order_by(
                 desc(Assignments.publish_datetime),
             ).all()

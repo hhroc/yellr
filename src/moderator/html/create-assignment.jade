@@ -1,0 +1,110 @@
+doctype html
+head
+  include ../../common/html/_head/meta.jade
+
+  title Yellr - Home
+  meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
+
+  include _head.jade
+
+
+body#moderator(data-page="create-assignment")
+  a(href="#main", class="assistive-text") Skip to main content
+  div.container
+
+    div#main.flex
+      div.flex-1#left
+        include _sidebar.jade
+
+      div.flex-4#right.right-wrapper
+        header.editor-header.header-with-controls
+          h2.h1 Create Assignment
+          nav.article-controls
+            span#preview-btn Preview
+            span#save-draft-btn Save Draft
+            span#post-btn Post
+
+
+        div.assignment-wrapper
+          div#assignment-question-type
+            span.h3 Question Type:
+            label
+              input(type="radio", name="question_type", value="free_text", checked)
+              span Free Response
+            label
+              input(type="radio", name="question_type", value="multiple_choice")
+              span Survey
+
+          div#tabs-container.flex
+            //- inspired by:
+            //- http://codepen.io/JustAnotherCoder/pen/gIqtp
+            input#tab-1.tab-input.tab-1(type="radio", name="assignment_view", value="text", checked)
+            input#tab-2.tab-input.tab-2(type="radio", name="assignment_view", value="choices")
+            input#tab-3.tab-input.tab-3(type="radio", name="assignment_view", value="deadline")
+            input#tab-4.tab-input.tab-4(type="radio", name="assignment_view", value="geo-fence")
+            input#tab-5.tab-input.tab-5(type="radio", name="assignment_view", value="add-image")
+
+
+            ul#tabs-content.flex-3
+              li#questions-container.tab-content.tab-1
+                div.question-container
+                  form
+                    input(type="hidden", name="language_code", value="en")
+                    textarea.question_text(rows="3", name="question_text", placeholder="Ask the community...")
+                    textarea.question_description(rows="2", name="description", placeholder="Add an assignment description...")
+
+                div.language-select-wrapper
+                  label
+                    span.h4#add-language + Add language
+                    select#language-select(name="language_code")
+                      option(name="none", value="--") --
+                      option(name="espanol", value="Espanol") Espanol
+
+
+              li#choices-container.tab-content.tab-2
+                span.h4 Survey Answers
+                input(type="text", placeholder="Choice...")
+                ul#survey-answers-list
+
+              li#deadline-container.tab-content.tab-3
+                p Deadline: October 31, 2014 (8 days)
+                p
+                  small Duration
+                p.inline-block
+                  span Due:
+                  input(type="number", id="lifetime", value="14")
+                  input(type="hidden", name="life_time", value="")
+                ul#unit-of-time-list.inline-block
+                  li
+                    label
+                      input(type="radio", name="unit-of-time", value="days", checked)
+                      span Days
+                  li
+                    label
+                      input(type="radio", name="unit-of-time", value="months")
+                      span Months
+
+
+              li#geo-fence-container.tab-content.tab-4
+                p Select area to ask. Click and drag
+              li#add-image-container.tab-content.tab-5
+                p Select an image to add to the assignment
+                input(type="file", name="media_file")
+
+            nav#assignment-tabs.flex-1
+              label.tab-label.tab(for="tab-1") Text
+              label.tab-label.tab.choices-tab(for="tab-2").faded Choices
+              label.tab-label.tab(for="tab-3") Deadline
+              label.tab-label.tab(for="tab-4") Geo-fence
+              label.tab-label.tab(for="tab-5") + Add image
+
+  div#templates
+    script#question-form-template(type="text/x-handlebars-template").
+      <form>
+        <h3>{{language}}</h3>
+        <input type="hidden" name="language_code" value="{{language_code}}">
+        <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+        <textarea rows="2" name="description" placeholder="Add an assignment description..." class="question_description"></textarea>
+      </form>
+  include _footer.jade
+</html>

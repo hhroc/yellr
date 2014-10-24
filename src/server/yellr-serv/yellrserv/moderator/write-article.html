@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yellr - Moderator backend</title>
+  <title>Yellr - Home</title>
   <meta name="description" content="Yellr backend moderation - Citizen engagement and journalism app">
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
@@ -12,7 +12,7 @@
   <script src="js/libs/modernizr.js"></script>
   <link rel="stylesheet" href="style/style.min.css">
 </head>
-<body id="moderator" data-page="assignments"><a href="#main" class="assistive-text">Skip to main content</a>
+<body id="moderator" data-page="write-article"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
     <div id="main" class="flex">
       <div id="left" class="flex-1">
@@ -49,52 +49,41 @@
           </nav>
         </section>
       </div>
-      <div id="right" class="flex-4">
-        <section id="assignments" class="right-wrapper">
-          <h2 class="t1">Assignments</h2>
-          <ul class="my-assignments-list"></ul>
-        </section>
+      <div id="right" class="flex-4 right-wrapper">
+        <div id="editor-container">
+          <header class="editor-header header-with-controls">
+            <h2 class="h1">Write Article</h2>
+            <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
+          </header>
+          <div class="editor-workspace flex">
+            <div class="flex-2">
+              <div class="editor-input"><span class="h3">Title</span>
+                <input id="article-title" type="text" name="title" placeholder="Article title...">
+              </div>
+              <div class="editor-input"><span class="h3">Body</span>
+                <textarea id="article-body" rows="15" name="body" placeholder="Write article"></textarea>
+              </div>
+              <div class="editor-input"><span class="h3">Article Preview</span>
+                <textarea id="article-preview" rows="5" name="top-text" placeholder="Preview Required"></textarea>
+              </div>
+            </div>
+            <div class="flex-1">
+              <p id="geo-fence-btn" class="h4">Geo-Fence</p>
+              <div class="collection-area">
+                <p class="h4">Collection</p>
+                <p class="current-collection">Seinfeld<span class="block">Change</span></p>
+                <ul class="collection-list">
+                  <li><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"></li>
+                  <li><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"></li>
+                  <li><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"></li>
+                  <li><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="templates">
-    <script id="my-assignment-li" type="text/x-handlebars-template">
-      {{#if assignments}}
-        {{#each assignments}}
-        <li>
-          <h3 class="title"><a href="{{url}}">{{title}}</a></h3>
-          <div class="flex">
-            <p class="deadline flex-1">{{expire_datetime}}</p>
-            <p class="flex-1 tac"><a href="{{url}}" class="view btn">View</a></p>
-          </div>
-        </li>
-        {{/each}}
-      {{else}}
-      <li class="faded">
-        <h3 class="t3">No assignments created!</h3>
-        <p>Create one by clicking the button to the left!</p>
-      </li>
-      {{/if}}
-      
-      
-    </script>
-    <script id="collections-form-template" type="text/x-handlebars-template">
-      <div class="overlay-container">
-        <h3 class="t2">New Collection</h3>
-        <form id="new-collections-form" class="form">
-          <input type="text" name="name" placeholder="Collections name">
-          <textarea name="description" rows="2" placeholder="Collection description (optional)"></textarea>
-          <input type="text" name="tags" placeholder="Collection tags (use commas to add multiple tags)">
-          <label class="submit-label">
-            <input type="submit" hidden>
-            <span class="submit-btn">Create</span>
-          </label>
-        </form>
-      </div>
-      
-      
-      
-    </script>
   </div>
   <div id="overlay-div-container">
   </div>
@@ -104,4 +93,5 @@
   <script src="js/libs/moment.js"></script>
   <script src="js/libs/handlebars.js"></script>
   <script src="js/moderator.js"></script>
+  <script src="js/libs/markdown.js"></script>
 </body></html>

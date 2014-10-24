@@ -10,63 +10,26 @@ section#sidebar
         h3.moderator-organization WXXI
   //- choices
   nav#dash-nav
-    ul.nav-list
+    ul.nav-list.primary-list
       li
-        span#post-question-btn New Assignment
-    ul.nav-list
+        a(href="create-assignment.html").primary-btn.new-assignment-btn Create Assignment
+        //- span#post-question-btn
+      li
+        a(href="write-article.html").primary-btn.write-article-btn Write Article
+        //- span#write-article-btn.primary-btn Write Article
+    ul.nav-list.secondary-nav-list
       li
         a(href="index.html").menu-link All Posts
       li
         a(href="contributors.html").menu-link All Contributors
-    ul.nav-list
+    ul.nav-list.secondary-nav-list
       li
         a(href="assignments.html").menu-link Assignments
       li
         a(href="collections.html").menu-link Collections
       li
         a(href="messages.html").menu-link Messages
-
-    //- ul.nav-list
-      //- li#collections-li
-        a(href="collections.html").menu-link
-          i.fa.fa-folder
-          | Collections
-        ul.inner-nav-list
-          li
-            a(href="#") City School District
-          //- li
-            a(href="#") Traffic Congestion
-          //- li
-            a(href="#") Rochester Rhinos
-          //- li
-            a(href="#", title="Show more") ...
-      li
-        a(href="following.html").menu-link
-          i.fa.fa-user
-          | Following
-        ul.inner-nav-list
-          li
-            a(href="#") UID12301423
-          //- li
-            a(href="#") UID24032422
-          //- li
-            a(href="#") UID04340240
-          //- li
-            a(href="#", title="Show more") ...
-      //- li
-        a(href="tags.html").menu-link
-          i.fa.fa-tag
-          | Tags
-        ul.inner-nav-list
-          li
-            a(href="#") #school
-          //- li
-            a(href="#") #traffic
-          //- li
-            a(href="#") #soccer
-          //- li
-            a(href="#", title="Show more") ...
-    ul.nav-list
+    ul.nav-list.secondary-nav-list
       li
         a(href="settings.html").menu-link Settings
       li

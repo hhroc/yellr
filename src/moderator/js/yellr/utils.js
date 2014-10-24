@@ -1,7 +1,7 @@
 'use strict';
-var mod = mod || {};
+var yellr = yellr || {};
 
-mod.utils = {
+yellr.utils = {
 
   convert_object_to_array: function (object) {
     var array = [];
@@ -19,21 +19,23 @@ mod.utils = {
 
 
   load_latest_posts: function () {
-    setTimeout(function () {
-      console.log('loading latest posts...');
-      mod.posts.get_posts({
-        callback: function () {
-          mod.utils.render_template({
-            template: '#latest-posts-template',
-            target: '#latest-posts',
-            context: {posts: mod.DATA.posts}
+    if (AUTO_REFRESH) {
+      setTimeout(function () {
+        console.log('loading latest posts...');
+        yellr.server.get_posts(function () {
+          yellr.utils.render_template({
+            template: '#raw-feed-item',
+            target: '#raw-feed',
+            context: {posts: yellr.DATA.posts}
           });
-        }
-      });
+        });
 
-      // loop
-      mod.utils.load_latest_posts();
-    }, 10000);
+        // loop
+        yellr.utils.load_latest_posts();
+      }, 10000);
+    } else {
+      return;
+    }
   },
 
 
@@ -45,11 +47,9 @@ mod.utils = {
 
 
 
-  redirect_to_login: function (message) {
-
+  redirect_to_login: function () {
     if (document.querySelector('body').getAttribute('data-page') !== 'login') {
-      if (message) alert(message);
-      mod.utils.redirect_to('login.html');
+      yellr.utils.redirect_to('login.html');
     }
 
   },
@@ -67,26 +67,26 @@ mod.utils = {
       dataType: 'json',
       success: function (data) {
         if (data.success) {
-          mod.TOKEN = data.token;
-          mod.utils.save();
-          mod.utils.set_urls();
+          yellr.TOKEN = data.token;
+          yellr.utils.save();
+          yellr.utils.set_urls();
 
           // load languages
           $.ajax({
-            url: mod.URLS.get_languages,
+            url: yellr.URLS.get_languages,
             type: 'POST',
             dataType: 'json',
             success: function (response) {
               if (response.success) {
-                mod.DATA.languages = response.languages;
-                mod.utils.save();
+                yellr.DATA.languages = response.languages;
+                yellr.utils.save();
               } else {
                 alert('Something went wrong loading Languages. Things might get weird from here...');
               }
             }
           }).done(function () {
             console.log('done loading languages');
-            mod.utils.redirect_to('index.html');
+            yellr.utils.redirect_to('index.html');
           });
 
         } else {
@@ -100,7 +100,7 @@ mod.utils = {
 
   logout: function () {
     localStorage.removeItem('yellr-mod');
-    mod.utils.redirect_to_login('You have been logged out');
+    yellr.utils.redirect_to_login('You have been logged out');
   },
 
 
@@ -108,10 +108,10 @@ mod.utils = {
 
     // get auth token
     var local = JSON.parse(localStorage.getItem('yellr-mod'));
-    mod.DATA        = local.DATA;
-    mod.SETTINGS    = local.SETTINGS;
-    mod.TOKEN       = local.TOKEN;
-    mod.URLS        = local.URLS;
+    yellr.DATA        = local.DATA;
+    yellr.SETTINGS    = local.SETTINGS;
+    yellr.TOKEN       = local.TOKEN;
+    yellr.URLS        = local.URLS;
 
   },
 
@@ -128,10 +128,10 @@ mod.utils = {
      */
 
     // setup our data object
-    if (mod.DATA === undefined) mod.DATA = {};
+    if (yellr.DATA === undefined) yellr.DATA = {};
 
     // do te things
-    $.getJSON(mod.URLS[settings.data], function(response) {
+    $.getJSON(yellr.URLS[settings.data], function(response) {
 
       if (response.success) {
 
@@ -146,31 +146,31 @@ mod.utils = {
             for (var key in response.posts) {
               array.push(response.posts[key]);
             }
-            mod.DATA[settings.saveAs] = array;
+            yellr.DATA[settings.saveAs] = array;
 
           } else {
             // if it's already an array, just set it
-            mod.DATA[settings.saveAs] = response[settings.saveAs];
+            yellr.DATA[settings.saveAs] = response[settings.saveAs];
           }
 
           if (settings.saveAs === 'posts') {
 
-            mod.DATA.posts.reverse();
+            yellr.DATA.posts.reverse();
           }
 
           // save the data
-          mod.utils.save();
+          yellr.utils.save();
         }
         // or do stuff with it
         if (settings.callback) settings.callback(response);
       } else {
 
         console.log(response);
-        console.log(mod.URLS[settings.data]);
+        console.log(yellr.URLS[settings.data]);
         console.log(''+
           'Something went wrong loading: '+ settings.data+'\n'+
           'This could be because your previous session has expired. Please log back in');
-        // mod.utils.redirect_to_login(''+
+        // yellr.utils.redirect_to_login(''+
         //   'Something went wrong loading: '+ settings.data+'\n'+
         //   'This could be because your previous session has expired. Please log back in');
 
@@ -185,10 +185,10 @@ mod.utils = {
   save: function() {
 
     localStorage.setItem('yellr-mod', JSON.stringify({
-      DATA      : mod.DATA,
-      SETTINGS  : mod.SETTINGS,
-      TOKEN     : mod.TOKEN,
-      URLS      : mod.URLS
+      DATA      : yellr.DATA,
+      SETTINGS  : yellr.SETTINGS,
+      TOKEN     : yellr.TOKEN,
+      URLS      : yellr.URLS
     }));
 
   },
@@ -198,36 +198,36 @@ mod.utils = {
 
     var base_url = BASE_URL+'admin/';
 
-    mod.URLS = {
+    yellr.URLS = {
       // get latest user posts
-      get_posts:                    base_url+'get_posts.json?token='+mod.TOKEN,
+      get_posts:                    base_url+'get_posts.json?token='+yellr.TOKEN,
       // messaging
-      get_my_messages:              base_url+'get_my_messages.json?token='+mod.TOKEN,
-      create_message:               base_url+'create_message.json?token='+mod.TOKEN,
+      get_my_messages:              base_url+'get_my_messages.json?token='+yellr.TOKEN,
+      create_message:               base_url+'create_message.json?token='+yellr.TOKEN,
       // questions/assignments
-      create_question:              base_url+'create_question.json?token='+mod.TOKEN,
-      get_my_assignments:           base_url+'get_my_assignments.json?token='+mod.TOKEN,
-      publish_assignment:           base_url+'publish_assignment.json?token='+mod.TOKEN,
-      update_assignment:            base_url+'update_assignment.json?token='+mod.TOKEN,
-      get_assignment_responses:     base_url+'get_assignment_responses.json?token='+mod.TOKEN,
+      create_question:              base_url+'create_question.json?token='+yellr.TOKEN,
+      get_my_assignments:           base_url+'get_my_assignments.json?token='+yellr.TOKEN,
+      publish_assignment:           base_url+'publish_assignment.json?token='+yellr.TOKEN,
+      update_assignment:            base_url+'update_assignment.json?token='+yellr.TOKEN,
+      get_assignment_responses:     base_url+'get_assignment_responses.json?token='+yellr.TOKEN,
       // collections
-      create_collection:            base_url+'create_collection.json?token='+mod.TOKEN,
-      get_my_collections:           base_url+'get_my_collections.json?token='+mod.TOKEN,
-      disable_collection:           base_url+'disable_collection.json?token='+mod.TOKEN,
-      add_post_to_collection:       base_url+'add_post_to_collection.json?token='+mod.TOKEN,
-      remove_post_from_collection:  base_url+'remove_post_from_collection.json?token='+mod.TOKEN,
-      get_collection_posts:         base_url+'get_collection_posts.json?token='+mod.TOKEN,
+      create_collection:            base_url+'create_collection.json?token='+yellr.TOKEN,
+      get_my_collections:           base_url+'get_my_collections.json?token='+yellr.TOKEN,
+      disable_collection:           base_url+'disable_collection.json?token='+yellr.TOKEN,
+      add_post_to_collection:       base_url+'add_post_to_collection.json?token='+yellr.TOKEN,
+      remove_post_from_collection:  base_url+'remove_post_from_collection.json?token='+yellr.TOKEN,
+      get_collection_posts:         base_url+'get_collection_posts.json?token='+yellr.TOKEN,
       // meta
-      get_languages:                base_url+'get_languages.json?token='+mod.TOKEN,
-      get_question_types:           base_url+'get_question_types.json?token='+mod.TOKEN,
-      create_user:                  base_url+'create_user.json?token='+mod.TOKEN,
+      get_languages:                base_url+'get_languages.json?token='+yellr.TOKEN,
+      get_question_types:           base_url+'get_question_types.json?token='+yellr.TOKEN,
+      create_user:                  base_url+'create_user.json?token='+yellr.TOKEN,
       // publish
-      publish_story:                base_url+'publish_story.json?token='+mod.TOKEN,
+      publish_story:                base_url+'publish_story.json?token='+yellr.TOKEN,
       upload:                       BASE_URL+'upload_media.json'
     }
 
     // save new urls
-    mod.utils.save();
+    yellr.utils.save();
 
   },
 
@@ -239,7 +239,7 @@ mod.utils = {
     overlay.className = 'active';
 
     // listen for a close event
-    overlay.onclick = mod.utils.clear_overlay;
+    overlay.onclick = yellr.utils.clear_overlay;
 
 
     if (args) {
@@ -258,7 +258,7 @@ mod.utils = {
     if (e === undefined || e.target.id === 'overlay-div-container') {
       var overlay = document.querySelector('#overlay-div-container');
       overlay.className = '';
-      overlay.removeEventListener('click', mod.utils.clear_overlay,false);
+      overlay.removeEventListener('click', yellr.utils.clear_overlay,false);
       return;
     }
   },
@@ -294,17 +294,6 @@ mod.utils = {
     else if (settings.prepend) $(settings.target).prepend(html);
     else $(settings.target).html(html);
 
-  },
-
-
-
-
-  setup_sidebar: function () {
-    // set up the Post question form
-    // it is ony evry page
-    document.querySelector('#post-question-btn').onclick = mod.assignments.setup_form;
-    document.querySelector('#logout-btn').onclick = mod.utils.logout;
   }
-
 
 };

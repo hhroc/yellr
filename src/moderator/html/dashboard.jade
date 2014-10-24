@@ -1,0 +1,184 @@
+section#dashboard
+  div#active-assignments-container
+    h2.h3 Active Assignments
+    a(href="#assignments.html").view-all-assignments View all
+    ul#active-assignments-list
+    //- original markup
+    //- ===================================
+    //- ul#active-assignments-list
+      li No active assignments
+      li
+        h3 Do you think that schools should move their start time to later?
+        div.flex.assignment-meta
+          div.flex-1
+            a(href="#") View
+          p.flex-2.assignment-deadline 2 weeks
+      li
+        h3 Life's love is my breath, yet I'm short of breat
+        div.flex.assignment-meta
+          div.flex-1
+            a(href="#") View
+          p.flex-2.assignment-deadline 2 weeks
+      li
+        h3 How could you let this happen? Where were you?
+        div.flex.assignment-meta
+          div.flex-1
+            a(href="#") View
+          p.flex-2.assignment-deadline 2 weeks
+
+
+  div#raw-feed-container.right-wrapper
+    header.raw-feed-header
+      h2.h1 Raw Feed
+      div#feed-view.filter-control
+        span.filter-type View
+        label
+          input(type="radio", name="view", value="grid", checked)
+          span Grid
+        label
+          input(type="radio", name="view", value="list")
+          span List
+      label#auto-update
+        input(type="checkbox", checked)
+        span Auto Update
+        p.feed-updated-feedback Last updated: a few seconds ago
+
+    div.raw-feed-container
+      div.feed-filter-div
+        p.h2 Filter
+        div.filter-control
+          span.filter-type Content Type
+          label
+            input(type="checkbox", name="type", checked, value="image")
+            span Image
+          label
+            input(type="checkbox", name="type", checked, value="video")
+            span Video
+          label
+            input(type="checkbox", name="type", checked, value="audio")
+            span Audio
+          label
+            input(type="checkbox", name="type", checked, value="text")
+            span Text
+        div.filter-control
+          span.filter-type Submission Type
+          label
+            input(type="radio", name="submission", value="all", checked)
+            span All
+          label
+            input(type="radio", name="submission", value="anonymous")
+            span Anonymous
+          label
+            input(type="radio", name="submission", value="validated")
+            span Validated
+
+      div#raw-feed.grid
+        //- CSS rules accompany these
+        //- used for packery.js
+        div.feed-sizer
+        div.feed-gutter
+
+
+        //- div.feed-gi
+          div.story-item
+            div.media-preview(data-type="{{media_type}}")
+              figure.media-file-image
+                img(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
+                figcaption media_description
+              p.item-source
+                a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+          div.story-meta.flex
+            div.flex-2 &nbsp;
+            ul.options-list.flex-1
+              li
+                i.fa.fa-comment(title="Leave feedback")
+              li
+                i.fa.fa-close(title="Remove from collection")
+
+
+        //- div.feed-gi
+          div.story-item
+            div.media-preview(data-type="{{media_type}}")
+              p.media-text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+            p.item-source
+              a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+          div.story-meta.flex
+            div.flex-2 &nbsp;
+            ul.options-list.flex-1
+              li
+                i.fa.fa-comment(title="Leave feedback")
+              li
+                i.fa.fa-close(title="Remove from collection")
+
+
+div#templates
+  script#raw-feed-item(type="text/x-handlebars-template").
+    {{#if posts}}
+      {{#each posts}}
+      <div class="feed-gi">
+        <div class="story-item">
+          <p class="description">{{ title }}</p>
+          {{#each media_objects }}
+          <div class="media-preview" data-type="{{ media_type }}">
+            {{#if file_name}}
+            <figure class="media-file-image">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
+              <figcaption>{{ media_description }}</figcaption>
+            </figure>
+            {{else}}
+            <p class="media-text">{{ media_text }}</p>
+            {{/if}}
+
+            {{#if caption}}
+            <p>{{ caption }}</p>
+            {{/if}}
+          </div>
+          {{/each }}
+        </div>
+        <div class="story-meta flex">
+          <p class="source flex-3"><a href="#">{{ client_id }}</a></p>
+          <ul class="options-list flex-1">
+            <li><i title="Add to collection" class="fa fa-folder"></i></li>
+            <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+            <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+          </ul>
+        </div>
+        <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+      </div>
+      {{/each}}
+    {{else}}
+      <div class="gi">
+        <div class="story-item faded">
+          <h3 class="t2">No posts yet!</h3>
+          <p class="description">Try creating an assignment to help generate some responses.</p>
+        </div>
+      </div>
+    {{/if}}
+
+
+  script#active-assignment-template(type="text/x-handlebars-template").
+    {{#if assignments}}
+      {{#each assignments}}
+      <li>
+        <h3><a href="view-assignment.html# {{ assignment_id}}">{{ questions.[0].question_text }}</a></h3>
+        <div class="flex assignment-meta">
+          <div class="flex-1"><a href="view-assignment.html# {{ assignment_id}}">View</a></div>
+          <p class="flex-2 assignment-deadline">{{expire_datetime}}</p>
+        </div>
+      </li>
+      {{/each}}
+    {{else}}
+      <li class="faded">No active assignments</li>
+    {{/if}}
+
+  //- template for creating the collections dropdown
+  //- which allows users to add items to collection
+  //- from the raw feed
+  script#collections-dropdown-template(type="text/x-handlebars-template").
+    <ul class="collections-dropdown">
+      {{#each collections}}
+      <li>
+        <p data-collection-id="{{collection_id}}">{{name}}</p>
+      </li>
+      {{/each}}
+    </ul>

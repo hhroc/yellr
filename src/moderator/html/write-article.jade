@@ -8,7 +8,7 @@ head
   include _head.jade
 
 
-body#moderator(data-page="index")
+body#moderator(data-page="write-article")
   a(href="#main", class="assistive-text") Skip to main content
   div.container
 
@@ -16,8 +16,9 @@ body#moderator(data-page="index")
       div.flex-1#left
         include _sidebar.jade
 
-      div.flex-4#right
-        include dashboard.jade
+      div.flex-4#right.right-wrapper
+        include editor.jade
 
   include _footer.jade
+  script(src="js/libs/markdown.js")
 </html>

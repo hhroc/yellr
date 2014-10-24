@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yellr - Home</title>
+  <meta name="description" content="Yellr backend moderation - Citizen engagement and journalism app">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+  <script src="js/libs/modernizr.js"></script>
+  <link rel="stylesheet" href="style/style.min.css">
+</head>
+<body id="moderator" data-page="create-assignment"><a href="#main" class="assistive-text">Skip to main content</a>
+  <div class="container">
+    <div id="main" class="flex">
+      <div id="left" class="flex-1">
+        <section id="sidebar">
+          <header>
+            <section class="profile-overview">
+              <figure class="profile-picture-wrapper"><img src="img/freedom.jpg"></figure>
+              <hgroup class="profile-deets">
+                <h2 class="moderator-name">Luis Rosario</h2>
+                <h3 class="moderator-organization">WXXI</h3>
+              </hgroup>
+            </section>
+          </header>
+          <nav id="dash-nav">
+            <ul class="nav-list primary-list">
+              <li><a href="create-assignment.html" class="primary-btn new-assignment-btn">Create Assignment</a>
+              </li>
+              <li><a href="write-article.html" class="primary-btn write-article-btn">Write Article</a>
+              </li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="assignments.html" class="menu-link">Assignments</a></li>
+              <li><a href="collections.html" class="menu-link">Collections</a></li>
+              <li><a href="messages.html" class="menu-link">Messages</a></li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="settings.html" class="menu-link">Settings</a></li>
+              <li><a id="logout-btn" href="#logout" class="menu-link">Logout</a></li>
+            </ul>
+          </nav>
+        </section>
+      </div>
+      <div id="right" class="flex-4 right-wrapper">
+        <header class="editor-header header-with-controls">
+          <h2 class="h1">Create Assignment</h2>
+          <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
+        </header>
+        <div class="assignment-wrapper">
+          <div id="assignment-question-type"><span class="h3">Question Type:</span>
+            <label>
+              <input type="radio" name="question_type" value="free_text" checked><span>Free Response</span>
+            </label>
+            <label>
+              <input type="radio" name="question_type" value="multiple_choice"><span>Survey</span>
+            </label>
+          </div>
+          <div id="tabs-container" class="flex">
+            <input id="tab-1" type="radio" name="assignment_view" value="text" checked class="tab-input tab-1">
+            <input id="tab-2" type="radio" name="assignment_view" value="choices" class="tab-input tab-2">
+            <input id="tab-3" type="radio" name="assignment_view" value="deadline" class="tab-input tab-3">
+            <input id="tab-4" type="radio" name="assignment_view" value="geo-fence" class="tab-input tab-4">
+            <input id="tab-5" type="radio" name="assignment_view" value="add-image" class="tab-input tab-5">
+            <ul id="tabs-content" class="flex-3">
+              <li id="questions-container" class="tab-content tab-1">
+                <div class="question-container">
+                  <form>
+                    <input type="hidden" name="language_code" value="en">
+                    <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+                    <textarea rows="2" name="description" placeholder="Add an assignment description..." class="question_description"></textarea>
+                  </form>
+                </div>
+                <div class="language-select-wrapper">
+                  <label><span id="add-language" class="h4">+ Add language</span>
+                    <select id="language-select" name="language_code">
+                      <option name="none" value="--">--</option>
+                      <option name="espanol" value="Espanol">Espanol</option>
+                    </select>
+                  </label>
+                </div>
+              </li>
+              <li id="choices-container" class="tab-content tab-2"><span class="h4">Survey Answers</span>
+                <input type="text" placeholder="Choice...">
+                <ul id="survey-answers-list"></ul>
+              </li>
+              <li id="deadline-container" class="tab-content tab-3">
+                <p>Deadline: October 31, 2014 (8 days)</p>
+                <p><small>Duration</small></p>
+                <p class="inline-block"><span>Due:</span>
+                  <input type="number" id="lifetime" value="14">
+                  <input type="hidden" name="life_time" value="">
+                </p>
+                <ul id="unit-of-time-list" class="inline-block">
+                  <li>
+                    <label>
+                      <input type="radio" name="unit-of-time" value="days" checked><span>Days</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="unit-of-time" value="months"><span>Months</span>
+                    </label>
+                  </li>
+                </ul>
+              </li>
+              <li id="geo-fence-container" class="tab-content tab-4">
+                <p>Select area to ask. Click and drag</p>
+              </li>
+              <li id="add-image-container" class="tab-content tab-5">
+                <p>Select an image to add to the assignment</p>
+                <input type="file" name="media_file">
+              </li>
+            </ul>
+            <nav id="assignment-tabs" class="flex-1">
+              <label for="tab-1" class="tab-label tab">Text</label>
+              <label for="tab-2" class="tab-label tab choices-tab faded">Choices</label>
+              <label for="tab-3" class="tab-label tab">Deadline</label>
+              <label for="tab-4" class="tab-label tab">Geo-fence</label>
+              <label for="tab-5" class="tab-label tab">+ Add image</label>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="templates">
+    <script id="question-form-template" type="text/x-handlebars-template">
+      <form>
+        <h3>{{language}}</h3>
+        <input type="hidden" name="language_code" value="{{language_code}}">
+        <textarea rows="3" name="question_text" placeholder="Ask the community..." class="question_text"></textarea>
+        <textarea rows="2" name="description" placeholder="Add an assignment description..." class="question_description"></textarea>
+      </form>
+    </script>
+  </div>
+  <div id="overlay-div-container">
+  </div>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/jquery.form.min.js"></script>
+  <script src="js/libs/packery.js"></script>
+  <script src="js/libs/moment.js"></script>
+  <script src="js/libs/handlebars.js"></script>
+  <script src="js/moderator.js"></script>
+</body></html>

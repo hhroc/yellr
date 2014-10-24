@@ -1,27 +1,3 @@
-//- template for Collections overview
-//- ===================================
-//- used on: collections.html
-script#collections-gi-template(type="text/x-handlebars-template").
-  {{#if collections}}
-    {{#each collections}}
-    <div class="collections-gi">
-        <h3 class="title"><a href="{{url}}">{{name}}</a></h3>
-        <div class="flex">
-          <a href="{{url}}" class="view flex-1">View</a>
-          <p class="created flex-1">{{collection_datetime}}</p>
-        </div>
-      </div>
-    </div>
-    {{/each}}
-  {{else}}
-    <div class="collections-gi faded">
-        <h3 class="title">No collections! Create one by clicking the button above or creating a new assignment!</h3>
-      </div>
-    </div>
-  {{/if}}
-
-
-
 //- template for viewing a single collection
 //- ===================================
 //- used on: view-collection.html
@@ -95,38 +71,3 @@ script#collections-li-template(type="text/x-handlebars-template").
       <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
     </li>
   {{/if}}
-
-
-
-//- template for creating a new collection
-//- ===================================
-//- used on: collection.html
-script#collections-form-template(type="text/x-handlebars-template").
-  <div class="overlay-container">
-    <h3 class="t2">New Collection</h3>
-    <form id="new-collections-form" class="form">
-      <input type="text" name="name" placeholder="Collections name">
-      <textarea name="description" rows="2" placeholder="Collection description (optional)"></textarea>
-      <input type="text" name="tags" placeholder="Collection tags (use commas to add multiple tags)">
-      <label class="submit-label">
-        <input type="submit" hidden>
-        <span class="submit-btn">Create</span>
-      </label>
-    </form>
-  </div>
-
-
-
-//- template for creating the collections dropdown
-//- which allows users to add items to collection
-//- from the raw feed
-//- ===================================
-//- used on: index.html
-script#collections-dropdown-template(type="text/x-handlebars-template").
-  <ul class="collections-dropdown">
-    {{#each collections}}
-    <li>
-      <p data-collection-id="{{collection_id}}">{{name}}</p>
-    </li>
-    {{/each}}
-  </ul>

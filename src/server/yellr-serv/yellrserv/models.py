@@ -298,6 +298,7 @@ class Assignments(Base):
     bottom_right_lat = Column(Float)
     bottom_right_lng = Column(Float)
     use_fence = Column(Boolean)
+    collection_id = Column(Integer, ForeignKey('collections.collection_id'), nullable=True)
 
     @classmethod
     def get_by_assignment_id(cls, session, assignment_id):
@@ -355,6 +356,7 @@ class Assignments(Base):
                 Assignments.bottom_right_lat,
                 Assignments.bottom_right_lng,
                 Assignments.use_fence,
+                Assignments.collection_id,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
@@ -405,6 +407,7 @@ class Assignments(Base):
                 Assignments.bottom_right_lat,
                 Assignments.bottom_right_lng,
                 Assignments.use_fence,
+                Assignments.collection_id,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
@@ -464,6 +467,22 @@ class Assignments(Base):
                 )
                 session.add(assignment)
                 transaction.commit()
+        return assignment
+
+    @classmethod
+    def set_collection(cls, session, assignment_id, collection_id):
+        with transaction.manager:
+            assignment = session.query(
+                Assignments,
+            ).filter(
+                Assignments.assignment_id == assignment_id,
+            ).first()
+            
+            assignment.collection_id = collection_id
+            
+            session.add(assignment)
+            transaction.commit()
+
         return assignment
 
     @classmethod

@@ -340,8 +340,8 @@ def admin_publish_assignment(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -386,6 +386,20 @@ bottom_right_lat, bottom_right_lng.
             bottom_right_lng = bottom_right_lng,
         )
 
+        collection = Collections.create_new_collection_from_http(
+            session = DBSession,
+            token = user.token,
+            name = "Assignment #{0}".format(assignment.assignment_id),
+            description = "",
+            tags = "",
+        )
+
+        Assignments.set_collection(
+            session = DBSession,
+            assignment_id = assignment.assignment_id,
+            collection_id = collection.collection_id,
+        )
+
         # assign question to assignment
         for question_id in questions:
             QuestionAssignments.create(
@@ -398,8 +412,8 @@ bottom_right_lat, bottom_right_lng.
 
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
 
     return make_response(result)

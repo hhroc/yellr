@@ -101,12 +101,12 @@ yellr.server = {
     //   'bottom_right_lat': 43.0,
     //   'bottom_right_lng': -77.3
     // },
-    // console.log('server.publish_assignment');
+
     data.questions =JSON.stringify(data.questions);
-    // console.log(data);
+
     $.ajax({
       type: 'POST',
-      yellr: yellr.URLS.publish_assignment,
+      url: yellr.URLS.publish_assignment,
       data: data,
       dataType: 'json',
       success: function (response) {
@@ -116,6 +116,10 @@ yellr.server = {
         } else {
           alert('Something went wrong submitting an Assignment');
         }
+      },
+      error: function (response) {
+        console.log('ERR_RRORRERIRIRIR');
+        console.log(response);
       }
 
     });

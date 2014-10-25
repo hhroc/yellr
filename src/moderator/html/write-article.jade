@@ -2,7 +2,7 @@ doctype html
 head
   include ../../common/html/_head/meta.jade
 
-  title Yellr - Home
+  title Write Article - Yellr
   meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
 
   include _head.jade
@@ -26,6 +26,10 @@ body#moderator(data-page="write-article")
               span#post-btn Post
 
           div.editor-workspace.flex
+            input#tab-1.tab-input.tab-1(type="radio", name="editor_view", value="workspace", checked)
+            input#tab-2.tab-input.tab-2(type="radio", name="editor_view", value="preview")
+            input#tab-2.tab-input.tab-2(type="radio", name="editor_view", value="geo-fence")
+
             div.flex-2
               div.editor-input
                 span.h3 Title

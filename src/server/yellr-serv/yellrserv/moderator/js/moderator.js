@@ -1,10 +1,3 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var yellr = yellr || {};
 
@@ -855,12 +848,12 @@ yellr.server = {
     //   'bottom_right_lat': 43.0,
     //   'bottom_right_lng': -77.3
     // },
-    // console.log('server.publish_assignment');
+
     data.questions =JSON.stringify(data.questions);
-    // console.log(data);
+
     $.ajax({
       type: 'POST',
-      yellr: yellr.URLS.publish_assignment,
+      url: yellr.URLS.publish_assignment,
       data: data,
       dataType: 'json',
       success: function (response) {
@@ -870,6 +863,10 @@ yellr.server = {
         } else {
           alert('Something went wrong submitting an Assignment');
         }
+      },
+      error: function (response) {
+        console.log('ERR_RRORRERIRIRIR');
+        console.log(response);
       }
 
     });
@@ -1517,9 +1514,7 @@ yellr.view.create_assignment = function () {
           assignment_data.bottom_right_lat = 43.0;
           assignment_data.bottom_right_lng = -77.3;
 
-          console.log('publishing assignment');
           yellr.server.publish_assignment(assignment_data, function (assignment_response) {
-            console.log('assignment published');
             // create collection for the new assignment
             yellr.server.create_collection({
               name: 'Assignment #'+assignment_response.assignment_id+' Collection',
@@ -1527,7 +1522,6 @@ yellr.view.create_assignment = function () {
               tags: 'some, example, collection tags'
             },function (collection_response) {
 
-              console.log('collection created');
               // update our assignments
               yellr.server.get_my_assignments(function () {
                 yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);

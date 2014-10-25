@@ -5,12 +5,16 @@ var yellr = yellr || {};
 // index.html
 
 yellr.view.login = function () {
-  var $form = $('#mod-login');
 
-  $form.submit(function (e) {
-    e.preventDefault();
-    var fields = $form.serializeArray();
-    yellr.utils.login(fields[0].value, fields[1].value);
-  });
+  document.querySelector('#mod-login').onsubmit = function (event) {
 
+    event.preventDefault();
+
+    // login (username, passwod, error feedback)
+    // login automatically goes to index.html
+    yellr.server.login(this.elements['user_name'].value, this.elements['password'].value, function (response) {
+      // handle login errors
+      if (!response.success) document.querySelector('#login-feedback').innerHTML = response.error_text;
+    });
+  }
 }

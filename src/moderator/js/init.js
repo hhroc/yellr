@@ -1,8 +1,9 @@
 'use strict';
 var yellr = yellr || {};
 
-var BASE_URL = '/',
-    AUTO_REFRESH = true;
+// initial settings
+yellr.BASE_URL = '/';
+yellr.AUTO_REFRESH = true;
 
 
 window.onload = function () {
@@ -16,6 +17,8 @@ window.onload = function () {
     // ----------------------------
 
 
+    var body, page, sidebar;
+
 
     // check for pre-existing data, if none, create it
     if (localStorage.getItem('yellr-mod') === null) yellr.utils.redirect_to_login();
@@ -25,21 +28,15 @@ window.onload = function () {
     if (yellr.DATA === undefined) yellr.DATA = {};
 
 
-    // logout button
-    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
-    // cosmetic things
-    document.querySelector('#sidebar').setAttribute('style', 'min-height: '+document.querySelector('body').scrollHeight+'px');
-
-
-
     // get our current page
-    var page = document.querySelector('body').getAttribute('data-page');
+    body = document.querySelector('body');
+    page = body.getAttribute('data-page');
 
     // do specfic things for each page
     switch (page) {
       case 'index':
-        // the dashboard
-        yellr.view.index();
+        // the dashboard and everything
+        yellr.view.index.init();
         break;
       case 'login':
         yellr.view.login();
@@ -51,16 +48,16 @@ window.onload = function () {
         yellr.view.all_assignments();
         break;
       case 'single-assignment':
-        yellr.view.single_assignment_view();
+        yellr.view.view_assignment();
         break;
-      case 'editor':
-        yellr.editor.init();
+      case 'write-article':
+        yellr.view.write_article();
         break;
       case 'collections':
         yellr.view.all_collections();
         break;
       case 'single-collection':
-        yellr.view.single_collection_view();
+        yellr.view.view_collection();
         break;
       case 'messages':
         yellr.view.inbox();
@@ -69,5 +66,22 @@ window.onload = function () {
         console.log('lol ok');
         break;
     }
+
+
+    // hookup the Yellr admin sidebar
+    sidebar = document.querySelector('#sidebar');
+    if (sidebar) {
+      // logout button
+      document.querySelector('#logout-btn').onclick = function (event) {
+        yellr.utils.logout();
+      };
+
+      // cosmetic things
+      // - make sure the sidebar takes up the whole screen
+      if(body.scrollHeight > sidebar.scrollHeight) sidebar.setAttribute('style', 'min-height: '+body.scrollHeight+'px');
+
+    }
+
+
 
 }

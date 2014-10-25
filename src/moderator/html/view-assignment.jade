@@ -84,5 +84,108 @@ body#moderator(data-page="single-assignment")
                   span.fa.fa-plus
                   | &nbsp;icon
 
+  div#templates
+
+    script#assignment-overview-template(type="text/x-handlebars-template").
+      <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
+      <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
+      <div class="flex">
+        <div class="flex-2">
+          <p>{{assignment.questions.[0].description}}</p>
+          <ul class="inline assignment-dates-list">
+            <li class="assignment-published">{{assignment.publish_datetime}}</li>
+            <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
+          </ul>
+        </div>
+        <div class="flex-1">
+          <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
+          <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+        </div>
+      </div>
+      <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>
+
+
+
+    //- assignment replies
+    script#assignment-response-li-template(type="text/x-handlebars-template").
+      {{#if replies}}
+        {{#each replies}}
+        <li id="post-id-{{post_id}}">
+          <div class="gi">
+            <div class="story-item">
+              <p class="description">{{title}}</p>
+              {{#each media_objects }}
+              <div class="media-preview" data-type="{{ media_type }}">
+                {{#if file_name}}
+                <figure class="media-file-image">
+                  <img src="/media/{{file_name}}" alt="{{ media_description }}">
+                  <figcaption>{{ media_description }}</figcaption>
+                </figure>
+                {{else}}
+                <p class="media-text">{{ media_text }}</p>
+                {{/if}}
+
+                {{#if caption}}
+                <p>{{ caption }}</p>
+                {{/if}}
+              </div>
+              {{/each }}
+            </div>
+            <div class="story-meta flex">
+              <p class="source flex3"><a href="#">{{client_id}}</a></p>
+              <ul class="options-list flex-1">
+                <li><i title="Add to collection" class="fa fa-plus"></i></li>
+                <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+                <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+              </ul>
+              <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      {{else}}
+        <li class="faded">
+          <h3 class="t2">No replies yet</h3>
+          <p>It might take a while for people to respond. Also be sure to check the regular feed just in case.</p>
+        </li>
+      {{/if}}
+
+    //- template used while writing article
+    //- where we have the collection on the side
+    //- ===================================
+    //- used on: editor.html
+    script#collections-li-template(type="text/x-handlebars-template").
+      {{#if collection}}
+        {{#each collection}}
+        <li>
+          {{#each media_objects }}
+          <div class="media-preview" data-type="{{ media_type }}">
+            {{#if file_name}}
+            <figure class="media-file-image">
+              <img src="/media/{{file_name}}" alt="{{ media_description }}">
+              <figcaption>{{ media_description }}</figcaption>
+            </figure>
+            {{else}}
+            <p class="media-text">{{ media_text }}</p>
+            {{/if}}
+
+            {{#if caption}}
+            <p>{{ caption }}</p>
+            {{/if}}
+          </div>
+          {{/each }}
+          <div class="assignment-collection-actions"><span class="remove-btn"><i class="fa fa-close">&nbsp;Remove</i></span></div>
+          <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+        </li>
+        {{/each}}
+      {{else}}
+        <li class="faded">
+          <h3 class="t2">Collection is empty</h3>
+          <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+        </li>
+      {{/if}}
+
+
   include _footer.jade
 </html>

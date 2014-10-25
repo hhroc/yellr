@@ -1,8 +1,16 @@
+/*!
+ * yellr v0.0.1 (http://hhroc.github.io/)
+ * Copyright 2014 hhroc - Hacks and Hackers Rochester
+ * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
+ */
+
+
 'use strict';
 var yellr = yellr || {};
 
-var BASE_URL = '/',
-    AUTO_REFRESH = true;
+// initial settings
+yellr.BASE_URL = '/';
+yellr.AUTO_REFRESH = true;
 
 
 window.onload = function () {
@@ -16,6 +24,8 @@ window.onload = function () {
     // ----------------------------
 
 
+    var body, page, sidebar;
+
 
     // check for pre-existing data, if none, create it
     if (localStorage.getItem('yellr-mod') === null) yellr.utils.redirect_to_login();
@@ -25,21 +35,15 @@ window.onload = function () {
     if (yellr.DATA === undefined) yellr.DATA = {};
 
 
-    // logout button
-    document.querySelector('#logout-btn').onclick = yellr.utils.logout;
-    // cosmetic things
-    document.querySelector('#sidebar').setAttribute('style', 'min-height: '+document.querySelector('body').scrollHeight+'px');
-
-
-
     // get our current page
-    var page = document.querySelector('body').getAttribute('data-page');
+    body = document.querySelector('body');
+    page = body.getAttribute('data-page');
 
     // do specfic things for each page
     switch (page) {
       case 'index':
-        // the dashboard
-        yellr.view.index();
+        // the dashboard and everything
+        yellr.view.index.init();
         break;
       case 'login':
         yellr.view.login();
@@ -51,16 +55,16 @@ window.onload = function () {
         yellr.view.all_assignments();
         break;
       case 'single-assignment':
-        yellr.view.single_assignment_view();
+        yellr.view.view_assignment();
         break;
-      case 'editor':
-        yellr.editor.init();
+      case 'write-article':
+        yellr.view.write_article();
         break;
       case 'collections':
         yellr.view.all_collections();
         break;
       case 'single-collection':
-        yellr.view.single_collection_view();
+        yellr.view.view_collection();
         break;
       case 'messages':
         yellr.view.inbox();
@@ -69,6 +73,23 @@ window.onload = function () {
         console.log('lol ok');
         break;
     }
+
+
+    // hookup the Yellr admin sidebar
+    sidebar = document.querySelector('#sidebar');
+    if (sidebar) {
+      // logout button
+      document.querySelector('#logout-btn').onclick = function (event) {
+        yellr.utils.logout();
+      };
+
+      // cosmetic things
+      // - make sure the sidebar takes up the whole screen
+      if(body.scrollHeight > sidebar.scrollHeight) sidebar.setAttribute('style', 'min-height: '+body.scrollHeight+'px');
+
+    }
+
+
 
 }
 
@@ -489,124 +510,6 @@ yellr.assignments = (function() {
 'use strict';
 var mod = mod || {};
 
-mod.collections = {
-
-
-  setup_form: function () {
-    console.log('hello from: setup_form');
-
-    $('#new-collections-form').find('.submit-btn').on('click', function () {
-      console.log('submit the form');
-      mod.collections.submit_form();
-    })
-  },
-
-
-  submit_form: function () {
-    console.log('hello from: submit_form');
-    console.log('url: ' + mod.URLS.create_collection);
-
-    $.ajax({
-      url: mod.URLS.create_collection,
-      type: 'POST',
-      dataType: 'json',
-      data: $('#new-collections-form').serialize(),
-      success: function (response) {
-        if (response.success) {
-          console.log('SUCCESS');
-          console.log(response);
-          mod.utils.clear_overlay();
-        } else {
-          console.log('something went wrong');
-        }
-      }
-    })
-  }
-
-};
-
-'use strict';
-var mod = mod || {};
-
-mod.editor = (function() {
-
-  var init = function () {
-    // get the collection for the assignment
-    mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
-
-      // render the assignment's collection for the editor
-      mod.utils.render_template({
-        template: '#collections-li-template',
-        target: '#editor-collections-list',
-        context: {
-          collection: response.collection
-        }
-      });
-
-    });
-
-
-    function Editor(input, preview) {
-      this.update = function () {
-        var title = '# ' + $('#article-title').val() + '\n';
-        preview.innerHTML = markdown.toHTML(title + input.value);
-      };
-      input.editor = this;
-      this.update();
-    }
-
-    var editor = new Editor(document.getElementById("markdown-editor"), document.getElementById("editor-preview"));
-
-
-    // setup event listeners
-    $('#preview-btn').on('click', function (e) {
-
-      var $editor = $('#editor-workspace .editor-container');
-      var new_inactive = $editor.find('.active');
-      var new_active = $editor.find('.inactive');
-      new_inactive.removeClass('active').addClass('inactive');
-      new_active.removeClass('inactive').addClass('active');
-      editor.update();
-    });
-
-
-    $('#editor-controls .submit-btn').on('click', function (e) {
-
-      $.post(mod.URLS.publish_story, {
-        title: $('#article-title').val(),
-        tags: 'test, 1, 2, 3',
-        top_text: $('#top-text').val(),
-        banner_media_id: '',
-        // banner_media_id: '329af2ee-6014-4a90-a7c3-05dba003c7ac',
-        contents: $('#markdown-editor').val(),
-        language_code: 'en',
-        top_left_lat: 43.4,
-        top_left_lng: -77.9,
-        bottom_right_lat: 43.0,
-        bottom_right_lng: -77.3
-      },
-      function (response) {
-        if (response.success) {
-          console.log('post successful!');
-        } else {
-          console.log('something went wrong');
-        }
-        console.log(response);
-      });
-
-    });
-
-
-  }
-
-  return {
-    init: init
-  }
-})();
-
-'use strict';
-var mod = mod || {};
-
 mod.feed =  {
 
   toggle_collections_dropdown: function (target) {
@@ -858,6 +761,61 @@ var yellr = yellr || {};
 yellr.server = {
 
 
+  // get a user admin token
+  //  - admin/get_access_token.json
+  // ----------------------------
+  login: function (username, password, callback) {
+
+    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
+    var url = yellr.BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
+
+    // $form
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType: 'json',
+      success: function (data) {
+        if (callback) callback(data);
+
+        if (data.success) {
+          yellr.TOKEN = data.token;
+          yellr.utils.save();
+          yellr.utils.set_urls();
+
+          yellr.server.get_languages(function (response) {
+            if (response.success) yellr.utils.redirect_to('index.html');
+          });
+        }
+      }
+    });
+
+  },
+
+
+  // get available languages
+  //  - admin/get_languages.json
+  // ----------------------------
+  get_languages: function (callback) {
+
+    $.ajax({
+      url: yellr.URLS.get_languages,
+      type: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        if (response.success) {
+          yellr.DATA.languages = response.languages;
+          yellr.utils.save();
+          if (callback) callback(response);
+        } else {
+          yellr.utils.redirect_to_login();
+        }
+      }
+    });
+
+  },
+
+
+
   // language_code
   // question_text
   // description
@@ -957,6 +915,7 @@ yellr.server = {
       if (response.success) {
         success = true;
         posts = yellr.utils.convert_object_to_array(response.posts);
+        // yellr.DATA.posts = posts.reverse();
         yellr.DATA.posts = posts;
         yellr.utils.save();
       } else {
@@ -1202,27 +1161,6 @@ yellr.utils = {
   },
 
 
-  load_latest_posts: function () {
-    if (AUTO_REFRESH) {
-      setTimeout(function () {
-        console.log('loading latest posts...');
-        yellr.server.get_posts(function () {
-          yellr.utils.render_template({
-            template: '#raw-feed-item',
-            target: '#raw-feed',
-            context: {posts: yellr.DATA.posts}
-          });
-        });
-
-        // loop
-        yellr.utils.load_latest_posts();
-      }, 10000);
-    } else {
-      return;
-    }
-  },
-
-
 
   redirect_to: function (page) {
     var url_base = '/moderator/';
@@ -1238,48 +1176,6 @@ yellr.utils = {
 
   },
 
-
-  login: function (username, password) {
-
-    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
-
-    // $form
-    $.ajax({
-      type: 'POST',
-      url: url,
-      dataType: 'json',
-      success: function (data) {
-        if (data.success) {
-          yellr.TOKEN = data.token;
-          yellr.utils.save();
-          yellr.utils.set_urls();
-
-          // load languages
-          $.ajax({
-            url: yellr.URLS.get_languages,
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-              if (response.success) {
-                yellr.DATA.languages = response.languages;
-                yellr.utils.save();
-              } else {
-                alert('Something went wrong loading Languages. Things might get weird from here...');
-              }
-            }
-          }).done(function () {
-            console.log('done loading languages');
-            yellr.utils.redirect_to('index.html');
-          });
-
-        } else {
-          document.querySelector('#login-feedback').innerHTML = data.error_text;
-        }
-      }
-    });
-
-  },
 
 
   logout: function () {
@@ -1380,7 +1276,7 @@ yellr.utils = {
 
   set_urls: function () {
 
-    var base_url = BASE_URL+'admin/';
+    var base_url = yellr.BASE_URL+'admin/';
 
     yellr.URLS = {
       // get latest user posts
@@ -1407,7 +1303,7 @@ yellr.utils = {
       create_user:                  base_url+'create_user.json?token='+yellr.TOKEN,
       // publish
       publish_story:                base_url+'publish_story.json?token='+yellr.TOKEN,
-      upload:                       BASE_URL+'upload_media.json'
+      upload:                       yellr.BASE_URL+'upload_media.json'
     }
 
     // save new urls
@@ -1871,22 +1767,26 @@ var yellr = yellr || {};
 
 // index.html
 
-yellr.view.index = function () {
+yellr.view.index = {
 
-    /**
-     * setup the Yellr Admin dashboard
-     * index.html
-     *
-     * - get user assignments
-     * - get latest Yellr posts
-     * - toggle grid/list view
-     * - toggle auto-update
-     * - setup feed filter
-     *
-     */
+  /**
+   * setup the Yellr Admin dashboard
+   * index.html
+   *
+   * - get user assignments
+   * - get latest Yellr posts
+   * - toggle grid/list view
+   * - toggle auto-update
+   * - setup feed filter
+   *
+   */
 
-    var pckry,
-        grid = document.querySelector('#raw-feed');
+  timeout: undefined,
+  pckry: undefined,
+
+  init: function () {
+    var grid = document.querySelector('#raw-feed'),
+        latest_4_assignments = [];
 
 
     // get my assignments
@@ -1894,7 +1794,6 @@ yellr.view.index = function () {
     // ----------------------------
     yellr.server.get_my_assignments(function (assignments) {
       // get 4 latest
-      var latest_4_assignments = [];
       for (var i = 0; i < assignments.length; i++) {
         latest_4_assignments.push(assignments[i]);
         if (latest_4_assignments.length >= 4) break;
@@ -1922,13 +1821,14 @@ yellr.view.index = function () {
       yellr.utils.render_template({
         template: '#raw-feed-item',
         target: '#raw-feed',
-        context: {posts: yellr.DATA.posts},
-        append: true
+        context: {posts: yellr.DATA.posts.reverse()},
+        // context: {posts: yellr.DATA.posts},
+        prepend: true
       });
 
       setTimeout(function () {
         // setup packery
-        pckry = new Packery(grid, {
+        yellr.view.index.pckry = new Packery(grid, {
           itemSelector: '.feed-gi',
           columnWidth: '.feed-sizer',
           gutter: '.feed-gutter'
@@ -1965,7 +1865,7 @@ yellr.view.index = function () {
           };
 
           // destroy pakcry
-          pckry.destroy();
+          yellr.view.index.pckry.destroy();
         } else {
           grid_items = grid.querySelectorAll('.gi');
           for (var i = 0; i < grid_items.length; i++) {
@@ -1973,7 +1873,7 @@ yellr.view.index = function () {
           };
 
           // redo packry
-          pckry = new Packery(grid, {
+          yellr.view.index.pckry = new Packery(grid, {
             itemSelector: '.feed-gi',
             columnWidth: '.feed-sizer',
             gutter: '.feed-gutter'
@@ -1988,14 +1888,10 @@ yellr.view.index = function () {
     // auto-update
     // ----------------------------
     document.querySelector('#auto-update').onclick = function (event) {
-      // set auto-refresh to true
-      if (event.target.checked === true) {
-        AUTO_REFRESH = true;
-        yellr.utils.load_latest_posts();
-      } else {
-        // auto-refresh = false
-        AUTO_REFRESH = false;
-      }
+      if (event.target.checked === true) yellr.AUTO_REFRESH = true;
+      else yellr.AUTO_REFRESH = false;
+      // do the
+      yellr.view.index.refresh();
     }
 
     // setup the filter
@@ -2010,7 +1906,6 @@ yellr.view.index = function () {
     // - add post to a collection
     // - flag inappropriate content
     grid.onclick = function(e) {
-      console.log('lol');
       switch (e.target.className) {
 
         // add post to a collection
@@ -2062,10 +1957,55 @@ yellr.view.index = function () {
       }
     };
 
-
     // refresh posts every 10 seconds
-    yellr.utils.load_latest_posts();
-}
+    if (yellr.AUTO_REFRESH) this.refresh();
+  },
+
+  refresh: function (timeout) {
+    if (yellr.AUTO_REFRESH) {
+
+      yellr.view.index.timeout = setTimeout(function () {
+        // TODO
+        // update the "Last updated thing"
+        yellr.server.get_posts(function () {
+
+          var current_posts = document.querySelectorAll('.feed-gi').length,
+              new_posts = [],
+              new_items = [];
+
+          if (yellr.DATA.posts.length > current_posts) {
+            for (var i = current_posts; i < yellr.DATA.posts.length; i++) {
+              new_posts.push(yellr.DATA.posts[i]);
+            };
+
+            // render the latest ones
+            yellr.utils.render_template({
+              template: '#raw-feed-item',
+              target: '#raw-feed',
+              context: {posts: new_posts},
+              prepend: true
+            });
+
+            // redo packery
+            setTimeout(function () {
+              yellr.view.index.pckry.reloadItems();
+              yellr.view.index.pckry.layout();
+            }, 1000);
+          }
+
+        });
+
+        // loop
+        yellr.view.index.refresh(timeout);
+      }, 3000);
+      // }, 10000);
+    } else {
+      window.clearTimeout(yellr.view.index.timeout);
+      return;
+    }
+  }
+
+};
 
 'use strict';
 var yellr = yellr || {};
@@ -2074,14 +2014,18 @@ var yellr = yellr || {};
 // index.html
 
 yellr.view.login = function () {
-  var $form = $('#mod-login');
 
-  $form.submit(function (e) {
-    e.preventDefault();
-    var fields = $form.serializeArray();
-    yellr.utils.login(fields[0].value, fields[1].value);
-  });
+  document.querySelector('#mod-login').onsubmit = function (event) {
 
+    event.preventDefault();
+
+    // login (username, passwod, error feedback)
+    // login automatically goes to index.html
+    yellr.server.login(this.elements['user_name'].value, this.elements['password'].value, function (response) {
+      // handle login errors
+      if (!response.success) document.querySelector('#login-feedback').innerHTML = response.error_text;
+    });
+  }
 }
 
 'use strict';
@@ -2094,31 +2038,39 @@ yellr.view.view_assignment = function () {
 
   if (assignment_id !== NaN) {
     // render the question text and things
-    yellr.assignments.view(assignment_id);
+    var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
+      if (val.assignment_id === assignment_id) return true;
+    })[0];
+
+    // render the Handlebars template
+    yellr.utils.render_template({
+      template: '#assignment-overview-template',
+      target: '#view-assignment-section',
+      context: {assignment: assignment}
+    });
+
+
+
 
     // get replies to question
-    yellr.assignments.get_responses_for({
-      assignment_id: assignment_id,
-      callback: function (posts) {
-        var replies = yellr.utils.convert_object_to_array(posts);
+    yellr.server.get_responses_for(assignment_id, function (posts) {
+      var replies = yellr.utils.convert_object_to_array(posts);
 
-        yellr.utils.render_template({
-          template: '#assignment-response-li-template',
-          target: '#assignment-replies-list',
-          context: {replies: replies}
-        });
+      yellr.utils.render_template({
+        template: '#assignment-response-li-template',
+        target: '#assignment-replies-list',
+        context: {replies: replies}
+      });
 
-        // parse UTC dates with moment.js
-        var deadline = document.querySelector('.assignment-deadline');
-            deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-        var published = document.querySelector('.assignment-published');
-            published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
-
-      }
+      // parse UTC dates with moment.js
+      var deadline = document.querySelector('.assignment-deadline');
+          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+      var published = document.querySelector('.assignment-published');
+          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
     });
 
     // get assignment collection
-    yellr.collections.get_collection(assignment_id, function (response) {
+    yellr.server.get_collection(assignment_id, function (response) {
       yellr.utils.render_template({
         template: '#collections-li-template',
         target: '#assignment-collection-list',
@@ -2158,13 +2110,13 @@ yellr.view.view_collection = function () {
   collection_id = parseInt(window.location.hash.split('#')[1]);
 
   // ping the server for that collection
-  mod.collections.get_collection(collection_id, function (response) {
+  yellr.server.get_collection(collection_id, function (response) {
 
     // show collection name
     document.querySelector('.t1').innerHTML = response.collection_name;
 
     // render the collection items
-    mod.utils.render_template({
+    yellr.utils.render_template({
       template: '#view-collection-gi-template',
       target: '#collection-wrapper',
       context: {
@@ -2241,3 +2193,149 @@ yellr.view.view_collection = function () {
 
 
 }
+
+'use strict';
+var yellr = yellr || {};
+    yellr.view = yellr.view || {};
+
+yellr.view.write_article = function () {
+
+  var settings = {
+    title: '',
+    body: '',
+    top_text: '',
+    top_left_lat: 0,
+    top_left_lng: 0,
+    bottom_right_lat: 0,
+    bottom_right_lng: 0,
+    collection: 3
+  }
+
+  // // get the collection for the assignment
+  // mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
+
+  //   // render the assignment's collection for the editor
+  //   mod.utils.render_template({
+  //     template: '#collections-li-template',
+  //     target: '#write-article-collection-list',
+  //     context: {
+  //       collection: response.collection
+  //     }
+  //   });
+
+  // });
+
+
+  // function Editor(input, preview) {
+  //   this.update = function () {
+  //     var title = '# ' + $('#article-title').val() + '\n';
+  //     preview.innerHTML = markdown.toHTML(title + input.value);
+  //   };
+  //   input.editor = this;
+  //   this.update();
+  // }
+
+  // var editor = new Editor(document.getElementById("markdown-editor"), document.getElementById("editor-preview"));
+
+
+  // // setup event listeners
+  // $('#preview-btn').on('click', function (e) {
+
+  //   var $editor = $('#editor-workspace .editor-container');
+  //   var new_inactive = $editor.find('.active');
+  //   var new_active = $editor.find('.inactive');
+  //   new_inactive.removeClass('active').addClass('inactive');
+  //   new_active.removeClass('inactive').addClass('active');
+  //   editor.update();
+  // });
+
+
+  // $('#editor-controls .submit-btn').on('click', function (e) {
+
+  //   $.post(mod.URLS.publish_story, {
+  //     title: $('#article-title').val(),
+  //     tags: 'test, 1, 2, 3',
+  //     top_text: $('#top-text').val(),
+  //     banner_media_id: '',
+  //     // banner_media_id: '329af2ee-6014-4a90-a7c3-05dba003c7ac',
+  //     contents: $('#markdown-editor').val(),
+  //     language_code: 'en',
+  //     top_left_lat: 43.4,
+  //     top_left_lng: -77.9,
+  //     bottom_right_lat: 43.0,
+  //     bottom_right_lng: -77.3
+  //   },
+  //   function (response) {
+  //     if (response.success) {
+  //       console.log('post successful!');
+  //     } else {
+  //       console.log('something went wrong');
+  //     }
+  //     console.log(response);
+  //   });
+
+  // });
+
+
+  document.querySelector('#article-body').ondrop = function (event) {
+    console.log(event);
+    // console.log('hello from: ');
+    var data = event.dataTransfer.getData('text/x-media');
+    // var data = event.dataTransfer.getData('media');
+    console.log(data);
+    // var data = event.dataTransfer.getData(internalDNDType);
+  }
+  // document.querySelector('#article-body').setAttribute('dropzone', 'move string:media');
+// dropzone="move string:text/x-example"
+
+
+  // var collection_li = document.querySelectorAll('#write-article-collection-list li');
+  document.querySelector('#write-article-collection-list').ondragstart = function (event) {
+    console.log('dragstart');
+    // console.log(event.target);
+    console.log(event.target.dataset.media);
+    // event.dataTransfer.setData('media', event.target.dataset.media);
+    // event.dataTransfer.setData('text/x-media', event.target.dataset.value);
+    // event.dataTransfer.setData(internalDNDType, event.target.dataset.value);
+    // event.dataTransfer.effectAllowed = 'move';
+    // event.dataTransfer.effectAllowed = 'move';
+  };
+  // for (var i = 0; i < collection_li.length; i++) {
+  //   collection_li[i].ondragstart = function (event) {
+  //     // console.log(event);
+  //     // console.log(event.target);
+  //     console.log(event.target.dataset.media);
+  //     event.dataTransfer.setData('media', event.target.dataset.media);
+  //     event.dataTransfer.setData('text/x-media', event.target.dataset.value);
+  //     // event.dataTransfer.setData(internalDNDType, event.target.dataset.value);
+  //     // event.dataTransfer.effectAllowed = 'move';
+  //     // event.dataTransfer.effectAllowed = 'move';
+  //   }
+  // };
+
+
+
+  // // drag and drop an item onto the collections nav link
+  // var drop_target = document.querySelector('#article-body');
+  // drop_target.ondragover = function(e) {
+  //   // moderator.allowDrop(e);
+  //   e.preventDefault();
+  //   // console.log(e);
+  //   // console.log(this);
+  //   this.style.background = 'tomato';
+  // }
+  // drop_target.ondragleave = function(e) {
+  //   e.preventDefault();
+  //   this.style.background = 'transparent';
+  // }
+  // drop_target.ondrop = function(e) {
+  //   e.preventDefault();
+  //   this.style.background = 'blue';
+  //   console.log(e.dataTransfer);
+  //   // console.log('story id: ', e.dataTransfer.getData('story_id'));
+  // }
+
+
+
+
+};

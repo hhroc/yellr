@@ -1,0 +1,23 @@
+doctype html
+head
+  title Yellr - Admin Example
+  meta(name="description", content="Yellr Example Page - To show how to HTML in JADE")
+  //- add css, favicon, modernizr
+  include _head.jade
+
+body#moderator(data-page="example")
+  //- if you are adding custom JS events to the page
+  //-     - update init.js
+  //-     - create js file in "js/yellr/view/" [checkout example.js]
+  div.container
+
+    div#main.flex
+      div.flex-1#left
+        include _sidebar.jade
+
+      div.flex-4#right
+        div.right-wrapper
+          h2.h1 Hello World
+
+  include _footer.jade
+</html>

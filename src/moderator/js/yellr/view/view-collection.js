@@ -22,13 +22,13 @@ yellr.view.view_collection = function () {
   collection_id = parseInt(window.location.hash.split('#')[1]);
 
   // ping the server for that collection
-  mod.collections.get_collection(collection_id, function (response) {
+  yellr.server.get_collection(collection_id, function (response) {
 
     // show collection name
     document.querySelector('.t1').innerHTML = response.collection_name;
 
     // render the collection items
-    mod.utils.render_template({
+    yellr.utils.render_template({
       template: '#view-collection-gi-template',
       target: '#collection-wrapper',
       context: {

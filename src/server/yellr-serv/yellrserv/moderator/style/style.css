@@ -3191,6 +3191,7 @@ body {
 }
 .editor-input textarea {
   padding: .35rem;
+  font-size: 1.125rem;
   background: #ededed;
 }
 .editor-input .h3 {
@@ -3217,16 +3218,17 @@ body {
   border-bottom: 1px solid #aaa;
 }
 
-.collection-list {
+#write-article-collection-list {
   max-height: 31.25rem;
+  padding: .5rem;
   /* 500px */
   overflow: scroll;
   list-style-type: none;
 }
-.collection-list li {
+#write-article-collection-list li {
   margin-bottom: .5rem;
 }
-.collection-list li:last-child {
+#write-article-collection-list li:last-child {
   margin-bottom: 0;
 }
 

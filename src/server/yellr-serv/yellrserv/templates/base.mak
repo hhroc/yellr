@@ -80,5 +80,6 @@
   <script src="/static/js/libs/jquery.form.min.js"></script>
   <script src="/static/js/libs/handlebars.js"></script>
   <script src="/static/js/libs/moment.js"></script>
+  <script src="/static/js/libs/markdown.js"></script>
   <script src="/static/js/storefront.min.js"></script>
 </body></html>

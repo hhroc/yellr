@@ -4,22 +4,26 @@ var yellr = yellr || {};
 
 // index.html
 
-yellr.view.index = function () {
+yellr.view.index = {
 
-    /**
-     * setup the Yellr Admin dashboard
-     * index.html
-     *
-     * - get user assignments
-     * - get latest Yellr posts
-     * - toggle grid/list view
-     * - toggle auto-update
-     * - setup feed filter
-     *
-     */
+  /**
+   * setup the Yellr Admin dashboard
+   * index.html
+   *
+   * - get user assignments
+   * - get latest Yellr posts
+   * - toggle grid/list view
+   * - toggle auto-update
+   * - setup feed filter
+   *
+   */
 
-    var pckry,
-        grid = document.querySelector('#raw-feed');
+  timeout: undefined,
+  pckry: undefined,
+
+  init: function () {
+    var grid = document.querySelector('#raw-feed'),
+        latest_4_assignments = [];
 
 
     // get my assignments
@@ -27,7 +31,6 @@ yellr.view.index = function () {
     // ----------------------------
     yellr.server.get_my_assignments(function (assignments) {
       // get 4 latest
-      var latest_4_assignments = [];
       for (var i = 0; i < assignments.length; i++) {
         latest_4_assignments.push(assignments[i]);
         if (latest_4_assignments.length >= 4) break;
@@ -55,13 +58,14 @@ yellr.view.index = function () {
       yellr.utils.render_template({
         template: '#raw-feed-item',
         target: '#raw-feed',
-        context: {posts: yellr.DATA.posts},
-        append: true
+        context: {posts: yellr.DATA.posts.reverse()},
+        // context: {posts: yellr.DATA.posts},
+        prepend: true
       });
 
       setTimeout(function () {
         // setup packery
-        pckry = new Packery(grid, {
+        yellr.view.index.pckry = new Packery(grid, {
           itemSelector: '.feed-gi',
           columnWidth: '.feed-sizer',
           gutter: '.feed-gutter'
@@ -98,7 +102,7 @@ yellr.view.index = function () {
           };
 
           // destroy pakcry
-          pckry.destroy();
+          yellr.view.index.pckry.destroy();
         } else {
           grid_items = grid.querySelectorAll('.gi');
           for (var i = 0; i < grid_items.length; i++) {
@@ -106,7 +110,7 @@ yellr.view.index = function () {
           };
 
           // redo packry
-          pckry = new Packery(grid, {
+          yellr.view.index.pckry = new Packery(grid, {
             itemSelector: '.feed-gi',
             columnWidth: '.feed-sizer',
             gutter: '.feed-gutter'
@@ -121,14 +125,10 @@ yellr.view.index = function () {
     // auto-update
     // ----------------------------
     document.querySelector('#auto-update').onclick = function (event) {
-      // set auto-refresh to true
-      if (event.target.checked === true) {
-        AUTO_REFRESH = true;
-        yellr.utils.load_latest_posts();
-      } else {
-        // auto-refresh = false
-        AUTO_REFRESH = false;
-      }
+      if (event.target.checked === true) yellr.AUTO_REFRESH = true;
+      else yellr.AUTO_REFRESH = false;
+      // do the
+      yellr.view.index.refresh();
     }
 
     // setup the filter
@@ -143,7 +143,6 @@ yellr.view.index = function () {
     // - add post to a collection
     // - flag inappropriate content
     grid.onclick = function(e) {
-      console.log('lol');
       switch (e.target.className) {
 
         // add post to a collection
@@ -195,7 +194,52 @@ yellr.view.index = function () {
       }
     };
 
-
     // refresh posts every 10 seconds
-    yellr.utils.load_latest_posts();
-}
+    if (yellr.AUTO_REFRESH) this.refresh();
+  },
+
+  refresh: function (timeout) {
+    if (yellr.AUTO_REFRESH) {
+
+      yellr.view.index.timeout = setTimeout(function () {
+        // TODO
+        // update the "Last updated thing"
+        yellr.server.get_posts(function () {
+
+          var current_posts = document.querySelectorAll('.feed-gi').length,
+              new_posts = [],
+              new_items = [];
+
+          if (yellr.DATA.posts.length > current_posts) {
+            for (var i = current_posts; i < yellr.DATA.posts.length; i++) {
+              new_posts.push(yellr.DATA.posts[i]);
+            };
+
+            // render the latest ones
+            yellr.utils.render_template({
+              template: '#raw-feed-item',
+              target: '#raw-feed',
+              context: {posts: new_posts},
+              prepend: true
+            });
+
+            // redo packery
+            setTimeout(function () {
+              yellr.view.index.pckry.reloadItems();
+              yellr.view.index.pckry.layout();
+            }, 1000);
+          }
+
+        });
+
+        // loop
+        yellr.view.index.refresh(timeout);
+      }, 3000);
+      // }, 10000);
+    } else {
+      window.clearTimeout(yellr.view.index.timeout);
+      return;
+    }
+  }
+
+};

@@ -7,6 +7,61 @@ var yellr = yellr || {};
 yellr.server = {
 
 
+  // get a user admin token
+  //  - admin/get_access_token.json
+  // ----------------------------
+  login: function (username, password, callback) {
+
+    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
+    var url = yellr.BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
+
+    // $form
+    $.ajax({
+      type: 'POST',
+      url: url,
+      dataType: 'json',
+      success: function (data) {
+        if (callback) callback(data);
+
+        if (data.success) {
+          yellr.TOKEN = data.token;
+          yellr.utils.save();
+          yellr.utils.set_urls();
+
+          yellr.server.get_languages(function (response) {
+            if (response.success) yellr.utils.redirect_to('index.html');
+          });
+        }
+      }
+    });
+
+  },
+
+
+  // get available languages
+  //  - admin/get_languages.json
+  // ----------------------------
+  get_languages: function (callback) {
+
+    $.ajax({
+      url: yellr.URLS.get_languages,
+      type: 'POST',
+      dataType: 'json',
+      success: function (response) {
+        if (response.success) {
+          yellr.DATA.languages = response.languages;
+          yellr.utils.save();
+          if (callback) callback(response);
+        } else {
+          yellr.utils.redirect_to_login();
+        }
+      }
+    });
+
+  },
+
+
+
   // language_code
   // question_text
   // description
@@ -106,6 +161,7 @@ yellr.server = {
       if (response.success) {
         success = true;
         posts = yellr.utils.convert_object_to_array(response.posts);
+        // yellr.DATA.posts = posts.reverse();
         yellr.DATA.posts = posts;
         yellr.utils.save();
       } else {

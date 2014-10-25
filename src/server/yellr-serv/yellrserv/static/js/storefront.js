@@ -1,10 +1,3 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var yellr = yellr || {};
 
@@ -188,14 +181,16 @@ yellr.utils = {
   },
 
 
-  submit_form: function() {
+  submit_form: function(callback) {
 
     var forms = document.querySelectorAll('.forms-wrapper form'),
         form_counter = 0,
         media_objects = [];
 
+    console.log(forms.length);
     for (var i = 0; i < forms.length; i++) {
       var form = forms[i];
+      console.log(i, form);
 
       // make sure the form is not empty [returns true or false]
       if (yellr.utils.validate_form(form)) {
@@ -211,7 +206,13 @@ yellr.utils = {
               form_counter++;
               media_objects.push(response.media_id);
               if (form_counter === forms.length) {
-                yellr.utils.publish_post(media_objects);
+                yellr.utils.publish_post(media_objects, function () {
+                  // reset to text
+                  yellr.utils.render_template({
+                    template: '#text-form-template',
+                    target: '.forms-wrapper'
+                  });
+                });
               }
             } else {
               console.log('Something went wrong with upload_media...');
@@ -221,9 +222,11 @@ yellr.utils = {
           clearForm: true
         });
         // end ajaxSubmit
+      } else {
+        // keep counter going, little hackish
+        form_counter++;
       }
-
-    };
+    }
   },
 
 
@@ -250,7 +253,7 @@ yellr.utils = {
 
 
 
-  publish_post: function(media_objects) {
+  publish_post: function(media_objects, callback) {
 
     $.post(yellr.URLS.post, {
       title: 'Web Submission',
@@ -265,6 +268,8 @@ yellr.utils = {
       // generate new UUID after every post to help protect anonymity
       yellr.UUID = yellr.utils.guid();
       yellr.utils.save();
+    }).done(function () {
+      if (callback) callback();
     });
 
   },

@@ -18,27 +18,6 @@ yellr.utils = {
   },
 
 
-  load_latest_posts: function () {
-    if (AUTO_REFRESH) {
-      setTimeout(function () {
-        console.log('loading latest posts...');
-        yellr.server.get_posts(function () {
-          yellr.utils.render_template({
-            template: '#raw-feed-item',
-            target: '#raw-feed',
-            context: {posts: yellr.DATA.posts}
-          });
-        });
-
-        // loop
-        yellr.utils.load_latest_posts();
-      }, 10000);
-    } else {
-      return;
-    }
-  },
-
-
 
   redirect_to: function (page) {
     var url_base = '/moderator/';
@@ -54,48 +33,6 @@ yellr.utils = {
 
   },
 
-
-  login: function (username, password) {
-
-    // SET THE URLS HERE NOW THAT WE HAVE A USERNAME AND PASSWORD
-    var url = BASE_URL+'admin/get_access_token.json?user_name='+username+'&password='+password;
-
-    // $form
-    $.ajax({
-      type: 'POST',
-      url: url,
-      dataType: 'json',
-      success: function (data) {
-        if (data.success) {
-          yellr.TOKEN = data.token;
-          yellr.utils.save();
-          yellr.utils.set_urls();
-
-          // load languages
-          $.ajax({
-            url: yellr.URLS.get_languages,
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-              if (response.success) {
-                yellr.DATA.languages = response.languages;
-                yellr.utils.save();
-              } else {
-                alert('Something went wrong loading Languages. Things might get weird from here...');
-              }
-            }
-          }).done(function () {
-            console.log('done loading languages');
-            yellr.utils.redirect_to('index.html');
-          });
-
-        } else {
-          document.querySelector('#login-feedback').innerHTML = data.error_text;
-        }
-      }
-    });
-
-  },
 
 
   logout: function () {
@@ -196,7 +133,7 @@ yellr.utils = {
 
   set_urls: function () {
 
-    var base_url = BASE_URL+'admin/';
+    var base_url = yellr.BASE_URL+'admin/';
 
     yellr.URLS = {
       // get latest user posts
@@ -223,7 +160,7 @@ yellr.utils = {
       create_user:                  base_url+'create_user.json?token='+yellr.TOKEN,
       // publish
       publish_story:                base_url+'publish_story.json?token='+yellr.TOKEN,
-      upload:                       BASE_URL+'upload_media.json'
+      upload:                       yellr.BASE_URL+'upload_media.json'
     }
 
     // save new urls

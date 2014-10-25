@@ -46,7 +46,8 @@
 }
 
 
-.collection-list {
+#write-article-collection-list {
+  padding: 0.5rem;
   list-style-type: none;
   max-height: 31.25rem; /* 500px */
   overflow: scroll;

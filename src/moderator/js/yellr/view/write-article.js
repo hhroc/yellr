@@ -4,18 +4,6 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
-  // var settings = {
-  //   title: '',
-  //   body: '',
-  //   top_text: '',
-  //   top_left_lat: 0,
-  //   top_left_lng: 0,
-  //   bottom_right_lat: 0,
-  //   bottom_right_lng: 0,
-  //   collection: 3
-  // }
-
-
   document.querySelector('#post-btn').onclick = function (event) {
     // post the article
     // ===================================
@@ -47,6 +35,7 @@ yellr.view.write_article = function () {
       // open the article in the new page
       var url = '/story?id='+response.story_unique_id;
       window.open(url, '_blank');
+      alert('Article has been posted! \n'+url);
       yellr.utils.notify('Article has been posted! \n'+url);
     });
   }

@@ -50,8 +50,8 @@ window.onload = function () {
       case 'single-assignment':
         yellr.view.view_assignment();
         break;
-      case 'editor':
-        yellr.editor.init();
+      case 'write-article':
+        yellr.view.write_article();
         break;
       case 'collections':
         yellr.view.all_collections();

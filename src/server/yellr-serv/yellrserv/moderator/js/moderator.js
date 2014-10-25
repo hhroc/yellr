@@ -1140,7 +1140,7 @@ yellr.server = {
     $.post(yellr.URLS.publish_story, data,
     function (response) {
       if (response.success) {
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         yellr.utils.notify('something went wrong');
       }
@@ -2221,21 +2221,35 @@ yellr.view.write_article = function () {
   document.querySelector('#post-btn').onclick = function (event) {
     // post the article
     // ===================================
-    var article_data = {};
+    var article_data = {},
+        title = document.querySelector('#article-title'),
+        tags = document.querySelector('#article-tags'),
+        body = document.querySelector('#article-body'),
+        leadin = document.querySelector('#article-leadin');
 
-    article_data.title = document.querySelector('#article-title').value;
+    article_data.title = title.value;
     article_data.banner_media_id = '';
-    article_data.tags = document.querySelector('#article-tags').value;
-    article_data.contents = document.querySelector('#article-body').value;
-    article_data.top_text = document.querySelector('#article-leadin').value;
+    article_data.tags = tags.value;
+    article_data.contents = body.value;
+    article_data.top_text = leadin.value;
     article_data.language_code = 'en';
     article_data.top_left_lat = 43.4;
     article_data.top_left_lng = -77.9;
     article_data.bottom_right_lat = 43.0;
     article_data.bottom_right_lng = -77.3;
 
-    yellr.server.publish_story(article_data, function () {
-      alert('thing');
+    yellr.server.publish_story(article_data, function (response) {
+      // clear old values
+      title.value = '';
+      tags.value = '';
+      tags.value = '';
+      body.value = '';
+      leadin.value = '';
+
+      // open the article in the new page
+      var url = '/story?id='+response.story_unique_id;
+      window.open(url, '_blank');
+      yellr.utils.notify('Article has been posted! \n'+url);
     });
   }
 

@@ -3191,6 +3191,7 @@ body {
 }
 .editor-input textarea {
   padding: .35rem;
+  font-size: 1.125rem;
   background: #ededed;
 }
 .editor-input .h3 {

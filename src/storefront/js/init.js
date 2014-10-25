@@ -29,25 +29,11 @@ yellr.main = {
       // homepage -> load latest stories
       case 'index':
 
-        $.getJSON(yellr.URLS.stories, function (response) {
-
-          if (response.success) {
-            console.log(response);
-            // yellr.utils.render_template({
-            //   template: '#story-li-template',
-            //   target: '#stories-list',
-            //   context: {stories: response.stories }
-            // });
-
-          } else {
-            console.log('something went wrong loading stories');
-          }
-        });
-
         var previews = document.querySelectorAll('.preview-text');
         for (var i = 0; i < previews.length; i++) {
-          previews[i].innerHTML = markdown(preview_text);
+          previews[i].innerHTML = markdown.toHTML(previews[i].innerHTML);
         };
+
         break;
         // ----------------------------
 

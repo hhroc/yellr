@@ -5,10 +5,10 @@
 
 
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    
+
     <script src="leaflet.js"></script>
     <script src="leaflet.draw.js"></script>
-    
+
     <link rel="stylesheet" href="leaflet.css" />
     <link rel="stylesheet" href="leaflet.draw.css" />
 
@@ -18,7 +18,7 @@
 
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
-    
+
 	<script src="libs/leaflet-src.js"></script>
 
 	<script src="../src/Leaflet.draw.js"></script>
@@ -51,18 +51,18 @@
 	<script src="../src/edit/handler/EditToolbar.Edit.js"></script>
 	<script src="../src/edit/handler/EditToolbar.Delete.js"></script>
     -->
-    
+
 </head>
 <body>
 
-    <a href="#" id="clear-box">Clear Box</a>
-    
+  <a href="#" id="clear-box">Clear Box</a>
+
 	<div id="map" style="width: 800px; height: 600px; border: 1px solid #ccc"></div>
 	
-    <a href="#" id="submit-polygon">Submit</a>
-    
-    <script>
-    
+  <a href="#" id="submit-polygon">Submit</a>
+
+  <script>
+
 		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}),
@@ -113,24 +113,52 @@
         L.DomUtil.get('changeColor').onclick = function () {
 			drawControl.setDrawingOptions({ rectangle: { shapeOptions: { color: '#004a80' } } });
 		};
-        */
-        
-        $('#clear-box').on('click', function(e) {
-            e.preventDefault();
-            map.removeLayer(drawnItems);
-        });
-        
-        $('#submit-polygon').on('click', function(e) {
-            e.preventDefault();
-            //console.log(drawnItems);
-        })
-        
-        map.on('draw:created', function (e) {
-            var type = e.layerType,
-                layer = e.layer;
-                console.log(layer.getLatLngs());
-                drawnItems.addLayer(layer);
-        });
+    */
+
+    $('#clear-box').on('click', function(e) {
+      e.preventDefault();
+      map.removeLayer(drawnItems);
+    });
+
+    $('#submit-polygon').on('click', function(e) {
+      e.preventDefault();
+      //console.log(drawnItems);
+    })
+
+    map.on('draw:created', function (e) {
+      var type = e.layerType,
+      layer = e.layer;
+
+      var NW;
+      var SE;
+
+      layer.getLatLngs().every(function(point, index, array) {
+        // console.log('lat:', point.lat);
+        // console.log('lng:', point.lng);
+
+        if(typeof NW === 'undefined' ) {
+          NW = point;
+        }
+        if(typeof SE === 'undefined' ) {
+          SE = point;
+        }
+
+        if ( (point.lat + 1000) <= (NW.lat + 1000) && (point.lng + 1000) >= (NW.lng + 1000) ) {
+          NW = point;
+        }
+
+        if ( (point.lat + 1000) >= (SE.lat + 1000) && (point.lng + 1000) <= (SE.lng + 1000) ) {
+          SE = point;
+        }
+
+        return true;
+      });
+
+      // console.log('NW lat/lng ', NW.lat, ' / ', NW.lng);
+      // console.log('SE lat/lng ', SE.lat, ' / ', SE.lng);
+
+      drawnItems.addLayer(layer);
+    });
 
 	</script>
 </body>

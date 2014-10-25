@@ -62,33 +62,6 @@
 
 
 
-.active-assignments-wrapper {
-  margin-bottom: 3.5rem;
-}
-
-#active-assignments-list {
-  display: flex;
-  overflow: overlay;
-  li {
-    flex: 1;
-    list-style: none;
-    border: 1px solid #888;
-    border-right: none;
-    padding: 1rem;
-    min-width: 15rem;
-    max-width: 20rem;
-    &:last-child {
-      border-right: 1px solid #888;
-    }
-  }
-  h3 {
-    font-size: 1.25rem;
-    margin: 0 0 1.5rem;
-  }
-  p {
-    margin-bottom: 0;
-  }
-}
 .assignment-meta {
   font-size: 0.75rem;
 }
@@ -242,24 +215,6 @@
   textarea {
     width: 100%;
     max-width: none;
-  }
-}
-
-#post-question-btn {
-  display: block;
-  font-size: 0.875rem;
-  text-align: center;
-  background: #ebebeb;
-  color: $black;
-  width: 80%;
-  max-width: 10rem;
-  margin: 0 auto;
-  padding: 0.5rem;
-  border-radius: 4px;
-  @include transition(background, 0.3s);
-  &:hover {
-    background: $yellow;
-    cursor: pointer;
   }
 }
 

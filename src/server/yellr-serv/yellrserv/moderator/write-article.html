@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yellr - Home</title>
+  <meta name="description" content="Yellr backend moderation - Citizen engagement and journalism app">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+  <script src="js/libs/modernizr.js"></script>
+  <link rel="stylesheet" href="style/style.min.css">
+</head>
+<body id="moderator" data-page="write-article"><a href="#main" class="assistive-text">Skip to main content</a>
+  <div class="container">
+    <div id="main" class="flex">
+      <div id="left" class="flex-1">
+        <section id="sidebar">
+          <header>
+            <section class="profile-overview">
+              <figure class="profile-picture-wrapper"><img src="img/freedom.jpg"></figure>
+              <hgroup class="profile-deets">
+                <h2 class="moderator-name">Luis Rosario</h2>
+                <h3 class="moderator-organization">WXXI</h3>
+              </hgroup>
+            </section>
+          </header>
+          <nav id="dash-nav">
+            <ul class="nav-list primary-list">
+              <li><a href="create-assignment.html" class="primary-btn new-assignment-btn">Create Assignment</a>
+              </li>
+              <li><a href="write-article.html" class="primary-btn write-article-btn">Write Article</a>
+              </li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="assignments.html" class="menu-link">Assignments</a></li>
+              <li><a href="collections.html" class="menu-link">Collections</a></li>
+              <li><a href="messages.html" class="menu-link">Messages</a></li>
+            </ul>
+            <ul class="nav-list secondary-nav-list">
+              <li><a href="settings.html" class="menu-link">Settings</a></li>
+              <li><a id="logout-btn" href="#logout" class="menu-link">Logout</a></li>
+            </ul>
+          </nav>
+        </section>
+      </div>
+      <div id="right" class="flex-4 right-wrapper">
+        <div id="editor-container">
+          <header class="editor-header header-with-controls">
+            <h2 class="h1">Write Article</h2>
+            <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
+          </header>
+          <div class="editor-workspace flex">
+            <div class="flex-2">
+              <div class="editor-input"><span class="h3">Title</span>
+                <input id="article-title" type="text" name="title" placeholder="Article title...">
+              </div>
+              <div class="editor-input"><span class="h3">Body</span>
+                <textarea id="article-body" rows="15" name="body" placeholder="Write article" data-provide="markdown"></textarea>
+              </div>
+              <div class="editor-input"><span class="h3">Article Leadin</span>
+                <textarea id="article-leadin" rows="5" name="top-text" placeholder="Preview for front-page"></textarea>
+              </div>
+            </div>
+            <div class="flex-1">
+              <p id="geo-fence-btn" class="h4">Geo-Fence</p>
+              <div class="collection-area">
+                <p class="h4">Collection</p>
+                <p class="current-collection">Seinfeld<span class="block">Change</span></p>
+                <ul id="write-article-collection-list">
+                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
+                  <li draggable="true" data-media="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aperiam facere sit, fuga nulla earum quam deleniti deserunt perspiciatis, necessitatibus laboriosam voluptas voluptatibus veniam sunt, expedita ipsam qui eos nobis.">
+                    <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aperiam facere sit, fuga nulla earum quam deleniti deserunt perspiciatis, necessitatibus laboriosam voluptas voluptatibus veniam sunt, expedita ipsam qui eos nobis.</p>
+                  </li>
+                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
+                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
+                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="templates">
+            <script id="collections-li-template" type="text/x-handlebars-template">
+              {{#if collection}}
+                {{#each collection}}
+                <li>
+                  {{#each media_objects }}
+                  <div class="media-preview" data-type="{{ media_type }}">
+                    {{#if file_name}}
+                    <figure class="media-file-image">
+                      <img src="/media/{{file_name}}" alt="{{ media_description }}">
+                      <figcaption>{{ media_description }}</figcaption>
+                    </figure>
+                    {{else}}
+                    <p class="media-text">{{ media_text }}</p>
+                    {{/if}}
+                    
+                    {{#if caption}}
+                    <p>{{ caption }}</p>
+                    {{/if}}
+                  </div>
+                  {{/each }}
+                  <div class="assignment-collection-actions"><span class="remove-btn"><i class="fa fa-close">&nbsp;Remove</i></span></div>
+                  <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+                </li>
+                {{/each}}
+              {{else}}
+                <li class="faded">
+                  <h3 class="t2">Collection is empty</h3>
+                  <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+                </li>
+              {{/if}}
+              
+              
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="overlay-div-container">
+  </div>
+  <script src="js/libs/jquery.js"></script>
+  <script src="js/libs/jquery.form.min.js"></script>
+  <script src="js/libs/packery.js"></script>
+  <script src="js/libs/moment.js"></script>
+  <script src="js/libs/handlebars.js"></script>
+  <script src="js/moderator.js"></script>
+  <script src="js/libs/markdown.js"></script>
+</body></html>

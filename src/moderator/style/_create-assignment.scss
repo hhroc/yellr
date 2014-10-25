@@ -1,0 +1,111 @@
+#assignment-question-type {
+  margin-bottom: 1.5rem;
+  .h3 {
+    display: inline-block;
+  }
+  input[type="radio"] {
+    margin: 0 0.5rem;
+  }
+}
+
+#tabs-content {
+  padding-right: 3rem;
+}
+
+.question-container {
+  form {
+    padding-top: 1.5rem;
+    border-top: 1px solid #aaa;
+    margin-bottom: 3rem;
+    &:first-child {
+      padding-top: 0;
+      border: none;
+    }
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    border: none;
+    background: #ececec;
+    transition: background 0.3s ease-out;
+    &:focus {
+      background: #fff;
+    }
+  }
+}
+
+.question_text {
+  font-size: 2.25rem;
+}
+
+.question_description {
+  font-size: 1.5rem;
+}
+
+#add-language {
+  display: inline-block;
+  padding: 0.75rem 0.5rem;
+  margin-bottom: 1.25rem;
+  transition: color 1.3s ease-out;
+  &:hover {
+    cursor: pointer;
+    color: #111;
+  }
+}
+
+.tab-input {
+  display: none;
+}
+
+#assignment-tabs {
+  .tab {
+    display: block;
+    @extend #add-language;
+    border: 1px solid #fff;
+  }
+  // .tab-input:checked {
+  //   border-color: #aaa;
+  //   // border: 1px solid #aaa;
+  //   border-left: 2px solid #fff;
+  //   position: relative;
+  //   left: -1px;
+  // }
+}
+// connect by classes
+.tab-1:checked ~ ul > .tab-1,
+.tab-2:checked ~ ul > .tab-2,
+.tab-3:checked ~ ul > .tab-3,
+.tab-4:checked ~ ul > .tab-4,
+.tab-5:checked ~ ul > .tab-5 {
+  position: relative;
+  visibility: visible;
+  opacity: 1;  /* Default - fade effect */
+  transform: none
+}
+
+
+#tabs-content {
+  list-style: none;
+  position: relative;
+  border-right: 1px solid #ccc;
+  display: block;
+}
+
+
+.tab-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: auto;
+  // background: #404040;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .5s;
+  transform-origin: 0 0;
+  transform: translateX(30px)
+
+
+}

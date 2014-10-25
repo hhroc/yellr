@@ -1,3 +1,55 @@
+.h1 {
+  font-size: 3rem;
+  font-weight: normal;
+  margin: 0;
+  // margin: 3rem 0 2rem;
+}
+.h2 {
+  font-weight: bold;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid;
+  margin: 0;
+}
+
+.h3 {
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+.h4 {
+  font-size: 1.25rem;
+  color: #666;
+}
+
+
+
+.header-with-controls {
+  display: flex;
+  align-items: baseline;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #aaa;
+  margin: 3rem 0 2rem;
+  h2, h3, h4, h5 {flex: 2; }
+  nav {
+    flex: 1;
+    text-align: right;
+    span {
+      font-size: 0.875rem;
+      margin-right: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      letter-spacing: 1px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+
+
+
+
 .overlay-container {
   max-width: 30rem;
   padding: 1rem 1rem 1.75rem;
@@ -66,6 +118,23 @@
   }
   &:last-child {
     margin-right: 0;
+  }
+}
+.primary-btn {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+  background: #ebebeb;
+  color: $black;
+  width: 80%;
+  max-width: 10rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0 auto;
+  transition: background 0.3s ease-out;
+  &:hover {
+    background: $yellow;
+    cursor: pointer;
   }
 }
 

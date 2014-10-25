@@ -16,7 +16,8 @@ module.exports = function(grunt) {
       onepager_folder       =   'one-pager/',
       storefront_folder     =   'storefront/',
       pyramid_folder        =   'server/yellr-serv/yellrserv/',
-      pyramid_static_folder =   pyramid_folder+'static/';
+      pyramid_static_folder =   pyramid_folder+'static/',
+      bin_folder              =   '../bin/';
 
 
 
@@ -189,14 +190,15 @@ module.exports = function(grunt) {
       moderator: {
         src: [
           moderator_folder+'js/*.js',
-          moderator_folder+'js/mod/*.js'
+          moderator_folder+'js/yellr/**.js',
+          moderator_folder+'js/yellr/view/**.js'
         ],
         dest: buildFolder+moderator_folder+'js/moderator.js'
       },
       storefront: {
         src: [
           storefront_folder+'js/*.js',
-          storefront_folder+'js/mod/*.js'
+          storefront_folder+'js/yellr/*.js'
         ],
         dest: buildFolder+storefront_folder+'js/storefront.js'
       }
@@ -251,6 +253,7 @@ module.exports = function(grunt) {
       storefront_js_to_pyramid: {files: [{expand: true, cwd: buildFolder+storefront_folder+'js', src: ['**'], dest: pyramid_static_folder+'js'} ] },
       storefront_css_to_pyramid:{files: [{expand: true, cwd: buildFolder+storefront_folder+'style', src: ['**'], dest: pyramid_static_folder+'style'} ] },
       storefront_img_to_pyramid:{files: [{expand: true, cwd: buildFolder+storefront_folder+'img', src: ['**'], dest: pyramid_static_folder+'img'} ] },
+      apk_to_pyramid:           {files: [{expand: true, cwd: bin_folder, src: ['Yellr-debug.apk'], dest: pyramid_static_folder} ] }
     },
 
 
@@ -372,7 +375,8 @@ module.exports = function(grunt) {
       moderator: {
         src: [
           moderator_folder+'js/*.js',
-          moderator_folder+'js/mod/*.js',
+          moderator_folder+'js/yellr/*.js',
+          moderator_folder+'js/yellr/view/*.js',
         ]
       }
     },
@@ -638,7 +642,10 @@ module.exports = function(grunt) {
 
 
   grunt.registerTask('save_apk', function() {
-    grunt.task.run(['exec:save_apk']);
+    grunt.task.run([
+      'exec:save_apk',
+      'copy:apk_to_pyramid'
+    ]);
   });
 
 
@@ -781,7 +788,8 @@ module.exports = function(grunt) {
       'copy:moderator_img_to_pyramid',
       'copy:storefront_js_to_pyramid',
       'copy:storefront_css_to_pyramid',
-      'copy:storefront_img_to_pyramid'
+      'copy:storefront_img_to_pyramid',
+      'copy:apk_to_pyramid'
     ]);
   });
 

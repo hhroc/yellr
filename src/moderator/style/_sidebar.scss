@@ -33,25 +33,6 @@
   font-weight: normal;
 }
 
-
-#dash-nav {
-  background: $black;
-  padding: 1rem 0 0.5rem;
-  a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    font-size: 0.875rem;
-    padding: 0.35rem 0.25rem 0.35rem 1rem;
-    line-height: 1;
-    @include transition(background, 0.2s);
-    &:hover {background: lighten($black, 10%); }
-  }
-  .fa {
-    margin-right: 0.35rem;
-  }
-  li {list-style: none; }
-}
 .nav-list {
   padding-bottom: 0.875rem;
   border-bottom: 1px solid lighten($black, 15%);
@@ -62,9 +43,62 @@
     border: none;
     margin-bottom: 0;
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    font-size: 0.875rem;
+    // padding: 0.35rem 0.25rem 0.35rem 1rem;
+    line-height: 1;
+    @include transition(background, 0.2s);
+    &:hover {background: lighten($black, 10%); }
+  }
+  li {list-style: none; }
 }
+
+#dash-nav {
+  background: $black;
+  padding: 1rem 0 0.5rem;
+  .fa {
+    margin-right: 0.35rem;
+  }
+}
+
+.primary-btn {
+  padding: 0.55rem 0;
+  border-radius: 5px;
+  &.write-article-btn {
+    background: $blue;
+    &:hover {
+      color: $black;
+      background: $white;
+    }
+  }
+  &.new-assignment-btn {
+    background: $yellow;
+    color: $black;
+    &:hover {background: $white; }
+  }
+}
+
+.secondary-nav-list {
+  font-weight: normal;
+  a {
+    padding: 0.55rem 12%;
+  }
+
+}
+
+
+.primary-list li {
+  margin-bottom: 1rem;
+  &:last-child {margin-bottom: 0;}
+}
+
 .inner-nav-list {
   font-weight: normal;
   padding-left: 1rem;
   color: $white;
 }
+
+

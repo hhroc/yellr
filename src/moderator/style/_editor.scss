@@ -1,3 +1,60 @@
+.editor-workspace {
+  .flex-2 {
+    padding-right: 2rem;
+  }
+  .flex-1 {
+    padding-left: 2rem;
+  }
+  .h4 {
+    font-size: 1.35rem;
+  }
+}
+
+.editor-input {
+  margin-bottom: 3rem;
+  input, textarea {
+    display: block;
+    border: none;
+    // border: 1px solid #aaa;
+    padding: 0.25rem;
+    width: 100%;
+  }
+  textarea {
+    padding: 0.35rem;
+    background: #ededed;
+  }
+  .h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+}
+#article-title {
+  font-size: 1.75rem;
+  border-bottom: 1px solid #aaa;
+}
+#article-body {
+  font-size: 1.25rem;
+}
+#article-preview {
+  font-size: 1.25rem;
+}
+
+
+.collection-list {
+  list-style-type: none;
+  max-height: 31.25rem; /* 500px */
+  overflow: scroll;
+  li {
+    margin-bottom: 0.5rem;
+    &:last-child {margin-bottom: 0;}
+  }
+}
+
+
+
+
+
 #editor-collections-list {
   .media-text {
     font-size: 1.25rem;

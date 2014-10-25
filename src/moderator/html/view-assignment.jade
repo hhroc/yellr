@@ -28,24 +28,26 @@ body#moderator(data-page="single-assignment")
                 span.btn#edit-assignment-btn Edit
                 span.btn#close-assignment-btn Close
               p.write-article-btn-container
-                a.btn#write-article-btn(href="editor.html#1") Write Article
+                a.btn#write-article-btn(href="write-article.html#1") Write Article
 
         div#assignment-reply-container.flex
           div.assignment-replies-wrapper.flex-2
             h3.t2 Responses
-            ul#assignment-replies-list.list-style-none
+            //- ul#assignment-replies-list.list-style-none
               //- li.faded
                 h3.t2 No replies yet
                 p It might take a while for people to respond. Also be sure to check the regular feed just in case.
-            //- ul#assignment-replies-list.list-style-none
+            ul#assignment-replies-list.list-style-none
               li
                 div.gi
                   div.story-item
-                    p.description Response to Assignment 6
-                    p.media-text Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine
-                  div.story-meta.flex
-                    p.source.flex3
+                    div.media-preview
+                      p.description Response to Assignment 6
+                      p.media-text Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine
+                    p.item-source
                       a(href="#") SAF-ASDFASDF-SADF-SDFA-saSFSAF
+                  div.story-meta.flex
+                    div.flex-2 &nbsp;
                     ul.options-list.flex-1
                       li
                         i.fa.fa-plus(title="Add to collection")
@@ -56,6 +58,21 @@ body#moderator(data-page="single-assignment")
                       li
                         i.fa.fa-trash(title="Remove from responses")
                     div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+              li
+                div.reply-gi
+                  div.story-item
+                    div.media-preview(data-type="{{media_type}}")
+                      p.media-text  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+                    p.item-source
+                      a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+                  div.story-meta.flex
+                    div.flex-2 &nbsp;
+                    ul.options-list.flex-1
+                      li
+                        i.fa.fa-comment(title="Leave feedback")
+                      li
+                        i.fa.fa-close(title="Remove from collection")
+
 
 
           div.assignment-collection-wrapper.flex-1
@@ -99,7 +116,7 @@ body#moderator(data-page="single-assignment")
         </div>
         <div class="flex-1">
           <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-          <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+          <p class="write-article-btn-container"><a href="write-article.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
         </div>
       </div>
       <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>

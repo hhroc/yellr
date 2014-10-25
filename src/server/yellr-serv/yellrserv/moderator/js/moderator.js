@@ -1140,7 +1140,7 @@ yellr.server = {
     $.post(yellr.URLS.publish_story, data,
     function (response) {
       if (response.success) {
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         yellr.utils.notify('something went wrong');
       }
@@ -2040,10 +2040,20 @@ var yellr =  yellr || {};
 
 yellr.view.view_assignment = function () {
 
+  // 1.   render text
+  // 2.   get assignment-responses
+  // 3.   show current collection
+
+  // get the URL hash
+  // --> that is our assignment_id
   var assignment_id = parseInt(window.location.hash.split('#')[1]);
 
+  // make sure it's a valid number
   if (assignment_id !== NaN) {
+
+    // 1.
     // render the question text and things
+    // ===================================
     var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
       if (val.assignment_id === assignment_id) return true;
     })[0];
@@ -2055,27 +2065,34 @@ yellr.view.view_assignment = function () {
       context: {assignment: assignment}
     });
 
+    // parse UTC dates with moment.js
+    var deadline = document.querySelector('.assignment-deadline');
+        deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+    var published = document.querySelector('.assignment-published');
+        published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
 
 
 
-    // get replies to question
+
+    // 2.
+    // get assignent-responses
+    // ===================================
     yellr.server.get_responses_for(assignment_id, function (posts) {
       var replies = yellr.utils.convert_object_to_array(posts);
+      console.log(replies);
+      // yellr.utils.render_template({
+      //   template: '#assignment-response-li-template',
+      //   target: '#assignment-replies-list',
+      //   context: {replies: replies}
+      // });
 
-      yellr.utils.render_template({
-        template: '#assignment-response-li-template',
-        target: '#assignment-replies-list',
-        context: {replies: replies}
-      });
-
-      // parse UTC dates with moment.js
-      var deadline = document.querySelector('.assignment-deadline');
-          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-      var published = document.querySelector('.assignment-published');
-          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
     });
 
+
+
+    // 2.
     // get assignment collection
+    // ===================================
     yellr.server.get_collection(assignment_id, function (response) {
       yellr.utils.render_template({
         template: '#collections-li-template',
@@ -2085,6 +2102,8 @@ yellr.view.view_assignment = function () {
         }
       })
     });
+
+
     // set the collection_id attribute to the #assignment-collections-list
     document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
 
@@ -2206,36 +2225,39 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
-  // var settings = {
-  //   title: '',
-  //   body: '',
-  //   top_text: '',
-  //   top_left_lat: 0,
-  //   top_left_lng: 0,
-  //   bottom_right_lat: 0,
-  //   bottom_right_lng: 0,
-  //   collection: 3
-  // }
-
-
   document.querySelector('#post-btn').onclick = function (event) {
     // post the article
     // ===================================
-    var article_data = {};
+    var article_data = {},
+        title = document.querySelector('#article-title'),
+        tags = document.querySelector('#article-tags'),
+        body = document.querySelector('#article-body'),
+        leadin = document.querySelector('#article-leadin');
 
-    article_data.title = document.querySelector('#article-title').value;
+    article_data.title = title.value;
     article_data.banner_media_id = '';
-    article_data.tags = document.querySelector('#article-tags').value;
-    article_data.contents = document.querySelector('#article-body').value;
-    article_data.top_text = document.querySelector('#article-leadin').value;
+    article_data.tags = tags.value;
+    article_data.contents = body.value;
+    article_data.top_text = leadin.value;
     article_data.language_code = 'en';
     article_data.top_left_lat = 43.4;
     article_data.top_left_lng = -77.9;
     article_data.bottom_right_lat = 43.0;
     article_data.bottom_right_lng = -77.3;
 
-    yellr.server.publish_story(article_data, function () {
-      alert('thing');
+    yellr.server.publish_story(article_data, function (response) {
+      // clear old values
+      title.value = '';
+      tags.value = '';
+      tags.value = '';
+      body.value = '';
+      leadin.value = '';
+
+      // open the article in the new page
+      var url = '/story?id='+response.story_unique_id;
+      window.open(url, '_blank');
+      alert('Article has been posted! \n'+url);
+      yellr.utils.notify('Article has been posted! \n'+url);
     });
   }
 

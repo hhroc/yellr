@@ -52,6 +52,44 @@
           <div class="assignment-replies-wrapper flex-2">
             <h3 class="t2">Responses</h3>
             <ul id="assignment-replies-list" class="list-style-none">
+              <li>
+                <div class="gi">
+                  <div class="story-item">
+                    <div class="media-preview">
+                      <p class="description">Response to Assignment 6</p>
+                      <p class="media-text">Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine</p>
+                    </div>
+                    <p class="item-source"><a href="#">SAF-ASDFASDF-SADF-SDFA-saSFSAF</a></p>
+                  </div>
+                  <div class="story-meta flex">
+                    <div class="flex-2">&nbsp;</div>
+                    <ul class="options-list flex-1">
+                      <li><i title="Add to collection" class="fa fa-plus"></i></li>
+                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+                      <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                      <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+                    </ul>
+                    <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="reply-gi">
+                  <div class="story-item">
+                    <div data-type="{{media_type}}" class="media-preview">
+                      <p class="media-text"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
+                    </div>
+                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
+                  </div>
+                  <div class="story-meta flex">
+                    <div class="flex-2">&nbsp;</div>
+                    <ul class="options-list flex-1">
+                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
+                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
           <div class="assignment-collection-wrapper flex-1">
@@ -77,7 +115,7 @@
         </div>
         <div class="flex-1">
           <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-          <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+          <p class="write-article-btn-container"><a href="write-article.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
         </div>
       </div>
       <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>

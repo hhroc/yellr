@@ -1,10 +1,3 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var yellr = yellr || {};
 
@@ -50,6 +43,11 @@ yellr.main = {
             console.log('something went wrong loading stories');
           }
         });
+
+        var previews = document.querySelectorAll('.preview-text');
+        for (var i = 0; i < previews.length; i++) {
+          previews[i].innerHTML = markdown(preview_text);
+        };
         break;
         // ----------------------------
 

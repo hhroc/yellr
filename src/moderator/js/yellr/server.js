@@ -385,8 +385,20 @@ yellr.server = {
     });
 
 
+  },
+
+
+  publish_story: function (data, callback) {
+
+    $.post(yellr.URLS.publish_story, data,
+    function (response) {
+      if (response.success) {
+        if (callback) callback();
+      } else {
+        yellr.utils.notify('something went wrong');
+      }
+    });
+
   }
-
-
 
 }

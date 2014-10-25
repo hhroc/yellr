@@ -393,7 +393,7 @@ yellr.server = {
     $.post(yellr.URLS.publish_story, data,
     function (response) {
       if (response.success) {
-        if (callback) callback();
+        if (callback) callback(response);
       } else {
         yellr.utils.notify('something went wrong');
       }

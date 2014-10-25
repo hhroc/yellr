@@ -80,12 +80,14 @@
                 polyline: false,
                 polygon: false,
                 circle: false,
-				marker: false
+				marker: false,
+                //rectangle: true
 			},
 			edit: {
-				featureGroup: drawnItems,
-				remove: false
-			}
+                
+                featureGroup: drawnItems,
+                remove: true,
+             }
 		});
 		map.addControl(drawControl);
 

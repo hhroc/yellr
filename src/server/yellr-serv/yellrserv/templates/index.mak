@@ -7,14 +7,14 @@
     % if latest_stories:
       % for story in latest_stories:
       <li>
-        <h3 class="t1"><a href="article.html">${story['title']}</a></h3>
-        <p><i>${story['top_text']}</i></p>
+        <h3 class="t1"><a href="/story?id=${story['story_unique_id']}">${story['title']}</a></h3>
         % if banner_media_file_name:
         <figure>
           <img src="/media/${story['banner_media_file_name']}">
         </figure>
         % endif
-        <p>${story['contents']}</p>
+        <p class="preview-text">${story['preview_text']}</p>
+        <a href="/story?id=${story['story_unique_id']}">Read story &gt;</a>
       </li>
       % endfor
      % else:

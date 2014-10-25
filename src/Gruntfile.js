@@ -110,62 +110,34 @@ module.exports = function(grunt) {
     //   target2: ['jshint', 'mocha']
     // }
 
-
-
-    compass: {
-      // common css
+    sass: {
+      options: {
+        outputStyle: 'expanded'
+      },
       index: {
-        options: {
-          sassDir: common_folder+'style',
-          cssDir: buildFolder,
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
+        files: {
+          '../build/common.css': 'common/style/common.scss',
+          '../build/common/style/libs/font-awesome/font-awesome.css': 'common/style/libs/font-awesome/font-awesome.scss'
         }
       },
-      // build app styles to build folder
       app: {
-        options: {
-          sassDir: app_folder+'style',
-          cssDir: buildFolder+app_folder+'style',
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
+        files: {
+          '../build/app/style/style.css': 'app/style/style.scss'
         }
       },
-      // build moderator styles
       moderator: {
-        options: {
-          sassDir: moderator_folder+'style',
-          cssDir: buildFolder+moderator_folder+'style',
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
+        files: {
+          '../build/moderator/style/style.css': 'moderator/style/style.scss'
         }
       },
-      // one-pager
       onepager: {
-        options: {
-          sassDir: onepager_folder+'style',
-          cssDir: buildFolder+onepager_folder+'style',
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
+        files: {
+          '../build/one-pager/style/style.css': 'one-pager/style/style.scss'
         }
       },
-      // storefront
       storefront: {
-        options: {
-          sassDir: storefront_folder+'style',
-          cssDir: buildFolder+storefront_folder+'style',
-          outputStyle: 'expanded',
-          noLineComments: true,
-          force: true,
-          relativeAssets: true,
+        files: {
+          '../build/storefront/style/style.css': 'storefront/style/style.scss'
         }
       }
     },
@@ -452,24 +424,24 @@ module.exports = function(grunt) {
       app_images:       {files: [app_folder+'img/**'],          tasks: ['copy:app_images'] },
       app_jade:         {files: [app_folder+'html/**'],         tasks: ['jade:app'] },
       app_js:           {files: [app_folder+'js/**'],           tasks: ['concat:app', 'uglify:app'] },
-      app_style:        {files: [app_folder+'style/**'],        tasks: ['compass:app', 'autoprefixer:app', 'csscomb:app', 'cssmin:app'] },
+      app_style:        {files: [app_folder+'style/**'],        tasks: ['sass:app', 'autoprefixer:app', 'csscomb:app', 'cssmin:app'] },
       app_config:       {files: [app_folder+'config.xml'],      tasks: ['copy:config_xml'] },
       // moderator folder
       moderator_data:   {files: [moderator_folder+'data/**'],   tasks: ['jsonlint:moderator', 'copy:moderator_data'] },
       moderator_jade:   {files: [moderator_folder+'html/**'],   tasks: ['jade:moderator', 'copy:moderator_html_to_pyramid'] },
       moderator_js:     {files: [moderator_folder+'js/**'],     tasks: ['concat:moderator', 'uglify:moderator', 'copy:moderator_js_to_pyramid'] },
-      moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['compass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator', 'copy:moderator_css_to_pyramid'] },
+      moderator_style:  {files: [moderator_folder+'style/**'],  tasks: ['sass:moderator', 'autoprefixer:moderator', 'csscomb:moderator', 'cssmin:moderator', 'copy:moderator_css_to_pyramid'] },
       // storefront folder
       storefront_data:   {files: [storefront_folder+'data/**'],   tasks: ['jsonlint:storefront', 'copy:storefront_data'] },
       storefront_jade:   {files: [storefront_folder+'html/**'],   tasks: ['jade:storefront'] },
       storefront_js:     {files: [storefront_folder+'js/**'],     tasks: ['concat:storefront', 'uglify:storefront', 'copy:storefront_js_to_pyramid'] },
-      storefront_style:  {files: [storefront_folder+'style/**'],  tasks: ['compass:storefront', 'autoprefixer:storefront', 'csscomb:storefront', 'cssmin:storefront', 'copy:storefront_css_to_pyramid'] },
+      storefront_style:  {files: [storefront_folder+'style/**'],  tasks: ['sass:storefront', 'autoprefixer:storefront', 'csscomb:storefront', 'cssmin:storefront', 'copy:storefront_css_to_pyramid'] },
 
       // watch common assets
       common_jade:      {files: [common_folder+'html/**'],      tasks: ['build_html'] },
       common_images:    {files: [common_folder+'img/**'],       tasks: ['copy:images'] },
       common_fonts:     {files: [common_folder+'style/fonts/**'],tasks: ['build_css'] },
-      common_style:     {files: [common_folder+'style/common.scss'],tasks: ['compass:index'] },
+      common_style:     {files: [common_folder+'style/common.scss'],tasks: ['sass:index'] },
       common_style_libs:{files: [common_folder+'style/libs/**', common_folder+'style/pieces/**', common_folder+'style/theme/**'],tasks: ['build_css'] },
 
     },
@@ -560,7 +532,7 @@ module.exports = function(grunt) {
 
       // build project index stuff
       'jade:index',
-      'compass:index'
+      'sass:index'
     ]);
   });
 
@@ -578,7 +550,7 @@ module.exports = function(grunt) {
       'htmlmin:app',
       // CSS
       // build > autoprefix > comb > minify
-      'compass:app',
+      'sass:app',
       'autoprefixer:app',
       'csscomb:app',
       'cssmin:app',
@@ -659,7 +631,7 @@ module.exports = function(grunt) {
       'jade:moderator',
       // CSS
       // build > autoprefix > comb > minify
-      'compass:moderator',
+      'sass:moderator',
       'autoprefixer:moderator',
       'csscomb:moderator',
       'cssmin:moderator',
@@ -694,7 +666,7 @@ module.exports = function(grunt) {
       'jade:storefront',
       // CSS
       // build > autoprefix > comb > minify
-      'compass:storefront',
+      'sass:storefront',
       'autoprefixer:storefront',
       'csscomb:storefront',
       'cssmin:storefront',
@@ -727,7 +699,7 @@ module.exports = function(grunt) {
       'jade:onepager',
       // CSS
       // build > autoprefix > comb > minify
-      'compass:onepager',
+      'sass:onepager',
       'autoprefixer:onepager',
       'csscomb:onepager',
       'cssmin:onepager',
@@ -762,11 +734,11 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build_css', function() {
     grunt.task.run([
-      'compass:index',
-      'compass:app',
-      'compass:moderator',
-      'compass:onepager',
-      'compass:storefront',
+      'sass:index',
+      'sass:app',
+      'sass:moderator',
+      'sass:onepager',
+      'sass:storefront',
       'copy:fonts',
     ]);
   });

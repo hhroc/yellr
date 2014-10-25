@@ -1,0 +1,24 @@
+---
+- name: install required packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - python-pip
+
+- name: install python packages
+  pip: name={{ item }} state=latest
+  with_items:
+    - mutagen
+    - pyramid
+    - pyramid_chameleon
+    - pyramid_debugtoolbar
+    - pyramid_tm
+    - python-magic
+    - SQLAlchemy
+    - transaction
+    - zope.sqlalchemy
+    - waitress
+
+- name: install yellr
+  shell: python setup.py develop && initialize_yellr-serv_db development.ini
+  args:
+    chdir: /home/vagrant/server/yellr-serv

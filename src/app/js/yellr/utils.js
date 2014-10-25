@@ -333,50 +333,50 @@ yellr.utils = {
      * }
      */
 
-    var $pulldown_target = $(settings.target),
-        $pulldown_container = $(settings.container),
-        startY = 0,
-        reload_boolean = false;
+    // var $pulldown_target = $(settings.target),
+    //     $pulldown_container = $(settings.container),
+    //     startY = 0,
+    //     reload_boolean = false;
 
-    // .pull-down-container has a transition style on it
-    // to help make a nice animation
-    $pulldown_container.addClass('pull-down-container');
+    // // .pull-down-container has a transition style on it
+    // // to help make a nice animation
+    // $pulldown_container.addClass('pull-down-container');
 
-    // remove eventListeners just in case
-    $pulldown_target.off('touchstart');
-    $pulldown_target.off('touchmove');
-    $pulldown_target.off('touchend');
+    // // remove eventListeners just in case
+    // $pulldown_target.off('touchstart');
+    // $pulldown_target.off('touchmove');
+    // $pulldown_target.off('touchend');
 
 
-    // only refresh if we are at the top of the page
-    $pulldown_target.on('touchstart', function(e){
-      if (window.pageYOffset < 10) reload_boolean = true;
-    });
+    // // only refresh if we are at the top of the page
+    // $pulldown_target.on('touchstart', function(e){
+    //   if (window.pageYOffset < 10) reload_boolean = true;
+    // });
 
-    //
-    $pulldown_target.on('touchmove', function(e) {
+    // //
+    // $pulldown_target.on('touchmove', function(e) {
 
-      if (reload_boolean) {
-        startY++;
+    //   if (reload_boolean) {
+    //     startY++;
 
-        $pulldown_container.css('margin-top', (startY*20).toString()+'px');
+    //     $pulldown_container.css('margin-top', (startY*20).toString()+'px');
 
-        if (startY >= 3) {
-          startY = 0;
-          reload_boolean = false;
-          $pulldown_container.css('margin-top', '0');
-          // on pulldown --> run callback
-          if (settings.callback) settings.callback();
-        }
-      }
+    //     if (startY >= 3) {
+    //       startY = 0;
+    //       reload_boolean = false;
+    //       $pulldown_container.css('margin-top', '0');
+    //       // on pulldown --> run callback
+    //       if (settings.callback) settings.callback();
+    //     }
+    //   }
 
-    });
+    // });
 
-    $pulldown_target.on('touchend', function(e){
-      reload_boolean = false;
-      startY = 0;
-      $pulldown_container.css('margin-top', '0');
-    });
+    // $pulldown_target.on('touchend', function(e){
+    //   reload_boolean = false;
+    //   startY = 0;
+    //   $pulldown_container.css('margin-top', '0');
+    // });
 
   },
 

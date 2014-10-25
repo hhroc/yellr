@@ -69,9 +69,7 @@ yellr.view.create_assignment = function () {
           assignment_data.bottom_right_lat = 43.0;
           assignment_data.bottom_right_lng = -77.3;
 
-          console.log('publishing assignment');
           yellr.server.publish_assignment(assignment_data, function (assignment_response) {
-            console.log('assignment published');
             // create collection for the new assignment
             yellr.server.create_collection({
               name: 'Assignment #'+assignment_response.assignment_id+' Collection',
@@ -79,7 +77,6 @@ yellr.view.create_assignment = function () {
               tags: 'some, example, collection tags'
             },function (collection_response) {
 
-              console.log('collection created');
               // update our assignments
               yellr.server.get_my_assignments(function () {
                 yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);

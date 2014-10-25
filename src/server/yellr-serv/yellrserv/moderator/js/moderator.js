@@ -1,10 +1,3 @@
-/*!
- * yellr v0.0.1 (http://hhroc.github.io/)
- * Copyright 2014 hhroc - Hacks and Hackers Rochester
- * Licensed under AGPLv3 (https://github.com/hhroc/yellr/blob/master/LICENSE)
- */
-
-
 'use strict';
 var yellr = yellr || {};
 
@@ -855,12 +848,12 @@ yellr.server = {
     //   'bottom_right_lat': 43.0,
     //   'bottom_right_lng': -77.3
     // },
-    // console.log('server.publish_assignment');
+
     data.questions =JSON.stringify(data.questions);
-    // console.log(data);
+
     $.ajax({
       type: 'POST',
-      yellr: yellr.URLS.publish_assignment,
+      url: yellr.URLS.publish_assignment,
       data: data,
       dataType: 'json',
       success: function (response) {
@@ -870,6 +863,10 @@ yellr.server = {
         } else {
           alert('Something went wrong submitting an Assignment');
         }
+      },
+      error: function (response) {
+        console.log('ERR_RRORRERIRIRIR');
+        console.log(response);
       }
 
     });
@@ -1135,9 +1132,21 @@ yellr.server = {
     });
 
 
+  },
+
+
+  publish_story: function (data, callback) {
+
+    $.post(yellr.URLS.publish_story, data,
+    function (response) {
+      if (response.success) {
+        if (callback) callback();
+      } else {
+        yellr.utils.notify('something went wrong');
+      }
+    });
+
   }
-
-
 
 }
 
@@ -1517,9 +1526,7 @@ yellr.view.create_assignment = function () {
           assignment_data.bottom_right_lat = 43.0;
           assignment_data.bottom_right_lng = -77.3;
 
-          console.log('publishing assignment');
           yellr.server.publish_assignment(assignment_data, function (assignment_response) {
-            console.log('assignment published');
             // create collection for the new assignment
             yellr.server.create_collection({
               name: 'Assignment #'+assignment_response.assignment_id+' Collection',
@@ -1527,7 +1534,6 @@ yellr.view.create_assignment = function () {
               tags: 'some, example, collection tags'
             },function (collection_response) {
 
-              console.log('collection created');
               // update our assignments
               yellr.server.get_my_assignments(function () {
                 yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);
@@ -2200,16 +2206,39 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
-  var settings = {
-    title: '',
-    body: '',
-    top_text: '',
-    top_left_lat: 0,
-    top_left_lng: 0,
-    bottom_right_lat: 0,
-    bottom_right_lng: 0,
-    collection: 3
+  // var settings = {
+  //   title: '',
+  //   body: '',
+  //   top_text: '',
+  //   top_left_lat: 0,
+  //   top_left_lng: 0,
+  //   bottom_right_lat: 0,
+  //   bottom_right_lng: 0,
+  //   collection: 3
+  // }
+
+
+  document.querySelector('#post-btn').onclick = function (event) {
+    // post the article
+    // ===================================
+    var article_data = {};
+
+    article_data.title = document.querySelector('#article-title').value;
+    article_data.banner_media_id = '';
+    article_data.tags = document.querySelector('#article-tags').value;
+    article_data.contents = document.querySelector('#article-body').value;
+    article_data.top_text = document.querySelector('#article-leadin').value;
+    article_data.language_code = 'en';
+    article_data.top_left_lat = 43.4;
+    article_data.top_left_lng = -77.9;
+    article_data.bottom_right_lat = 43.0;
+    article_data.bottom_right_lng = -77.3;
+
+    yellr.server.publish_story(article_data, function () {
+      alert('thing');
+    });
   }
+
 
   // // get the collection for the assignment
   // mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
@@ -2247,33 +2276,6 @@ yellr.view.write_article = function () {
   //   new_inactive.removeClass('active').addClass('inactive');
   //   new_active.removeClass('inactive').addClass('active');
   //   editor.update();
-  // });
-
-
-  // $('#editor-controls .submit-btn').on('click', function (e) {
-
-  //   $.post(mod.URLS.publish_story, {
-  //     title: $('#article-title').val(),
-  //     tags: 'test, 1, 2, 3',
-  //     top_text: $('#top-text').val(),
-  //     banner_media_id: '',
-  //     // banner_media_id: '329af2ee-6014-4a90-a7c3-05dba003c7ac',
-  //     contents: $('#markdown-editor').val(),
-  //     language_code: 'en',
-  //     top_left_lat: 43.4,
-  //     top_left_lng: -77.9,
-  //     bottom_right_lat: 43.0,
-  //     bottom_right_lng: -77.3
-  //   },
-  //   function (response) {
-  //     if (response.success) {
-  //       console.log('post successful!');
-  //     } else {
-  //       console.log('something went wrong');
-  //     }
-  //     console.log(response);
-  //   });
-
   // });
 
 

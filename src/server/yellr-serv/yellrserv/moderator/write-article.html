@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yellr - Home</title>
+  <title>Write Article - Yellr</title>
   <meta name="description" content="Yellr backend moderation - Citizen engagement and journalism app">
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png">
@@ -53,23 +53,48 @@
         <div id="editor-container">
           <header class="editor-header header-with-controls">
             <h2 class="h1">Write Article</h2>
-            <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
+            <nav class="article-controls"><span id="preview-btn">
+                <label for="tab-2" class="tab-label tab">Preview</label></span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
           </header>
           <div class="editor-workspace flex">
-            <div class="flex-2">
-              <div class="editor-input"><span class="h3">Title</span>
-                <input id="article-title" type="text" name="title" placeholder="Article title...">
-              </div>
-              <div class="editor-input"><span class="h3">Body</span>
-                <textarea id="article-body" rows="15" name="body" placeholder="Write article" data-provide="markdown"></textarea>
-              </div>
-              <div class="editor-input"><span class="h3">Article Leadin</span>
-                <textarea id="article-leadin" rows="5" name="top-text" placeholder="Preview for front-page"></textarea>
-              </div>
-            </div>
+            <input id="tab-1" type="radio" name="editor_view" value="workspace" checked class="tab-input tab-1">
+            <input id="tab-2" type="radio" name="editor_view" value="preview" class="tab-input tab-2">
+            <input id="tab-3" type="radio" name="editor_view" value="geo-fence" class="tab-input tab-2">
+            <ul id="tabs-content" class="flex-2">
+              <li id="editor-workspace" class="tab-content tab-1">
+                <div class="editor-input"><span class="h3">Title</span>
+                  <input id="article-title" type="text" name="title" placeholder="Article title...">
+                </div>
+                <div class="editor-input"><span class="h3">Body</span>
+                  <textarea id="article-body" rows="15" name="body" placeholder="Write article" data-provide="markdown"></textarea>
+                </div>
+                <div class="editor-input"><span class="h3">Article Image</span>
+                  <input id="article-image" type="file" name="banner_image">
+                </div>
+                <div class="editor-input"><span class="h3">Article Leadin</span>
+                  <textarea id="article-leadin" rows="5" name="top-text" placeholder="Preview for front-page"></textarea>
+                </div>
+                <div class="editor-input"><span class="h3">Article tags</span>
+                  <p>Use a comma seperated list of tags</p>
+                  <input id="article-tags" type="text" name="tags" placeholder="Add tags here...">
+                </div>
+              </li>
+              <li id="editor-preview" class="tab-content tab-2">
+                <div id="preview">This where you would see the preview</div>
+              </li>
+              <li id="editor-geofence" class="tab-content tab-3">
+                <p>Set geo-fence area</p>
+                <div id="geo-fence">sdf</div>
+              </li>
+            </ul>
             <div class="flex-1">
-              <p id="geo-fence-btn" class="h4">Geo-Fence</p>
-              <div class="collection-area">
+              <p id="edit-text-btn" class="h4">
+                <label for="tab-1" class="tab-label tab">Edit Text</label>
+              </p>
+              <p id="geo-fence-btn" class="h4">
+                <label for="tab-3" class="tab-label tab">Geo-Fence</label>
+              </p>
+              <div id="collection-area">
                 <p class="h4">Collection</p>
                 <p class="current-collection">Seinfeld<span class="block">Change</span></p>
                 <ul id="write-article-collection-list">

@@ -2,7 +2,7 @@ doctype html
 head
   include ../../common/html/_head/meta.jade
 
-  title Yellr - Home
+  title Write Article - Yellr
   meta(name="description", content="Yellr backend moderation - Citizen engagement and journalism app")
 
   include _head.jade
@@ -21,25 +21,57 @@ body#moderator(data-page="write-article")
           header.editor-header.header-with-controls
             h2.h1 Write Article
             nav.article-controls
-              span#preview-btn Preview
+              span#preview-btn
+                label.tab-label.tab(for="tab-2") Preview
               span#save-draft-btn Save Draft
               span#post-btn Post
 
           div.editor-workspace.flex
-            div.flex-2
-              div.editor-input
-                span.h3 Title
-                input#article-title(type="text", name="title", placeholder="Article title...")
-              div.editor-input
-                span.h3 Body
-                textarea#article-body(rows="15", name="body", placeholder="Write article", data-provide="markdown")
-              div.editor-input
-                span.h3 Article Leadin
-                textarea#article-leadin(rows="5", name="top-text", placeholder="Preview for front-page")
+            input#tab-1.tab-input.tab-1(type="radio", name="editor_view", value="workspace", checked)
+            input#tab-2.tab-input.tab-2(type="radio", name="editor_view", value="preview")
+            input#tab-3.tab-input.tab-2(type="radio", name="editor_view", value="geo-fence")
+
+            ul#tabs-content.flex-2
+              li#editor-workspace.tab-content.tab-1
+                div.editor-input
+                  span.h3 Title
+                  input#article-title(type="text", name="title", placeholder="Article title...")
+
+                div.editor-input
+                  span.h3 Body
+                  textarea#article-body(rows="15", name="body", placeholder="Write article", data-provide="markdown")
+
+                div.editor-input
+                  span.h3 Article Image
+                  input#article-image(type="file", name="banner_image")
+
+                div.editor-input
+                  span.h3 Article Leadin
+                  textarea#article-leadin(rows="5", name="top-text", placeholder="Preview for front-page")
+
+                div.editor-input
+                  span.h3 Article tags
+                  p Use a comma seperated list of tags
+                  input#article-tags(type="text", name="tags", placeholder="Add tags here...")
+
+
+              li#editor-preview.tab-content.tab-2
+                div#preview This where you would see the preview
+
+
+              li#editor-geofence.tab-content.tab-3
+                p Set geo-fence area
+                div#geo-fence sdf
+
 
             div.flex-1
-              p.h4#geo-fence-btn Geo-Fence
-              div.collection-area
+              p.h4#edit-text-btn
+                label.tab-label.tab(for="tab-1") Edit Text
+
+              p.h4#geo-fence-btn
+                label.tab-label.tab(for="tab-3") Geo-Fence
+
+              div#collection-area
                 p.h4 Collection
                 p.current-collection Seinfeld
                   span.block Change

@@ -45,25 +45,23 @@ window.onload = function() {
 
   document.addEventListener('deviceready', function() {
 
-    // do cordova setup things
-    // yellr.cordova.getLatitude();
-    // yellr.cordova.getLongitude();
 
+    // HACK - location update is removed for monday's preso
+    // ----------------------------
+    // // Location API
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //   // success geting location
 
-    // Location API
-    navigator.geolocation.getCurrentPosition(function(position) {
-      // success geting location
+    //   yellr.utils.notify('Latitude: ' + position.coords.latitude);
+    //   yellr.SETTINGS.lat = position.coords.latitude;
 
-      yellr.utils.notify('Latitude: ' + position.coords.latitude);
-      yellr.SETTINGS.lat = position.coords.latitude;
+    //   yellr.utils.notify('Longitude: ' + position.coords.longitude);
+    //   yellr.SETTINGS.lng = position.coords.longitude;
 
-      yellr.utils.notify('Longitude: ' + position.coords.longitude);
-      yellr.SETTINGS.lng = position.coords.longitude;
-
-    }, function(error) {
-      // error getting location
-      yellr.utils.notify(error.message);
-    });
+    // }, function(error) {
+    //   // error getting location
+    //   yellr.utils.notify(error.message);
+    // });
 
 
 

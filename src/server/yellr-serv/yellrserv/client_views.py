@@ -13,6 +13,7 @@ from utils import make_response
 
 import urllib
 
+import markdown
 import transaction
 
 from pyramid.response import Response
@@ -71,6 +72,9 @@ def index(request):
                 top_text, contents, top_left_lat, top_left_lng, \
                 bottom_right_lat, bottom_right_lng, first_name, last_name, \
                 organization, email, media_file_name, media_id in latest_stories:
+
+            preview_text = ' '.join(contents.split(' ')[:30])
+
             ret_latest_stories.append({
                 'story_unique_id': story_unique_id,
                 'publish_datetime': str(publish_datetime),
@@ -78,7 +82,7 @@ def index(request):
                 'title': title,
                 'tags': tags,
                 'top_text': top_text,
-                'contents': contents,
+                'contents': markdown.markdown(contents),
                 'top_left_lat': top_left_lat,
                 'top_left_lng': top_left_lng,
                 'bottom_right_lat': bottom_right_lat,
@@ -89,11 +93,13 @@ def index(request):
                 'author_email': email,
                 'banner_media_file_name': media_file_name,
                 'banner_media_id': media_id,
+                'preview_text': preview_text,
             })
 
     #except:
     #    pass
 
+    # print ret_stories
     return {'title': 'Yellr - Frontpage', 'data_page': 'index','stories': True, 'latest_stories': ret_latest_stories}
 
 

@@ -43,6 +43,11 @@ yellr.main = {
             console.log('something went wrong loading stories');
           }
         });
+
+        var previews = document.querySelectorAll('.preview-text');
+        for (var i = 0; i < previews.length; i++) {
+          previews[i].innerHTML = markdown(preview_text);
+        };
         break;
         // ----------------------------
 

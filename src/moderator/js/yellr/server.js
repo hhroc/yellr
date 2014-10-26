@@ -296,6 +296,7 @@ yellr.server = {
   },
 
 
+
   add_post_to_collection: function (post_id, collection_id, callback) {
 
     // post_id = int

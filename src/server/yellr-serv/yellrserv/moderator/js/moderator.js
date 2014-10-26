@@ -48,7 +48,7 @@ window.onload = function () {
         yellr.view.all_assignments();
         break;
       case 'single-assignment':
-        yellr.view.view_assignment();
+        yellr.view.view_assignment.init();
         break;
       case 'write-article':
         yellr.view.write_article();
@@ -85,420 +85,6 @@ window.onload = function () {
 
 
 }
-
-'use strict';
-// var mod = mod || {};
-
-yellr.assignments = (function() {
-
-  // 'global' vars
-  var questions = [],
-      survey_answers = [],
-      supported_languages = [],
-      $form,
-      $preview_text,
-      $questions_container,
-      $question_form,
-      $question_textarea,
-      $extra_fields,
-      $preview_btn,
-      $cancel_btn,
-      $save_btn,
-      $post_btn;
-
-
-      // // setup the action buttons for each resposne
-      // $('#assignment-replies-list').on('click', function (e) {
-      //   switch (e.target.className) {
-      //     case 'fa fa-plus':
-      //       // get the DOM references
-      //       var postNode = e.target.parentNode.parentNode.parentNode.querySelector('.meta-div'),
-      //           collectionNode = document.querySelector('#assignment-collection-list');
-
-      //       // add post to collection
-      //       yellr.collections.add_post_to_collection(postNode, collectionNode);
-      //       break;
-
-      //     case 'fa fa-comment':
-      //       console.log('write a message');
-      //       var uid = e.target.offsetParent.querySelector('.meta-div').getAttribute('data-uid')
-      //       yellr.messages.create_message(uid, 'RE: Recent post on Yellr');
-      //       break;
-      //     case 'fa fa-flag':
-      //       console.log('mark as ain appropriate');
-      //       break;
-      //     case 'fa fa-trash':
-      //       console.log('discard this reply');
-      //       break;
-      //     default:
-      //       break;
-      //   }
-      // });
-
-
-
-
-  var view = function (assignment_id) {
-
-    // load that assignment from localStorage
-    var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
-      if (val.assignment_id === assignment_id) return true;
-    })[0];
-
-    // render the Handlebars template
-    yellr.utils.render_template({
-      template: '#assignment-overview-template',
-      target: '#view-assignment-section',
-      context: {assignment: assignment}
-    });
-
-  }
-
-
-
-
-  var setup_form = function () {
-
-    // render the form
-    yellr.utils.show_overlay({
-      template: '#new-assignment-template'
-    });
-
-
-    // get DOM refs
-    $form         = $('#assignment-form-wrapper'),
-    $questions_container = $form.find('#questions-container'),
-
-    // fields for: deadline, setting default language
-    $extra_fields = $form.find('#extra-assignment-fields'),
-
-    // action buttons
-    $cancel_btn   = $form.find('#cancel-assignment-btn'),
-    $preview_btn = $form.find('#preview-assignment-btn'),
-    $save_btn     = $form.find('#save-assignment-btn'),
-    $post_btn     = $form.find('#post-assignment-btn'),
-    $preview_text = $('#question-text-preview');
-
-
-    // hide things
-    $form.find('.form-fields-list').hide();
-    $extra_fields.hide();
-    $preview_btn.hide();
-    $save_btn.hide();
-    $post_btn.hide();
-
-
-    // add event listeners
-    // 1. close/cancel post
-    // 2. onchange of language, show form
-    // 3. save draft btn
-    // 4. preview the full assignment
-
-
-    // 1.
-    $cancel_btn.on('click', function (e) {
-      yellr.utils.clear_overlay();
-    });
-
-
-    // 2.
-    $form.find('#language-select').on('change', function (e) {
-      if (this.value !== '--') yellr.assignments.create_question_form(this.value);
-    });
-
-
-    // 3.
-    $save_btn.on('click', function (e) {
-      yellr.assignments.save_draft();
-    });
-
-    // 4.
-    $preview_btn.on('click', function (event) {
-      console.log('preview assignment');
-      yellr.assignments.preview_assignment();
-    });
-
-
-  }
-
-
-
-  var create_question_form = function (language_code) {
-
-    $extra_fields.hide();
-    $preview_text.removeClass('active');
-
-    // create a new question form based on the language selected
-    yellr.utils.render_template({
-      template: '#new-question-template',
-      target: $questions_container,
-      context: {
-        language: language_code
-      }
-    });
-
-    // we render a form with the language code in the id
-    // id="es-question-form", id="en-question-form"
-    $question_form = $form.find('#'+language_code+'-question-form');
-    $question_form.find('.answers-input-wrapper').hide();
-
-
-
-    // add event listeners
-    // ----------------------------
-
-    // // add an image to the question
-    // var $image_input = $question_form.find('.add-photo-wrapper input[type="file"]');
-
-    // $image_input.on('change', function (event) {
-    //   console.log('upload image');
-
-    //   $image_input.ajaxSubmit({
-    //     url: yellr.URLS.upload,
-    //     data: {
-    //       client_id: yellr.TOKEN,
-    //       media_type: 'image'
-    //     },
-    //     success: function (response) {
-    //       console.log(response);
-    //       if (response.success) {
-    //         console.log('photo uploaded');
-    //       } else {
-    //         console.log('something went wrong');
-    //       }
-    //     }
-    //   });
-    // });
-
-
-    // choose between a Free Response or Survey
-    $question_form.find('input[type="radio"]').on('change', function (e) {
-
-      if (this.value === 'multiple_choice') $question_form.find('.answers-input-wrapper').show();
-      else $question_form.find('.answers-input-wrapper').hide();
-
-    });
-
-    // when the user presses Enter, update the Survey answers list
-    $question_form.find('.question-answer-input').keypress(function (e) {
-
-      if (e.which === 13) {
-        e.preventDefault();
-        // push the input to the array
-        survey_answers.push($question_form.find('.question-answer-input').val());
-
-        // update the HTML
-        yellr.utils.render_template({
-          template: '#new-survey-answer-template',
-          target: '#survey-answers-list',
-          context: {answer: $question_form.find('.question-answer-input').val() },
-          append: true
-        })
-
-        // reset the form
-        $question_form.find('.question-answer-input').val('');
-        console.log(survey_answers);
-      };
-    });
-
-
-    // update the preview text on user input
-    $question_textarea = $question_form.find('#question_textarea');
-    $question_textarea.on('keyup', function (e) {
-      $preview_text.html($question_textarea.val());
-      if ($question_textarea.val() === '') $preview_text.html('Ask the community...');
-    });
-    // [default text]
-    $preview_text.html('Ask the community...');
-
-
-
-    // show the post button
-    $post_btn.show();
-    $post_btn.html('Add Question');
-    $post_btn.off('click');
-    $post_btn.on('click', function (e) {
-
-      // console.log($question_form.serialize()+'&answers='+JSON.stringify(survey_answers));
-      // alert('testing out survey answers');
-
-      $.ajax({
-        type: 'POST',
-        url: yellr.URLS.create_question,
-        data: $question_form.serialize()+'&answers='+JSON.stringify(survey_answers),
-        dataType: 'json',
-        success: function (response) {
-          if (response.success) {
-            console.log('SUCCESS');
-            // update our supported languages
-            supported_languages.push(language_code)
-            yellr.assignments.successful_question_post(response);
-          } else {
-            console.log('FAIL');
-            console.log(response);
-          }
-        }
-      });
-
-    });
-  }
-
-
-  var successful_question_post = function (data) {
-
-    // push the question ID to our array
-    questions.push(data.question_id);
-
-    // update preview text
-    $preview_text.html($question_textarea.val());
-    $preview_text.addClass('active');
-
-    // hide form
-    $question_form.hide();
-
-    // hide language select
-    $form.find('.language-select-wrapper').hide();
-
-    $save_btn.show();
-    $preview_btn.show();
-
-    $post_btn.html('Post Assignment');
-    $post_btn.off('click');
-    $post_btn.on('click', function (e) {
-      yellr.assignments.post();
-    });
-
-    $extra_fields.show();
-
-
-    this.language_feedback();
-
-  }
-
-
-
-  var language_feedback = function () {
-
-    // give the user feedback on the languages the current assignment supports
-
-    // get the languages the question supports compared to what yellr supports
-    var languages = yellr.DATA.languages.filter(function (val, i, array) {
-      for (var j = 0; j < supported_languages.length; j++) {
-        if (val.code === supported_languages[j]) {
-          return true;
-        }
-      };
-    });
-
-
-    yellr.utils.render_template({
-      target: '#supported-languages',
-      template: '#language-support-template',
-      context: {languages: languages}
-    });
-
-    // users can still add different languages
-    // we remove the ones that they have already done to prevent duplicates
-    $('#language-select').find('option[value="'+supported_languages[supported_languages.length-1]+'"]').remove();
-
-    $('#add-language-btn').on('click', function (e) {
-      $('#assignment-form-wrapper .language-select-wrapper').show();
-    })
-
-  }
-
-
-
-  var preview_assignment = function () {
-    console.log('do some css things to hide this and show that');
-  }
-
-
-
-  var save_draft = function () {
-    alert('save draft. NOT IMPLEMENTED. THIS DOES NOTHING LOL');
-  }
-
-
-  var post = function () {
-
-    // calculate the amount of time in hours
-    var amt = $form.find('#lifetime').val(),
-        unit_type = $form.find('#unit-of-time-list input:checked').val();
-
-    // we have to pass in hours
-    // if days: X * 24
-    // if months: x * 720 (24*30)
-    var unit = (unit_type === 'days') ? 24 : 720;
-    var total = amt * unit;
-
-    $.ajax({
-      type: 'POST',
-      yellr: mod.URLS.publish_assignment,
-      data: {
-        'life_time': total,
-        'questions': JSON.stringify(questions),
-        'top_left_lat': 43.4,
-        'top_left_lng': -77.9,
-        'bottom_right_lat': 43.0,
-        'bottom_right_lng': -77.3
-      },
-      dataType: 'json',
-      success: function (response) {
-
-        if (response.success) {
-
-          // create a collection for the assignment
-          $.ajax({
-            url: yellr.URLS.create_collection,
-            type: 'POST',
-            dataType: 'json',
-            data: {
-              name: 'Assignment #'+response.assignment_id+' Collection',
-              description: 'Collection for #'+response.assignment_id,
-              tags: 'some, example, collection tags'
-            },
-            success: function (_response) {
-              if (_response.success) {
-                // clear array
-                questions = [];
-                yellr.utils.clear_overlay();
-              } else console.log('something went wrong creating a collection for this assignment');
-            }
-          }).done(function () {
-
-            // update our assignments
-            yellr.assignments.get_my_assignments({
-              callback: function () {
-                yellr.utils.redirect_to('view-assignment.html#'+response.assignment_id);
-              }
-            });
-
-          });
-          // done creating collection for assignment
-
-
-        } else {
-          alert('Something went wrong submitting an Assignment');
-        }
-      }
-
-    });
-
-  }
-
-
-  return {
-    view: view,
-    setup_form: setup_form,
-    create_question_form: create_question_form,
-    successful_question_post: successful_question_post,
-    post: post,
-    save_draft: save_draft,
-    preview_assignment: preview_assignment,
-    language_feedback: language_feedback
-  }
-})();
 
 'use strict';
 var mod = mod || {};
@@ -564,57 +150,11 @@ mod.feed =  {
       };
     });
 
-  }
+  },
 
 
 
 
-
-
-
-
-    // DRAG AND DROP
-    //
-    // moderator.drag = function(e, element) {
-    //   // console.log(e);
-    //   console.log(e.dataTransfer);
-    //   // e.dataTransfer.setData("Text", ev.target.id);
-    // }
-    // moderator.allowDrop = function(e, element) {
-    //   e.preventDefault();
-    //   console.log(e);
-    //   console.log(this);
-    //   // this.style.background = 'tomato';
-    // }
-    // moderator.drop = function(e, element) {
-    //   ev.preventDefault();
-    //   var data = ev.dataTransfer.getData("Text");
-    //   ev.target.appendChild(document.getElementById(data));
-    // }
-
-
-    // // drag and drop an item onto the collections nav link
-    // var drop_target = document.querySelector('#collections-li');
-    // drop_target.ondragover = function(e) {
-    //   // moderator.allowDrop(e);
-    //   e.preventDefault();
-    //   // console.log(e);
-    //   // console.log(this);
-    //   this.style.background = 'tomato';
-    // }
-    // drop_target.ondragleave = function(e) {
-    //   e.preventDefault();
-    //   this.style.background = 'transparent';
-    // }
-    // drop_target.ondrop = function(e) {
-    //   e.preventDefault();
-    //   this.style.background = 'blue';
-    //   console.log('story id: ', e.dataTransfer.getData('story_id'));
-    // }
-
-};
-
-moderator.filter = {
 
   settings: {
     source_type: 'all',
@@ -743,7 +283,51 @@ moderator.filter = {
     moderator.packery.layout();
   }
 
-}
+
+
+
+
+
+    // DRAG AND DROP
+    //
+    // moderator.drag = function(e, element) {
+    //   // console.log(e);
+    //   console.log(e.dataTransfer);
+    //   // e.dataTransfer.setData("Text", ev.target.id);
+    // }
+    // moderator.allowDrop = function(e, element) {
+    //   e.preventDefault();
+    //   console.log(e);
+    //   console.log(this);
+    //   // this.style.background = 'tomato';
+    // }
+    // moderator.drop = function(e, element) {
+    //   ev.preventDefault();
+    //   var data = ev.dataTransfer.getData("Text");
+    //   ev.target.appendChild(document.getElementById(data));
+    // }
+
+
+    // // drag and drop an item onto the collections nav link
+    // var drop_target = document.querySelector('#collections-li');
+    // drop_target.ondragover = function(e) {
+    //   // moderator.allowDrop(e);
+    //   e.preventDefault();
+    //   // console.log(e);
+    //   // console.log(this);
+    //   this.style.background = 'tomato';
+    // }
+    // drop_target.ondragleave = function(e) {
+    //   e.preventDefault();
+    //   this.style.background = 'transparent';
+    // }
+    // drop_target.ondrop = function(e) {
+    //   e.preventDefault();
+    //   this.style.background = 'blue';
+    //   console.log('story id: ', e.dataTransfer.getData('story_id'));
+    // }
+
+};
 
 'use strict';
 var yellr = yellr || {};
@@ -1041,6 +625,7 @@ yellr.server = {
     });
 
   },
+
 
 
   add_post_to_collection: function (post_id, collection_id, callback) {
@@ -1527,6 +1112,9 @@ yellr.view.create_assignment = function () {
           assignment_data.bottom_right_lng = -77.3;
 
           yellr.server.publish_assignment(assignment_data, function (assignment_response) {
+
+            // get default_collection_id
+
             // create collection for the new assignment
             yellr.server.create_collection({
               name: 'Assignment #'+assignment_response.assignment_id+' Collection',
@@ -2038,78 +1626,270 @@ yellr.view.login = function () {
 var yellr =  yellr || {};
     yellr.view = yellr.view || {};
 
-yellr.view.view_assignment = function () {
+yellr.view.view_assignment = (function () {
 
-  // 1.   render text
-  // 2.   get assignment-responses
-  // 3.   show current collection
 
-  // get the URL hash
-  // --> that is our assignment_id
-  var assignment_id = parseInt(window.location.hash.split('#')[1]);
+  var collection = [],
+      collection_id,
+      assignment = [],
+      assignment_id,
+      new_replies = [],
+      total_posts = 0,
+      auto_refresh = true,
+      interval_time = 3; /*seconds*/
 
-  // make sure it's a valid number
-  if (assignment_id !== NaN) {
 
-    // 1.
-    // render the question text and things
+
+  var init = function (_assignment_id) {
+
+
+    // 0.   (optional parameter)
+    // 1.   render assignment overview header
+    // 2.   get assignment-responses
+    //   b  setup event listeners
+    // 3.   show current collection
+    // 4.   set the collection_id attribute to the #assignment-collections-list
     // ===================================
-    var assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
-      if (val.assignment_id === assignment_id) return true;
-    })[0];
-
-    // render the Handlebars template
-    yellr.utils.render_template({
-      template: '#assignment-overview-template',
-      target: '#view-assignment-section',
-      context: {assignment: assignment}
-    });
-
-    // parse UTC dates with moment.js
-    var deadline = document.querySelector('.assignment-deadline');
-        deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
-    var published = document.querySelector('.assignment-published');
-        published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
 
 
 
-
-    // 2.
-    // get assignent-responses
+    // 0. optional
     // ===================================
-    yellr.server.get_responses_for(assignment_id, function (posts) {
-      var replies = yellr.utils.convert_object_to_array(posts);
-      console.log(replies);
-      // yellr.utils.render_template({
-      //   template: '#assignment-response-li-template',
-      //   target: '#assignment-replies-list',
-      //   context: {replies: replies}
-      // });
+    // get the URL hash
+    // --> that is our assignment_id
+    // if id is pased in use it, otherwise use URL hash
+    assignment_id = _assignment_id ? _assignment_id : parseInt(window.location.hash.split('#')[1]);
 
-    });
+    // make sure it's a valid number
+    // ----------------------------
+    if (assignment_id !== NaN) {
 
 
 
-    // 2.
-    // get assignment collection
-    // ===================================
-    yellr.server.get_collection(assignment_id, function (response) {
+      // 1.
+      // render the question text and things
+      // ===================================
+      // ===================================
+      assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
+        // TODO - set collection_id
+        if (val.assignment_id === assignment_id) return true;
+      })[0];
+
+      // render the Handlebars template
       yellr.utils.render_template({
-        template: '#collections-li-template',
-        target: '#assignment-collection-list',
-        context: {
-          collection: response.collection
+        template: '#assignment-overview-template',
+        target: '#view-assignment-section',
+        context: {assignment: assignment}
+      });
+
+      // parse UTC dates with moment.js
+      var deadline = document.querySelector('.assignment-deadline');
+          deadline.innerHTML = moment(deadline.innerHTML).format('MMMM Do YYYY');
+      var published = document.querySelector('.assignment-published');
+          published.innerHTML = moment(published.innerHTML).format('MMMM Do YYYY');
+
+
+
+
+
+      // 2.
+      // get assignment collection
+      // ===================================
+      // ===================================
+      // TODO - change asignment_id to collection_id
+      yellr.server.get_collection(assignment_id, function (response) {
+
+        collection = response.collection;
+
+        yellr.utils.render_template({
+          template: '#collections-li-template',
+          target: '#assignment-collection-list',
+          context: {
+            collection: response.collection
+          }
+        });
+
+
+        // 3.
+        // get responses
+        // ===================================
+        yellr.server.get_responses_for(assignment_id, function (posts) {
+
+          var all_posts = yellr.utils.convert_object_to_array(posts);
+          yellr.view.view_assignment.total_posts = all_posts.length;
+
+          new_replies = filter_for_new_responses(all_posts);
+
+          yellr.utils.render_template({
+            template: '#assignment-response-li-template',
+            target: '#assignment-replies-list',
+            context: {replies: new_replies}
+          });
+
+        });
+
+      });
+
+
+
+
+      // 4
+      // add event listeners
+      // ----------------------------
+      document.querySelector('#assignment-replies-list').onclick = function (event) {
+        if (event.target.nodeName === 'I') {
+          // what are we doing?
+          //    add | comment | flag | trash
+          var action = event.target.parentNode.getAttribute('data-action');
+          switch (action) {
+            case 'add':
+              // get the post id from the meta-div
+              var post_id = parseInt(event.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'));
+
+              console.log(post_id, collection_id);
+
+              yellr.server.add_post_to_collection(post_id, collection_id, function (result) {
+                if (result) {
+                  yellr.utils.notify('Post added to collection');
+                  // this is a quick hack
+                  // should use a CSS class instead
+                  target.parentNode.style.opacity = '0.3';
+                  // target.parentNode.className = 'faded';
+                };
+              });
+
+              break;
+            case 'feedback':
+              break;
+            case 'flag':
+              break;
+            case 'remove':
+              break;
+
+            default:
+              break;
+          }
+          console.log(event.target.parentNode.getAttribute('data-action'));
+
         }
-      })
-    });
+      };
 
 
-    // set the collection_id attribute to the #assignment-collections-list
-    document.querySelector('#assignment-collection-list').setAttribute('data-collection-id', assignment_id);
+      document.querySelector('#auto-reload').onclick = function (event) {
+        if (event.target.checked) {
+          console.log('toggle reload');
+          yellr.view.view_assignment.auto_refresh = true;
+          yellr.view.view_assignment.loop();
+        }
+        else {
+          yellr.view.view_assignment.auto_refresh = false;
+          yellr.view.view_assignment.loop();
+        }
+      }
+
+
+      // 4. loop
+      // ===================================
+      yellr.view.view_assignment.loop();
+
+    }
+
+
 
   }
 
-}
+
+
+  var filter_for_new_responses = function (replies) {
+
+    // filter out what is:
+    //  1- already in our collection
+    //  2- flagged
+    //  3- trashed?
+
+    var new_replies = [];
+
+
+    // go through the replies
+    for (var i = 0; i < replies.length; i++) {
+      // reply
+      var new_response = true,
+          reply = replies[i];
+
+      // is
+      for (var j = 0; j < collection.length; j++) {
+
+        // collection_id = collection[j].post_id;
+        // console.log(collection[j].post_id);
+        if (reply.post_id === collection[j].post_id) {
+          console.log('this posts is in the collection');
+          console.log(reply);
+          new_response = false;
+        }
+      }
+
+      if (new_response) new_replies.push(reply);
+    };
+
+
+    return new_replies;
+  }
+
+
+
+
+
+
+
+  var loop = function (timeout) {
+
+    var timeout = timeout;
+
+    if (yellr.view.view_assignment.auto_refresh) {
+      timeout = setTimeout(function () {
+
+        // check for new posts
+        yellr.server.get_responses_for(assignment_id, function (posts) {
+
+          var all_posts = yellr.utils.convert_object_to_array(posts);
+
+          if (all_posts.length > yellr.view.view_assignment.total_posts) {
+            console.log('new posts');
+            yellr.view.view_assignment.total_posts = all_posts.length;
+
+            new_replies = filter_for_new_responses(all_posts);
+
+            yellr.utils.render_template({
+              template: '#assignment-response-li-template',
+              target: '#assignment-replies-list',
+              context: {replies: new_replies}
+            });
+
+
+          }
+
+        });
+
+        // loop
+        yellr.view.view_assignment.loop(timeout);
+      }, interval_time * 1000);
+    } else {
+      window.clearTimeout(timeout);
+    }
+
+  }
+
+
+  return {
+    init: init,
+    loop: loop,
+    auto_refresh: auto_refresh,
+    total_posts: total_posts,
+    filter_for_new_responses: filter_for_new_responses
+  }
+
+
+})();
 
 'use strict';
 var yellr = yellr || {};

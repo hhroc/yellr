@@ -70,6 +70,9 @@ yellr.view.create_assignment = function () {
           assignment_data.bottom_right_lng = -77.3;
 
           yellr.server.publish_assignment(assignment_data, function (assignment_response) {
+
+            // get default_collection_id
+
             // create collection for the new assignment
             yellr.server.create_collection({
               name: 'Assignment #'+assignment_response.assignment_id+' Collection',

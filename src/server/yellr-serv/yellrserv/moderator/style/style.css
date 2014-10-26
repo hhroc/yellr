@@ -3170,6 +3170,10 @@ body {
   background: tomato !important;
 }
 
+.assignment-reply-gi {
+  margin-bottom: 2rem;
+}
+
 .editor-workspace .flex-2 {
   padding-right: 2rem;
 }

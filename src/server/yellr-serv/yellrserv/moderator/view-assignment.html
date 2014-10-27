@@ -51,9 +51,12 @@
         <div id="assignment-reply-container" class="flex">
           <div class="assignment-replies-wrapper flex-2">
             <h3 class="t2">Responses</h3>
+            <label id="auto-reload">
+              <input type="checkbox" checked><span>Auto-Reload latest posts</span>
+            </label>
             <ul id="assignment-replies-list" class="list-style-none">
               <li>
-                <div class="gi">
+                <div class="assignment-reply-gi">
                   <div class="story-item">
                     <div class="media-preview">
                       <p class="description">Response to Assignment 6</p>
@@ -62,31 +65,14 @@
                     <p class="item-source"><a href="#">SAF-ASDFASDF-SADF-SDFA-saSFSAF</a></p>
                   </div>
                   <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
+                    <div class="flex-1">&nbsp;</div>
                     <ul class="options-list flex-1">
-                      <li><i title="Add to collection" class="fa fa-plus"></i></li>
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
-                      <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+                      <li data-action="add" class="add-to-collection"><i title="Add to collection" class="fa fa-plus"></i></li>
+                      <li data-action="feedback" class="leave-feedback"><i title="Leave feedback" class="fa fa-comment"></i></li>
+                      <li data-action="flag" class="flag-as-inappropriate"><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                      <li data-action="remove" class="remove-from-responses"><i title="Remove from responses" class="fa fa-trash"></i></li>
                     </ul>
                     <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="reply-gi">
-                  <div class="story-item">
-                    <div data-type="{{media_type}}" class="media-preview">
-                      <p class="media-text"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.</p>
-                    </div>
-                    <p class="item-source"><a href="#">02a6be81-954b-45fa-a2df-8794f3db6d5b</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-2">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li><i title="Remove from collection" class="fa fa-close"></i></li>
-                    </ul>
                   </div>
                 </div>
               </li>
@@ -104,10 +90,10 @@
   <div id="templates">
     <script id="assignment-overview-template" type="text/x-handlebars-template">
       <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-      <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
+      <h3 class="h1">{{assignment.questions.[1].question_text}}</h3>
       <div class="flex">
         <div class="flex-2">
-          <p>{{assignment.questions.[0].description}}</p>
+          <p>{{assignment.questions.[1].description}}</p>
           <ul class="inline assignment-dates-list">
             <li class="assignment-published">{{assignment.publish_datetime}}</li>
             <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
@@ -126,34 +112,37 @@
     <script id="assignment-response-li-template" type="text/x-handlebars-template">
       {{#if replies}}
         {{#each replies}}
-        <li id="post-id-{{post_id}}">
-          <div class="gi">
+        <li>
+          <div class="assignment-reply-gi">
             <div class="story-item">
-              <p class="description">{{title}}</p>
-              {{#each media_objects }}
-              <div class="media-preview" data-type="{{ media_type }}">
-                {{#if file_name}}
-                <figure class="media-file-image">
-                  <img src="/media/{{file_name}}" alt="{{ media_description }}">
-                  <figcaption>{{ media_description }}</figcaption>
-                </figure>
-                {{else}}
-                <p class="media-text">{{ media_text }}</p>
-                {{/if}}
-                
-                {{#if caption}}
-                <p>{{ caption }}</p>
-                {{/if}}
+              <div class="media-preview">
+                <p class="description">{{title}}</p>
+                {{#each media_objects }}
+                <div class="media-preview" data-type="{{ media_type }}">
+                  {{#if file_name}}
+                  <figure class="media-file-image">
+                    <img src="/media/{{file_name}}" alt="{{ media_description }}">
+                    <figcaption>{{ media_description }}</figcaption>
+                  </figure>
+                  {{else}}
+                  <p class="media-text">{{ media_text }}</p>
+                  {{/if}}
+                  
+                  {{#if caption}}
+                  <p>{{ caption }}</p>
+                  {{/if}}
+                </div>
+                {{/each }}
               </div>
-              {{/each }}
+              <p class="item-source"><a href="#">{{client_id}}</a></p>
             </div>
             <div class="story-meta flex">
-              <p class="source flex3"><a href="#">{{client_id}}</a></p>
+              <div class="flex-1">&nbsp;</div>
               <ul class="options-list flex-1">
-                <li><i title="Add to collection" class="fa fa-plus"></i></li>
-                <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
-                <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+                <li data-action="add" class="add-to-collection"><i title="Add to collection" class="fa fa-plus"></i></li>
+                <li data-action="feedback" class="leave-feedback"><i title="Leave feedback" class="fa fa-comment"></i></li>
+                <li data-action="flag" class="flag-as-inappropriate"><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                <li data-action="remove" class="remove-from-responses"><i title="Remove from responses" class="fa fa-trash"></i></li>
               </ul>
               <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
             </div>

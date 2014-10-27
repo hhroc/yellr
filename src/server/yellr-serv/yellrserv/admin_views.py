@@ -53,8 +53,8 @@ def admin_get_access_token(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         try:
             user_name = request.GET['user_name']
@@ -66,7 +66,7 @@ def admin_get_access_token(request):
             result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')
 
-        #print "working on u: '{0}', p: '{1}'".format(user_name, password)
+        # print "working on u: '{0}', p: '{1}'".format(user_name, password)
 
         user, token = Users.authenticate(DBSession, user_name, password)
 
@@ -80,8 +80,8 @@ def admin_get_access_token(request):
             result['organization'] = user.organization
             result['success'] = True
 
-    except Exception, e:
-        pass
+    #except Exception, e:
+    #    pass
 
     return make_response(result)
 
@@ -94,8 +94,8 @@ def admin_get_client_logs(request):
 
     result = {'succes' :False}
 
-    try:
-
+    #try:
+    if True:
         token = None
         valid_token = False
         valid, user = check_token(request)
@@ -124,8 +124,8 @@ def admin_get_client_logs(request):
         result['logs'] = ret_logs
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -136,7 +136,7 @@ def admin_get_posts(request):
 
     result = {'success': False}
 
-    # try:
+    # #try:
     if True:
 
         token = None
@@ -160,7 +160,7 @@ def admin_get_posts(request):
 
         reported = False
         try:
-             reported = bool(int(request.GET['reported']))
+            reported = bool(int(request.GET['reported']))
         except:
             pass
 
@@ -215,7 +215,7 @@ def admin_get_posts(request):
 
         result['success'] = True
 
-    # except:
+    # #except:
         # pass
 
     return make_response(result)
@@ -225,8 +225,8 @@ def admin_create_question(request):
 
     result = {'success': False}
 
-    #if True:
-    try:
+    if True:
+    #try:
 
         token = None
         valid_token = False
@@ -235,18 +235,22 @@ def admin_create_question(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        #if True:
-        try:
+        print "\n\n"
+        print request.POST
+        print "\n\n"
+
+        if True:
+        #try:
             language_code = request.POST['language_code']
             question_text = request.POST['question_text']
             description = request.POST['description']
             question_type = request.POST['question_type']
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: language_code, \
 question_text, description, question_type. \
 """
-            raise Exception('missing field')
+            #raise Exception('missing field')
 
 
         # answers is a json array of strings
@@ -256,6 +260,7 @@ question_text, description, question_type. \
             answers = json.loads(request.POST['answers'])
         except:
             pass
+        
         # back fill with empty strings
         for i in range(len(answers),10):
             answers.append('')
@@ -273,8 +278,8 @@ question_text, description, question_type. \
         result['question_id'] = question.question_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -283,8 +288,8 @@ def admin_update_question(request):
 
     result = {'success': False}
 
-    #if True:
-    try:
+    if True:
+    #try:
 
         token = None
         valid_token = False
@@ -293,13 +298,13 @@ def admin_update_question(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        #if True:
-        try:
+        if True:
+        #try:
             language_code = request.POST['language_code']
             question_text = request.POST['question_text']
             description = request.POST['description']
             question_type = request.POST['question_type']
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: language_code, \
 question_text, description, question_type. \
@@ -308,11 +313,11 @@ question_text, description, question_type. \
 
         # answers is a json array of strings
         answers = []
-        try:
-        #if True:
+        #try:
+        if True:
             answers = json.loads(request.POST['answers'])
-        except:
-            pass
+        #except:
+        #    pass
         # back fill with empty strings
         for i in range(len(answers),10):
             answers.append('')
@@ -330,8 +335,8 @@ question_text, description, question_type. \
         result['question_id'] = question.question_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -340,7 +345,7 @@ def admin_publish_assignment(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -350,8 +355,8 @@ def admin_publish_assignment(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        #if True:
-        try:
+        if True:
+        #try:
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
             questions = json.loads(request.POST['questions'])
@@ -359,13 +364,13 @@ def admin_publish_assignment(request):
             top_left_lng = float(request.POST['top_left_lng'])
             bottom_right_lat = float(request.POST['bottom_right_lat'])
             bottom_right_lng = float(request.POST['bottom_right_lng'])
-        except:
-            result['error_text'] = """\
-One or more of the following fields is missing or invalid: life_time,\
-questions (JSON list of question id's), top_left_lat, top_left_lng, \
-bottom_right_lat, bottom_right_lng.
-"""
-            raise Exception('invalid/missing field')
+        #except:
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: life_time,\
+#questions (JSON list of question id's), top_left_lat, top_left_lng, \
+#bottom_right_lat, bottom_right_lng.
+#"""
+            #raise Exception('invalid/missing field')
 
         #geo_fence = {
         #    'top_left_lat': top_left_lat,
@@ -412,8 +417,8 @@ bottom_right_lat, bottom_right_lng.
 
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
 
     return make_response(result)
@@ -423,8 +428,8 @@ def admin_update_assignment(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -433,8 +438,8 @@ def admin_update_assignment(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        #if True:
-        try:
+        if True:
+        #try:
             assignment_id = request.POST['assignment_id']
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
@@ -444,7 +449,7 @@ def admin_update_assignment(request):
             bottom_right_lat = float(request.POST['bottom_right_lat'])
             bottom_right_lng = float(request.POST['bottom_right_lng'])
             #use_fence = boolean(request.POST['use_fence'])
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: life_time, \
 top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
@@ -466,8 +471,8 @@ top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
         result['assignment_id'] = assignment.assignment_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -476,7 +481,7 @@ def admin_get_my_assignments(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -486,9 +491,9 @@ def admin_get_my_assignments(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-#        try:
+#        #try:
 #            assignment_id = int(request.GET['assignment_id'])
-#        except:
+#        #except:
 #            result['error_text'] = """\
 #One or more of the following fields is missing or invalid: assignment_id. \
 #"""
@@ -513,13 +518,17 @@ def admin_get_my_assignments(request):
             count = count,
         )
 
+        print "\n\n"
+        print assignments
+        print "\n\n"
+
         index = 0
         ret_assignments = {}
         for assignment_id, publish_datetime, expire_datetime, \
                 top_left_lat, top_left_lng, bottom_right_lat, \
-                bottom_right_lng, use_fence, organization, question_text, \
-                question_type_id, answer0, answer1, answer2, answer3, \
-                answer4, answer5, answer6, answer7, answer8, \
+                bottom_right_lng, use_fence, collection_id, organization, \
+                question_text, question_type_id, answer0, answer1, answer2, \
+                answer3, answer4, answer5, answer6, answer7, answer8, \
                 answer9, post_count in assignments:
             if assignment_id in ret_assignments:
                 ret_assignments[assignment_id]['questions'].append({
@@ -568,8 +577,8 @@ def admin_get_my_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -578,8 +587,8 @@ def admin_create_message(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -618,8 +627,8 @@ subject, text.
             result['message_id'] = message.message_id
             result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -628,8 +637,8 @@ def admin_get_my_messages(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -638,11 +647,11 @@ def admin_get_my_messages(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-#        try:
+#        #try:
 #            to_client_id = request.POST['to_client_id']
 #            subject = request.POST['subject']
 #            text = request.POST['text']
-#        except:
+#        #except:
 #            result['error_text'] = """\
 #One or more of the following fields is missing or invalid: to_client_id, \
 #subject, text.
@@ -650,10 +659,10 @@ def admin_get_my_messages(request):
 #            raise Exception('invalid/missing field')
 
 #        parent_message_id = None
-#        try:
+#        #try:
 #            parent_message_id = request.POST['parent_message_id']
-#        except:
-#            pass
+#        #except:
+#        #    pass
 
 
         user = Users.get_from_token(DBSession, token)
@@ -682,8 +691,8 @@ def admin_get_my_messages(request):
         result['messages'] = ret_messages
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -693,8 +702,8 @@ def admin_get_languages(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -715,8 +724,8 @@ def admin_get_languages(request):
         result['languages'] = ret_languages
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -725,8 +734,8 @@ def admin_get_question_types(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -749,8 +758,8 @@ def admin_get_question_types(request):
         result['question_types'] = ret_question_types
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -760,7 +769,7 @@ def admin_create_user(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -770,15 +779,15 @@ def admin_create_user(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
+        #try:
             user_type_text = request.POST['user_type']
             user_name = request.POST['user_name']
-            password = request.POST['password']
+        #    password = request.POST['password']
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             email = request.POST['email']
             organization = request.POST['organization']
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: user_type, \
 user_name, password, first_name, last_name, email, organization. \
@@ -796,7 +805,7 @@ user_name, password, first_name, last_name, email, organization. \
             session = DBSession,
             client_id = user.client_id,
             user_name = user_name,
-            password = password,
+        #    password = password,
             first_name = first_name,
             last_name = last_name,
             email = email,
@@ -805,8 +814,8 @@ user_name, password, first_name, last_name, email, organization. \
         result['user_id'] = user.user_id
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -815,8 +824,8 @@ def admin_get_assignment_responses(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -895,8 +904,8 @@ One or more of the following fields is missing or invalid: assignment_id. \
         result['posts'] = ret_posts
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -905,7 +914,7 @@ def admin_register_post_view(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -915,9 +924,9 @@ def admin_register_post_view(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
+        #try:
             post_id = request.POST['post_id']
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: post_id. \
 """
@@ -941,8 +950,8 @@ One or more of the following fields is missing or invalid: post_id. \
         result['notification_id'] = notification.notification_id
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -952,7 +961,7 @@ def admin_publish_story(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1001,8 +1010,8 @@ bottom_right_lat, bottom_right_lng, language_code. \
         result['story_unique_id'] = story.story_unique_id
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -1011,7 +1020,7 @@ def admin_get_my_collection(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1021,12 +1030,12 @@ def admin_get_my_collection(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-#        try:
-#        #if True:
+#        #try:
+#        if True:
 #            name = request.POST['name']
 #            description = request.POST['description']
 #            tags = request.POST['tags']
-#        except:
+#        #except:
 #            result['error_text'] = """\
 #One or more of the following fields is missing or invalid: name, \
 #description, tags. \
@@ -1053,8 +1062,8 @@ def admin_get_my_collection(request):
         result['collections'] = ret_collections
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -1063,8 +1072,8 @@ def admin_create_collection(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -1073,17 +1082,17 @@ def admin_create_collection(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
-        #if True:
+        #try:
+        if True:
             name = request.POST['name']
             description = request.POST['description']
             tags = request.POST['tags']
-        except:
-            result['error_text'] = """\
-One or more of the following fields is missing or invalid: name, \
-description, tags. \
-"""
-            raise Exception('Missing or invalid field.')
+        #except:
+#            result['error_text'] = """\
+#One or more of the following fields is missing or invalid: name, \
+#description, tags. \
+#"""
+#            raise Exception('Missing or invalid field.')
 
         collection = Collections.create_new_collection_from_http(
             session = DBSession,
@@ -1096,8 +1105,8 @@ description, tags. \
         result['collection_id'] = collection.collection_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -1106,8 +1115,8 @@ def admin_add_post_to_collection(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -1116,11 +1125,11 @@ def admin_add_post_to_collection(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
-        #if True:
+        #try:
+        if True:
             collection_id = int(request.POST['collection_id'])
             post_id = int(request.POST['post_id'])
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: collection_id, \
 post_id. \
@@ -1137,8 +1146,8 @@ post_id. \
         result['collection_id'] = collection_id
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -1147,8 +1156,8 @@ def admin_remove_post_from_collection(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -1157,11 +1166,11 @@ def admin_remove_post_from_collection(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
-        #if True:
+        #try:
+        if True:
             collection_id = int(request.POST['collection_id'])
             post_id = int(request.POST['post_id'])
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: collection_id, \
 post_id. \
@@ -1180,8 +1189,8 @@ post_id. \
         else:
             result['error_text'] = 'Post does not exist within collection.'
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -1190,8 +1199,8 @@ def admin_disable_collection(request):
 
     result = {'success': False}
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         token = None
         valid_token = False
@@ -1218,8 +1227,8 @@ One or more of the following fields is missing or invalid: collection_id. \
         result['disabled'] = True
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     return make_response(result)
 
@@ -1228,7 +1237,7 @@ def admin_get_collection_posts(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1314,8 +1323,8 @@ One or more of the following fields is missing or invalid: collection_id. \
         result['posts'] = ret_posts
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -1324,7 +1333,7 @@ def admin_get_user_posts(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1334,10 +1343,10 @@ def admin_get_user_posts(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        try:
-        #if True:
+        #try:
+        if True:
             client_id = request.GET['client_id']
-        except:
+        #except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: client_id. \
 """
@@ -1405,8 +1414,8 @@ One or more of the following fields is missing or invalid: client_id. \
         result['client_id'] = client_id
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -1415,7 +1424,7 @@ def admin_get_subscriber_list(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1448,8 +1457,8 @@ def admin_get_subscriber_list(request):
         result['subscribers'] = ret_subscribers
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 
@@ -1458,7 +1467,7 @@ def admin_create_user(request):
 
     result = {'success': False}
 
-    #try:
+    ##try:
     if True:
 
         token = None
@@ -1512,8 +1521,8 @@ One or more of the following fields is missing or invalid: client_id. \
         result['disabled'] = True
         result['success'] = True
 
-    #except:
-    #    pass
+    ##except:
+    ##    pass
 
     return make_response(result)
 

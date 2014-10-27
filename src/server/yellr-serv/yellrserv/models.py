@@ -328,7 +328,7 @@ class Assignments(Base):
            counts = session.query(
                Assignments.assignment_id,
                func.count(Posts.post_id),
-           ).join(
+           ).outerjoin(
                Posts,Posts.assignment_id == Assignments.assignment_id,
            ).filter(
                 # we add offsets so we can do simple comparisons
@@ -377,7 +377,7 @@ class Assignments(Base):
                 QuestionAssignments,
             ).join(
                 Questions,
-            ).join(
+            ).outerjoin(
                 Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 Assignments.user_id == user.user_id,
@@ -429,7 +429,7 @@ class Assignments(Base):
                 QuestionAssignments,
             ).join(
                 Questions,
-            ).join(
+            ).outerjoin(
                 Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 # we add offsets so we can do simple comparisons

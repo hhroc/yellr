@@ -96,7 +96,15 @@
               </p>
               <div id="collection-area">
                 <p class="h4">Collection</p>
-                <p class="current-collection">Seinfeld<span class="block">Change</span></p>
+                <p class="current-collection"> Current:</p>
+                <p id="collection-name">--</p>
+                <label id="change-collection"><span>Change</span>
+                  <select id="collection-select">
+                    <option value="1">Collection #1</option>
+                    <option value="2">Collection #2</option>
+                    <option value="3">Collection #3</option>
+                  </select>
+                </label>
                 <ul id="write-article-collection-list"></ul>
               </div>
             </div>
@@ -128,11 +136,19 @@
                 {{/each}}
               {{else}}
                 <li class="faded">
-                  <h3 class="t2">Collection is empty</h3>
-                  <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+                  <p class="h3">No collection selected or is empty.</p>
                 </li>
               {{/if}}
               
+            </script>
+            <script id="collections-option-template" type="text/x-handlebars-template">
+              {{#if collections}}
+                {{#each collections}}
+                <option value="{{collection_id}}" {{#if disabled}}disabled{{/if}} >{{name}}</option>
+                {{/each}}
+              {{else}}
+                <option value="">--</option>
+              {{/if}}
               
             </script>
           </div>

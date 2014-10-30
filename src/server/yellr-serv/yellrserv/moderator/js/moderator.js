@@ -718,6 +718,11 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  get_hash: function () {
+    return window.location.hash.split('#')[1];
+  },
+
+
   convert_object_to_array: function (object) {
     var array = [];
     for (var key in object) {
@@ -2054,11 +2059,24 @@ yellr.view.write_article = function () {
 
 
   // load collection if a URL hash is present
-  var collection_id = parseInt(window.location.hash.split('#')[1]);
+  // var collection_id = parseInt(window.location.hash.split('#')[1]);
+  var collection_id = window.location.hash.split('#')[1];
 
   // make sure it's a valid number
+  //    wtf. this makes no sense
+  //    it keeps saying '#wefsd' is a number
+  //
+  //    if (collection_id !== NaN) {}
+  //    if (typeof collection_id === 'number') {}
+  //
+  //    the url hash is a string to start
+  //      so we check if it's undefined
+  //      before we parse it into an int
   // ----------------------------
-  if (collection_id !== NaN) {
+
+  if (collection_id !== undefined) {
+
+    collection_id = parseInt(collection_id);
 
     yellr.server.get_collection(collection_id, function (response) {
       // render the assignment's collection for the editor
@@ -2070,10 +2088,57 @@ yellr.view.write_article = function () {
         }
       });
 
-
     })
 
+  } else {
+    yellr.utils.render_template({
+      template: '#collections-li-template',
+      target: '#write-article-collection-list',
+      context: {
+        collection: undefined
+      }
+    });
   }
+
+
+
+  // populate the Collections <select> with user's collections
+  yellr.server.get_my_collections(function () {
+    var collections = yellr.DATA.collections;
+    collections.unshift({collection_id: '', name: '--'});
+
+    yellr.utils.render_template({
+      template: '#collections-option-template',
+      target: '#collection-select',
+      context: {
+        collections: collections
+      }
+    })
+  });
+
+  // event listener:
+  // onchange load a new collection
+  document.querySelector('#collection-select').onchange = function (event) {
+    if (this.value !== '') {
+
+      yellr.server.get_collection(parseInt(this.value), function (response) {
+        // render the assignment's collection for the editor
+        yellr.utils.render_template({
+          template: '#collections-li-template',
+          target: '#write-article-collection-list',
+          context: {
+            collection: response.collection
+          }
+        });
+        document.querySelector('#collection-name').innerHTML = response.collection_name;
+      });
+
+    }
+
+  }
+
+
+
 
 
   document.querySelector('#post-btn').onclick = function (event) {

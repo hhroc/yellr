@@ -685,12 +685,12 @@ def upload_media(request):
                 #jpeg
                 if mimetype == "image/jpeg":
                     media_extention  = 'jpg'
-                    print "media_Extension is: " + media_extention
+                    #print "media_Extension is: " + media_extention
 
                 #png
                 elif mimetype == "image/png":
                     media_extention  = 'png'
-                    print "media_Extension is: " + media_extention
+                    #print "media_Extension is: " + media_extention
 
                 #not jpeg or png
                 else:
@@ -785,7 +785,7 @@ def upload_media(request):
         media_caption = ''
         #if True:
         try:
-            media_caption = request.POST['caption']
+            media_caption = request.POST['media_caption']
         except:
             pass
 

@@ -2052,6 +2052,30 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
+
+  // load collection if a URL hash is present
+  var collection_id = parseInt(window.location.hash.split('#')[1]);
+
+  // make sure it's a valid number
+  // ----------------------------
+  if (collection_id !== NaN) {
+
+    yellr.server.get_collection(collection_id, function (response) {
+      // render the assignment's collection for the editor
+      yellr.utils.render_template({
+        template: '#collections-li-template',
+        target: '#write-article-collection-list',
+        context: {
+          collection: response.collection
+        }
+      });
+
+
+    })
+
+  }
+
+
   document.querySelector('#post-btn').onclick = function (event) {
     // post the article
     // ===================================
@@ -2087,21 +2111,6 @@ yellr.view.write_article = function () {
       yellr.utils.notify('Article has been posted! \n'+url);
     });
   }
-
-
-  // // get the collection for the assignment
-  // mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
-
-  //   // render the assignment's collection for the editor
-  //   mod.utils.render_template({
-  //     template: '#collections-li-template',
-  //     target: '#write-article-collection-list',
-  //     context: {
-  //       collection: response.collection
-  //     }
-  //   });
-
-  // });
 
 
   // function Editor(input, preview) {

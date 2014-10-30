@@ -1217,8 +1217,7 @@ yellr.view.create_assignment = function () {
   // ======================================================================
   document.querySelector('#post-btn').onclick = function (event) {
 
-    console.log('lol');
-    // get some DOM refs, set some vars
+
     var forms = document.querySelectorAll('.question-container form'),
         type = document.querySelectorAll('#assignment-question-type input'),
         answers_list = document.querySelectorAll('#survey-answers-list li'),
@@ -1227,129 +1226,82 @@ yellr.view.create_assignment = function () {
         questions = [],
         answers = [],
         assignment_data = {},
-        unit = (unit_type === 'days') ? 24 : 720,
-        valid = true;
-
-
-
-    // // loop through the forms and make sure they have content
-    // // --> validation
-    // for (var i = 0; i < forms.length; i++) {
-
-    //   // BAIL
-    //   // if any of these are empty
-    //   var language = forms[i].querySelector('input').value,
-    //       question_text = forms[i].querySelector('.question_text').value,
-    //       description = forms[i].querySelector('.question_description').value,
-    //       question_type = '';
-
-    //   if (language === '') valid = false;
-    //   if (question_text === '') valid = false;
-    //   if (description === '') valid = false;
-
-
-    //   // if question type == multiple choice
-    //   // make sure we have choices
-    //   for (var k = 0; k < type.length; k++) {
-    //     if (type[k].checked && type[k].value === 'multiple_choice') {
-    //       // we should have at least 2 surveyquestions
-    //       console.log('lol');
-    //       if (answers_list <= 1) valid = false;
-    //     }
-    //   }
-
-
-    //   if (!valid) {
-    //     alert('Fields are empty');
-    //     return;
-    //   }
-    // }
-
-
+        unit = (unit_type === 'days') ? 24 : 720;
 
 
     // publish every type of language form
     // ----------------------------
     // ----------------------------
-    if (valid) {
-      console.log('valid');
-      for (var m = 0; m < forms.length; m++) {
+    for (var i = 0; i < forms.length; i++) {
 
-        // the basics
-        var form_data = {
-          language: forms[m].querySelector('input').value,
-          question_text: forms[m].querySelector('.question_text').value,
-          description: forms[m].querySelector('.question_description').value
-        }
+      // the basics
+      var form_data = {
+        language_code: forms[i].querySelector('input').value,
+        question_text: forms[i].querySelector('.question_text').value,
+        description: forms[i].querySelector('.question_description').value
+      }
 
-        // question type
-        // ----------------------------
-        for (var k = 0; k < type.length; k++) {
-          if (type[k].checked) form_data.question_type = type[k].value;
-        };
-
-        // get answers if needed
-        if (form_data.question_type === 'multiple_choice') {
-          // get all choices
-          for (var j = 0; j < answers_list.length; j++) {
-            answers.push(answers_list[j]);
-          };
-
-          form_data.answers = answers;
-        }
-
-
-        console.log(form_data);
-
-
-        // post question to server
-        // ----------------------------
-        // ----------------------------
-        yellr.server.create_question(form_data, function (question_response) {
-          console.log('lol');
-          questions.push(question_response.question_id);
-
-          if (questions.length === forms.length) {
-
-            // we have to pass in hours
-            // if days: X * 24
-            // if months: x * 720 (24*30)
-            assignment_data.life_time = amt * unit;
-            assignment_data.questions = questions;
-
-            // GET GEO-FENCE DATA
-            // ----------------------------
-            assignment_data.top_left_lat = 43.4;
-            assignment_data.top_left_lng = -77.9;
-            assignment_data.bottom_right_lat = 43.0;
-            assignment_data.bottom_right_lng = -77.3;
-
-            yellr.server.publish_assignment(assignment_data, function (assignment_response) {
-
-              // get default_collection_id
-
-              // create collection for the new assignment
-              yellr.server.create_collection({
-                name: 'Assignment #'+assignment_response.assignment_id+' Collection',
-                description: 'Collection for #'+assignment_response.assignment_id,
-                tags: 'some, example, collection tags'
-              },function (collection_response) {
-
-                // update our assignments
-                yellr.server.get_my_assignments(function () {
-                  yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);
-                });
-
-              });
-              // done creating collection for assignment
-
-            })
-
-          }
-        })
+      // question type
+      for (var k = 0; k < type.length; k++) {
+        if (type[k].checked) form_data.question_type = type[k].value;
       };
 
-    }
+      // get answers if needed
+      if (form_data.question_type === 'multiple_choice') {
+        // get all choices
+        for (var j = 0; j < answers_list.length; j++) {
+          answers.push(answers_list[j]);
+        };
+
+        form_data.answers = answers;
+      }
+
+
+      // post question to server
+      // ----------------------------
+      // ----------------------------
+      yellr.server.create_question(form_data, function (question_response) {
+        questions.push(question_response.question_id);
+
+        if (questions.length === forms.length) {
+
+          // we have to pass in hours
+          // if days: X * 24
+          // if months: x * 720 (24*30)
+          assignment_data.life_time = amt * unit;
+          assignment_data.questions = questions;
+
+          // GET GEO-FENCE DATA
+          // ----------------------------
+          assignment_data.top_left_lat = 43.4;
+          assignment_data.top_left_lng = -77.9;
+          assignment_data.bottom_right_lat = 43.0;
+          assignment_data.bottom_right_lng = -77.3;
+
+          yellr.server.publish_assignment(assignment_data, function (assignment_response) {
+
+            // get default_collection_id
+
+            // create collection for the new assignment
+            yellr.server.create_collection({
+              name: 'Assignment #'+assignment_response.assignment_id+' Collection',
+              description: 'Collection for #'+assignment_response.assignment_id,
+              tags: 'some, example, collection tags'
+            },function (collection_response) {
+
+              // update our assignments
+              yellr.server.get_my_assignments(function () {
+                yellr.utils.redirect_to('view-assignment.html#'+assignment_response.assignment_id);
+              });
+
+            });
+            // done creating collection for assignment
+
+          })
+
+        }
+      })
+    };
 
   }
 

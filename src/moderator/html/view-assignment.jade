@@ -36,12 +36,12 @@ body#moderator(data-page="single-assignment")
             label#auto-reload
               input(type="checkbox", checked)
               span Auto-Reload latest posts
-            //- ul#assignment-replies-list.list-style-none
+            ul#assignment-replies-list.list-style-none
               //- li.faded
                 h3.t2 No replies yet
                 p It might take a while for people to respond. Also be sure to check the regular feed just in case.
-            ul#assignment-replies-list.list-style-none
-              li
+            //- ul#assignment-replies-list.list-style-none
+              li(draggable="true")
                 div.assignment-reply-gi
                   div.story-item
                     div.media-preview
@@ -131,7 +131,7 @@ body#moderator(data-page="single-assignment")
     script#assignment-response-li-template(type="text/x-handlebars-template").
       {{#if replies}}
         {{#each replies}}
-        <li>
+        <li draggable="true">
           <div class="assignment-reply-gi">
             <div class="story-item">
               <div class="media-preview">

@@ -91,8 +91,6 @@ yellr.server = {
 
   publish_assignment: function (data, callback) {
 
-    // NOT WORKING
-
     // data: {
     //   'life_time': total,
     //   'questions': questions (array),
@@ -243,31 +241,17 @@ yellr.server = {
      * (for now) we always render
      */
 
-    var collection_name = '',
-        collection = [],
-        result = false;
-
     $.getJSON(yellr.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
       // set return values
       if (response.success) {
-        result = true;
-        collection = yellr.utils.convert_object_to_array(response.posts);
-        collection_name = response.collection_name;
-      }
-
-    }).done(function () {
-
-      if (result) {
         // execute callback
-        if (callback) callback({
-          collection: collection,
-          collection_name: collection_name
+        callback({
+          collection: yellr.utils.convert_object_to_array(response.posts),
+          collection_name: response.collection_name
         });
-      } else {
-        console.log('something went wrong loading collection posts');
       }
 
     }).fail(function () {
@@ -314,16 +298,8 @@ yellr.server = {
     function (response) {
       if (response.success) {
         result = true;
-        console.log(response);
+        if (callback) callback(result);
       }
-    }).done(function () {
-      // provide feedback
-      if (result) console.log('added post to collection');
-      else console.log('something went wrong adding the post to the collection');
-
-      // execute callback
-      if (callback) callback(result);
-
     }).fail(function () {
       console.log('something went wrong adding the post to the collection');
       return result;
@@ -380,12 +356,11 @@ yellr.server = {
       success: function (response) {
         if (response.success) {
           yellr.utils.notify('Message sent!');
+          if (callback) callback(response);
         } else {
           yellr.utils.notify('Error sending message. Check the user ID.');
         }
       }
-    }).done(function () {
-      if (callback) callback();
     });
 
 

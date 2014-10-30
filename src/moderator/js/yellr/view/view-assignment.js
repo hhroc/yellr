@@ -78,6 +78,7 @@ yellr.view.view_assignment = (function () {
       // TODO - change asignment_id to collection_id
       yellr.server.get_collection(collection_id, function (response) {
 
+        console.log(response.collection);
         collection = response.collection;
 
         yellr.utils.render_template({
@@ -94,6 +95,7 @@ yellr.view.view_assignment = (function () {
         // ===================================
         yellr.server.get_responses_for(assignment_id, function (posts) {
 
+          console.log(posts);
           var all_posts = yellr.utils.convert_object_to_array(posts);
           yellr.view.view_assignment.total_posts = all_posts.length;
 
@@ -126,25 +128,19 @@ yellr.view.view_assignment = (function () {
               // get the post id from the meta-div
               var post_id = parseInt(event.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'));
 
-              console.log(post_id, collection_id);
-
               yellr.server.add_post_to_collection(post_id, collection_id, function (result) {
                 if (result) {
-                  console.log(result);
                   yellr.utils.notify('Post added to collection');
+
                   // this is a quick hack
-                  // should use a CSS class instead
                   var li = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-                  li.style.opacity = '0.3';
                   li.parentNode.removeChild(li);
 
                   // update collection
-                  console.log('update collection');
                   yellr.server.get_collection(collection_id, function (response) {
 
                     collection = response.collection;
-                    console.log('new');
-                    console.log(response.collection);
+
                     yellr.utils.render_template({
                       template: '#collections-li-template',
                       target: '#assignment-collection-list',
@@ -159,12 +155,17 @@ yellr.view.view_assignment = (function () {
 
               break;
             case 'feedback':
+              console.log('leave a message');
+
+              // yellr.server.send_message('hello from WXXI', 'message', 'uid')
+
               break;
             case 'flag':
+              console.log('flag as innappropriate');
               break;
             case 'remove':
+              console.log('remove');
               break;
-
             default:
               break;
           }

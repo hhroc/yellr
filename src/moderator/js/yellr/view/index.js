@@ -20,6 +20,20 @@ yellr.view.index = {
 
   timeout: undefined,
   pckry: undefined,
+  current_class: 'feed-gi',
+
+  change_grid_classes_to: function (class_name) {
+    // change li class to 'gi'
+    var grid_items = document.querySelectorAll('.'+yellr.view.index.current_class);
+    for (var i = 0; i < grid_items.length; i++) {
+      grid_items[i].className = class_name;
+    };
+
+    // change current_class
+    yellr.view.index.current_class = 'gi';
+
+  },
+
 
   init: function () {
     var grid = document.querySelector('#raw-feed'),
@@ -55,11 +69,16 @@ yellr.view.index = {
     // setup the grid
     // ----------------------------
     yellr.server.get_posts(function () {
+      var posts = yellr.DATA.posts.reverse();
+
+      for (var i = 0; i < posts.length; i++) {
+        posts[i].class = yellr.view.index.current_class;
+      };
+
       yellr.utils.render_template({
         template: '#raw-feed-item',
         target: '#raw-feed',
-        context: {posts: yellr.DATA.posts.reverse()},
-        // context: {posts: yellr.DATA.posts},
+        context: {posts: posts},
         prepend: true
       });
 
@@ -86,28 +105,16 @@ yellr.view.index = {
     // ----------------------------
     document.querySelector('#feed-view').onclick = function (event) {
 
-      var view, grid_items;
-
       if (event.target.checked) {
 
-        view = event.target.value;
-
         // what are we doing?
-        if (view === 'list') {
-
-          // change li class
-          grid_items = grid.querySelectorAll('.feed-gi');
-          for (var i = 0; i < grid_items.length; i++) {
-            grid_items[i].className = 'gi';
-          };
+        if (event.target.value === 'list') {
+          yellr.view.index.change_grid_classes_to('gi');
 
           // destroy pakcry
           yellr.view.index.pckry.destroy();
         } else {
-          grid_items = grid.querySelectorAll('.gi');
-          for (var i = 0; i < grid_items.length; i++) {
-            grid_items[i].className = 'feed-gi';
-          };
+          yellr.view.index.change_grid_classes_to('feed-gi');
 
           // redo packry
           yellr.view.index.pckry = new Packery(grid, {
@@ -206,13 +213,13 @@ yellr.view.index = {
         // update the "Last updated thing"
         yellr.server.get_posts(function () {
 
-          var current_posts = document.querySelectorAll('.feed-gi').length,
+          var current_posts = document.querySelectorAll('.'+yellr.view.index.current_class).length,
               new_posts = [],
               new_items = [];
 
           if (yellr.DATA.posts.length > current_posts) {
             for (var i = current_posts; i < yellr.DATA.posts.length; i++) {
-              new_posts.push(yellr.DATA.posts[i]);
+              new_posts.push(yellr.DATA.posts[i].class = yellr.view.index.current_class);
             };
 
             // render the latest ones

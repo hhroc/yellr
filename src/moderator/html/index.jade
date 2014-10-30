@@ -135,7 +135,7 @@ body#moderator(data-page="index")
     script#raw-feed-item(type="text/x-handlebars-template").
       {{#if posts}}
         {{#each posts}}
-        <div class="feed-gi">
+        <div class="{{class}}">
           <div class="story-item">
             <p class="description">{{ title }}</p>
             {{#each media_objects }}

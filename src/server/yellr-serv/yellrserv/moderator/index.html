@@ -34,7 +34,7 @@
               </li>
             </ul>
             <ul class="nav-list secondary-nav-list">
-              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="index.html" class="menu-link">Raw Feed</a></li>
               <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
             </ul>
             <ul class="nav-list secondary-nav-list">
@@ -116,7 +116,7 @@
     <script id="raw-feed-item" type="text/x-handlebars-template">
       {{#if posts}}
         {{#each posts}}
-        <div class="feed-gi">
+        <div class="{{class}}">
           <div class="story-item">
             <p class="description">{{ title }}</p>
             {{#each media_objects }}

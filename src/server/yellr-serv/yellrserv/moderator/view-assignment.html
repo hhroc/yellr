@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="single-assignment"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -79,7 +79,7 @@
             </ul>
           </div>
           <div class="assignment-collection-wrapper flex-1">
-            <h3 class="t2">Collection</h3>
+            <h3 class="t2">Collection</h3><a href="view-collection.html#2" class="block">View</a>
             <ul id="assignment-collection-list" class="list-style-none">
             </ul>
           </div>
@@ -90,10 +90,10 @@
   <div id="templates">
     <script id="assignment-overview-template" type="text/x-handlebars-template">
       <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-      <h3 class="h1">{{assignment.questions.[1].question_text}}</h3>
+      <h3 class="h1">{{assignment.questions.[0].question_text}}</h3>
       <div class="flex">
         <div class="flex-2">
-          <p>{{assignment.questions.[1].description}}</p>
+          <p>{{assignment.questions.[0].description}}</p>
           <ul class="inline assignment-dates-list">
             <li class="assignment-published">{{assignment.publish_datetime}}</li>
             <li class="assignment-deadline">{{assignment.expire_datetime}}</li>

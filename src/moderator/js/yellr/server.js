@@ -312,7 +312,10 @@ yellr.server = {
       collection_id: collection_id
     },
     function (response) {
-      if (response.success) result = true;
+      if (response.success) {
+        result = true;
+        console.log(response);
+      }
     }).done(function () {
       // provide feedback
       if (result) console.log('added post to collection');

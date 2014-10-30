@@ -126,10 +126,11 @@ yellr.view.view_assignment = (function () {
               // get the post id from the meta-div
               var post_id = parseInt(event.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'));
 
-              console.log(post_id);
+              console.log(post_id, collection_id);
 
               yellr.server.add_post_to_collection(post_id, collection_id, function (result) {
                 if (result) {
+                  console.log(result);
                   yellr.utils.notify('Post added to collection');
                   // this is a quick hack
                   // should use a CSS class instead
@@ -141,7 +142,7 @@ yellr.view.view_assignment = (function () {
                   console.log('update collection');
                   yellr.server.get_collection(collection_id, function (response) {
 
-                    // collection = response.collection;
+                    collection = response.collection;
                     console.log('new');
                     console.log(response.collection);
                     yellr.utils.render_template({
@@ -167,7 +168,6 @@ yellr.view.view_assignment = (function () {
             default:
               break;
           }
-          console.log(event.target.parentNode.getAttribute('data-action'));
 
         }
       };

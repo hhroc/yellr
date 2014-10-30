@@ -31,13 +31,27 @@
 .tab-2:checked ~ ul > .tab-2,
 .tab-3:checked ~ ul > .tab-3,
 .tab-4:checked ~ ul > .tab-4,
-.tab-5:checked ~ ul > .tab-5 {
+.tab-5:checked ~ ul > .tab-5,
+.tab-6:checked ~ ul > .tab-6 {
   position: relative;
   visibility: visible;
   opacity: 1;  /* Default - fade effect */
   transform: none
 }
 
+#assignment-tabs {
+  label {
+    transition: border 0.3s ease-out;
+    &.current {
+      border-bottom: 1px solid #333;
+      border-left: 2px solid #fff;
+      border-right: 1px solid #333;
+      position: relative;
+      left: -1px;
+      border-top: 1px solid #333;
+    }
+  }
+}
 
 #tabs-content {
   list-style: none;

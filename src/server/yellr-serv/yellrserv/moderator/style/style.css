@@ -1835,7 +1835,8 @@ body {
 .tab-2:checked ~ ul > .tab-2,
 .tab-3:checked ~ ul > .tab-3,
 .tab-4:checked ~ ul > .tab-4,
-.tab-5:checked ~ ul > .tab-5 {
+.tab-5:checked ~ ul > .tab-5,
+.tab-6:checked ~ ul > .tab-6 {
   position: relative;
   visibility: visible;
   opacity: 1;
@@ -1844,6 +1845,20 @@ body {
       -ms-transform: none;
        -o-transform: none;
           transform: none;
+}
+
+#assignment-tabs label {
+  -webkit-transition: border .3s ease-out;
+       -o-transition: border .3s ease-out;
+          transition: border .3s ease-out;
+}
+#assignment-tabs label.current {
+  position: relative;
+  left: -1px;
+  border-top: 1px solid #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  border-left: 2px solid #fff;
 }
 
 #tabs-content {
@@ -2771,8 +2786,37 @@ body {
   margin-right: .8rem;
 }
 
+#image-upload.btn {
+  margin-left: 0;
+  color: #fff;
+  background: #2980b9;
+}
+
+#survey-answers-list li {
+  margin: 1rem 0 1rem 2rem;
+  list-style-type: disc;
+}
+
+#deadline-container .inline-block {
+  vertical-align: top;
+}
+
+#deadline:before {
+  content: "Deadline: ";
+}
+
+#choices-container .h4 {
+  display: block;
+  margin-bottom: 2rem;
+}
+#choices-container input {
+  padding: .25rem;
+  margin: .75rem 0 2rem;
+  font-size: 1.25rem;
+}
+
 #assignment-question-type {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 #assignment-question-type .h3 {
   display: inline-block;
@@ -3238,10 +3282,6 @@ body {
 
 #editor-collections-list .media-text {
   font-size: 1.25rem;
-}
-
-#preview-btn {
-  background: rgba(41, 128, 185, .6);
 }
 
 .editor-container {

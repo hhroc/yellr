@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="create-assignment"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -52,7 +52,8 @@
       <div id="right" class="flex-4 right-wrapper">
         <header class="editor-header header-with-controls">
           <h2 class="h1">Create Assignment</h2>
-          <nav class="article-controls"><span id="preview-btn">Preview</span><span id="save-draft-btn">Save Draft</span><span id="post-btn">Post</span></nav>
+          <nav class="article-controls"><span id="save-draft-btn">Save Draft</span><span id="preview-btn">
+              <label for="tab-6">Preview</label></span><span id="post-btn">Post</span></nav>
         </header>
         <div class="assignment-wrapper">
           <div id="assignment-question-type"><span class="h3">Question Type:</span>
@@ -69,6 +70,7 @@
             <input id="tab-3" type="radio" name="assignment_view" value="deadline" class="tab-input tab-3">
             <input id="tab-4" type="radio" name="assignment_view" value="geo-fence" class="tab-input tab-4">
             <input id="tab-5" type="radio" name="assignment_view" value="add-image" class="tab-input tab-5">
+            <input id="tab-6" type="radio" name="assignment_view" value="preview" class="tab-input tab-6">
             <ul id="tabs-content" class="flex-3">
               <li id="questions-container" class="tab-content tab-1">
                 <div class="question-container">
@@ -88,40 +90,58 @@
                 </div>
               </li>
               <li id="choices-container" class="tab-content tab-2"><span class="h4">Survey Answers</span>
-                <input type="text" placeholder="Choice...">
-                <ul id="survey-answers-list"></ul>
+                <div class="flex">
+                  <div class="flex-1">
+                    <ul id="survey-answers-list">
+                      <li class="faded">None.</li>
+                    </ul>
+                  </div>
+                  <div class="flex-1">
+                    <p>Press Enter to add a survey answer to the assignment.</p>
+                    <input type="text" placeholder="Enter your text here..." id="survey-input">
+                  </div>
+                </div>
               </li>
               <li id="deadline-container" class="tab-content tab-3">
-                <p>Deadline: October 31, 2014 (8 days)</p>
-                <p><small>Duration</small></p>
-                <p class="inline-block"><span>Due:</span>
+                <p>Assignment duration</p>
+                <div class="inline-block">
                   <input type="number" id="lifetime" value="14">
                   <input type="hidden" name="life_time" value="">
-                </p>
-                <ul id="unit-of-time-list" class="inline-block">
-                  <li>
-                    <label>
-                      <input type="radio" name="unit-of-time" value="days" checked><span>Days</span>
-                    </label>
-                  </li>
-                  <li>
-                    <label>
-                      <input type="radio" name="unit-of-time" value="months"><span>Months</span>
-                    </label>
-                  </li>
-                </ul>
+                </div>
+                <div class="inline-block">
+                  <ul id="unit-of-time-list" class="inline-block">
+                    <li>
+                      <label>
+                        <input type="radio" name="unit-of-time" value="days" checked><span>Days</span>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="unit-of-time" value="months"><span>Months</span>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <p id="deadline">October 31, 2014</p>
               </li>
               <li id="geo-fence-container" class="tab-content tab-4">
                 <p>Select area to ask. Click and drag</p>
               </li>
               <li id="add-image-container" class="tab-content tab-5">
                 <p>Select an image to add to the assignment</p>
-                <input type="file" name="media_file">
+                <input type="file" name="media_file" id="image-input" class="block"><span id="image-upload" class="btn">Upload</span>
+              </li>
+              <li id="preview-container" class="tab-content tab-6">
+                <div id="preview">
+                  <h3 class="preview-title"></h3>
+                  <p class="preview-description"></p>
+                  <p class="preview-deadline">Deadline: October 31</p>
+                </div>
               </li>
             </ul>
             <nav id="assignment-tabs" class="flex-1">
-              <label for="tab-1" class="tab-label tab">Text</label>
-              <label for="tab-2" class="tab-label tab choices-tab faded">Choices</label>
+              <label for="tab-1" class="tab-label tab current">Text</label>
+              <label for="tab-2" class="tab-label tab">Choices</label>
               <label for="tab-3" class="tab-label tab">Deadline</label>
               <label for="tab-4" class="tab-label tab">Geo-fence</label>
               <label for="tab-5" class="tab-label tab">+ Add image</label>

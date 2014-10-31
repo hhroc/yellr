@@ -74,6 +74,17 @@ yellr/
 (virtualenv)$ pserve development.ini
 ```
 
+#### Create your VM
+Alternative to creating a virtualenv, you can spin up a Vagrant VM
+
+```
+vagrant up
+vagrant ssh
+cd /cd server/yellr-serv
+pserve development.ini
+# navigate to http://192.168.50.100:5000/ on your host
+```
+
 
 
 

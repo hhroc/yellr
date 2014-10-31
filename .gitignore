@@ -65,3 +65,5 @@ application
 logs
 src/server/yellr-serv/uploads/*
 src/server/yellr-serv/*.sqlite
+
+.vagrant

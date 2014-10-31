@@ -1,3 +1,23 @@
+#collection-area {
+  .h4 {
+    margin-bottom: 0;
+  }
+}
+#collection-name {
+}
+.current-collection {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+#change-collection {
+  span {
+    font-size: 0.875rem;
+  }
+}
+
+
+
 .editor-workspace {
   .flex-2 {
     padding-right: 2rem;
@@ -65,10 +85,6 @@
   .media-text {
     font-size: 1.25rem;
   }
-}
-
-#preview-btn {
-  background: rgba($blue, 0.6);
 }
 
 .editor-container {

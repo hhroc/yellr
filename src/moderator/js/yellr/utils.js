@@ -3,6 +3,11 @@ var yellr = yellr || {};
 
 yellr.utils = {
 
+  get_hash: function () {
+    return window.location.hash.split('#')[1];
+  },
+
+
   convert_object_to_array: function (object) {
     var array = [];
     for (var key in object) {

@@ -84,7 +84,7 @@ yellr.utils = {
     };
 
     // set urls || BASE_URL is set in init.js
-    yellr.utils.set_urls(BASE_URL);
+    yellr.utils.set_urls(yellr.BASE_URL);
     // yellr.URLS
 
     // get the "script"

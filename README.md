@@ -1,5 +1,5 @@
 # yellr
-Citizen Journalism Mobile App, Website, and Eco-System
+Community Engagement Journalism Mobile App, Website, and Eco-System
 
 
 

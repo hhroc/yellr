@@ -21,7 +21,7 @@ from sqlalchemy import (
 
 from sqlalchemy import ForeignKey
 
-from sqlalchemy import update, desc
+from sqlalchemy import update, desc, asc
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -356,7 +356,8 @@ class Assignments(Base):
             ).join(
                 Questions,
             ).filter(
-                Assignments.user_id == user.user_id,
+                #Assignments.user_id == user.user_id,
+                Assignments.expire_datetime >= datetime.datetime.now(),
             ).order_by(
                 desc(Assignments.publish_datetime),
             )
@@ -408,7 +409,8 @@ class Assignments(Base):
                 Assignments.bottom_right_lat + 90 < lat + 90,
                 Assignments.bottom_right_lng + 180 > lng + 180,
                 Questions.language_id == language.language_id,
-                Assignments.expire_datetime > Assignments.publish_datetime,
+                #Assignments.expire_datetime > Assignments.publish_datetime,
+                Assignments.expire_datetime > datetime.datetime.now(),
             ).order_by(
                 desc(Assignments.publish_datetime),
             ).all()
@@ -770,10 +772,11 @@ class Posts(Base):
                  desc(Posts.post_datetime),
             )
             total_post_count = posts_query.count()
-            if start == 0 and count == 0:
-                posts = posts_query.all()
-            else:
-                posts = posts_query.slice(start, start+count)
+            posts = posts_query.limit(50).all()
+            #if start == 0 and count == 0:
+            #    posts = posts_query.all()
+            #else:
+            #    posts = posts_query.slice(start, start+count)
         return posts, total_post_count
 
 

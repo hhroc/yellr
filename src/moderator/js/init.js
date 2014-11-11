@@ -48,7 +48,7 @@ window.onload = function () {
         yellr.view.all_assignments();
         break;
       case 'single-assignment':
-        yellr.view.view_assignment();
+        yellr.view.view_assignment.init();
         break;
       case 'write-article':
         yellr.view.write_article();

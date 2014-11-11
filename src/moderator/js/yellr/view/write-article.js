@@ -4,16 +4,88 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
-  // var settings = {
-  //   title: '',
-  //   body: '',
-  //   top_text: '',
-  //   top_left_lat: 0,
-  //   top_left_lng: 0,
-  //   bottom_right_lat: 0,
-  //   bottom_right_lng: 0,
-  //   collection: 3
-  // }
+
+  // load collection if a URL hash is present
+  // var collection_id = parseInt(window.location.hash.split('#')[1]);
+  var collection_id = window.location.hash.split('#')[1];
+
+  // make sure it's a valid number
+  //    wtf. this makes no sense
+  //    it keeps saying '#wefsd' is a number
+  //
+  //    if (collection_id !== NaN) {}
+  //    if (typeof collection_id === 'number') {}
+  //
+  //    the url hash is a string to start
+  //      so we check if it's undefined
+  //      before we parse it into an int
+  // ----------------------------
+
+  if (collection_id !== undefined) {
+
+    collection_id = parseInt(collection_id);
+
+    yellr.server.get_collection(collection_id, function (response) {
+      // render the assignment's collection for the editor
+      yellr.utils.render_template({
+        template: '#collections-li-template',
+        target: '#write-article-collection-list',
+        context: {
+          collection: response.collection
+        }
+      });
+
+    })
+
+  } else {
+    yellr.utils.render_template({
+      template: '#collections-li-template',
+      target: '#write-article-collection-list',
+      context: {
+        collection: undefined
+      }
+    });
+  }
+
+
+
+  // populate the Collections <select> with user's collections
+  yellr.server.get_my_collections(function () {
+    var collections = yellr.DATA.collections;
+    collections.unshift({collection_id: '', name: '--'});
+
+    yellr.utils.render_template({
+      template: '#collections-option-template',
+      target: '#collection-select',
+      context: {
+        collections: collections
+      }
+    })
+  });
+
+  // event listener:
+  // onchange load a new collection
+  document.querySelector('#collection-select').onchange = function (event) {
+    if (this.value !== '') {
+
+      yellr.server.get_collection(parseInt(this.value), function (response) {
+        // render the assignment's collection for the editor
+        yellr.utils.render_template({
+          template: '#collections-li-template',
+          target: '#write-article-collection-list',
+          context: {
+            collection: response.collection
+          }
+        });
+        document.querySelector('#collection-name').innerHTML = response.collection_name;
+      });
+
+    }
+
+  }
+
+
+
 
 
   document.querySelector('#post-btn').onclick = function (event) {
@@ -47,24 +119,10 @@ yellr.view.write_article = function () {
       // open the article in the new page
       var url = '/story?id='+response.story_unique_id;
       window.open(url, '_blank');
+      alert('Article has been posted! \n'+url);
       yellr.utils.notify('Article has been posted! \n'+url);
     });
   }
-
-
-  // // get the collection for the assignment
-  // mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
-
-  //   // render the assignment's collection for the editor
-  //   mod.utils.render_template({
-  //     template: '#collections-li-template',
-  //     target: '#write-article-collection-list',
-  //     context: {
-  //       collection: response.collection
-  //     }
-  //   });
-
-  // });
 
 
   // function Editor(input, preview) {

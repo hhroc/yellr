@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="write-article"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -34,7 +34,7 @@
               </li>
             </ul>
             <ul class="nav-list secondary-nav-list">
-              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="index.html" class="menu-link">Raw Feed</a></li>
               <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
             </ul>
             <ul class="nav-list secondary-nav-list">
@@ -96,16 +96,16 @@
               </p>
               <div id="collection-area">
                 <p class="h4">Collection</p>
-                <p class="current-collection">Seinfeld<span class="block">Change</span></p>
-                <ul id="write-article-collection-list">
-                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
-                  <li draggable="true" data-media="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aperiam facere sit, fuga nulla earum quam deleniti deserunt perspiciatis, necessitatibus laboriosam voluptas voluptatibus veniam sunt, expedita ipsam qui eos nobis.">
-                    <p class="media-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aperiam facere sit, fuga nulla earum quam deleniti deserunt perspiciatis, necessitatibus laboriosam voluptas voluptatibus veniam sunt, expedita ipsam qui eos nobis.</p>
-                  </li>
-                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
-                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
-                  <li draggable="true" data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg"><img src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg" class="media-file-image"></li>
-                </ul>
+                <p class="current-collection"> Current:</p>
+                <p id="collection-name">--</p>
+                <label id="change-collection"><span>Change</span>
+                  <select id="collection-select">
+                    <option value="1">Collection #1</option>
+                    <option value="2">Collection #2</option>
+                    <option value="3">Collection #3</option>
+                  </select>
+                </label>
+                <ul id="write-article-collection-list"></ul>
               </div>
             </div>
           </div>
@@ -136,11 +136,19 @@
                 {{/each}}
               {{else}}
                 <li class="faded">
-                  <h3 class="t2">Collection is empty</h3>
-                  <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+                  <p class="h3">No collection selected or is empty.</p>
                 </li>
               {{/if}}
               
+            </script>
+            <script id="collections-option-template" type="text/x-handlebars-template">
+              {{#if collections}}
+                {{#each collections}}
+                <option value="{{collection_id}}" {{#if disabled}}disabled{{/if}} >{{name}}</option>
+                {{/each}}
+              {{else}}
+                <option value="">--</option>
+              {{/if}}
               
             </script>
           </div>

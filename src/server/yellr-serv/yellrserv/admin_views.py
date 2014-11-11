@@ -952,7 +952,7 @@ def admin_publish_story(request):
             tags = request.POST['tags']
             top_text = request.POST['top_text']
             banner_media_id = request.POST['banner_media_id']
-            contents = request.POST['contents']
+            contents = request.POST['contents'].encode('UTF-8')
             top_left_lat = float(request.POST['top_left_lat'])
             top_left_lng = float(request.POST['top_left_lng'])
             bottom_right_lat = float(request.POST['bottom_right_lat'])

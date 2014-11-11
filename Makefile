@@ -1,6 +1,6 @@
 init:
-	# install gems, grunt
-	cd ./src; bundle install; npm install;
+	# install grunt
+	cd ./src; npm install;
 	# build the corova app
 	cordova create application com.hhroc.yellr "Yellr";
 	# add all cordova plugins. check the docs for a detailed list

@@ -1,5 +1,5 @@
 
 system_config = {
-    'upload_dir': '/home/yellrdev/yellr_media_uploads',
+    'upload_dir': '/uploads',
 }
 

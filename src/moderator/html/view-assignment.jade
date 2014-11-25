@@ -16,7 +16,7 @@ body#moderator(data-page="single-assignment")
         section#view-assignment-section
         //- section#view-assignment-section
           h2.t3 Assignment 1
-          h3.t1 Why can't I walk down a street free of suggestions?
+          h3.h1 Why can't I walk down a street free of suggestions?
           div.flex
             div.flex-2
               p When nobody will look at you, you can stare a hole in them. Picking out all the little details you'd never stare long enough to get if she'd even just return your gaze, this, this is your revenge.
@@ -28,38 +28,59 @@ body#moderator(data-page="single-assignment")
                 span.btn#edit-assignment-btn Edit
                 span.btn#close-assignment-btn Close
               p.write-article-btn-container
-                a.btn#write-article-btn(href="editor.html#1") Write Article
+                a.btn#write-article-btn(href="write-article.html#1") Write Article
 
         div#assignment-reply-container.flex
           div.assignment-replies-wrapper.flex-2
             h3.t2 Responses
+            label#auto-reload
+              input(type="checkbox", checked)
+              span Auto-Reload latest posts
             ul#assignment-replies-list.list-style-none
               //- li.faded
                 h3.t2 No replies yet
                 p It might take a while for people to respond. Also be sure to check the regular feed just in case.
             //- ul#assignment-replies-list.list-style-none
-              li
-                div.gi
+              li(draggable="true")
+                div.assignment-reply-gi
                   div.story-item
-                    p.description Response to Assignment 6
-                    p.media-text Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine
-                  div.story-meta.flex
-                    p.source.flex3
+                    div.media-preview
+                      p.description Response to Assignment 6
+                      p.media-text Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine
+                    p.item-source
                       a(href="#") SAF-ASDFASDF-SADF-SDFA-saSFSAF
+                  div.story-meta.flex
+                    div.flex-1 &nbsp;
                     ul.options-list.flex-1
-                      li
+                      li(data-action="add").add-to-collection
                         i.fa.fa-plus(title="Add to collection")
+                      li(data-action="feedback").leave-feedback
+                        i.fa.fa-comment(title="Leave feedback")
+                      li(data-action="flag").flag-as-inappropriate
+                        i.fa.fa-flag(title="Mark as inappropriate")
+                      li(data-action="remove").remove-from-responses
+                        i.fa.fa-trash(title="Remove from responses")
+                    div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+              //- li
+                div.reply-gi
+                  div.story-item
+                    div.media-preview(data-type="{{media_type}}")
+                      p.media-text  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe earum assumenda id, aperiam deserunt animi.
+                    p.item-source
+                      a(href="#") 02a6be81-954b-45fa-a2df-8794f3db6d5b
+                  div.story-meta.flex
+                    div.flex-2 &nbsp;
+                    ul.options-list.flex-1
                       li
                         i.fa.fa-comment(title="Leave feedback")
                       li
-                        i.fa.fa-flag(title="Mark as inappropriate")
-                      li
-                        i.fa.fa-trash(title="Remove from responses")
-                    div.meta-div(data-post-id="{{post_id}}", data-source="anonymous", data-uid="{{ client_id }}")
+                        i.fa.fa-close(title="Remove from collection")
+
 
 
           div.assignment-collection-wrapper.flex-1
             h3.t2 Collection
+            a(href="view-collection.html#2").block View
             ul#assignment-collection-list.list-style-none
               //- li
               //-   p.media-text this was just a song by the Von Bondies
@@ -88,7 +109,7 @@ body#moderator(data-page="single-assignment")
 
     script#assignment-overview-template(type="text/x-handlebars-template").
       <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-      <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
+      <h3 class="h1">{{assignment.questions.[0].question_text}}</h3>
       <div class="flex">
         <div class="flex-2">
           <p>{{assignment.questions.[0].description}}</p>
@@ -99,7 +120,7 @@ body#moderator(data-page="single-assignment")
         </div>
         <div class="flex-1">
           <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-          <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+          <p class="write-article-btn-container"><a href="write-article.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
         </div>
       </div>
       <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>
@@ -110,34 +131,37 @@ body#moderator(data-page="single-assignment")
     script#assignment-response-li-template(type="text/x-handlebars-template").
       {{#if replies}}
         {{#each replies}}
-        <li id="post-id-{{post_id}}">
-          <div class="gi">
+        <li draggable="true">
+          <div class="assignment-reply-gi">
             <div class="story-item">
-              <p class="description">{{title}}</p>
-              {{#each media_objects }}
-              <div class="media-preview" data-type="{{ media_type }}">
-                {{#if file_name}}
-                <figure class="media-file-image">
-                  <img src="/media/{{file_name}}" alt="{{ media_description }}">
-                  <figcaption>{{ media_description }}</figcaption>
-                </figure>
-                {{else}}
-                <p class="media-text">{{ media_text }}</p>
-                {{/if}}
+              <div class="media-preview">
+                <p class="description">{{title}}</p>
+                {{#each media_objects }}
+                <div class="media-preview" data-type="{{ media_type }}">
+                  {{#if file_name}}
+                  <figure class="media-file-image">
+                    <img src="/media/{{file_name}}" alt="{{ media_description }}">
+                    <figcaption>{{ media_description }}</figcaption>
+                  </figure>
+                  {{else}}
+                  <p class="media-text">{{ media_text }}</p>
+                  {{/if}}
 
-                {{#if caption}}
-                <p>{{ caption }}</p>
-                {{/if}}
+                  {{#if caption}}
+                  <p>{{ caption }}</p>
+                  {{/if}}
+                </div>
+                {{/each }}
               </div>
-              {{/each }}
+              <p class="item-source"><a href="#">{{client_id}}</a></p>
             </div>
             <div class="story-meta flex">
-              <p class="source flex3"><a href="#">{{client_id}}</a></p>
+              <div class="flex-1">&nbsp;</div>
               <ul class="options-list flex-1">
-                <li><i title="Add to collection" class="fa fa-plus"></i></li>
-                <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
-                <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+                <li data-action="add" class="add-to-collection"><i title="Add to collection" class="fa fa-plus"></i></li>
+                <li data-action="feedback" class="leave-feedback"><i title="Leave feedback" class="fa fa-comment"></i></li>
+                <li data-action="flag" class="flag-as-inappropriate"><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                <li data-action="remove" class="remove-from-responses"><i title="Remove from responses" class="fa fa-trash"></i></li>
               </ul>
               <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
             </div>

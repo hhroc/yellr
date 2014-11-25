@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="single-assignment"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -31,7 +31,7 @@
               </li>
             </ul>
             <ul class="nav-list secondary-nav-list">
-              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="index.html" class="menu-link">Raw Feed</a></li>
               <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
             </ul>
             <ul class="nav-list secondary-nav-list">
@@ -51,11 +51,14 @@
         <div id="assignment-reply-container" class="flex">
           <div class="assignment-replies-wrapper flex-2">
             <h3 class="t2">Responses</h3>
+            <label id="auto-reload">
+              <input type="checkbox" checked><span>Auto-Reload latest posts</span>
+            </label>
             <ul id="assignment-replies-list" class="list-style-none">
             </ul>
           </div>
           <div class="assignment-collection-wrapper flex-1">
-            <h3 class="t2">Collection</h3>
+            <h3 class="t2">Collection</h3><a href="view-collection.html#2" class="block">View</a>
             <ul id="assignment-collection-list" class="list-style-none">
             </ul>
           </div>
@@ -66,7 +69,7 @@
   <div id="templates">
     <script id="assignment-overview-template" type="text/x-handlebars-template">
       <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-      <h3 class="t1">{{assignment.questions.[0].question_text}}</h3>
+      <h3 class="h1">{{assignment.questions.[0].question_text}}</h3>
       <div class="flex">
         <div class="flex-2">
           <p>{{assignment.questions.[0].description}}</p>
@@ -77,7 +80,7 @@
         </div>
         <div class="flex-1">
           <p><span id="edit-assignment-btn" class="btn">Edit</span><span id="close-assignment-btn" class="btn">Close</span></p>
-          <p class="write-article-btn-container"><a href="editor.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
+          <p class="write-article-btn-container"><a href="write-article.html# {{assignment.assignment_id}}" id="write-article-btn" class="btn">Write Article</a></p>
         </div>
       </div>
       <div class="meta-div" data-assignment-id="{{assignment.assignment_id}}"></div>
@@ -88,34 +91,37 @@
     <script id="assignment-response-li-template" type="text/x-handlebars-template">
       {{#if replies}}
         {{#each replies}}
-        <li id="post-id-{{post_id}}">
-          <div class="gi">
+        <li draggable="true">
+          <div class="assignment-reply-gi">
             <div class="story-item">
-              <p class="description">{{title}}</p>
-              {{#each media_objects }}
-              <div class="media-preview" data-type="{{ media_type }}">
-                {{#if file_name}}
-                <figure class="media-file-image">
-                  <img src="/media/{{file_name}}" alt="{{ media_description }}">
-                  <figcaption>{{ media_description }}</figcaption>
-                </figure>
-                {{else}}
-                <p class="media-text">{{ media_text }}</p>
-                {{/if}}
-                
-                {{#if caption}}
-                <p>{{ caption }}</p>
-                {{/if}}
+              <div class="media-preview">
+                <p class="description">{{title}}</p>
+                {{#each media_objects }}
+                <div class="media-preview" data-type="{{ media_type }}">
+                  {{#if file_name}}
+                  <figure class="media-file-image">
+                    <img src="/media/{{file_name}}" alt="{{ media_description }}">
+                    <figcaption>{{ media_description }}</figcaption>
+                  </figure>
+                  {{else}}
+                  <p class="media-text">{{ media_text }}</p>
+                  {{/if}}
+                  
+                  {{#if caption}}
+                  <p>{{ caption }}</p>
+                  {{/if}}
+                </div>
+                {{/each }}
               </div>
-              {{/each }}
+              <p class="item-source"><a href="#">{{client_id}}</a></p>
             </div>
             <div class="story-meta flex">
-              <p class="source flex3"><a href="#">{{client_id}}</a></p>
+              <div class="flex-1">&nbsp;</div>
               <ul class="options-list flex-1">
-                <li><i title="Add to collection" class="fa fa-plus"></i></li>
-                <li><i title="Leave feedback" class="fa fa-comment"></i></li>
-                <li><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
-                <li><i title="Remove from responses" class="fa fa-trash"></i></li>
+                <li data-action="add" class="add-to-collection"><i title="Add to collection" class="fa fa-plus"></i></li>
+                <li data-action="feedback" class="leave-feedback"><i title="Leave feedback" class="fa fa-comment"></i></li>
+                <li data-action="flag" class="flag-as-inappropriate"><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
+                <li data-action="remove" class="remove-from-responses"><i title="Remove from responses" class="fa fa-trash"></i></li>
               </ul>
               <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
             </div>

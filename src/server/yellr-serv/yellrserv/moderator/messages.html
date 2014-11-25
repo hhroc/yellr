@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="messages"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -34,7 +34,7 @@
               </li>
             </ul>
             <ul class="nav-list secondary-nav-list">
-              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="index.html" class="menu-link">Raw Feed</a></li>
               <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
             </ul>
             <ul class="nav-list secondary-nav-list">
@@ -62,6 +62,100 @@
         </section>
       </div>
     </div>
+  </div>
+  <div id="templates">
+    <script id="view-message-template" type="text/x-handlebars-template">
+      <div id="view-message">
+        <div class="content">
+          <h3 class="subject">{{subject}}</h3>
+          <span class="date-sent">{{message_datetime}}</span>
+          <div>
+            <p>{{text}}</p>
+          </div>
+          <p class="from">{{from_first_name}} {{from_last_name}}</p>
+        </div>
+        <div id="message-reply-container">
+          <form id="reply-form" action="#" class="form">
+            <input type="hidden" name="email_id" value="{{message_id}}">
+            <h3 class="t2">Reply</h3>
+            <div>
+              <textarea rows="2" name="message_text" placeholder="Reply..."></textarea>
+            </div>
+            <div class="submit-div">
+              <label>
+                <span class="submit-btn">Submit</span>
+                <input type="submit" value="Send" hidden>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      
+      
+    </script>
+    <script id="send-message-template" type="text/x-handlebars-template">
+      <form id="send-message-form" action="#" class="form">
+        <h3 class="t2">New Message</h3>
+        <div>
+          <span>To</span>
+          {{#if uid}}
+          <input type="hidden" name="to_client_id" value="{{ uid }}">
+          <span>{{uid}}</span>
+          {{else}}
+          <input type="text" name="to_client_id" placeholder="User ID">
+          {{/if}}
+        </div>
+        <div>
+          <span class="block">Subject</span>
+          {{#if subject}}
+          <input type="hidden" name="subject" value="{{subject}}">
+          <span>{{subject}}</span>
+          {{else}}
+          <input type="text" name="subject">
+          {{/if}}
+        </div>
+        <div><span class="block">Message</span>
+          <textarea rows="2" name="text" placeholder="New message..."></textarea>
+        </div>
+        <div class="submit-div">
+          <label><span class="submit-btn">Submit</span>
+            <input type="submit" value="Send" hidden>
+          </label>
+        </div>
+      </form>
+      
+      
+      
+    </script>
+    <script id="reply-template" type="text/x-handlebars-template">
+      <form id="reply-form" action="#" class="form">
+        <input type="hidden" name="email_id" value="email-id">
+        <h3 class="t2">Reply</h3>
+        <div>
+          <textarea rows="2" name="message_text" placeholder="New message..."></textarea>
+        </div>
+        <div class="submit-div">
+          <label><span class="submit-btn">Submit</span>
+            <input type="submit" value="Send" hidden>
+          </label>
+        </div>
+      </form>
+      
+      
+      
+    </script>
+    <script id="inbox-li" type="text/x-handlebars-template">
+      {{#each messages}}
+      <li data-id="{{message_id}}">
+        <h3 class="sender">{{from_first_name}} {{from_last_name}}</h3>
+        <span class="subject">{{subject}}</span>
+        <span class="date">{{message_datetime}}</span>
+      </li>
+      {{/each}}
+      
+      
+    </script>
   </div>
   <div id="overlay-div-container">
   </div>

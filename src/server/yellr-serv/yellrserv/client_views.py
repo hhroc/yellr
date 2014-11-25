@@ -118,112 +118,112 @@ def submit_tip(request):
 #           """
 #    return Response(resp)
 
-@view_config(route_name='server_info.json')
-def get_users(request):
+#@view_config(route_name='server_info.json')
+#def get_users(request):
+#
+#    """ Allows clients to get version information about the server
+#    """
+#
+#    result = {'success': False}
+#
+#    try:
+#    #if True:
+#
+#        result['server_version'] = SERVER_VERSION
+#        result['required_client_version'] = REQUIRED_CLIENT_VERSION
+#        result['success'] = True
+#
+#    except:
+#        pass
+#
+#    resp = json.dumps(result)
+#    return Response(resp,content_type='application/json')
 
-    """ Allows clients to get version information about the server
-    """
-
-    result = {'success': False}
-
-    try:
-    #if True:
-
-        result['server_version'] = SERVER_VERSION
-        result['required_client_version'] = REQUIRED_CLIENT_VERSION
-        result['success'] = True
-
-    except:
-        pass
-
-    resp = json.dumps(result)
-    return Response(resp,content_type='application/json')
-
-@view_config(route_name='get_posts.json')
-def get_posts(request):
-
-    """
-    Return all of the posts on the server
-    """
-
-    result = {'success': False}
-
-    try:
-    #if True:
-
-        reported = False
-        try:
-            reported = bool(request.GET['reported'])
-        except:
-            pass
-
-        user_id = None
-        try:
-            client_id = request.GET['client_id']
-            user, created = Users.get_from_client_id(
-                session = DBSession,
-                client_id = client_id,
-                create_if_not_exist = False
-            )
-            user_id = user.user_id
-        except:
-            result['error_text'] = "Missing or invalidfield"
-            raise Exception('missing/invalid field')
-
-        if user_id != None:
-            posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
-        else:
-            posts = Posts.get_posts(DBSession, reported)
-
-        ret_posts = []
-        for post_id,title,post_datetime,reported,lat,lng,assignment_id, \
-                verified,user_client_id,first_name,last_name,organization, \
-                language_code,language_name in posts:
-            media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
-            ret_media_objects = []
-            for file_name,caption,media_text,name,description in media_objects:
-                ret_media_objects.append({
-                    'file_name': file_name,
-                    'caption': caption,
-                    'media_text': media_text,
-                    'name': name,
-                    'description': description,
-                })
-            ret_posts.append({
-                'post_id': post_id,
-                'title': title,
-                'post_datetime': str(post_datetime),
-                'reported': reported,
-                'lat': lat,
-                'lng': lng,
-                'verified': verified,
-                'user_id': user_client_id,
-                'first_name': first_name,
-                'last_name': last_name,
-                'organization': organization,
-                'language_code': language_code,
-                'language_name': language_name,
-                'media_objects': ret_media_objects,
-            })
-
-        result['posts'] = ret_posts
-        result['success'] = True
-
-    except:
-        pass
-
-    event_type = 'http_request'
-    event_details = {
-        'client_id': client_id,
-        'method': 'get_posts.json',
-        'post_count': len(ret_posts),
-        'result': result,
-    }
-    client_log = EventLogs.log(DBSession,client_id,event_type, \
-        json.dumps(event_details))
-
-    resp = json.dumps(result)
-    return Response(resp, content_type='application/json')
+#@view_config(route_name='get_posts.json')
+#def get_posts(request):
+#
+#    """
+#    Return all of the posts on the server
+#    """
+#
+#    result = {'success': False}
+#
+#    try:
+#    #if True:
+#
+#        reported = False
+#        try:
+#            reported = bool(request.GET['reported'])
+#        except:
+#            pass
+#
+#        user_id = None
+#        try:
+#            client_id = request.GET['client_id']
+#            user, created = Users.get_from_client_id(
+#                session = DBSession,
+#                client_id = client_id,
+#                create_if_not_exist = False
+#            )
+#            user_id = user.user_id
+#        except:
+#            result['error_text'] = "Missing or invalidfield"
+#            raise Exception('missing/invalid field')
+#
+#        if user_id != None:
+#            posts = Posts.get_all_from_user_id(DBSession, user_id, reported)
+#        else:
+#            posts = Posts.get_posts(DBSession, reported)
+#
+#        ret_posts = []
+#        for post_id,title,post_datetime,reported,lat,lng,assignment_id, \
+#                verified,user_client_id,first_name,last_name,organization, \
+#                language_code,language_name in posts:
+#            media_objects = MediaObjects.get_from_post_id(DBSession, post_id)
+#            ret_media_objects = []
+#            for file_name,caption,media_text,name,description in media_objects:
+#                ret_media_objects.append({
+#                    'file_name': file_name,
+#                    'caption': caption,
+#                    'media_text': media_text,
+#                    'name': name,
+#                    'description': description,
+#                })
+#            ret_posts.append({
+#                'post_id': post_id,
+#                'title': title,
+#                'post_datetime': str(post_datetime),
+#                'reported': reported,
+#                'lat': lat,
+#                'lng': lng,
+#                'verified': verified,
+#                'user_id': user_client_id,
+#                'first_name': first_name,
+#                'last_name': last_name,
+#                'organization': organization,
+#                'language_code': language_code,
+#                'language_name': language_name,
+#                'media_objects': ret_media_objects,
+#            })
+#
+#        result['posts'] = ret_posts
+#        result['success'] = True
+#
+#    except:
+#        pass
+#
+#    event_type = 'http_request'
+#    event_details = {
+#        'client_id': client_id,
+#        'method': 'get_posts.json',
+#        'post_count': len(ret_posts),
+#        'result': result,
+#    }
+#    client_log = EventLogs.log(DBSession,client_id,event_type, \
+#        json.dumps(event_details))
+#
+#    resp = json.dumps(result)
+#    return Response(resp, content_type='application/json')
 
 @view_config(route_name='get_assignments.json')
 def get_assignments(request):
@@ -234,8 +234,8 @@ def get_assignments(request):
     client_id = None
     ret_assignments = []
 
-    try:
-    #if True:
+    #try:
+    if True:
 
         #language_code = 'en'
         #if True:
@@ -251,12 +251,22 @@ def get_assignments(request):
         assignments = Assignments.get_all_open_with_questions(DBSession, \
             language_code, lat, lng)
 
+        #counts = Assignments.get_all_open_response_count(
+        #    session = DBSession,
+        #    lat = lat,
+        #    lng = lng,
+        #)
+
         ret_assignments = []
         for assignment_id, publish_datetime, expire_datetime, top_left_lat, \
                 top_left_lng, bottom_right_lat, bottom_right_lng, use_fence, \
                 organization, question_text, question_type_id, description, \
                 answer0, answer1, answer2, answer3, answer4, answer5, answer6, \
-                answer7, answer8, answer9 in assignments:
+                answer7, answer8, answer9, post_count in assignments:
+            #post_count = 0
+            #for _assignment_id, _post_count in counts:
+            #    if _assignment_id == assignment_id:
+            #        post_count = _post_count
             ret_assignments.append({
                 'assignment_id': assignment_id,
                 'organization': organization,
@@ -279,13 +289,15 @@ def get_assignments(request):
                 'answer7': answer7,
                 'answer8': answer8,
                 'answer9': answer9,
+                'post_count': post_count,
             })
+                    
 
         result['assignments'] = ret_assignments
         result['success'] = True
 
-    except:
-        pass
+    #except:
+    #    pass
 
     event_type = 'http_request'
     event_details = {

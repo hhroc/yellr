@@ -204,15 +204,15 @@
   }
   i {
     padding: 0.5rem 1rem;
-    @include transition(background, 0.3s);
-    &.fa-folder:hover {
-      background: $blue;
-    }
-    &.fa-comment:hover {
-      background: $green;
-    }
-    &.fa-flag:hover {
-      background: $red;
-    }
+    // @include transition(background, 0.3s);
+    // &.fa-folder:hover {
+    //   background: $blue;
+    // }
+    // &.fa-comment:hover {
+    //   background: $green;
+    // }
+    // &.fa-flag:hover {
+    //   background: $red;
+    // }
   }
 }

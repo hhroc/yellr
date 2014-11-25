@@ -21,7 +21,7 @@ from sqlalchemy import (
 
 from sqlalchemy import ForeignKey
 
-from sqlalchemy import update, desc
+from sqlalchemy import update, desc, func
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -298,6 +298,7 @@ class Assignments(Base):
     bottom_right_lat = Column(Float)
     bottom_right_lng = Column(Float)
     use_fence = Column(Boolean)
+    collection_id = Column(Integer, ForeignKey('collections.collection_id'), nullable=True)
 
     @classmethod
     def get_by_assignment_id(cls, session, assignment_id):
@@ -322,6 +323,25 @@ class Assignments(Base):
         return (assignment,question)
 
     @classmethod
+    def get_all_open_response_count(cls, session, lat, lng):
+        with transaction.manager:
+           counts = session.query(
+               Assignments.assignment_id,
+               func.count(Posts.post_id),
+           ).outerjoin(
+               Posts,Posts.assignment_id == Assignments.assignment_id,
+           ).filter(
+                # we add offsets so we can do simple comparisons
+                Assignments.top_left_lat + 90 > lat + 90,
+                Assignments.top_left_lng + 180 < lng + 180,
+                Assignments.bottom_right_lat + 90 < lat + 90,
+                Assignments.bottom_right_lng + 180 > lng + 180,
+            ).group_by(
+                Assignments.assignment_id
+            ).all()
+        return counts
+
+    @classmethod
     def get_all_with_questions_from_token(cls, session, token, \
             start=0, count=0):
         with transaction.manager:
@@ -336,6 +356,7 @@ class Assignments(Base):
                 Assignments.bottom_right_lat,
                 Assignments.bottom_right_lng,
                 Assignments.use_fence,
+                Assignments.collection_id,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
@@ -349,14 +370,19 @@ class Assignments(Base):
                 Questions.answer7,
                 Questions.answer8,
                 Questions.answer9,
+                func.count(Posts.post_id), 
             ).join(
                 Users
             ).join(
                 QuestionAssignments,
             ).join(
                 Questions,
+            ).outerjoin(
+                Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 Assignments.user_id == user.user_id,
+            ).group_by(
+                Assignments.assignment_id,
             ).order_by(
                 desc(Assignments.publish_datetime),
             )
@@ -381,6 +407,7 @@ class Assignments(Base):
                 Assignments.bottom_right_lat,
                 Assignments.bottom_right_lng,
                 Assignments.use_fence,
+                Assignments.collection_id,
                 Users.organization,
                 Questions.question_text,
                 Questions.question_type_id,
@@ -395,12 +422,15 @@ class Assignments(Base):
                 Questions.answer7,
                 Questions.answer8,
                 Questions.answer9,
+                func.count(Posts.post_id),
             ).join(
                 Users
             ).join(
                 QuestionAssignments,
             ).join(
                 Questions,
+            ).outerjoin(
+                Posts,Posts.assignment_id == Assignments.assignment_id,
             ).filter(
                 # we add offsets so we can do simple comparisons
                 Assignments.top_left_lat + 90 > lat + 90,
@@ -409,6 +439,8 @@ class Assignments(Base):
                 Assignments.bottom_right_lng + 180 > lng + 180,
                 Questions.language_id == language.language_id,
                 Assignments.expire_datetime > Assignments.publish_datetime,
+            ).group_by(
+                Assignments.assignment_id,
             ).order_by(
                 desc(Assignments.publish_datetime),
             ).all()
@@ -435,6 +467,22 @@ class Assignments(Base):
                 )
                 session.add(assignment)
                 transaction.commit()
+        return assignment
+
+    @classmethod
+    def set_collection(cls, session, assignment_id, collection_id):
+        with transaction.manager:
+            assignment = session.query(
+                Assignments,
+            ).filter(
+                Assignments.assignment_id == assignment_id,
+            ).first()
+            
+            assignment.collection_id = collection_id
+            
+            session.add(assignment)
+            transaction.commit()
+
         return assignment
 
     @classmethod

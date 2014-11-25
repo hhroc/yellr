@@ -422,8 +422,6 @@ yellr.server = {
 
   publish_assignment: function (data, callback) {
 
-    // NOT WORKING
-
     // data: {
     //   'life_time': total,
     //   'questions': questions (array),
@@ -574,31 +572,17 @@ yellr.server = {
      * (for now) we always render
      */
 
-    var collection_name = '',
-        collection = [],
-        result = false;
-
     $.getJSON(yellr.URLS.get_collection_posts, {
       collection_id: collectionID
     }, function (response) {
 
       // set return values
       if (response.success) {
-        result = true;
-        collection = yellr.utils.convert_object_to_array(response.posts);
-        collection_name = response.collection_name;
-      }
-
-    }).done(function () {
-
-      if (result) {
         // execute callback
-        if (callback) callback({
-          collection: collection,
-          collection_name: collection_name
+        callback({
+          collection: yellr.utils.convert_object_to_array(response.posts),
+          collection_name: response.collection_name
         });
-      } else {
-        console.log('something went wrong loading collection posts');
       }
 
     }).fail(function () {
@@ -643,15 +627,10 @@ yellr.server = {
       collection_id: collection_id
     },
     function (response) {
-      if (response.success) result = true;
-    }).done(function () {
-      // provide feedback
-      if (result) console.log('added post to collection');
-      else console.log('something went wrong adding the post to the collection');
-
-      // execute callback
-      if (callback) callback(result);
-
+      if (response.success) {
+        result = true;
+        if (callback) callback(result);
+      }
     }).fail(function () {
       console.log('something went wrong adding the post to the collection');
       return result;
@@ -708,12 +687,11 @@ yellr.server = {
       success: function (response) {
         if (response.success) {
           yellr.utils.notify('Message sent!');
+          if (callback) callback(response);
         } else {
           yellr.utils.notify('Error sending message. Check the user ID.');
         }
       }
-    }).done(function () {
-      if (callback) callback();
     });
 
 
@@ -739,6 +717,11 @@ yellr.server = {
 var yellr = yellr || {};
 
 yellr.utils = {
+
+  get_hash: function () {
+    return window.location.hash.split('#')[1];
+  },
+
 
   convert_object_to_array: function (object) {
     var array = [];
@@ -1046,10 +1029,174 @@ var yellr =  yellr || {};
 
 yellr.view.create_assignment = function () {
 
+  /*
 
-  // do the thing
+    1   add extra language
+    2   add survey answers
+    3   geo-fence
+    4   upload an image
+
+    a.  cosmetic things
+        - update classes onclick
+
+    $1  Post the assignment
+    $2  preview
+    $3  save draft
+
+  */
+
+
+
+  // 1. add an extra language
+  // ======================================================================
+  document.querySelector('#language-select').onchange = function (event) {
+    if (this.value !== '--') {
+      // create another form
+      yellr.utils.render_template({
+        template: '#question-form-template',
+        target: '.question-container',
+        context: {
+          language: this.value,
+          language_code: this.value.toLowerCase().substring(0,2)
+        },
+        append: true
+      });
+
+      // update the <selectt>
+      // remove node if down to last one
+      for (var i = 0; i < this.options.length; i++) {
+        if(this.options[i].value === this.value) {
+          this.removeChild(this.options[i]);
+          if (this.options.length === 1 ) {
+            document.querySelector('#questions-container').removeChild(document.querySelector('.language-select-wrapper'));
+          }
+        }
+      };
+    }
+  }
+
+
+
+
+
+  // 2. when the user presses Enter, update the Survey answers list
+  // ======================================================================
+  document.querySelector('#survey-input').onkeypress = function (event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+
+      // make sure we have a value
+      if (this.value !== '') {
+
+        var answers = document.querySelectorAll('#survey-answers-list li');
+
+        // remove the "None." <li> if it's there
+        if (answers.length === 1 && answers[0].innerHTML === 'None.') {
+          answers[0].parentNode.removeChild(answers[0]);
+        }
+
+        // limit of 8
+        if (answers !== 8) {
+          // create new <li>
+          yellr.utils.render_template({
+            template: '#new-survey-answer-template',
+            target: '#survey-answers-list',
+            context: {answer: this.value},
+            append: true
+          })
+
+          // clear input
+          this.value = '';
+        } else {
+          yellr.utils.notify('Max of 8 answers allowed.');
+        }
+
+      }
+
+    }
+  };
+
+
+
+
+
+  // 3.
+  document.querySelector('#image-upload').onclick = function (event) {
+    console.log('hello from: ');
+    $('#image-input').ajaxSubmit({
+      url: yellr.URLS.upload,
+      data: {
+        client_id: yellr.TOKEN,
+        media_type: 'image'
+      },
+      success: function (response) {
+        console.log(response);
+        if (response.success) {
+          console.log('photo uploaded');
+        } else {
+          console.log('something went wrong');
+        }
+      }
+    });
+
+  }
+
+
+
+
+
+
+
+
+  document.querySelector('#assignment-tabs').onclick = function (event) {
+    // clear current element
+    var current = document.querySelector('#assignment-tabs .current');
+
+    if (current) {
+      current.className = current.className.replace('current', '');
+    }
+
+    // set new element
+    event.target.className += ' current';
+  }
+
+
+
+
+
+
+
+
+
+
+
+  // $2 preview
+  // ======================================================================
+  document.querySelector('#preview-btn').onclick = function (event) {
+    // get form data
+    var form = document.querySelector('.question-container form'),
+        question_text = form.querySelector('.question_text').value,
+        description = form.querySelector('.question_description').value;
+
+    if (question_text === '') question_text = '[Empty]';
+
+    // get DOM nodes
+    var preview = document.querySelector('#preview');
+    preview.querySelector('.preview-title').innerHTML = question_text;
+    preview.querySelector('.preview-description').innerHTML = description;
+
+  }
+
+
+
+
+  // #1 post
+  //    1.  first we validate our forms, make sure they;re not empty
+  //    3.  then we post the things
+  //
+  // ======================================================================
   document.querySelector('#post-btn').onclick = function (event) {
-    // do everything
+
 
     var forms = document.querySelectorAll('.question-container form'),
         type = document.querySelectorAll('#assignment-question-type input'),
@@ -1136,123 +1283,8 @@ yellr.view.create_assignment = function () {
       })
     };
 
-
-
-
-
   }
 
-
-
-  // survey or free-text?
-  // ----------------------------
-  document.querySelector('#assignment-question-type').onclick = function (event) {
-    if (event.target.checked) {
-      var tab = document.querySelector('.choices-tab');
-      // toggle choices tab
-      if (event.target.value === 'multiple_choice') {
-        tab.className = tab.className.replace('faded', '');
-      } else {
-        // add .faded
-        tab.className+= ' faded';
-      }
-    }
-  }
-
-
-
-  // multi-lingual assignments
-  // ----------------------------
-  document.querySelector('#language-select').onchange = function (event) {
-    if (this.value !== '--') {
-      // create another form
-      yellr.utils.render_template({
-        template: '#question-form-template',
-        target: '.question-container',
-        context: {
-          language: this.value,
-          language_code: this.value.toLowerCase().substring(0,2)
-        },
-        append: true
-      });
-
-      // update the <selectt>
-      // remove node if down to last one
-      for (var i = 0; i < this.options.length; i++) {
-        if(this.options[i].value === this.value) {
-          this.removeChild(this.options[i]);
-          if (this.options.length === 1 ) {
-            document.querySelector('#questions-container').removeChild(document.querySelector('.language-select-wrapper'));
-          }
-        }
-      };
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // add event listeners
-  // ----------------------------
-
-  // // add an image to the question
-  // var $image_input = $question_form.find('.add-photo-wrapper input[type="file"]');
-
-  // $image_input.on('change', function (event) {
-  //   console.log('upload image');
-
-  //   $image_input.ajaxSubmit({
-  //     url: yellr.URLS.upload,
-  //     data: {
-  //       client_id: yellr.TOKEN,
-  //       media_type: 'image'
-  //     },
-  //     success: function (response) {
-  //       console.log(response);
-  //       if (response.success) {
-  //         console.log('photo uploaded');
-  //       } else {
-  //         console.log('something went wrong');
-  //       }
-  //     }
-  //   });
-  // });
-
-
-  // // when the user presses Enter, update the Survey answers list
-  // $question_form.find('.question-answer-input').keypress(function (e) {
-
-  //   if (e.which === 13) {
-  //     e.preventDefault();
-  //     // push the input to the array
-  //     survey_answers.push($question_form.find('.question-answer-input').val());
-
-  //     // update the HTML
-  //     yellr.utils.render_template({
-  //       template: '#new-survey-answer-template',
-  //       target: '#survey-answers-list',
-  //       context: {answer: $question_form.find('.question-answer-input').val() },
-  //       append: true
-  //     })
-
-  //     // reset the form
-  //     $question_form.find('.question-answer-input').val('');
-  //     console.log(survey_answers);
-  //   };
-  // });
-
-
-
-  // });
 
 
 }
@@ -1377,6 +1409,20 @@ yellr.view.index = {
 
   timeout: undefined,
   pckry: undefined,
+  current_class: 'feed-gi',
+
+  change_grid_classes_to: function (class_name) {
+    // change li class to 'gi'
+    var grid_items = document.querySelectorAll('.'+yellr.view.index.current_class);
+    for (var i = 0; i < grid_items.length; i++) {
+      grid_items[i].className = class_name;
+    };
+
+    // change current_class
+    yellr.view.index.current_class = 'gi';
+
+  },
+
 
   init: function () {
     var grid = document.querySelector('#raw-feed'),
@@ -1412,11 +1458,16 @@ yellr.view.index = {
     // setup the grid
     // ----------------------------
     yellr.server.get_posts(function () {
+      var posts = yellr.DATA.posts.reverse();
+
+      for (var i = 0; i < posts.length; i++) {
+        posts[i].class = yellr.view.index.current_class;
+      };
+
       yellr.utils.render_template({
         template: '#raw-feed-item',
         target: '#raw-feed',
-        context: {posts: yellr.DATA.posts.reverse()},
-        // context: {posts: yellr.DATA.posts},
+        context: {posts: posts},
         prepend: true
       });
 
@@ -1443,28 +1494,16 @@ yellr.view.index = {
     // ----------------------------
     document.querySelector('#feed-view').onclick = function (event) {
 
-      var view, grid_items;
-
       if (event.target.checked) {
 
-        view = event.target.value;
-
         // what are we doing?
-        if (view === 'list') {
-
-          // change li class
-          grid_items = grid.querySelectorAll('.feed-gi');
-          for (var i = 0; i < grid_items.length; i++) {
-            grid_items[i].className = 'gi';
-          };
+        if (event.target.value === 'list') {
+          yellr.view.index.change_grid_classes_to('gi');
 
           // destroy pakcry
           yellr.view.index.pckry.destroy();
         } else {
-          grid_items = grid.querySelectorAll('.gi');
-          for (var i = 0; i < grid_items.length; i++) {
-            grid_items[i].className = 'feed-gi';
-          };
+          yellr.view.index.change_grid_classes_to('feed-gi');
 
           // redo packry
           yellr.view.index.pckry = new Packery(grid, {
@@ -1563,13 +1602,13 @@ yellr.view.index = {
         // update the "Last updated thing"
         yellr.server.get_posts(function () {
 
-          var current_posts = document.querySelectorAll('.feed-gi').length,
+          var current_posts = document.querySelectorAll('.'+yellr.view.index.current_class).length,
               new_posts = [],
               new_items = [];
 
           if (yellr.DATA.posts.length > current_posts) {
             for (var i = current_posts; i < yellr.DATA.posts.length; i++) {
-              new_posts.push(yellr.DATA.posts[i]);
+              new_posts.push(yellr.DATA.posts[i].class = yellr.view.index.current_class);
             };
 
             // render the latest ones
@@ -1671,9 +1710,12 @@ yellr.view.view_assignment = (function () {
       // ===================================
       // ===================================
       assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
-        // TODO - set collection_id
         if (val.assignment_id === assignment_id) return true;
       })[0];
+
+      // TODO - set correcy collection_id
+      collection_id = assignment.assignment_id;
+
 
       // render the Handlebars template
       yellr.utils.render_template({
@@ -1697,8 +1739,9 @@ yellr.view.view_assignment = (function () {
       // ===================================
       // ===================================
       // TODO - change asignment_id to collection_id
-      yellr.server.get_collection(assignment_id, function (response) {
+      yellr.server.get_collection(collection_id, function (response) {
 
+        console.log(response.collection);
         collection = response.collection;
 
         yellr.utils.render_template({
@@ -1715,6 +1758,7 @@ yellr.view.view_assignment = (function () {
         // ===================================
         yellr.server.get_responses_for(assignment_id, function (posts) {
 
+          console.log(posts);
           var all_posts = yellr.utils.convert_object_to_array(posts);
           yellr.view.view_assignment.total_posts = all_posts.length;
 
@@ -1741,35 +1785,53 @@ yellr.view.view_assignment = (function () {
           // what are we doing?
           //    add | comment | flag | trash
           var action = event.target.parentNode.getAttribute('data-action');
+
           switch (action) {
             case 'add':
               // get the post id from the meta-div
               var post_id = parseInt(event.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'));
 
-              console.log(post_id, collection_id);
-
               yellr.server.add_post_to_collection(post_id, collection_id, function (result) {
                 if (result) {
                   yellr.utils.notify('Post added to collection');
+
                   // this is a quick hack
-                  // should use a CSS class instead
-                  target.parentNode.style.opacity = '0.3';
-                  // target.parentNode.className = 'faded';
+                  var li = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+                  li.parentNode.removeChild(li);
+
+                  // update collection
+                  yellr.server.get_collection(collection_id, function (response) {
+
+                    collection = response.collection;
+
+                    yellr.utils.render_template({
+                      template: '#collections-li-template',
+                      target: '#assignment-collection-list',
+                      context: {
+                        collection: response.collection
+                      }
+                    });
+                  });
+
                 };
               });
 
               break;
             case 'feedback':
+              console.log('leave a message');
+
+              // yellr.server.send_message('hello from WXXI', 'message', 'uid')
+
               break;
             case 'flag':
+              console.log('flag as innappropriate');
               break;
             case 'remove':
+              console.log('remove');
               break;
-
             default:
               break;
           }
-          console.log(event.target.parentNode.getAttribute('data-action'));
 
         }
       };
@@ -1822,8 +1884,6 @@ yellr.view.view_assignment = (function () {
         // collection_id = collection[j].post_id;
         // console.log(collection[j].post_id);
         if (reply.post_id === collection[j].post_id) {
-          console.log('this posts is in the collection');
-          console.log(reply);
           new_response = false;
         }
       }
@@ -1864,7 +1924,6 @@ yellr.view.view_assignment = (function () {
               target: '#assignment-replies-list',
               context: {replies: new_replies}
             });
-
 
           }
 
@@ -2005,6 +2064,90 @@ var yellr = yellr || {};
 
 yellr.view.write_article = function () {
 
+
+  // load collection if a URL hash is present
+  // var collection_id = parseInt(window.location.hash.split('#')[1]);
+  var collection_id = window.location.hash.split('#')[1];
+
+  // make sure it's a valid number
+  //    wtf. this makes no sense
+  //    it keeps saying '#wefsd' is a number
+  //
+  //    if (collection_id !== NaN) {}
+  //    if (typeof collection_id === 'number') {}
+  //
+  //    the url hash is a string to start
+  //      so we check if it's undefined
+  //      before we parse it into an int
+  // ----------------------------
+
+  if (collection_id !== undefined) {
+
+    collection_id = parseInt(collection_id);
+
+    yellr.server.get_collection(collection_id, function (response) {
+      // render the assignment's collection for the editor
+      yellr.utils.render_template({
+        template: '#collections-li-template',
+        target: '#write-article-collection-list',
+        context: {
+          collection: response.collection
+        }
+      });
+
+    })
+
+  } else {
+    yellr.utils.render_template({
+      template: '#collections-li-template',
+      target: '#write-article-collection-list',
+      context: {
+        collection: undefined
+      }
+    });
+  }
+
+
+
+  // populate the Collections <select> with user's collections
+  yellr.server.get_my_collections(function () {
+    var collections = yellr.DATA.collections;
+    collections.unshift({collection_id: '', name: '--'});
+
+    yellr.utils.render_template({
+      template: '#collections-option-template',
+      target: '#collection-select',
+      context: {
+        collections: collections
+      }
+    })
+  });
+
+  // event listener:
+  // onchange load a new collection
+  document.querySelector('#collection-select').onchange = function (event) {
+    if (this.value !== '') {
+
+      yellr.server.get_collection(parseInt(this.value), function (response) {
+        // render the assignment's collection for the editor
+        yellr.utils.render_template({
+          template: '#collections-li-template',
+          target: '#write-article-collection-list',
+          context: {
+            collection: response.collection
+          }
+        });
+        document.querySelector('#collection-name').innerHTML = response.collection_name;
+      });
+
+    }
+
+  }
+
+
+
+
+
   document.querySelector('#post-btn').onclick = function (event) {
     // post the article
     // ===================================
@@ -2040,21 +2183,6 @@ yellr.view.write_article = function () {
       yellr.utils.notify('Article has been posted! \n'+url);
     });
   }
-
-
-  // // get the collection for the assignment
-  // mod.collections.get_collection(parseInt(window.location.hash.split('#')[1]), function (response) {
-
-  //   // render the assignment's collection for the editor
-  //   mod.utils.render_template({
-  //     template: '#collections-li-template',
-  //     target: '#write-article-collection-list',
-  //     context: {
-  //       collection: response.collection
-  //     }
-  //   });
-
-  // });
 
 
   // function Editor(input, preview) {

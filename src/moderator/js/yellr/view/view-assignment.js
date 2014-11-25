@@ -47,9 +47,12 @@ yellr.view.view_assignment = (function () {
       // ===================================
       // ===================================
       assignment = yellr.DATA.assignments.filter(function (val, i, arr) {
-        // TODO - set collection_id
         if (val.assignment_id === assignment_id) return true;
       })[0];
+
+      // TODO - set correcy collection_id
+      collection_id = assignment.assignment_id;
+
 
       // render the Handlebars template
       yellr.utils.render_template({
@@ -73,8 +76,9 @@ yellr.view.view_assignment = (function () {
       // ===================================
       // ===================================
       // TODO - change asignment_id to collection_id
-      yellr.server.get_collection(assignment_id, function (response) {
+      yellr.server.get_collection(collection_id, function (response) {
 
+        console.log(response.collection);
         collection = response.collection;
 
         yellr.utils.render_template({
@@ -91,6 +95,7 @@ yellr.view.view_assignment = (function () {
         // ===================================
         yellr.server.get_responses_for(assignment_id, function (posts) {
 
+          console.log(posts);
           var all_posts = yellr.utils.convert_object_to_array(posts);
           yellr.view.view_assignment.total_posts = all_posts.length;
 
@@ -117,35 +122,53 @@ yellr.view.view_assignment = (function () {
           // what are we doing?
           //    add | comment | flag | trash
           var action = event.target.parentNode.getAttribute('data-action');
+
           switch (action) {
             case 'add':
               // get the post id from the meta-div
               var post_id = parseInt(event.target.parentNode.parentNode.parentNode.querySelector('.meta-div').getAttribute('data-post-id'));
 
-              console.log(post_id, collection_id);
-
               yellr.server.add_post_to_collection(post_id, collection_id, function (result) {
                 if (result) {
                   yellr.utils.notify('Post added to collection');
+
                   // this is a quick hack
-                  // should use a CSS class instead
-                  target.parentNode.style.opacity = '0.3';
-                  // target.parentNode.className = 'faded';
+                  var li = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+                  li.parentNode.removeChild(li);
+
+                  // update collection
+                  yellr.server.get_collection(collection_id, function (response) {
+
+                    collection = response.collection;
+
+                    yellr.utils.render_template({
+                      template: '#collections-li-template',
+                      target: '#assignment-collection-list',
+                      context: {
+                        collection: response.collection
+                      }
+                    });
+                  });
+
                 };
               });
 
               break;
             case 'feedback':
+              console.log('leave a message');
+
+              // yellr.server.send_message('hello from WXXI', 'message', 'uid')
+
               break;
             case 'flag':
+              console.log('flag as innappropriate');
               break;
             case 'remove':
+              console.log('remove');
               break;
-
             default:
               break;
           }
-          console.log(event.target.parentNode.getAttribute('data-action'));
 
         }
       };
@@ -198,8 +221,6 @@ yellr.view.view_assignment = (function () {
         // collection_id = collection[j].post_id;
         // console.log(collection[j].post_id);
         if (reply.post_id === collection[j].post_id) {
-          console.log('this posts is in the collection');
-          console.log(reply);
           new_response = false;
         }
       }
@@ -240,7 +261,6 @@ yellr.view.view_assignment = (function () {
               target: '#assignment-replies-list',
               context: {replies: new_replies}
             });
-
 
           }
 

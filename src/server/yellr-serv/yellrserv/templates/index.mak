@@ -29,7 +29,7 @@
       <h3 class="t4">Contribute to your community</h3>
       <p>This site is powered by Yellr, a platform focused on giving people a voice. You can submit any type of content that you think is important. Pictures, videos audio recordings, or just plain text, anything. </p>
       <p>You can contribute by clicking the "Submit Tip" button above or by downloading the accompanying app!</p>
-      <div class="download-btn">Download Yellr</div>
+      <a href="/static/Yellr-debug.apk" class="download-btn">Download Yellr</a>
     </div>
   </div>
 

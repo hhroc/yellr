@@ -64,18 +64,31 @@ body#moderator(data-page="write-article")
                 div#geo-fence sdf
 
 
+            //- right sidebar
+            //- ===================================
             div.flex-1
+
+              //- edit text
               p.h4#edit-text-btn
                 label.tab-label.tab(for="tab-1") Edit Text
 
+              //- geo-fence
               p.h4#geo-fence-btn
                 label.tab-label.tab(for="tab-3") Geo-Fence
 
+              //- collection area
               div#collection-area
                 p.h4 Collection
-                p.current-collection Seinfeld
-                  span.block Change
+                p.current-collection  Current:
+                p#collection-name --
+                label#change-collection
+                  span Change
+                  select#collection-select
+                    option(value="1") Collection #1
+                    option(value="2") Collection #2
+                    option(value="3") Collection #3
                 ul#write-article-collection-list
+                //- ul#write-article-collection-list
                   li(draggable="true", data-media="13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
                     img.media-file-image(src="/media/13b1d2d9-6ce4-4c45-aab0-fa3d1086367f.jpg")
                   li(draggable="true", data-media="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aperiam facere sit, fuga nulla earum quam deleniti deserunt perspiciatis, necessitatibus laboriosam voluptas voluptatibus veniam sunt, expedita ipsam qui eos nobis.")
@@ -92,7 +105,6 @@ body#moderator(data-page="write-article")
             //- template used while writing article
             //- where we have the collection on the side
             //- ===================================
-            //- used on: editor.html
             script#collections-li-template(type="text/x-handlebars-template").
               {{#if collection}}
                 {{#each collection}}
@@ -119,11 +131,18 @@ body#moderator(data-page="write-article")
                 {{/each}}
               {{else}}
                 <li class="faded">
-                  <h3 class="t2">Collection is empty</h3>
-                  <p>Drag a Response from the left over here, or click the&nbsp;<span class="fa fa-plus"></span>&nbsp;icon</p>
+                  <p class="h3">No collection selected or is empty.</p>
                 </li>
               {{/if}}
 
+            script#collections-option-template(type="text/x-handlebars-template").
+              {{#if collections}}
+                {{#each collections}}
+                <option value="{{collection_id}}" {{#if disabled}}disabled{{/if}} >{{name}}</option>
+                {{/each}}
+              {{else}}
+                <option value="">--</option>
+              {{/if}}
 
   include _footer.jade
   script(src="js/libs/markdown.js")

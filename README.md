@@ -1,5 +1,5 @@
 # yellr
-Citizen Journalism Mobile App, Website, and Eco-System
+Community Engagement Journalism Mobile App, Website, and Eco-System
 
 
 
@@ -73,6 +73,17 @@ yellr/
 (virtualenv)$ python setup.py develop
 (virtualenv)$ initialize_yellr-serv_db development.ini
 (virtualenv)$ pserve development.ini
+```
+
+#### Create your VM
+Alternative to creating a virtualenv, you can spin up a Vagrant VM
+
+```
+vagrant up
+vagrant ssh
+cd /cd server/yellr-serv
+pserve development.ini
+# navigate to http://192.168.50.100:5000/ on your host
 ```
 
 

@@ -11,7 +11,8 @@ var yellr = yellr || {};
 var DEBUG = true;
 // BASE_URL should ALWAYS have a traling slash
 // var BASE_URL = 'http://yellrdev.wxxi.org/';
-var BASE_URL = 'http://127.0.0.1:8080/';
+// var BASE_URL = 'http://127.0.0.1:8080/';
+yellr.BASE_URL = 'http://127.0.0.1:5000/';
 
 window.onload = function() {
 

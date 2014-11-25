@@ -1,5 +1,43 @@
+#image-upload.btn {
+  background: $blue;
+  color: #fff;
+  margin-left: 0;
+}
+
+#survey-answers-list {
+  li {
+    list-style-type: disc;
+    margin: 1rem 0 1rem 2rem;
+  }
+}
+
+#deadline-container {
+  .inline-block {
+    vertical-align: top;
+  }
+}
+
+#deadline {
+  &:before {
+    content: "Deadline: ";
+  }
+}
+
+#choices-container {
+  .h4 {
+    margin-bottom: 2rem;
+    display: block;
+  }
+  input {
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    margin: 0.75rem 0 2rem;
+  }
+}
+
+
 #assignment-question-type {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
   .h3 {
     display: inline-block;
   }
@@ -11,6 +49,9 @@
 #tabs-content {
   padding-right: 3rem;
 }
+
+
+
 
 .question-container {
   form {

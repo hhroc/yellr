@@ -20,8 +20,9 @@ body#moderator(data-page="create-assignment")
         header.editor-header.header-with-controls
           h2.h1 Create Assignment
           nav.article-controls
-            span#preview-btn Preview
             span#save-draft-btn Save Draft
+            span#preview-btn
+              label(for="tab-6") Preview
             span#post-btn Post
 
 
@@ -41,6 +42,7 @@ body#moderator(data-page="create-assignment")
             input#tab-3.tab-input.tab-3(type="radio", name="assignment_view", value="deadline")
             input#tab-4.tab-input.tab-4(type="radio", name="assignment_view", value="geo-fence")
             input#tab-5.tab-input.tab-5(type="radio", name="assignment_view", value="add-image")
+            input#tab-6.tab-input.tab-6(type="radio", name="assignment_view", value="preview")
 
 
             ul#tabs-content.flex-3
@@ -61,37 +63,53 @@ body#moderator(data-page="create-assignment")
 
               li#choices-container.tab-content.tab-2
                 span.h4 Survey Answers
-                input(type="text", placeholder="Choice...")
-                ul#survey-answers-list
+                div.flex
+                  .flex-1
+                    ul#survey-answers-list
+                      li.faded None.
+                  .flex-1
+                    p Press Enter to add a survey answer to the assignment.
+                    input(type="text", placeholder="Enter your text here...")#survey-input
+
 
               li#deadline-container.tab-content.tab-3
-                p Deadline: October 31, 2014 (8 days)
-                p
-                  small Duration
-                p.inline-block
-                  span Due:
+                p Assignment duration
+                div.inline-block
                   input(type="number", id="lifetime", value="14")
                   input(type="hidden", name="life_time", value="")
-                ul#unit-of-time-list.inline-block
-                  li
-                    label
-                      input(type="radio", name="unit-of-time", value="days", checked)
-                      span Days
-                  li
-                    label
-                      input(type="radio", name="unit-of-time", value="months")
-                      span Months
+                div.inline-block
+                  ul#unit-of-time-list.inline-block
+                    li
+                      label
+                        input(type="radio", name="unit-of-time", value="days", checked)
+                        span Days
+                    li
+                      label
+                        input(type="radio", name="unit-of-time", value="months")
+                        span Months
+                p#deadline October 31, 2014
 
 
               li#geo-fence-container.tab-content.tab-4
                 p Select area to ask. Click and drag
+
               li#add-image-container.tab-content.tab-5
                 p Select an image to add to the assignment
-                input(type="file", name="media_file")
+                input(type="file", name="media_file")#image-input.block
+                span#image-upload.btn Upload
+
+
+              li#preview-container.tab-content.tab-6
+                div#preview
+                  h3.preview-title
+                  //- img.preview-img(src="http://lorempixel.com/400/200")
+                  p.preview-description
+                  p.preview-deadline Deadline: October 31
+
 
             nav#assignment-tabs.flex-1
-              label.tab-label.tab(for="tab-1") Text
-              label.tab-label.tab.choices-tab(for="tab-2").faded Choices
+              label.tab-label.tab(for="tab-1").current Text
+              label.tab-label.tab(for="tab-2") Choices
               label.tab-label.tab(for="tab-3") Deadline
               label.tab-label.tab(for="tab-4") Geo-fence
               label.tab-label.tab(for="tab-5") + Add image

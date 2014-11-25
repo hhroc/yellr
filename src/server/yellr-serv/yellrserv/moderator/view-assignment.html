@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
   <script src="js/libs/modernizr.js"></script>
-  <link rel="stylesheet" href="style/style.min.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body id="moderator" data-page="single-assignment"><a href="#main" class="assistive-text">Skip to main content</a>
   <div class="container">
@@ -31,7 +31,7 @@
               </li>
             </ul>
             <ul class="nav-list secondary-nav-list">
-              <li><a href="index.html" class="menu-link">All Posts</a></li>
+              <li><a href="index.html" class="menu-link">Raw Feed</a></li>
               <li><a href="contributors.html" class="menu-link">All Contributors</a></li>
             </ul>
             <ul class="nav-list secondary-nav-list">
@@ -55,31 +55,10 @@
               <input type="checkbox" checked><span>Auto-Reload latest posts</span>
             </label>
             <ul id="assignment-replies-list" class="list-style-none">
-              <li>
-                <div class="assignment-reply-gi">
-                  <div class="story-item">
-                    <div class="media-preview">
-                      <p class="description">Response to Assignment 6</p>
-                      <p class="media-text">Everybody's gong to the party have a real good time. Dancing in the desert, blowing up the sunshine</p>
-                    </div>
-                    <p class="item-source"><a href="#">SAF-ASDFASDF-SADF-SDFA-saSFSAF</a></p>
-                  </div>
-                  <div class="story-meta flex">
-                    <div class="flex-1">&nbsp;</div>
-                    <ul class="options-list flex-1">
-                      <li data-action="add" class="add-to-collection"><i title="Add to collection" class="fa fa-plus"></i></li>
-                      <li data-action="feedback" class="leave-feedback"><i title="Leave feedback" class="fa fa-comment"></i></li>
-                      <li data-action="flag" class="flag-as-inappropriate"><i title="Mark as inappropriate" class="fa fa-flag"></i></li>
-                      <li data-action="remove" class="remove-from-responses"><i title="Remove from responses" class="fa fa-trash"></i></li>
-                    </ul>
-                    <div data-post-id="{{post_id}}" data-source="anonymous" data-uid="{{ client_id }}" class="meta-div"></div>
-                  </div>
-                </div>
-              </li>
             </ul>
           </div>
           <div class="assignment-collection-wrapper flex-1">
-            <h3 class="t2">Collection</h3>
+            <h3 class="t2">Collection</h3><a href="view-collection.html#2" class="block">View</a>
             <ul id="assignment-collection-list" class="list-style-none">
             </ul>
           </div>
@@ -90,10 +69,10 @@
   <div id="templates">
     <script id="assignment-overview-template" type="text/x-handlebars-template">
       <h2 class="t3">Assignment {{assignment.assignment_id}}</h2>
-      <h3 class="h1">{{assignment.questions.[1].question_text}}</h3>
+      <h3 class="h1">{{assignment.questions.[0].question_text}}</h3>
       <div class="flex">
         <div class="flex-2">
-          <p>{{assignment.questions.[1].description}}</p>
+          <p>{{assignment.questions.[0].description}}</p>
           <ul class="inline assignment-dates-list">
             <li class="assignment-published">{{assignment.publish_datetime}}</li>
             <li class="assignment-deadline">{{assignment.expire_datetime}}</li>
@@ -112,7 +91,7 @@
     <script id="assignment-response-li-template" type="text/x-handlebars-template">
       {{#if replies}}
         {{#each replies}}
-        <li>
+        <li draggable="true">
           <div class="assignment-reply-gi">
             <div class="story-item">
               <div class="media-preview">

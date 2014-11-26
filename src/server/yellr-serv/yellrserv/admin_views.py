@@ -481,15 +481,15 @@ def admin_get_my_assignments(request):
 
     result = {'success': False}
 
-    ##try:
-    if True:
+    try:
+    #if True:
 
         token = None
         valid_token = False
         valid, user = check_token(request)
         if valid == False:
             result['error_text'] = "Missing or invalid 'token' field in request."
-            raise Exception('invalid/missing token')
+            raise Exception('invalid/missing token what ...')
 
 #        #try:
 #            assignment_id = int(request.GET['assignment_id'])
@@ -577,8 +577,8 @@ def admin_get_my_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
 
-    ##except:
-    ##    pass
+    except:
+        pass
 
     return make_response(result)
 

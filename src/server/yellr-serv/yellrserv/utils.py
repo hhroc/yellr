@@ -1,4 +1,5 @@
 import json
+import datetime
 from pyramid.response import Response
 
 def make_response(resp_dict):
@@ -13,5 +14,9 @@ def make_response(resp_dict):
     resp.headerlist.append(('Access-Control-Allow-Origin', '*'))
     return resp
 
+def admin_log(log_text):
+
+    with open('log.txt', 'a') as f:
+        f.write('[{0}] {1}\n'.format(str(datetime.datetime.now()),log_text))
 
 

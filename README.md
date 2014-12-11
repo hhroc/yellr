@@ -1,5 +1,5 @@
 # yellr
-Community journalism Mobile App, Website, and Eco-System
+Community Engagement Journalism Mobile App, Website, and Eco-System
 
 
 
@@ -9,8 +9,9 @@ Community journalism Mobile App, Website, and Eco-System
 ##### Requires [npm](https://www.npmjs.org/)
 ```
 $ npm update npm -g         # make sure npm is installed/up to date
+$ gem update --system       # make sure RubyGems is installed/up to date
 $ npm install -g cordova    # make sure Cordova is installed
-$ npm install -g grunt-cli    # make sure Grunt-CLI is installed
+$ npm install -g grunt-cli  # make sure Grunt CLI is installed
 ```
 
 
@@ -72,6 +73,17 @@ yellr/
 (virtualenv)$ python setup.py develop
 (virtualenv)$ initialize_yellr-serv_db development.ini
 (virtualenv)$ pserve development.ini
+```
+
+#### Create your VM
+Alternative to creating a virtualenv, you can spin up a Vagrant VM
+
+```
+vagrant up
+vagrant ssh
+cd /cd server/yellr-serv
+pserve development.ini
+# navigate to http://192.168.50.100:5000/ on your host
 ```
 
 

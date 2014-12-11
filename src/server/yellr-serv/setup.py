@@ -19,6 +19,7 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'mysql-python',
     ]
 
 setup(name='yellr-serv',

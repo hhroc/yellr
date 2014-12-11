@@ -1,0 +1,8 @@
+---
+- name: web deployment
+  hosts: web
+  sudo: yes
+  vars:
+    env: dev
+  roles:
+    - base-dev

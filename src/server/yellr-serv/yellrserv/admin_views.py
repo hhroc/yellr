@@ -4,7 +4,7 @@ from time import strftime
 import uuid
 import datetime
 
-from utils import make_response
+from utils import make_response, admin_log
 
 import urllib
 
@@ -56,17 +56,15 @@ def admin_get_access_token(request):
     try:
     #if True:
 
+        user_name = ''
+        password = ''
         try:
             user_name = request.GET['user_name']
             password = request.GET['password']
 
-            #print "{0}:{1}".format(user_name, password)
-
         except:
             result['error_text'] = "Missing 'user_name' or 'password' within request"
             raise Exception('missing credentials')
-
-        #print "working on u: '{0}', p: '{1}'".format(user_name, password)
 
         user, token = Users.authenticate(DBSession, user_name, password)
 
@@ -75,14 +73,28 @@ def admin_get_access_token(request):
             raise Exception('invalid credentials')
         else:
             result['token'] = token
+            result['user_name'] = user.user_name
             result['first_name'] = user.first_name
             result['last_name'] = user.last_name
             result['organization'] = user.organization
             result['success'] = True
 
     except Exception, e:
+        result['error'] = str(e)
         pass
 
+    admin_log("HTTP: admin/get_access_token.json => {0}".format(json.dumps(result)))
+
+#    event_type = 'http_request'
+#    event_details = {
+#        'user_name': user_name,
+#        'password': password,
+#        'method': 'admin/get_access_token.json',
+#        'result': result,
+#    }
+#    client_log = EventLogs.log(DBSession,client_id,event_type, \
+#        json.dumps(event_details))
+#
     return make_response(result)
 
 @view_config(route_name='admin/get_client_logs.json')
@@ -94,6 +106,7 @@ def admin_get_client_logs(request):
 
     result = {'succes' :False}
 
+    user = None
     try:
 
         token = None
@@ -127,6 +140,25 @@ def admin_get_client_logs(request):
     except:
         pass
 
+    admin_log("HTTP: admin/get_client_logs.json => {0}".format(json.dumps(result)))
+
+#    user_name = 'invalid'
+#    client_id = None
+#    if user != None:
+#        user_name = user.user_name
+#        client_id = user.client_id
+#
+#    event_type = 'http_request'
+#    event_details = {
+#        'user_name': user_name,
+#        #'GET': request.GET,
+#        #'POST': request.POST,
+#        'method': 'admin/get_client_logs.json',
+#        'result': result,
+#    }
+#    client_log = EventLogs.log(DBSession,client_id,event_type, \
+#        json.dumps(event_details))
+
     return make_response(result)
 
 @view_config(route_name='admin/get_posts.json')
@@ -136,8 +168,8 @@ def admin_get_posts(request):
 
     result = {'success': False}
 
-    # try:
-    if True:
+    try:
+    #if True:
 
         token = None
         valid_token = False
@@ -215,8 +247,10 @@ def admin_get_posts(request):
 
         result['success'] = True
 
-    # except:
-        # pass
+    except:
+        pass
+
+    #admin_log("HTTP: admin/get_posts.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -241,6 +275,12 @@ def admin_create_question(request):
             question_text = request.POST['question_text']
             description = request.POST['description']
             question_type = request.POST['question_type']
+
+            result['language_code'] = language_code
+            result['question_text'] = question_text
+            result['description'] = description
+            result['question_type'] = question_type
+
         except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: language_code, \
@@ -256,6 +296,9 @@ question_text, description, question_type. \
             answers = json.loads(request.POST['answers'])
         except:
             pass
+
+        result['answers'] = answers
+
         # back fill with empty strings
         for i in range(len(answers),10):
             answers.append('')
@@ -275,6 +318,8 @@ question_text, description, question_type. \
 
     except:
         pass
+
+    admin_log("HTTP: admin/create_question.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -333,6 +378,8 @@ question_text, description, question_type. \
     except:
         pass
 
+    admin_log("HTTP: admin/updatequestion.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/publish_assignment.json')
@@ -354,11 +401,21 @@ def admin_publish_assignment(request):
         try:
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
+            if life_time == 0:
+                life_time = 168 # set to 1 week if blank
             questions = json.loads(request.POST['questions'])
             top_left_lat = float(request.POST['top_left_lat'])
             top_left_lng = float(request.POST['top_left_lng'])
             bottom_right_lat = float(request.POST['bottom_right_lat'])
             bottom_right_lng = float(request.POST['bottom_right_lng'])
+
+            result['life_time'] = life_time
+            result['questions'] = questions
+            result['top_left_lat'] = top_left_lat
+            result['top_left_lng'] = top_left_lng
+            result['bottom_right_lat'] = bottom_right_lat
+            result['bottom_right_lng'] = bottom_right_lng
+
         except:
             result['error_text'] = """\
 One or more of the following fields is missing or invalid: life_time,\
@@ -401,6 +458,7 @@ bottom_right_lat, bottom_right_lng.
     except:
         pass
 
+    admin_log("HTTP: admin/publish_assignment.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -455,6 +513,8 @@ top_left_lat, top_left_lng, bottom_right_lat, bottom_right_lng. \
     except:
         pass
 
+    admin_log("HTTP: admin/update_assignment.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/get_my_assignments.json')
@@ -462,8 +522,8 @@ def admin_get_my_assignments(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         token = None
         valid_token = False
@@ -553,8 +613,10 @@ def admin_get_my_assignments(request):
         result['assignments'] = ret_assignments
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
+
+    admin_log("HTTP: admin/get_my_assignments.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -605,6 +667,8 @@ subject, text.
 
     except:
         pass
+
+    admin_log("HTTP: admin/create_message.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -670,6 +734,8 @@ def admin_get_my_messages(request):
     except:
         pass
 
+    admin_log("HTTP: admin/get_my_messages.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 
@@ -702,6 +768,8 @@ def admin_get_languages(request):
 
     except:
         pass
+
+    admin_log("HTTP: admin/get_languages.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -736,6 +804,8 @@ def admin_get_question_types(request):
 
     except:
         pass
+
+    admin_log("HTTP: admin/get_question_types.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -883,6 +953,8 @@ One or more of the following fields is missing or invalid: assignment_id. \
     except:
         pass
 
+    admin_log("HTTP: admin/get_assignment_responses.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/register_post_view.json')
@@ -928,6 +1000,8 @@ One or more of the following fields is missing or invalid: post_id. \
 
     #except:
     #    pass
+
+    admin_log("HTTP: admin/register_post_view.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -989,6 +1063,8 @@ bottom_right_lat, bottom_right_lng, language_code. \
     #except:
     #    pass
 
+    admin_log("HTTP: admin/publish_story.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/get_my_collections.json')
@@ -1041,6 +1117,8 @@ def admin_get_my_collection(request):
     #except:
     #    pass
 
+    admin_log("HTTP: admin/get_my_collections.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/create_collection.json')
@@ -1084,6 +1162,8 @@ description, tags. \
     except:
         pass
 
+    admin_log("HTTP: admin/create_collection.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/add_post_to_collection.json')
@@ -1124,6 +1204,8 @@ post_id. \
 
     except:
         pass
+
+    admin_log("HTTP: admin/add_post_to_collection.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -1168,6 +1250,8 @@ post_id. \
     except:
         pass
 
+    admin_log("HTTP: admin/remove_post_from_collection.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/disable_collection.json')
@@ -1205,6 +1289,8 @@ One or more of the following fields is missing or invalid: collection_id. \
 
     except:
         pass
+
+    admin_log("HTTP: admin/disable_collection.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 
@@ -1302,6 +1388,8 @@ One or more of the following fields is missing or invalid: collection_id. \
     #except:
     #    pass
 
+    admin_log("HTTP: admin/get_collection_posts.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/get_user_posts.json')
@@ -1393,6 +1481,8 @@ One or more of the following fields is missing or invalid: client_id. \
     #except:
     #    pass
 
+    admin_log("HTTP: admin/get_user_posts.json => {0}".format(json.dumps(result)))
+
     return make_response(result)
 
 @view_config(route_name='admin/get_subscriber_list.json')
@@ -1436,6 +1526,8 @@ def admin_get_subscriber_list(request):
 
     #except:
     #    pass
+
+    admin_log("HTTP: admin/get_subscriber_list.json => {0}".format(json.dumps(result)))
 
     return make_response(result)
 

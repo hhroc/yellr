@@ -625,9 +625,15 @@ def upload_media(request):
 
     result = {'success': False}
 
+    print "\n\nupload_media.json GET:\n\n"
+    print request.GET
+    print "\n\nupload_media.json POST:\n\n"
+    print request.POST
+    print "\n\n"
+
     #error_text = ''
-    #try:
-    if True:
+    try:
+    #if True:
 
         if True:
         #try:
@@ -840,8 +846,10 @@ def upload_media(request):
             }
             client_log = EventLogs.log(DBSession,client_id,event_type,json.dumps(event_details))
 
-    #except:
-    #    pass
+        print "upload_media.json successful.\n\n"
+
+    except:
+        pass
 
 
     #resp = json.dumps(result)

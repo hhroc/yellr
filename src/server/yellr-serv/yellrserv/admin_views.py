@@ -53,8 +53,8 @@ def admin_get_access_token(request):
 
     result = {'success': False}
 
-    #try:
-    if True:
+    try:
+    #if True:
 
         user_name = ''
         password = ''
@@ -137,8 +137,8 @@ def admin_get_client_logs(request):
         result['logs'] = ret_logs
         result['success'] = True
 
-    #except:
-    #    pass
+    except:
+        pass
 
     admin_log("HTTP: admin/get_client_logs.json => {0}".format(json.dumps(result)))
 
@@ -273,8 +273,8 @@ def admin_create_question(request):
         print request.POST
         print "\n\n"
 
-        if True:
-        #try:
+        #if True:
+        try:
             language_code = request.POST['language_code']
             question_text = request.POST['question_text']
             description = request.POST['description']
@@ -401,8 +401,8 @@ def admin_publish_assignment(request):
             result['error_text'] = "Missing or invalid 'token' field in request."
             raise Exception('invalid/missing token')
 
-        if True:
-        #try:
+        #if True:
+        try:
             #client_id = request.POST['client_id']
             life_time = int(request.POST['life_time'])
             if life_time == 0:

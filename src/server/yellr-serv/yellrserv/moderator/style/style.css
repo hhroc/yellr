@@ -300,7 +300,8 @@ figcaption {
   border-bottom: 1px solid #ddd;
 }
 
-body {
+html, body, .container, #main {
+  height: 100%; 
   font-family: "Arial", sans-serif;
 }
 

@@ -4,8 +4,9 @@
 @import "../../common/style/pieces/base";
 @import "../../common/style/pieces/classes";
 
-body {
+html,body,.container,#main {
   font-family: "Arial", sans-serif;
+  height: 100%;
 }
 
 // libraries
